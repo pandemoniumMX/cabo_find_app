@@ -1,5 +1,4 @@
 import 'package:cabofind/carousel_pro.dart';
-import 'package:cabofind/main_eng.dart';
 import 'package:flutter/material.dart';
 import 'acercade.dart';
 import 'restaurantes.dart';
@@ -7,33 +6,24 @@ import 'vida_nocturna.dart';
 import 'servicios.dart';
 import 'compras.dart';
 import 'descubre.dart';
+import 'main.dart';
+
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 
 
 
 
-void main() => runApp(new MyApp());
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+class MyHomePageEnglish extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return new MaterialApp(
-      home: new MyHomePage(),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  @override
-  _MyHomePageState createState() => new _MyHomePageState();
+  _MyHomePageEnglish createState() => new _MyHomePageEnglish();
 
 }
 
 
- 
-class _MyHomePageState extends State<MyHomePage> {
+
+class _MyHomePageEnglish extends State<MyHomePageEnglish> {
   Icon actionIcon = new Icon(Icons.search);
   Widget appBarTitle = new Text("Cabo Find");
   @override
@@ -48,11 +38,11 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: new AppBar(
 
         centerTitle: true,
-        title:appBarTitle,
+        title: appBarTitle,
         actions: <Widget>[
-          new IconButton(icon: actionIcon,onPressed:(){
+          new IconButton(icon: actionIcon, onPressed: () {
             setState(() {
-              if ( this.actionIcon.icon == Icons.search){
+              if (this.actionIcon.icon == Icons.search) {
                 this.actionIcon = new Icon(Icons.close);
                 this.appBarTitle = new TextField(
                   style: new TextStyle(
@@ -60,19 +50,18 @@ class _MyHomePageState extends State<MyHomePage> {
 
                   ),
                   decoration: new InputDecoration(
-                      prefixIcon: new Icon(Icons.search,color: Colors.white),
-                      hintText: "Buscar...",
+                      prefixIcon: new Icon(Icons.search, color: Colors.white),
+                      hintText: "Search...",
                       hintStyle: new TextStyle(color: Colors.white)
                   ),
-                );}
+                );
+              }
               else {
                 this.actionIcon = new Icon(Icons.search);
                 this.appBarTitle = new Text("CaboFind");
               }
-
-
             });
-          } ,),
+          },),
         ],
 
 
@@ -87,8 +76,8 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
 
             new UserAccountsDrawerHeader(
-              accountName: new Text('No registrado'),
-              accountEmail: new Text('tu_correo@.com'),
+              accountName: new Text('No registred'),
+              accountEmail: new Text('your_mail@.com'),
               currentAccountPicture: new CircleAvatar(
                 backgroundImage: new NetworkImage('http://i.pravatar.cc/300'),
 
@@ -96,7 +85,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
 
             new ListTile(
-              title: new Text('Restaurantes'),
+              title: new Text('Restaurants'),
               leading: Icon(Icons.restaurant),
 
               onTap: () {
@@ -108,7 +97,7 @@ class _MyHomePageState extends State<MyHomePage> {
               },
             ),
             new ListTile(
-              title: new Text('Vida nocturna'),
+              title: new Text('Night life'),
               leading: Icon(Icons.group),
 
               onTap: () {
@@ -116,11 +105,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (BuildContext context) => new Vida_nocturna()));
+                        builder: (
+                            BuildContext context) => new Vida_nocturna()));
               },
             ),
             new ListTile(
-              title: new Text('Descubre'),
+              title: new Text('Discover'),
               leading: Icon(Icons.beach_access),
 
               onTap: () {
@@ -132,7 +122,7 @@ class _MyHomePageState extends State<MyHomePage> {
               },
             ),
             new ListTile(
-              title: new Text('De compras'),
+              title: new Text('Shopping'),
               leading: Icon(Icons.shopping_basket),
 
               onTap: () {
@@ -144,7 +134,7 @@ class _MyHomePageState extends State<MyHomePage> {
               },
             ),
             new ListTile(
-              title: new Text('Servicios'),
+              title: new Text('Services'),
               leading: Icon(Icons.build),
 
               onTap: () {
@@ -156,7 +146,7 @@ class _MyHomePageState extends State<MyHomePage> {
               },
             ),
             new ListTile(
-              title: new Text('Acerca de nosotros'),
+              title: new Text('About us'),
               leading: Icon(Icons.record_voice_over),
 
               onTap: () {
@@ -168,7 +158,7 @@ class _MyHomePageState extends State<MyHomePage> {
               },
             ),
             new ListTile(
-              title: new Text('English'),
+              title: new Text('Español'),
               leading: Icon(Icons.flag),
 
               onTap: () {
@@ -176,19 +166,19 @@ class _MyHomePageState extends State<MyHomePage> {
                 Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (BuildContext context) => new MyHomePageEnglish()));
+                        builder: (BuildContext context) => new MyApp()));
               },
             ),
           ],
         ),
       ),
 
-        );
+    );
   }
 }
 class ImageCarousel extends StatelessWidget{
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Center(
 
       child: Container(
@@ -213,5 +203,3 @@ class ImageCarousel extends StatelessWidget{
     );
   }
 }
-
-
