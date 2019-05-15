@@ -11,7 +11,7 @@ class _Compras extends State<Compras> {
 Widget build(BuildContext context) {
 return new Scaffold(
 appBar: new AppBar(
-title: new Text('Compras'),
+title: new Text('Shopping'),
 ),
 );
 }
