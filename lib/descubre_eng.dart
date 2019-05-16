@@ -1,12 +1,12 @@
 
 import 'package:flutter/material.dart';
 
-class Descubre_eng extends StatefulWidget {
+class Descubre extends StatefulWidget {
 @override
-_Descubre_eng createState() => new _Descubre_eng();
+_Descubre createState() => new _Descubre();
 }
 
-class _Descubre_eng extends State<Descubre_eng> {
+class _Descubre extends State<Descubre> {
 @override
 Widget build(BuildContext context) {
 return new Scaffold(

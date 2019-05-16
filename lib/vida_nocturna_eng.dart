@@ -1,12 +1,12 @@
 
 import 'package:flutter/material.dart';
 
-class Vida_nocturna_eng extends StatefulWidget {
+class Vida_nocturna extends StatefulWidget {
 @override
-_Vida_nocturna_eng createState() => new _Vida_nocturna_eng();
+_Vida_nocturna createState() => new _Vida_nocturna();
 }
 
-class _Vida_nocturna_eng extends State<Vida_nocturna_eng> {
+class _Vida_nocturna extends State<Vida_nocturna> {
 @override
 Widget build(BuildContext context) {
 return new Scaffold(

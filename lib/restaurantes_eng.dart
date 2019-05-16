@@ -1,12 +1,12 @@
 
 import 'package:flutter/material.dart';
 
-class Restaurantes_eng extends StatefulWidget {
+class Restaurantes extends StatefulWidget {
 @override
-_Restaurantes_eng createState() => new _Restaurantes_eng();
+_Restaurantes createState() => new _Restaurantes();
 }
 
-class _Restaurantes_eng extends State<Restaurantes_eng> {
+class _Restaurantes extends State<Restaurantes> {
 @override
 Widget build(BuildContext context) {
 return new Scaffold(
