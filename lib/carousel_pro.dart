@@ -96,7 +96,7 @@ class Carousel extends StatefulWidget {
     this.autoplayDuration = const Duration(seconds: 3),
     this.onImageTap,
     this.onImageChange,
-    this.defaultImage,
+    this.defaultImage, List<Widget> children,
   })  : assert(images != null || (images == null && defaultImage != null)),
         assert(animationCurve != null),
         assert(animationDuration != null),
