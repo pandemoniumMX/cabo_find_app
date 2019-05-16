@@ -1,12 +1,12 @@
 
 import 'package:flutter/material.dart';
 
-class Compras extends StatefulWidget {
+class Compras_eng extends StatefulWidget {
 @override
-_Compras createState() => new _Compras();
+_Compras_eng createState() => new _Compras_eng();
 }
 
-class _Compras extends State<Compras> {
+class _Compras_eng extends State<Compras_eng> {
 @override
 Widget build(BuildContext context) {
 return new Scaffold(

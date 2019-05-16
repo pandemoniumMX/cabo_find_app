@@ -6,6 +6,12 @@ import 'vida_nocturna.dart';
 import 'servicios.dart';
 import 'compras.dart';
 import 'descubre.dart';
+import 'acercade_eng.dart';
+import 'restaurantes_eng.dart';
+import 'vida_nocturna_eng.dart';
+import 'servicios_eng.dart';
+import 'compras_eng.dart';
+import 'descubre_eng.dart';
 import 'main.dart';
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -93,7 +99,7 @@ class _MyHomePageEnglish extends State<MyHomePageEnglish> {
                 Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (BuildContext context) => new Restaurantes()));
+                        builder: (BuildContext context) => new Restaurantes_eng()));
               },
             ),
             new ListTile(
@@ -106,7 +112,7 @@ class _MyHomePageEnglish extends State<MyHomePageEnglish> {
                     context,
                     new MaterialPageRoute(
                         builder: (
-                            BuildContext context) => new Vida_nocturna()));
+                            BuildContext context) => new Vida_nocturna_eng()));
               },
             ),
             new ListTile(
@@ -118,7 +124,7 @@ class _MyHomePageEnglish extends State<MyHomePageEnglish> {
                 Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (BuildContext context) => new Descubre()));
+                        builder: (BuildContext context) => new Descubre_eng()));
               },
             ),
             new ListTile(
@@ -130,7 +136,7 @@ class _MyHomePageEnglish extends State<MyHomePageEnglish> {
                 Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (BuildContext context) => new Compras()));
+                        builder: (BuildContext context) => new Compras_eng()));
               },
             ),
             new ListTile(
@@ -142,7 +148,7 @@ class _MyHomePageEnglish extends State<MyHomePageEnglish> {
                 Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (BuildContext context) => new Servicios()));
+                        builder: (BuildContext context) => new Servicios_eng()));
               },
             ),
             new ListTile(
@@ -154,7 +160,7 @@ class _MyHomePageEnglish extends State<MyHomePageEnglish> {
                 Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (BuildContext context) => new AboutPage()));
+                        builder: (BuildContext context) => new AboutPage_eng()));
               },
             ),
             new ListTile(
