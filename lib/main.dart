@@ -238,25 +238,51 @@ class Publicaciones extends StatelessWidget{
 
       child: Container(
 
+
         margin: EdgeInsets.only(bottom: 0.0),
         padding: EdgeInsets.all(10.0),
         height: 200.0,
-        child: Carousel(
-          boxFit: BoxFit.cover,
-          images: [
-            AssetImage('android/assets/images/img1.jpg'),
-            AssetImage('android/assets/images/img2.jpg'),
-            AssetImage('android/assets/images/img3.jpg'),
-            AssetImage('android/assets/images/img4.jpg'),
-            AssetImage('android/assets/images/img5.jpg'),
+        child: Column(
+          children: <Widget>[
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                    child: Text(
+                      'No te lo puedes perder',
+                      textAlign: TextAlign.center,
+                      //overflow: TextOverflow.ellipsis,
 
+                      style: TextStyle(
+
+                          color: Color(0XFF000000),
+                          fontSize:25.0,
+                          fontWeight: FontWeight.bold),
+                    )
+
+                ),
+
+              ],
+            ),
           ],
-          animationCurve: Curves.fastOutSlowIn,
-          animationDuration: Duration(milliseconds: 2000),
-        ),
+        )
+        /*
+        child: Carousel(
+        boxFit: BoxFit.cover,
+        images: [
+          AssetImage('android/assets/images/img1.jpg'),
+          AssetImage('android/assets/images/img2.jpg'),
+          AssetImage('android/assets/images/img3.jpg'),
+          AssetImage('android/assets/images/img4.jpg'),
+          AssetImage('android/assets/images/img5.jpg'),
 
-
+        ],
+        animationCurve: Curves.fastOutSlowIn,
+        animationDuration: Duration(milliseconds: 2000),
       ),
+*/
+
+    ),
 
     );
   }
@@ -327,6 +353,8 @@ class Home extends StatelessWidget {
           ],
         )
               ],
-            )));
+            )
+        )
+    );
   }
 }
