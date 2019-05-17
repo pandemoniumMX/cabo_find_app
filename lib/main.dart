@@ -1,6 +1,7 @@
 import 'package:cabofind/carousel_pro.dart';
 import 'package:cabofind/main_eng.dart';
 import 'package:cabofind/slider.dart';
+import 'package:cabofind/slider_backup.dart';
 import 'package:flutter/material.dart';
 import 'acercade.dart';
 import 'restaurantes.dart';
@@ -93,7 +94,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final tabpages=<Widget>[
       //llamar classes siempre despues de un <Widget>
       new ImageCarousel(),
-      new ImageCarousel(),
+      new ImageCarousel2(),
 
       Center(child: Icon(Icons.home,size: 60.0,color: Colors.red,),),
       Center(child: Icon(Icons.map,size: 60.0,color: Colors.red,),),
