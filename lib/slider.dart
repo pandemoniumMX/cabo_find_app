@@ -1,16 +1,16 @@
 import 'package:cabofind/carousel_pro.dart';
 import 'package:flutter/material.dart';
 
-class Slider extends StatelessWidget{
+class ImageCarousel extends StatelessWidget{
   @override
   Widget build(BuildContext context){
     return Center(
 
       child: Container(
 
-        margin: EdgeInsets.only(bottom: 100.0),
-        padding: EdgeInsets.all(100.0),
-        height: 600.0,
+        margin: EdgeInsets.only(bottom: 600.0),
+        padding: EdgeInsets.all(10.0),
+        height: 300.0,
         child: Carousel(
           boxFit: BoxFit.cover,
           images: [
@@ -25,7 +25,6 @@ class Slider extends StatelessWidget{
           animationDuration: Duration(milliseconds: 2000),
         ),
       ),
-
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:cabofind/carousel_pro.dart';
 import 'package:cabofind/main_eng.dart';
+import 'package:cabofind/slider.dart';
 import 'package:flutter/material.dart';
 import 'acercade.dart';
 import 'restaurantes.dart';
@@ -7,6 +8,8 @@ import 'vida_nocturna.dart';
 import 'servicios.dart';
 import 'compras.dart';
 import 'descubre.dart';
+import 'nav_bottom.dart';
+
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 
@@ -20,7 +23,18 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
-      home: new MyHomePage(),
+      debugShowCheckedModeBanner:false,
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        primaryColor: Colors.blue,
+        accentColor: Colors.black26,
+      ),
+      home: new Container(
+          child:           new MyHomePage()
+      )
+
+
+
     );
   }
 }
@@ -28,26 +42,70 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   @override
   _MyHomePageState createState() => new _MyHomePageState();
+
 }
 
+
+ 
 class _MyHomePageState extends State<MyHomePage> {
   Icon actionIcon = new Icon(Icons.search);
   Widget appBarTitle = new Text("Cabo Find");
+  int id=0;
 
   @override
+
+
+
   Widget build(BuildContext context) {
 
-    return new Scaffold(
+    final tabpages=<Widget>[
+      //llamar classes siempre despues de un <Widget>
+      new ImageCarousel(),
+      new Home(),
+      new ImageCarousel(),
+
+      Center(child: Icon(Icons.home,size: 60.0,color: Colors.red,),),
+      Center(child: Icon(Icons.map,size: 60.0,color: Colors.red,),),
+      Center(child: Icon(Icons.mic,size: 60.0,color: Colors.red,),),
+      Center(child: Icon(Icons.radio,size: 60.0,color: Colors.red,),),
+      Center(child: Icon(Icons.music_video,size: 60.0,color: Colors.red,),),
+
+    ];
+
+    final bnbi=<BottomNavigationBarItem>[
+      BottomNavigationBarItem(icon: Icon(Icons.star,),title: Text("Inicio")),
+      BottomNavigationBarItem(icon: Icon(Icons.fiber_new,),title: Text("Lo nuevo")),
+      BottomNavigationBarItem(icon: Icon(Icons.visibility,),title: Text("Más visto")),
+      BottomNavigationBarItem(icon: Icon(Icons.favorite,),title: Text("Recomendado")),
+      BottomNavigationBarItem(icon: Icon(Icons.bookmark,),title: Text("Publicaciones")),
+    ];
+
+    final bnb=BottomNavigationBar(
+      items: bnbi,
+      currentIndex:id ,
+      type: BottomNavigationBarType.fixed,
+      onTap: (int value){
+        setState(() {
+          id=value;
+        });
+      },
+    );
+    
+    return  Scaffold(
+
+      body: tabpages[id],
+      bottomNavigationBar: bnb,
 
 
       appBar: new AppBar(
 
         centerTitle: true,
-        title: appBarTitle,
+        title:appBarTitle,
         actions: <Widget>[
-          new IconButton(icon: actionIcon, onPressed: () {
+
+          new IconButton(icon: actionIcon,onPressed:(){
             setState(() {
-              if (this.actionIcon.icon == Icons.search) {
+              if ( this.actionIcon.icon == Icons.search){
                 this.actionIcon = new Icon(Icons.close);
                 this.appBarTitle = new TextField(
                   style: new TextStyle(
@@ -55,18 +113,19 @@ class _MyHomePageState extends State<MyHomePage> {
 
                   ),
                   decoration: new InputDecoration(
-                      prefixIcon: new Icon(Icons.search, color: Colors.white),
+                      prefixIcon: new Icon(Icons.search,color: Colors.white),
                       hintText: "Buscar...",
                       hintStyle: new TextStyle(color: Colors.white)
                   ),
-                );
-              }
+                );}
               else {
                 this.actionIcon = new Icon(Icons.search);
                 this.appBarTitle = new Text("CaboFind");
               }
+
+
             });
-          },),
+          } ,),
         ],
 
 
@@ -89,9 +148,11 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
 
+  
             new ListTile(
               title: new Text('Restaurantes'),
               leading: Icon(Icons.restaurant),
+              
 
               onTap: () {
                 Navigator.of(context).pop();
@@ -100,6 +161,27 @@ class _MyHomePageState extends State<MyHomePage> {
                     new MaterialPageRoute(
                         builder: (BuildContext context) => new Restaurantes()));
               },
+/*
+                xd Column= new  Column(
+                    children: <Widget>[
+                      Center(
+                        child: new ListTile(
+              title: new Text('Restaurantes'),
+              leading: Icon(Icons.restaurant),
+              
+
+              onTap: () {
+                Navigator.of(context).pop();
+                Navigator.push(
+                          context,
+                          new MaterialPageRoute(
+                              builder: (BuildContext context) => new Restaurantes()));
+              },
+            ),
+                      ),
+                    ],
+                  ),
+*/
             ),
             new ListTile(
               title: new Text('Vida nocturna'),
@@ -110,8 +192,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (
-                            BuildContext context) => new Vida_nocturna()));
+                        builder: (BuildContext context) => new Vida_nocturna()));
               },
             ),
             new ListTile(
@@ -171,190 +252,16 @@ class _MyHomePageState extends State<MyHomePage> {
                 Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (
-                            BuildContext context) => new MyHomePageEnglish()));
+                        builder: (BuildContext context) => new MyHomePageEnglish()));
               },
             ),
           ],
         ),
       ),
 
-      body: new Container(
-
-        child: ListView(
-          scrollDirection: Axis.vertical,
-
-          children: <Widget>[
-
-            new ImageCarousel(),
-            new Home(),
-            new Publicaciones(),
-
-          ],
-        ),
-
-
-
-
-      ),
-
-
-    );
+        );
   }
 }
 
-class ImageCarousel extends StatelessWidget{
-  @override
-  Widget build(BuildContext context){
-    return Center(
-
-      child: Container(
-
-        margin: EdgeInsets.only(bottom: 0.0),
-        padding: EdgeInsets.all(10.0),
-        height: 300.0,
-        child: Carousel(
-          boxFit: BoxFit.cover,
-          images: [
-            AssetImage('android/assets/images/img1.jpg'),
-            AssetImage('android/assets/images/img2.jpg'),
-            AssetImage('android/assets/images/img3.jpg'),
-            AssetImage('android/assets/images/img4.jpg'),
-            AssetImage('android/assets/images/img5.jpg'),
-
-          ],
-          animationCurve: Curves.fastOutSlowIn,
-          animationDuration: Duration(milliseconds: 2000),
-        ),
-      ),
-    );
-  }
-}
-
-class Publicaciones extends StatelessWidget{
-  @override
-  Widget build(BuildContext context){
-    return Center(
-
-      child: Container(
 
 
-        margin: EdgeInsets.only(bottom: 0.0),
-        padding: EdgeInsets.all(10.0),
-        height: 200.0,
-        child: Column(
-          children: <Widget>[
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                    child: Text(
-                      'No te lo puedes perder',
-                      textAlign: TextAlign.center,
-                      //overflow: TextOverflow.ellipsis,
-
-                      style: TextStyle(
-
-                          color: Color(0XFF000000),
-                          fontSize:25.0,
-                          fontWeight: FontWeight.bold),
-                    )
-
-                ),
-
-              ],
-            ),
-          ],
-        )
-        /*
-        child: Carousel(
-        boxFit: BoxFit.cover,
-        images: [
-          AssetImage('android/assets/images/img1.jpg'),
-          AssetImage('android/assets/images/img2.jpg'),
-          AssetImage('android/assets/images/img3.jpg'),
-          AssetImage('android/assets/images/img4.jpg'),
-          AssetImage('android/assets/images/img5.jpg'),
-
-        ],
-        animationCurve: Curves.fastOutSlowIn,
-        animationDuration: Duration(milliseconds: 2000),
-      ),
-*/
-
-    ),
-
-    );
-  }
-}
-
-class Home extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-        child: Container(
-            padding: EdgeInsets.only(left: 10.0, bottom: 0.0),
-            alignment: Alignment.bottomCenter,
-            color: Colors.white,
-            child: Column(
-              children: <Widget>[
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      child: Text(
-                        'No te lo puedes perder',
-                        textAlign: TextAlign.center,
-                        //overflow: TextOverflow.ellipsis,
-                        
-                        style: TextStyle(
-
-                            color: Color(0XFF000000),
-                            fontSize:25.0,
-                            fontWeight: FontWeight.bold),
-                      )
-
-                    ),
-
-                  ],
-                ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-
-            new RaisedButton(
-              padding: const EdgeInsets.all(8.0),
-              textColor: Colors.white,
-              color: Colors.blue,
-              onPressed: null,
-              child: new Text("Lo nuevo"),
-            ),
-              new RaisedButton(
-                padding: const EdgeInsets.all(8.0),
-                textColor: Colors.white,
-                color: Colors.blue,
-                onPressed: null,
-                child: new Text("Lo más visitado"),
-              ),
-              new RaisedButton(
-                padding: const EdgeInsets.all(8.0),
-                textColor: Colors.white,
-                color: Colors.blue,
-                onPressed: null,
-                child: new Text("Recomendado"),
-              ),
-              new RaisedButton(
-                padding: const EdgeInsets.all(8.0),
-                textColor: Colors.white,
-                color: Colors.blue,
-                onPressed: null,
-                child: new Text("Promociones"),
-              ),
-          ],
-        )
-              ],
-            )
-        )
-    );
-  }
-}

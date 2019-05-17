@@ -75,6 +75,8 @@ class _MyHomePageEnglish extends State<MyHomePageEnglish> {
 
           children: <Widget>[
 
+            new ImageCarousel(),
+
             new UserAccountsDrawerHeader(
               accountName: new Text('No registred'),
               accountEmail: new Text('your_mail@.com'),
