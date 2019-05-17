@@ -1,4 +1,5 @@
 import 'package:cabofind/carousel_pro.dart';
+import 'package:cabofind/slider.dart';
 import 'package:flutter/material.dart';
 import 'acercade.dart';
 import 'restaurantes.dart';
@@ -33,7 +34,7 @@ class _MyHomePageEnglish extends State<MyHomePageEnglish> {
   Widget build(BuildContext context) {
     return new Scaffold(
 
-      body: Home(),
+      body: MyHomePageEnglish(),
 
       appBar: new AppBar(
 
@@ -179,37 +180,5 @@ class _MyHomePageEnglish extends State<MyHomePageEnglish> {
   }
 }
 
-class Home extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-        child: Container(
-            padding: EdgeInsets.only(left: 10.0, bottom: 600.0),
-            alignment: Alignment.bottomCenter,
-            color: Colors.deepPurple,
-            child: Column(
-              children: <Widget>[
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      color: Colors.blue,
-                      height: 50.0,
-                      width: 50.0,
-                    ),
-                    Icon(Icons.adjust, size: 50.0, color: Colors.pink),
-                    Icon(Icons.adjust, size: 50.0, color: Colors.purple,),
-                    Icon(Icons.adjust, size: 50.0, color: Colors.greenAccent,),
-                    Container(
-                      color: Colors.orange,
-                      height: 50.0,
-                      width: 50.0,
-                    ),
-                    Icon(Icons.adjust, size: 50.0, color: Colors.cyan,),
-                  ],
-                )
-              ],
-            )));
-  }
-}
+
 

@@ -45,7 +45,39 @@ class MyHomePage extends StatefulWidget {
 
 }
 
-
+class Home extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+        child: Container(
+            padding: EdgeInsets.only(left: 10.0, bottom: 600.0),
+            alignment: Alignment.bottomCenter,
+            color: Colors.deepPurple,
+            child: Column(
+              children: <Widget>[
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      color: Colors.blue,
+                      height: 50.0,
+                      width: 50.0,
+                    ),
+                    Icon(Icons.adjust, size: 50.0, color: Colors.pink),
+                    Icon(Icons.adjust, size: 50.0, color: Colors.purple,),
+                    Icon(Icons.adjust, size: 50.0, color: Colors.greenAccent,),
+                    Container(
+                      color: Colors.orange,
+                      height: 50.0,
+                      width: 50.0,
+                    ),
+                    Icon(Icons.adjust, size: 50.0, color: Colors.cyan,),
+                  ],
+                )
+              ],
+            )));
+  }
+}
  
 class _MyHomePageState extends State<MyHomePage> {
   Icon actionIcon = new Icon(Icons.search);
@@ -61,7 +93,6 @@ class _MyHomePageState extends State<MyHomePage> {
     final tabpages=<Widget>[
       //llamar classes siempre despues de un <Widget>
       new ImageCarousel(),
-      new Home(),
       new ImageCarousel(),
 
       Center(child: Icon(Icons.home,size: 60.0,color: Colors.red,),),
@@ -90,7 +121,9 @@ class _MyHomePageState extends State<MyHomePage> {
         });
       },
     );
-    
+
+
+
     return  Scaffold(
 
       body: tabpages[id],
