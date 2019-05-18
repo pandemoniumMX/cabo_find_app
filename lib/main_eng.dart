@@ -1,5 +1,5 @@
 import 'package:cabofind/carousel_pro.dart';
-import 'package:cabofind/slider.dart';
+import 'package:cabofind/slider_x.dart';
 import 'package:flutter/material.dart';
 import 'acercade.dart';
 import 'restaurantes.dart';
