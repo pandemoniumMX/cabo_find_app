@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+//import 'package:cabofind/carousel_pro.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -30,8 +31,9 @@ class HomePageState extends State<Listviewx> {
     this.setState(() {
       data = json.decode(response.body);
     });
-    print(data[1]["GAL_FOTO"]);
-     //print(data[2]["GAL_FOTO"]);
+    print(data[1]["NEG_NOMBRE"]);
+     
+    print(data[2]["GAL_FOTO"]);
     
     
     
@@ -44,21 +46,53 @@ class HomePageState extends State<Listviewx> {
     this.getData();
   }
 
-  @override
+   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      
-      body: new ListView.builder(
-        itemCount: data == null ? 0 : data.length,
+    
+   return new Scaffold(
+     body: new ListView.builder(
+         itemCount: data == null ? 0 : data.length,
         itemBuilder: (BuildContext context, int index) {
-          return new Card(
-            child: 
-            new Image.network(data[index]["GAL_FOTO"]),
-
+        return new Card(
+          elevation: 5.0,
+          child: new Container(
+          decoration: BoxDecoration(border: Border.all(color: Colors.orange)),
+          padding: EdgeInsets.all(20.0),
+          margin: EdgeInsets.all(20.0),
+          child: Column(
+          children: <Widget>[
+          Padding(
+          child: Image.network(data[index]["GAL_FOTO"]),
+          padding: EdgeInsets.only(bottom: 8.0),
+          ),
+          Row(children: <Widget>[
+          Padding(
+          child: Text(data[index]["NEG_NOMBRE"]),
+          padding: EdgeInsets.all(1.0)),
+          Text(" | "),
+          Padding(
+          child: new Text(data[index]["NEG_RAZONSOCIAL"]),
+          padding: EdgeInsets.all(1.0)),
+          ]),
+          ],
+          ),
+          ),
           );
-          
-        },
-      ),
-    );
-  }
+        }
+     ),
+   );
+    /*
+      onTap: () {
+      //We start by creating a Page Route.
+      //A MaterialPageRoute is a modal route that replaces the entire
+      //screen with a platform-adaptive transition.
+      var route = new MaterialPageRoute(
+      builder: (BuildContext context) =>
+      new SecondScreen(value: spacecraft),
+      );
+      //A Navigator is a widget that manages a set of child widgets with
+      //stack discipline.It allows us navigate pages.
+      Navigator.of(context).push(route);
+      */
+  } 
 }

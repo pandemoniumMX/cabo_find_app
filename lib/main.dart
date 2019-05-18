@@ -99,7 +99,6 @@ class _MyHomePageState extends State<MyHomePage> {
       //new ImageCarousel2(),
      // new Listado(),
 
-      Center(child: Icon(Icons.home,size: 60.0,color: Colors.red,),),
       Center(child: Icon(Icons.map,size: 60.0,color: Colors.red,),),
       Center(child: Icon(Icons.mic,size: 60.0,color: Colors.red,),),
       Center(child: Icon(Icons.radio,size: 60.0,color: Colors.red,),),
