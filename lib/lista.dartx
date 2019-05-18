@@ -1,0 +1,68 @@
+import 'dart:convert';
+
+import 'package:cabofind/carousel_pro.dart';
+import 'package:cabofind/main.dart';
+import 'package:flutter/material.dart';
+import 'dart:async';
+import 'package:http/http.dart' as http;
+
+import 'package:flutter/material.dart';
+
+void main() => runApp(new MyApp());
+
+class MyApp extends StatelessWidget {
+
+  String url="http://192.168.1.106/cabofind/app_php/get_slider.php";
+  List data;
+
+  Future<List<User>> _getUsers() async {
+    var data= await http.get("http://192.168.1.106/cabofind/app_php/get_slider.php");
+    
+    var jsonData = json.decode(data.body);
+
+    List <User> users =[];
+    for(var u in jsonData){
+      User user = User(u["NEG_NOMBRE"], u["GAL_FOTO"]);
+    }  
+  
+  }
+  @override
+  Widget build(BuildContext context) {
+    return new MaterialApp(
+      debugShowCheckedModeBanner:false,
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        primaryColor: Colors.blue,
+        accentColor: Colors.black26,
+      ),
+      home: new Container(
+          child:           new MyHomePage()
+      )
+
+
+
+    );
+  }
+  class Listado extends StatefulWidget{
+    Listado({Key key, this.title}) : super(key:key);
+    final String title;
+    @override
+    _ListadoState createState()=> new _ListadoState();
+  }
+  class _Listado extends State<Listado> {
+    @override
+    Widget build(BuildContext context){
+      return new Scaffold(
+        body: Container(
+          
+        ),
+      );
+    }
+  }
+  
+}
+class User {
+    final int name;
+    final String picture;
+    User(this.name, this.picture)
+  }

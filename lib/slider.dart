@@ -49,7 +49,9 @@ class ItemList extends StatelessWidget{
         return new ListTile(
           title: new Text(list[i]['NEG_NOMBRE']),
           subtitle: new Text(list[i]['NEG_RAZONSOCIAL']),
-          leading: new Icon(Icons.http),
+          leading: new Icon(Icons.http
+        ),
+
           onTap:()=> Navigator.of(context).push(
               new MaterialPageRoute(
                // builder: (BuildContext context)=>new Details(list: list,index: i),
@@ -61,3 +63,5 @@ class ItemList extends StatelessWidget{
     );
   }
 }
+
+

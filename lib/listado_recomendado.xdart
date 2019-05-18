@@ -1,0 +1,57 @@
+
+import 'dart:convert';
+import 'package:cabofind/carousel_pro.dart';
+import 'package:cabofind/main.dart';
+import 'package:flutter/material.dart';
+import 'dart:async';
+import 'package:http/http.dart' as http;
+
+class Listado_rec extends StatefulWidget {
+
+  Listado_rec({Key key, this.title}) : super(key:key);
+    final String title;
+@override
+_Listado createState() => new _Listado();
+}
+
+
+
+
+  class _Listado extends State<Listado_rec> {
+    Future<List<User>> _getUsers() async {
+    var data= await http.get("http://192.168.1.106/cabofind/app_php/get_slider.php");
+    
+    var jsonData = json.decode(data.body);
+
+    List <User> users =[];
+    for(var u in jsonData){
+      User user = User(u["GAL_FOTO"]);
+      users.add(user);
+    }  
+    print(users.length);
+  
+  return users;
+  }
+    @override
+    Widget build(BuildContext context){
+      return new Scaffold(
+        body: Material(
+          child: Center(
+            child: ListView(
+              children: <Widget>[
+                new Image.network(snapshot.data[index].picture)
+              ],
+            ),
+          ),
+        )
+      );
+    }
+  }
+  
+
+class User {
+  
+    //final String name;
+    final String picture;
+    User(this.picture);
+  }

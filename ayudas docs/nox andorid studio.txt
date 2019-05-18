@@ -4,3 +4,5 @@ nox_adb.exe connect 127.0.0.1:62001
 
 https://camposha.info/course/flutter-mysql/lesson/flutter-php-mysql-fill-listview-with-images-and-text/
 https://github.com/Oclemy/flutter_listview_php_mysql;
+
+https://medium.com/@studymongolian/a-complete-guide-to-flutters-listtile-597a20a3d449

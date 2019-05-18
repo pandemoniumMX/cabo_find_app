@@ -9,7 +9,7 @@ import 'compras.dart';
 import 'descubre.dart';
 import 'main.dart';
 
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+//import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 
 
