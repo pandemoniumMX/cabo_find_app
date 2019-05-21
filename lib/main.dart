@@ -1,4 +1,5 @@
 import 'package:cabofind/carousel_pro.dart';
+import 'package:cabofind/listado_backup.dart';
 import 'package:cabofind/listado_test.dart';
 import 'package:cabofind/main_eng.dart';
 import 'package:cabofind/slider_backup.dart';
@@ -97,11 +98,12 @@ class _MyHomePageState extends State<MyHomePage> {
     final tabpages=<Widget>[
       //llamar classes siempre despues de un <Widget>
       //lo que se declare aqui, sera el contenido de los botones de navigacion al fondo
+     // new ImageCarousel2(),
       new ImageCarousel2(),
 
       new Listviewx(),
+
       //new ImageCarousel2(),
-     // new Listado(),
 
       Center(child: Icon(Icons.map,size: 60.0,color: Colors.red,),),
       Center(child: Icon(Icons.mic,size: 60.0,color: Colors.red,),),
@@ -232,7 +234,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (BuildContext context) => new Vida_nocturna()));
+                        builder: (BuildContext context) => new Descubre()));
               },
             ),
             new ListTile(
