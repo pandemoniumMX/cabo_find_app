@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
 
-//import 'package:cabofind/carousel_pro.dart';
 import 'package:cabofind/descubre.dart';
 import 'package:flutter/material.dart';
+
 import 'package:http/http.dart' as http;
 
 void main() {
@@ -16,7 +16,12 @@ class Listviewx extends StatefulWidget {
   @override
   HomePageState createState() => new HomePageState();
 }
+class Person {
+  final String name;
+  final String age;
 
+  Person(this.name, this.age);
+}
 class HomePageState extends State<Listviewx> {
 
   List data;
@@ -75,6 +80,7 @@ class HomePageState extends State<Listviewx> {
                     child: Column(
                       children: <Widget>[
                         Padding(
+
                           child: Image.network(
                               data[index]["GAL_FOTO"]),
                           padding: EdgeInsets.only(
@@ -82,8 +88,11 @@ class HomePageState extends State<Listviewx> {
                         ),
                         Row(
                             children: <Widget>[
+
                               Padding(
+
                                   child: Text(
+
                                       data[index]["NEG_NOMBRE"]),
                                   padding: EdgeInsets.all(
                                       1.0)),
@@ -101,16 +110,13 @@ class HomePageState extends State<Listviewx> {
                 ),
 
                 onTap: () {
-                  //We start by creating a Page Route.
-                  //A MaterialPageRoute is a modal route that replaces the entire
-                  //screen with a platform-adaptive transition.
-                  var route = new MaterialPageRoute(
-                    builder: (BuildContext context) =>
-                    new Descubre(),
+                  String idempresa = data[1]["ID_NEGOCIO"];
+                  String userName2 = "www.developerlibs.com";
+
+                  Navigator.push(context, new MaterialPageRoute
+                    (builder: (context) => new SecondScreenWithData(person: new Person(idempresa,userName2))
+                  )
                   );
-                  //A Navigator is a widget that manages a set of child widgets with
-                  //stack discipline.It allows us navigate pages.
-                  Navigator.of(context).push(route);
                 },
                 //A Navigator is a widget that manages a set of child widgets with
                 //stack discipline.It allows us navigate pages.
