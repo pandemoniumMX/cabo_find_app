@@ -110,8 +110,8 @@ class HomePageState extends State<Listviewx> {
                 ),
 
                 onTap: () {
-                  String idempresa = data[1]["ID_NEGOCIO"];
-                  String userName2 = "www.developerlibs.com";
+                  String idempresa = data[index]["ID_NEGOCIO"];
+                  String userName2 = data[index]["NEG_NOMBRE"];
 
                   Navigator.push(context, new MaterialPageRoute
                     (builder: (context) => new SecondScreenWithData(person: new Person(idempresa,userName2))
