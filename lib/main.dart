@@ -1,4 +1,5 @@
 import 'package:cabofind/carousel_pro.dart';
+import 'package:cabofind/empresa_detalle.dart';
 import 'package:cabofind/listado_backup.dart';
 import 'package:cabofind/listado_test.dart';
 import 'package:cabofind/main_eng.dart';
@@ -53,37 +54,112 @@ class MyHomePage extends StatefulWidget {
 class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
-        child: Container(
-            padding: EdgeInsets.only(left: 10.0, bottom: 600.0),
-            alignment: Alignment.bottomCenter,
-            color: Colors.deepPurple,
+    Widget titleSection = Container(
+      padding: const EdgeInsets.all(32),
+      child: Row(
+        children: [
+          Expanded(
+            /*1*/
             child: Column(
-              children: <Widget>[
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      color: Colors.blue,
-                      height: 50.0,
-                      width: 50.0,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                /*2*/
+                Container(
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: Text(
+                    'Oeschinen Lake Campground',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
                     ),
-                    Icon(Icons.adjust, size: 50.0, color: Colors.pink),
-                    Icon(Icons.adjust, size: 50.0, color: Colors.purple,),
-                    Icon(Icons.adjust, size: 50.0, color: Colors.greenAccent,),
-                    Container(
-                      color: Colors.orange,
-                      height: 50.0,
-                      width: 50.0,
-                    ),
-                    Icon(Icons.adjust, size: 50.0, color: Colors.cyan,),
-                  ],
-                )
+                  ),
+                ),
+                Text(
+                  'Kandersteg, Switzerland',
+                  style: TextStyle(
+                    color: Colors.grey[500],
+                  ),
+                ),
               ],
-            )));
+            ),
+          ),
+          /*3*/
+          Icon(
+            Icons.star,
+            color: Colors.red[500],
+          ),
+          Text('41'),
+        ],
+      ),
+    );
+
+    Color color = Theme.of(context).primaryColor;
+
+    Widget buttonSection = Container(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          _buildButtonColumn(color, Icons.call, 'CALL'),
+          _buildButtonColumn(color, Icons.near_me, 'ROUTE'),
+          _buildButtonColumn(color, Icons.share, 'SHARE'),
+        ],
+      ),
+    );
+
+    Widget textSection = Container(
+      padding: const EdgeInsets.all(32),
+      child: Text(
+        'Lake Oeschinen lies at the foot of the Blüemlisalp in the Bernese '
+            'Alps. Situated 1,578 meters above sea level, it is one of the '
+            'larger Alpine Lakes. A gondola ride from Kandersteg, followed by a '
+            'half-hour walk through pastures and pine forest, leads you to the '
+            'lake, which warms to 20 degrees Celsius in the summer. Activities '
+            'enjoyed here include rowing, and riding the summer toboggan run.',
+        softWrap: true,
+      ),
+    );
+
+    return MaterialApp(
+      title: 'Flutter layout demo',
+      home: Scaffold(
+
+        body: ListView(
+          children: [
+            Image.asset(
+              'android/assets/images/img1.jpg',
+              width: 600,
+              height: 240,
+              fit: BoxFit.cover,
+            ),
+            titleSection,
+            buttonSection,
+            textSection,
+          ],
+        ),
+      ),
+    );
   }
 }
- 
+
+Column _buildButtonColumn(Color color, IconData icon, String label) {
+  return Column(
+    mainAxisSize: MainAxisSize.min,
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Icon(icon, color: color),
+      Container(
+        margin: const EdgeInsets.only(top: 8),
+        child: Text(
+          label,
+          style: TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w400,
+            color: color,
+          ),
+        ),
+      ),
+    ],
+  );
+}
 class _MyHomePageState extends State<MyHomePage> {
   Icon actionIcon = new Icon(Icons.search);
   Widget appBarTitle = new Text("Cabo Find");
@@ -100,7 +176,7 @@ class _MyHomePageState extends State<MyHomePage> {
       //lo que se declare aqui, sera el contenido de los botones de navigacion al fondo
      // new ImageCarousel2(),
       new ImageCarousel2(),
-
+      new Empresa_det_fin(),
       new Listviewx(),
 
       //new ImageCarousel2(),

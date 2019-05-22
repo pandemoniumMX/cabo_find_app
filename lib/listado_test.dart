@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:cabofind/carousel_pro.dart';
 import 'package:cabofind/descubre.dart';
 import 'package:flutter/material.dart';
 
@@ -30,7 +31,7 @@ class HomePageState extends State<Listviewx> {
   Future<String> getData() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://192.168.1.106/cabofind/app_php/get_slider.php"),
+            "https://mx58.hostgator.mx/public_html/app_php/get_slider.php"),
         headers: {
           "Accept": "application/json"
         }
