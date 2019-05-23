@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:cabofind/carousel_pro.dart';
 import 'package:cabofind/descubre.dart';
+import 'package:cabofind/empresa_detalle.dart';
 import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
@@ -20,8 +21,10 @@ class Listviewx extends StatefulWidget {
 class Person {
   final String name;
   final String age;
+  final String foto;
 
-  Person(this.name, this.age);
+
+  Person(this.name, this.age,this.foto);
 }
 class HomePageState extends State<Listviewx> {
 
@@ -31,7 +34,9 @@ class HomePageState extends State<Listviewx> {
   Future<String> getData() async {
     var response = await http.get(
         Uri.encodeFull(
-            "https://mx58.hostgator.mx/public_html/app_php/get_slider.php"),
+            "http://192.168.1.106/cabofind/app_php/get_slider.php"),
+           // "https://cabofind.com.mx/app_php/get_slider.php"),
+
         headers: {
           "Accept": "application/json"
         }
@@ -47,6 +52,8 @@ class HomePageState extends State<Listviewx> {
 
     print(
         data[2]["GAL_FOTO"]);
+
+
 
 
     return "Success!";
@@ -111,11 +118,12 @@ class HomePageState extends State<Listviewx> {
                 ),
 
                 onTap: () {
-                  String idempresa = data[index]["ID_NEGOCIO"];
-                  String userName2 = data[index]["NEG_NOMBRE"];
+                  String idempresa = data[index]["NEG_NOMBRE"];
+                  String userName2 = data[index]["NEG_RAZONSOCIAL"];
+                  String foto = data[index]["GAL_FOTO"];
 
                   Navigator.push(context, new MaterialPageRoute
-                    (builder: (context) => new SecondScreenWithData(person: new Person(idempresa,userName2))
+                    (builder: (context) => new Empresa_det_fin(person: new Person(idempresa,userName2,foto))
                   )
                   );
                 },

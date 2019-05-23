@@ -1,3 +1,5 @@
+import 'package:cabofind/buscador.dart';
+import 'package:cabofind/buscador.dartx';
 import 'package:cabofind/carousel_pro.dart';
 import 'package:cabofind/empresa_detalle.dart';
 import 'package:cabofind/listado_backup.dart';
@@ -176,8 +178,8 @@ class _MyHomePageState extends State<MyHomePage> {
       //lo que se declare aqui, sera el contenido de los botones de navigacion al fondo
      // new ImageCarousel2(),
       new ImageCarousel2(),
-      new Empresa_det_fin(),
       new Listviewx(),
+      new ExamplePage(),
 
       //new ImageCarousel2(),
 
@@ -221,29 +223,15 @@ class _MyHomePageState extends State<MyHomePage> {
         title:appBarTitle,
         actions: <Widget>[
 
-          new IconButton(icon: actionIcon,onPressed:(){
-            setState(() {
-              if ( this.actionIcon.icon == Icons.search){
-                this.actionIcon = new Icon(Icons.close);
-                this.appBarTitle = new TextField(
-                  style: new TextStyle(
-                    color: Colors.white,
-
-                  ),
-                  decoration: new InputDecoration(
-                      prefixIcon: new Icon(Icons.search,color: Colors.white),
-                      hintText: "Buscar...",
-                      hintStyle: new TextStyle(color: Colors.white)
-                  ),
-                );}
-              else {
-                this.actionIcon = new Icon(Icons.search);
-                this.appBarTitle = new Text("CaboFind");
-              }
-
-
-            });
-          } ,),
+          new IconButton(
+            icon: actionIcon,
+              onPressed: () {
+                //Use`Navigator` widget to push the second screen to out stack of screens
+                Navigator.of(context)
+                    .push(MaterialPageRoute<Null>(builder: (BuildContext context) {
+                  return new HomePagex();
+                }));
+              }, ),
         ],
 
 

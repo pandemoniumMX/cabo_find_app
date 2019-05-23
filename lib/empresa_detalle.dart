@@ -52,22 +52,19 @@ Widget build(BuildContext context) {
   return new Scaffold(
     body: tabpages[id],
     bottomNavigationBar: bnb,
-    appBar: new AppBar(
-      title: new Text('Descubre'),
-    ),
+
   );
 }
 }
 
 class Empresa_det_fin extends StatelessWidget {
   // Declare a field that holds the Person data
- // final Person person;
+  // Declare a field that holds the Person data
+  final Person person;
 
   // In the constructor, require a Person
-  /*
   Empresa_det_fin({Key key, @required this.person}) : super(
       key: key);
-*/
   @override
  Widget build(BuildContext context){
     Widget titleSection = Container(
@@ -83,7 +80,7 @@ class Empresa_det_fin extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.only(bottom: 10),
                   child: Text(
-                    'Cabo Cantina',
+                    '${person.name}',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                         fontSize: 20.0
@@ -178,25 +175,22 @@ class Empresa_det_fin extends StatelessWidget {
 
 
 
-    return MaterialApp(
-      title: 'Flutter layout demo',
-      home: Scaffold(
+    return new Scaffold(
 
         body: ListView(
           children: [
-            Image.asset(
-              'android/assets/images/img1.jpg',
-              width: 600,
-              height: 240,
-              fit: BoxFit.cover,
-            ),
+            Image.network('${person.foto}',width: 600,height: 240,fit: BoxFit.cover, ),
+            //Image.asset('android/assets/images/img1.jpg',width: 600,height: 240,fit: BoxFit.cover,),
             titleSection,
             textSection,
             textServicios,
             buttonSection,
           ],
         ),
-      ),
+        appBar: new AppBar(
+          title: new Text('Descubre'),
+        ),
+
     );
   }
 
