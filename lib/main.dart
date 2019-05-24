@@ -298,7 +298,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (BuildContext context) => new Descubre()));
+                        builder: (BuildContext context) => new Vida_nocturna()));
               },
             ),
             new ListTile(

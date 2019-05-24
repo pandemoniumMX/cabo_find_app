@@ -35,7 +35,8 @@ class Note {
 
   Note.fromJson(Map<String, dynamic> json) {
     title = json['NEG_NOMBRE'];
-    text = json['NEG_RAZONSOCIAL'];
+    text = json['NEG_ETIQUETAS'];
+
   }
 }
 
@@ -143,7 +144,7 @@ class _HomePagex extends State<HomePagex> {
 
     title: new Card(
       child: Padding(
-        padding: const EdgeInsets.only(top: 32.0, bottom: 32.0, left: 16.0, right: 16.0),
+        padding: const EdgeInsets.only(top: 16.0, bottom: 16.0, left: 16.0, right: 16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -157,9 +158,28 @@ class _HomePagex extends State<HomePagex> {
             Text(
               _notesForDisplay[index].text,
               style: TextStyle(
+
+
                   color: Colors.grey.shade600
               ),
             ),
+          Row(
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(top: 0.0, bottom: 0.0, left: 260.0, right: 0.0),
+
+                child: Image.network(
+
+                  data[index]["GAL_FOTO"],
+                  width: 200.0,
+                  height: 100.0,
+                ),
+
+              ),
+            ],
+
+          )
+
           ],
         ),
       ),
