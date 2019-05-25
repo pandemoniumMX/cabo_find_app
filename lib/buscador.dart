@@ -46,7 +46,7 @@ class _HomePagex extends State<HomePagex> {
   List<Note> _notesForDisplay = List<Note>();
 
   Future<List<Note>> fetchNotes() async {
-    var url = 'http://192.168.1.106/cabofind/app_php/get_slider.php';
+    var url = 'http://cabofind.com.mx/app_php/get_empresas.php';
     var response = await http.get(url);
 
     var notes = List<Note>();
@@ -66,7 +66,7 @@ class _HomePagex extends State<HomePagex> {
   Future<String> getData() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://192.168.1.106/cabofind/app_php/get_slider.php"),
+            "http://cabofind.com.mx/app_php/get_slider.php"),
         // "https://cabofind.com.mx/app_php/get_slider.php"),
 
         headers: {

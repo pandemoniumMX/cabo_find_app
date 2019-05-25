@@ -2,13 +2,12 @@ SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
-CREATE SCHEMA IF NOT EXISTS `cabofind` DEFAULT CHARACTER SET latin1 ;
-USE `cabofind` ;
+USE `cabofind_cabofind` ;
 
 -- -----------------------------------------------------
--- Table `cabofind`.`categorias`
+-- Table `cabofind_cabofind`.`categorias`
 -- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `cabofind`.`categorias` (
+CREATE  TABLE IF NOT EXISTS `cabofind_cabofind`.`categorias` (
   `ID_CATEGORIA` INT(11) NOT NULL AUTO_INCREMENT ,
   `CAT_NOMBRE` VARCHAR(30) NULL DEFAULT NULL ,
   `CAT_ESTATUS` VARCHAR(2) NULL DEFAULT NULL ,
@@ -20,9 +19,9 @@ DEFAULT CHARACTER SET = latin1;
 
 
 -- -----------------------------------------------------
--- Table `cabofind`.`subcategoria`
+-- Table `cabofind_cabofind`.`subcategoria`
 -- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `cabofind`.`subcategoria` (
+CREATE  TABLE IF NOT EXISTS `cabofind_cabofind`.`subcategoria` (
   `ID_SUBCATEGORIA` INT(11) NOT NULL AUTO_INCREMENT ,
   `SUB_NOMBRE` VARCHAR(30) NULL DEFAULT NULL ,
   `SUB_ESTATUS` VARCHAR(2) NULL DEFAULT NULL ,
@@ -31,7 +30,7 @@ CREATE  TABLE IF NOT EXISTS `cabofind`.`subcategoria` (
   INDEX `ID_CATEGORIA_idx` (`ID_CATEGORIA` ASC) ,
   CONSTRAINT `ID_CATEGORIA`
     FOREIGN KEY (`ID_CATEGORIA` )
-    REFERENCES `cabofind`.`categorias` (`ID_CATEGORIA` )
+    REFERENCES `cabofind_cabofind`.`categorias` (`ID_CATEGORIA` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -40,9 +39,9 @@ DEFAULT CHARACTER SET = latin1;
 
 
 -- -----------------------------------------------------
--- Table `cabofind`.`exposicion`
+-- Table `cabofind_cabofind`.`exposicion`
 -- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `cabofind`.`exposicion` (
+CREATE  TABLE IF NOT EXISTS `cabofind_cabofind`.`exposicion` (
   `ID_EXPOSICION` INT(11) NOT NULL AUTO_INCREMENT ,
   `EXP_NIVEL` VARCHAR(25) NOT NULL ,
   `EXP_FECHA_ALTA` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
@@ -54,9 +53,9 @@ DEFAULT CHARACTER SET = latin1;
 
 
 -- -----------------------------------------------------
--- Table `cabofind`.`negocios`
+-- Table `cabofind_cabofind`.`negocios`
 -- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `cabofind`.`negocios` (
+CREATE  TABLE IF NOT EXISTS `cabofind_cabofind`.`negocios` (
   `ID_NEGOCIO` INT(11) NOT NULL AUTO_INCREMENT ,
   `NEG_NOMBRE` VARCHAR(50) NULL DEFAULT NULL ,
   `NEG_CORREO` VARCHAR(45) NULL DEFAULT NULL ,
@@ -77,12 +76,12 @@ CREATE  TABLE IF NOT EXISTS `cabofind`.`negocios` (
   INDEX `fk_negocios_exposicion1_idx` (`exposicion_ID_EXPOSICION` ASC) ,
   CONSTRAINT `ID_SUBCATEGORIA`
     FOREIGN KEY (`ID_SUBCATEGORIA` )
-    REFERENCES `cabofind`.`subcategoria` (`ID_SUBCATEGORIA` )
+    REFERENCES `cabofind_cabofind`.`subcategoria` (`ID_SUBCATEGORIA` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_negocios_exposicion1`
     FOREIGN KEY (`exposicion_ID_EXPOSICION` )
-    REFERENCES `cabofind`.`exposicion` (`ID_EXPOSICION` )
+    REFERENCES `cabofind_cabofind`.`exposicion` (`ID_EXPOSICION` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -91,9 +90,9 @@ DEFAULT CHARACTER SET = latin1;
 
 
 -- -----------------------------------------------------
--- Table `cabofind`.`caracteristicas`
+-- Table `cabofind_cabofind`.`caracteristicas`
 -- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `cabofind`.`caracteristicas` (
+CREATE  TABLE IF NOT EXISTS `cabofind_cabofind`.`caracteristicas` (
   `ID_CARACTERISTICAS` INT(11) NOT NULL AUTO_INCREMENT ,
   `CAR_NOMBRE` VARCHAR(45) NULL DEFAULT NULL ,
   `CAR_NOMBRE_ENG` VARCHAR(45) NULL DEFAULT NULL ,
@@ -104,7 +103,7 @@ CREATE  TABLE IF NOT EXISTS `cabofind`.`caracteristicas` (
   INDEX `fk_caracteristicas_negocios1_idx` (`negocios_ID_NEGOCIO` ASC) ,
   CONSTRAINT `fk_caracteristicas_negocios1`
     FOREIGN KEY (`negocios_ID_NEGOCIO` )
-    REFERENCES `cabofind`.`negocios` (`ID_NEGOCIO` )
+    REFERENCES `cabofind_cabofind`.`negocios` (`ID_NEGOCIO` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -112,9 +111,9 @@ DEFAULT CHARACTER SET = latin1;
 
 
 -- -----------------------------------------------------
--- Table `cabofind`.`galeria`
+-- Table `cabofind_cabofind`.`galeria`
 -- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `cabofind`.`galeria` (
+CREATE  TABLE IF NOT EXISTS `cabofind_cabofind`.`galeria` (
   `ID_GALERIA` INT(11) NOT NULL AUTO_INCREMENT ,
   `GAL_FOTO` VARCHAR(255) NULL DEFAULT NULL ,
   `GAL_TIPO` VARCHAR(255) NULL DEFAULT NULL ,
@@ -124,7 +123,7 @@ CREATE  TABLE IF NOT EXISTS `cabofind`.`galeria` (
   INDEX `ID_NEGOCIO_idx` (`ID_NEGOCIO` ASC) ,
   CONSTRAINT `ID_NEGOCIO`
     FOREIGN KEY (`ID_NEGOCIO` )
-    REFERENCES `cabofind`.`negocios` (`ID_NEGOCIO` )
+    REFERENCES `cabofind_cabofind`.`negocios` (`ID_NEGOCIO` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -133,9 +132,9 @@ DEFAULT CHARACTER SET = latin1;
 
 
 -- -----------------------------------------------------
--- Table `cabofind`.`publicacion`
+-- Table `cabofind_cabofind`.`publicacion`
 -- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `cabofind`.`publicacion` (
+CREATE  TABLE IF NOT EXISTS `cabofind_cabofind`.`publicacion` (
   `ID_PUBLICACION` INT(11) NOT NULL AUTO_INCREMENT ,
   `PUB_TITULO` VARCHAR(45) NULL DEFAULT NULL ,
   `PUB_TITULO_ING` VARCHAR(45) NOT NULL ,
@@ -150,19 +149,19 @@ CREATE  TABLE IF NOT EXISTS `cabofind`.`publicacion` (
   INDEX `fk_publicacion_galeria1_idx` (`galeria_ID_GALERIA` ASC) ,
   CONSTRAINT `fk_PUBLICACION_negocios1`
     FOREIGN KEY (`negocios_ID_NEGOCIO` )
-    REFERENCES `cabofind`.`negocios` (`ID_NEGOCIO` )
+    REFERENCES `cabofind_cabofind`.`negocios` (`ID_NEGOCIO` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_publicacion_galeria1`
     FOREIGN KEY (`galeria_ID_GALERIA` )
-    REFERENCES `cabofind`.`galeria` (`ID_GALERIA` )
+    REFERENCES `cabofind_cabofind`.`galeria` (`ID_GALERIA` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 AUTO_INCREMENT = 44
 DEFAULT CHARACTER SET = latin1;
 
-USE `cabofind` ;
+USE `cabofind_cabofind` ;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

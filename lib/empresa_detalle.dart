@@ -179,7 +179,7 @@ class Empresa_det_fin extends StatelessWidget {
 
         body: ListView(
           children: [
-            Image.network('${person.foto}',width: 600,height: 240,fit: BoxFit.cover, ),
+            Image.network('${person.foto}',width: 100,height: 100, ),
             //Image.asset('android/assets/images/img1.jpg',width: 600,height: 240,fit: BoxFit.cover,),
             titleSection,
             textSection,

@@ -34,7 +34,7 @@ class HomePageState extends State<Listviewx> {
   Future<String> getData() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://192.168.1.106/cabofind/app_php/get_slider.php"),
+            "http://cabofind.com.mx/app_php/get_slider.php"),
            // "https://cabofind.com.mx/app_php/get_slider.php"),
 
         headers: {
@@ -52,9 +52,6 @@ class HomePageState extends State<Listviewx> {
 
     print(
         data[2]["GAL_FOTO"]);
-
-
-
 
     return "Success!";
   }
@@ -108,7 +105,7 @@ class HomePageState extends State<Listviewx> {
                                   " | "),
                               Padding(
                                   child: new Text(
-                                      data[index]["NEG_RAZONSOCIAL"]),
+                                      data[index]["NEG_ETIQUETAS"]),
                                   padding: EdgeInsets.all(
                                       1.0)),
                             ]),
@@ -119,7 +116,7 @@ class HomePageState extends State<Listviewx> {
 
                 onTap: () {
                   String idempresa = data[index]["NEG_NOMBRE"];
-                  String userName2 = data[index]["NEG_RAZONSOCIAL"];
+                  String userName2 = data[index]["NEG_ETIQUETAS"];
                   String foto = data[index]["GAL_FOTO"];
 
                   Navigator.push(context, new MaterialPageRoute
