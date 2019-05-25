@@ -6,7 +6,6 @@ import 'restaurantes.dart';
 import 'vida_nocturna.dart';
 import 'servicios.dart';
 import 'compras.dart';
-import 'descubre.dart';
 import 'main.dart';
 
 //import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -121,7 +120,7 @@ class _MyHomePageEnglish extends State<MyHomePageEnglish> {
                 Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (BuildContext context) => new Descubre()));
+                        builder: (BuildContext context) => new Vida_nocturna()));
               },
             ),
             new ListTile(

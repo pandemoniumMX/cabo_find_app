@@ -14,7 +14,8 @@ import 'restaurantes.dart';
 import 'vida_nocturna.dart';
 import 'servicios.dart';
 import 'compras.dart';
-import 'descubre.dart';
+//import 'descubre.darb';
+
 import 'nav_bottom.dart';
 //import 'listado.dart';
 
@@ -310,7 +311,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (BuildContext context) => new Descubre()));
+                        builder: (BuildContext context) => new Compras()));
               },
             ),
             new ListTile(

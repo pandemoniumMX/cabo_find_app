@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:cabofind/descubre.dart';
 import 'package:cabofind/empresa_detalle.dart';
 import 'package:cabofind/listado_test.dart';
 import 'package:flutter/material.dart';
@@ -107,25 +106,40 @@ class _HomePagex extends State<HomePagex> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
         appBar: AppBar(
           title: Text('Buscador CaboFind'),
         ),
+
         body: ListView.builder(
+
           itemBuilder: (context, index) {
-            return index == 0 ? _searchBar() : _listItem(index-1);
+
+             return index == 0 ?  _searchBar() : _listItem(index-1);
+
           },
           itemCount: _notesForDisplay.length+1,
         )
-    );
+        );
+
   }
 
+  Widget loading = Center(
+    child: new CircularProgressIndicator(),
+
+  );
+
   _searchBar() {
+
     return Padding(
+
       padding: const EdgeInsets.all(8.0),
+
       child: TextField(
         decoration: InputDecoration(
             hintText: 'Buscar...'
         ),
+
         onChanged: (text) {
           text = text.toLowerCase();
           setState(() {
@@ -134,10 +148,13 @@ class _HomePagex extends State<HomePagex> {
               return noteTitle.contains(text);
             }).toList();
           });
-        },
+         },
       ),
+
+
     );
-  }
+      }
+
 
   _listItem(index) {
     return new ListTile(
@@ -188,12 +205,17 @@ class _HomePagex extends State<HomePagex> {
       onTap: () {
 
 
-        String idempresa = data[index]["NEG_NOMBRE"];
-        String userName2 = data[index]["NEG_RAZONSOCIAL"];
-        String foto = data[index]["GAL_FOTO"];
+        String nombre_sql = data[index]["NEG_NOMBRE"];
+        String etiquetas_sql = data[index]["NEG_ETIQUETAS"];
+        String foto_sql = data[index]["GAL_FOTO"];
+        String desc_sql = data[index]["NEG_DESCRIPCION"];
+        String mapa_sql = data[index]["NEG_MAP"];
+        String subcat_sql = data[index]["SUB_NOMBRE"];
+        String cat_sql = data[index]["CAT_NOMBRE"];
+
 
         Navigator.push(context, new MaterialPageRoute
-          (builder: (context) => new Empresa_det_fin(person: new Person(idempresa,userName2,foto))
+          (builder: (context) => new Empresa_det_fin(person: Person(nombre_sql,etiquetas_sql,foto_sql,desc_sql,mapa_sql,subcat_sql,cat_sql))
         )
 
         );

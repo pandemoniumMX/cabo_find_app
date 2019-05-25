@@ -1,6 +1,7 @@
 
 import 'package:cabofind/listado_test.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Empresa_detalle extends StatefulWidget {
 @override
@@ -80,7 +81,7 @@ class Empresa_det_fin extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.only(bottom: 10),
                   child: Text(
-                    '${person.name}',
+                    '${person.nombre}',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                         fontSize: 20.0
@@ -90,7 +91,7 @@ class Empresa_det_fin extends StatelessWidget {
 
                 ),
                 Text(
-                  'Restaurante Bar',
+                  '${person.cat}-${person.subs}',
                   style: TextStyle(
                     color: Colors.grey[500],
                   ),
@@ -121,26 +122,42 @@ class Empresa_det_fin extends StatelessWidget {
     Widget textSection = Container(
       padding: const EdgeInsets.only(bottom: 10,left: 20,right: 20),
       child: Text(
-        'Lake Oeschinen lies at the foot of the Blüemlisalp in the Bernese '
-            'Alps. Situated 1,578 meters above sea level, it is one of the '
-            'larger Alpine Lakes. A gondola ride from Kandersteg, followed by a '
-            'half-hour walk through pastures and pine forest, leads you to the '
-            'lake, which warms to 20 degrees Celsius in the summer. Activities '
-            'enjoyed here include rowing, and riding the summer toboggan run.',
+        '${person.desc}',
         softWrap: true,
       ),
+
     );
+    mapa() async {
+      final url = '${person.maps}';
+      if (await canLaunch(url)) {
+        await launch(url);
+      } else {
+        throw 'Could not launch $url';
+      }
+    }
+    Widget mapSection = Container(
+      padding: const EdgeInsets.only(bottom: 10,left: 20,right: 20),
+      child: RaisedButton(
+        textColor: Colors.white,
+        color: Colors.green,
+        onPressed: mapa,
+        child: Text('Abrir Mapa'),
+      ),
+    );
+
 
     Widget buttonSection = Container(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          _buildButtonColumn(color, Icons.call, 'CALL'),
+          _buildButtonColumn(color, Icons.call, 'CALL',),
           _buildButtonColumn(color, Icons.near_me, 'ROUTE'),
           _buildButtonColumn(color, Icons.share, 'SHARE'),
         ],
       ),
     );
+
+
 
     Widget textServicios = Container(
       padding: const EdgeInsets.all(32),
@@ -174,15 +191,20 @@ class Empresa_det_fin extends StatelessWidget {
     );
 
 
+    Widget loading = Center(
+      child: new CircularProgressIndicator(),
 
+    );
     return new Scaffold(
 
         body: ListView(
           children: [
-            Image.network('${person.foto}',width: 100,height: 100, ),
+            Image.network('${person.logo}',width: 400,height: 300, ),
             //Image.asset('android/assets/images/img1.jpg',width: 600,height: 240,fit: BoxFit.cover,),
+            //loading,
             titleSection,
             textSection,
+            mapSection,
             textServicios,
             buttonSection,
           ],
