@@ -21,17 +21,18 @@ class Listviewx extends StatefulWidget {
 }
 class Person {
   final String nombre;
-  final String etiquetas;
+  final String cat;
+  final String subs;
   final String logo;
+  final String etiquetas;
   final String desc;
   final String maps;
-  final String subs;
-  final String cat;
 
 
 
 
-  Person(this.nombre,this.etiquetas,this.logo,this.desc,this.maps, this.subs,this.cat);
+
+  Person(this.nombre,this.cat,this.subs,this.logo,this.etiquetas, this.desc,this.maps);
 }
 class HomePageState extends State<Listviewx> {
 
@@ -41,7 +42,7 @@ class HomePageState extends State<Listviewx> {
   Future<String> getData() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/get_slider.php"),
+            "http://cabofind.com.mx/app_php/list_vida_antros.php"),
            // "https://cabofind.com.mx/app_php/get_slider.php"),
 
         headers: {
@@ -122,14 +123,14 @@ class HomePageState extends State<Listviewx> {
 
                                   child: Text(
 
-                                      data[index]["NEG_NOMBRE"]),
+                                      data[index]["SUB_NOMBRE"]),
                                   padding: EdgeInsets.all(
                                       1.0)),
                               Text(
                                   " | "),
                               Padding(
                                   child: new Text(
-                                      data[index]["NEG_ETIQUETAS"]),
+                                      data[index]["NEG_NOMBRE"]),
                                   padding: EdgeInsets.all(
                                       1.0)),
                             ]),
@@ -143,19 +144,19 @@ class HomePageState extends State<Listviewx> {
 
                 onTap: () {
                   String nombre_sql = data[index]["NEG_NOMBRE"];
-                  String etiquetas_sql = data[index]["NEG_ETIQUETAS"];
+                  String cat_sql = data[index]["CAT_NOMBRE"];
+                  String subcat_sql = data[index]["SUB_NOMBRE"];
                   String foto_sql = data[index]["GAL_FOTO"];
+                  String etiquetas_sql = data[index]["NEG_ETIQUETAS"];
                   String desc_sql = data[index]["NEG_DESCRIPCION"];
                   String mapa_sql = data[index]["NEG_MAP"];
-                  String subcat_sql = data[index]["SUB_NOMBRE"];
-                  String cat_sql = data[index]["CAT_NOMBRE"];
 
 
 
 
 
                   Navigator.push(context, new MaterialPageRoute
-                    (builder: (context) => new Empresa_det_fin(person: new Person(nombre_sql,etiquetas_sql,foto_sql,desc_sql,mapa_sql,subcat_sql,cat_sql))
+                    (builder: (context) => new Empresa_det_fin(person: new Person(nombre_sql,cat_sql,subcat_sql,foto_sql,etiquetas_sql,desc_sql,mapa_sql))
                   )
                   );
 
