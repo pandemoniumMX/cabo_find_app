@@ -8,6 +8,7 @@ class Empresa_detalle extends StatefulWidget {
 _Empresa_detalle createState() => new _Empresa_detalle();
 }
 
+
 class _Empresa_detalle extends State<Empresa_detalle> {
 @override
 Widget build(BuildContext context) {
@@ -59,7 +60,41 @@ Widget build(BuildContext context) {
 }
 
 class Empresa_det_fin extends StatelessWidget {
+
+  List<String> _listViewData = [
+    "Área de niños",
+    "Wifi",
+    "Servicio a domicilio",
+    "Aire acondicionado",
+
+  ];
   // Declare a field that holds the Person data
+  _displayDialog(BuildContext context) async {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('ListView in Dialog'),
+            content: Container(
+              width: double.maxFinite,
+              height: 300.0,
+              child: ListView(
+                padding: EdgeInsets.all(8.0),
+                //map List of our data to the ListView
+                children: _listViewData.map((data) => Text(data)).toList(),
+              ),
+            ),
+            actions: <Widget>[
+              new FlatButton(
+                child: new Text('CANCEL'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+        });
+  }
   // Declare a field that holds the Person data
   final Person person;
 
@@ -67,6 +102,9 @@ class Empresa_det_fin extends StatelessWidget {
   Empresa_det_fin({Key key, @required this.person}) : super(
       key: key);
   @override
+
+
+
  Widget build(BuildContext context){
     Widget titleSection = Container(
       padding: const EdgeInsets.all(32),
@@ -90,11 +128,10 @@ class Empresa_det_fin extends StatelessWidget {
                   ),
 
                 ),
-                Text(
-                  '${person.cat}-${person.subs}',
-                  style: TextStyle(
-                    color: Colors.grey[500],
-                  ),
+                RaisedButton(
+                  child: Text('Mostrar caracteristicas'),
+                  color: Colors.red,
+                  onPressed: () => _displayDialog(context),
                 ),
 
               ],

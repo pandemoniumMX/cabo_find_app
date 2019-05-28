@@ -204,6 +204,7 @@ class _HomePagex extends State<HomePagex> {
     ),
       onTap: () {
 
+        int id_sql = data[index]["ID_NEGOCIO"];
 
         String nombre_sql = data[index]["NEG_NOMBRE"];
         String etiquetas_sql = data[index]["NEG_ETIQUETAS"];
@@ -215,7 +216,7 @@ class _HomePagex extends State<HomePagex> {
 
 
         Navigator.push(context, new MaterialPageRoute
-          (builder: (context) => new Empresa_det_fin(person: Person(nombre_sql,etiquetas_sql,foto_sql,desc_sql,mapa_sql,subcat_sql,cat_sql))
+          (builder: (context) => new Empresa_det_fin(person: Person(id_sql,nombre_sql,etiquetas_sql,foto_sql,desc_sql,mapa_sql,subcat_sql,cat_sql))
         )
 
         );
