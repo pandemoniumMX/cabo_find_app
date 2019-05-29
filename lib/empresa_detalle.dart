@@ -74,7 +74,7 @@ class Empresa_det_fin extends StatelessWidget {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text('ListView in Dialog'),
+            title: Text('Lista de caracteristicas'),
             content: Container(
               width: double.maxFinite,
               height: 300.0,
@@ -128,10 +128,11 @@ class Empresa_det_fin extends StatelessWidget {
                   ),
 
                 ),
-                RaisedButton(
-                  child: Text('Mostrar caracteristicas'),
-                  color: Colors.red,
-                  onPressed: () => _displayDialog(context),
+                Text(
+                  '${person.cat}-${person.subs}',
+                  style: TextStyle(
+                    color: Colors.grey[500],
+                  ),
                 ),
 
               ],
@@ -186,10 +187,11 @@ class Empresa_det_fin extends StatelessWidget {
     Widget buttonSection = Container(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          _buildButtonColumn(color, Icons.call, 'CALL',),
-          _buildButtonColumn(color, Icons.near_me, 'ROUTE'),
-          _buildButtonColumn(color, Icons.share, 'SHARE'),
+        children: [RaisedButton(
+          child: Text('Mostrar caracteristicas'),
+          color: Colors.red,
+          onPressed: () => _displayDialog(context),
+        ),
         ],
       ),
     );

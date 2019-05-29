@@ -120,6 +120,7 @@ class _HomePagex extends State<HomePagex> {
           },
           itemCount: _notesForDisplay.length+1,
         )
+
         );
 
   }
