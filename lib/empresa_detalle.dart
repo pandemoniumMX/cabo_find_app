@@ -1,4 +1,6 @@
-
+import 'dart:async';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:cabofind/listado_test.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -10,64 +12,48 @@ _Empresa_detalle createState() => new _Empresa_detalle();
 
 
 class _Empresa_detalle extends State<Empresa_detalle> {
-@override
-Widget build(BuildContext context) {
-  final tabpages=<Widget>[
-    //llamar classes siempre despues de un <Widget>
-    //lo que se declare aqui, sera el contenido de los botones de navigacion al fondo
-    // new ImageCarousel2(),
-    //new ImageCarousel2(),
+  String url = 'https://randomuser.me/api/?results=15';
+  List data;
+  Future<String> makeRequest() async {
+    var response = await http
+        .get(Uri.encodeFull(url), headers: {"Accept": "application/json"});
 
-    //new Listviewx(),
-    //new ImageCarousel2(),
-
-    Center(child: Icon(Icons.map,size: 60.0,color: Colors.red,),),
-    Center(child: Icon(Icons.mic,size: 60.0,color: Colors.red,),),
-    Center(child: Icon(Icons.radio,size: 60.0,color: Colors.red,),),
-    Center(child: Icon(Icons.music_video,size: 60.0,color: Colors.red,),),
-
-  ];
-
-  final bnbi=<BottomNavigationBarItem>[
-    BottomNavigationBarItem(icon: Icon(Icons.star,),title: Text("Actividades")),
-    BottomNavigationBarItem(icon: Icon(Icons.favorite,),title: Text("Paseos")),
-    BottomNavigationBarItem(icon: Icon(Icons.fiber_new,),title: Text("Cultura")),
-
-
-
-  ];
-
-  int id=0;
-
-  final bnb=BottomNavigationBar(
-
-    items: bnbi,
-    currentIndex:id ,
-    type: BottomNavigationBarType.fixed,
-    onTap: (int value){
-      setState(() {
-        id=value;
-      });
-    },
-  );
-
-  return new Scaffold(
-    body: tabpages[id],
-    bottomNavigationBar: bnb,
-
-  );
+    setState(() {
+      var extractdata = json.decode(response.body);
+      data = extractdata["results"];
+    });
+  }
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return null;
+  }
+  void initState() {
+    this.makeRequest();
+  }
 }
-}
+
+
 
 class Empresa_det_fin extends StatelessWidget {
+  List data;
 
-  List<String> _listViewData = [
-    "Área de niños",
-    "Wifi",
-    "Servicio a domicilio",
-    "Aire acondicionado",
+  Widget setupAlertDialoadContainer() {
 
-  ];
+    return Container(
+        height: 300.0, // Change as per your requirement
+        width: 300.0,
+        child: ListView.builder(
+            itemCount: data == null ? 0 : data.length,
+            itemBuilder: (BuildContext context, i) {
+              return new ListTile(
+                title: new Text(data[i]["name"]),
+              );
+            }
+        )
+    );
+  }
+
   // Declare a field that holds the Person data
   _displayDialog(BuildContext context) async {
     return showDialog(
@@ -75,23 +61,8 @@ class Empresa_det_fin extends StatelessWidget {
         builder: (context) {
           return AlertDialog(
             title: Text('Lista de caracteristicas'),
-            content: Container(
-              width: double.maxFinite,
-              height: 300.0,
-              child: ListView(
-                padding: EdgeInsets.all(8.0),
-                //map List of our data to the ListView
-                children: _listViewData.map((data) => Text(data)).toList(),
-              ),
-            ),
-            actions: <Widget>[
-              new FlatButton(
-                child: new Text('CANCEL'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              )
-            ],
+            content: setupAlertDialoadContainer()
+
           );
         });
   }
@@ -274,5 +245,11 @@ class Empresa_det_fin extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  @override
+  State<StatefulWidget> createState() {
+    // TODO: implement createState
+    return null;
   }
 }
