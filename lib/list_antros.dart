@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:cabofind/carousel_pro.dart';
 import 'package:cabofind/empresa_detalle.dart';
 import 'package:cabofind/listado_test.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
 void main() {
   runApp(new MaterialApp(
@@ -128,6 +128,8 @@ class ListaAntrosFull extends State<ListaAntros> {
             ),
 
             onTap: () {
+              int id_sql = data[index]["ID_NEGOCIO"];
+
               String nombre_sql = data[index]["NEG_NOMBRE"];
               String cat_sql = data[index]["CAT_NOMBRE"];
               String subcat_sql = data[index]["SUB_NOMBRE"];
@@ -140,7 +142,7 @@ class ListaAntrosFull extends State<ListaAntros> {
 
 
               Navigator.push(context, new MaterialPageRoute
-                (builder: (context) => new Empresa_det_fin(person: new Person(nombre_sql,cat_sql,subcat_sql,foto_sql,etiquetas_sql,desc_sql,mapa_sql))
+                (builder: (context) => new Empresa_det_fin(person: new Person(id_sql,nombre_sql,cat_sql,subcat_sql,foto_sql,etiquetas_sql,desc_sql,mapa_sql))
               )
               );
 

@@ -1,4 +1,6 @@
-
+import 'dart:async';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:cabofind/listado_test.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
@@ -12,6 +14,7 @@ class Empresa_detalle extends StatefulWidget {
 _Empresa_detalle createState() => new _Empresa_detalle();
 }
 
+<<<<<<< HEAD
 class _Empresa_detalle extends State<Empresa_detalle> {
  final Person person;
 
@@ -158,13 +161,68 @@ Widget build(BuildContext context) {
  
 }
 }
+=======
+
+class _Empresa_detalle extends State<Empresa_detalle> {
+  String url = 'https://randomuser.me/api/?results=15';
+  List data;
+  Future<String> makeRequest() async {
+    var response = await http
+        .get(Uri.encodeFull(url), headers: {"Accept": "application/json"});
+
+    setState(() {
+      var extractdata = json.decode(response.body);
+      data = extractdata["results"];
+    });
+  }
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return null;
+  }
+  void initState() {
+    this.makeRequest();
+  }
+}
+
+
+>>>>>>> 098eba4f9351fb60c092ffb066040acbc1e7c46a
 
 
 
 
 
 class Empresa_det_fin extends StatelessWidget {
+  List data;
+
+  Widget setupAlertDialoadContainer() {
+
+    return Container(
+        height: 300.0, // Change as per your requirement
+        width: 300.0,
+        child: ListView.builder(
+            itemCount: data == null ? 0 : data.length,
+            itemBuilder: (BuildContext context, i) {
+              return new ListTile(
+                title: new Text(data[i]["name"]),
+              );
+            }
+        )
+    );
+  }
+
   // Declare a field that holds the Person data
+  _displayDialog(BuildContext context) async {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Lista de caracteristicas'),
+            content: setupAlertDialoadContainer()
+
+          );
+        });
+  }
   // Declare a field that holds the Person data
   final Person person;
 
@@ -175,6 +233,9 @@ class Empresa_det_fin extends StatelessWidget {
 
 
   @override
+
+
+
  Widget build(BuildContext context){
     Widget titleSection = Container(
       padding: const EdgeInsets.all(32),
@@ -257,10 +318,11 @@ class Empresa_det_fin extends StatelessWidget {
     Widget buttonSection = Container(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          _buildButtonColumn(color, Icons.call, 'CALL',),
-          _buildButtonColumn(color, Icons.near_me, 'ROUTE'),
-          _buildButtonColumn(color, Icons.share, 'SHARE'),
+        children: [RaisedButton(
+          child: Text('Mostrar caracteristicas'),
+          color: Colors.red,
+          onPressed: () => _displayDialog(context),
+        ),
         ],
       ),
     );
@@ -343,5 +405,11 @@ class Empresa_det_fin extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  @override
+  State<StatefulWidget> createState() {
+    // TODO: implement createState
+    return null;
   }
 }
