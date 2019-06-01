@@ -84,11 +84,11 @@ class ListaBaresFull extends State<ListaBares> {
 
                 decoration: BoxDecoration(
                     border: Border.all(
-                        color: Colors.orange)),
+                        color: Colors.blue)),
                 padding: EdgeInsets.all(
-                    20.0),
+                    10.0),
                 margin: EdgeInsets.all(
-                    20.0),
+                    10.0),
 
                 child: Column(
 
@@ -96,12 +96,23 @@ class ListaBaresFull extends State<ListaBares> {
 
                     Padding(
 
-                      child: Image.network(
+                        child: Text(
 
-                          data[index]["GAL_FOTO"]
+                            data[index]["SUB_NOMBRE"]),
+                        padding: EdgeInsets.all(
+                            1.0)
+
+                    ),
+                    Padding(
+
+                      child: Image.network(
+                        data[index]["GAL_FOTO"],
+                        fit: BoxFit.cover,
+                        height: 180.0,
+                        width: 400.0,
                       ),
                       padding: EdgeInsets.only(
-                          bottom: 8.0),
+                          bottom: 10.0),
                     ),
                     Row(
                         children: <Widget>[
@@ -120,6 +131,15 @@ class ListaBaresFull extends State<ListaBares> {
                                   data[index]["NEG_NOMBRE"]),
                               padding: EdgeInsets.all(
                                   1.0)),
+                          Text(
+                              " | "),
+                          Padding(
+                              child: new Text(
+                                  data[index]["NEG_LUGAR"]),
+                              padding: EdgeInsets.all(
+                                  1.0)),
+
+
                         ]),
                   ],
 
