@@ -7,6 +7,7 @@ import 'package:cabofind/list_bares.dart';
 import 'package:cabofind/listado_backup.dart';
 import 'package:cabofind/listado_test.dart';
 import 'package:cabofind/main_eng.dart';
+import 'package:cabofind/publicaciones.dart';
 import 'package:cabofind/slider_backup.dart';
 import 'package:cabofind/slider_x.dart';
 //import 'package:cabofind/slider_backup.dart';
@@ -175,6 +176,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
   Widget build(BuildContext context) {
+    new Publicaciones();
 
     final tabpages=<Widget>[
       //llamar classes siempre despues de un <Widget>
@@ -182,6 +184,7 @@ class _MyHomePageState extends State<MyHomePage> {
      // new ImageCarousel2(),
       new ImageCarousel2(),
       new Listviewx(),
+    new Publicaciones(),
 
 
       //new ImageCarousel2(),

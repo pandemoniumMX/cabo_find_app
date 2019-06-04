@@ -43,6 +43,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.0.8"
+  cupertino_icons:
+    dependency: transitive
+    description:
+      name: cupertino_icons
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.2"
   dio:
     dependency: "direct main"
     description:
@@ -60,6 +67,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_widget_gallery:
+    dependency: "direct main"
+    description:
+      name: flutter_widget_gallery
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.2+1"
   http:
     dependency: "direct main"
     description:

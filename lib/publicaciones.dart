@@ -10,18 +10,18 @@ import 'package:flutter/material.dart';
 
 void main() {
   runApp(new MaterialApp(
-    home: new ListaBares(),
+    home: new Publicaciones(),
 
   ));
 }
 
-class ListaBares extends StatefulWidget {
+class Publicaciones extends StatefulWidget {
   @override
-  ListaBaresFull createState() => new ListaBaresFull();
+  Publicacionesfull createState() => new Publicacionesfull();
 
 }
 
-class ListaBaresFull extends State<ListaBares> {
+class Publicacionesfull extends State<Publicaciones> {
 
   List data;
 
@@ -29,7 +29,7 @@ class ListaBaresFull extends State<ListaBares> {
   Future<String> getData() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/list_vida_bares.php"),
+            "http://cabofind.com.mx/app_php/list_publicaciones.php"),
         // "https://cabofind.com.mx/app_php/get_slider.php"),
 
         headers: {
@@ -98,7 +98,7 @@ class ListaBaresFull extends State<ListaBares> {
 
                         child: Text(
 
-                            data[index]["SUB_NOMBRE"]),
+                            data[index]["PUB_TITULO"]),
                         padding: EdgeInsets.all(
                             1.0)
 
@@ -121,7 +121,7 @@ class ListaBaresFull extends State<ListaBares> {
 
                               child: Text(
 
-                                  data[index]["SUB_NOMBRE"]),
+                                  data[index]["CAT_NOMBRE"]),
                               padding: EdgeInsets.all(
                                   1.0)),
                           Text(
@@ -133,7 +133,11 @@ class ListaBaresFull extends State<ListaBares> {
                                   1.0)),
                           Text(
                               " | "),
-
+                          Padding(
+                              child: new Text(
+                                  data[index]["NEG_LUGAR"]),
+                              padding: EdgeInsets.all(
+                                  1.0)),
 
 
                         ]),
