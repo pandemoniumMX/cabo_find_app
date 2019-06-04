@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 
 import 'package:cabofind/carousel_pro.dart';
@@ -8,18 +9,14 @@ import 'package:cabofind/listado_test.dart';
 import 'package:flutter/material.dart';
 
 
-void main() {
-  runApp(new MaterialApp(
-    home: new Publicaciones(),
 
-  ));
-}
 
 class Publicaciones extends StatefulWidget {
   @override
   Publicacionesfull createState() => new Publicacionesfull();
 
 }
+
 
 class Publicacionesfull extends State<Publicaciones> {
 
@@ -94,15 +91,29 @@ class Publicacionesfull extends State<Publicaciones> {
 
                   children: <Widget>[
 
+
                     Padding(
 
                         child: Text(
 
-                            data[index]["PUB_TITULO"]),
+                            data[index]["PUB_TITULO"],
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                            fontSize: 20.0,
+
+
+                          ),
+
+                        ),
                         padding: EdgeInsets.all(
                             1.0)
-
                     ),
+
+
+
+
+
                     Padding(
 
                       child: Image.network(
@@ -138,6 +149,7 @@ class Publicacionesfull extends State<Publicaciones> {
                                   data[index]["NEG_LUGAR"]),
                               padding: EdgeInsets.all(
                                   1.0)),
+
 
 
                         ]),

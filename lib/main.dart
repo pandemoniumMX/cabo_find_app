@@ -176,15 +176,15 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
   Widget build(BuildContext context) {
-    new Publicaciones();
-
+   // new Publicaciones();
     final tabpages=<Widget>[
       //llamar classes siempre despues de un <Widget>
       //lo que se declare aqui, sera el contenido de los botones de navigacion al fondo
      // new ImageCarousel2(),
-      new ImageCarousel2(),
+      //new ImageCarousel2(),
+      new Publicaciones(),
+
       new Listviewx(),
-    new Publicaciones(),
 
 
       //new ImageCarousel2(),
