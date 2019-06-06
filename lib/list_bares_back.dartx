@@ -1,7 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-
-import 'package:cabofind/publicacion_detalle.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:cabofind/carousel_pro.dart';
@@ -10,95 +8,60 @@ import 'package:cabofind/listado_test.dart';
 import 'package:flutter/material.dart';
 
 
-class Publicacion {
-  final int id;
-  final String nombre;
-  final String cat;
-  final String subs;
-  final String logo;
-  final String etiquetas;
-  final String desc;
-  final String maps;
+void main() {
+  runApp(new MaterialApp(
+    home: new ListaBares(),
 
-  Publicacion(this.id,this.nombre,this.cat,this.subs,this.logo,this.etiquetas, this.desc,this.maps);
+  ));
 }
 
-class Publicaciones extends StatefulWidget {
+class ListaBares extends StatefulWidget {
   @override
-  Publicacionesfull createState() => new Publicacionesfull();
+  ListaBaresFull createState() => new ListaBaresFull();
 
 }
 
-
-class Publicacionesfull extends State<Publicaciones> {
+class ListaBaresFull extends State<ListaBares> {
 
   List data;
+  List data1;
 
   //final List<Todo> todos;
   Future<String> getData() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/list_publicaciones.php"),
-        // "https://cabofind.com.mx/app_php/get_slider.php"),
+          "http://cabofind.com.mx/app_php/list_vida_bares.php"
+        ),
 
         headers: {
           "Accept": "application/json"
         }
-    );
-
+        );
     this.setState(
             () {
-          data = json.decode(
-              response.body);
-        });
+          data = json.decode(response.body);
+
+    });
     print(
-        data[1]["NEG_NOMBRE"]);
+        data[1]["SUB_NOMBRE"]);
+
+
 
     return "Success!";
   }
-  /*
-  Future<String> getData1() async {
-    var response = await http.get(
-        Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/list_vida_bares.php"),
-        // "https://cabofind.com.mx/app_php/get_slider.php"),
-
-        headers: {
-          "Accept": "application/json"
-        }
-    );
-
-    this.setState(
-            () {
-          data = json.decode(
-              response.body);
-        });
-    print(
-        data[1]["NEG_NOMBRE"]);
-
-    return "Success!";
-  }
-*/
   @override
   void initState() {
     super.initState(
     );
     this.getData();
-//    this.getData1();
-
   }
-  Widget loading = Center(
-    child: new CircularProgressIndicator(),
-
-  );
-
-
 
   Widget build(BuildContext context) {
 
     return new Scaffold(
 
       body: new ListView.builder(
+        //scrollDirection: Axis.horizontal,
         itemCount: data == null ? 0 : data.length,
         itemBuilder: (BuildContext context, int index) {
 
@@ -123,25 +86,15 @@ class Publicacionesfull extends State<Publicaciones> {
 
                   children: <Widget>[
 
-
                     Padding(
 
                         child: Text(
 
-                            data[index]["PUB_TITULO"],
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                            fontSize: 20.0,
-
-
-                          ),
-
-                        ),
+                            data[index]["SUB_NOMBRE"]),
                         padding: EdgeInsets.all(
                             1.0)
-                    ),
 
+                    ),
                     Padding(
 
                       child: Image.network(
@@ -155,16 +108,6 @@ class Publicacionesfull extends State<Publicaciones> {
                     ),
                     Row(
                         children: <Widget>[
-
-                          Padding(
-
-                              child: Text(
-
-                                  data[index]["CAT_NOMBRE"]),
-                              padding: EdgeInsets.all(
-                                  1.0)),
-                          Text(
-                              " | "),
                           Padding(
                               child: new Text(
                                   data[index]["NEG_NOMBRE"]),
@@ -177,9 +120,6 @@ class Publicacionesfull extends State<Publicaciones> {
                                   data[index]["NEG_LUGAR"]),
                               padding: EdgeInsets.all(
                                   1.0)),
-
-
-
                         ]),
                   ],
 
@@ -190,21 +130,20 @@ class Publicacionesfull extends State<Publicaciones> {
             ),
 
             onTap: () {
-              int id_sql = data[index]["ID_NEGOCIO"];
-
+             final int id_sql = data[index]["ID_NEGOCIO"];
               String nombre_sql = data[index]["NEG_NOMBRE"];
               String cat_sql = data[index]["CAT_NOMBRE"];
               String subcat_sql = data[index]["SUB_NOMBRE"];
               String foto_sql = data[index]["GAL_FOTO"];
               String etiquetas_sql = data[index]["NEG_ETIQUETAS"];
-              String desc_sql = data[index]["PUB_DETALLE"];
+              String desc_sql = data[index]["NEG_DESCRIPCION"];
               String mapa_sql = data[index]["NEG_MAP"];
 
 
 
 
               Navigator.push(context, new MaterialPageRoute
-                (builder: (context) => new Publicacion_detalle_fin(public: new Publicacion(id_sql,nombre_sql,cat_sql,subcat_sql,foto_sql,etiquetas_sql,desc_sql,mapa_sql))
+                (builder: (context) => new Empresa_det_fin(person: new Person(id_sql,nombre_sql,cat_sql,subcat_sql,foto_sql,etiquetas_sql,desc_sql,mapa_sql))
               )
               );
 

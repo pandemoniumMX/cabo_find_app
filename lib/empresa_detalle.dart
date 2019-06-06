@@ -1,36 +1,88 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:cabofind/list_bares.dart';
 import 'package:http/http.dart' as http;
 import 'package:cabofind/listado_test.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Empresa_detalle extends StatefulWidget {
+
 @override
 _Empresa_detalle createState() => new _Empresa_detalle();
-}
 
+}
+List data;
 
 class _Empresa_detalle extends State<Empresa_detalle> {
-  String url = 'https://randomuser.me/api/?results=15';
-  List data;
-  Future<String> makeRequest() async {
-    var response = await http
-        .get(Uri.encodeFull(url), headers: {"Accept": "application/json"});
 
-    setState(() {
-      var extractdata = json.decode(response.body);
-      data = extractdata["results"];
-    });
+
+  //final List<Todo> todos;
+  Future<String> getData() async {
+    var response = await http.get(
+        Uri.encodeFull(
+            "http://cabofind.com.mx/app_php/fotos.php"),
+        // "https://cabofind.com.mx/app_php/get_slider.php"),
+
+        headers: {
+          "Accept": "application/json"
+        }
+    );
+
+    this.setState(
+            () {
+          data = json.decode(
+              response.body);
+        });
+
+
+    print(
+        data[2]["GAL_FOTO"]);
+
+    return "Success!";
   }
+
   @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    return null;
-  }
   void initState() {
-    this.makeRequest();
+    super.initState(
+    );
+    this.getData(
+    );
   }
+
+  Widget build(BuildContext context) {
+
+    return new Scaffold(
+
+      body: new ListView.builder(
+        scrollDirection: Axis.horizontal,
+
+        itemCount: data == null ? 0 : data.length,
+        itemBuilder: (BuildContext context, int index) {
+
+          return  new Container(
+            padding: EdgeInsets.only( left: 5.0, right: 1.0),
+            child: Column(
+              children: <Widget>[
+                Padding(
+                  child: Image.network(
+                    data[index]["GAL_FOTO"],
+                    fit: BoxFit.cover,
+                    height: 400.0,
+                    width: 400.0,
+                  ),
+                  padding: EdgeInsets.all(0.0),
+                ),
+              ],
+            ),
+          );
+
+        },
+      ),
+
+    );
+  }
+
 }
 
 
@@ -38,35 +90,6 @@ class _Empresa_detalle extends State<Empresa_detalle> {
 class Empresa_det_fin extends StatelessWidget {
   List data;
 
-  Widget setupAlertDialoadContainer() {
-
-    return Container(
-        height: 300.0, // Change as per your requirement
-        width: 300.0,
-        child: ListView.builder(
-            itemCount: data == null ? 0 : data.length,
-            itemBuilder: (BuildContext context, i) {
-              return new ListTile(
-                title: new Text(data[i]["name"]),
-              );
-            }
-        )
-    );
-  }
-
-  // Declare a field that holds the Person data
-  _displayDialog(BuildContext context) async {
-    return showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text('Lista de caracteristicas'),
-            content: setupAlertDialoadContainer()
-
-          );
-        });
-  }
-  // Declare a field that holds the Person data
   final Person person;
 
   // In the constructor, require a Person
@@ -81,6 +104,7 @@ class Empresa_det_fin extends StatelessWidget {
       padding: const EdgeInsets.all(32),
       child: Row(
         children: [
+          //new ListaBares(),
           Expanded(
             /*1*/
             child: Column(
@@ -128,6 +152,9 @@ class Empresa_det_fin extends StatelessWidget {
 
     Color color = Theme.of(context).primaryColor;
 
+
+
+
     Widget textSection = Container(
       padding: const EdgeInsets.only(bottom: 10,left: 20,right: 20),
       child: Text(
@@ -161,7 +188,7 @@ class Empresa_det_fin extends StatelessWidget {
         children: [RaisedButton(
           child: Text('Mostrar caracteristicas'),
           color: Colors.red,
-          onPressed: () => _displayDialog(context),
+         // onPressed: () => _displayDialog(context),
         ),
         ],
       ),
@@ -217,6 +244,8 @@ class Empresa_det_fin extends StatelessWidget {
             mapSection,
             textServicios,
             buttonSection,
+           // new ListaBares(),
+
           ],
         ),
         appBar: new AppBar(

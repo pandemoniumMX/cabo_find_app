@@ -29,10 +29,6 @@ class Person {
   final String desc;
   final String maps;
 
-
-
-
-
   Person(this.id,this.nombre,this.cat,this.subs,this.logo,this.etiquetas, this.desc,this.maps);
 }
 class HomePageState extends State<Listviewx> {

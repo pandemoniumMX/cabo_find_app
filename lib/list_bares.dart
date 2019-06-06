@@ -29,7 +29,7 @@ class ListaBaresFull extends State<ListaBares> {
   Future<String> getData() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/list_vida_bares.php"),
+            "http://cabofind.com.mx/app_php/fotos.php"),
         // "https://cabofind.com.mx/app_php/get_slider.php"),
 
         headers: {
@@ -42,8 +42,7 @@ class ListaBaresFull extends State<ListaBares> {
           data = json.decode(
               response.body);
         });
-    print(
-        data[1]["NEG_NOMBRE"]);
+
 
     print(
         data[2]["GAL_FOTO"]);
@@ -70,106 +69,26 @@ class ListaBaresFull extends State<ListaBares> {
     return new Scaffold(
 
       body: new ListView.builder(
+        scrollDirection: Axis.horizontal,
+
         itemCount: data == null ? 0 : data.length,
         itemBuilder: (BuildContext context, int index) {
 
-          return new ListTile(
-
-
-            title: new Card(
-
-              elevation: 5.0,
-              child: new Container(
-
-
-                decoration: BoxDecoration(
-                    border: Border.all(
-                        color: Colors.blue)),
-                padding: EdgeInsets.all(
-                    10.0),
-                margin: EdgeInsets.all(
-                    10.0),
-
+          return  new Container(
+                padding: EdgeInsets.only( left: 5.0, right: 1.0),
                 child: Column(
-
                   children: <Widget>[
-
                     Padding(
-
-                        child: Text(
-
-                            data[index]["SUB_NOMBRE"]),
-                        padding: EdgeInsets.all(
-                            1.0)
-
-                    ),
-                    Padding(
-
                       child: Image.network(
                         data[index]["GAL_FOTO"],
                         fit: BoxFit.cover,
-                        height: 180.0,
+                        height: 400.0,
                         width: 400.0,
                       ),
-                      padding: EdgeInsets.only(
-                          bottom: 10.0),
+                      padding: EdgeInsets.all(0.0),
                     ),
-                    Row(
-                        children: <Widget>[
-
-                          Padding(
-
-                              child: Text(
-
-                                  data[index]["SUB_NOMBRE"]),
-                              padding: EdgeInsets.all(
-                                  1.0)),
-                          Text(
-                              " | "),
-                          Padding(
-                              child: new Text(
-                                  data[index]["NEG_NOMBRE"]),
-                              padding: EdgeInsets.all(
-                                  1.0)),
-                          Text(
-                              " | "),
-
-
-
-                        ]),
                   ],
-
                 ),
-
-              ),
-
-            ),
-
-            onTap: () {
-              int id_sql = data[index]["ID_NEGOCIO"];
-
-              String nombre_sql = data[index]["NEG_NOMBRE"];
-              String cat_sql = data[index]["CAT_NOMBRE"];
-              String subcat_sql = data[index]["SUB_NOMBRE"];
-              String foto_sql = data[index]["GAL_FOTO"];
-              String etiquetas_sql = data[index]["NEG_ETIQUETAS"];
-              String desc_sql = data[index]["NEG_DESCRIPCION"];
-              String mapa_sql = data[index]["NEG_MAP"];
-
-
-
-
-              Navigator.push(context, new MaterialPageRoute
-                (builder: (context) => new Empresa_det_fin(person: new Person(id_sql,nombre_sql,cat_sql,subcat_sql,foto_sql,etiquetas_sql,desc_sql,mapa_sql))
-              )
-              );
-
-
-            },
-            //A Navigator is a widget that manages a set of child widgets with
-            //stack discipline.It allows us navigate pages.
-            //stack discipline.It allows us navigate pages.
-            //Navigator.of(context).push(route);
           );
 
         },
