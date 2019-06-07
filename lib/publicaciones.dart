@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:cabofind/publicacion_detalle.dart';
+import 'package:cabofind/slider_backup.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:cabofind/carousel_pro.dart';
@@ -24,6 +25,14 @@ class Publicacion {
 }
 
 class Publicaciones extends StatefulWidget {
+  Widget build(BuildContext context){
+    return ListView(
+      children: <Widget>[
+        new ImageCarousel2(),
+      ],
+    );
+
+  }
   @override
   Publicacionesfull createState() => new Publicacionesfull();
 
@@ -87,18 +96,17 @@ class Publicacionesfull extends State<Publicaciones> {
 //    this.getData1();
 
   }
-  Widget loading = Center(
-    child: new CircularProgressIndicator(),
 
-  );
 
 
 
   Widget build(BuildContext context) {
 
+
     return new Scaffold(
 
       body: new ListView.builder(
+
         itemCount: data == null ? 0 : data.length,
         itemBuilder: (BuildContext context, int index) {
 
@@ -122,7 +130,6 @@ class Publicacionesfull extends State<Publicaciones> {
                 child: Column(
 
                   children: <Widget>[
-
 
                     Padding(
 
@@ -220,5 +227,7 @@ class Publicacionesfull extends State<Publicaciones> {
       ),
 
     );
+
+
   }
 }

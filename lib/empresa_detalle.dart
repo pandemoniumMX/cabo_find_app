@@ -85,7 +85,33 @@ class _Empresa_detalle extends State<Empresa_detalle> {
 
 }
 
+Future<Quote> getQuote() async {
+  String url = 'http://cabofind.com.mx/app_php/fotos1.php';
+  final response =
+  await http.get(url, headers: {"Accept": "application/json"});
 
+
+  if (response.statusCode == 200) {
+    return Quote.fromJson(json.decode(response.body));
+  } else {
+    throw Exception('Failed to load post');
+  }
+}
+
+
+class Quote {
+  final String author;
+  final String quote;
+
+  Quote({this.author, this.quote});
+
+  factory Quote.fromJson(Map<String, dynamic> json) {
+    return Quote(
+      author: json['GAL_FOTO'],
+      quote: json['GAL_TIPO'],
+    );
+  }
+}
 
 class Empresa_det_fin extends StatelessWidget {
   List data;
@@ -100,6 +126,41 @@ class Empresa_det_fin extends StatelessWidget {
 
 
  Widget build(BuildContext context){
+
+    Widget galeria = Container(
+
+      child: FutureBuilder<Quote>(
+        future: getQuote(), //sets the getQuote method as the expected Future
+        builder: (context, snapshot) {
+          if (snapshot.hasData) { //checks if the response returns valid data
+            return Center(
+              child: Column(
+                children: <Widget>[
+                  Text(snapshot.data.quote), //displays the quote
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  Padding(
+
+                    child: Image.network(
+
+                        "${snapshot.data.author}"                    ),
+                    padding: EdgeInsets.all(
+                        18.0),
+                  ),
+                ],
+              ),
+            );
+          } else if (snapshot.hasError) { //checks if the response throws an error
+            return Text("${snapshot.error}");
+          }
+          return CircularProgressIndicator();
+        },
+      ),
+
+    );
+
+
     Widget titleSection = Container(
       padding: const EdgeInsets.all(32),
       child: Row(
@@ -244,8 +305,7 @@ class Empresa_det_fin extends StatelessWidget {
             mapSection,
             textServicios,
             buttonSection,
-           // new ListaBares(),
-
+            galeria,
           ],
         ),
         appBar: new AppBar(

@@ -60,112 +60,57 @@ class MyHomePage extends StatefulWidget {
 class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Widget titleSection = Container(
-      padding: const EdgeInsets.all(32),
-      child: Row(
-        children: [
-          Expanded(
-            /*1*/
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                /*2*/
-                Container(
-                  padding: const EdgeInsets.only(bottom: 8),
-                  child: Text(
-                    'Oeschinen Lake Campground',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                Text(
-                  'Kandersteg, Switzerland',
-                  style: TextStyle(
-                    color: Colors.grey[500],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          /*3*/
-          Icon(
-            Icons.star,
-            color: Colors.red[500],
-          ),
-          Text('41'),
-        ],
-      ),
-    );
-
-    Color color = Theme.of(context).primaryColor;
-
-    Widget buttonSection = Container(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          _buildButtonColumn(color, Icons.call, 'CALL'),
-          _buildButtonColumn(color, Icons.near_me, 'ROUTE'),
-          _buildButtonColumn(color, Icons.share, 'SHARE'),
-        ],
-      ),
-    );
-
-    Widget textSection = Container(
-      padding: const EdgeInsets.all(32),
-      child: Text(
-        'Lake Oeschinen lies at the foot of the Blüemlisalp in the Bernese '
-            'Alps. Situated 1,578 meters above sea level, it is one of the '
-            'larger Alpine Lakes. A gondola ride from Kandersteg, followed by a '
-            'half-hour walk through pastures and pine forest, leads you to the '
-            'lake, which warms to 20 degrees Celsius in the summer. Activities '
-            'enjoyed here include rowing, and riding the summer toboggan run.',
-        softWrap: true,
-      ),
-    );
-
-    return MaterialApp(
-      title: 'Flutter layout demo',
-      home: Scaffold(
-
-        body: ListView(
-          children: [
-            Image.asset(
-              'android/assets/images/img1.jpg',
-              width: 600,
-              height: 240,
-              fit: BoxFit.cover,
-            ),
-            titleSection,
-            buttonSection,
-            textSection,
-          ],
-        ),
-      ),
-    );
+    // TODO: implement build
+    return null;
   }
+
 }
 
-Column _buildButtonColumn(Color color, IconData icon, String label) {
-  return Column(
-    mainAxisSize: MainAxisSize.min,
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      Icon(icon, color: color),
-      Container(
-        margin: const EdgeInsets.only(top: 8),
-        child: Text(
-          label,
-          style: TextStyle(
-            fontSize: 12,
-            fontWeight: FontWeight.w400,
-            color: color,
+Widget slider = Container(
+    child: Stack(
+
+      children: <Widget>[
+
+        Container(
+
+          margin: EdgeInsets.only(
+              top: 0.0),
+          padding: EdgeInsets.all(
+              10.10),
+          height: 350.0,
+          child: Carousel(
+            boxFit: BoxFit.cover,
+            images: [
+              AssetImage(
+                  'android/assets/images/img1.jpg'),
+              AssetImage(
+                  'android/assets/images/img2.jpg'),
+              AssetImage(
+                  'android/assets/images/img3.jpg'),
+              AssetImage(
+                  'android/assets/images/img4.jpg'),
+              AssetImage(
+                  'android/assets/images/img5.jpg'),
+              /*
+                Image.network(
+                  'http://cabofind.com.mx/app_php/varialbess.php',
+                  fit: BoxFit.cover,
+                  height: 100.0,
+                  width: 100.0,
+                ),
+*/
+
+            ],
+            animationCurve: Curves.fastOutSlowIn,
+            animationDuration: Duration(
+                milliseconds: 2000),
           ),
         ),
-      ),
-    ],
-  );
-}
+
+      ],
+    )
+);
+
 class _MyHomePageState extends State<MyHomePage> {
   Icon actionIcon = new Icon(Icons.search);
   Widget appBarTitle = new Text("Cabo Find");
@@ -177,6 +122,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget build(BuildContext context) {
    // new Publicaciones();
+
     final tabpages=<Widget>[
       //llamar classes siempre despues de un <Widget>
       //lo que se declare aqui, sera el contenido de los botones de navigacion al fondo

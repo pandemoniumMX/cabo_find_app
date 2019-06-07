@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:cabofind/slider_backup.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:cabofind/carousel_pro.dart';
@@ -8,16 +9,11 @@ import 'package:cabofind/listado_test.dart';
 import 'package:flutter/material.dart';
 
 
-void main() {
-  runApp(new MaterialApp(
-    home: new ListaBares(),
-
-  ));
-}
 
 class ListaBares extends StatefulWidget {
   @override
   ListaBaresFull createState() => new ListaBaresFull();
+
 
 }
 
@@ -65,31 +61,41 @@ class ListaBaresFull extends State<ListaBares> {
 
 
   Widget build(BuildContext context) {
+    Widget textSection = Container(
+      padding: const EdgeInsets.only(bottom: 10,left: 20,right: 20),
+      child: Text(
+        'xdasd',
+        softWrap: true,
+      ),
+
+    );
 
     return new Scaffold(
 
       body: new ListView.builder(
+
         scrollDirection: Axis.horizontal,
 
         itemCount: data == null ? 0 : data.length,
         itemBuilder: (BuildContext context, int index) {
 
           return  new Container(
-                padding: EdgeInsets.only( left: 5.0, right: 1.0),
-                child: Column(
-                  children: <Widget>[
-                    Padding(
-                      child: Image.network(
-                        data[index]["GAL_FOTO"],
-                        fit: BoxFit.cover,
-                        height: 400.0,
-                        width: 400.0,
-                      ),
-                      padding: EdgeInsets.all(0.0),
-                    ),
-                  ],
+            padding: EdgeInsets.only( left: 5.0, right: 1.0),
+            child: Column(
+              children: <Widget>[
+                Padding(
+                  child: Image.network(
+                    data[index]["GAL_FOTO"],
+                    fit: BoxFit.cover,
+                    height: 400.0,
+                    width: 400.0,
+                  ),
+                  padding: EdgeInsets.all(0.0),
                 ),
+              ],
+            ),
           );
+
 
         },
       ),
