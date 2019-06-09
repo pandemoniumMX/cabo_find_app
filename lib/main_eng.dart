@@ -235,7 +235,7 @@ class _MyHomePageState extends State<MyHomePageEng> {
                 //Use`Navigator` widget to push the second screen to out stack of screens
                 Navigator.of(context)
                     .push(MaterialPageRoute<Null>(builder: (BuildContext context) {
-                  return new HomePagex();
+                  return new Buscador();
                 }));
               }, ),
         ],

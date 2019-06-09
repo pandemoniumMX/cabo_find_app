@@ -1,25 +1,21 @@
-
+import 'dart:async';
+import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:cabofind/carousel_pro.dart';
 import 'package:cabofind/main.dart';
 import 'package:flutter/material.dart';
-import 'dart:async';
-import 'package:http/http.dart' as http;
+
 
 class Listado extends StatefulWidget {
 
-   Listado({Key key, this.title}) : super(key:key);
-    final String title;
-@override
+
+  @override
 _Listado createState() => new _Listado();
 }
 
-
-
-
   class _Listado extends State<Listado> {
     Future<List<User>> _getUsers() async {
-    var data= await http.get("http://192.168.1.106/cabofind/app_php/get_slider.php");
+    var data= await http.get("http://cabofind.com.mx/app_php/get_slider.php");
     
     var jsonData = json.decode(data.body);
 
@@ -34,8 +30,7 @@ _Listado createState() => new _Listado();
   }
     @override
     Widget build(BuildContext context){
-      return new Scaffold(
-        body: Container(
+      return new  Container(
           child: FutureBuilder(
             future: _getUsers(),
             builder: (BuildContext context, AsyncSnapshot snapshot){
@@ -63,7 +58,7 @@ _Listado createState() => new _Listado();
             },
           ),
           
-        ),
+
       );
     }
   }

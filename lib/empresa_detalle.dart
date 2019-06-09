@@ -1,8 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:cabofind/list_bares.dart';
+import 'package:cabofind/listado_backup.dart';
+import 'package:cabofind/main.dart';
 import 'package:http/http.dart' as http;
 import 'package:cabofind/listado_test.dart';
+
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -41,6 +44,7 @@ class _Empresa_detalle extends State<Empresa_detalle> {
 
     return "Success!";
   }
+  //galeria
 
   @override
   void initState() {
@@ -64,9 +68,10 @@ class _Empresa_detalle extends State<Empresa_detalle> {
             padding: EdgeInsets.only( left: 5.0, right: 1.0),
             child: Column(
               children: <Widget>[
+
                 Padding(
                   child: Image.network(
-                    data[index]["GAL_FOTO"],
+                    data[index]["GAL_FECHA"],
                     fit: BoxFit.cover,
                     height: 400.0,
                     width: 400.0,
@@ -98,7 +103,12 @@ Future<Quote> getQuote() async {
   }
 }
 
+class User {
 
+  final String name;
+  final String picture;
+  User(this.name, this.picture);
+}
 class Quote {
   final String author;
   final String quote;
@@ -121,51 +131,67 @@ class Empresa_det_fin extends StatelessWidget {
   // In the constructor, require a Person
   Empresa_det_fin({Key key, @required this.person}) : super(
       key: key);
+
+  Future<List<User>> _getUsers() async {
+    var data= await http.get("http://cabofind.com.mx/app_php/get_slider.php");
+
+    var jsonData = json.decode(data.body);
+
+    List <User> users =[];
+    for(var u in jsonData){
+      User user = User(u["NEG_NOMBRE"], u["GAL_FOTO"]);
+      users.add(user);
+    }
+    print(users.length);
+
+    return users;
+  }
+
   @override
 
-
-
- Widget build(BuildContext context){
-
-    Widget galeria = Container(
-
-      child: FutureBuilder<Quote>(
-        future: getQuote(), //sets the getQuote method as the expected Future
-        builder: (context, snapshot) {
-          if (snapshot.hasData) { //checks if the response returns valid data
-            return Center(
-              child: Column(
-                children: <Widget>[
-                  Text(snapshot.data.quote), //displays the quote
-                  SizedBox(
-                    height: 10.0,
-                  ),
-                  Padding(
-
-                    child: Image.network(
-
-                        "${snapshot.data.author}"                    ),
-                    padding: EdgeInsets.all(
-                        18.0),
-                  ),
-                ],
+  _displayDialog(BuildContext context) async {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('ListView in Dialog'),
+            content: Container(
+              width: double.maxFinite,
+              height: 300.0,
+              child: ListView(
+                padding: EdgeInsets.all(8.0),
+                //map List of our data to the ListView
+                children: _listViewData.map((data) => Text(data)).toList(),
               ),
-            );
-          } else if (snapshot.hasError) { //checks if the response throws an error
-            return Text("${snapshot.error}");
-          }
-          return CircularProgressIndicator();
-        },
-      ),
-
-    );
-
+            ),
+            actions: <Widget>[
+              new FlatButton(
+                child: new Text('CANCEL'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+        });
+  }
+  List<String> _listViewData = [
+    "A List View with many Text - Here's one!",
+    "A List View with many Text - Here's another!",
+    "A List View with many Text - Here's more!",
+    "A List View with many Text - Here's more!",
+    "A List View with many Text - Here's more!",
+    "A List View with many Text - Here's more!",
+    "A List View with many Text - Here's more!",
+    "A List View with many Text - Here's more!",
+    "A List View with many Text - Here's more!",
+  ];
+ Widget build(BuildContext context){
 
     Widget titleSection = Container(
       padding: const EdgeInsets.all(32),
       child: Row(
-        children: [
-          //new ListaBares(),
+        children:[
           Expanded(
             /*1*/
             child: Column(
@@ -179,7 +205,6 @@ class Empresa_det_fin extends StatelessWidget {
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                         fontSize: 20.0
-
                     ),
                   ),
 
@@ -213,6 +238,39 @@ class Empresa_det_fin extends StatelessWidget {
 
     Color color = Theme.of(context).primaryColor;
 
+    Widget galeria2 =  Container(
+      margin: const EdgeInsets.all(10.0),
+      color: Colors.amber[600],
+      width: 100.0,
+      height: 100.0,
+      child:  ListView.builder(
+
+        scrollDirection: Axis.horizontal,
+
+        itemCount: data == null ? 0 : data.length,
+        itemBuilder: (BuildContext context, int index) {
+
+          return  new Container(
+            padding: EdgeInsets.only( left: 5.0, right: 1.0),
+            child: Column(
+              children: <Widget>[
+                Padding(
+                  child: Image.network(
+                    data[index]["GAL_FOTO"],
+                    fit: BoxFit.cover,
+                    height: 300.0,
+                    width: 300.0,
+                  ),
+                  padding: EdgeInsets.all(0.0),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+
+
 
 
 
@@ -233,7 +291,7 @@ class Empresa_det_fin extends StatelessWidget {
       }
     }
     Widget mapSection = Container(
-      padding: const EdgeInsets.only(bottom: 10,left: 20,right: 20),
+      padding: const EdgeInsets.only(bottom: 10,left: 125,right: 125),
       child: RaisedButton(
         textColor: Colors.white,
         color: Colors.green,
@@ -246,11 +304,17 @@ class Empresa_det_fin extends StatelessWidget {
     Widget buttonSection = Container(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [RaisedButton(
+        children: [
+          RaisedButton(
           child: Text('Mostrar caracteristicas'),
-          color: Colors.red,
-         // onPressed: () => _displayDialog(context),
+          color: Colors.pinkAccent,
+         onPressed: () => _displayDialog(context),
         ),
+          RaisedButton(
+            child: Text('Mostrar servicios'),
+            color: Colors.yellow,
+            onPressed: () => _displayDialog(context),
+          ),
         ],
       ),
     );
@@ -289,14 +353,11 @@ class Empresa_det_fin extends StatelessWidget {
     );
 
 
-    Widget loading = Center(
-      child: new CircularProgressIndicator(),
-
-    );
     return new Scaffold(
 
         body: ListView(
           children: [
+
             Image.network('${person.logo}',width: 400,height: 300, ),
             //Image.asset('android/assets/images/img1.jpg',width: 600,height: 240,fit: BoxFit.cover,),
             //loading,
@@ -305,7 +366,11 @@ class Empresa_det_fin extends StatelessWidget {
             mapSection,
             textServicios,
             buttonSection,
-            galeria,
+     // xxx,
+            // new Listado(),
+      slider,
+            galeria2,
+
           ],
         ),
         appBar: new AppBar(

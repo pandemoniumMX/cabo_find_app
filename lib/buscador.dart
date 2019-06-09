@@ -15,15 +15,15 @@ class App extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: HomePagex(),
+      home: Buscador(),
     );
   }
 }
 
-class HomePagex extends StatefulWidget {
+class Buscador extends StatefulWidget {
 
   @override
-  _HomePagex createState() => _HomePagex();
+  _Buscador createState() => _Buscador();
 }
 
 class Note {
@@ -39,7 +39,7 @@ class Note {
   }
 }
 
-class _HomePagex extends State<HomePagex> {
+class _Buscador extends State<Buscador> {
 
   List<Note> _notes = List<Note>();
   List<Note> _notesForDisplay = List<Note>();
