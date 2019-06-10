@@ -40,8 +40,7 @@ class HomePageState extends State<Listviewx> {
     var response = await http.get(
         Uri.encodeFull(
             "http://cabofind.com.mx/app_php/list_vida_antros.php"),
-           // "https://cabofind.com.mx/app_php/get_slider.php"),
-
+          
         headers: {
           "Accept": "application/json"
         }

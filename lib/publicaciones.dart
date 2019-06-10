@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:cabofind/main.dart';
 import 'package:cabofind/publicacion_detalle.dart';
 import 'package:cabofind/slider_backup.dart';
 import 'package:http/http.dart' as http;
@@ -28,7 +29,8 @@ class Publicaciones extends StatefulWidget {
   Widget build(BuildContext context){
     return ListView(
       children: <Widget>[
-        new ImageCarousel2(),
+        slider,
+
       ],
     );
 
@@ -48,8 +50,7 @@ class Publicacionesfull extends State<Publicaciones> {
     var response = await http.get(
         Uri.encodeFull(
             "http://cabofind.com.mx/app_php/list_publicaciones.php"),
-        // "https://cabofind.com.mx/app_php/get_slider.php"),
-
+       
         headers: {
           "Accept": "application/json"
         }
@@ -70,8 +71,7 @@ class Publicacionesfull extends State<Publicaciones> {
     var response = await http.get(
         Uri.encodeFull(
             "http://cabofind.com.mx/app_php/list_vida_bares.php"),
-        // "https://cabofind.com.mx/app_php/get_slider.php"),
-
+       
         headers: {
           "Accept": "application/json"
         }

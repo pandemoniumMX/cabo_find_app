@@ -1,9 +1,11 @@
+import 'dart:convert';
+
 import 'package:cabofind/buscador.dart';
 import 'package:cabofind/buscador.dartx';
 import 'package:cabofind/carousel_pro.dart';
 import 'package:cabofind/empresa_detalle.dart';
 import 'package:cabofind/list_antros.dart';
-import 'package:cabofind/list_bares.dart';
+import 'package:cabofind/carrusel.dart';
 import 'package:cabofind/listado_backup.dart';
 import 'package:cabofind/listado_test.dart';
 import 'package:cabofind/main_eng.dart';
@@ -58,6 +60,11 @@ class MyHomePage extends StatefulWidget {
 }
 
 class Home extends StatelessWidget {
+
+  Map<String, dynamic> user = jsonDecode(
+      "http://cabofind.com.mx/app_php/fotos1.php"
+  );
+  //print('Howdy, ${user['name']}!');
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -77,10 +84,11 @@ Widget slider = Container(
               top: 0.0),
           padding: EdgeInsets.all(
               10.10),
-          height: 350.0,
+          height: 250.0,
           child: Carousel(
             boxFit: BoxFit.cover,
             images: [
+
               AssetImage(
                   'android/assets/images/img1.jpg'),
               AssetImage(
@@ -113,7 +121,7 @@ Widget slider = Container(
 
 class _MyHomePageState extends State<MyHomePage> {
   Icon actionIcon = new Icon(Icons.search);
-  Widget appBarTitle = new Text("Cabo Find");
+  Widget appBarTitle = new Text("Cabofind");
   int id=0;
 
   @override
@@ -266,7 +274,7 @@ class _MyHomePageState extends State<MyHomePage> {
               },
             ),
             new ListTile(
-              title: new Text('De compras'),
+              title: new Text('Compras'),
               leading: Icon(Icons.shopping_basket),
 
               onTap: () {

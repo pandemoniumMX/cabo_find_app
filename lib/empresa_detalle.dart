@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:cabofind/list_bares.dart';
 import 'package:cabofind/listado_backup.dart';
 import 'package:cabofind/main.dart';
 import 'package:http/http.dart' as http;
@@ -25,8 +24,7 @@ class _Empresa_detalle extends State<Empresa_detalle> {
     var response = await http.get(
         Uri.encodeFull(
             "http://cabofind.com.mx/app_php/fotos.php"),
-        // "https://cabofind.com.mx/app_php/get_slider.php"),
-
+       
         headers: {
           "Accept": "application/json"
         }
@@ -92,11 +90,10 @@ class _Empresa_detalle extends State<Empresa_detalle> {
 
 Future<Quote> getQuote() async {
   String url = 'http://cabofind.com.mx/app_php/fotos1.php';
-  final response =
-  await http.get(url, headers: {"Accept": "application/json"});
+  final response = await http.get(url, headers: {"Accept": "application/json"});
 
 
-  if (response.statusCode == 200) {
+  if (response.statusCode == 200 ) {
     return Quote.fromJson(json.decode(response.body));
   } else {
     throw Exception('Failed to load post');
@@ -122,6 +119,25 @@ class Quote {
     );
   }
 }
+
+class PhotosList {
+  final List<Quote> photos;
+
+  PhotosList({
+    this.photos,
+  });
+
+  factory PhotosList.fromJson(List<dynamic> parsedJson) {
+
+    List<Quote> photos = new List<Quote>();
+    photos = parsedJson.map((i)=>Quote.fromJson(i)).toList();
+
+    return new PhotosList(
+        photos: photos
+    );
+  }
+}
+
 
 class Empresa_det_fin extends StatelessWidget {
   List data;
@@ -187,6 +203,41 @@ class Empresa_det_fin extends StatelessWidget {
     "A List View with many Text - Here's more!",
   ];
  Widget build(BuildContext context){
+
+   Widget galeria = Container(
+
+     child: FutureBuilder<Quote>(
+       //data == null ? 0 : data.length,
+
+       future: getQuote(), //sets the getQuote method as the expected Future
+       builder: (context, snapshot) {
+         if (snapshot.hasData) { //checks if the response returns valid data
+           return Center(
+             child: Column(
+               children: <Widget>[
+                 Text(snapshot.data.quote), //displays the quote
+                 SizedBox(
+                   height: 10.0,
+                 ),
+                 Padding(
+
+                   child: Image.network(
+
+                       "${snapshot.data.author}"                    ),
+                   padding: EdgeInsets.all(
+                       18.0),
+                 ),
+               ],
+             ),
+           );
+         } else if (snapshot.hasError) { //checks if the response throws an error
+           return Text("${snapshot.error}");
+         }
+         return CircularProgressIndicator();
+       },
+     ),
+
+   );
 
     Widget titleSection = Container(
       padding: const EdgeInsets.all(32),
@@ -355,24 +406,34 @@ class Empresa_det_fin extends StatelessWidget {
 
     return new Scaffold(
 
-        body: ListView(
+      body: ListView(
           children: [
+            Column(
+              children: <Widget>[
+                Image.network('${person.logo}',width: 400,height: 300, ),
+                //Image.asset('android/assets/images/img1.jpg',width: 600,height: 240,fit: BoxFit.cover,),
+                //loading,
+                titleSection,
+                textSection,
+                mapSection,
+                textServicios,
+                buttonSection,
+                galeria,
 
-            Image.network('${person.logo}',width: 400,height: 300, ),
-            //Image.asset('android/assets/images/img1.jpg',width: 600,height: 240,fit: BoxFit.cover,),
-            //loading,
-            titleSection,
-            textSection,
-            mapSection,
-            textServicios,
-            buttonSection,
-     // xxx,
-            // new Listado(),
-      slider,
-            galeria2,
+                galeria2,
 
+
+              ],
+            ),
+            Container(
+
+              child: slider,
+              height: 300.0,
+
+            ),
           ],
         ),
+
         appBar: new AppBar(
           title: new Text('Descubre'),
         ),

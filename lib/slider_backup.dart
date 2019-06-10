@@ -22,7 +22,7 @@ class ImageCarousel2 extends StatelessWidget{
                   top: 0.0),
               padding: EdgeInsets.all(
                   10.10),
-              height: 350.0,
+              height: 250.0,
               child: Carousel(
                 boxFit: BoxFit.cover,
                 images: [

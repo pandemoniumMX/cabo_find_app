@@ -3,7 +3,7 @@ import 'package:cabofind/buscador.dartx';
 import 'package:cabofind/carousel_pro.dart';
 import 'package:cabofind/empresa_detalle.dart';
 import 'package:cabofind/list_antros.dart';
-import 'package:cabofind/list_bares.dart';
+import 'package:cabofind/carrusel.dart';
 import 'package:cabofind/listado_backup.dart';
 import 'package:cabofind/listado_test.dart';
 import 'package:cabofind/main.dart';
@@ -184,7 +184,7 @@ class _MyHomePageState extends State<MyHomePageEng> {
       new ImageCarousel2(),
       new Listviewx(),
       new ListaAntros(),
-      new ListaBares(),
+      new Carrusel(),
 
 
       //new ImageCarousel2(),

@@ -10,14 +10,14 @@ import 'package:flutter/material.dart';
 
 
 
-class ListaBares extends StatefulWidget {
+class Carrusel extends StatefulWidget {
   @override
-  ListaBaresFull createState() => new ListaBaresFull();
+  _Lista createState() => new _Lista();
 
 
 }
 
-class ListaBaresFull extends State<ListaBares> {
+class _Lista extends State<Carrusel> {
 
   List data;
 
@@ -26,8 +26,7 @@ class ListaBaresFull extends State<ListaBares> {
     var response = await http.get(
         Uri.encodeFull(
             "http://cabofind.com.mx/app_php/fotos.php"),
-        // "https://cabofind.com.mx/app_php/get_slider.php"),
-
+       
         headers: {
           "Accept": "application/json"
         }
@@ -70,36 +69,39 @@ class ListaBaresFull extends State<ListaBares> {
 
     );
 
+ final Widget carrusel =   Container(
+   child: new ListView.builder(
+
+     scrollDirection: Axis.horizontal,
+
+     itemCount: data == null ? 0 : data.length,
+     itemBuilder: (BuildContext context, int index) {
+
+       return  new Container(
+         padding: EdgeInsets.only( left: 5.0, right: 1.0),
+         child: Column(
+           children: <Widget>[
+             Padding(
+               child: Image.network(
+                 data[index]["GAL_FOTO"],
+                 fit: BoxFit.cover,
+                 height: 400.0,
+                 width: 400.0,
+               ),
+               padding: EdgeInsets.all(0.0),
+             ),
+           ],
+         ),
+       );
+     },
+   ),
+ );
     return new Scaffold(
 
-      body: new ListView.builder(
+      body: Container(
+        child: carrusel
 
-        scrollDirection: Axis.horizontal,
-
-        itemCount: data == null ? 0 : data.length,
-        itemBuilder: (BuildContext context, int index) {
-
-          return  new Container(
-            padding: EdgeInsets.only( left: 5.0, right: 1.0),
-            child: Column(
-              children: <Widget>[
-                Padding(
-                  child: Image.network(
-                    data[index]["GAL_FOTO"],
-                    fit: BoxFit.cover,
-                    height: 400.0,
-                    width: 400.0,
-                  ),
-                  padding: EdgeInsets.all(0.0),
-                ),
-              ],
-            ),
-          );
-
-
-        },
       ),
-
     );
   }
 }

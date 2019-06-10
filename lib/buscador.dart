@@ -66,8 +66,7 @@ class _Buscador extends State<Buscador> {
     var response = await http.get(
         Uri.encodeFull(
             "http://cabofind.com.mx/app_php/get_slider.php"),
-        // "https://cabofind.com.mx/app_php/get_slider.php"),
-
+       
         headers: {
           "Accept": "application/json"
         }

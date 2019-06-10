@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:cabofind/carrusel.dart';
+import 'package:cabofind/main.dart';
 import 'package:http/http.dart' as http;
 import 'package:cabofind/carousel_pro.dart';
 import 'package:cabofind/empresa_detalle.dart';
@@ -28,8 +30,7 @@ class ListaAntrosFull extends State<ListaAntros> {
     var response = await http.get(
         Uri.encodeFull(
             "http://cabofind.com.mx/app_php/list_vida_antros.php"),
-        // "https://cabofind.com.mx/app_php/get_slider.php"),
-
+       
         headers: {
           "Accept": "application/json"
         }
@@ -56,18 +57,13 @@ class ListaAntrosFull extends State<ListaAntros> {
     this.getData(
     );
   }
-  Widget loading = Center(
-    child: new CircularProgressIndicator(),
 
-  );
 
 
 
   Widget build(BuildContext context) {
 
-    return new Scaffold(
-
-      body: new ListView.builder(
+    Widget listado = ListView.builder(
         itemCount: data == null ? 0 : data.length,
         itemBuilder: (BuildContext context, int index) {
 
@@ -153,8 +149,36 @@ class ListaAntrosFull extends State<ListaAntros> {
           );
 
         },
-      ),
 
     );
+    return new Scaffold(
+
+        body: Container(
+                child: new ListView(
+                  children: [
+                Column(
+                children: <Widget>[
+                slider
+                  ],
+                ),
+              Container(
+
+                  child: listado,
+                height: 500.0,
+
+              ),
+                  ],
+          ),
+
+        ),
+
+
+    );
+
+
+
+
+
+
   }
 }
