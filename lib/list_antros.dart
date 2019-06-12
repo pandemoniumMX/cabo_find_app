@@ -8,6 +8,8 @@ import 'package:cabofind/empresa_detalle.dart';
 import 'package:cabofind/listado_test.dart';
 import 'package:flutter/material.dart';
 
+
+
 void main() {
   runApp(new MaterialApp(
     home: new ListaAntros(),
@@ -20,7 +22,18 @@ class ListaAntros extends StatefulWidget {
   ListaAntrosFull createState() => new ListaAntrosFull();
 
 }
+class Person {
+  final int id;
+  final String nombre;
+  final String cat;
+  final String subs;
+  final String logo;
+  final String etiquetas;
+  final String desc;
+  final String maps;
 
+  Person(this.id,this.nombre,this.cat,this.subs,this.logo,this.etiquetas, this.desc,this.maps);
+}
 class ListaAntrosFull extends State<ListaAntros> {
 
   List data;
@@ -64,6 +77,8 @@ class ListaAntrosFull extends State<ListaAntros> {
   Widget build(BuildContext context) {
 
     Widget listado = ListView.builder(
+       shrinkWrap: true,
+      physics: BouncingScrollPhysics(),
         itemCount: data == null ? 0 : data.length,
         itemBuilder: (BuildContext context, int index) {
 
@@ -114,6 +129,14 @@ class ListaAntrosFull extends State<ListaAntros> {
                                   data[index]["NEG_NOMBRE"]),
                               padding: EdgeInsets.all(
                                   1.0)),
+                          Text(
+                              " | "),
+                          Padding(
+                              child: new Text(
+                                  data[index]["NEG_LUGAR"]),
+                              padding: EdgeInsets.all(
+                                  1.0)),
+
                         ]),
                   ],
 
@@ -155,16 +178,21 @@ class ListaAntrosFull extends State<ListaAntros> {
 
         body: Container(
                 child: new ListView(
+                 // shrinkWrap: true,
+                  //physics: BouncingScrollPhysics(),
                   children: [
                 Column(
                 children: <Widget>[
-                slider
+                  slider,
+
                   ],
                 ),
               Container(
 
+
                   child: listado,
-                height: 500.0,
+               // height: MediaQuery.of(context).size.height *.500,
+                height: 400.0,
 
               ),
                   ],

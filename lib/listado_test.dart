@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:cabofind/list_antros.dart';
 import 'package:http/http.dart' as http;
 import 'package:cabofind/carousel_pro.dart';
 import 'package:cabofind/empresa_detalle.dart';
@@ -19,18 +20,7 @@ class Listviewx extends StatefulWidget {
   HomePageState createState() => new HomePageState();
 
 }
-class Person {
-  final int id;
-  final String nombre;
-  final String cat;
-  final String subs;
-  final String logo;
-  final String etiquetas;
-  final String desc;
-  final String maps;
 
-  Person(this.id,this.nombre,this.cat,this.subs,this.logo,this.etiquetas, this.desc,this.maps);
-}
 class HomePageState extends State<Listviewx> {
 
   List data;

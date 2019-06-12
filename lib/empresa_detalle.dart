@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:cabofind/list_antros.dart';
 import 'package:cabofind/listado_backup.dart';
 import 'package:cabofind/main.dart';
 import 'package:http/http.dart' as http;
@@ -206,6 +207,9 @@ class Empresa_det_fin extends StatelessWidget {
 
    Widget galeria = Container(
 
+     decoration: BoxDecoration(
+         border: Border.all(
+             color: Colors.blue)),
      child: FutureBuilder<Quote>(
        //data == null ? 0 : data.length,
 
@@ -215,9 +219,15 @@ class Empresa_det_fin extends StatelessWidget {
            return Center(
              child: Column(
                children: <Widget>[
-                 Text(snapshot.data.quote), //displays the quote
+                 Text(
+                 'Galeria',
+                   style: TextStyle(
+                       fontWeight: FontWeight.bold,
+                       fontSize: 25.0
+                   ),
+                 ), //displays the quote
                  SizedBox(
-                   height: 10.0,
+                   height: 0.0,
                  ),
                  Padding(
 
@@ -240,6 +250,9 @@ class Empresa_det_fin extends StatelessWidget {
    );
 
     Widget titleSection = Container(
+      decoration: BoxDecoration(
+          border: Border.all(
+              color: Colors.blue)),
       padding: const EdgeInsets.all(32),
       child: Row(
         children:[
@@ -279,10 +292,10 @@ class Empresa_det_fin extends StatelessWidget {
             ),
           ),
           Icon(
-            Icons.star,
+            Icons.attach_money,
             color: Colors.red[500],
           ),
-          Text('101'),
+          Text('"SS-SSS"'),
         ],
       ),
     );
@@ -329,7 +342,9 @@ class Empresa_det_fin extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 10,left: 20,right: 20),
       child: Text(
         '${person.desc}',
+        maxLines: 10,
         softWrap: true,
+        textAlign: TextAlign.center,
       ),
 
     );
@@ -353,6 +368,9 @@ class Empresa_det_fin extends StatelessWidget {
 
 
     Widget buttonSection = Container(
+      decoration: BoxDecoration(
+          border: Border.all(
+              color: Colors.blue)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
@@ -366,61 +384,35 @@ class Empresa_det_fin extends StatelessWidget {
             color: Colors.yellow,
             onPressed: () => _displayDialog(context),
           ),
+
         ],
       ),
+
     );
 
 
 
-    Widget textServicios = Container(
-      padding: const EdgeInsets.all(32),
-      child: Row(
-        children: [
-          Expanded(
-            /*1*/
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                /*2*/
-                Container(
-                  padding: const EdgeInsets.only(bottom: 10),
-                  child: Text(
-                    'Servicios',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20.0
-                    ),
-                  ),
-
-                ),
-
-
-              ],
-            ),
-          ),
-
-        ],
-      ),
-    );
 
 
     return new Scaffold(
 
       body: ListView(
+        //shrinkWrap: true,
+       // physics: BouncingScrollPhysics(),
           children: [
             Column(
+
               children: <Widget>[
                 Image.network('${person.logo}',width: 400,height: 300, ),
                 //Image.asset('android/assets/images/img1.jpg',width: 600,height: 240,fit: BoxFit.cover,),
                 //loading,
                 titleSection,
                 textSection,
-                mapSection,
-                textServicios,
                 buttonSection,
-                galeria,
+                mapSection,
+              //  galeria,
 
-                galeria2,
+                //galeria2,
 
 
               ],
@@ -431,11 +423,18 @@ class Empresa_det_fin extends StatelessWidget {
               height: 300.0,
 
             ),
+            Container(
+
+              child: galeria,
+              height: 300.0,
+
+            ),
+
           ],
         ),
 
         appBar: new AppBar(
-          title: new Text('Descubre'),
+          title: new Text('${person.nombre}'),
         ),
 
     );
