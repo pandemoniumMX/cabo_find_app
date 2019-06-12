@@ -103,11 +103,12 @@ class Publicacionesfull extends State<Publicaciones> {
   Widget build(BuildContext context) {
 
 
-
-
-    Widget publicaciones =  Container(
+    final Widget publicaciones =  Container(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
 
       child:  ListView.builder(
+
         shrinkWrap: false,
         physics: BouncingScrollPhysics(),
         itemCount: data == null ? 0 : data.length,
@@ -120,15 +121,13 @@ class Publicacionesfull extends State<Publicaciones> {
 
               elevation: 5.0,
               child: new Container(
-
-
+              width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                     border: Border.all(
                         color: Colors.blue)),
                 padding: EdgeInsets.all(
                     10.0),
-                margin: EdgeInsets.all(
-                    10.0),
+
 
                 child: Column(
 
@@ -158,7 +157,7 @@ class Publicacionesfull extends State<Publicaciones> {
                         data[index]["GAL_FOTO"],
                         fit: BoxFit.cover,
                         height: 180.0,
-                        width: 400.0,
+                        width: MediaQuery.of(context).size.width,
                       ),
                       padding: EdgeInsets.only(
                           bottom: 10.0),
@@ -166,7 +165,7 @@ class Publicacionesfull extends State<Publicaciones> {
                     Row(
                         children: <Widget>[
 
-                          Padding(
+                          Container(
 
                               child: Text(
 
@@ -175,14 +174,14 @@ class Publicacionesfull extends State<Publicaciones> {
                                   1.0)),
                           Text(
                               " | "),
-                          Padding(
+                          Container(
                               child: new Text(
                                   data[index]["NEG_NOMBRE"]),
                               padding: EdgeInsets.all(
                                   1.0)),
                           Text(
                               " | "),
-                          Padding(
+                          Container(
                               child: new Text(
                                   data[index]["NEG_LUGAR"]),
                               padding: EdgeInsets.all(
@@ -241,7 +240,7 @@ class Publicacionesfull extends State<Publicaciones> {
 
         child: publicaciones,
         // height: MediaQuery.of(context).size.height *.500,
-        height: 700.0,
+        height: 550,
 
       ),
 
