@@ -103,10 +103,13 @@ class Publicacionesfull extends State<Publicaciones> {
   Widget build(BuildContext context) {
 
 
-    return new Scaffold(
 
-      body: new ListView.builder(
 
+    Widget publicaciones =  Container(
+
+      child:  ListView.builder(
+        shrinkWrap: false,
+        physics: BouncingScrollPhysics(),
         itemCount: data == null ? 0 : data.length,
         itemBuilder: (BuildContext context, int index) {
 
@@ -225,6 +228,31 @@ class Publicacionesfull extends State<Publicaciones> {
 
         },
       ),
+    );
+
+      return new Scaffold(
+
+    body: Container(
+    child: new ListView(
+    // shrinkWrap: true,
+    //physics: BouncingScrollPhysics(),
+    children: [
+      Container(
+
+        child: publicaciones,
+        // height: MediaQuery.of(context).size.height *.500,
+        height: 700.0,
+
+      ),
+
+
+
+
+    ],
+    ),
+
+    ),
+
 
     );
 
