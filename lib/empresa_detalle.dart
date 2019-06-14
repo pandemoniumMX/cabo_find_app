@@ -5,7 +5,7 @@ import 'package:cabofind/listado_backup.dart';
 import 'package:cabofind/main.dart';
 import 'package:custom_chewie/custom_chewie.dart';
 import 'package:http/http.dart' as http;
-import 'package:cabofind/listado_test.dart';
+import 'package:cabofind/classes.dart';
 
 import 'package:video_player/video_player.dart';
 import 'package:flutter/material.dart';
@@ -132,10 +132,10 @@ class Quote {
 class Empresa_det_fin extends StatelessWidget {
   List data;
 
-  final Person person;
+  final Empresa empresa;
 
   // In the constructor, require a Person
-  Empresa_det_fin({Key key, @required this.person}) : super(
+  Empresa_det_fin({Key key, @required this.empresa}) : super(
       key: key);
 
   Future<List<User>> _getUsers() async {
@@ -204,8 +204,8 @@ class Empresa_det_fin extends StatelessWidget {
 
          return  new Container(
            padding: EdgeInsets.only( left: 5.0, right: 1.0),
-           width: MediaQuery.of(context).size.width,
-           height:MediaQuery.of(context).size.height,
+        //   width: MediaQuery.of(context).size.width,
+          // height:MediaQuery.of(context).size.height,
            child: Column(
              children: <Widget>[
                Padding(
@@ -301,7 +301,7 @@ class Empresa_det_fin extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.only(bottom: 10),
                   child: Text(
-                    '${person.nombre}',
+                    '${empresa.nombre}',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                         fontSize: 20.0
@@ -310,7 +310,7 @@ class Empresa_det_fin extends StatelessWidget {
 
                 ),
                 Text(
-                  '${person.cat}-${person.subs}',
+                  '${empresa.cat}-${empresa.subs}',
                   style: TextStyle(
                     color: Colors.grey[500],
                   ),
@@ -377,7 +377,7 @@ class Empresa_det_fin extends StatelessWidget {
     Widget textSection = Container(
       padding: const EdgeInsets.only(bottom: 10,left: 20,right: 20),
       child: Text(
-        '${person.desc}',
+        '${empresa.desc}',
         maxLines: 10,
         softWrap: true,
         textAlign: TextAlign.center,
@@ -385,7 +385,7 @@ class Empresa_det_fin extends StatelessWidget {
 
     );
     mapa() async {
-      final url = '${person.maps}';
+      final url = '${empresa.maps}';
       if (await canLaunch(url)) {
         await launch(url);
       } else {
@@ -441,7 +441,7 @@ class Empresa_det_fin extends StatelessWidget {
             Column(
 
               children: <Widget>[
-                Image.network('${person.logo}',width: 400,height: 300, ),
+                Image.network('${empresa.logo}',width: MediaQuery.of(context).size.width,height: 300,fit: BoxFit.cover ),
                 //Image.asset('android/assets/images/img1.jpg',width: 600,height: 240,fit: BoxFit.cover,),
                 //loading,
                 titleSection,
@@ -473,7 +473,7 @@ class Empresa_det_fin extends StatelessWidget {
         ),
 
         appBar: new AppBar(
-          title: new Text('${person.nombre}'),
+          title: new Text('${empresa.nombre}'),
         ),
 
     );

@@ -5,7 +5,7 @@ import 'package:cabofind/main.dart';
 import 'package:http/http.dart' as http;
 import 'package:cabofind/carousel_pro.dart';
 import 'package:cabofind/empresa_detalle.dart';
-import 'package:cabofind/listado_test.dart';
+import 'package:cabofind/classes.dart';
 import 'package:flutter/material.dart';
 
 
@@ -22,18 +22,7 @@ class ListaAntros extends StatefulWidget {
   ListaAntrosFull createState() => new ListaAntrosFull();
 
 }
-class Person {
-  final int id;
-  final String nombre;
-  final String cat;
-  final String subs;
-  final String logo;
-  final String etiquetas;
-  final String desc;
-  final String maps;
 
-  Person(this.id,this.nombre,this.cat,this.subs,this.logo,this.etiquetas, this.desc,this.maps);
-}
 class ListaAntrosFull extends State<ListaAntros> {
 
   List data;
@@ -166,7 +155,7 @@ class ListaAntrosFull extends State<ListaAntros> {
 
 
               Navigator.push(context, new MaterialPageRoute
-                (builder: (context) => new Empresa_det_fin(person: new Person(id_sql,nombre_sql,cat_sql,subcat_sql,foto_sql,etiquetas_sql,desc_sql,mapa_sql))
+                (builder: (context) => new Empresa_det_fin(empresa: new Empresa(id_sql,nombre_sql,cat_sql,subcat_sql,foto_sql,etiquetas_sql,desc_sql,mapa_sql))
               )
               );
 
@@ -182,6 +171,7 @@ class ListaAntrosFull extends State<ListaAntros> {
     return new Scaffold(
 
         body: Container(
+
                 child: new ListView(
                  // shrinkWrap: true,
                   //physics: BouncingScrollPhysics(),
@@ -196,8 +186,9 @@ class ListaAntrosFull extends State<ListaAntros> {
 
 
                   child: listado,
-                height: MediaQuery.of(context).size.height
-               // height: 800.0,
+                height: MediaQuery.of(context).size.height + 50
+
+                // height: 550.0,
 
               ),
                   ],

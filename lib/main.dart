@@ -137,7 +137,6 @@ class _MyHomePageState extends State<MyHomePage> {
      // new ImageCarousel2(),
       //new ImageCarousel2(),
       new Publicaciones(),
-new Listado(),
       new Listviewx(),
 
 

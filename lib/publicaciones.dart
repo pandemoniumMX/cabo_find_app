@@ -8,22 +8,11 @@ import 'package:http/http.dart' as http;
 
 import 'package:cabofind/carousel_pro.dart';
 import 'package:cabofind/empresa_detalle.dart';
-import 'package:cabofind/listado_test.dart';
+import 'package:cabofind/classes.dart';
 import 'package:flutter/material.dart';
 
 
-class Publicacion {
-  final int id;
-  final String nombre;
-  final String cat;
-  final String subs;
-  final String logo;
-  final String etiquetas;
-  final String desc;
-  final String maps;
 
-  Publicacion(this.id,this.nombre,this.cat,this.subs,this.logo,this.etiquetas, this.desc,this.maps);
-}
 
 class Publicaciones extends StatefulWidget {
   Widget build(BuildContext context){
@@ -202,21 +191,20 @@ class Publicacionesfull extends State<Publicaciones> {
             ),
 
             onTap: () {
-              int id_sql = data[index]["ID_NEGOCIO"];
-
-              String nombre_sql = data[index]["NEG_NOMBRE"];
-              String cat_sql = data[index]["CAT_NOMBRE"];
-              String subcat_sql = data[index]["SUB_NOMBRE"];
-              String foto_sql = data[index]["GAL_FOTO"];
-              String etiquetas_sql = data[index]["NEG_ETIQUETAS"];
-              String desc_sql = data[index]["PUB_DETALLE"];
-              String mapa_sql = data[index]["NEG_MAP"];
+              String nom = data[index]["NEG_NOMBRE"];
+              String neg = data[index]["NEG_LUGAR"];
+              String cat = data[index]["CAT_NOMBRE"];
+              String sub = data[index]["SUB_NOMBRE"];
+              String gal = data[index]["GAL_FOTO"];
+              String tit = data[index]["PUB_TITULO"];
+              String det = data[index]["PUB_DETALLE"];
+              String fec = data[index]["PUB_FECHA"];
 
 
 
 
               Navigator.push(context, new MaterialPageRoute
-                (builder: (context) => new Publicacion_detalle_fin(public: new Publicacion(id_sql,nombre_sql,cat_sql,subcat_sql,foto_sql,etiquetas_sql,desc_sql,mapa_sql))
+                (builder: (context) => new Publicacion_detalle_fin(publicacion: new Publicacion(nom,neg,cat,sub,gal,tit,det,fec))
               )
               );
 
@@ -243,7 +231,7 @@ class Publicacionesfull extends State<Publicaciones> {
 
         child: publicaciones,
          // height: MediaQuery.of(context).size.height
-        height: 700.0,
+          height: MediaQuery.of(context).size.height + 20
 
       ),
 

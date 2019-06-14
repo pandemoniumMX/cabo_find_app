@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:cabofind/empresa_detalle.dart';
 import 'package:cabofind/publicaciones.dart';
 import 'package:http/http.dart' as http;
-import 'package:cabofind/listado_test.dart';
+import 'package:cabofind/classes.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -69,10 +69,10 @@ class Publicacion_detalle_fin extends StatelessWidget {
         });
   }
   // Declare a field that holds the Person data
-  final Publicacion public;
+  final Publicacion publicacion;
 
   // In the constructor, require a Person
-  Publicacion_detalle_fin({Key key, @required this.public}) : super(
+  Publicacion_detalle_fin({Key key, @required this.publicacion}) : super(
       key: key);
   @override
 
@@ -92,7 +92,7 @@ class Publicacion_detalle_fin extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.only(bottom: 10),
                   child: Text(
-                    '${public.nombre}',
+                    '${publicacion.titulo}',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                         fontSize: 20.0
@@ -102,7 +102,7 @@ class Publicacion_detalle_fin extends StatelessWidget {
 
                 ),
                 Text(
-                  '${public.cat}-${public.subs}',
+                  '${publicacion.titulo}-${publicacion.fec}',
                   style: TextStyle(
                     color: Colors.grey[500],
                   ),
@@ -130,21 +130,32 @@ class Publicacion_detalle_fin extends StatelessWidget {
 
     Color color = Theme.of(context).primaryColor;
 
-    Widget textSection = Container(
+    Widget textSection = Center(
+      child: Text(
+
+        '${publicacion.det}',
+        softWrap: true,
+      ),
+
+
+    );
+
+    Widget boton = Container(
       padding: const EdgeInsets.only(bottom: 10,left: 20,right: 20),
       child: Text(
-        '${public.desc}',
+        '${publicacion.det}',
         softWrap: true,
       ),
 
     );
+
 
     return new Scaffold(
 
         body: ListView(
           //scrollDirection: Axis.horizontal,
           children: [
-            Image.network('${public.logo}',width: 400,height: 300, ),
+            Image.network('${publicacion.logo}',width: MediaQuery.of(context).size.width,height: 300,fit: BoxFit.cover ),
             //Image.asset('android/assets/images/img1.jpg',width: 600,height: 240,fit: BoxFit.cover,),
             //loading,
             titleSection,
@@ -155,7 +166,7 @@ class Publicacion_detalle_fin extends StatelessWidget {
         ),
         appBar: new AppBar(
           title: new Text(
-    '${public.nombre}',
+    '${publicacion.nombre}',
     style: TextStyle(
     fontWeight: FontWeight.bold,
     fontSize: 20.0

@@ -142,12 +142,12 @@ class HomePageState extends State<Listviewx> {
 
 
 
-
+/*
                   Navigator.push(context, new MaterialPageRoute
                     (builder: (context) => new Empresa_det_fin(person: new Person(id_sql,nombre_sql,cat_sql,subcat_sql,foto_sql,etiquetas_sql,desc_sql,mapa_sql))
                   )
                   );
-
+*/
                          },
                 //A Navigator is a widget that manages a set of child widgets with
                 //stack discipline.It allows us navigate pages.

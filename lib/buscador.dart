@@ -1,8 +1,7 @@
 import 'dart:convert';
 
 import 'package:cabofind/empresa_detalle.dart';
-import 'package:cabofind/list_antros.dart';
-import 'package:cabofind/listado_test.dart';
+import 'package:cabofind/classes.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -186,7 +185,7 @@ class _Buscador extends State<Buscador> {
 
 
         Navigator.push(context, new MaterialPageRoute
-          (builder: (context) => new Empresa_det_fin(person: Person(id_sql,nombre_sql,etiquetas_sql,foto_sql,desc_sql,mapa_sql,subcat_sql,cat_sql))
+          (builder: (context) => new Empresa_det_fin(empresa: Empresa(id_sql,nombre_sql,etiquetas_sql,foto_sql,desc_sql,mapa_sql,subcat_sql,cat_sql))
         )
 
         );

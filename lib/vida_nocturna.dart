@@ -45,7 +45,7 @@ Widget build(BuildContext context) {
       //llamar classes siempre despues de un <Widget>
       //lo que se declare aqui, sera el contenido de los botones de navigacion al fondo
       // new ImageCarousel2(),
-      new Carrusel(),
+    //  new Carrusel(),
       new ListaAntros(),
 
 
