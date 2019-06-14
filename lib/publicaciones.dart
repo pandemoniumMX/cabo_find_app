@@ -123,6 +123,8 @@ class Publicacionesfull extends State<Publicaciones> {
 
 
                 decoration: BoxDecoration(
+                    borderRadius:BorderRadius.circular(10.0),
+
                     border: Border.all(
                         color: Colors.blue)),
                 padding: EdgeInsets.all(
@@ -240,7 +242,7 @@ class Publicacionesfull extends State<Publicaciones> {
       Container(
 
         child: publicaciones,
-        // height: MediaQuery.of(context).size.height *.500,
+         // height: MediaQuery.of(context).size.height
         height: 700.0,
 
       ),

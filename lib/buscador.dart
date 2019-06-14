@@ -29,13 +29,13 @@ class Buscador extends StatefulWidget {
 
 class Note {
   String title;
-  String text;
+  String foto;
 
-  Note(this.title, this.text);
+  Note(this.title, this.foto);
 
   Note.fromJson(Map<String, dynamic> json) {
     title = json['NEG_NOMBRE'];
-    text = json['NEG_ETIQUETAS'];
+    foto = json['GAL_FOTO'];
 
   }
 }
@@ -66,7 +66,7 @@ class _Buscador extends State<Buscador> {
   Future<String> getData() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/get_slider.php"),
+            "http://cabofind.com.mx/app_php/get_empresas.php"),
        
         headers: {
           "Accept": "application/json"
@@ -125,11 +125,6 @@ class _Buscador extends State<Buscador> {
 
   }
 
-  Widget loading = Center(
-    child: new CircularProgressIndicator(),
-
-  );
-
   _searchBar() {
 
     return Padding(
@@ -158,51 +153,25 @@ class _Buscador extends State<Buscador> {
 
 
   _listItem(index) {
-    return new ListTile(
+    return ListTile(
 
-    title: new Card(
-      child: Padding(
-        padding: const EdgeInsets.only(top: 16.0, bottom: 16.0, left: 16.0, right: 16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(
-              _notesForDisplay[index].title,
-              style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold
-              ),
-            ),
-            Text(
-              _notesForDisplay[index].text,
-              style: TextStyle(
+      leading: CircleAvatar(
+
+        backgroundImage: NetworkImage(data[index]["GAL_FOTO"])
 
 
-                  color: Colors.grey.shade600
-              ),
-            ),
-          Row(
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(top: 0.0, bottom: 0.0, left: 260.0, right: 0.0),
-
-                child: Image.network(
-
-                  data[index]["GAL_FOTO"],
-                  width: 200.0,
-                  height: 100.0,
-                ),
-
-              ),
-            ],
-
-          )
-
-          ],
+      ),
+      title: Text(
+        _notesForDisplay[index].title,
+        style: TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.bold
         ),
+
       ),
 
-    ),
+
+
       onTap: () {
 
         int id_sql = data[index]["ID_NEGOCIO"];

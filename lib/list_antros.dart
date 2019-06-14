@@ -92,12 +92,14 @@ class ListaAntrosFull extends State<ListaAntros> {
 
 
                 decoration: BoxDecoration(
+                  borderRadius:BorderRadius.circular(10.0),
                     border: Border.all(
-                        color: Colors.orange)),
+                        color: Colors.lightBlueAccent)
+                ),
                 padding: EdgeInsets.all(
-                    20.0),
+                    10.0),
                 margin: EdgeInsets.all(
-                    20.0),
+                    10.0),
 
                 child: Column(
 
@@ -107,10 +109,13 @@ class ListaAntrosFull extends State<ListaAntros> {
 
                       child: Image.network(
 
-                          data[index]["GAL_FOTO"]
+                          data[index]["GAL_FOTO"],
+                        fit: BoxFit.cover,
+                        height: 180.0,
+                        width: MediaQuery.of(context).size.width,
                       ),
                       padding: EdgeInsets.only(
-                          bottom: 8.0),
+                          bottom: 10.0),
                     ),
                     Row(
                         children: <Widget>[
@@ -183,7 +188,7 @@ class ListaAntrosFull extends State<ListaAntros> {
                   children: [
                 Column(
                 children: <Widget>[
-                  slider,
+                 // slider,
 
                   ],
                 ),
@@ -191,8 +196,8 @@ class ListaAntrosFull extends State<ListaAntros> {
 
 
                   child: listado,
-               // height: MediaQuery.of(context).size.height *.500,
-                height: 400.0,
+                height: MediaQuery.of(context).size.height
+               // height: 800.0,
 
               ),
                   ],
