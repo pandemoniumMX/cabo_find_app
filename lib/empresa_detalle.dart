@@ -3,11 +3,9 @@ import 'dart:convert';
 import 'package:cabofind/list_antros.dart';
 import 'package:cabofind/listado_backup.dart';
 import 'package:cabofind/main.dart';
-import 'package:custom_chewie/custom_chewie.dart';
 import 'package:http/http.dart' as http;
 import 'package:cabofind/listado_test.dart';
 
-import 'package:video_player/video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -15,7 +13,6 @@ class Empresa_detalle extends StatefulWidget {
 
 @override
 _Empresa_detalle createState() => new _Empresa_detalle();
-
 
 }
 List data;
@@ -49,10 +46,7 @@ class _Empresa_detalle extends State<Empresa_detalle> {
   //galeria
 
   @override
-
-
   void initState() {
-
     super.initState(
     );
     this.getData(
@@ -226,7 +220,7 @@ class Empresa_det_fin extends StatelessWidget {
              child: Column(
                children: <Widget>[
                  Text(
-                 'Video',
+                 'Galeria',
                    style: TextStyle(
                        fontWeight: FontWeight.bold,
                        fontSize: 25.0
@@ -235,26 +229,14 @@ class Empresa_det_fin extends StatelessWidget {
                  SizedBox(
                    height: 0.0,
                  ),
-             Chewie(
-               new VideoPlayerController.network(
-                   'https://www.sample-videos.com/video123/mp4/720/big_buck_bunny_720p_20mb.mp4'
-               ),
-               aspectRatio: 3 / 2,
-               autoPlay: true,
-               looping: false,
-               // showControls: false,
-                materialProgressColors: ChewieProgressColors(
-                 playedColor: Colors.red,
-                handleColor: Colors.blue,
-                  backgroundColor: Colors.grey,
-                  bufferedColor: Colors.lightGreen,
-                ),
-               // placeholder: Container(
-               //   color: Colors.grey,
-               // ),
-               // autoInitialize: true,
+                 Padding(
 
-             ),
+                   child: Image.network(
+
+                       "${snapshot.data.author}"                    ),
+                   padding: EdgeInsets.all(
+                       18.0),
+                 ),
                ],
              ),
            );
@@ -268,7 +250,6 @@ class Empresa_det_fin extends StatelessWidget {
    );
 
     Widget titleSection = Container(
-          width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
           border: Border.all(
               color: Colors.blue)),
@@ -276,7 +257,7 @@ class Empresa_det_fin extends StatelessWidget {
       child: Row(
         children:[
           Expanded(
-
+            /*1*/
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -302,6 +283,7 @@ class Empresa_det_fin extends StatelessWidget {
               ],
             ),
           ),
+          /*3*/
 
           Text(
             'Rango de precios:',
@@ -356,7 +338,6 @@ class Empresa_det_fin extends StatelessWidget {
 
 
 
-
     Widget textSection = Container(
       padding: const EdgeInsets.only(bottom: 10,left: 20,right: 20),
       child: Text(
@@ -387,8 +368,6 @@ class Empresa_det_fin extends StatelessWidget {
 
 
     Widget buttonSection = Container(
-      width: MediaQuery.of(context).size.width +30,
-
       decoration: BoxDecoration(
           border: Border.all(
               color: Colors.blue)),
@@ -396,12 +375,12 @@ class Empresa_det_fin extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           RaisedButton(
-          child: Text('Cracteristicas'),
+          child: Text('Mostrar caracteristicas'),
           color: Colors.pinkAccent,
          onPressed: () => _displayDialog(context),
         ),
           RaisedButton(
-            child: Text('Servicios'),
+            child: Text('Mostrar servicios'),
             color: Colors.yellow,
             onPressed: () => _displayDialog(context),
           ),
@@ -431,10 +410,9 @@ class Empresa_det_fin extends StatelessWidget {
                 textSection,
                 buttonSection,
                 mapSection,
+              //  galeria,
 
-
-
-
+                //galeria2,
 
 
               ],
@@ -448,7 +426,7 @@ class Empresa_det_fin extends StatelessWidget {
             Container(
 
               child: galeria,
-              height: 400.0,
+              height: 300.0,
 
             ),
 
@@ -484,11 +462,8 @@ class Empresa_det_fin extends StatelessWidget {
   }
 
   @override
-
   State<StatefulWidget> createState() {
-
     // TODO: implement createState
-
     return null;
   }
 }

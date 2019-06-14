@@ -79,8 +79,6 @@ class _Lista extends State<Carrusel> {
 
        return  new Container(
          padding: EdgeInsets.only( left: 5.0, right: 1.0),
-         width: MediaQuery.of(context).size.width,
-         height:MediaQuery.of(context).size.height,
          child: Column(
            children: <Widget>[
              Padding(

@@ -9,7 +9,6 @@ import 'package:cabofind/carrusel.dart';
 import 'package:cabofind/listado_backup.dart';
 import 'package:cabofind/listado_test.dart';
 import 'package:cabofind/main_eng.dart';
-import 'package:cabofind/player.dart';
 import 'package:cabofind/publicaciones.dart';
 import 'package:cabofind/slider_backup.dart';
 import 'package:cabofind/slider_x.dart';
@@ -137,7 +136,6 @@ class _MyHomePageState extends State<MyHomePage> {
       //lo que se declare aqui, sera el contenido de los botones de navigacion al fondo
      // new ImageCarousel2(),
       //new ImageCarousel2(),
-     // new ChewieDemo(),
       new Publicaciones(),
 
       new Listviewx(),

@@ -183,7 +183,7 @@ class ListaAntrosFull extends State<ListaAntros> {
                   children: [
                 Column(
                 children: <Widget>[
-                //  slider,
+                  slider,
 
                   ],
                 ),
@@ -192,7 +192,7 @@ class ListaAntrosFull extends State<ListaAntros> {
 
                   child: listado,
                // height: MediaQuery.of(context).size.height *.500,
-                height: 800.0,
+                height: 400.0,
 
               ),
                   ],
