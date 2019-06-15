@@ -8,61 +8,22 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Publicacion_detalle extends StatefulWidget {
+  
+
 @override
 _Publicacion_detalle createState() => new _Publicacion_detalle();
 }
 
 
 class _Publicacion_detalle extends State<Publicacion_detalle> {
-  String url = 'https://randomuser.me/api/?results=15';
-  List data;
-
-
-
-  //final List<Todo> todos;
-  Future<String> getData() async {
-    var response = await http.get(
-        Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/list_vida_antros.php"),
-
-        headers: {
-          "Accept": "application/json"
-        }
-    );
-
-    this.setState(
-            () {
-          data = json.decode(
-              response.body);
-        });
-    print(
-        data[1]["NEG_NOMBRE"]);
-
-    print(
-        data[2]["GAL_FOTO"]);
-
-    return "Success!";
-  }
-
-
-  Future<String> makeRequest() async {
-    var response = await http
-        .get(Uri.encodeFull(url), headers: {"Accept": "application/json"});
-
-    setState(() {
-      var extractdata = json.decode(response.body);
-      data = extractdata["results"];
-    });
-  }
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return null;
   }
-  void initState() {
-    this.makeRequest();
+
+  
   }
-}
 
 
 
@@ -102,14 +63,19 @@ class Publicacion_detalle_fin extends StatelessWidget {
   final Empresa empresa;
 
 
+
   // In the constructor, require a Person
   Publicacion_detalle_fin({Key key, @required this.publicacion, this.empresa}) : super(
       key: key);
+
+
+    
   @override
 
 
 
  Widget build(BuildContext context){
+   
     Widget titleSection = Container(
       padding: const EdgeInsets.all(32),
       child: Row(
@@ -161,11 +127,17 @@ class Publicacion_detalle_fin extends StatelessWidget {
 
     Color color = Theme.of(context).primaryColor;
 
-    Widget textSection = Center(
+    Widget textSection = Container(
 
-      child: Text(
-        '${publicacion.det}',
-        softWrap: true,
+      child: Padding(
+        //padding: const EdgeInsets.only( left: 20.0, right: 20.0,),
+        padding: const EdgeInsets.all(25.0),
+        child: Text(
+          '${publicacion.det}',
+          softWrap: true,
+          style: TextStyle(fontSize: 20.0),
+        ),
+        
       ),
 
 
@@ -177,6 +149,7 @@ class Publicacion_detalle_fin extends StatelessWidget {
 
         //child: Text(‘Send data to the second page’),
         onPressed: () {
+          
           //int id = '${empresa.id}';
           String nombre = '${empresa.nombre}';
           String cat = '${empresa.cat}';
@@ -186,7 +159,7 @@ class Publicacion_detalle_fin extends StatelessWidget {
           String desc = '${empresa.desc}';
           String maps = '${empresa.maps}';
 
-
+//print('$empresa.desc');
 
 
           Navigator.push(
@@ -197,6 +170,9 @@ class Publicacion_detalle_fin extends StatelessWidget {
             )
           );
         },
+        shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
+        color: Colors.blue,
+        child: Text('Más informacion sobre ${empresa.nombre}', style: TextStyle(fontSize: 20, color: Colors.white)),
       ),
 
     );
