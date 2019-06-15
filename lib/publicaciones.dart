@@ -87,12 +87,7 @@ class Publicacionesfull extends State<Publicaciones> {
   }
 
 
-
-
   Widget build(BuildContext context) {
-
-
-
 
     Widget publicaciones =  Container(
 
@@ -143,17 +138,20 @@ class Publicacionesfull extends State<Publicaciones> {
                             1.0)
                     ),
 
-                    Padding(
+                    FadeInImage(
 
-                      child: Image.network(
-                        data[index]["GAL_FOTO"],
-                        fit: BoxFit.cover,
-                        height: 180.0,
-                        width: 400.0,
+                      image: NetworkImage(data[index]["GAL_FOTO"]),
+                      fit: BoxFit.fill,
+                      width: MediaQuery.of(context).size.width,
+                      height: 250,
+
+                      // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
+                      placeholder: AssetImage('android/assets/images/loading.gif'),
+                      fadeInDuration: Duration(milliseconds: 200),
+                     
                       ),
-                      padding: EdgeInsets.only(
-                          bottom: 10.0),
-                    ),
+                     
+                    
                     Row(
                         children: <Widget>[
 
@@ -223,12 +221,14 @@ class Publicacionesfull extends State<Publicaciones> {
       return new Scaffold(
 
     body: Container(
+     // height: MediaQuery.of(context).size.height,
     child: new ListView(
+      
     // shrinkWrap: true,
     //physics: BouncingScrollPhysics(),
     children: [
       Container(
-
+        
         child: publicaciones,
          // height: MediaQuery.of(context).size.height
           height: MediaQuery.of(context).size.height + 20

@@ -94,17 +94,17 @@ class ListaAntrosFull extends State<ListaAntros> {
 
                   children: <Widget>[
 
-                    Padding(
+                    FadeInImage(
 
-                      child: Image.network(
+                      image: NetworkImage(data[index]["GAL_FOTO"]),
+                      fit: BoxFit.fill,
+                      width: MediaQuery.of(context).size.width,
+                      height: 220,
 
-                          data[index]["GAL_FOTO"],
-                        fit: BoxFit.cover,
-                        height: 180.0,
-                        width: MediaQuery.of(context).size.width,
-                      ),
-                      padding: EdgeInsets.only(
-                          bottom: 10.0),
+                      // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
+                      placeholder: AssetImage('android/assets/images/loading.gif'),
+                      fadeInDuration: Duration(milliseconds: 200),
+
                     ),
                     Row(
                         children: <Widget>[
