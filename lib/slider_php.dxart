@@ -24,7 +24,7 @@ _ImageCarousel2 createState() => new _ImageCarousel2();
       User user = User(u["GAL_FOTO"]);
       users.add(user);
     }  
-    print(users.length);
+    print(users.length);;
   
   return users;
   }

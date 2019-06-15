@@ -153,7 +153,6 @@ class _Buscador extends State<Buscador> {
 
   _listItem(index) {
     return ListTile(
-
       leading: CircleAvatar(
 
         backgroundImage: NetworkImage(data[index]["GAL_FOTO"])
@@ -173,7 +172,7 @@ class _Buscador extends State<Buscador> {
 
       onTap: () {
 
-        int id_sql = data[index]["ID_NEGOCIO"];
+       // int id_sql = data[index]["ID_NEGOCIO"];
 
         String nombre_sql = data[index]["NEG_NOMBRE"];
         String etiquetas_sql = data[index]["NEG_ETIQUETAS"];
@@ -185,7 +184,7 @@ class _Buscador extends State<Buscador> {
 
 
         Navigator.push(context, new MaterialPageRoute
-          (builder: (context) => new Empresa_det_fin(empresa: Empresa(id_sql,nombre_sql,etiquetas_sql,foto_sql,desc_sql,mapa_sql,subcat_sql,cat_sql))
+          (builder: (context) => new Empresa_det_fin(empresa: Empresa(nombre_sql,etiquetas_sql,foto_sql,desc_sql,mapa_sql,subcat_sql,cat_sql))
         )
 
         );

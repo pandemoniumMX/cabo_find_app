@@ -462,12 +462,7 @@ class Empresa_det_fin extends StatelessWidget {
               height: 300.0,
 
             ),
-            Container(
 
-              child: video,
-              height: 400.0,
-
-            ),
 
           ],
         ),

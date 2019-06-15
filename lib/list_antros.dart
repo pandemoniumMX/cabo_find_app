@@ -141,7 +141,7 @@ class ListaAntrosFull extends State<ListaAntros> {
             ),
 
             onTap: () {
-              int id_sql = data[index]["ID_NEGOCIO"];
+            //  int id_sql = data[index]["ID_NEGOCIO"];
 
               String nombre_sql = data[index]["NEG_NOMBRE"];
               String cat_sql = data[index]["CAT_NOMBRE"];
@@ -155,7 +155,7 @@ class ListaAntrosFull extends State<ListaAntros> {
 
 
               Navigator.push(context, new MaterialPageRoute
-                (builder: (context) => new Empresa_det_fin(empresa: new Empresa(id_sql,nombre_sql,cat_sql,subcat_sql,foto_sql,etiquetas_sql,desc_sql,mapa_sql))
+                (builder: (context) => new Empresa_det_fin(empresa: new Empresa(nombre_sql,cat_sql,subcat_sql,foto_sql,etiquetas_sql,desc_sql,mapa_sql))
               )
               );
 

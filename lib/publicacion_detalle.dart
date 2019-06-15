@@ -16,6 +16,35 @@ _Publicacion_detalle createState() => new _Publicacion_detalle();
 class _Publicacion_detalle extends State<Publicacion_detalle> {
   String url = 'https://randomuser.me/api/?results=15';
   List data;
+
+
+
+  //final List<Todo> todos;
+  Future<String> getData() async {
+    var response = await http.get(
+        Uri.encodeFull(
+            "http://cabofind.com.mx/app_php/list_vida_antros.php"),
+
+        headers: {
+          "Accept": "application/json"
+        }
+    );
+
+    this.setState(
+            () {
+          data = json.decode(
+              response.body);
+        });
+    print(
+        data[1]["NEG_NOMBRE"]);
+
+    print(
+        data[2]["GAL_FOTO"]);
+
+    return "Success!";
+  }
+
+
   Future<String> makeRequest() async {
     var response = await http
         .get(Uri.encodeFull(url), headers: {"Accept": "application/json"});
@@ -70,9 +99,11 @@ class Publicacion_detalle_fin extends StatelessWidget {
   }
   // Declare a field that holds the Person data
   final Publicacion publicacion;
+  final Empresa empresa;
+
 
   // In the constructor, require a Person
-  Publicacion_detalle_fin({Key key, @required this.publicacion}) : super(
+  Publicacion_detalle_fin({Key key, @required this.publicacion, this.empresa}) : super(
       key: key);
   @override
 
@@ -131,8 +162,8 @@ class Publicacion_detalle_fin extends StatelessWidget {
     Color color = Theme.of(context).primaryColor;
 
     Widget textSection = Center(
-      child: Text(
 
+      child: Text(
         '${publicacion.det}',
         softWrap: true,
       ),
@@ -142,9 +173,30 @@ class Publicacion_detalle_fin extends StatelessWidget {
 
     Widget boton = Container(
       padding: const EdgeInsets.only(bottom: 10,left: 20,right: 20),
-      child: Text(
-        '${publicacion.det}',
-        softWrap: true,
+      child: RaisedButton(
+
+        //child: Text(‘Send data to the second page’),
+        onPressed: () {
+          //int id = '${empresa.id}';
+          String nombre = '${empresa.nombre}';
+          String cat = '${empresa.cat}';
+          String subs = '${empresa.subs}';
+          String logo = '${empresa.logo}';
+          String etiquetas = '${empresa.etiquetas}';
+          String desc = '${empresa.desc}';
+          String maps = '${empresa.maps}';
+
+
+
+
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => new Empresa_det_fin(empresa: Empresa(nombre, cat, subs, logo, etiquetas, desc, maps)),
+
+            )
+          );
+        },
       ),
 
     );
@@ -160,6 +212,7 @@ class Publicacion_detalle_fin extends StatelessWidget {
             //loading,
             titleSection,
             textSection,
+            boton,
 
 
           ],

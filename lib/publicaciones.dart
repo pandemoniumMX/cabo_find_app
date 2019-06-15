@@ -33,6 +33,7 @@ class Publicaciones extends StatefulWidget {
 class Publicacionesfull extends State<Publicaciones> {
 
   List data;
+  List data_n;
 
   //final List<Todo> todos;
   Future<String> getData() async {
@@ -55,12 +56,12 @@ class Publicacionesfull extends State<Publicaciones> {
 
     return "Success!";
   }
-  /*
-  Future<String> getData1() async {
+
+  Future<String> getData_n() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/list_vida_bares.php"),
-       
+            "http://cabofind.com.mx/app_php/list_publicaciones.php"),
+
         headers: {
           "Accept": "application/json"
         }
@@ -68,21 +69,20 @@ class Publicacionesfull extends State<Publicaciones> {
 
     this.setState(
             () {
-          data = json.decode(
+              data_n = json.decode(
               response.body);
         });
     print(
-        data[1]["NEG_NOMBRE"]);
+        data_n[1]["NEG_NOMBRE"]);
 
     return "Success!";
   }
-*/
   @override
   void initState() {
     super.initState(
     );
     this.getData();
-//    this.getData1();
+    this.getData_n();
 
   }
 
@@ -198,11 +198,22 @@ class Publicacionesfull extends State<Publicaciones> {
               String det = data[index]["PUB_DETALLE"];
               String fec = data[index]["PUB_FECHA"];
 
+              String nombre_n = data_n[index]["NEG_NOMBRE"];
+              String cat_n = data_n[index]["CAT_NOMBRE"];
+              String sub_n = data_n[index]["SUB_NOMBRE"];
+              String log_n = data_n[index]["GAL_FOTO"];
+              String eti_n = data_n[index]["NEG_ETIQUETAS"];
+              String desc_n = data_n[index]["NEG_DESCRIPCION"];
+              String map_n = data_n[index]["NEG_MAP"];
+
+
 
 
 
               Navigator.push(context, new MaterialPageRoute
-                (builder: (context) => new Publicacion_detalle_fin(publicacion: new Publicacion(nom,neg,cat,sub,gal,tit,det,fec))
+                (builder: (context) => new Publicacion_detalle_fin(
+                publicacion: new Publicacion(nom,neg,cat,sub,gal,tit,det,fec),
+                empresa: new Empresa(nombre_n, cat_n, sub_n, log_n, eti_n, desc_n, map_n),)
               )
               );
 

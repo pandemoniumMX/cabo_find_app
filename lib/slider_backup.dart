@@ -48,7 +48,7 @@ class ImageCarousel2 extends StatelessWidget{
                 ],
                 animationCurve: Curves.fastOutSlowIn,
                 animationDuration: Duration(
-                    milliseconds: 2000),
+                    milliseconds: 1999),
               ),
             ),
 
