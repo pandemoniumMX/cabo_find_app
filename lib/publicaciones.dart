@@ -62,7 +62,7 @@ class Publicacionesfull extends State<Publicaciones> {
   Future<String> getData_n() async {
     var response = await http.get(
         Uri.encodeFull(
-             "http://cabofind.com.mx/app_php/list_publicaciones.php"),
+             "http://cabofind.com.mx/app_php/list_negocios.php"),
 
         headers: {
           "Accept": "application/json"
@@ -245,9 +245,17 @@ class Publicacionesfull extends State<Publicaciones> {
         
         child: publicaciones,
          // height: MediaQuery.of(context).size.height
-          height: MediaQuery.of(context).size.height + 20
+
+          height: MediaQuery.of(context).size.height -120
+
 
       ),
+      Column(
+          children: <Widget>[
+
+          //  publicaciones
+          ],
+      )
 
 
 

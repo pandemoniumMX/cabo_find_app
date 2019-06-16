@@ -186,7 +186,7 @@ class ListaAntrosFull extends State<ListaAntros> {
 
 
                   child: listado,
-                height: MediaQuery.of(context).size.height + 50
+                  height: MediaQuery.of(context).size.height -120
 
                 // height: 550.0,
 

@@ -7,25 +7,6 @@ import 'package:cabofind/classes.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class Publicacion_detalle extends StatefulWidget {
-  
-
-@override
-_Publicacion_detalle createState() => new _Publicacion_detalle();
-}
-
-
-class _Publicacion_detalle extends State<Publicacion_detalle> {
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    return null;
-  }
-
-  
-  }
-
-
 
 class Publicacion_detalle_fin extends StatelessWidget {
   List data;
@@ -109,7 +90,7 @@ class Publicacion_detalle_fin extends StatelessWidget {
             ),
           ),
           /*3*/
-
+/*
           Text(
             'Rango de precios:',
             style: TextStyle(
@@ -121,6 +102,8 @@ class Publicacion_detalle_fin extends StatelessWidget {
             color: Colors.red[500],
           ),
           Text('101'),
+          */
+
         ],
       ),
     );

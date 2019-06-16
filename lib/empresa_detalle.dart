@@ -12,11 +12,36 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Empresa_detalle extends StatefulWidget {
+  Future<String> getData() async {
+    var response = await http.get(
+        Uri.encodeFull(
+            "http://cabofind.com.mx/app_php/list_vida_antros.php"),
 
+        headers: {
+          "Accept": "application/json"
+        }
+    );
+
+    setState(
+            () {
+          data = json.decode(
+              response.body);
+        });
+    print(
+        data[1]["NEG_NOMBRE"]);
+
+    print(
+        data[2]["GAL_FOTO"]);
+
+    return "Success!";
+  }
 @override
 _Empresa_detalle createState() => new _Empresa_detalle();
 
 
+}
+
+void setState(Null Function() param0) {
 }
 List data;
 
