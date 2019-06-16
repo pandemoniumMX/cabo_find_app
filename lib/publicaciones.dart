@@ -15,8 +15,6 @@ import 'package:flutter/material.dart';
 
 
 class Publicaciones extends StatefulWidget {
-   
-
   Widget build(BuildContext context){
     return ListView(
       children: <Widget>[
@@ -62,7 +60,11 @@ class Publicacionesfull extends State<Publicaciones> {
   Future<String> getData_n() async {
     var response = await http.get(
         Uri.encodeFull(
+<<<<<<< HEAD
              "http://cabofind.com.mx/app_php/list_negocios.php"),
+=======
+            "http://cabofind.com.mx/app_php/list_publicaciones.php"),
+>>>>>>> parent of dfdad5f... cambios estrucutra empresa detalle
 
         headers: {
           "Accept": "application/json"
@@ -74,12 +76,11 @@ class Publicacionesfull extends State<Publicaciones> {
               data_n = json.decode(
               response.body);
         });
-    
+    print(
+        data_n[1]["NEG_NOMBRE"]);
 
     return "Success!";
   }
-
- 
   @override
   void initState() {
     super.initState(
