@@ -12,111 +12,21 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Empresa_detalle extends StatefulWidget {
-  Future<String> getData() async {
-    var response = await http.get(
-        Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/list_vida_antros.php"),
 
-        headers: {
-          "Accept": "application/json"
-        }
-    );
-
-    setState(
-            () {
-          data = json.decode(
-              response.body);
-        });
-    print(
-        data[1]["NEG_NOMBRE"]);
-
-    print(
-        data[2]["GAL_FOTO"]);
-
-    return "Success!";
-  }
 @override
 _Empresa_detalle createState() => new _Empresa_detalle();
 
 
 }
-
-void setState(Null Function() param0) {
-}
 List data;
 
 class _Empresa_detalle extends State<Empresa_detalle> {
-
-
-  //final List<Todo> todos;
-  Future<String> getData() async {
-    var response = await http.get(
-        Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/fotos.php"),
-       
-        headers: {
-          "Accept": "application/json"
-        }
-    );
-
-    this.setState(
-            () {
-          data = json.decode(
-              response.body);
-        });
-
-
-    print(
-        data[2]["GAL_FOTO"]);
-
-    return "Success!";
-  }
-  //galeria
-
   @override
-
-
-  void initState() {
-
-    super.initState(
-    );
-    this.getData(
-    );
-  }
-
   Widget build(BuildContext context) {
-
-    return new Scaffold(
-
-      body: new ListView.builder(
-        scrollDirection: Axis.horizontal,
-
-        itemCount: data == null ? 0 : data.length,
-        itemBuilder: (BuildContext context, int index) {
-
-          return  new Container(
-            padding: EdgeInsets.only( left: 5.0, right: 1.0),
-            child: Column(
-              children: <Widget>[
-
-                Padding(
-                  child: Image.network(
-                    data[index]["GAL_FECHA"],
-                    fit: BoxFit.cover,
-                    height: 400.0,
-                    width: 400.0,
-                  ),
-                  padding: EdgeInsets.all(0.0),
-                ),
-              ],
-            ),
-          );
-
-        },
-      ),
-
-    );
+    // TODO: implement build
+    return null;
   }
+
 
 }
 
@@ -314,48 +224,35 @@ class Empresa_det_fin extends StatelessWidget {
       decoration: BoxDecoration(
           border: Border.all(
               color: Colors.blue)),
-      padding: const EdgeInsets.all(32),
-      child: Row(
+      padding: const EdgeInsets.all(20),
+      child: Column(
         children:[
-          Expanded(
-
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                /*2*/
-                Container(
-                  padding: const EdgeInsets.only(bottom: 10),
-                  child: Text(
-                    '${empresa.nombre}',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                        fontSize: 20.0
-                    ),
-                  ),
-
+          Row(
+            mainAxisAlignment: 
+            MainAxisAlignment.center,            
+            children: [
+              
+              Text(
+                '${empresa.nombre}',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                    fontSize: 20.0
                 ),
+              ),
+              
+
+            ],
+          ),
+          Column(children: <Widget>[
                 Text(
-                  '${empresa.cat}-${empresa.subs}',
-                  style: TextStyle(
-                    color: Colors.grey[500],
-                  ),
+                '${empresa.cat}-${empresa.subs}',
+                style: TextStyle(
+                  color: Colors.grey[500],
                 ),
+              ),
+          ],)
 
-              ],
-            ),
-          ),
-
-          Text(
-            'Rango de precios:',
-            style: TextStyle(
-              color: Colors.blue[500],
-            ),
-          ),
-          Icon(
-            Icons.attach_money,
-            color: Colors.red[500],
-          ),
-          Text('"SS-SSS"'),
+          
         ],
       ),
     );
