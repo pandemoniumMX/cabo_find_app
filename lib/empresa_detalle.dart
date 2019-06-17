@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:cabofind/carousel_pro.dart';
 import 'package:cabofind/carrusel.dart';
 import 'package:cabofind/list_antros.dart';
 import 'package:cabofind/listado_backup.dart';
@@ -12,29 +13,9 @@ import 'package:video_player/video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class Empresa_detalle extends StatefulWidget {
-
-@override
-_Empresa_detalle createState() => new _Empresa_detalle();
 
 
-}
-
-class _Empresa_detalle extends State<Empresa_detalle> {
-
- 
-
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    return null;
-  }
-
-
-
-}
-/*
-Future<Quote> getQuote() async {
+Future<Quote> getQuote(Str) async {
   String url = 'http://cabofind.com.mx/app_php/fotos1.php';
   final response = await http.get(url, headers: {"Accept": "application/json"});
 
@@ -65,19 +46,53 @@ class Quote {
     );
   }
 }
+/*
+Future<Post> fetchPost() async {
+  final response =
+      await http.get('https://jsonplaceholder.typicode.com/posts/1');
+
+  if (response.statusCode == 200) {
+    // If the call to the server was successful, parse the JSON.
+    return Post.fromJson(json.decode(response.body));
+  } else {
+    // If that call was not successful, throw an error.
+    throw Exception('Failed to load post');
+  }
+}
+
+class Post {
+  final int userId;
+  final int id;
+  final String title;
+  final String body;
+
+  Post({this.userId, this.id, this.title, this.body});
+
+  factory Post.fromJson(Map<String, dynamic> json) {
+    return Post(
+      userId: json['userId'],
+      id: json['id'],
+      title: json['title'],
+      body: json['body'],
+    );
+  }
+}
+
+void main() => runApp(Empresa_det_fin(post: fetchPost()));
 */
-
-
 class Empresa_det_fin extends StatelessWidget {
-  
 
+
+  //MyApp({Key key, this.post}) : super(key: key);
+
+  List data;
   List data1;
 
   final Empresa empresa;
    Future<String> getData() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/fotos.php"),
+            "http://cabofind.com.mx/app_php/fotos1.php"),
        
         headers: {
           "Accept": "application/json"
@@ -88,7 +103,7 @@ class Empresa_det_fin extends StatelessWidget {
 
 
     print(
-        data1[2]["ID_NEGOCIO"]);
+        data1[1]["ID_GALERIA"]);
 
     return "Success!";
   }
@@ -115,19 +130,19 @@ class Empresa_det_fin extends StatelessWidget {
 
   @override
 
-  _displayDialog(BuildContext context) async {
+  _alertSer(BuildContext context) async {
     return showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text('ListView in Dialog'),
+            title: Text('Servicios'),
             content: Container(
               width: double.maxFinite,
               height: 300.0,
               child: ListView(
                 padding: EdgeInsets.all(8.0),
                 //map List of our data to the ListView
-                children: _listViewData.map((data) => Text(data)).toList(),
+                children: _ListCaracteristicas.map((data) => Text(data)).toList(),
               ),
             ),
             actions: <Widget>[
@@ -141,99 +156,123 @@ class Empresa_det_fin extends StatelessWidget {
           );
         });
   }
-  List<String> _listViewData = [
-    'Jotos'
+
+  _alertCar(BuildContext context) async {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Servicios'),
+            content: Container(
+              width: double.maxFinite,
+              height: 300.0,
+              child: ListView(
+                padding: EdgeInsets.all(8.0),
+                //map List of our data to the ListView
+                children: _ListServicios.map((data) => Text(data)).toList(),
+              ),
+            ),
+            actions: <Widget>[
+              new FlatButton(
+                child: new Text('Cerrar'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+        });
+  }
+
+  List<String> _ListServicios = [
+    'Cerveza',
+    'Desayunos, comidas y cenas',
+    'Promociones',
+    'Platillos preparados al gusto',
   ];
+
+  List<String> _ListCaracteristicas = [
+    'Aire acondicionado',
+    'Ballete parking',
+    'Wifi',
+    'Espacio para mascotas',
+    'Servicio a domicilio',
+  ];
+
  Widget build(BuildContext context){
 
-    Widget carrusel =   Container(
-     child: new ListView.builder(
+  Widget carrusel = Container(
 
-       scrollDirection: Axis.horizontal,
+      child: FutureBuilder<Quote>(
+        future: getQuote(String), //sets the getQuote method as the expected Future
+        builder: (context, snapshot) {
+          if (snapshot.hasData) { //checks if the response returns valid data
+            return Center(
+              child: Carousel(
+            boxFit: BoxFit.fill,
+            images: [
 
-       itemCount: data1 == null ? 0 : data1.length,
-       itemBuilder: (BuildContext context, int index) {
+              Image.network("${snapshot.data.author}"),
 
-         return  new Container(
-           padding: EdgeInsets.only( left: 5.0, right: 1.0),
-        //   width: MediaQuery.of(context).size.width,
-          // height:MediaQuery.of(context).size.height,
-           child: Column(
-             children: <Widget>[
-               Padding(
-                 child: Image.network(
-                   data1[index]["GAL_FOTO"],
-                   fit: BoxFit.cover,
-                   height: 400.0,
-                   width: 400.0,
-                 ),
-                 padding: EdgeInsets.all(0.0),
-               ),
-             ],
-           ),
-         );
-       },
-     ),
-   );
+             
+            ],
+            animationCurve: Curves.fastOutSlowIn,
+            animationDuration: Duration(
+                milliseconds: 2000),
+          ),
+            );
+          } else if (snapshot.hasError) { //checks if the response throws an error
+            return Text("${snapshot.error}");
+          }
+          return CircularProgressIndicator();
+        },
+      ),
 
+    );
 /*
-   Widget video = Container(
+  Widget galeria = Container(
 
-     decoration: BoxDecoration(
-         border: Border.all(
-             color: Colors.blue)),
-     child: FutureBuilder<Quote>(
-       //data == null ? 0 : data.length,
+  child: FutureBuilder<Quote>(
+        future: getQuote(), //sets the getQuote method as the expected Future
+        builder: (context, snapshot) {
+          if (snapshot.hasData) { //checks if the response returns valid data
+            return ListView.builder(
 
-       future: getQuote(),
-       //sets the getQuote method as the expected Future
-       builder: (context, snapshot) {
-         if (snapshot.hasData) { //checks if the response returns valid data
-           return Center(
-             child: Column(
-               children: <Widget>[
-                 Text(
-                 'Video',
-                   style: TextStyle(
-                       fontWeight: FontWeight.bold,
-                       fontSize: 25.0
-                   ),
-                 ), //displays the quote
-                 SizedBox(
-                   height: 0.0,
-                 ),
-             Chewie(
-               new VideoPlayerController.network(
-                   'https://www.sample-videos.com/video123/mp4/720/big_buck_bunny_720p_20mb.mp4'
-               ),
-               aspectRatio: 3 / 2,
-               autoPlay: true,
-               looping: false,
-               // showControls: false,
-                materialProgressColors: ChewieProgressColors(
-                 playedColor: Colors.red,
-                handleColor: Colors.blue,
-                  backgroundColor: Colors.grey,
-                  bufferedColor: Colors.lightGreen,
-                ),
-               // placeholder: Container(
-               //   color: Colors.grey,
-               // ),
-               // autoInitialize: true,
+              //scrollDirection: Axis.horizontal,
 
-             ),
-               ],
-             ),
-           );
-         } else if (snapshot.hasError) { //checks if the response throws an error
-           return Text("${snapshot.error}");
-         }
-         return CircularProgressIndicator();
-       },
-     ),
+              itemCount: data == null ? 0 : data.length,
+              itemBuilder: (BuildContext context, int index) {
 
-   );
+                return  new Container(
+                  padding: EdgeInsets.only( left: 5.0, right: 1.0),
+                  child: Column(
+                    children: <Widget>[
+                      FadeInImage(
+                        image: NetworkImage("${snapshot.data.author}"),
+                         fit: BoxFit.fill,
+                          width: MediaQuery.of(context).size.width,
+                          height: 220,
+
+                          // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
+                          placeholder: AssetImage('android/assets/images/loading.gif'),
+                          fadeInDuration: Duration(milliseconds: 200),
+                        
+                      ),
+                    ],
+                  ),
+                );
+              },
+            );
+          } else if (snapshot.hasError) { //checks if the response throws an error
+            return Text("${snapshot.error}");
+          }
+          return CircularProgressIndicator();
+        },
+      ),
+
+    );
 */
+    
     Widget titleSection = Container(
           width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
@@ -307,6 +346,23 @@ class Empresa_det_fin extends StatelessWidget {
         },
       ),
     );
+    
+    Widget test = Container(
+      child: FutureBuilder<Post>(
+            future: post,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Text(snapshot.data.title);
+              } else if (snapshot.hasError) {
+                return Text("${snapshot.error}");
+              }
+
+              // By default, show a loading spinner.
+              return CircularProgressIndicator();
+            },
+          ),
+
+    );
 
 */
 
@@ -360,7 +416,7 @@ class Empresa_det_fin extends StatelessWidget {
           RaisedButton.icon(
           label: Text('Caracteristicas', style: TextStyle(color: Colors.white),) ,
           color: Color(0xff189bd3),
-          onPressed: () => _displayDialog(context),
+          onPressed: () => _alertCar(context),
           icon: Icon(Icons.extension),
           textColor: Colors.white,
 
@@ -368,7 +424,7 @@ class Empresa_det_fin extends StatelessWidget {
           RaisedButton.icon(
             label: Text('Servicios', style: TextStyle(color: Colors.white),) ,
             color: Color(0xff189bd3),
-            onPressed: () => _displayDialog(context),
+            onPressed: () => _alertSer(context),
             icon: Icon(Icons.accessibility),
             textColor: Colors.white,
           ),
@@ -398,13 +454,14 @@ class Empresa_det_fin extends StatelessWidget {
                 textSection,
                 buttonSection,
                 mapSection,
+                
 
 
               ],
             ),
             Container(
 
-              child: slider,
+              child: carrusel,
               height: 300.0,
 
             ),
