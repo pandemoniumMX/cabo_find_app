@@ -45,7 +45,7 @@ class _Buscador extends State<Buscador> {
   List<Note> _notesForDisplay = List<Note>();
 
   Future<List<Note>> fetchNotes() async {
-    var url = 'http://cabofind.com.mx/app_php/get_empresas.php';
+    var url = 'http://cabofind.com.mx/app_php/list_negocios.php';
     var response = await http.get(url);
 
     var notes = List<Note>();
@@ -65,7 +65,7 @@ class _Buscador extends State<Buscador> {
   Future<String> getData() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/get_empresas.php"),
+            "http://cabofind.com.mx/app_php/list_negocios.php"),
        
         headers: {
           "Accept": "application/json"
@@ -96,8 +96,7 @@ class _Buscador extends State<Buscador> {
     });
     super.initState();
 
-    super.initState(
-    );
+   
     this.getData(
     );
   }
@@ -174,20 +173,21 @@ class _Buscador extends State<Buscador> {
 
        // int id_sql = data[index]["ID_NEGOCIO"];
 
-        String nombre_sql = data[index]["NEG_NOMBRE"];
-        String etiquetas_sql = data[index]["NEG_ETIQUETAS"];
-        String foto_sql = data[index]["GAL_FOTO"];
-        String desc_sql = data[index]["NEG_DESCRIPCION"];
-        String mapa_sql = data[index]["NEG_MAP"];
-        String subcat_sql = data[index]["SUB_NOMBRE"];
-        String cat_sql = data[index]["CAT_NOMBRE"];
+           String nombre_sql = data[index]["NEG_NOMBRE"];
+              String cat_sql = data[index]["CAT_NOMBRE"];
+              String subcat_sql = data[index]["SUB_NOMBRE"];
+              String foto_sql = data[index]["GAL_FOTO"];
+              String etiquetas_sql = data[index]["NEG_ETIQUETAS"];
+              String desc_sql = data[index]["NEG_DESCRIPCION"];
+              String mapa_sql = data[index]["NEG_MAP"];
 
 
-        Navigator.push(context, new MaterialPageRoute
-          (builder: (context) => new Empresa_det_fin(empresa: Empresa(nombre_sql,etiquetas_sql,foto_sql,desc_sql,mapa_sql,subcat_sql,cat_sql))
-        )
 
-        );
+
+              Navigator.push(context, new MaterialPageRoute
+                (builder: (context) => new Empresa_det_fin(empresa: new Empresa(nombre_sql,cat_sql,subcat_sql,foto_sql,etiquetas_sql,desc_sql,mapa_sql))
+              )
+              );
 
       },
     );

@@ -98,29 +98,14 @@ class Publicacion_detalle_fin extends StatelessWidget {
                   ),
 
                 ),
-                Text(
-                  '${publicacion.titulo}-${publicacion.fec}',
-                  style: TextStyle(
-                    color: Colors.grey[500],
-                  ),
-                ),
+             
 
               ],
             ),
           ),
           /*3*/
 
-          Text(
-            'Rango de precios:',
-            style: TextStyle(
-              color: Colors.blue[500],
-            ),
-          ),
-          Icon(
-            Icons.star,
-            color: Colors.red[500],
-          ),
-          Text('101'),
+          
         ],
       ),
     );
@@ -183,7 +168,7 @@ class Publicacion_detalle_fin extends StatelessWidget {
         body: ListView(
           //scrollDirection: Axis.horizontal,
           children: [
-            Image.network('${publicacion.logo}',width: MediaQuery.of(context).size.width,height: 300,fit: BoxFit.cover ),
+            Image.network('${publicacion.logo}',width: MediaQuery.of(context).size.width,height: 300,fit: BoxFit.fill ),
             //Image.asset('android/assets/images/img1.jpg',width: 600,height: 240,fit: BoxFit.cover,),
             //loading,
             titleSection,
