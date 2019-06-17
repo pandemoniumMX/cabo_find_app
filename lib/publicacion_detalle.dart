@@ -98,6 +98,20 @@ class Publicacion_detalle_fin extends StatelessWidget {
                   ),
 
                 ),
+
+                Center(
+                //  padding: const EdgeInsets.only(bottom: 10,left: 150.0),
+                  child: Text(
+                    '${publicacion.cat}',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15.0,
+                      color: Color(0xff2E85DC)
+
+                    ),
+                  ),
+
+                ),
              
 
               ],
@@ -112,15 +126,16 @@ class Publicacion_detalle_fin extends StatelessWidget {
 
     Color color = Theme.of(context).primaryColor;
 
-    Widget textSection = Container(
+    Widget textSection = Card(
+      child: Container(
 
-      child: Padding(
-        //padding: const EdgeInsets.only( left: 20.0, right: 20.0,),
-        padding: const EdgeInsets.all(25.0),
+        padding: const EdgeInsets.only(left:20.0,bottom: 20.0,),
         child: Text(
           '${publicacion.det}',
-          softWrap: true,
-          style: TextStyle(fontSize: 20.0),
+          //softWrap: true,
+          style: TextStyle(fontSize: 20.0,
+
+          ),
         ),
         
       ),
@@ -157,7 +172,7 @@ class Publicacion_detalle_fin extends StatelessWidget {
         },
         shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
         color: Colors.blue,
-        child: Text('Más informacion sobre ${empresa.nombre}', style: TextStyle(fontSize: 20, color: Colors.white)),
+        child: Text('Más informacion', style: TextStyle(fontSize: 20, color: Colors.white)),
       ),
 
     );

@@ -99,15 +99,7 @@ Widget slider = Container(
                   'android/assets/images/img4.jpg'),
               AssetImage(
                   'android/assets/images/img5.jpg'),
-              /*
-                Image.network(
-                  'http://cabofind.com.mx/app_php/varialbess.php',
-                  fit: BoxFit.cover,
-                  height: 100.0,
-                  width: 100.0,
-                ),
-*/
-
+             
             ],
             animationCurve: Curves.fastOutSlowIn,
             animationDuration: Duration(

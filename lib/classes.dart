@@ -16,7 +16,6 @@ class Empresa {
 class Publicacion {
   final String nombre;
   final String neg;
-
   final String cat;
   final String subs;
   final String logo;

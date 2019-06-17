@@ -34,7 +34,10 @@ class Publicaciones extends StatefulWidget {
 
 
 class Publicacionesfull extends State<Publicaciones> {
-
+  ScrollController _scrollController = new ScrollController();
+  int _ultimoItem =0;
+  List<int> _listaNumeros = new List();
+  
   List data;
   List data_n;
   List data_c;
@@ -105,6 +108,12 @@ class Publicacionesfull extends State<Publicaciones> {
   void initState() {
     super.initState(
     );
+    _agregar10();
+    _scrollController.addListener((){
+      if(_scrollController.position.pixels == _scrollController.position.maxScrollExtent);
+      _agregar10();
+    }
+    );
     this.getData();
     this.getData_n();
     this.getCarrusel();
@@ -112,7 +121,16 @@ class Publicacionesfull extends State<Publicaciones> {
 
   }
 
+ void _agregar10(){
+   for (var i = 1; i < 3; i++) {
+     _ultimoItem++;
+     _listaNumeros.add(_ultimoItem);
+   }
+   setState(() {
+     
+   });
 
+ }
   Widget build(BuildContext context) {
 
  final Widget carrusel =   Container(
@@ -146,6 +164,7 @@ class Publicacionesfull extends State<Publicaciones> {
     Widget publicaciones =  Container(
 
       child:  ListView.builder(
+        controller: _scrollController,
         shrinkWrap: false,
         physics: BouncingScrollPhysics(),
         itemCount: data == null ? 0 : data.length,
@@ -308,6 +327,7 @@ class Publicacionesfull extends State<Publicaciones> {
 
 
     ],
+
     ),
 
     ),

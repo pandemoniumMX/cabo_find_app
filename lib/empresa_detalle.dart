@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:cabofind/carrusel.dart';
 import 'package:cabofind/list_antros.dart';
 import 'package:cabofind/listado_backup.dart';
 import 'package:cabofind/main.dart';
@@ -18,9 +19,11 @@ _Empresa_detalle createState() => new _Empresa_detalle();
 
 
 }
-List data;
 
 class _Empresa_detalle extends State<Empresa_detalle> {
+
+ 
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -28,8 +31,9 @@ class _Empresa_detalle extends State<Empresa_detalle> {
   }
 
 
-}
 
+}
+/*
 Future<Quote> getQuote() async {
   String url = 'http://cabofind.com.mx/app_php/fotos1.php';
   final response = await http.get(url, headers: {"Accept": "application/json"});
@@ -61,18 +65,37 @@ class Quote {
     );
   }
 }
-
+*/
 
 
 class Empresa_det_fin extends StatelessWidget {
-  List data;
+  
+
+  List data1;
 
   final Empresa empresa;
+   Future<String> getData() async {
+    var response = await http.get(
+        Uri.encodeFull(
+            "http://cabofind.com.mx/app_php/fotos.php"),
+       
+        headers: {
+          "Accept": "application/json"
+        }
+    );
 
+
+
+
+    print(
+        data1[2]["ID_NEGOCIO"]);
+
+    return "Success!";
+  }
   // In the constructor, require a Person
-  Empresa_det_fin({Key key, @required this.empresa}) : super(
+  Empresa_det_fin({Key key, @required this.empresa,this.data1}) : super(
       key: key);
-
+/*
   Future<List<User>> _getUsers() async {
     var data= await http.get("http://cabofind.com.mx/app_php/get_slider.php");
 
@@ -87,6 +110,8 @@ class Empresa_det_fin extends StatelessWidget {
 
     return users;
   }
+*/
+
 
   @override
 
@@ -117,15 +142,7 @@ class Empresa_det_fin extends StatelessWidget {
         });
   }
   List<String> _listViewData = [
-    "A List View with many Text - Here's one!",
-    "A List View with many Text - Here's another!",
-    "A List View with many Text - Here's more!",
-    "A List View with many Text - Here's more!",
-    "A List View with many Text - Here's more!",
-    "A List View with many Text - Here's more!",
-    "A List View with many Text - Here's more!",
-    "A List View with many Text - Here's more!",
-    "A List View with many Text - Here's more!",
+    'Jotos'
   ];
  Widget build(BuildContext context){
 
@@ -134,7 +151,7 @@ class Empresa_det_fin extends StatelessWidget {
 
        scrollDirection: Axis.horizontal,
 
-       itemCount: data == null ? 0 : data.length,
+       itemCount: data1 == null ? 0 : data1.length,
        itemBuilder: (BuildContext context, int index) {
 
          return  new Container(
@@ -145,7 +162,7 @@ class Empresa_det_fin extends StatelessWidget {
              children: <Widget>[
                Padding(
                  child: Image.network(
-                   data[index]["GAL_FOTO"],
+                   data1[index]["GAL_FOTO"],
                    fit: BoxFit.cover,
                    height: 400.0,
                    width: 400.0,
@@ -159,9 +176,7 @@ class Empresa_det_fin extends StatelessWidget {
      ),
    );
 
-
-
-
+/*
    Widget video = Container(
 
      decoration: BoxDecoration(
@@ -218,7 +233,7 @@ class Empresa_det_fin extends StatelessWidget {
      ),
 
    );
-
+*/
     Widget titleSection = Container(
           width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
@@ -231,14 +246,15 @@ class Empresa_det_fin extends StatelessWidget {
             mainAxisAlignment: 
             MainAxisAlignment.center,            
             children: [
-              
-              Text(
-                '${empresa.nombre}',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                    fontSize: 20.0
+
+                 Text(
+                  '${empresa.nombre}',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                      fontSize: 20.0
+                  ),
                 ),
-              ),
+
               
 
             ],
@@ -250,7 +266,8 @@ class Empresa_det_fin extends StatelessWidget {
                   color: Colors.grey[500],
                 ),
               ),
-          ],)
+          ],
+          )
 
           
         ],
@@ -258,7 +275,7 @@ class Empresa_det_fin extends StatelessWidget {
     );
 
     Color color = Theme.of(context).primaryColor;
-
+/*
     Widget galeria2 =  Container(
       margin: const EdgeInsets.all(10.0),
       color: Colors.amber[600],
@@ -291,18 +308,21 @@ class Empresa_det_fin extends StatelessWidget {
       ),
     );
 
-
+*/
 
 
 
 
     Widget textSection = Container(
       padding: const EdgeInsets.only(bottom: 10,left: 20,right: 20),
-      child: Text(
-        '${empresa.desc}',
-        maxLines: 10,
-        softWrap: true,
-        textAlign: TextAlign.center,
+      child: Card(
+              child: Text(
+          '${empresa.desc}',
+          maxLines: 10,
+          softWrap: true,
+          textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 18.0),
+        ),
       ),
 
     );
@@ -316,33 +336,41 @@ class Empresa_det_fin extends StatelessWidget {
     }
     Widget mapSection = Container(
       padding: const EdgeInsets.only(bottom: 10,left: 125,right: 125),
-      child: RaisedButton(
+      child: RaisedButton.icon(
         textColor: Colors.white,
-        color: Colors.green,
+        color: Color(0xff189bd3),
         onPressed: mapa,
-        child: Text('Abrir Mapa'),
+        icon: Icon(Icons.place),
+
+        label: Text('Abrir mapa'),
+
+        //child: Text('Abrir Mapa' ),
       ),
+      
     );
 
 
     Widget buttonSection = Container(
       width: MediaQuery.of(context).size.width +30,
 
-      decoration: BoxDecoration(
-          border: Border.all(
-              color: Colors.blue)),
+    
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          RaisedButton(
-          child: Text('Cracteristicas'),
-          color: Colors.pinkAccent,
-         onPressed: () => _displayDialog(context),
+          RaisedButton.icon(
+          label: Text('Caracteristicas', style: TextStyle(color: Colors.white),) ,
+          color: Color(0xff189bd3),
+          onPressed: () => _displayDialog(context),
+          icon: Icon(Icons.extension),
+          textColor: Colors.white,
+
         ),
-          RaisedButton(
-            child: Text('Servicios'),
-            color: Colors.yellow,
+          RaisedButton.icon(
+            label: Text('Servicios', style: TextStyle(color: Colors.white),) ,
+            color: Color(0xff189bd3),
             onPressed: () => _displayDialog(context),
+            icon: Icon(Icons.accessibility),
+            textColor: Colors.white,
           ),
 
         ],
@@ -370,10 +398,6 @@ class Empresa_det_fin extends StatelessWidget {
                 textSection,
                 buttonSection,
                 mapSection,
-
-
-
-
 
 
               ],
