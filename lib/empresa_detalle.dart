@@ -79,8 +79,6 @@ class Post {
 
 void main() => runApp(Empresa_det_fin(post: fetchPost()));
 */
-
-
 class Empresa_det_fin extends StatelessWidget {
 
 
@@ -108,7 +106,6 @@ class Empresa_det_fin extends StatelessWidget {
 
     return "Success!";
   }
-    //@override
   // In the constructor, require a Person
   Empresa_det_fin({Key key, @required this.empresa,this.data1}) : super(
       key: key);
@@ -130,7 +127,7 @@ class Empresa_det_fin extends StatelessWidget {
 */
 
 
-
+  @override
 
   _alertSer(BuildContext context) async {
     return showDialog(
@@ -348,10 +345,25 @@ class Empresa_det_fin extends StatelessWidget {
         },
       ),
     );
-    */
-   
+    
+    Widget test = Container(
+      child: FutureBuilder<Post>(
+            future: post,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Text(snapshot.data.title);
+              } else if (snapshot.hasError) {
+                return Text("${snapshot.error}");
+              }
 
+              // By default, show a loading spinner.
+              return CircularProgressIndicator();
+            },
+          ),
 
+    );
+
+*/
 
 
 
@@ -485,5 +497,12 @@ class Empresa_det_fin extends StatelessWidget {
     );
   }
 
- 
+  @override
+
+  State<StatefulWidget> createState() {
+
+    // TODO: implement createState
+
+    return null;
+  }
 }

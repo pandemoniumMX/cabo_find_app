@@ -15,15 +15,7 @@ import 'package:flutter/material.dart';
 class Publicaciones extends StatefulWidget {
    
 
-  Widget build(BuildContext context){
-    return ListView(
-      children: <Widget>[
-        slider,
 
-      ],
-    );
-
-  }
   @override
   Publicacionesfull createState() => new Publicacionesfull();
 
@@ -281,7 +273,7 @@ class Publicacionesfull extends State<Publicaciones> {
 
 
               Navigator.push(context, new MaterialPageRoute
-                (builder: (context) => new Publicacion_detalle_fin(
+                (builder: (context) => new Publicacion_detalle(
                 publicacion: new Publicacion(nom,neg,cat,sub,gal,tit,det,fec),
                 empresa: new Empresa(nombre_n, cat_n, sub_n, log_n, eti_n, desc_n, map_n),)
               )

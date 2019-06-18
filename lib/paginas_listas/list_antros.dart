@@ -59,6 +59,12 @@ class ListaAntrosFull extends State<ListaAntros> {
     this.getData(
     );
   }
+  @override
+void dispose() {
+ // _audioPlayer?.dipose();
+  super.dispose();
+}
+  
 
 
 

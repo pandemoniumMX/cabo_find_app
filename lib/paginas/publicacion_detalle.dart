@@ -2,34 +2,35 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:cabofind/paginas/empresa_detalle.dart';
 import 'package:cabofind/paginas_listas/list_publicaciones.dart';
+import 'package:custom_chewie/custom_chewie.dart';
 import 'package:http/http.dart' as http;
 import 'package:cabofind/utilidades/classes.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:video_player/video_player.dart';
 
 class Publicacion_detalle extends StatefulWidget {
   
+  
+
+
+
 
 @override
+  // In the constructor, require a Person
+
+
+
 _Publicacion_detalle createState() => new _Publicacion_detalle();
 }
 
 
 class _Publicacion_detalle extends State<Publicacion_detalle> {
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    return null;
-  }
-
-  
-  }
-
-
-
-class Publicacion_detalle_fin extends StatelessWidget {
-  List data;
-
+   List data;
+    final Publicacion publicacion;
+  final Empresa empresa;
+  Publicacion_detalle({GlobalKey key, @required this.publicacion, this.empresa}) : super(
+      key: key);
   Widget setupAlertDialoadContainer() {
 
     return Container(
@@ -59,20 +60,11 @@ class Publicacion_detalle_fin extends StatelessWidget {
         });
   }
   // Declare a field that holds the Person data
-  final Publicacion publicacion;
-  final Empresa empresa;
 
-
-
-  // In the constructor, require a Person
-  Publicacion_detalle_fin({Key key, @required this.publicacion, this.empresa}) : super(
-      key: key);
 
 
     
   @override
-
-
 
  Widget build(BuildContext context){
    
@@ -143,6 +135,31 @@ class Publicacion_detalle_fin extends StatelessWidget {
 
     );
 
+     Widget video = Container(
+      child:  Chewie(
+               new VideoPlayerController.network(
+                   'https://www.sample-videos.com/video123/mp4/720/big_buck_bunny_720p_20mb.mp4'
+               ),
+               aspectRatio: 3 / 2,
+               autoPlay: true,
+               looping: false,
+               // showControls: false,
+                materialProgressColors: ChewieProgressColors(
+                 playedColor: Colors.red,
+                handleColor: Colors.blue,
+                  backgroundColor: Colors.grey,
+                  bufferedColor: Colors.lightGreen,
+                ),
+               // placeholder: Container(
+               //   color: Colors.grey,
+               // ),
+               // autoInitialize: true,
+
+             ),
+
+    );
+    
+
     Widget boton = Container(
       padding: const EdgeInsets.only(bottom: 10,left: 20,right: 20),
       child: RaisedButton(
@@ -189,6 +206,7 @@ class Publicacion_detalle_fin extends StatelessWidget {
             titleSection,
             textSection,
             boton,
+            video,
 
 
           ],
@@ -228,10 +246,10 @@ class Publicacion_detalle_fin extends StatelessWidget {
       ],
     );
   }
-
-  @override
-  State<StatefulWidget> createState() {
-    // TODO: implement createState
-    return null;
   }
-}
+
+  
+  
+
+
+
