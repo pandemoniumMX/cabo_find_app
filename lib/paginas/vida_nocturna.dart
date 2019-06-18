@@ -1,8 +1,5 @@
-
-import 'package:cabofind/list_antros.dart';
-import 'package:cabofind/carrusel.dart';
-import 'package:cabofind/listado_test.dart';
-import 'package:cabofind/slider_backup.dart';
+import 'package:cabofind/paginas_listas/list_antros.dart';
+import 'package:cabofind/paginas/carrusel.dart';
 import 'package:flutter/material.dart';
 
 

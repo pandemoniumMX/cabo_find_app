@@ -1,28 +1,14 @@
-import 'package:cabofind/buscador.dart';
-import 'package:cabofind/buscador.dartx';
-import 'package:cabofind/carousel_pro.dart';
-import 'package:cabofind/empresa_detalle.dart';
-import 'package:cabofind/list_antros.dart';
-import 'package:cabofind/carrusel.dart';
-import 'package:cabofind/listado_backup.dart';
-import 'package:cabofind/listado_test.dart';
-import 'package:cabofind/main.dart';
-import 'package:cabofind/main_eng.dart';
-import 'package:cabofind/slider_backup.dart';
-import 'package:cabofind/slider_x.dart';
-//import 'package:cabofind/slider_backup.dart';
+import 'package:cabofind/utilidades/buscador.dart';
+import 'package:cabofind/paginas_listas/list_antros.dart';
+import 'package:cabofind/paginas/carrusel.dart';
+import 'package:cabofind/paginas/slider_backup.dart';
 import 'package:flutter/material.dart';
-import 'acercade.dart';
-import 'restaurantes.dart';
-import 'vida_nocturna.dart';
-import 'servicios.dart';
-import 'compras.dart';
-//import 'descubre.darb';
+import 'package:cabofind/paginas/acercade.dart';
+import 'package:cabofind/paginas/restaurantes.dart';
+import 'package:cabofind/paginas/vida_nocturna.dart';
+import 'package:cabofind/paginas/servicios.dart';
+import 'package:cabofind/paginas/compras.dart';
 
-import 'nav_bottom.dart';
-//import 'listado.dart';
-
-//import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 
 
@@ -182,7 +168,6 @@ class _MyHomePageState extends State<MyHomePageEng> {
       //lo que se declare aqui, sera el contenido de los botones de navigacion al fondo
      // new ImageCarousel2(),
       new ImageCarousel2(),
-      new Listviewx(),
       new ListaAntros(),
       new Carrusel(),
 
@@ -262,7 +247,7 @@ class _MyHomePageState extends State<MyHomePageEng> {
 
   
             new ListTile(
-              title: new Text('Restaurantes'),
+              title: new Text('Restaurants'),
               leading: Icon(Icons.restaurant),
               
 
@@ -296,7 +281,7 @@ class _MyHomePageState extends State<MyHomePageEng> {
 */
             ),
             new ListTile(
-              title: new Text('Vida nocturna'),
+              title: new Text('Night life'),
               leading: Icon(Icons.group),
 
               onTap: () {
@@ -308,7 +293,7 @@ class _MyHomePageState extends State<MyHomePageEng> {
               },
             ),
             new ListTile(
-              title: new Text('Descubre'),
+              title: new Text('Discover'),
               leading: Icon(Icons.beach_access),
 
               onTap: () {
@@ -320,7 +305,7 @@ class _MyHomePageState extends State<MyHomePageEng> {
               },
             ),
             new ListTile(
-              title: new Text('De compras'),
+              title: new Text('Shopping'),
               leading: Icon(Icons.shopping_basket),
 
               onTap: () {
@@ -332,7 +317,7 @@ class _MyHomePageState extends State<MyHomePageEng> {
               },
             ),
             new ListTile(
-              title: new Text('Servicios'),
+              title: new Text('Services'),
               leading: Icon(Icons.build),
 
               onTap: () {
@@ -344,7 +329,7 @@ class _MyHomePageState extends State<MyHomePageEng> {
               },
             ),
             new ListTile(
-              title: new Text('Acerca de nosotros'),
+              title: new Text('About us'),
               leading: Icon(Icons.record_voice_over),
 
               onTap: () {
@@ -356,7 +341,7 @@ class _MyHomePageState extends State<MyHomePageEng> {
               },
             ),
             new ListTile(
-              title: new Text('English'),
+              title: new Text('Español'),
               leading: Icon(Icons.flag),
 
               onTap: () {
@@ -364,7 +349,7 @@ class _MyHomePageState extends State<MyHomePageEng> {
                 Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (BuildContext context) => new MyHomePage()));
+                        builder: (BuildContext context) => new MyApp()));
               },
             ),
           ],

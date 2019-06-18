@@ -1,31 +1,15 @@
 import 'dart:convert';
-
-import 'package:cabofind/buscador.dart';
-import 'package:cabofind/buscador.dartx';
-import 'package:cabofind/carousel_pro.dart';
-import 'package:cabofind/empresa_detalle.dart';
-import 'package:cabofind/list_antros.dart';
-import 'package:cabofind/carrusel.dart';
-import 'package:cabofind/listado_backup.dart';
-import 'package:cabofind/listado_test.dart';
+import 'package:cabofind/utilidades/buscador.dart';
+import 'package:cabofind/utilidades/carousel_pro.dart';
+import 'package:cabofind/paginas/carrusel.dart';
 import 'package:cabofind/main_eng.dart';
-import 'package:cabofind/publicaciones.dart';
-import 'package:cabofind/slider_backup.dart';
-import 'package:cabofind/slider_x.dart';
-//import 'package:cabofind/slider_backup.dart';
+import 'package:cabofind/paginas_listas/list_publicaciones.dart';
 import 'package:flutter/material.dart';
-import 'acercade.dart';
-import 'restaurantes.dart';
-import 'vida_nocturna.dart';
-import 'servicios.dart';
-import 'compras.dart';
-//import 'descubre.darb';
-
-import 'nav_bottom.dart';
-//import 'listado.dart';
-
-//import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
+import 'package:cabofind/paginas/acercade.dart';
+import 'package:cabofind/paginas/restaurantes.dart';
+import 'package:cabofind/paginas/vida_nocturna.dart';
+import 'package:cabofind/paginas/servicios.dart';
+import 'package:cabofind/paginas/compras.dart';
 
 
 
@@ -129,7 +113,6 @@ class _MyHomePageState extends State<MyHomePage> {
      // new ImageCarousel2(),
       //new ImageCarousel2(),
       new Publicaciones(),
-      new Listviewx(),
       new Carrusel(),
 
       //new ImageCarousel2(),

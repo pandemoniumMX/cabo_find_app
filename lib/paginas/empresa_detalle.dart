@@ -1,13 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:cabofind/carousel_pro.dart';
-import 'package:cabofind/carrusel.dart';
-import 'package:cabofind/list_antros.dart';
-import 'package:cabofind/listado_backup.dart';
+import 'package:cabofind/utilidades/carousel_pro.dart';
+import 'package:cabofind/paginas/carrusel.dart';
+import 'package:cabofind/paginas_listas/list_antros.dart';
 import 'package:cabofind/main.dart';
 import 'package:custom_chewie/custom_chewie.dart';
 import 'package:http/http.dart' as http;
-import 'package:cabofind/classes.dart';
+import 'package:cabofind/utilidades/classes.dart';
 
 import 'package:video_player/video_player.dart';
 import 'package:flutter/material.dart';

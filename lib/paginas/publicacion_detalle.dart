@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:cabofind/empresa_detalle.dart';
-import 'package:cabofind/publicaciones.dart';
+import 'package:cabofind/paginas/empresa_detalle.dart';
+import 'package:cabofind/paginas_listas/list_publicaciones.dart';
 import 'package:http/http.dart' as http;
-import 'package:cabofind/classes.dart';
+import 'package:cabofind/utilidades/classes.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 

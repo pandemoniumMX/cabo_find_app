@@ -1,11 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:cabofind/slider_backup.dart';
+import 'package:cabofind/paginas/slider_backup.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:cabofind/carousel_pro.dart';
-import 'package:cabofind/empresa_detalle.dart';
-import 'package:cabofind/listado_test.dart';
+import 'package:cabofind/utilidades/carousel_pro.dart';
+import 'package:cabofind/paginas/empresa_detalle.dart';
 import 'package:flutter/material.dart';
 
 
