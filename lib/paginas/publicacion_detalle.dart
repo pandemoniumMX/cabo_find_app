@@ -9,28 +9,31 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
 
-class Publicacion_detalle extends StatefulWidget {
-  
-  
+class Publicacion_detalle extends StatelessWidget {
 
+   Publicacion publicacion;
 
-
-
-@override
-  // In the constructor, require a Person
-
-
-
-_Publicacion_detalle createState() => new _Publicacion_detalle();
+  @override
+  Widget build(BuildContext context) {
+    return new MaterialApp(
+      title: 'Flutter Demo',
+      theme: new ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: new Publicacion_detalle_fin(),
+    );
+  }
 }
 
+class Publicacion_detalle_fin extends StatefulWidget {
 
-class _Publicacion_detalle extends State<Publicacion_detalle> {
-   List data;
-    final Publicacion publicacion;
+  List data;
+  final Publicacion publicacion;
   final Empresa empresa;
-  Publicacion_detalle({GlobalKey key, @required this.publicacion, this.empresa}) : super(
+  Publicacion_detalle_fin({Key key, @required this.publicacion, this.empresa}) : super(
       key: key);
+
+
   Widget setupAlertDialoadContainer() {
 
     return Container(
@@ -138,7 +141,7 @@ class _Publicacion_detalle extends State<Publicacion_detalle> {
      Widget video = Container(
       child:  Chewie(
                new VideoPlayerController.network(
-                   'https://www.sample-videos.com/video123/mp4/720/big_buck_bunny_720p_20mb.mp4'
+                   'http://clips.vorwaerts-gmbh.de/VfE_html5.mp4'
                ),
                aspectRatio: 3 / 2,
                autoPlay: true,
@@ -246,7 +249,13 @@ class _Publicacion_detalle extends State<Publicacion_detalle> {
       ],
     );
   }
+
+  @override
+  State<StatefulWidget> createState() {
+    // TODO: implement createState
+    return null;
   }
+}
 
   
   

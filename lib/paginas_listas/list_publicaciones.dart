@@ -273,7 +273,7 @@ class Publicacionesfull extends State<Publicaciones> {
 
 
               Navigator.push(context, new MaterialPageRoute
-                (builder: (context) => new Publicacion_detalle(
+                (builder: (context) => new Publicacion_detalle_fin(
                 publicacion: new Publicacion(nom,neg,cat,sub,gal,tit,det,fec),
                 empresa: new Empresa(nombre_n, cat_n, sub_n, log_n, eti_n, desc_n, map_n),)
               )
