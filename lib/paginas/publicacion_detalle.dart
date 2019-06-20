@@ -63,7 +63,7 @@ class Publicacion_detalle_fin extends StatefulWidget {
   Publicacion_detalle_fin({Key key, @required this.publicacion, this.empresa}) : super(
       key: key);
 
-        
+
 
 
 
@@ -75,6 +75,7 @@ class Publicacion_detalle_fin extends StatefulWidget {
 class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
   List data;
 
+            VideoPlayerController _controller;
 
   Widget setupAlertDialoadContainer() {
 
@@ -108,7 +109,16 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
 
 
 
-    
+      @override
+  void initState() {
+    super.initState();
+    _controller = VideoPlayerController.network(
+        'http://clips.vorwaerts-gmbh.de/VfE_html5.mp4')
+      ..initialize().then((_) {
+        // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+        setState(() {});
+      });
+  }
   @override
 
  Widget build(BuildContext context){
@@ -180,28 +190,21 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
 
     );
 
-     Widget video = Container(
-      child:  Chewie(
-               new VideoPlayerController.network(
-                   'http://clips.vorwaerts-gmbh.de/VfE_html5.mp4'
-               ),
-               aspectRatio: 3 / 2,
-               autoPlay: true,
-               looping: false,
-               // showControls: false,
-                materialProgressColors: ChewieProgressColors(
-                 playedColor: Colors.red,
-                handleColor: Colors.blue,
-                  backgroundColor: Colors.grey,
-                  bufferedColor: Colors.lightGreen,
-                ),
-               // placeholder: Container(
-               //   color: Colors.grey,
-               // ),
-               // autoInitialize: true,
-
-             ),
-
+ Widget video = Container(
+      child:  
+          Center(
+              child: _controller.value.initialized
+                  ? AspectRatio(
+                      aspectRatio: _controller.value.aspectRatio,
+                      child: VideoPlayer(_controller),
+                    
+                    )
+                  : Container(),
+            ),
+                       
+        
+      
+        
     );
     
 
@@ -293,8 +296,12 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
     );
   }
 
-  @override
-  State<StatefulWidget> createState() {
+   @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+  }
+    State<StatefulWidget> createState() {
     // TODO: implement createState
     return null;
   }
