@@ -9,29 +9,71 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
 
+/*
 class Publicacion_detalle extends StatelessWidget {
 
-   Publicacion publicacion;
+   List data;
+   final Publicacion publicacion;
+   final Empresa empresa;
 
-  @override
+  Publicacion_detalle({Key key, @required this.publicacion, this.empresa}) : super(key: key);              
+
+
+
+  @override  
   Widget build(BuildContext context) {
-    return new MaterialApp(
+
+              var nom ='${publicacion.nombre}';
+              var neg ='${publicacion.neg}';
+              var cat ='${publicacion.cat}';
+              var sub ='${publicacion.subs}';
+              var gal ='${publicacion.logo}';
+              var tit ='${publicacion.titulo}';
+              var det ='${publicacion.det}';
+              var fec ='${publicacion.fec}';
+
+              var nombre_n = '${empresa.nombre}';
+              var cat_n = '${empresa.cat}';
+              var sub_n = '${empresa.subs}';
+              var log_n = '${empresa.logo}';
+              var eti_n = '${empresa.etiquetas}';
+              var desc_n = '${empresa.desc}';
+              var map_n = '${empresa.maps}';
+
+
+
+              return new MaterialApp(
       title: 'Flutter Demo',
       theme: new ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: new Publicacion_detalle_fin(),
+      home: new Publicacion_detalle_fin(publicacion: Publicacion(nom,neg,cat,sub,gal,tit,det,fec), empresa: Empresa(nombre_n, cat_n, sub_n, log_n, eti_n, desc_n, map_n))
+
+
     );
   }
 }
+*/
 
 class Publicacion_detalle_fin extends StatefulWidget {
 
   List data;
-  final Publicacion publicacion;
+ final Publicacion publicacion;
   final Empresa empresa;
   Publicacion_detalle_fin({Key key, @required this.publicacion, this.empresa}) : super(
       key: key);
+
+        
+
+
+
+  @override
+
+  _Publicacion_detalles createState() => new _Publicacion_detalles();
+}
+
+class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
+  List data;
 
 
   Widget setupAlertDialoadContainer() {
@@ -84,7 +126,7 @@ class Publicacion_detalle_fin extends StatefulWidget {
                 Container(
                   padding: const EdgeInsets.only(bottom: 10),
                   child: Text(
-                    '${publicacion.titulo}',
+                    widget.publicacion.titulo,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                         fontSize: 20.0
@@ -97,7 +139,7 @@ class Publicacion_detalle_fin extends StatefulWidget {
                 Center(
                 //  padding: const EdgeInsets.only(bottom: 10,left: 150.0),
                   child: Text(
-                    '${publicacion.cat}',
+                    widget.publicacion.cat,
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 15.0,
@@ -126,7 +168,7 @@ class Publicacion_detalle_fin extends StatefulWidget {
 
         padding: const EdgeInsets.only(left:20.0,bottom: 20.0,),
         child: Text(
-          '${publicacion.det}',
+                    widget.publicacion.det,
           //softWrap: true,
           style: TextStyle(fontSize: 20.0,
 
@@ -166,7 +208,7 @@ class Publicacion_detalle_fin extends StatefulWidget {
     Widget boton = Container(
       padding: const EdgeInsets.only(bottom: 10,left: 20,right: 20),
       child: RaisedButton(
-
+/*
         //child: Text(‘Send data to the second page’),
         onPressed: () {
           
@@ -190,6 +232,7 @@ class Publicacion_detalle_fin extends StatefulWidget {
             )
           );
         },
+        */
         shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
         color: Colors.blue,
         child: Text('Más informacion', style: TextStyle(fontSize: 20, color: Colors.white)),
@@ -203,7 +246,8 @@ class Publicacion_detalle_fin extends StatefulWidget {
         body: ListView(
           //scrollDirection: Axis.horizontal,
           children: [
-            Image.network('${publicacion.logo}',width: MediaQuery.of(context).size.width,height: 300,fit: BoxFit.fill ),
+            Image.network(widget.publicacion.logo
+,width: MediaQuery.of(context).size.width,height: 300,fit: BoxFit.fill ),
             //Image.asset('android/assets/images/img1.jpg',width: 600,height: 240,fit: BoxFit.cover,),
             //loading,
             titleSection,
@@ -215,8 +259,7 @@ class Publicacion_detalle_fin extends StatefulWidget {
           ],
         ),
         appBar: new AppBar(
-          title: new Text(
-    '${publicacion.nombre}',
+          title: new Text(widget.publicacion.nombre,
     style: TextStyle(
     fontWeight: FontWeight.bold,
     fontSize: 20.0

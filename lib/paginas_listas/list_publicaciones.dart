@@ -95,13 +95,8 @@ class Publicacionesfull extends State<Publicaciones> {
  
   @override
   void initState() {
-    super.initState(
-    );
-    _agregar10();
-    _scrollController.addListener((){
-      if(_scrollController.position.pixels == _scrollController.position.maxScrollExtent);
-      _agregar10();
-    }
+    super.initState(    
+   
     );
     this.getData();
     this.getData_n();
@@ -110,16 +105,7 @@ class Publicacionesfull extends State<Publicaciones> {
 
   }
 
- void _agregar10(){
-   for (var i = 1; i < 3; i++) {
-     _ultimoItem++;
-     _listaNumeros.add(_ultimoItem);
-   }
-   setState(() {
-     
-   });
-
- }
+ 
   Widget build(BuildContext context) {
 
  final Widget carrusel =   Container(
