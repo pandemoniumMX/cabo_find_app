@@ -114,6 +114,7 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
     super.initState();
     _controller = VideoPlayerController.network(
         'http://clips.vorwaerts-gmbh.de/VfE_html5.mp4')
+        
       ..initialize().then((_) {
         // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
         setState(() {});
@@ -211,18 +212,17 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
     Widget boton = Container(
       padding: const EdgeInsets.only(bottom: 10,left: 20,right: 20),
       child: RaisedButton(
-/*
+
         //child: Text(‘Send data to the second page’),
         onPressed: () {
           
-          //int id = '${empresa.id}';
-          String nombre = '${empresa.nombre}';
-          String cat = '${empresa.cat}';
-          String subs = '${empresa.subs}';
-          String logo = '${empresa.logo}';
-          String etiquetas = '${empresa.etiquetas}';
-          String desc = '${empresa.desc}';
-          String maps = '${empresa.maps}';
+              var nombre = widget.empresa.nombre;
+              var cat = widget.empresa.cat;
+              var subs = widget.empresa.subs;
+              var logo = widget.empresa.logo;
+              var etiquetas = widget.empresa.etiquetas;
+              var desc = widget.empresa.desc;
+              var maps = widget.empresa.maps;
 
 //print('$empresa.desc');
 
@@ -235,7 +235,7 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
             )
           );
         },
-        */
+        
         shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
         color: Colors.blue,
         child: Text('Más informacion', style: TextStyle(fontSize: 20, color: Colors.white)),
