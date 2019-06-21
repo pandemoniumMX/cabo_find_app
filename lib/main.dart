@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:cabofind/paginas/youtube.dart';
 import 'package:cabofind/utilidades/buscador.dart';
 import 'package:cabofind/utilidades/carousel_pro.dart';
 import 'package:cabofind/paginas/carrusel.dart';
@@ -115,6 +116,7 @@ class _MyHomePageState extends State<MyHomePage> {
       //new ImageCarousel2(),
       new Publicaciones(),
       new Carrusel(),
+      new Youtube(),
 
       //new ImageCarousel2(),
 

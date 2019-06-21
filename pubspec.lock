@@ -50,13 +50,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.2"
-  custom_chewie:
-    dependency: "direct main"
-    description:
-      name: custom_chewie
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.7.0"
   dio:
     dependency: "direct main"
     description:
@@ -69,13 +62,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_android_pip:
-    dependency: transitive
-    description:
-      name: flutter_android_pip
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.0.2"
   flutter_page_indicator:
     dependency: transitive
     description:
@@ -130,13 +116,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.6"
-  open_iconic_flutter:
-    dependency: transitive
-    description:
-      name: open_iconic_flutter
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.3.0"
   path:
     dependency: transitive
     description:
@@ -247,6 +226,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.6.0"
+  youtube_player_flutter:
+    dependency: "direct main"
+    description:
+      name: youtube_player_flutter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.0"
+  ytview:
+    dependency: transitive
+    description:
+      name: ytview
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.7+3"
 sdks:
   dart: ">=2.1.0 <3.0.0"
-  flutter: ">=0.5.6 <2.0.0"
+  flutter: ">=1.0.0 <2.0.0"

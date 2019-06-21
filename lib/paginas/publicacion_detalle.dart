@@ -2,12 +2,13 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:cabofind/paginas/empresa_detalle.dart';
 import 'package:cabofind/paginas_listas/list_publicaciones.dart';
-import 'package:custom_chewie/custom_chewie.dart';
+//import 'package:custom_chewie/custom_chewie.dart';
 import 'package:http/http.dart' as http;
 import 'package:cabofind/utilidades/classes.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 /*
 class Publicacion_detalle extends StatelessWidget {
@@ -75,8 +76,31 @@ class Publicacion_detalle_fin extends StatefulWidget {
 class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
   List data;
 
-            VideoPlayerController _controller;
+  YoutubePlayerController _controller = YoutubePlayerController();
+  var _idController = TextEditingController();
+  var _seekToController = TextEditingController();
+  double _volume = 100;
+  bool _muted = false;
+  String _playerStatus = "";
+  String _errorCode = '0';
 
+  String _videoId = "64t3a2qV_rg";
+
+  void listener() {
+
+    setState(() {
+      _playerStatus = _controller.value.playerState.toString();
+      _errorCode = _controller.value.errorCode.toString();
+      print(_controller.value.toString());
+    });
+  }
+
+  @override
+  void deactivate() {
+    // This pauses video while navigating to next page.
+    _controller.pause();
+    super.deactivate();
+  }
   Widget setupAlertDialoadContainer() {
 
     return Container(
@@ -109,17 +133,7 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
 
 
 
-      @override
-  void initState() {
-    super.initState();
-    _controller = VideoPlayerController.network(
-        'http://clips.vorwaerts-gmbh.de/VfE_html5.mp4')
-        
-      ..initialize().then((_) {
-        // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
-        setState(() {});
-      });
-  }
+
   @override
 
  Widget build(BuildContext context){
@@ -134,13 +148,12 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 /*2*/
-                Container(
-                  padding: const EdgeInsets.only(bottom: 10),
+                Center(
                   child: Text(
                     widget.publicacion.titulo,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                        fontSize: 20.0
+                        fontSize: 25.0
 
                     ),
                   ),
@@ -192,16 +205,36 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
     );
 
  Widget video = Container(
-      child:  
-          Center(
-              child: _controller.value.initialized
-                  ? AspectRatio(
-                      aspectRatio: _controller.value.aspectRatio,
-                      child: VideoPlayer(_controller),
-                    
-                    )
-                  : Container(),
+      child:
+      Column(
+        children: <Widget>[
+          SizedBox(
+            height: 20.0,
+          ),
+          Center(child: Text('Video promocional',style: TextStyle(fontSize: 23.0,color: Colors.blueAccent ),)),
+        SizedBox(
+            height: 20.0,
+          ),
+          YoutubePlayer(
+            context: context,
+            videoId: _videoId,
+            autoPlay: true,
+            showVideoProgressIndicator: true,
+            videoProgressIndicatorColor: Colors.amber,
+            progressColors: ProgressColors(
+              playedColor: Colors.amber,
+              handleColor: Colors.amberAccent,
             ),
+            onPlayerInitialized: (controller) {
+              _controller = controller;
+              _controller.addListener(listener);
+            },
+          ),
+          SizedBox(
+            height: 20.0,
+          ),
+        ],
+      ),
                        
         
       
@@ -239,6 +272,7 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
         shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
         color: Colors.blue,
         child: Text('Más informacion', style: TextStyle(fontSize: 20, color: Colors.white)),
+
       ),
 
     );
@@ -255,8 +289,9 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
             //loading,
             titleSection,
             textSection,
-            boton,
             video,
+            boton,
+
 
 
           ],

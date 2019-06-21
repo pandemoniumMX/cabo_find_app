@@ -25,9 +25,10 @@ dependencies:
   dio: 1.0.0
   url_launcher: ^5.0.2
   flutter_widget_gallery: ^0.1.2
+  youtube_player_flutter: ^1.1.0
   video_player: 0.6.0
   #//chewie: 0.9.7
-  custom_chewie: ^0.7.0
+  #custom_chewie: ^0.7.0
   flutter_swiper : ^1.1.6
 
   # The following adds the Cupertino Icons font to your application.
