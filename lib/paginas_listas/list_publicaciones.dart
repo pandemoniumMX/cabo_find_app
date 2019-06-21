@@ -237,6 +237,7 @@ class Publicacionesfull extends State<Publicaciones> {
             ),
 
             onTap: () {
+              int id = data[index]["ID_PUBLICACION"];
               String nom = data[index]["NEG_NOMBRE"];
               String neg = data[index]["NEG_LUGAR"];
               String cat = data[index]["CAT_NOMBRE"];
@@ -246,6 +247,7 @@ class Publicacionesfull extends State<Publicaciones> {
               String det = data[index]["PUB_DETALLE"];
               String fec = data[index]["PUB_FECHA"];
 
+              int id_n = data[index]["ID_NEGOCIO"];
               String nombre_n = data_n[index]["NEG_NOMBRE"];
               String cat_n = data_n[index]["CAT_NOMBRE"];
               String sub_n = data_n[index]["SUB_NOMBRE"];
@@ -260,8 +262,8 @@ class Publicacionesfull extends State<Publicaciones> {
 
               Navigator.push(context, new MaterialPageRoute
                 (builder: (context) => new Publicacion_detalle_fin(
-                publicacion: new Publicacion(nom,neg,cat,sub,gal,tit,det,fec),
-                empresa: new Empresa(nombre_n, cat_n, sub_n, log_n, eti_n, desc_n, map_n),)
+                publicacion: new Publicacion(id,nom,neg,cat,sub,gal,tit,det,fec),
+                empresa: new Empresa(id_n,nombre_n, cat_n, sub_n, log_n, eti_n, desc_n, map_n),)
               )
               );
 

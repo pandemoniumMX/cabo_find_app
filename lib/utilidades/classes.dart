@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Empresa {
-  //final int id;
+  final int id;
   final String nombre;
   final String cat;
   final String subs;
@@ -10,10 +10,11 @@ class Empresa {
   final String desc;
   final String maps;
 
-  Empresa(this.nombre,this.cat,this.subs,this.logo,this.etiquetas, this.desc,this.maps);
+  Empresa(this.id,this.nombre,this.cat,this.subs,this.logo,this.etiquetas, this.desc,this.maps);
 }
 
 class Publicacion {
+   final int id;
   final String nombre;
   final String neg;
   final String cat;
@@ -23,5 +24,5 @@ class Publicacion {
   final String det;
   final String fec;
 
-  Publicacion(this.nombre,this.cat,this.neg,this.subs,this.logo,this.titulo, this.det,this.fec);
+  Publicacion(this.id,this.nombre,this.cat,this.neg,this.subs,this.logo,this.titulo, this.det,this.fec);
 }

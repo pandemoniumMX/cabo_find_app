@@ -248,7 +248,7 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
 
         //child: Text(‘Send data to the second page’),
         onPressed: () {
-          
+              var id = widget.empresa.id;
               var nombre = widget.empresa.nombre;
               var cat = widget.empresa.cat;
               var subs = widget.empresa.subs;
@@ -263,7 +263,7 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
           Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => new Empresa_det_fin(empresa: Empresa(nombre, cat, subs, logo, etiquetas, desc, maps)),
+                builder: (context) => new Empresa_det_fin(empresa: Empresa(id,nombre, cat, subs, logo, etiquetas, desc, maps)),
 
             )
           );

@@ -148,7 +148,7 @@ void dispose() {
 
             onTap: () {
             //  int id_sql = data[index]["ID_NEGOCIO"];
-
+              int id_sql = data[index]["ID_NEGOCIO"];
               String nombre_sql = data[index]["NEG_NOMBRE"];
               String cat_sql = data[index]["CAT_NOMBRE"];
               String subcat_sql = data[index]["SUB_NOMBRE"];
@@ -161,7 +161,7 @@ void dispose() {
 
 
               Navigator.push(context, new MaterialPageRoute
-                (builder: (context) => new Empresa_det_fin(empresa: new Empresa(nombre_sql,cat_sql,subcat_sql,foto_sql,etiquetas_sql,desc_sql,mapa_sql))
+                (builder: (context) => new Empresa_det_fin(empresa: new Empresa(id_sql,nombre_sql,cat_sql,subcat_sql,foto_sql,etiquetas_sql,desc_sql,mapa_sql))
               )
               );
 
