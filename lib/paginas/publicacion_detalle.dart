@@ -10,56 +10,12 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-/*
-class Publicacion_detalle extends StatelessWidget {
 
-   List data;
-   final Publicacion publicacion;
-   final Empresa empresa;
-
-  Publicacion_detalle({Key key, @required this.publicacion, this.empresa}) : super(key: key);              
-
-
-
-  @override  
-  Widget build(BuildContext context) {
-
-              var nom ='${publicacion.nombre}';
-              var neg ='${publicacion.neg}';
-              var cat ='${publicacion.cat}';
-              var sub ='${publicacion.subs}';
-              var gal ='${publicacion.logo}';
-              var tit ='${publicacion.titulo}';
-              var det ='${publicacion.det}';
-              var fec ='${publicacion.fec}';
-
-              var nombre_n = '${empresa.nombre}';
-              var cat_n = '${empresa.cat}';
-              var sub_n = '${empresa.subs}';
-              var log_n = '${empresa.logo}';
-              var eti_n = '${empresa.etiquetas}';
-              var desc_n = '${empresa.desc}';
-              var map_n = '${empresa.maps}';
-
-
-
-              return new MaterialApp(
-      title: 'Flutter Demo',
-      theme: new ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: new Publicacion_detalle_fin(publicacion: Publicacion(nom,neg,cat,sub,gal,tit,det,fec), empresa: Empresa(nombre_n, cat_n, sub_n, log_n, eti_n, desc_n, map_n))
-
-
-    );
-  }
-}
-*/
 
 class Publicacion_detalle_fin extends StatefulWidget {
 
   List data;
- final Publicacion publicacion;
+  final Publicacion publicacion;
   final Empresa empresa;
   Publicacion_detalle_fin({Key key, @required this.publicacion, this.empresa}) : super(
       key: key);
@@ -84,7 +40,7 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
   String _playerStatus = "";
   String _errorCode = '0';
 
-  String _videoId = "64t3a2qV_rg";
+  // String _videoId = widget.publicacion.det;
 
   void listener() {
 
@@ -100,6 +56,37 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
     // This pauses video while navigating to next page.
     _controller.pause();
     super.deactivate();
+  }
+  Future<String> getData() async {
+    var response = await http.get(
+        Uri.encodeFull(
+            "http://cabofind.com.mx/app_php/list_negocios.php?ID=${widget.publicacion.id_n}"),
+          //"http://cabofind.com.mx/app_php/list_negocios.php?"),
+
+
+        headers: {
+          "Accept": "application/json"
+        }
+    );
+
+    this.setState(
+            () {
+          data = json.decode(
+              response.body);
+        });
+    print(
+        data[0]["NEG_NOMBRE"]);
+
+    return "Success!";
+  }
+
+  @override
+  void initState() {
+    super.initState(
+
+    );
+    this.getData();
+
   }
   Widget setupAlertDialoadContainer() {
 
@@ -123,8 +110,8 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text('Lista de caracteristicas'),
-            content: setupAlertDialoadContainer()
+              title: Text('Lista de caracteristicas'),
+              content: setupAlertDialoadContainer()
 
           );
         });
@@ -136,8 +123,8 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
 
   @override
 
- Widget build(BuildContext context){
-   
+  Widget build(BuildContext context){
+
     Widget titleSection = Container(
       padding: const EdgeInsets.all(32),
       child: Row(
@@ -152,7 +139,7 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
                   child: Text(
                     widget.publicacion.titulo,
                     style: TextStyle(
-                      fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.bold,
                         fontSize: 25.0
 
                     ),
@@ -161,26 +148,26 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
                 ),
 
                 Center(
-                //  padding: const EdgeInsets.only(bottom: 10,left: 150.0),
+                  //  padding: const EdgeInsets.only(bottom: 10,left: 150.0),
                   child: Text(
                     widget.publicacion.cat,
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 15.0,
-                      color: Color(0xff2E85DC)
+                        color: Color(0xff2E85DC)
 
                     ),
                   ),
 
                 ),
-             
+
 
               ],
             ),
           ),
           /*3*/
 
-          
+
         ],
       ),
     );
@@ -192,19 +179,19 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
 
         padding: const EdgeInsets.only(left:20.0,bottom: 20.0,),
         child: Text(
-                    widget.publicacion.det,
+          widget.publicacion.det,
           //softWrap: true,
           style: TextStyle(fontSize: 20.0,
 
           ),
         ),
-        
+
       ),
 
 
     );
 
- Widget video = Container(
+    Widget video = Container(
       child:
       Column(
         children: <Widget>[
@@ -212,13 +199,14 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
             height: 20.0,
           ),
           Center(child: Text('Video promocional',style: TextStyle(fontSize: 23.0,color: Colors.blueAccent ),)),
-        SizedBox(
+          SizedBox(
             height: 20.0,
           ),
           YoutubePlayer(
             context: context,
-            videoId: _videoId,
+            videoId: widget.publicacion.vid,
             autoPlay: true,
+
             showVideoProgressIndicator: true,
             videoProgressIndicatorColor: Colors.amber,
             progressColors: ProgressColors(
@@ -235,12 +223,12 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
           ),
         ],
       ),
-                       
-        
-      
-        
+
+
+
+
     );
-    
+
 
     Widget boton = Container(
       padding: const EdgeInsets.only(bottom: 10,left: 20,right: 20),
@@ -248,27 +236,26 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
 
         //child: Text(‘Send data to the second page’),
         onPressed: () {
-              var id = widget.empresa.id;
-              var nombre = widget.empresa.nombre;
-              var cat = widget.empresa.cat;
-              var subs = widget.empresa.subs;
-              var logo = widget.empresa.logo;
-              var etiquetas = widget.empresa.etiquetas;
-              var desc = widget.empresa.desc;
-              var maps = widget.empresa.maps;
 
-//print('$empresa.desc');
+              String id_n = data[0]["ID_EMPRESA"];
+              String nom = data[0]["NEG_NOMBRE"];
+              String cat = data[0]["CAT_NOMBRE"];
+              String sub = data[0]["SUB_NOMBRE"];
+              String gal = data[0]["GAL_FOTO"];
+              String eti = data[0]["NEG_ETIQUETAS"];
+              String des = data[0]["NEG_DESCRIPCION"];
+              String map = data[0]["NEG_MAP"];
 
 
           Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => new Empresa_det_fin(empresa: Empresa(id,nombre, cat, subs, logo, etiquetas, desc, maps)),
+                builder: (context) => new Empresa_det_fin(empresa: Empresa(id_n,nom, cat, sub, gal, eti, des, map)),
 
             )
           );
         },
-        
+
         shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
         color: Colors.blue,
         child: Text('Más informacion', style: TextStyle(fontSize: 20, color: Colors.white)),
@@ -284,13 +271,13 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
           //scrollDirection: Axis.horizontal,
           children: [
             Image.network(widget.publicacion.logo
-,width: MediaQuery.of(context).size.width,height: 300,fit: BoxFit.fill ),
+                ,width: MediaQuery.of(context).size.width,height: 300,fit: BoxFit.fill ),
             //Image.asset('android/assets/images/img1.jpg',width: 600,height: 240,fit: BoxFit.cover,),
             //loading,
             titleSection,
             textSection,
             video,
-            boton,
+             boton,
 
 
 
@@ -298,15 +285,15 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
         ),
         appBar: new AppBar(
           title: new Text(widget.publicacion.nombre,
-    style: TextStyle(
-    fontWeight: FontWeight.bold,
-    fontSize: 20.0
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20.0
 
-    ),
+            ),
 
-        ),
+          ),
 
-    )
+        )
     );
   }
 
@@ -331,19 +318,23 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
     );
   }
 
-   @override
+  @override
   void dispose() {
     super.dispose();
     _controller.dispose();
   }
-    State<StatefulWidget> createState() {
+  State<StatefulWidget> createState() {
     // TODO: implement createState
     return null;
   }
 }
 
-  
-  
+
+
+
+
+
+
 
 
 

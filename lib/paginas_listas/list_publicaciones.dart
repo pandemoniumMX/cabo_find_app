@@ -54,25 +54,6 @@ class Publicacionesfull extends State<Publicaciones> {
     return "Success!";
   }
 
-  Future<String> getData_n() async {
-    var response = await http.get(
-        Uri.encodeFull(
-             "http://cabofind.com.mx/app_php/list_publicaciones.php"),
-
-        headers: {
-          "Accept": "application/json"
-        }
-    );
-
-    this.setState(
-            () {
-              data_n = json.decode(
-              response.body);
-        });
-    
-
-    return "Success!";
-  }
  Future<String> getCarrusel() async {
     var response = await http.get(
         Uri.encodeFull(
@@ -99,7 +80,6 @@ class Publicacionesfull extends State<Publicaciones> {
    
     );
     this.getData();
-    this.getData_n();
     this.getCarrusel();
 
 
@@ -237,24 +217,21 @@ class Publicacionesfull extends State<Publicaciones> {
             ),
 
             onTap: () {
-              int id = data[index]["ID_PUBLICACION"];
+              String id_n = data[index]["ID_NEGOCIO"];
+              String id = data[index]["ID_PUBLICACION"];
               String nom = data[index]["NEG_NOMBRE"];
-              String neg = data[index]["NEG_LUGAR"];
+              String lug = data[index]["NEG_LUGAR"];
               String cat = data[index]["CAT_NOMBRE"];
               String sub = data[index]["SUB_NOMBRE"];
               String gal = data[index]["GAL_FOTO"];
               String tit = data[index]["PUB_TITULO"];
               String det = data[index]["PUB_DETALLE"];
               String fec = data[index]["PUB_FECHA"];
+              String vid = data[index]["PUB_VIDEO"];
+              
 
-              int id_n = data[index]["ID_NEGOCIO"];
-              String nombre_n = data_n[index]["NEG_NOMBRE"];
-              String cat_n = data_n[index]["CAT_NOMBRE"];
-              String sub_n = data_n[index]["SUB_NOMBRE"];
-              String log_n = data_n[index]["GAL_FOTO"];
-              String eti_n = data_n[index]["NEG_ETIQUETAS"];
-              String desc_n = data_n[index]["NEG_DESCRIPCION"];
-              String map_n = data_n[index]["NEG_MAP"];
+
+             
 
 
 
@@ -262,8 +239,8 @@ class Publicacionesfull extends State<Publicaciones> {
 
               Navigator.push(context, new MaterialPageRoute
                 (builder: (context) => new Publicacion_detalle_fin(
-                publicacion: new Publicacion(id,nom,neg,cat,sub,gal,tit,det,fec),
-                empresa: new Empresa(id_n,nombre_n, cat_n, sub_n, log_n, eti_n, desc_n, map_n),)
+                publicacion: new Publicacion(id_n,id,nom,lug,cat,sub,gal,tit,det,fec,vid),
+                )
               )
               );
 

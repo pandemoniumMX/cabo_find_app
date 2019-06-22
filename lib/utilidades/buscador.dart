@@ -171,7 +171,7 @@ class _Buscador extends State<Buscador> {
       onTap: () {
 
        // int id_sql = data[index]["ID_NEGOCIO"];
-              int id_sql = data[index]["ID_NEGOCIO"];
+        String id_sql = data[index]["ID_NEGOCIO"];
               String nombre_sql = data[index]["NEG_NOMBRE"];
               String cat_sql = data[index]["CAT_NOMBRE"];
               String subcat_sql = data[index]["SUB_NOMBRE"];
