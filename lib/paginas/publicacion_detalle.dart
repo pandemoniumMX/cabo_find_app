@@ -31,6 +31,7 @@ class Publicacion_detalle_fin extends StatefulWidget {
 
 class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
   List data;
+  List datacar;
 
   YoutubePlayerController _controller = YoutubePlayerController();
   var _idController = TextEditingController();
@@ -80,6 +81,8 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
     return "Success!";
   }
 
+
+
   @override
   void initState() {
     super.initState(
@@ -88,34 +91,7 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
     this.getData();
 
   }
-  Widget setupAlertDialoadContainer() {
 
-    return Container(
-        height: 300.0, // Change as per your requirement
-        width: 300.0,
-        child: ListView.builder(
-            itemCount: data == null ? 0 : data.length,
-            itemBuilder: (BuildContext context, i) {
-              return new ListTile(
-                title: new Text(data[i]["name"]),
-              );
-            }
-        )
-    );
-  }
-
-  // Declare a field that holds the Person data
-  _displayDialog(BuildContext context) async {
-    return showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-              title: Text('Lista de caracteristicas'),
-              content: setupAlertDialoadContainer()
-
-          );
-        });
-  }
   // Declare a field that holds the Person data
 
 

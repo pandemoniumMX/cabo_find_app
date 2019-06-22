@@ -46,7 +46,8 @@ class Empresa_det_fin extends StatefulWidget {
 List data;
  //final Publicacion publicacion;
   final Empresa empresa;
-  Empresa_det_fin({Key key, @required this.empresa}) : super(
+
+Empresa_det_fin({Key key, @required this.empresa}) : super(
       key: key);
 
 @override
@@ -64,24 +65,35 @@ class Detalles extends State<Empresa_det_fin> {
   List data;
   List data1;
 
-   Future<String> getData() async {
-    var response = await http.get(
-        Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/fotos1.php?"),
-       
-        headers: {
-          "Accept": "application/json"
-        }
+
+
+
+
+
+  Widget setupAlertDialoadContainer() {
+
+    return Container(
+        height: 300.0, // Change as per your requirement
+        width: 300.0,
+        child: ListView.builder(
+            itemCount: data == null ? 0 : data.length,
+            itemBuilder: (BuildContext context, int index) {
+              return new ListTile(
+
+                title: new Column(
+                    children: <Widget>[
+                      Text(data[index]["CAR_NOMBRE"]),
+                    ],
+                  )
+
+              );
+            }
+        )
     );
-
-
-
-
-    print(
-        data1[1]["ID_GALERIA"]);
-
-    return "Success!";
   }
+
+
+
   
   _alertSer(BuildContext context) async {
     return showDialog(
@@ -92,11 +104,16 @@ class Detalles extends State<Empresa_det_fin> {
             content: Container(
               width: double.maxFinite,
               height: 300.0,
-              child: ListView(
-                padding: EdgeInsets.all(8.0),
-                //map List of our data to the ListView
-                children: _ListCaracteristicas.map((data) => Text(data)).toList(),
-              ),
+                child: ListView.builder(
+                    itemCount: data == null ? 0 : data.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Column(
+                        children: <Widget>[
+                          Text(data[index]["CAR_NOMBRE"]),
+                        ],
+                      );
+                    }
+                )
             ),
             actions: <Widget>[
               new FlatButton(
@@ -117,17 +134,22 @@ class Detalles extends State<Empresa_det_fin> {
           return AlertDialog(
             title: Text('Servicios'),
             content: Container(
-              width: double.maxFinite,
-              height: 300.0,
-              child: ListView(
-                padding: EdgeInsets.all(8.0),
-                //map List of our data to the ListView
-                children: _ListServicios.map((data) => Text(data)).toList(),
-              ),
+                width: double.maxFinite,
+                height: 300.0,
+                child: ListView.builder(
+                    itemCount: data == null ? 0 : data.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Column(
+                        children: <Widget>[
+                          Text(data[index]["CAR_NOMBRE"]),
+                        ],
+                      );
+                    }
+                )
             ),
             actions: <Widget>[
               new FlatButton(
-                child: new Text(widget.empresa.nombre),
+                child: new Text('CANCEL'),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
@@ -137,22 +159,44 @@ class Detalles extends State<Empresa_det_fin> {
         });
   }
 
-  List<String> _ListServicios = [
-    'Cerveza',
-    'Desayunos, comidas y cenas',
-    'Promociones',
-    'Platillos preparados al gusto',
-  ];
+  Future<String> getCar() async {
+    var response = await http.get(
+        Uri.encodeFull(
+          //"http://cabofind.com.mx/app_php/list_caracteristicas.php?ID=${widget.empresa.id}"),
+          //  "http://cabofind.com.mx/app_php/list_caracteristicas.php?ID=${widget.empresa.id}"),
+         "http://cabofind.com.mx/app_php/list_caracteristicas.php"),
 
-  List<String> _ListCaracteristicas = [
-    'Aire acondicionado',
-    'Ballete parking',
-    'Wifi',
-    'Espacio para mascotas',
-    'Servicio a domicilio',
-  ];
+
+
+        headers: {
+          "Accept": "application/json"
+        }
+    );
+
+    this.setState(
+            () {
+          data = json.decode(
+              response.body);
+        });
+    print(
+        data[0]["CAR_NOMBRE"]);
+
+    return "Success!";
+  }
+
+
+  void initState() {
+    super.initState(
+
+    );
+    this.getCar();
+
+  }
 
  Widget build(BuildContext context){
+
+
+
 
   Widget carrusel = Container(
 
