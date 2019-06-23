@@ -21,9 +21,6 @@ class Publicacion_detalle_fin extends StatefulWidget {
       key: key);
 
 
-
-
-
   @override
 
   _Publicacion_detalles createState() => new _Publicacion_detalles();
@@ -32,6 +29,8 @@ class Publicacion_detalle_fin extends StatefulWidget {
 class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
   List data;
   List datacar;
+  List dataneg;
+
 
   YoutubePlayerController _controller = YoutubePlayerController();
   var _idController = TextEditingController();
@@ -55,7 +54,7 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
   @override
   void deactivate() {
     // This pauses video while navigating to next page.
-    _controller.pause();
+    //_controller.pause();
     super.deactivate();
   }
   Future<String> getData() async {
@@ -76,7 +75,30 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
               response.body);
         });
     print(
-        data[0]["NEG_NOMBRE"]);
+        data[0]["NEG_DESCRIPCION"]);
+
+    return "Success!";
+  }
+
+  Future<String> getNeg() async {
+    var response = await http.get(
+        Uri.encodeFull(
+            "http://cabofind.com.mx/app_php/list_negocios.php?ID=${widget.publicacion.id_n}"),
+        //"http://cabofind.com.mx/app_php/list_negocios.php?"),
+
+
+        headers: {
+          "Accept": "application/json"
+        }
+    );
+
+    this.setState(
+            () {
+              dataneg = json.decode(
+              response.body);
+        });
+    print(
+        dataneg[0]["NEG_NOMBRE"]);
 
     return "Success!";
   }
@@ -89,6 +111,7 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
 
     );
     this.getData();
+    this.getNeg();
 
   }
 
@@ -180,9 +203,9 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
           ),
           YoutubePlayer(
             context: context,
+            //videoId: widget.publicacion.vid,
             videoId: widget.publicacion.vid,
             autoPlay: true,
-
             showVideoProgressIndicator: true,
             videoProgressIndicatorColor: Colors.amber,
             progressColors: ProgressColors(
@@ -213,20 +236,20 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
         //child: Text(‘Send data to the second page’),
         onPressed: () {
 
-              String id_n = data[0]["ID_EMPRESA"];
-              String nom = data[0]["NEG_NOMBRE"];
-              String cat = data[0]["CAT_NOMBRE"];
-              String sub = data[0]["SUB_NOMBRE"];
-              String gal = data[0]["GAL_FOTO"];
-              String eti = data[0]["NEG_ETIQUETAS"];
-              String des = data[0]["NEG_DESCRIPCION"];
-              String map = data[0]["NEG_MAP"];
+              String id_nm = dataneg[0]["ID_EMPRESA"];
+              String nom = dataneg[0]["NEG_NOMBRE"];
+              String cat = dataneg[0]["CAT_NOMBRE"];
+              String sub = dataneg[0]["SUB_NOMBRE"];
+              String gal = dataneg[0]["GAL_FOTO"];
+              String eti = dataneg[0]["NEG_ETIQUETAS"];
+              String des = dataneg[0]["NEG_DESCRIPCION"];
+              String map = dataneg[0]["NEG_MAP"];
 
 
           Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => new Empresa_det_fin(empresa: Empresa(id_n,nom, cat, sub, gal, eti, des, map)),
+                builder: (context) => new Empresa_det_fin(empresa: Empresa(id_nm,nom, cat, sub, gal, eti, des, map)),
 
             )
           );
@@ -252,7 +275,7 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
             //loading,
             titleSection,
             textSection,
-            video,
+            //video,
              boton,
 
 

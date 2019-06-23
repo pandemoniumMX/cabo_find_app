@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:cabofind/paginas/publicacion_detalle.dart';
 import 'package:cabofind/utilidades/carousel_pro.dart';
 import 'package:http/http.dart' as http;
 import 'package:cabofind/utilidades/classes.dart';
@@ -44,11 +45,11 @@ class Quote {
 
 class Empresa_det_fin extends StatefulWidget {
 List data;
- //final Publicacion publicacion;
-  final Empresa empresa;
+//final Publicacion publicacion;
+final Empresa empresa;
 
 Empresa_det_fin({Key key, @required this.empresa}) : super(
-      key: key);
+    key: key);
 
 @override
   Detalles createState() => new Detalles();
@@ -56,14 +57,12 @@ Empresa_det_fin({Key key, @required this.empresa}) : super(
 }
 
 class Detalles extends State<Empresa_det_fin> {
-
-
-
-
-  //MyApp({Key key, this.post}) : super(key: key);
+  ScrollController _scrollController = new ScrollController();
 
   List data;
   List data1;
+  List data_list;
+
 
 
 
@@ -82,7 +81,9 @@ class Detalles extends State<Empresa_det_fin> {
 
                 title: new Column(
                     children: <Widget>[
-                      Text(data[index]["CAR_NOMBRE"]),
+                      Text(
+                          data[index]["CAR_NOMBRE"]
+                      ),
                     ],
                   )
 
@@ -184,13 +185,34 @@ class Detalles extends State<Empresa_det_fin> {
     return "Success!";
   }
 
+  Future<String> get_list() async {
+    var response = await http.get(
+        Uri.encodeFull(
+           //"http://cabofind.com.mx/app_php/list_publicaciones.php"),
+         "http://cabofind.com.mx/app_php/list_publicaciones_api.php?ID=${widget.empresa.id_nm}"),
 
+
+        headers: {
+          "Accept": "application/json"
+        }
+    );
+
+    this.setState(
+            () {
+          data_list = json.decode(
+              response.body);
+        });
+    print(
+        data_list[0]["NEG_DESCRIPCION"]);
+
+    return "Success!";
+  }
   void initState() {
     super.initState(
 
     );
     this.getCar();
-
+    this.get_list();
   }
 
  Widget build(BuildContext context){
@@ -342,6 +364,144 @@ class Detalles extends State<Empresa_det_fin> {
 
     );
 
+  Widget publicaciones =  Container(
+
+    child:  ListView.builder(
+      shrinkWrap: false,
+      physics: BouncingScrollPhysics(),
+      itemCount: data_list == null ? 0 : data_list.length,
+      itemBuilder: (BuildContext context, int index) {
+
+        return new ListTile(
+
+
+          title: new Card(
+
+            elevation: 5.0,
+            child: new Container(
+
+
+              decoration: BoxDecoration(
+                  borderRadius:BorderRadius.circular(10.0),
+
+                  border: Border.all(
+                      color: Colors.blue)),
+              padding: EdgeInsets.all(
+                  10.0),
+              margin: EdgeInsets.all(
+                  10.0),
+
+              child: Column(
+
+                children: <Widget>[
+
+                  Padding(
+
+                      child: Text(
+
+                        data_list[index]["PUB_TITULO"],
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                          fontSize: 20.0,
+
+
+                        ),
+
+                      ),
+                      padding: EdgeInsets.all(
+                          1.0)
+                  ),
+
+                  FadeInImage(
+
+                    image: NetworkImage(data_list[index]["GAL_FOTO"]),
+                    fit: BoxFit.fill,
+                    width: MediaQuery.of(context).size.width,
+                    height: 250,
+
+                    // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
+                    placeholder: AssetImage('android/assets/images/loading.gif'),
+                    fadeInDuration: Duration(milliseconds: 200),
+
+                  ),
+
+
+                  Row(
+                      children: <Widget>[
+
+                        Padding(
+
+                            child: Text(
+
+                                data_list[index]["CAT_NOMBRE"]),
+                            padding: EdgeInsets.all(
+                                1.0)),
+                        Text(
+                            " | "),
+                        Padding(
+                            child: new Text(
+                                data_list[index]["NEG_NOMBRE"]),
+                            padding: EdgeInsets.all(
+                                1.0)),
+                        Text(
+                            " | "),
+                        Padding(
+                            child: new Text(
+                                data_list[index]["NEG_LUGAR"]),
+                            padding: EdgeInsets.all(
+                                1.0)),
+
+
+
+                      ]),
+                ],
+
+              ),
+
+            ),
+
+          ),
+
+          onTap: () {
+            String id_n = data_list[index]["ID_NEGOCIO"];
+            String id = data_list[index]["ID_PUBLICACION"];
+            String nom = data_list[index]["NEG_NOMBRE"];
+            String lug = data_list[index]["NEG_LUGAR"];
+            String cat = data_list[index]["CAT_NOMBRE"];
+            String sub = data_list[index]["SUB_NOMBRE"];
+            String gal = data_list[index]["GAL_FOTO"];
+            String tit = data_list[index]["PUB_TITULO"];
+            String det = data_list[index]["PUB_DETALLE"];
+            String fec = data_list[index]["PUB_FECHA"];
+            String vid = data_list[index]["PUB_VIDEO"];
+
+
+
+
+
+
+
+
+
+            Navigator.push(context, new MaterialPageRoute
+              (builder: (context) => new Publicacion_detalle_fin(
+              publicacion: new Publicacion(id_n,id,nom,lug,cat,sub,gal,tit,det,fec,vid),
+            )
+            )
+            );
+
+
+          },
+          //A Navigator is a widget that manages a set of child widgets with
+          //stack discipline.It allows us navigate pages.
+          //stack discipline.It allows us navigate pages.
+          //Navigator.of(context).push(route);
+        );
+
+      },
+    ),
+  );
 
 
 
@@ -362,17 +522,22 @@ class Detalles extends State<Empresa_det_fin> {
                 textSection,
                 buttonSection,
                 mapSection,
+
                 
 
 
               ],
             ),
             Container(
-
               child: carrusel,
               height: 300.0,
 
             ),
+            Container(
+              child: publicaciones,
+                height: MediaQuery.of(context).size.height + 100.0,
+
+            )
 
 
           ],
