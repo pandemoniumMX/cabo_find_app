@@ -98,8 +98,12 @@ Widget slider = Container(
     )
 );
 
+
+
 class _MyHomePageState extends State<MyHomePage> {
+  Icon idioma_ing = new Icon(Icons.flag);
   Icon actionIcon = new Icon(Icons.search);
+
   Widget appBarTitle = new Text("Cabofind");
   int id=0;
 
@@ -129,11 +133,10 @@ class _MyHomePageState extends State<MyHomePage> {
     ];
 
     final bnbi=<BottomNavigationBarItem>[
-      BottomNavigationBarItem(icon: Icon(Icons.star,),title: Text("Inicio")),
       BottomNavigationBarItem(icon: Icon(Icons.fiber_new,),title: Text("Lo nuevo")),
+      BottomNavigationBarItem(icon: Icon(Icons.star,),title: Text("Promociones")),
       BottomNavigationBarItem(icon: Icon(Icons.visibility,),title: Text("Más visto")),
       BottomNavigationBarItem(icon: Icon(Icons.favorite,),title: Text("Recomendado")),
-      BottomNavigationBarItem(icon: Icon(Icons.bookmark,),title: Text("Publicaciones")),
     ];
 
     final bnb=BottomNavigationBar(
@@ -161,6 +164,17 @@ class _MyHomePageState extends State<MyHomePage> {
         title:appBarTitle,
         actions: <Widget>[
 
+
+          new IconButton(
+            icon: idioma_ing,
+            onPressed: () {
+              //Use`Navigator` widget to push the second screen to out stack of screens
+              Navigator.of(context)
+                  .push(MaterialPageRoute<Null>(builder: (BuildContext context) {
+                return new MyHomePageEng();
+              }));
+            }, ),
+
           new IconButton(
             icon: actionIcon,
               onPressed: () {
@@ -170,6 +184,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   return new Buscador();
                 }));
               }, ),
+
         ],
 
 

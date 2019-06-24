@@ -228,7 +228,6 @@ class Publicacionesfull extends State<Publicaciones> {
               String det = data[index]["PUB_DETALLE"];
               String fec = data[index]["PUB_FECHA"];
               String vid = data[index]["PUB_VIDEO"];
-              
 
 
              

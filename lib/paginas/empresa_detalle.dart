@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:cabofind/paginas/publicacion_detalle.dart';
+import 'package:cabofind/paginas/publicacion_detalle_estatica.dart';
 import 'package:cabofind/utilidades/carousel_pro.dart';
 import 'package:http/http.dart' as http;
 import 'package:cabofind/utilidades/classes.dart';
@@ -65,52 +66,21 @@ class Detalles extends State<Empresa_det_fin> {
 
 
 
-
-
-
-
-  Widget setupAlertDialoadContainer() {
-
-    return Container(
-        height: 300.0, // Change as per your requirement
-        width: 300.0,
-        child: ListView.builder(
-            itemCount: data == null ? 0 : data.length,
-            itemBuilder: (BuildContext context, int index) {
-              return new ListTile(
-
-                title: new Column(
-                    children: <Widget>[
-                      Text(
-                          data[index]["CAR_NOMBRE"]
-                      ),
-                    ],
-                  )
-
-              );
-            }
-        )
-    );
-  }
-
-
-
-  
-  _alertSer(BuildContext context) async {
+  _alertCar(BuildContext context) async {
     return showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text('Servicios'),
+            title: Text('Servicios',style: TextStyle(fontSize: 20.0,color: Colors.blueAccent),),
             content: Container(
-              width: double.maxFinite,
-              height: 300.0,
+                width: double.maxFinite,
+                height: 300.0,
                 child: ListView.builder(
                     itemCount: data == null ? 0 : data.length,
                     itemBuilder: (BuildContext context, int index) {
                       return Column(
                         children: <Widget>[
-                          Text(data[index]["CAR_NOMBRE"]),
+                          Container(child: Text(data[index]["CAR_NOMBRE"],style: TextStyle(),),padding: EdgeInsets.only(bottom:15.0),) ,
                         ],
                       );
                     }
@@ -118,7 +88,7 @@ class Detalles extends State<Empresa_det_fin> {
             ),
             actions: <Widget>[
               new FlatButton(
-                child: new Text('CANCEL'),
+                child: new Text('Cerrar'),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
@@ -128,21 +98,22 @@ class Detalles extends State<Empresa_det_fin> {
         });
   }
 
-  _alertCar(BuildContext context) async {
+
+  _alertSer(BuildContext context) async {
     return showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text('Servicios'),
+            title: Text('Servicios',style: TextStyle(fontSize: 25.0,),),
             content: Container(
                 width: double.maxFinite,
                 height: 300.0,
                 child: ListView.builder(
-                    itemCount: data == null ? 0 : data.length,
+                    itemCount: data1 == null ? 0 : data1.length,
                     itemBuilder: (BuildContext context, int index) {
                       return Column(
                         children: <Widget>[
-                          Text(data[index]["CAR_NOMBRE"]),
+                          Container(child: Text(data1[index]["SERV_NOMBRE"],style: TextStyle(),),padding: EdgeInsets.only(bottom:15.0),) ,
                         ],
                       );
                     }
@@ -150,7 +121,7 @@ class Detalles extends State<Empresa_det_fin> {
             ),
             actions: <Widget>[
               new FlatButton(
-                child: new Text('CANCEL'),
+                child: new Text('Cerrar'),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
@@ -164,8 +135,8 @@ class Detalles extends State<Empresa_det_fin> {
     var response = await http.get(
         Uri.encodeFull(
           //"http://cabofind.com.mx/app_php/list_caracteristicas.php?ID=${widget.empresa.id}"),
-          //  "http://cabofind.com.mx/app_php/list_caracteristicas.php?ID=${widget.empresa.id}"),
-         "http://cabofind.com.mx/app_php/list_caracteristicas.php"),
+            "http://cabofind.com.mx/app_php/list_caracteristicas_api.php?ID=${widget.empresa.id_nm}"),
+         //"http://cabofind.com.mx/app_php/list_caracteristicas.php"),
 
 
 
@@ -185,11 +156,39 @@ class Detalles extends State<Empresa_det_fin> {
     return "Success!";
   }
 
+
+  Future<String> getSer() async {
+    var response = await http.get(
+        Uri.encodeFull(
+          //"http://cabofind.com.mx/app_php/list_caracteristicas_api.php?ID=${widget.empresa.id}"),
+            "http://cabofind.com.mx/app_php/list_servicios_api.php?ID=${widget.empresa.id_nm}"),
+        //"http://cabofind.com.mx/app_php/list_caracteristicas.php"),
+
+
+
+        headers: {
+          "Accept": "application/json"
+        }
+    );
+
+    this.setState(
+            () {
+              data1 = json.decode(
+              response.body);
+        });
+    print(
+        data1[0]["SERV_NOMBRE"]);
+
+    return "Success!";
+  }
+
+
+
   Future<String> get_list() async {
     var response = await http.get(
         Uri.encodeFull(
-           "http://cabofind.com.mx/app_php/list_publicaciones.php"),
-         //"http://cabofind.com.mx/app_php/list_publicaciones_api.php?ID=${widget.empresa.id_nm}"),
+          // "http://cabofind.com.mx/app_php/list_publicaciones.php"),
+         "http://cabofind.com.mx/app_php/list_publicaciones_api.php?ID=${widget.empresa.id_nm}"),
 
 
         headers: {
@@ -203,7 +202,7 @@ class Detalles extends State<Empresa_det_fin> {
               response.body);
         });
     print(
-        data_list[0]["NEG_DESCRIPCION"]);
+        data_list[0]["NEG_LUGAR"]);
 
     return "Success!";
   }
@@ -213,6 +212,7 @@ class Detalles extends State<Empresa_det_fin> {
     );
     this.getCar();
     this.get_list();
+    this.getSer();
   }
 
  Widget build(BuildContext context){
@@ -271,6 +271,8 @@ class Detalles extends State<Empresa_det_fin> {
                   ),
                 ),
 
+
+
               
 
             ],
@@ -288,6 +290,7 @@ class Detalles extends State<Empresa_det_fin> {
                   color: Colors.grey[500],
                 ),
               ),
+
           ],
           )
 
@@ -548,7 +551,7 @@ class Detalles extends State<Empresa_det_fin> {
 
 
             Navigator.push(context, new MaterialPageRoute
-              (builder: (context) => new Publicacion_detalle_fin(
+              (builder: (context) => new Publicacion_detalle_fin_estatica(
               publicacion: new Publicacion(id_n,id,nom,lug,cat,sub,gal,tit,det,fec,vid),
             )
             )
@@ -596,8 +599,21 @@ class Detalles extends State<Empresa_det_fin> {
               height: 300.0,
 
             ),
+
             Container(
               child: social,
+              height: 50.0,
+
+            ),
+            Container(
+              child: Column(
+                children: <Widget>[
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  Center(child: Text('Publicaciones ${widget.empresa.nombre}',style: TextStyle(fontSize: 23.0,color: Colors.blueAccent ),)),
+                ],
+              ),
               height: 50.0,
 
             ),
