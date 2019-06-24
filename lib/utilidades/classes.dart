@@ -9,8 +9,12 @@ class Empresa {
   final String etiquetas;
   final String desc;
   final String maps;
+  final String fb;
+  final String inst;
+  final String web;
 
-  Empresa(this.id_nm,this.nombre,this.cat,this.subs,this.logo,this.etiquetas, this.desc,this.maps);
+
+  Empresa(this.id_nm,this.nombre,this.cat,this.subs,this.logo,this.etiquetas, this.desc,this.maps, this.fb,this.inst,this.web);
 }
 
 class Publicacion {

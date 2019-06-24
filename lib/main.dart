@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:cabofind/paginas/salud.dart';
 import 'package:cabofind/paginas/youtube.dart';
 import 'package:cabofind/utilidades/buscador.dart';
 import 'package:cabofind/utilidades/carousel_pro.dart';
@@ -272,6 +273,18 @@ class _MyHomePageState extends State<MyHomePage> {
                     context,
                     new MaterialPageRoute(
                         builder: (BuildContext context) => new Servicios()));
+              },
+            ),
+            new ListTile(
+              title: new Text('Salud'),
+              leading: Icon(Icons.healing),
+
+              onTap: () {
+                Navigator.of(context).pop();
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Salud()));
               },
             ),
             new ListTile(

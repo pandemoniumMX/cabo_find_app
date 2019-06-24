@@ -188,8 +188,8 @@ class Detalles extends State<Empresa_det_fin> {
   Future<String> get_list() async {
     var response = await http.get(
         Uri.encodeFull(
-           //"http://cabofind.com.mx/app_php/list_publicaciones.php"),
-         "http://cabofind.com.mx/app_php/list_publicaciones_api.php?ID=${widget.empresa.id_nm}"),
+           "http://cabofind.com.mx/app_php/list_publicaciones.php"),
+         //"http://cabofind.com.mx/app_php/list_publicaciones_api.php?ID=${widget.empresa.id_nm}"),
 
 
         headers: {
@@ -320,6 +320,33 @@ class Detalles extends State<Empresa_det_fin> {
         throw 'Could not launch $url';
       }
     }
+
+  facebook() async {
+    final url =  widget.empresa.fb;
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
+  web() async {
+    final url =  widget.empresa.web;
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
+  instagram() async {
+    final url =  widget.empresa.inst;
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
     Widget mapSection = Container(
       padding: const EdgeInsets.only(bottom: 10,left: 125,right: 125),
       child: RaisedButton.icon(
@@ -351,6 +378,7 @@ class Detalles extends State<Empresa_det_fin> {
           textColor: Colors.white,
 
         ),
+
           RaisedButton.icon(
             label: Text('Servicios', style: TextStyle(color: Colors.white),) ,
             color: Color(0xff189bd3),
@@ -363,6 +391,41 @@ class Detalles extends State<Empresa_det_fin> {
       ),
 
     );
+
+  Widget social = Container(
+    width: MediaQuery.of(context).size.width +30,
+
+
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        RaisedButton.icon(
+          label: Text('Facebook', style: TextStyle(color: Colors.white),) ,
+          color: Color(0xff189bd3),
+          onPressed: facebook,
+          icon: Icon(Icons.tag_faces),
+          textColor: Colors.white,
+
+        ),
+        RaisedButton.icon(
+          label: Text('Instagram', style: TextStyle(color: Colors.white),) ,
+          color: Color(0xff189bd3),
+          onPressed: instagram,
+          icon: Icon(Icons.camera_alt),
+          textColor: Colors.white,
+        ),
+        RaisedButton.icon(
+          label: Text('Página web', style: TextStyle(color: Colors.white),) ,
+          color: Color(0xff189bd3),
+          onPressed: web,
+          icon: Icon(Icons.web_asset),
+          textColor: Colors.white,
+        ),
+
+      ],
+    ),
+
+  );
 
   Widget publicaciones =  Container(
 
@@ -531,6 +594,11 @@ class Detalles extends State<Empresa_det_fin> {
             Container(
               child: carrusel,
               height: 300.0,
+
+            ),
+            Container(
+              child: social,
+              height: 50.0,
 
             ),
             Container(

@@ -60,7 +60,7 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
   Future<String> getData() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/list_negocios.php?ID=${widget.publicacion.id_n}"),
+            "http://cabofind.com.mx/app_php/list_negocios_api.php?ID=${widget.publicacion.id_n}"),
           //"http://cabofind.com.mx/app_php/list_negocios.php?"),
 
 
@@ -83,7 +83,7 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
   Future<String> getNeg() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/list_negocios.php?ID=${widget.publicacion.id_n}"),
+            "http://cabofind.com.mx/app_php/list_negocios_api.php?ID=${widget.publicacion.id_n}"),
         //"http://cabofind.com.mx/app_php/list_negocios.php?"),
 
 
@@ -244,12 +244,16 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
               String eti = dataneg[0]["NEG_ETIQUETAS"];
               String des = dataneg[0]["NEG_DESCRIPCION"];
               String map = dataneg[0]["NEG_MAP"];
+              String fb = dataneg[0]["NEG_FACEBOOK"];
+              String ins = dataneg[0]["NEG_INSTAGRAM"];
+              String web = dataneg[0]["NEG_WEB"];
 
 
-          Navigator.push(
+
+              Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => new Empresa_det_fin(empresa: Empresa(id_nm,nom, cat, sub, gal, eti, des, map)),
+                builder: (context) => new Empresa_det_fin(empresa: Empresa(id_nm,nom, cat, sub, gal, eti, des, map,fb,ins,web)),
 
             )
           );
