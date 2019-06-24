@@ -12,21 +12,21 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 
 
-class Publicacion_detalle_fin extends StatefulWidget {
+class Publicacion_detalle_fin_ing extends StatefulWidget {
 
   List data;
   final Publicacion publicacion;
   final Empresa empresa;
-  Publicacion_detalle_fin({Key key, @required this.publicacion, this.empresa}) : super(
+  Publicacion_detalle_fin_ing({Key key, @required this.publicacion, this.empresa}) : super(
       key: key);
 
 
   @override
 
-  _Publicacion_detalles createState() => new _Publicacion_detalles();
+  _Publicacion_detalles_ing createState() => new _Publicacion_detalles_ing();
 }
 
-class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
+class _Publicacion_detalles_ing extends State<Publicacion_detalle_fin_ing> {
   List data;
   List datacar;
   List dataneg;
@@ -153,15 +153,13 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
                                 widget.publicacion.titulo,
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 23.0
+                                    fontSize: 25.0
 
                                 ),
                               ),
 
                             ),
-                            SizedBox(
-                              height: 15.0,
-                            ),
+
                             Center(
                               //  padding: const EdgeInsets.only(bottom: 10,left: 150.0),
                               child: Text(
@@ -174,9 +172,6 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
                                 ),
                               ),
 
-                            ),
-                            SizedBox(
-                              height: 20.0,
                             ),
 
                             Column(
@@ -210,7 +205,6 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
                                         //videoId: widget.publicacion.vid,
                                         videoId: YoutubePlayer.convertUrlToId("${widget.publicacion.vid}"),
                                         autoPlay: true,
-                                        width: 650.0,
                                         showVideoProgressIndicator: true,
                                         videoProgressIndicatorColor: Colors.amber,
                                         progressColors: ProgressColors(

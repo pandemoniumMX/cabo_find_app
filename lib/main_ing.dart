@@ -1,12 +1,17 @@
 import 'dart:convert';
-import 'package:cabofind/paginas/descubre.dart';
 import 'package:cabofind/paginas/salud.dart';
 import 'package:cabofind/paginas/youtube.dart';
-import 'package:cabofind/paginas_listas/list_promociones.dart';
+import 'package:cabofind/paginas_ing/acercade_ing.dart';
+import 'package:cabofind/paginas_ing/compras_ing.dart';
+import 'package:cabofind/paginas_ing/descubre_ing.dart';
+import 'package:cabofind/paginas_ing/restaurantes_ing.dart';
+import 'package:cabofind/paginas_ing/salud_ing.dart';
+import 'package:cabofind/paginas_ing/servicios_ing.dart';
+import 'package:cabofind/paginas_ing/vida_nocturna_ing.dart';
 import 'package:cabofind/utilidades/buscador.dart';
 import 'package:cabofind/utilidades/carousel_pro.dart';
 import 'package:cabofind/paginas/carrusel.dart';
-import 'package:cabofind/main_ing.dart';
+import 'package:cabofind/main.dart';
 import 'package:cabofind/paginas_listas/list_publicaciones.dart';
 import 'package:flutter/material.dart';
 import 'package:cabofind/paginas/acercade.dart';
@@ -18,34 +23,15 @@ import 'package:cabofind/paginas/compras.dart';
 
 
 
-void main() => runApp(new MyApp());
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+
+class MyHomePage_ING extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return new MaterialApp(
-        debugShowCheckedModeBanner:false,
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-          primaryColor: Colors.blue,
-          accentColor: Colors.black26,
-        ),
-        home: new Container(
-            child:           new MyHomePages()
-        )
+  _MyHomePage_ING createState() => new _MyHomePage_ING();
+  
 
-
-
-    );
-  }
 }
 
-class MyHomePages extends StatefulWidget {
-  @override
-  _MyHomePageState createState() => new _MyHomePageState();
-
-}
 
 Widget slider = Container(
     child: Stack(
@@ -87,7 +73,7 @@ Widget slider = Container(
 
 
 
-class _MyHomePageState extends State<MyHomePages> {
+class _MyHomePage_ING extends State<MyHomePage_ING> {
   Icon idioma_ing = new Icon(Icons.flag);
   Icon actionIcon = new Icon(Icons.search);
 
@@ -107,7 +93,7 @@ class _MyHomePageState extends State<MyHomePages> {
      // new ImageCarousel2(),
       //new ImageCarousel2(),
       new Publicaciones(),
-      new Promociones(),
+      new Carrusel(),
       new Youtube(),
 
       //new ImageCarousel2(),
@@ -120,10 +106,10 @@ class _MyHomePageState extends State<MyHomePages> {
     ];
 
     final bnbi=<BottomNavigationBarItem>[
-      BottomNavigationBarItem(icon: Icon(Icons.fiber_new,),title: Text("Lo nuevo")),
-      BottomNavigationBarItem(icon: Icon(Icons.star,),title: Text("Promociones")),
-      BottomNavigationBarItem(icon: Icon(Icons.visibility,),title: Text("Más visto")),
-      BottomNavigationBarItem(icon: Icon(Icons.favorite,),title: Text("Recomendado")),
+      BottomNavigationBarItem(icon: Icon(Icons.fiber_new,),title: Text("New")),
+      BottomNavigationBarItem(icon: Icon(Icons.star,),title: Text("Oferts")),
+      BottomNavigationBarItem(icon: Icon(Icons.visibility,),title: Text("Most view")),
+      BottomNavigationBarItem(icon: Icon(Icons.favorite,),title: Text("Recomended")),
     ];
 
     final bnb=BottomNavigationBar(
@@ -160,7 +146,7 @@ class _MyHomePageState extends State<MyHomePages> {
               Navigator.push(
                   context,
                   new MaterialPageRoute(
-                      builder: (BuildContext context) => new MyHomePage_ING()));
+                      builder: (BuildContext context) => new MyHomePages()));
             }, ),
 
           new IconButton(
@@ -197,7 +183,7 @@ class _MyHomePageState extends State<MyHomePages> {
 
   
             new ListTile(
-              title: new Text('Restaurantes'),
+              title: new Text('Restaurants'),
               leading: Icon(Icons.restaurant),
               
 
@@ -206,32 +192,12 @@ class _MyHomePageState extends State<MyHomePages> {
                 Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (BuildContext context) => new Restaurantes()));
+                        builder: (BuildContext context) => new Restaurantes_ing()));
               },
-/*
-                xd Column= new  Column(
-                    children: <Widget>[
-                      Center(
-                        child: new ListTile(
-              title: new Text('Restaurantes'),
-              leading: Icon(Icons.restaurant),
-              
 
-              onTap: () {
-                Navigator.of(context).pop();
-                Navigator.push(
-                          context,
-                          new MaterialPageRoute(
-                              builder: (BuildContext context) => new Restaurantes()));
-              },
-            ),
-                      ),
-                    ],
-                  ),
-*/
             ),
             new ListTile(
-              title: new Text('Vida nocturna'),
+              title: new Text('Night club'),
               leading: Icon(Icons.group),
 
               onTap: () {
@@ -239,11 +205,11 @@ class _MyHomePageState extends State<MyHomePages> {
                 Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (BuildContext context) => new Vida_nocturna()));
+                        builder: (BuildContext context) => new Vida_nocturna_ing()));
               },
             ),
             new ListTile(
-              title: new Text('Descubre'),
+              title: new Text('Explore'),
               leading: Icon(Icons.beach_access),
 
               onTap: () {
@@ -251,11 +217,11 @@ class _MyHomePageState extends State<MyHomePages> {
                 Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (BuildContext context) => new Descubre()));
+                        builder: (BuildContext context) => new Descubre_ing()));
               },
             ),
             new ListTile(
-              title: new Text('Compras'),
+              title: new Text('Shopping'),
               leading: Icon(Icons.shopping_basket),
 
               onTap: () {
@@ -263,11 +229,11 @@ class _MyHomePageState extends State<MyHomePages> {
                 Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (BuildContext context) => new Compras()));
+                        builder: (BuildContext context) => new Compras_ing()));
               },
             ),
             new ListTile(
-              title: new Text('Servicios'),
+              title: new Text('Services'),
               leading: Icon(Icons.build),
 
               onTap: () {
@@ -275,11 +241,11 @@ class _MyHomePageState extends State<MyHomePages> {
                 Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (BuildContext context) => new Servicios()));
+                        builder: (BuildContext context) => new Servicios_ing()));
               },
             ),
             new ListTile(
-              title: new Text('Salud'),
+              title: new Text('Health'),
               leading: Icon(Icons.healing),
 
               onTap: () {
@@ -287,11 +253,11 @@ class _MyHomePageState extends State<MyHomePages> {
                 Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (BuildContext context) => new Salud()));
+                        builder: (BuildContext context) => new Salud_ing()));
               },
             ),
             new ListTile(
-              title: new Text('Acerca de nosotros'),
+              title: new Text('About us'),
               leading: Icon(Icons.record_voice_over),
 
               onTap: () {
@@ -299,11 +265,11 @@ class _MyHomePageState extends State<MyHomePages> {
                 Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (BuildContext context) => new Acercade()));
+                        builder: (BuildContext context) => new Acercade_ing()));
               },
             ),
             new ListTile(
-              title: new Text('English'),
+              title: new Text('Español'),
               leading: Icon(Icons.flag),
 
               onTap: () {
@@ -311,7 +277,7 @@ class _MyHomePageState extends State<MyHomePages> {
                 Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (BuildContext context) => new MyHomePage_ING()));
+                        builder: (BuildContext context) => new MyHomePages()));
               },
             ),
           ],

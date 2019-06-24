@@ -1,12 +1,12 @@
 
 import 'package:flutter/material.dart';
 
-class AboutPage extends StatefulWidget {
+class Acercade extends StatefulWidget {
 @override
-_AboutPageState createState() => new _AboutPageState();
+_Acercade createState() => new _Acercade();
 }
 
-class _AboutPageState extends State<AboutPage> {
+class _Acercade extends State<Acercade> {
 @override
 Widget build(BuildContext context) {
 return new Scaffold(
