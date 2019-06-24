@@ -96,7 +96,7 @@ class _MyHomePageState extends State<MyHomePages> {
 
   @override
 
-  dispose();
+//  dispose();
 
   Widget build(BuildContext context) {
    // new Publicaciones();

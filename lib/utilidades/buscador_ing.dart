@@ -14,15 +14,15 @@ class App extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Buscador(),
+      home: Buscador_ing(),
     );
   }
 }
 
-class Buscador extends StatefulWidget {
+class Buscador_ing extends StatefulWidget {
 
   @override
-  _Buscador createState() => _Buscador();
+  _Buscador_ing createState() => _Buscador_ing();
 }
 
 class Note {
@@ -38,7 +38,7 @@ class Note {
   }
 }
 
-class _Buscador extends State<Buscador> {
+class _Buscador_ing extends State<Buscador_ing> {
 
   List<Note> _notes = List<Note>();
   List<Note> _notesForDisplay = List<Note>();
@@ -130,7 +130,7 @@ class _Buscador extends State<Buscador> {
 
       child: TextField(
         decoration: InputDecoration(
-            hintText: 'Buscar...'
+            hintText: 'Search...'
         ),
 
         onChanged: (text) {

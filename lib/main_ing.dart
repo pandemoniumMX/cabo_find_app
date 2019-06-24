@@ -82,7 +82,7 @@ class _MyHomePage_ING extends State<MyHomePage_ING> {
 
   @override
 
-  dispose();
+  //dispose();
 
   Widget build(BuildContext context) {
    // new Publicaciones();
