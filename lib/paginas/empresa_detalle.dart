@@ -601,8 +601,19 @@ class Detalles extends State<Empresa_det_fin> {
             ),
 
             Container(
-              child: social,
-              height: 50.0,
+              child: Column(
+                children: <Widget>[
+                  SizedBox(
+                    height: 15.0,
+                  ),
+                 Center(child: Text('Redes sociales',style: TextStyle(fontSize: 20.0,color: Colors.blueAccent ),)),
+                  SizedBox(
+                    height: 15.0,
+                  ),
+                 social,
+
+                ],
+              )
 
             ),
             Container(
@@ -611,7 +622,7 @@ class Detalles extends State<Empresa_det_fin> {
                   SizedBox(
                     height: 20.0,
                   ),
-                  Center(child: Text('Publicaciones ${widget.empresa.nombre}',style: TextStyle(fontSize: 23.0,color: Colors.blueAccent ),)),
+                  Center(child: Text('Publicaciones ${widget.empresa.nombre}',style: TextStyle(fontSize: 20.0,color: Colors.blueAccent ),)),
                 ],
               ),
               height: 50.0,

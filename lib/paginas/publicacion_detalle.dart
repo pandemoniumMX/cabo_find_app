@@ -135,11 +135,8 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
           return new ListTile(
 
 
-            title: new Card(
-
-                elevation: 5.0,
-                child: new Container(
-                  padding: const EdgeInsets.all(32),
+            title: new Container(
+                  padding: const EdgeInsets.only(top:5.0),
                   child: Row(
                     children: [
                       Expanded(
@@ -210,7 +207,8 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
                                         //videoId: widget.publicacion.vid,
                                         videoId: YoutubePlayer.convertUrlToId("${widget.publicacion.vid}"),
                                         autoPlay: true,
-                                        width: 650.0,
+                                        width: MediaQuery.of(context).size.width,
+
                                         showVideoProgressIndicator: true,
                                         videoProgressIndicatorColor: Colors.amber,
                                         progressColors: ProgressColors(
@@ -281,12 +279,6 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
                   ),
 
                 ),
-
-
-            ),
-
-
-
           );
 
         },

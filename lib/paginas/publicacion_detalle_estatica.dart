@@ -136,11 +136,8 @@ class _Publicacion_detalle_fin_estatica extends State<Publicacion_detalle_fin_es
           return new ListTile(
 
 
-            title: new Card(
-
-                elevation: 5.0,
-                child: new Container(
-                  padding: const EdgeInsets.all(32),
+            title: new Container(
+              padding: const EdgeInsets.only(top:5.0),
                   child: Row(
                     children: [
                       Expanded(
@@ -242,11 +239,6 @@ class _Publicacion_detalle_fin_estatica extends State<Publicacion_detalle_fin_es
                   ),
 
                 ),
-
-
-            ),
-
-
 
           );
 
