@@ -6,7 +6,6 @@ import 'package:cabofind/paginas_listas/list_promociones.dart';
 import 'package:cabofind/utilidades/buscador.dart';
 import 'package:cabofind/utilidades/carousel_pro.dart';
 import 'package:cabofind/paginas/carrusel.dart';
-import 'package:cabofind/main_ing.dart';
 import 'package:cabofind/paginas_listas/list_publicaciones.dart';
 import 'package:flutter/material.dart';
 import 'package:cabofind/paginas/acercade.dart';
@@ -108,7 +107,7 @@ class _MyHomePageState extends State<MyHomePages> {
       //new ImageCarousel2(),
       new Publicaciones(),
       new Promociones(),
-      new Carrusel(),
+      new Youtube(),
 
       //new ImageCarousel2(),
 
@@ -159,9 +158,12 @@ class _MyHomePageState extends State<MyHomePages> {
               Navigator.of(context).pop();
               Navigator.push(
                   context,
-                  new MaterialPageRoute(
-                      builder: (BuildContext context) => new MyHomePage_ING()));
-            }, ),
+                   new MaterialPageRoute(
+                       // builder: (BuildContext context) => new MyHomePage_ING()
+                        )
+                        );
+              }, 
+              ),
 
           new IconButton(
             icon: actionIcon,
@@ -311,7 +313,9 @@ class _MyHomePageState extends State<MyHomePages> {
                 Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (BuildContext context) => new MyHomePage_ING()));
+                       // builder: (BuildContext context) => new MyHomePage_ING()
+                        )
+                        );
               },
             ),
           ],

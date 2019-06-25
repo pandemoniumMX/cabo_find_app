@@ -135,11 +135,8 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
           return new ListTile(
 
 
-            title: new Card(
-
-                elevation: 5.0,
-                child: new Container(
-                  padding: const EdgeInsets.all(32),
+            title: new Container(
+                  padding: const EdgeInsets.only(top:5.0),
                   child: Row(
                     children: [
                       Expanded(
@@ -210,7 +207,8 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
                                         //videoId: widget.publicacion.vid,
                                         videoId: YoutubePlayer.convertUrlToId("${widget.publicacion.vid}"),
                                         autoPlay: true,
-                                        width: 650.0,
+                                        width: MediaQuery.of(context).size.width,
+
                                         showVideoProgressIndicator: true,
                                         videoProgressIndicatorColor: Colors.amber,
                                         progressColors: ProgressColors(
@@ -242,19 +240,20 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
                   String cat_sql = data[index]["CAT_NOMBRE"];
                   String subcat_sql = data[index]["SUB_NOMBRE"];
                   String foto_sql = data[index]["GAL_FOTO"];
+                  String etiquetas_sql = data[index]["NEG_ETIQUETAS"];
                   String desc_sql = data[index]["NEG_DESCRIPCION"];
-                  String cor_sql = data[index]["NEG_CORREO"];
+                  String mapa_sql = data[index]["NEG_MAP"];
                   String fb_sql = data[index]["NEG_FACEBOOK"];
                   String ins_sql = data[index]["NEG_INSTAGRAM"];
                   String web_sql = data[index]["NEG_WEB"];
-                  String mapa_sql = data[index]["NEG_MAP"];
-                  String tel_sql = data[index]["NEG_TEL"];
+                  String tel = data[index]["NEG_TEL"];
+                  String cor = data[index]["NEG_CORREO"];
 
 
 
 
                   Navigator.push(context, new MaterialPageRoute
-                    (builder: (context) => new Empresa_det_fin(empresa: new Empresa(id_sql,nombre_sql,cat_sql,subcat_sql,foto_sql,desc_sql,mapa_sql,fb_sql,ins_sql,web_sql, tel_sql, cor_sql))
+                    (builder: (context) => new Empresa_det_fin(empresa: new Empresa(id_sql,nombre_sql,cat_sql,subcat_sql,foto_sql,etiquetas_sql,desc_sql,mapa_sql,fb_sql,ins_sql,web_sql,tel,cor))
                   )
                   );
                 },
@@ -282,12 +281,6 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
                   ),
 
                 ),
-
-
-            ),
-
-
-
           );
 
         },
@@ -313,7 +306,7 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
              //boton,
              Container(
                child: publicaciones,
-               height: 580.0,
+               height: 800.0,
              )
 
 

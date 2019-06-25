@@ -12,21 +12,21 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 
 
-class Publicacion_detalle_fin_ing extends StatefulWidget {
+class Publicacion_detalle_fin_estatica extends StatefulWidget {
 
   List data;
   final Publicacion publicacion;
   final Empresa empresa;
-  Publicacion_detalle_fin_ing({Key key, @required this.publicacion, this.empresa}) : super(
+  Publicacion_detalle_fin_estatica({Key key, @required this.publicacion, this.empresa}) : super(
       key: key);
 
 
   @override
 
-  _Publicacion_detalles_ing createState() => new _Publicacion_detalles_ing();
+  _Publicacion_detalle_fin_estatica createState() => new _Publicacion_detalle_fin_estatica();
 }
 
-class _Publicacion_detalles_ing extends State<Publicacion_detalle_fin_ing> {
+class _Publicacion_detalle_fin_estatica extends State<Publicacion_detalle_fin_estatica> {
   List data;
   List datacar;
   List dataneg;
@@ -40,6 +40,7 @@ class _Publicacion_detalles_ing extends State<Publicacion_detalle_fin_ing> {
   String _playerStatus = "";
   String _errorCode = '0';
 
+  // String _videoId = widget.publicacion.det;
 
   void listener() {
 
@@ -53,7 +54,7 @@ class _Publicacion_detalles_ing extends State<Publicacion_detalle_fin_ing> {
   @override
   void deactivate() {
     // This pauses video while navigating to next page.
-    _controller.pause();
+    //_controller.pause();
     super.deactivate();
   }
   Future<String> getData() async {
@@ -135,11 +136,8 @@ class _Publicacion_detalles_ing extends State<Publicacion_detalle_fin_ing> {
           return new ListTile(
 
 
-            title: new Card(
-
-                elevation: 5.0,
-                child: new Container(
-                  padding: const EdgeInsets.all(32),
+            title: new Container(
+              padding: const EdgeInsets.only(top:5.0),
                   child: Row(
                     children: [
                       Expanded(
@@ -224,42 +222,7 @@ class _Publicacion_detalles_ing extends State<Publicacion_detalle_fin_ing> {
 
                                           ),
 
-            Container(
-              padding: const EdgeInsets.only(bottom: 10,left: 20,right: 20),
-              child: RaisedButton(
 
-                //child: Text(‘Send data to the second page’),
-                onPressed: () {
-
-                  String id_sql = data[index]["ID_NEGOCIO"];
-                  String nombre_sql = data[index]["NEG_NOMBRE"];
-                  String cat_sql = data[index]["CAT_NOMBRE"];
-                  String subcat_sql = data[index]["SUB_NOMBRE"];
-                  String foto_sql = data[index]["GAL_FOTO"];
-                  String desc_sql = data[index]["NEG_DESCRIPCION"];
-                  String mapa_sql = data[index]["NEG_MAP"];
-                  String tel_sql = data[index]["NEG_TEL"];
-                  String cor_sql = data[index]["NEG_CORREO"];
-                  String fb_sql = data[index]["NEG_FACEBOOK"];
-                  String ins_sql = data[index]["NEG_INSTAGRAM"];
-                  String web_sql = data[index]["NEG_WEB"];
-
-
-
-
-                  Navigator.push(context, new MaterialPageRoute
-                    (builder: (context) => new Empresa_det_fin(empresa: new Empresa(id_sql,nombre_sql,cat_sql,subcat_sql,foto_sql,desc_sql,mapa_sql, tel_sql, cor_sql,fb_sql,ins_sql,web_sql))
-                  )
-                  );
-                },
-
-                shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
-                color: Colors.blue,
-                child: Text('Más informacion', style: TextStyle(fontSize: 20, color: Colors.white)),
-
-              ),
-
-            ),
 
                               ],
                             ),
@@ -276,11 +239,6 @@ class _Publicacion_detalles_ing extends State<Publicacion_detalle_fin_ing> {
                   ),
 
                 ),
-
-
-            ),
-
-
 
           );
 

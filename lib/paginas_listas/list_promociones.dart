@@ -232,7 +232,7 @@ class Promocionesfull extends State<Promociones> {
               String cor = data[index]["NEG_CORREO"];
 
 
-
+             
 
 
 
@@ -241,7 +241,7 @@ class Promocionesfull extends State<Promociones> {
               Navigator.push(context, new MaterialPageRoute
                 (builder: (context) => new Publicacion_detalle_fin(
                 publicacion: new Publicacion(id_n,id,nom,lug,cat,sub,gal,tit,det,fec,vid,tel,cor),
-              )
+                )
               )
               );
 

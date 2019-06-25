@@ -176,13 +176,14 @@ class _Buscador extends State<Buscador> {
               String cat_sql = data[index]["CAT_NOMBRE"];
               String subcat_sql = data[index]["SUB_NOMBRE"];
               String foto_sql = data[index]["GAL_FOTO"];
+              String etiquetas_sql = data[index]["NEG_ETIQUETAS"];
               String desc_sql = data[index]["NEG_DESCRIPCION"];
               String mapa_sql = data[index]["NEG_MAP"];
-              String tel_sql = data[index]["NEG_TEL"];
-              String cor_sql = data[index]["NEG_CORREO"];
               String fb_sql = data[index]["NEG_FACEBOOK"];
               String ins_sql = data[index]["NEG_INSTAGRAM"];
               String web_sql = data[index]["NEG_WEB"];
+              String tel = data[index]["NEG_TEL"];
+              String cor = data[index]["NEG_CORREO"];
 
 
 
@@ -190,7 +191,7 @@ class _Buscador extends State<Buscador> {
 
 
               Navigator.push(context, new MaterialPageRoute
-                (builder: (context) => new Empresa_det_fin(empresa: new Empresa(id_sql,nombre_sql,cat_sql,subcat_sql,foto_sql,desc_sql,mapa_sql,tel_sql,cor_sql,fb_sql,ins_sql,web_sql))
+                (builder: (context) => new Empresa_det_fin(empresa: new Empresa(id_sql,nombre_sql,cat_sql,subcat_sql,foto_sql,etiquetas_sql,desc_sql,mapa_sql,fb_sql,ins_sql,web_sql,tel,cor))
               )
               );
 

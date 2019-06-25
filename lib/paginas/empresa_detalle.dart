@@ -1,13 +1,14 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:cabofind/paginas/publicacion_detalle.dart';
-import 'package:cabofind/paginas/Publicacion_detalle_fija.dart';
+import 'package:cabofind/paginas/publicacion_detalle_estatica.dart';
 import 'package:cabofind/utilidades/carousel_pro.dart';
 import 'package:http/http.dart' as http;
 import 'package:cabofind/utilidades/classes.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 
 
 Future<Quote> getQuote(Str) async {
@@ -63,7 +64,6 @@ class Detalles extends State<Empresa_det_fin> {
   List data;
   List data1;
   List data_list;
-  List data_carrusel;
 
 
 
@@ -72,7 +72,7 @@ class Detalles extends State<Empresa_det_fin> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text('Caracteristicas',style: TextStyle(fontSize: 20.0,color: Colors.black),),
+            title: Text('Servicios',style: TextStyle(fontSize: 20.0,color: Colors.blueAccent),),
             content: Container(
                 width: double.maxFinite,
                 height: 300.0,
@@ -105,7 +105,7 @@ class Detalles extends State<Empresa_det_fin> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text('Servicios',style: TextStyle(fontSize: 20.0,color: Colors.black),),
+            title: Text('Servicios',style: TextStyle(fontSize: 25.0,),),
             content: Container(
                 width: double.maxFinite,
                 height: 300.0,
@@ -207,32 +207,6 @@ class Detalles extends State<Empresa_det_fin> {
 
     return "Success!";
   }
-
-
-  Future<String> getCarrusel() async {
-    var response = await http.get(
-        Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/fotos.php"),
-
-        headers: {
-          "Accept": "application/json"
-        }
-    );
-
-    this.setState(
-            () {
-          data_carrusel = json.decode(
-              response.body);
-        });
-
-
-    print(
-        data_carrusel[2]["GAL_FOTO"]);
-
-    return "Success!";
-  }
-
-
   void initState() {
     super.initState(
 
@@ -240,49 +214,13 @@ class Detalles extends State<Empresa_det_fin> {
     this.getCar();
     this.get_list();
     this.getSer();
-    this.getCarrusel();
   }
 
  Widget build(BuildContext context){
 
-   Widget carrusel =   Container(
-     child: new ListView.builder(
-
-       scrollDirection: Axis.horizontal,
-
-       itemCount: data_carrusel == null ? 0 : data_carrusel.length,
-       itemBuilder: (BuildContext context, int index) {
-
-         return  new Container(
-           padding: EdgeInsets.only( left: 0.0, right: 10.0),
-           child: Column(
-             children: <Widget>[
-               Padding(
-                 child:  FadeInImage(
-
-                   image: NetworkImage(data_carrusel[index]["GAL_FOTO"]),
-                   fit: BoxFit.cover,
-                   width: MediaQuery.of(context).size.width,
-                   height: 400,
-
-                   // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
-                   placeholder: AssetImage('android/assets/images/loading.gif'),
-                   fadeInDuration: Duration(milliseconds: 200),
-
-                 ),
-                 padding: EdgeInsets.all(0.0),
-               ),
-             ],
-           ),
-         );
-       },
-     ),
-   );
 
 
 
-
-/*
   Widget carrusel = Container(
 
       child: FutureBuilder<Quote>(
@@ -312,7 +250,7 @@ class Detalles extends State<Empresa_det_fin> {
 
     );
 
-    */
+    
     Widget titleSection = Container(
           width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
@@ -387,73 +325,7 @@ class Detalles extends State<Empresa_det_fin> {
       }
     }
 
-  facebook() async {
-    final url =  widget.empresa.fb;
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
-
-  web() async {
-    final url =  widget.empresa.web;
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
-
-  instagram() async {
-    final url =  widget.empresa.inst;
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
-
-   telefono() async {
-     final url =  "tel:${widget.empresa.tel}";
-     if (await canLaunch(url)) {
-       await launch(url);
-     } else {
-       throw 'Could not launch $url';
-     }
-   }
-
-   correo() async {
-     final url =  "mailto:${widget.empresa.mail}";
-     if (await canLaunch(url)) {
-       await launch(url);
-     } else {
-       throw 'Could not launch $url';
-     }
-   }
-
-
-   Widget crearBotones(){
-     return Row(
-       mainAxisAlignment: MainAxisAlignment.center,
-       children: <Widget>[
-         SizedBox(width: 30),
-         FloatingActionButton(child: Icon(FontAwesomeIcons.instagram), onPressed: instagram,backgroundColor:Color(0xff189bd3),),
-         Expanded(child: SizedBox(width: 5.0,)),
-         FloatingActionButton(child: Icon(FontAwesomeIcons.facebook), onPressed: facebook,backgroundColor:Color(0xff189bd3),),
-         Expanded(child: SizedBox(width: 5.0,)),
-         FloatingActionButton(child: Icon(FontAwesomeIcons.chrome), onPressed: web,backgroundColor:Color(0xff189bd3),),
-         Expanded(child: SizedBox(width: 5.0,)),
-         FloatingActionButton(child: Icon(FontAwesomeIcons.phone), onPressed: telefono,backgroundColor:Color(0xff189bd3),),
-         Expanded(child: SizedBox(width: 5.0,)),
-         FloatingActionButton(child: Icon(FontAwesomeIcons.envelope), onPressed: correo,backgroundColor:Color(0xff189bd3),),
-         Expanded(child: SizedBox(width: 5.0,)),
-
-       ],
-     );
-   }
-
-
+ 
     Widget mapSection = Container(
       padding: const EdgeInsets.only(bottom: 10,left: 125,right: 125),
       child: RaisedButton.icon(
@@ -499,40 +371,70 @@ class Detalles extends State<Empresa_det_fin> {
 
     );
 
-  Widget social = Container(
-    width: MediaQuery.of(context).size.width +30,
+facebook() async {
+    final url =  widget.empresa.fb;
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
 
+  web() async {
+    final url =  widget.empresa.web;
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
 
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        RaisedButton.icon(
-          label: Text('Facebook', style: TextStyle(color: Colors.white),) ,
-          color: Color(0xff189bd3),
-          onPressed: facebook,
-          icon: Icon(Icons.tag_faces),
-          textColor: Colors.white,
+  instagram() async {
+    final url =  widget.empresa.inst;
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
 
-        ),
-        RaisedButton.icon(
-          label: Text('Instagram', style: TextStyle(color: Colors.white),) ,
-          color: Color(0xff189bd3),
-          onPressed: instagram,
-          icon: Icon(Icons.camera_alt),
-          textColor: Colors.white,
-        ),
-        RaisedButton.icon(
-          label: Text('Página web', style: TextStyle(color: Colors.white),) ,
-          color: Color(0xff189bd3),
-          onPressed: web,
-          icon: Icon(Icons.web_asset),
-          textColor: Colors.white,
-        ),
+   telefono() async {
+     final url =  "tel:${widget.empresa.tel}";
+     if (await canLaunch(url)) {
+       await launch(url);
+     } else {
+       throw 'Could not launch $url';
+     }
+   }
 
-      ],
-    ),
+   correo() async {
+     final url =  "mailto:${widget.empresa.cor}";
+     if (await canLaunch(url)) {
+       await launch(url);
+     } else {
+       throw 'Could not launch $url';
+     }
+   }
 
-  );
+  Widget social(){
+     return Row(
+       mainAxisAlignment: MainAxisAlignment.center,
+       children: <Widget>[
+         SizedBox(width: 30),
+         FloatingActionButton(child: Icon(FontAwesomeIcons.instagram), onPressed: instagram,backgroundColor:Color(0xff189bd3),heroTag: "bt1",),
+         Expanded(child: SizedBox(width: 5.0,)),
+         FloatingActionButton(child: Icon(FontAwesomeIcons.facebook), onPressed: facebook,backgroundColor:Color(0xff189bd3),heroTag: "bt3",),
+         Expanded(child: SizedBox(width: 5.0,)),
+         FloatingActionButton(child: Icon(FontAwesomeIcons.chrome), onPressed: web,backgroundColor:Color(0xff189bd3),heroTag: "bt4",),
+         Expanded(child: SizedBox(width: 5.0,)),
+         FloatingActionButton(child: Icon(FontAwesomeIcons.phone), onPressed: telefono,backgroundColor:Color(0xff189bd3),heroTag: "bt5",),
+         Expanded(child: SizedBox(width: 5.0,)),
+         FloatingActionButton(child: Icon(FontAwesomeIcons.envelope), onPressed: correo,backgroundColor:Color(0xff189bd3),heroTag: "bt6W",),
+         Expanded(child: SizedBox(width: 5.0,)),
+
+       ],
+     );
+   }
 
   Widget publicaciones =  Container(
 
@@ -637,6 +539,7 @@ class Detalles extends State<Empresa_det_fin> {
             String id_n = data_list[index]["ID_NEGOCIO"];
             String id = data_list[index]["ID_PUBLICACION"];
             String nom = data_list[index]["NEG_NOMBRE"];
+            String lug = data_list[index]["NEG_LUGAR"];
             String cat = data_list[index]["CAT_NOMBRE"];
             String sub = data_list[index]["SUB_NOMBRE"];
             String gal = data_list[index]["GAL_FOTO"];
@@ -644,7 +547,6 @@ class Detalles extends State<Empresa_det_fin> {
             String det = data_list[index]["PUB_DETALLE"];
             String fec = data_list[index]["PUB_FECHA"];
             String vid = data_list[index]["PUB_VIDEO"];
-            String lug = data_list[index]["NEG_LUGAR"];
             String tel = data_list[index]["NEG_TEL"];
             String cor = data_list[index]["NEG_CORREO"];
 
@@ -654,9 +556,11 @@ class Detalles extends State<Empresa_det_fin> {
 
 
 
+
+
             Navigator.push(context, new MaterialPageRoute
-              (builder: (context) => new Publicacion_detalle_fija(
-              publicacion: new Publicacion(id_n,id,nom,cat,sub,gal,tit,det,fec,vid,lug,tel,cor),
+              (builder: (context) => new Publicacion_detalle_fin_estatica(
+              publicacion: new Publicacion(id_n,id,nom,lug,cat,sub,gal,tit,det,fec,vid,tel,cor),
             )
             )
             );
@@ -700,30 +604,24 @@ class Detalles extends State<Empresa_det_fin> {
             ),
             Container(
               child: carrusel,
-              height: 400.0,
+              height: 300.0,
 
             ),
 
             Container(
-<<<<<<< HEAD
               child: Column(
                 children: <Widget>[
                   SizedBox(
                     height: 15.0,
                   ),
-                 Center(child: Text('Redes sociales y contacto',style: TextStyle(fontSize: 20.0,color: Colors.blueAccent ),)),
+                 Center(child: Text('Redes sociales',style: TextStyle(fontSize: 20.0,color: Colors.blueAccent ),)),
                   SizedBox(
                     height: 15.0,
                   ),
-                  crearBotones()
-                  ,
+                 social(),
 
                 ],
               )
-=======
-              child: social,
-              height: 50.0,
->>>>>>> parent of a36059b... cambios en diseño de publicacion
 
             ),
             Container(
@@ -732,7 +630,7 @@ class Detalles extends State<Empresa_det_fin> {
                   SizedBox(
                     height: 20.0,
                   ),
-                  Center(child: Text('Publicaciones ${widget.empresa.nombre}',style: TextStyle(fontSize: 23.0,color: Colors.blueAccent ),)),
+                  Center(child: Text('Publicaciones ${widget.empresa.nombre}',style: TextStyle(fontSize: 20.0,color: Colors.blueAccent ),)),
                 ],
               ),
               height: 50.0,
