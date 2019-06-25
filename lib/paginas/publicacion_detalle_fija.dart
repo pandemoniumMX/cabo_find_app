@@ -135,8 +135,16 @@ class _Publicacion_detalle_fija extends State<Publicacion_detalle_fija> {
           return new ListTile(
 
 
+<<<<<<< HEAD:lib/paginas/publicacion_detalle_fija.dart
             title: new Container(
                   padding: const EdgeInsets.only(top:5.0),
+=======
+            title: new Card(
+
+                elevation: 5.0,
+                child: new Container(
+                  padding: const EdgeInsets.all(32),
+>>>>>>> parent of a36059b... cambios en diseño de publicacion:lib/paginas/publicacion_detalle_estatica.dart
                   child: Row(
                     children: [
                       Expanded(
@@ -280,6 +288,15 @@ class _Publicacion_detalle_fija extends State<Publicacion_detalle_fija> {
                   ),
 
                 ),
+<<<<<<< HEAD:lib/paginas/publicacion_detalle_fija.dart
+=======
+
+
+            ),
+
+
+
+>>>>>>> parent of a36059b... cambios en diseño de publicacion:lib/paginas/publicacion_detalle_estatica.dart
           );
 
         },

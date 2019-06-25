@@ -705,6 +705,7 @@ class Detalles extends State<Empresa_det_fin> {
             ),
 
             Container(
+<<<<<<< HEAD
               child: Column(
                 children: <Widget>[
                   SizedBox(
@@ -719,6 +720,10 @@ class Detalles extends State<Empresa_det_fin> {
 
                 ],
               )
+=======
+              child: social,
+              height: 50.0,
+>>>>>>> parent of a36059b... cambios en diseño de publicacion
 
             ),
             Container(
@@ -727,7 +732,7 @@ class Detalles extends State<Empresa_det_fin> {
                   SizedBox(
                     height: 20.0,
                   ),
-                  Center(child: Text('Publicaciones ${widget.empresa.nombre}',style: TextStyle(fontSize: 20.0,color: Colors.blueAccent ),)),
+                  Center(child: Text('Publicaciones ${widget.empresa.nombre}',style: TextStyle(fontSize: 23.0,color: Colors.blueAccent ),)),
                 ],
               ),
               height: 50.0,
