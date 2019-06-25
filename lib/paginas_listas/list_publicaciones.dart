@@ -228,6 +228,8 @@ class Publicacionesfull extends State<Publicaciones> {
               String det = data[index]["PUB_DETALLE"];
               String fec = data[index]["PUB_FECHA"];
               String vid = data[index]["PUB_VIDEO"];
+              String tel = data[index]["NEG_TEL"];
+              String cor = data[index]["NEG_CORREO"];
 
 
              
@@ -238,7 +240,7 @@ class Publicacionesfull extends State<Publicaciones> {
 
               Navigator.push(context, new MaterialPageRoute
                 (builder: (context) => new Publicacion_detalle_fin(
-                publicacion: new Publicacion(id_n,id,nom,lug,cat,sub,gal,tit,det,fec,vid),
+                publicacion: new Publicacion(id_n,id,nom,lug,cat,sub,gal,tit,det,fec,vid,tel,cor),
                 )
               )
               );

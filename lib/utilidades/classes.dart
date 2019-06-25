@@ -6,15 +6,16 @@ class Empresa {
   final String cat;
   final String subs;
   final String logo;
-  final String etiquetas;
   final String desc;
   final String maps;
   final String fb;
   final String inst;
   final String web;
+  final String tel;
+  final String mail;
 
 
-  Empresa(this.id_nm,this.nombre,this.cat,this.subs,this.logo,this.etiquetas, this.desc,this.maps, this.fb,this.inst,this.web);
+  Empresa(this.id_nm,this.nombre,this.cat,this.subs,this.logo, this.desc,this.maps, this.fb,this.inst,this.web,this.tel, this.mail,);
 }
 
 class Publicacion {
@@ -29,7 +30,8 @@ class Publicacion {
   final String det;
   final String fec;
   final String vid;
-  
+  final String tel;
+  final String mail;
 
-  Publicacion(this.id_n,this.id,this.nombre,this.cat,this.neg,this.subs,this.logo,this.titulo, this.det,this.fec,this.vid);
+  Publicacion(this.id_n,this.id,this.nombre,this.cat,this.neg,this.subs,this.logo,this.titulo, this.det,this.fec,this.vid,this.tel,this.mail);
 }

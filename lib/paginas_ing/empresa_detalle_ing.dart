@@ -534,14 +534,15 @@ class Detalles_ing extends State<Empresa_det_fin_ing> {
             String id = data_list[index]["ID_PUBLICACION"];
             String nom = data_list[index]["NEG_NOMBRE"];
             String lug = data_list[index]["NEG_LUGAR"];
-            String cat = data_list[index]["CAT_NOMBRE"];
-            String sub = data_list[index]["SUB_NOMBRE"];
-            String gal = data_list[index]["GAL_FOTO"];
-            String tit = data_list[index]["PUB_TITULO"];
-            String det = data_list[index]["PUB_DETALLE"];
-            String fec = data_list[index]["PUB_FECHA"];
-            String vid = data_list[index]["PUB_VIDEO"];
-
+            String tel = data[index]["NEG_TEL"];
+            String cor = data[index]["NEG_CORREO"];
+            String cat = data[index]["CAT_NOMBRE"];
+            String sub = data[index]["SUB_NOMBRE"];
+            String gal = data[index]["GAL_FOTO"];
+            String tit = data[index]["PUB_TITULO"];
+            String det = data[index]["PUB_DETALLE"];
+            String fec = data[index]["PUB_FECHA"];
+            String vid = data[index]["PUB_VIDEO"];
 
 
 
@@ -551,8 +552,8 @@ class Detalles_ing extends State<Empresa_det_fin_ing> {
 
 
             Navigator.push(context, new MaterialPageRoute
-              (builder: (context) => new Publicacion_detalle_fin_estatica(
-              publicacion: new Publicacion(id_n,id,nom,lug,cat,sub,gal,tit,det,fec,vid),
+              (builder: (context) => new Publicacion_detalle_fin(
+              publicacion: new Publicacion(id_n,id,nom,lug,tel,cor,cat,sub,gal,tit,det,fec,vid),
             )
             )
             );
