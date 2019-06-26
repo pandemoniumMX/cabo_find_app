@@ -64,7 +64,6 @@ class Detalles extends State<Empresa_det_fin> {
   List data;
   List data1;
   List data_list;
-  List data_carrusel;
 
 
 
@@ -208,29 +207,6 @@ class Detalles extends State<Empresa_det_fin> {
 
     return "Success!";
   }
-
-  Future<String> getCarrusel() async {
-    var response = await http.get(
-        Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/galeria_api.php?ID=${widget.empresa.id_nm}"),
-
-        headers: {
-          "Accept": "application/json"
-        }
-    );
-
-    this.setState(
-            () {
-          data_carrusel = json.decode(
-              response.body);
-        });
-
-
-    print(
-        data_carrusel[2]["GAL_FOTO"]);
-
-    return "Success!";
-  }
   void initState() {
     super.initState(
 
@@ -238,7 +214,6 @@ class Detalles extends State<Empresa_det_fin> {
     this.getCar();
     this.get_list();
     this.getSer();
-    this.getCarrusel();
   }
 
  Widget build(BuildContext context){
@@ -246,39 +221,34 @@ class Detalles extends State<Empresa_det_fin> {
 
 
 
-   Widget carrusel =   Container(
-     child: new ListView.builder(
+  Widget carrusel = Container(
 
-       scrollDirection: Axis.horizontal,
+      child: FutureBuilder<Quote>(
+        future: getQuote(String), //sets the getQuote method as the expected Future
+        builder: (context, snapshot) {
+          if (snapshot.hasData) { //checks if the response returns valid data
+            return Center(
+              child: Carousel(
+            boxFit: BoxFit.fill,
+            images: [
 
-       itemCount: data_carrusel == null ? 0 : data_carrusel.length,
-       itemBuilder: (BuildContext context, int index) {
+              Image.network(widget.empresa.logo),
 
-         return  new Container(
-           padding: EdgeInsets.only( left: 0.0, right: 10.0),
-           child: Column(
-             children: <Widget>[
-               Padding(
-                 child:  FadeInImage(
+             
+            ],
+            animationCurve: Curves.fastOutSlowIn,
+            animationDuration: Duration(
+                milliseconds: 2000),
+          ),
+            );
+          } else if (snapshot.hasError) { //checks if the response throws an error
+            return Text("${snapshot.error}");
+          }
+          return CircularProgressIndicator();
+        },
+      ),
 
-                   image: NetworkImage(data_carrusel[index]["GAL_FOTO"]),
-                   fit: BoxFit.cover,
-                   width: MediaQuery.of(context).size.width,
-                   height: 400,
-
-                   // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
-                   placeholder: AssetImage('android/assets/images/loading.gif'),
-                   fadeInDuration: Duration(milliseconds: 200),
-
-                 ),
-                 padding: EdgeInsets.all(0.0),
-               ),
-             ],
-           ),
-         );
-       },
-     ),
-   );
+    );
 
     
     Widget titleSection = Container(
@@ -470,7 +440,7 @@ facebook() async {
 
     child:  ListView.builder(
       shrinkWrap: false,
-      //physics: BouncingScrollPhysics(),
+      physics: BouncingScrollPhysics(),
       itemCount: data_list == null ? 0 : data_list.length,
       itemBuilder: (BuildContext context, int index) {
 
@@ -579,14 +549,28 @@ facebook() async {
             String vid = data_list[index]["PUB_VIDEO"];
             String tel = data_list[index]["NEG_TEL"];
             String cor = data_list[index]["NEG_CORREO"];
+
+
+
+
+
+
+
+
+
             Navigator.push(context, new MaterialPageRoute
               (builder: (context) => new Publicacion_detalle_fin_estatica(
               publicacion: new Publicacion(id_n,id,nom,lug,cat,sub,gal,tit,det,fec,vid,tel,cor),
             )
             )
             );
-          },
 
+
+          },
+          //A Navigator is a widget that manages a set of child widgets with
+          //stack discipline.It allows us navigate pages.
+          //stack discipline.It allows us navigate pages.
+          //Navigator.of(context).push(route);
         );
 
       },
@@ -599,8 +583,8 @@ facebook() async {
     return new Scaffold(
 
       body: ListView(
-        shrinkWrap: false,
-       physics: BouncingScrollPhysics(),
+        //shrinkWrap: true,
+       // physics: BouncingScrollPhysics(),
           children: [
             Column(
 
@@ -613,11 +597,14 @@ facebook() async {
                 buttonSection,
                 mapSection,
 
+                
+
+
               ],
             ),
             Container(
               child: carrusel,
-              height: 400.0,
+              height: 300.0,
 
             ),
 
@@ -627,7 +614,7 @@ facebook() async {
                   SizedBox(
                     height: 15.0,
                   ),
-                 Center(child: Text('Redes sociales y contacto',style: TextStyle(fontSize: 20.0,color: Colors.blueAccent ),)),
+                 Center(child: Text('Redes sociales',style: TextStyle(fontSize: 20.0,color: Colors.blueAccent ),)),
                   SizedBox(
                     height: 15.0,
                   ),
@@ -651,7 +638,7 @@ facebook() async {
             ),
             Container(
               child: publicaciones,
-                height: MediaQuery.of(context).size.height +100.0,
+                height: MediaQuery.of(context).size.height + 100.0,
 
             )
 
