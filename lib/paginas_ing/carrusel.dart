@@ -59,14 +59,7 @@ class _Lista extends State<Carrusel> {
 
 
   Widget build(BuildContext context) {
-    Widget textSection = Container(
-      padding: const EdgeInsets.only(bottom: 10,left: 20,right: 20),
-      child: Text(
-        'xdasd',
-        softWrap: true,
-      ),
-
-    );
+  
 
  final Widget carrusel =   Container(
    child: new ListView.builder(

@@ -57,75 +57,6 @@ class Detalles extends State<Empresa_det_fin> {
   List data_carrusel;
 
 
-
-  _alertCar(BuildContext context) async {
-    return showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text('Caracteristicas',style: TextStyle(fontSize: 20.0,color: Colors.blueAccent),),
-            content: Container(
-                width: double.maxFinite,
-                height: 300.0,
-                child: ListView.builder(
-                    itemCount: data == null ? 0 : data.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Column(
-                        children: <Widget>[
-                          Container(child: Text(data1[index]["CAR_NOMBRE"],style: TextStyle(),),padding: EdgeInsets.only(bottom:15.0),) ,
-                        ],
-                      );
-                    }
-                )
-            ),
-            actions: <Widget>[
-              new FlatButton(
-                child: new Text('Cerrar'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              )
-            ],
-          );
-        });
-  }
-
-
-  _alertSer(BuildContext context) async {
-    return showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text('Servicios',style: TextStyle(fontSize: 25.0,),),
-            content: Container(
-                width: double.maxFinite,
-                height: 300.0,
-                child: ListView.builder(
-                    itemCount: data1 == null ? 0 : data1.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Column(
-                        children: <Widget>[
-                          Container(child: Text(data1[index]["SERV_NOMBRE"],style: TextStyle(),),padding: EdgeInsets.only(bottom:15.0),) ,
-                        ],
-                      );
-                    }
-                )
-            ),
-            actions: <Widget>[
-              new FlatButton(
-                child: new Text('Cerrar'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              )
-            ],
-          );
-        });
-  }
-
-
-
-
   Future<String> getCar() async {
     var response = await http.get(
         Uri.encodeFull(
@@ -205,7 +136,7 @@ class Detalles extends State<Empresa_det_fin> {
    Future<String> getCarrusel() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/galeria_api.php?ID=${widget.empresa.id_nm}"),
+            "http://cabofind.com.mx/app_php/APIs/esp/galeria_api.php??ID=${widget.empresa.id_nm}"),
 
         headers: {
           "Accept": "application/json"
@@ -220,7 +151,7 @@ class Detalles extends State<Empresa_det_fin> {
 
 
     print(
-        data_carrusel[2]["GAL_FOTO"]);
+        data_carrusel[0]["negocios_ID_NEGOCIO"]);
 
     return "Success!";
   }
@@ -232,12 +163,76 @@ class Detalles extends State<Empresa_det_fin> {
     this.getCar();
     this.get_list();
     this.getSer();
+    this.getCarrusel();
   }
 
  Widget build(BuildContext context){
 
 
+   _alertCar(BuildContext context) async {
+     return showDialog(
+         context: context,
+         builder: (context) {
+           return AlertDialog(
+             title: Text('Caracteristicas',style: TextStyle(fontSize: 25.0,),),
+             content: Container(
+                 width: double.maxFinite,
+                 height: 300.0,
+                 child: ListView.builder(
+                     itemCount: data == null ? 0 : data.length,
+                     itemBuilder: (BuildContext context, int index) {
+                       return Column(
+                         children: <Widget>[
+                           Container(child: Text(data[index]["CAR_NOMBRE"],style: TextStyle(),),padding: EdgeInsets.only(bottom:15.0),) ,
+                         ],
+                       );
+                     }
+                 )
+             ),
+             actions: <Widget>[
+               new FlatButton(
+                 child: new Text('Cerrar'),
+                 onPressed: () {
+                   Navigator.of(context).pop();
+                 },
+               )
+             ],
+           );
+         });
+   }
 
+
+   _alertSer(BuildContext context) async {
+     return showDialog(
+         context: context,
+         builder: (context) {
+           return AlertDialog(
+             title: Text('Servicios',style: TextStyle(fontSize: 25.0,),),
+             content: Container(
+                 width: double.maxFinite,
+                 height: 300.0,
+                 child: ListView.builder(
+                     itemCount: data1 == null ? 0 : data1.length,
+                     itemBuilder: (BuildContext context, int index) {
+                       return Column(
+                         children: <Widget>[
+                           Container(child: Text(data1[index]["SERV_NOMBRE"],style: TextStyle(),),padding: EdgeInsets.only(bottom:15.0),) ,
+                         ],
+                       );
+                     }
+                 )
+             ),
+             actions: <Widget>[
+               new FlatButton(
+                 child: new Text('Cerrar'),
+                 onPressed: () {
+                   Navigator.of(context).pop();
+                 },
+               )
+             ],
+           );
+         });
+   }
 
   Widget carrusel =   Container(
      child: new ListView.builder(

@@ -34,7 +34,7 @@ class _Promociones_ing extends State<Promociones_ing> {
 
 
   //final List<Todo> todos;
-  Future<String> getData() async {
+  Future<String> getDatas() async {
     var response = await http.get(
         Uri.encodeFull(
             "http://cabofind.com.mx/app_php/consultas_negocios/ing/list_promociones.php"),
@@ -62,13 +62,14 @@ class _Promociones_ing extends State<Promociones_ing> {
     super.initState(    
    
     );
-    this.getData();
+    this.getDatas();
 
 
   }
 
  
   Widget build(BuildContext context) {
+
 
     Widget publicaciones =  Container(
 
@@ -148,7 +149,7 @@ class _Promociones_ing extends State<Promociones_ing> {
                               " | "),
                           Padding(
                               child: new Text(
-                                  data[index]["NEG_NOMBRE_ING"]),
+                                  data[index]["NEG_NOMBRE"]),
                               padding: EdgeInsets.all(
                                   1.0)),
                           Text(
@@ -184,13 +185,6 @@ class _Promociones_ing extends State<Promociones_ing> {
               String vid = data[index]["PUB_VIDEO"];
               String tel = data[index]["NEG_TEL"];
               String cor = data[index]["NEG_CORREO"];
-
-
-             
-
-
-
-
 
               Navigator.push(context, new MaterialPageRoute
                 (builder: (context) => new Publicacion_detalle_fin_ing(
