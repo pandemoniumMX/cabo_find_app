@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Servicios extends StatefulWidget {
 @override
@@ -26,11 +27,11 @@ Widget build(BuildContext context) {
   ];
 
   final bnbi=<BottomNavigationBarItem>[
-    BottomNavigationBarItem(icon: Icon(Icons.star,),title: Text("Medicos")),
-    BottomNavigationBarItem(icon: Icon(Icons.favorite,),title: Text("Transporte")),
-    BottomNavigationBarItem(icon: Icon(Icons.fiber_new,),title: Text("Financieros")),
-    BottomNavigationBarItem(icon: Icon(Icons.visibility,),title: Text("Técnicos")),
-    BottomNavigationBarItem(icon: Icon(Icons.favorite,),title: Text("Taller")),
+    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.car,),title: Text("Automotriz")),
+    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.piggyBank,),title: Text("Bancos")),
+    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.userTie,),title: Text("Asesoría")),
+    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.userCog,),title: Text("Técnicos")),
+    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.taxi,),title: Text("Transporte")),
 
 
   ];

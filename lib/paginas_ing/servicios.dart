@@ -2,14 +2,12 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class Restaurantes extends StatefulWidget {
-  int id=0;
-
-  @override
-_Restaurantes createState() => new _Restaurantes();
+class Servicios_ing extends StatefulWidget {
+@override
+_Servicios_ing createState() => new _Servicios_ing();
 }
 
-class _Restaurantes extends State<Restaurantes> {
+class _Servicios_ing extends State<Servicios_ing> {
 @override
 Widget build(BuildContext context) {
   final tabpages=<Widget>[
@@ -29,13 +27,11 @@ Widget build(BuildContext context) {
   ];
 
   final bnbi=<BottomNavigationBarItem>[
-    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.pepperHot,),title: Text("Mexicano")),
-    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.pizzaSlice,),title: Text("Italiano")),
-    BottomNavigationBarItem(icon: Icon(Icons.favorite,),title: Text("Oriental")),
-    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.fish,),title: Text("Marisco")),
-    BottomNavigationBarItem(icon: Icon(Icons.fastfood,),title: Text("Rápida")),
-    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.coffee,),title: Text("Café")),
-    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.cookieBite,),title: Text("Snack")),
+    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.car,),title: Text("Car service")),
+    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.piggyBank,),title: Text("Banks")),
+    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.userTie,),title: Text("Advisory")),
+    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.userCog,),title: Text("Technicians")),
+    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.taxi,),title: Text("Transport")),
 
 
   ];
@@ -54,12 +50,12 @@ Widget build(BuildContext context) {
     },
   );
 
-return new Scaffold(
-  body: tabpages[id],
-  bottomNavigationBar: bnb,
-appBar: new AppBar(
-title: new Text('Restaurantes'),
-),
-);
+  return new Scaffold(
+    body: tabpages[id],
+    bottomNavigationBar: bnb,
+    appBar: new AppBar(
+      title: new Text('Servicios'),
+    ),
+  );
 }
 }

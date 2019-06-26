@@ -2,14 +2,12 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class Restaurantes extends StatefulWidget {
-  int id=0;
-
-  @override
-_Restaurantes createState() => new _Restaurantes();
+class Compras_ing extends StatefulWidget {
+@override
+_Compras_ing createState() => new _Compras_ing();
 }
 
-class _Restaurantes extends State<Restaurantes> {
+class _Compras_ing extends State<Compras_ing> {
 @override
 Widget build(BuildContext context) {
   final tabpages=<Widget>[
@@ -29,13 +27,10 @@ Widget build(BuildContext context) {
   ];
 
   final bnbi=<BottomNavigationBarItem>[
-    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.pepperHot,),title: Text("Mexicano")),
-    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.pizzaSlice,),title: Text("Italiano")),
-    BottomNavigationBarItem(icon: Icon(Icons.favorite,),title: Text("Oriental")),
-    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.fish,),title: Text("Marisco")),
-    BottomNavigationBarItem(icon: Icon(Icons.fastfood,),title: Text("Rápida")),
-    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.coffee,),title: Text("Café")),
-    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.cookieBite,),title: Text("Snack")),
+    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.tshirt,),title: Text("Fashion")),
+    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.gift,),title: Text("Souvenirs")),
+    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.gem,),title: Text("Jewelry")),
+    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.store,),title: Text("Stores")),
 
 
   ];
@@ -54,12 +49,12 @@ Widget build(BuildContext context) {
     },
   );
 
-return new Scaffold(
-  body: tabpages[id],
-  bottomNavigationBar: bnb,
-appBar: new AppBar(
-title: new Text('Restaurantes'),
-),
-);
+  return new Scaffold(
+    body: tabpages[id],
+    bottomNavigationBar: bnb,
+    appBar: new AppBar(
+      title: new Text('Compras'),
+    ),
+  );
 }
 }

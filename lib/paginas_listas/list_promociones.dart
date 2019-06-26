@@ -36,7 +36,7 @@ class Promocionesfull extends State<Promociones> {
   Future<String> getData() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/list_promociones.php"),
+            "http://cabofind.com.mx/app_php/consultas_negocios/esp/list_promociones.php"),
        
         headers: {
           "Accept": "application/json"
@@ -54,25 +54,7 @@ class Promocionesfull extends State<Promociones> {
     return "Success!";
   }
 
- Future<String> getCarrusel() async {
-    var response = await http.get(
-        Uri.encodeFull(
-             "http://cabofind.com.mx/app_php/fotos.php"),
 
-        headers: {
-          "Accept": "application/json"
-        }
-    );
-
-    this.setState(
-            () {
-              data_c = json.decode(
-              response.body);
-        });
-    
-
-    return "Success!";
-  }
  
   @override
   void initState() {
@@ -80,7 +62,6 @@ class Promocionesfull extends State<Promociones> {
    
     );
     this.getData();
-    this.getCarrusel();
 
 
   }

@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Salud extends StatefulWidget {
 @override
@@ -26,11 +27,11 @@ Widget build(BuildContext context) {
   ];
 
   final bnbi=<BottomNavigationBarItem>[
-    BottomNavigationBarItem(icon: Icon(Icons.star,),title: Text("Hospitales")),
-    BottomNavigationBarItem(icon: Icon(Icons.favorite,),title: Text("Consultorios")),
-    BottomNavigationBarItem(icon: Icon(Icons.fiber_new,),title: Text("Especialidades")),
-    BottomNavigationBarItem(icon: Icon(Icons.visibility,),title: Text("Farmacias")),
-    BottomNavigationBarItem(icon: Icon(Icons.favorite,),title: Text("Servicios emergencia")),
+    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.hospital,),title: Text("Hospitales")),
+    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.clinicMedical,),title: Text("Consultorios")),
+    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.hospitalSymbol,),title: Text("Especialidades")),
+    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.pills,),title: Text("Farmacias")),
+    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.ambulance,),title: Text("Emergencia")),
 
 
   ];

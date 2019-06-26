@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Compras extends StatefulWidget {
 @override
@@ -26,11 +27,10 @@ Widget build(BuildContext context) {
   ];
 
   final bnbi=<BottomNavigationBarItem>[
-    BottomNavigationBarItem(icon: Icon(Icons.star,),title: Text("Ropa")),
-    BottomNavigationBarItem(icon: Icon(Icons.fiber_new,),title: Text("Regalos")),
-    BottomNavigationBarItem(icon: Icon(Icons.visibility,),title: Text("Tiendas")),
-    BottomNavigationBarItem(icon: Icon(Icons.favorite,),title: Text("Artesanias")),
-    BottomNavigationBarItem(icon: Icon(Icons.bookmark,),title: Text("Farmacias")),
+    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.tshirt,),title: Text("Moda")),
+    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.gift,),title: Text("Regalos")),
+    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.gem,),title: Text("Joyería")),
+    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.store,),title: Text("Tiendas")),
 
 
   ];

@@ -2,6 +2,8 @@
 import 'dart:convert';
 import 'package:cabofind/paginas/carrusel.dart';
 import 'package:cabofind/main.dart';
+import 'package:cabofind/paginas_ing/empresa_detalle.dart';
+import 'package:cabofind/paginas_ing/publicacion_detalle.dart';
 import 'package:http/http.dart' as http;
 import 'package:cabofind/utilidades/carousel_pro.dart';
 import 'package:cabofind/paginas/empresa_detalle.dart';
@@ -10,20 +12,15 @@ import 'package:flutter/material.dart';
 
 
 
-void main() {
-  runApp(new MaterialApp(
-    home: new ListaAntros(),
 
-  ));
-}
 
-class ListaAntros extends StatefulWidget {
+class ListaAntros_ing extends StatefulWidget {
   @override
-  ListaAntrosFull createState() => new ListaAntrosFull();
+  _ListaAntros_ing createState() => new _ListaAntros_ing();
 
 }
 
-class ListaAntrosFull extends State<ListaAntros> {
+class _ListaAntros_ing extends State<ListaAntros_ing> {
 
   List data;
 
@@ -31,7 +28,7 @@ class ListaAntrosFull extends State<ListaAntros> {
   Future<String> getData() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/consultas_negocios/esp/vida_nocturna/list_vida_antros.php"),
+            "http://cabofind.com.mx/app_php/consultas_negocios/ing/vida_nocturna/list_vida_antros.php"),
        
         headers: {
           "Accept": "application/json"
@@ -117,7 +114,7 @@ void dispose() {
 
                               child: Text(
 
-                                  data[index]["SUB_NOMBRE"]),
+                                  data[index]["SUB_NOMBRE_ING"]),
                               padding: EdgeInsets.all(
                                   1.0)),
                           Text(
@@ -147,11 +144,11 @@ void dispose() {
             onTap: () {
               String id_sql = data[index]["ID_NEGOCIO"];
               String nombre_sql = data[index]["NEG_NOMBRE"];
-              String cat_sql = data[index]["CAT_NOMBRE"];
-              String subcat_sql = data[index]["SUB_NOMBRE"];
+              String cat_sql = data[index]["CAT_NOMBRE_ING"];
+              String subcat_sql = data[index]["SUB_NOMBRE_ING"];
               String foto_sql = data[index]["GAL_FOTO"];
               String etiquetas_sql = data[index]["NEG_ETIQUETAS"];
-              String desc_sql = data[index]["NEG_DESCRIPCION"];
+              String desc_sql = data[index]["NEG_DESCRIPCION_ING"];
               String mapa_sql = data[index]["NEG_MAP"];
               String fb_sql = data[index]["NEG_FACEBOOK"];
               String ins_sql = data[index]["NEG_INSTAGRAM"];
@@ -159,11 +156,8 @@ void dispose() {
               String tel = data[index]["NEG_TEL"];
               String cor = data[index]["NEG_CORREO"];
 
-
-
-
               Navigator.push(context, new MaterialPageRoute
-                (builder: (context) => new Empresa_det_fin(empresa: new Empresa(id_sql,nombre_sql,cat_sql,subcat_sql,foto_sql,etiquetas_sql,desc_sql,mapa_sql,fb_sql,ins_sql,web_sql,tel,cor))
+                (builder: (context) => new Empresa_det_fin_ing(empresa: new Empresa(id_sql,nombre_sql,cat_sql,subcat_sql,foto_sql,etiquetas_sql,desc_sql,mapa_sql,fb_sql,ins_sql,web_sql,tel,cor))
               )
               );
 

@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Descubre extends StatefulWidget {
 @override
@@ -26,12 +27,12 @@ Widget build(BuildContext context) {
   ];
 
   final bnbi=<BottomNavigationBarItem>[
-    BottomNavigationBarItem(icon: Icon(Icons.star,),title: Text("Acuáticas")),
-    BottomNavigationBarItem(icon: Icon(Icons.fiber_new,),title: Text("Terrestres")),
-    BottomNavigationBarItem(icon: Icon(Icons.visibility,),title: Text("Aéreas")),
-    BottomNavigationBarItem(icon: Icon(Icons.favorite,),title: Text("Eventos")),
-    BottomNavigationBarItem(icon: Icon(Icons.bookmark,),title: Text("Cultura")),
-    BottomNavigationBarItem(icon: Icon(Icons.bookmark,),title: Text("Playas")),
+    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.swimmer,),title: Text("Acuáticas")),
+    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.bicycle,),title: Text("Terrestres")),
+    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.telegramPlane,),title: Text("Aéreas")),
+    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.theaterMasks,),title: Text("Eventos")),
+    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.bookmark,),title: Text("Cultura")),
+    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.umbrellaBeach,),title: Text("Playas")),
 
 
 

@@ -59,7 +59,7 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
   Future<String> getData() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/list_negocios_api.php?ID=${widget.publicacion.id_n}"),
+            "http://cabofind.com.mx/app_php/APIs/esp/list_negocios_api.php?ID=${widget.publicacion.id_n}"),
           //"http://cabofind.com.mx/app_php/list_negocios.php?"),
 
 
@@ -82,7 +82,7 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
   Future<String> getNeg() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/list_negocios_api.php?ID=${widget.publicacion.id_n}"),
+            "http://cabofind.com.mx/app_php/APIs/esp/list_negocios_api.php?ID=${widget.publicacion.id_n}"),
         //"http://cabofind.com.mx/app_php/list_negocios.php?"),
 
 

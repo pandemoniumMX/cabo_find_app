@@ -1,40 +1,18 @@
 import 'package:cabofind/paginas_listas/list_antros.dart';
 import 'package:cabofind/paginas/carrusel.dart';
+import 'package:cabofind/paginas_listas_ing/list_antros.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 
 
 
-void main() => runApp(new MyAppNocturna());
-
-class MyAppNocturna extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return new MaterialApp(
-        debugShowCheckedModeBanner:false,
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-          primaryColor: Colors.blue,
-          accentColor: Colors.black26,
-        ),
-        home: new Container(
-            child:           new Vida_nocturna()
-        )
-
-
-
-    );
-  }
-}
-
-class Vida_nocturna extends StatefulWidget {
+class Vida_nocturna_ing extends StatefulWidget {
 @override
-_Vida_nocturna createState() => new _Vida_nocturna();
+_Vida_nocturna_ing createState() => new _Vida_nocturna_ing();
 }
 
-class _Vida_nocturna extends State<Vida_nocturna> {
+class _Vida_nocturna_ing extends State<Vida_nocturna_ing> {
   int id=0;
 
   @override
@@ -44,7 +22,7 @@ Widget build(BuildContext context) {
       //lo que se declare aqui, sera el contenido de los botones de navigacion al fondo
       // new ImageCarousel2(),
     //  new Carrusel(),
-      new ListaAntros(),
+      new ListaAntros_ing(),
 
 
 
@@ -58,10 +36,10 @@ Widget build(BuildContext context) {
     ];
 
     final bnbi=<BottomNavigationBarItem>[
-      BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.beer,),title: Text("Bares")),
-      BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.cocktail,),title: Text("Antros")),
+      BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.cocktail,),title: Text("Clubs")),
+      BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.beer,),title: Text("Bars")),
       BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.guitar,),title: Text("Rockbar")),
-      BottomNavigationBarItem(icon: Icon(Icons.bookmark,),title: Text("Terraza")),
+      BottomNavigationBarItem(icon: Icon(Icons.bookmark,),title: Text("Terrace")),
     ];
 
     final bnb=BottomNavigationBar(

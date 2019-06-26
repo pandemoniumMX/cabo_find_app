@@ -2,14 +2,14 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class Restaurantes extends StatefulWidget {
+class Restaurantes_ing extends StatefulWidget {
   int id=0;
 
   @override
-_Restaurantes createState() => new _Restaurantes();
+  _Restaurantes_ing createState() => new _Restaurantes_ing();
 }
 
-class _Restaurantes extends State<Restaurantes> {
+class _Restaurantes_ing extends State<Restaurantes_ing> {
 @override
 Widget build(BuildContext context) {
   final tabpages=<Widget>[
@@ -29,12 +29,12 @@ Widget build(BuildContext context) {
   ];
 
   final bnbi=<BottomNavigationBarItem>[
-    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.pepperHot,),title: Text("Mexicano")),
-    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.pizzaSlice,),title: Text("Italiano")),
+    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.pepperHot,),title: Text("Mexican")),
+    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.pizzaSlice,),title: Text("Italian")),
     BottomNavigationBarItem(icon: Icon(Icons.favorite,),title: Text("Oriental")),
-    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.fish,),title: Text("Marisco")),
-    BottomNavigationBarItem(icon: Icon(Icons.fastfood,),title: Text("Rápida")),
-    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.coffee,),title: Text("Café")),
+    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.fish,),title: Text("Seafood")),
+    BottomNavigationBarItem(icon: Icon(Icons.fastfood,),title: Text("Fastfood")),
+    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.coffee,),title: Text("Coffe")),
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.cookieBite,),title: Text("Snack")),
 
 

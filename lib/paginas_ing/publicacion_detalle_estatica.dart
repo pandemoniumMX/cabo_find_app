@@ -194,7 +194,7 @@ class _Publicacion_detalle_fin_estatica extends State<Publicacion_detalle_fin_es
                                       SizedBox(
                                         height: 20.0,
                                       ),
-                                      Center(child: Text('Video promocional',style: TextStyle(fontSize: 23.0,color: Colors.blueAccent ),)),
+                                      Center(child: Text('Promotional video',style: TextStyle(fontSize: 23.0,color: Colors.blueAccent ),)),
                                       SizedBox(
                                         height: 20.0,
                                       ),

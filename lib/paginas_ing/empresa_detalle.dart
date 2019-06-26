@@ -10,45 +10,20 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 
-
-
-
-class User {
-
-  final String name;
-  final String picture;
-  User(this.name, this.picture);
-}
-class Quote {
-  final String author;
-  final String quote;
-
-  Quote({this.author, this.quote});
-
-  factory Quote.fromJson(Map<String, dynamic> json) {
-    return Quote(
-      author: json['GAL_FOTO'],
-      quote: json['GAL_TIPO'],
-    );
-  }
-}
-
-
-
-class Empresa_det_fin extends StatefulWidget {
+class Empresa_det_fin_ing extends StatefulWidget {
 List data;
 //final Publicacion publicacion;
 final Empresa empresa;
 
-Empresa_det_fin({Key key, @required this.empresa}) : super(
+  Empresa_det_fin_ing({Key key, @required this.empresa}) : super(
     key: key);
 
 @override
-  Detalles createState() => new Detalles();
+_Empresa_det_fin_ing createState() => new _Empresa_det_fin_ing();
 
 }
 
-class Detalles extends State<Empresa_det_fin> {
+class _Empresa_det_fin_ing extends State<Empresa_det_fin_ing> {
   ScrollController _scrollController = new ScrollController();
 
   List data;
@@ -72,7 +47,7 @@ class Detalles extends State<Empresa_det_fin> {
                     itemBuilder: (BuildContext context, int index) {
                       return Column(
                         children: <Widget>[
-                          Container(child: Text(data1[index]["CAR_NOMBRE"],style: TextStyle(),),padding: EdgeInsets.only(bottom:15.0),) ,
+                          Container(child: Text(data1[index]["CAR_NOMBRE_ING"],style: TextStyle(),),padding: EdgeInsets.only(bottom:15.0),) ,
                         ],
                       );
                     }
@@ -105,7 +80,7 @@ class Detalles extends State<Empresa_det_fin> {
                     itemBuilder: (BuildContext context, int index) {
                       return Column(
                         children: <Widget>[
-                          Container(child: Text(data1[index]["SERV_NOMBRE"],style: TextStyle(),),padding: EdgeInsets.only(bottom:15.0),) ,
+                          Container(child: Text(data1[index]["SERV_NOMBRE_ING"],style: TextStyle(),),padding: EdgeInsets.only(bottom:15.0),) ,
                         ],
                       );
                     }
@@ -129,9 +104,7 @@ class Detalles extends State<Empresa_det_fin> {
   Future<String> getCar() async {
     var response = await http.get(
         Uri.encodeFull(
-          //"http://cabofind.com.mx/app_php/list_caracteristicas.php?ID=${widget.empresa.id}"),
-            "http://cabofind.com.mx/app_php/APIs/esp/list_caracteristicas_api.php?ID=${widget.empresa.id_nm}"),
-         //"http://cabofind.com.mx/app_php/list_caracteristicas.php"),
+            "http://cabofind.com.mx/app_php/APIs/ing/list_caracteristicas_api.php?ID=${widget.empresa.id_nm}"),
 
 
 
@@ -155,9 +128,7 @@ class Detalles extends State<Empresa_det_fin> {
   Future<String> getSer() async {
     var response = await http.get(
         Uri.encodeFull(
-          //"http://cabofind.com.mx/app_php/list_caracteristicas_api.php?ID=${widget.empresa.id}"),
-            "http://cabofind.com.mx/app_php/APIs/esp/list_servicios_api.php?ID=${widget.empresa.id_nm}"),
-        //"http://cabofind.com.mx/app_php/list_caracteristicas.php"),
+            "http://cabofind.com.mx/app_php/APIs/ing/list_servicios_api.php?ID=${widget.empresa.id_nm}"),
 
 
 
@@ -182,8 +153,7 @@ class Detalles extends State<Empresa_det_fin> {
   Future<String> get_list() async {
     var response = await http.get(
         Uri.encodeFull(
-          // "http://cabofind.com.mx/app_php/list_publicaciones.php"),
-         "http://cabofind.com.mx/app_php/APIs/esp/list_publicaciones_api.php?ID=${widget.empresa.id_nm}"),
+         "http://cabofind.com.mx/app_php/APIs/ing/list_publicaciones_api.php?ID=${widget.empresa.id_nm}"),
 
 
         headers: {
@@ -205,7 +175,7 @@ class Detalles extends State<Empresa_det_fin> {
    Future<String> getCarrusel() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/galeria_api.php?ID=${widget.empresa.id_nm}"),
+            "http://cabofind.com.mx/app_php/APIs/ing/galeria_api.php?ID=${widget.empresa.id_nm}"),
 
         headers: {
           "Accept": "application/json"
@@ -357,7 +327,7 @@ class Detalles extends State<Empresa_det_fin> {
         onPressed: mapa,
         icon: Icon(Icons.place),
 
-        label: Text('Abrir mapa'),
+        label: Text('Open maps'),
 
         //child: Text('Abrir Mapa' ),
       ),
@@ -373,7 +343,7 @@ class Detalles extends State<Empresa_det_fin> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           RaisedButton.icon(
-          label: Text('Caracteristicas', style: TextStyle(color: Colors.white),) ,
+          label: Text('Features', style: TextStyle(color: Colors.white),) ,
           color: Color(0xff189bd3),
           onPressed: () => _alertCar(context),
           icon: Icon(Icons.extension),
@@ -382,7 +352,7 @@ class Detalles extends State<Empresa_det_fin> {
         ),
 
           RaisedButton.icon(
-            label: Text('Servicios', style: TextStyle(color: Colors.white),) ,
+            label: Text('Services', style: TextStyle(color: Colors.white),) ,
             color: Color(0xff189bd3),
             onPressed: () => _alertSer(context),
             icon: Icon(FontAwesomeIcons.conciergeBell),
@@ -494,7 +464,7 @@ facebook() async {
 
                       child: Text(
 
-                        data_list[index]["PUB_TITULO"],
+                        data_list[index]["PUB_TITULO_ING"],
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Colors.black,
@@ -529,7 +499,7 @@ facebook() async {
 
                             child: Text(
 
-                                data_list[index]["CAT_NOMBRE"]),
+                                data_list[index]["CAT_NOMBRE_ING"]),
                             padding: EdgeInsets.all(
                                 1.0)),
                         Text(
@@ -547,8 +517,6 @@ facebook() async {
                             padding: EdgeInsets.all(
                                 1.0)),
 
-
-
                       ]),
                 ],
 
@@ -563,23 +531,15 @@ facebook() async {
             String id = data_list[index]["ID_PUBLICACION"];
             String nom = data_list[index]["NEG_NOMBRE"];
             String lug = data_list[index]["NEG_LUGAR"];
-            String cat = data_list[index]["CAT_NOMBRE"];
-            String sub = data_list[index]["SUB_NOMBRE"];
+            String cat = data_list[index]["CAT_NOMBRE_ING"];
+            String sub = data_list[index]["SUB_NOMBRE_ING"];
             String gal = data_list[index]["GAL_FOTO"];
-            String tit = data_list[index]["PUB_TITULO"];
-            String det = data_list[index]["PUB_DETALLE"];
+            String tit = data_list[index]["PUB_TITULO_ING"];
+            String det = data_list[index]["PUB_DETALLE_ING"];
             String fec = data_list[index]["PUB_FECHA"];
             String vid = data_list[index]["PUB_VIDEO"];
             String tel = data_list[index]["NEG_TEL"];
             String cor = data_list[index]["NEG_CORREO"];
-
-
-
-
-
-
-
-
 
             Navigator.push(context, new MaterialPageRoute
               (builder: (context) => new Publicacion_detalle_fin_estatica(
@@ -637,7 +597,7 @@ facebook() async {
                   SizedBox(
                     height: 15.0,
                   ),
-                 Center(child: Text('Redes sociales y contacto',style: TextStyle(fontSize: 20.0,color: Colors.blueAccent ),)),
+                 Center(child: Text('Social networks and contact',style: TextStyle(fontSize: 20.0,color: Colors.blueAccent ),)),
                   SizedBox(
                     height: 15.0,
                   ),
@@ -653,7 +613,7 @@ facebook() async {
                   SizedBox(
                     height: 20.0,
                   ),
-                  Center(child: Text('Publicaciones ${widget.empresa.nombre}',style: TextStyle(fontSize: 20.0,color: Colors.blueAccent ),)),
+                  Center(child: Text('Posts ${widget.empresa.nombre}',style: TextStyle(fontSize: 20.0,color: Colors.blueAccent ),)),
                 ],
               ),
               height: 50.0,

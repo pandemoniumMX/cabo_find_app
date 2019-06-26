@@ -35,5 +35,5 @@ class Publicacion {
   final String cor;
   
 
-  Publicacion(this.id_n,this.id,this.nombre,this.cat,this.neg,this.subs,this.logo,this.titulo, this.det,this.fec,this.vid,this.tel,this.cor);
+  Publicacion(this.id_n,this.id,this.nombre,this.neg,this.cat,this.subs,this.logo,this.titulo, this.det,this.fec,this.vid,this.tel,this.cor);
 }
