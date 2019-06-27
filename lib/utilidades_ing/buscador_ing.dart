@@ -14,37 +14,38 @@ class App extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Buscador_ing(),
+      home: Buscador(),
     );
   }
 }
 
-class Buscador_ing extends StatefulWidget {
-
+class Buscador extends StatefulWidget {
+Publicacion publicacion;
   @override
-  _Buscador_ing createState() => _Buscador_ing();
+  _Buscador createState() => _Buscador();
 }
 
 class Note {
+  String id_n;
   String title;
   String foto;
 
-  Note(this.title, this.foto);
+  Note(this.title, this.foto,this.id_n);
 
   Note.fromJson(Map<String, dynamic> json) {
+    id_n = json['ID_NEGOCIO'];
     title = json['NEG_NOMBRE'];
     foto = json['GAL_FOTO'];
-
   }
 }
 
-class _Buscador_ing extends State<Buscador_ing> {
+class _Buscador extends State<Buscador> {
 
   List<Note> _notes = List<Note>();
   List<Note> _notesForDisplay = List<Note>();
 
   Future<List<Note>> fetchNotes() async {
-    var url = 'http://cabofind.com.mx/app_php/list_negocios.php';
+    var url = 'http://cabofind.com.mx/app_php/consultas_negocios/esp/list_negocios_bus.php';
     var response = await http.get(url);
 
     var notes = List<Note>();
@@ -64,8 +65,11 @@ class _Buscador_ing extends State<Buscador_ing> {
   Future<String> getData() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/list_negocios.php"),
-       
+            "http://cabofind.com.mx/app_php/consultas_negocios/esp/list_negocios_bus.php"),
+           // "http://cabofind.com.mx/app_php/APIs/ing/list_negocios_api.php?ID=${widget.publicacion.id_n}"),
+
+          //"http://cabofind.com.mx/app_php/APIs/ing/list_negocios_api.php?ID=${_notesForDisplay[0].id_n}"),
+
         headers: {
           "Accept": "application/json"
         }
@@ -77,12 +81,7 @@ class _Buscador_ing extends State<Buscador_ing> {
               response.body);
         });
     print(
-        data[1]["NEG_NOMBRE"]);
-
-    print(
-        data[2]["GAL_FOTO"]);
-
-
+        data[0]["NEG_NOMBRE"]);
     return "Success!";
   }
   @override
@@ -94,8 +93,6 @@ class _Buscador_ing extends State<Buscador_ing> {
       });
     });
     super.initState();
-
-   
     this.getData(
     );
   }
@@ -170,7 +167,6 @@ class _Buscador_ing extends State<Buscador_ing> {
 
       onTap: () {
 
-       // int id_sql = data[index]["ID_NEGOCIO"];
               String id_sql = data[index]["ID_NEGOCIO"];
               String nombre_sql = data[index]["NEG_NOMBRE"];
               String cat_sql = data[index]["CAT_NOMBRE"];
@@ -184,10 +180,6 @@ class _Buscador_ing extends State<Buscador_ing> {
               String web_sql = data[index]["NEG_WEB"];
               String tel = data[index]["NEG_TEL"];
               String cor = data[index]["NEG_CORREO"];
-
-
-
-
 
 
               Navigator.push(context, new MaterialPageRoute

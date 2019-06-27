@@ -17,6 +17,9 @@ class Empresa {
 
 
   Empresa(this.id_nm,this.nombre,this.cat,this.subs,this.logo,this.etiquetas, this.desc,this.maps, this.fb,this.inst,this.web,this.tel,this.cor);
+
+
+
 }
 
 class Publicacion {

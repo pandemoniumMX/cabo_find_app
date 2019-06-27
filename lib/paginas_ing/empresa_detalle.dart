@@ -112,7 +112,7 @@ class _Empresa_det_fin_ing extends State<Empresa_det_fin_ing> {
    Future<String> getCarrusel() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/ing//galeria_api.php?ID=${widget.empresa.id_nm}"),
+            "http://cabofind.com.mx/app_php/APIs/esp/galeria_api.php?ID=${widget.empresa.id_nm}"),
 
         headers: {
           "Accept": "application/json"

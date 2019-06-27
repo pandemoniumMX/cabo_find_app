@@ -35,12 +35,12 @@ class Quote {
 
 
 
-class Empresa_det_fin extends StatefulWidget {
+class Empresa_det_fin_bus extends StatefulWidget {
 List data;
 //final Publicacion publicacion;
 final Empresa empresa;
 
-Empresa_det_fin({Key key, @required this.empresa}) : super(
+  Empresa_det_fin_bus({Key key, @required this.empresa}) : super(
     key: key);
 
 @override
@@ -48,14 +48,37 @@ Empresa_det_fin({Key key, @required this.empresa}) : super(
 
 }
 
-class Detalles extends State<Empresa_det_fin> {
+class Detalles extends State<Empresa_det_fin_bus> {
   ScrollController _scrollController = new ScrollController();
 
   List data;
   List data1;
   List data_list;
   List data_carrusel;
+  List data_neg;
 
+  Future<String> getNegocios() async {
+    var response = await http.get(
+        Uri.encodeFull(
+            "http://cabofind.com.mx/app_php/APIs/esp/list_negocios_api.php?ID=${widget.empresa.id_nm}"),
+
+
+
+        headers: {
+          "Accept": "application/json"
+        }
+    );
+
+    this.setState(
+            () {
+              data_neg = json.decode(
+              response.body);
+        });
+    print(
+        data_neg[0]["NEG_NOMBRE"]);
+
+    return "Success!";
+  }
 
   Future<String> getCar() async {
     var response = await http.get(
@@ -164,6 +187,7 @@ class Detalles extends State<Empresa_det_fin> {
     this.get_list();
     this.getSer();
     this.getCarrusel();
+    this.getNegocios();
   }
 
  Widget build(BuildContext context){
@@ -283,7 +307,7 @@ class Detalles extends State<Empresa_det_fin> {
             children: [
 
                  Text(
-                  widget.empresa.nombre,
+                   data_neg[0]["GAL_FOTO"],
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                       fontSize: 20.0

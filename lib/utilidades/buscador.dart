@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:cabofind/paginas/empresa_detalle.dart';
+import 'package:cabofind/paginas/empresa_detalle_buscador.dart';
 import 'package:cabofind/utilidades/classes.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -20,21 +21,25 @@ class App extends StatelessWidget {
 }
 
 class Buscador extends StatefulWidget {
-
+Publicacion publicacion;
   @override
   _Buscador createState() => _Buscador();
 }
 
 class Note {
+  String id_n;
   String title;
   String foto;
+  String sub;
 
-  Note(this.title, this.foto);
+
+  Note(this.title, this.foto,this.id_n,this.sub);
 
   Note.fromJson(Map<String, dynamic> json) {
+    id_n = json['NEG_ETIQUETAS'];
     title = json['NEG_NOMBRE'];
     foto = json['GAL_FOTO'];
-
+    sub = json['SUB_NOMBRE'];
   }
 }
 
@@ -44,7 +49,7 @@ class _Buscador extends State<Buscador> {
   List<Note> _notesForDisplay = List<Note>();
 
   Future<List<Note>> fetchNotes() async {
-    var url = 'http://cabofind.com.mx/app_php/list_negocios.php';
+    var url = 'http://cabofind.com.mx/app_php/consultas_negocios/esp/list_negocios_bus.php';
     var response = await http.get(url);
 
     var notes = List<Note>();
@@ -59,13 +64,18 @@ class _Buscador extends State<Buscador> {
   }
 
   List data;
+  List data_neg;
+
 
   //final List<Todo> todos;
   Future<String> getData() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/list_negocios.php"),
-       
+            "http://cabofind.com.mx/app_php/consultas_negocios/esp/list_negocios_bus.php"),
+           // "http://cabofind.com.mx/app_php/APIs/ing/list_negocios_api.php?ID=${widget.publicacion.id_n}"),
+
+          //"http://cabofind.com.mx/app_php/APIs/ing/list_negocios_api.php?ID=${_notesForDisplay[0].id_n}"),
+
         headers: {
           "Accept": "application/json"
         }
@@ -77,14 +87,31 @@ class _Buscador extends State<Buscador> {
               response.body);
         });
     print(
-        data[1]["NEG_NOMBRE"]);
-
-    print(
-        data[2]["GAL_FOTO"]);
-
-
+        data[0]["NEG_NOMBRE"]);
     return "Success!";
   }
+
+  Future<String> getDataName() async {
+    var response = await http.get(
+        Uri.encodeFull(
+            "http://cabofind.com.mx/app_php/APIs/esp/list_negocios_api.php?ID=${widget.publicacion.id_n}"),
+
+        headers: {
+          "Accept": "application/json"
+        }
+    );
+
+    this.setState(
+            () {
+              data_neg = json.decode(
+              response.body);
+        });
+    print(
+        data_neg[0]["NEG_NOMBRE"]);
+    return "Success!";
+  }
+
+
   @override
   void initState() {
     fetchNotes().then((value) {
@@ -94,10 +121,9 @@ class _Buscador extends State<Buscador> {
       });
     });
     super.initState();
-
-   
     this.getData(
     );
+    this.getDataName();
   }
 
   @override
@@ -138,7 +164,10 @@ class _Buscador extends State<Buscador> {
           setState(() {
             _notesForDisplay = _notes.where((note) {
               var noteTitle = note.title.toLowerCase();
-              return noteTitle.contains(text);
+              var noteTitle2 = note.id_n.toLowerCase();
+
+              noteTitle.contains(text);
+              return noteTitle2.contains(text);
             }).toList();
           });
          },
@@ -153,7 +182,7 @@ class _Buscador extends State<Buscador> {
     return ListTile(
       leading: CircleAvatar(
 
-        backgroundImage: NetworkImage(data[index]["GAL_FOTO"])
+        backgroundImage: NetworkImage(_notesForDisplay[index].foto,)
 
 
       ),
@@ -161,16 +190,19 @@ class _Buscador extends State<Buscador> {
         _notesForDisplay[index].title,
         style: TextStyle(
             fontSize: 22,
-            fontWeight: FontWeight.bold
-        ),
-
+            fontWeight: FontWeight.bold),
+      ),
+      subtitle: Text(
+        _notesForDisplay[index].sub,
+        style: TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.bold),
       ),
 
 
 
       onTap: () {
 
-       // int id_sql = data[index]["ID_NEGOCIO"];
               String id_sql = data[index]["ID_NEGOCIO"];
               String nombre_sql = data[index]["NEG_NOMBRE"];
               String cat_sql = data[index]["CAT_NOMBRE"];

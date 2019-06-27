@@ -5,6 +5,7 @@ import 'package:cabofind/paginas/salud.dart';
 import 'package:cabofind/paginas/youtube.dart';
 import 'package:cabofind/paginas_listas/list_promociones.dart';
 import 'package:cabofind/utilidades/buscador.dart';
+import 'package:cabofind/utilidades/buscador_notap.dart';
 import 'package:cabofind/utilidades/carousel_pro.dart';
 import 'package:cabofind/paginas/carrusel.dart';
 import 'package:cabofind/paginas_listas/list_publicaciones.dart';
@@ -92,7 +93,7 @@ class _MyHomePageState extends State<MyHomePages> {
   Icon idioma_ing = new Icon(Icons.flag);
   Icon actionIcon = new Icon(Icons.search);
 
-  Widget appBarTitle = new Text("Cabofind");
+  Widget appBarTitle = new Text("App");
   int id=0;
 
   @override
