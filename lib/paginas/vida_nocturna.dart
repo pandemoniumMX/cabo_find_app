@@ -1,33 +1,14 @@
-import 'package:cabofind/paginas_listas/list_antros.dart';
+import 'package:cabofind/paginas_listas/list__vida_antros.dart';
 import 'package:cabofind/paginas/carrusel.dart';
+import 'package:cabofind/paginas_listas/list__vida_bares.dart';
+import 'package:cabofind/paginas_listas/list_vida_rockbar.dart';
+import 'package:cabofind/paginas_listas/list_vida_terraza.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 
 
 
-void main() => runApp(new MyAppNocturna());
-
-class MyAppNocturna extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return new MaterialApp(
-        debugShowCheckedModeBanner:false,
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-          primaryColor: Colors.blue,
-          accentColor: Colors.black26,
-        ),
-        home: new Container(
-            child:           new Vida_nocturna()
-        )
-
-
-
-    );
-  }
-}
 
 class Vida_nocturna extends StatefulWidget {
 @override
@@ -45,7 +26,9 @@ Widget build(BuildContext context) {
       // new ImageCarousel2(),
     //  new Carrusel(),
       new ListaAntros(),
-
+      new ListaBares(),
+      new Listarockbar(),
+      new ListaTerraza(),
 
 
       //new ImageCarousel2(),
@@ -58,8 +41,9 @@ Widget build(BuildContext context) {
     ];
 
     final bnbi=<BottomNavigationBarItem>[
-      BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.beer,),title: Text("Bares")),
+
       BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.cocktail,),title: Text("Antros")),
+      BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.beer,),title: Text("Bares")),
       BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.guitar,),title: Text("Rockbar")),
       BottomNavigationBarItem(icon: Icon(Icons.bookmark,),title: Text("Terraza")),
     ];

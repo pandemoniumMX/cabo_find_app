@@ -1,30 +1,36 @@
 
+import 'package:cabofind/paginas_listas/list__rest_cafe.dart';
+import 'package:cabofind/paginas_listas/list__rest_ita.dart';
+import 'package:cabofind/paginas_listas/list__rest_mariscos.dart';
+import 'package:cabofind/paginas_listas/list__rest_mex.dart';
+import 'package:cabofind/paginas_listas/list__rest_oriental.dart';
+import 'package:cabofind/paginas_listas/list__rest_rapida.dart';
+import 'package:cabofind/paginas_listas/list__rest_snacks.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Restaurantes extends StatefulWidget {
-  int id=0;
+
 
   @override
 _Restaurantes createState() => new _Restaurantes();
 }
 
 class _Restaurantes extends State<Restaurantes> {
+  int id=0;
 @override
 Widget build(BuildContext context) {
   final tabpages=<Widget>[
-    //llamar classes siempre despues de un <Widget>
-    //lo que se declare aqui, sera el contenido de los botones de navigacion al fondo
-    // new ImageCarousel2(),
-    //new ImageCarousel2(),
 
-    //new Listviewx(),
-    //new ImageCarousel2(),
+    new ListaMexicanos(),
+    new ListaItalianos(),
+    new ListaCafe(),
+    new ListaOriental(),
+    new ListaMariscos(),
+    new ListaRapida(),
+    new ListaSnacks(),
 
-    Center(child: Icon(Icons.map,size: 60.0,color: Colors.red,),),
-    Center(child: Icon(Icons.mic,size: 60.0,color: Colors.red,),),
-    Center(child: Icon(Icons.radio,size: 60.0,color: Colors.red,),),
-    Center(child: Icon(Icons.music_video,size: 60.0,color: Colors.red,),),
+
 
   ];
 
@@ -40,7 +46,6 @@ Widget build(BuildContext context) {
 
   ];
 
-  int id=0;
 
   final bnb=BottomNavigationBar(
 

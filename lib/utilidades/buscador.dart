@@ -140,8 +140,12 @@ class _Buscador extends State<Buscador> {
 
              return index == 0 ?  _searchBar() : _listItem(index-1);
 
+
+
           },
           itemCount: _notesForDisplay.length+1,
+
+
         )
 
         );

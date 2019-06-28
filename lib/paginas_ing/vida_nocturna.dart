@@ -1,4 +1,4 @@
-import 'package:cabofind/paginas_listas/list_antros.dart';
+import 'package:cabofind/paginas_listas/list__vida_antros.dart';
 import 'package:cabofind/paginas/carrusel.dart';
 import 'package:cabofind/paginas_listas_ing/list_antros.dart';
 import 'package:flutter/material.dart';
