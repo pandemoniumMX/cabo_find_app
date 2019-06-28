@@ -250,7 +250,7 @@ class _MyHomePageState extends State<MyHomePages> {
               },
             ),
             new ListTile(
-              title: new Text('Descubre'),
+              title: new Text('¿Que hacer?'),
               leading: Icon(Icons.beach_access),
 
               onTap: () {
