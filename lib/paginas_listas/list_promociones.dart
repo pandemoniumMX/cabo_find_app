@@ -97,188 +97,162 @@ class Promocionesfull extends State<Promociones> {
    ),
  );
 
-    Widget publicaciones =  Container(
 
-      child:  ListView.builder(
-        controller: _scrollController,
-        shrinkWrap: false,
-        physics: BouncingScrollPhysics(),
-        itemCount: data == null ? 0 : data.length,
-        itemBuilder: (BuildContext context, int index) {
+      Widget publicaciones =  ListView.builder(
+      controller: _scrollController,
+      shrinkWrap: true,
+      physics: BouncingScrollPhysics(),
+      itemCount: data == null ? 0 : data.length,
+      itemBuilder: (BuildContext context, int index) {
 
-          return new ListTile(
-
-
-            title: new Card(
-
-              elevation: 5.0,
-              child: new Container(
+        return new ListTile(
 
 
-                decoration: BoxDecoration(
-                    borderRadius:BorderRadius.circular(10.0),
+          title: new Card(
 
-                    border: Border.all(
-                        color: Colors.blue)),
-                padding: EdgeInsets.all(
-                    10.0),
-                margin: EdgeInsets.all(
-                    10.0),
-
-                child: Column(
-
-                  children: <Widget>[
-
-                    Padding(
-
-                        child: Text(
-
-                            data[index]["PUB_TITULO"],
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                            fontSize: 20.0,
+            elevation: 5.0,
+            child: new Container(
 
 
-                          ),
+              decoration: BoxDecoration(
+                  borderRadius:BorderRadius.circular(10.0),
+
+                  border: Border.all(
+                      color: Colors.blue)),
+              padding: EdgeInsets.all(
+                  10.0),
+              margin: EdgeInsets.all(
+                  10.0),
+
+              child: Column(
+
+                children: <Widget>[
+
+                  Padding(
+
+                      child: Text(
+
+                        data[index]["PUB_TITULO"],
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                          fontSize: 20.0,
+
 
                         ),
-                        padding: EdgeInsets.all(
-                            1.0)
-                    ),
 
-                    FadeInImage(
-
-                      image: NetworkImage(data[index]["GAL_FOTO"]),
-                      fit: BoxFit.fill,
-                      width: MediaQuery.of(context).size.width,
-                      //height: MediaQuery.of(context).size.height,
-                     height: 250,
-
-                      // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
-                      placeholder: AssetImage('android/assets/images/loading.gif'),
-                      fadeInDuration: Duration(milliseconds: 200),
-                     
                       ),
-                     
-                    
-                    Row(
-                        children: <Widget>[
+                      padding: EdgeInsets.all(
+                          1.0)
+                  ),
 
-                          Padding(
+                  FadeInImage(
 
-                              child: Text(
+                    image: NetworkImage(data[index]["GAL_FOTO"]),
+                    fit: BoxFit.fill,
+                    width: MediaQuery.of(context).size.width,
+                    height: 250,
 
-                                data[index]["CAT_NOMBRE"],
-                                overflow: TextOverflow.clip,),
+                    // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
+                    placeholder: AssetImage('android/assets/images/loading.gif'),
+                    fadeInDuration: Duration(milliseconds: 200),
 
-                              padding: EdgeInsets.all( 1.0),
-
-                          ),
-                          Text(
-                              " | "),
-                          Padding(
-                              child: new Text(
-                                  data[index]["NEG_NOMBRE"],
-                                overflow: TextOverflow.ellipsis,),
-                              padding: EdgeInsets.all(
-                                  1.0)),
-                          Text(
-                              " | "),
-                          Flexible(
-                              child: new Text(
-                                  data[index]["NEG_LUGAR"],
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,),
+                  ),
 
 
-                          ),
+                  Row(
+                      children: <Widget>[
+
+                        Padding(
+
+                            child: Text(
+
+                              data[index]["CAT_NOMBRE"],
+                              overflow: TextOverflow.ellipsis,),
+                            padding: EdgeInsets.all(
+                                1.0)),
+                        Text(
+                            " | "),
+                        Padding(
+                            child: new Text(
+                              data[index]["NEG_NOMBRE"],
+                              overflow: TextOverflow.ellipsis,),
+                            padding: EdgeInsets.all(
+                                1.0)),
+                        Text(
+                            " | "),
+                        Flexible(
+                          child: new Text(
+                            data[index]["NEG_LUGAR"],
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,),
+
+
+                        ),
 
 
 
-                        ]),
-                  ],
-
-                ),
+                      ]),
+                ],
 
               ),
 
             ),
 
-            onTap: () {
-              String id_n = data[index]["ID_NEGOCIO"];
-              String id = data[index]["ID_PUBLICACION"];
-              String nom = data[index]["NEG_NOMBRE"];
-              String lug = data[index]["NEG_LUGAR"];
-              String cat = data[index]["CAT_NOMBRE"];
-              String sub = data[index]["SUB_NOMBRE"];
-              String gal = data[index]["GAL_FOTO"];
-              String tit = data[index]["PUB_TITULO"];
-              String det = data[index]["PUB_DETALLE"];
-              String fec = data[index]["PUB_FECHA"];
-              String vid = data[index]["PUB_VIDEO"];
-              String tel = data[index]["NEG_TEL"];
-              String cor = data[index]["NEG_CORREO"];
+          ),
+
+          onTap: () {
+            String id_n = data[index]["ID_NEGOCIO"];
+            String id = data[index]["ID_PUBLICACION"];
+            String nom = data[index]["NEG_NOMBRE"];
+            String lug = data[index]["NEG_LUGAR"];
+            String cat = data[index]["CAT_NOMBRE"];
+            String sub = data[index]["SUB_NOMBRE"];
+            String gal = data[index]["GAL_FOTO"];
+            String tit = data[index]["PUB_TITULO"];
+            String det = data[index]["PUB_DETALLE"];
+            String fec = data[index]["PUB_FECHA"];
+            String vid = data[index]["PUB_VIDEO"];
+            String tel = data[index]["NEG_TEL"];
+            String cor = data[index]["NEG_CORREO"];
 
 
-             
+            Navigator.push(context, new MaterialPageRoute
+              (builder: (context) => new Publicacion_detalle_fin(
+              publicacion: new Publicacion(id_n,id,nom,lug,cat,sub,gal,tit,det,fec,vid,tel,cor),
+            )
+            )
+            );
 
 
+          },
+          //A Navigator is a widget that manages a set of child widgets with
+          //stack discipline.It allows us navigate pages.
+          //stack discipline.It allows us navigate pages.
+          //Navigator.of(context).push(route);
+        );
 
+      },
 
-
-              Navigator.push(context, new MaterialPageRoute
-                (builder: (context) => new Publicacion_detalle_fin(
-                publicacion: new Publicacion(id_n,id,nom,lug,cat,sub,gal,tit,det,fec,vid,tel,cor),
-                )
-              )
-              );
-
-
-            },
-            //A Navigator is a widget that manages a set of child widgets with
-            //stack discipline.It allows us navigate pages.
-            //stack discipline.It allows us navigate pages.
-            //Navigator.of(context).push(route);
-          );
-
-        },
-      ),
     );
 
-      return new Scaffold(
+ return new Scaffold(
 
-    body: Container(
+   body: Container(
      // height: MediaQuery.of(context).size.height,
-    child: new ListView(
-      
-    // shrinkWrap: true,
-    //physics: BouncingScrollPhysics(),
-    children: [
-      
-      Container(
-        
-        child: publicaciones,
-         // height: MediaQuery.of(context).size.height
-          height: MediaQuery.of(context).size.height - 120
+     child: new ListView(
 
-      ),
-     
-       
-      
+       children: [
 
+         Column(
 
+           children: <Widget>[publicaciones],
 
+         ),
 
     ],
-
     ),
-
     ),
-
-
     );
-
-
   }
 }

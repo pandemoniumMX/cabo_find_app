@@ -474,10 +474,8 @@ facebook() async {
      );
    }
 
-  Widget publicaciones =  Container(
-
-    child:  ListView.builder(
-      shrinkWrap: false,
+  Widget publicaciones =  ListView.builder(
+      shrinkWrap: true,
       physics: BouncingScrollPhysics(),
       itemCount: data_list == null ? 0 : data_list.length,
       itemBuilder: (BuildContext context, int index) {
@@ -602,7 +600,7 @@ facebook() async {
         );
 
       },
-    ),
+
   );
 
 
@@ -663,9 +661,9 @@ facebook() async {
               height: 50.0,
 
             ),
-            Container(
-              child: publicaciones,
-                height: MediaQuery.of(context).size.height + 100.0,
+            Column(
+              children: <Widget>[publicaciones],
+              // height:1000.0,
 
             )
 

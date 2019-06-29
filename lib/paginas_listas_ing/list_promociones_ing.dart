@@ -71,9 +71,7 @@ class _Promociones_ing extends State<Promociones_ing> {
   Widget build(BuildContext context) {
 
 
-    Widget publicaciones =  Container(
-
-      child:  ListView.builder(
+    Widget publicaciones =  ListView.builder(
         controller: _scrollController,
         shrinkWrap: false,
         physics: BouncingScrollPhysics(),
@@ -202,40 +200,26 @@ class _Promociones_ing extends State<Promociones_ing> {
           );
 
         },
-      ),
+
     );
 
-      return new Scaffold(
+    return new Scaffold(
 
-    body: Container(
-     // height: MediaQuery.of(context).size.height,
-    child: new ListView(
-      
-    // shrinkWrap: true,
-    //physics: BouncingScrollPhysics(),
-    children: [
-      
-      Container(
-        
-        child: publicaciones,
-         // height: MediaQuery.of(context).size.height
-          height: MediaQuery.of(context).size.height - 120
+      body: Container(
+        // height: MediaQuery.of(context).size.height,
+        child: new ListView(
 
+          children: [
+
+            Column(
+
+              children: <Widget>[publicaciones],
+
+            ),
+
+          ],
+        ),
       ),
-     
-       
-      
-
-
-
-
-    ],
-
-    ),
-
-    ),
-
-
     );
 
 

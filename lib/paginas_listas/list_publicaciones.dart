@@ -69,11 +69,9 @@ class Publicacionesfull extends State<Publicaciones> {
  
   Widget build(BuildContext context) {
 
-    Widget publicaciones =  Container(
-
-      child:  ListView.builder(
+    Widget publicaciones =  ListView.builder(
         controller: _scrollController,
-        shrinkWrap: false,
+        shrinkWrap: true,
         physics: BouncingScrollPhysics(),
         itemCount: data == null ? 0 : data.length,
         itemBuilder: (BuildContext context, int index) {
@@ -190,12 +188,6 @@ class Publicacionesfull extends State<Publicaciones> {
               String cor = data[index]["NEG_CORREO"];
 
 
-             
-
-
-
-
-
               Navigator.push(context, new MaterialPageRoute
                 (builder: (context) => new Publicacion_detalle_fin(
                 publicacion: new Publicacion(id_n,id,nom,lug,cat,sub,gal,tit,det,fec,vid,tel,cor),
@@ -212,7 +204,7 @@ class Publicacionesfull extends State<Publicaciones> {
           );
 
         },
-      ),
+
     );
 
       return new Scaffold(
@@ -225,11 +217,9 @@ class Publicacionesfull extends State<Publicaciones> {
     //physics: BouncingScrollPhysics(),
     children: [
       
-      Container(
+      Column(
         
-        child: publicaciones,
-         // height: MediaQuery.of(context).size.height
-          height: MediaQuery.of(context).size.height - 120
+        children: <Widget>[publicaciones],
 
       ),
      

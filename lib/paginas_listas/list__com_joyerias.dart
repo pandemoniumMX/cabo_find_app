@@ -182,33 +182,21 @@ void dispose() {
     );
     return new Scaffold(
 
-        body: Container(
+      body: Container(
+        // height: MediaQuery.of(context).size.height,
+        child: new ListView(
 
-                child: new ListView(
-                 // shrinkWrap: true,
-                  //physics: BouncingScrollPhysics(),
-                  children: [
-                Column(
-                children: <Widget>[
-                 // slider,
+          children: [
 
-                  ],
-                ),
-              Container(
+            Column(
 
+              children: <Widget>[listado],
 
-                  child: listado,
-                  height: MediaQuery.of(context).size.height -120
+            ),
 
-                // height: 550.0,
-
-              ),
-                  ],
-          ),
-
+          ],
         ),
-
-
+      ),
     );
 
 

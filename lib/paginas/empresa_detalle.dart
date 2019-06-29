@@ -498,7 +498,7 @@ class Detalles extends State<Empresa_det_fin> {
    }
 
   Widget publicaciones =  ListView.builder(
-      shrinkWrap: false,
+      shrinkWrap: true,
       physics: BouncingScrollPhysics(),
       itemCount: data_list == null ? 0 : data_list.length,
       itemBuilder: (BuildContext context, int index) {
@@ -649,7 +649,6 @@ class Detalles extends State<Empresa_det_fin> {
                 textSection,
                 buttonSection,
 
-                
 
 
               ],
@@ -688,9 +687,9 @@ class Detalles extends State<Empresa_det_fin> {
               height: 50.0,
 
             ),
-            Container(
-              child: publicaciones,
-              height:1000.0,
+            Column(
+              children: <Widget>[publicaciones],
+             // height:1000.0,
 
             )
 
