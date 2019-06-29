@@ -13,27 +13,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 
 
-class User {
-
-  final String name;
-  final String picture;
-  User(this.name, this.picture);
-}
-class Quote {
-  final String author;
-  final String quote;
-
-  Quote({this.author, this.quote});
-
-  factory Quote.fromJson(Map<String, dynamic> json) {
-    return Quote(
-      author: json['GAL_FOTO'],
-      quote: json['GAL_TIPO'],
-    );
-  }
-}
-
-
 
 class Empresa_det_fin extends StatefulWidget {
 List data;
@@ -55,6 +34,7 @@ class Detalles extends State<Empresa_det_fin> {
   List data1;
   List data_list;
   List data_carrusel;
+  List data_hor;
 
 
   Future<String> getCar() async {
@@ -108,6 +88,31 @@ class Detalles extends State<Empresa_det_fin> {
     return "Success!";
   }
 
+
+  Future<String> getHorarios() async {
+    var response = await http.get(
+        Uri.encodeFull(
+          //"http://cabofind.com.mx/app_php/list_caracteristicas_api.php?ID=${widget.empresa.id}"),
+            "http://cabofind.com.mx/app_php/APIs/esp/list_horarios_api.php?ID=${widget.empresa.id_nm}"),
+        //"http://cabofind.com.mx/app_php/list_caracteristicas.php"),
+
+
+
+        headers: {
+          "Accept": "application/json"
+        }
+    );
+
+    this.setState(
+            () {
+              data_hor = json.decode(
+              response.body);
+        });
+    print(
+        data_hor[0]["NEG_HORARIO"]);
+
+    return "Success!";
+  }
 
 
   Future<String> get_list() async {
@@ -164,6 +169,7 @@ class Detalles extends State<Empresa_det_fin> {
     this.get_list();
     this.getSer();
     this.getCarrusel();
+    this.getHorarios();
   }
 
  Widget build(BuildContext context){
@@ -221,6 +227,29 @@ class Detalles extends State<Empresa_det_fin> {
                        );
                      }
                  )
+             ),
+             actions: <Widget>[
+               new FlatButton(
+                 child: new Text('Cerrar'),
+                 onPressed: () {
+                   Navigator.of(context).pop();
+                 },
+               )
+             ],
+           );
+         });
+   }
+
+   _alertHorario(BuildContext context) async {
+     return showDialog(
+         context: context,
+         builder: (context) {
+           return AlertDialog(
+             title: Text('Horarios',style: TextStyle(fontSize: 25.0,),),
+             content: Container(
+
+                           child: Container(child: Text(data_hor[0]["NEG_HORARIO"],style: TextStyle(),)
+                           )
              ),
              actions: <Widget>[
                new FlatButton(
@@ -352,6 +381,53 @@ class Detalles extends State<Empresa_det_fin> {
       }
     }
 
+   facebook() async {
+     final url =  widget.empresa.fb;
+     if (await canLaunch(url)) {
+       await launch(url);
+     } else {
+       throw 'Could not launch $url';
+     }
+   }
+
+   web() async {
+     final url =  widget.empresa.web;
+     if (await canLaunch(url)) {
+       await launch(url);
+     } else {
+       throw 'Could not launch $url';
+     }
+   }
+
+   instagram() async {
+     final url =  widget.empresa.inst;
+     if (await canLaunch(url)) {
+       await launch(url);
+     } else {
+       throw 'Could not launch $url';
+     }
+   }
+
+   telefono() async {
+     final url =  "tel:${widget.empresa.tel}";
+     if (await canLaunch(url)) {
+       await launch(url);
+     } else {
+       throw 'Could not launch $url';
+     }
+   }
+
+   correo() async {
+     final url =  "mailto:${widget.empresa.cor}";
+     if (await canLaunch(url)) {
+       await launch(url);
+     } else {
+       throw 'Could not launch $url';
+     }
+   }
+
+
+
 
 
 
@@ -377,7 +453,14 @@ class Detalles extends State<Empresa_det_fin> {
          ),
          Column(
            children: <Widget>[
-             FloatingActionButton(child: Icon(FontAwesomeIcons.mapMarkedAlt), onPressed:mapa,backgroundColor:Color(0xff189bd3),heroTag: "bt3",),
+             FloatingActionButton(child: Icon(FontAwesomeIcons.clock), onPressed:() => _alertHorario(context),backgroundColor:Color(0xff189bd3),heroTag: "bt3",),
+             Text('Horarios', style: TextStyle(color: Colors.black),),
+
+           ],
+         ),
+         Column(
+           children: <Widget>[
+             FloatingActionButton(child: Icon(FontAwesomeIcons.mapMarkedAlt), onPressed:mapa,backgroundColor:Color(0xff189bd3),heroTag: "bt4",),
              Text('Abrir mapa', style: TextStyle(color: Colors.black),),
 
            ],
@@ -391,50 +474,8 @@ class Detalles extends State<Empresa_det_fin> {
 
 
 
-facebook() async {
-    final url =  widget.empresa.fb;
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
 
-  web() async {
-    final url =  widget.empresa.web;
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
 
-  instagram() async {
-    final url =  widget.empresa.inst;
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
-
-   telefono() async {
-     final url =  "tel:${widget.empresa.tel}";
-     if (await canLaunch(url)) {
-       await launch(url);
-     } else {
-       throw 'Could not launch $url';
-     }
-   }
-
-   correo() async {
-     final url =  "mailto:${widget.empresa.cor}";
-     if (await canLaunch(url)) {
-       await launch(url);
-     } else {
-       throw 'Could not launch $url';
-     }
-   }
 
   Widget social(){
      return Row(
@@ -456,9 +497,7 @@ facebook() async {
      );
    }
 
-  Widget publicaciones =  Container(
-
-    child:  ListView.builder(
+  Widget publicaciones =  ListView.builder(
       shrinkWrap: false,
       physics: BouncingScrollPhysics(),
       itemCount: data_list == null ? 0 : data_list.length,
@@ -587,7 +626,7 @@ facebook() async {
         );
 
       },
-    ),
+
   );
 
 
@@ -597,7 +636,8 @@ facebook() async {
 
       body: ListView(
         //shrinkWrap: true,
-       // physics: BouncingScrollPhysics(),
+       physics: BouncingScrollPhysics(),
+
           children: [
             Column(
 
@@ -650,12 +690,14 @@ facebook() async {
             ),
             Container(
               child: publicaciones,
-                height: MediaQuery.of(context).size.height + 100.0,
+              height:1000.0,
 
             )
 
 
+
           ],
+
         ),
 
         appBar: new AppBar(

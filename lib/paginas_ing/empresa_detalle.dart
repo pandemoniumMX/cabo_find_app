@@ -30,6 +30,7 @@ class _Empresa_det_fin_ing extends State<Empresa_det_fin_ing> {
   List data1;
   List data_list;
   List data_carrusel;
+  List data_hor;
 
 
 
@@ -132,6 +133,31 @@ class _Empresa_det_fin_ing extends State<Empresa_det_fin_ing> {
     return "Success!";
   }
 
+  Future<String> getHorarios() async {
+    var response = await http.get(
+        Uri.encodeFull(
+          //"http://cabofind.com.mx/app_php/list_caracteristicas_api.php?ID=${widget.empresa.id}"),
+            "http://cabofind.com.mx/app_php/APIs/ing/list_horarios_api.php?ID=${widget.empresa.id_nm}"),
+        //"http://cabofind.com.mx/app_php/list_caracteristicas.php"),
+
+
+
+        headers: {
+          "Accept": "application/json"
+        }
+    );
+
+    this.setState(
+            () {
+          data_hor = json.decode(
+              response.body);
+        });
+    print(
+        data_hor[0]["NEG_HORARIO_ING"]);
+
+    return "Success!";
+  }
+
   void initState() {
     super.initState(
 
@@ -140,6 +166,7 @@ class _Empresa_det_fin_ing extends State<Empresa_det_fin_ing> {
     this.get_list();
     this.getSer();
     this.getCarrusel();
+    this.getHorarios();
 
   }
 
@@ -210,6 +237,28 @@ class _Empresa_det_fin_ing extends State<Empresa_det_fin_ing> {
          });
    }
 
+   _alertHorario(BuildContext context) async {
+     return showDialog(
+         context: context,
+         builder: (context) {
+           return AlertDialog(
+             title: Text('Schedules',style: TextStyle(fontSize: 25.0,),),
+             content: Container(
+
+                 child: Container(child: Text(data_hor[0]["NEG_HORARIO_ING"],style: TextStyle(),)
+                 )
+             ),
+             actions: <Widget>[
+               new FlatButton(
+                 child: new Text('Cerrar'),
+                 onPressed: () {
+                   Navigator.of(context).pop();
+                 },
+               )
+             ],
+           );
+         });
+   }
 
   Widget carrusel =   Container(
      child: new ListView.builder(
@@ -295,7 +344,6 @@ class _Empresa_det_fin_ing extends State<Empresa_det_fin_ing> {
       ),
     );
 
-    Color color = Theme.of(context).primaryColor;
 
 
     Widget textSection = Container(
@@ -344,7 +392,14 @@ class _Empresa_det_fin_ing extends State<Empresa_det_fin_ing> {
          ),
          Column(
            children: <Widget>[
-             FloatingActionButton(child: Icon(FontAwesomeIcons.mapMarkedAlt), onPressed:mapa,backgroundColor:Color(0xff189bd3),heroTag: "bt3",),
+             FloatingActionButton(child: Icon(FontAwesomeIcons.clock), onPressed:() => _alertHorario(context),backgroundColor:Color(0xff189bd3),heroTag: "bt3",),
+             Text('Schedules', style: TextStyle(color: Colors.black),),
+
+           ],
+         ),
+         Column(
+           children: <Widget>[
+             FloatingActionButton(child: Icon(FontAwesomeIcons.mapMarkedAlt), onPressed:mapa,backgroundColor:Color(0xff189bd3),heroTag: "bt4",),
              Text('Open map', style: TextStyle(color: Colors.black),),
 
            ],

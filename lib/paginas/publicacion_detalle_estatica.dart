@@ -265,7 +265,7 @@ class _Publicacion_detalle_fin_estatica extends State<Publicacion_detalle_fin_es
              //boton,
              Container(
                child: publicaciones,
-               height: 800.0,
+               height: 550.0,
              )
 
 
