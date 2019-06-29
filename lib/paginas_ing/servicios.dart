@@ -8,7 +8,9 @@ _Servicios_ing createState() => new _Servicios_ing();
 }
 
 class _Servicios_ing extends State<Servicios_ing> {
-@override
+  int id=0;
+
+  @override
 Widget build(BuildContext context) {
   final tabpages=<Widget>[
     //llamar classes siempre despues de un <Widget>
@@ -36,7 +38,6 @@ Widget build(BuildContext context) {
 
   ];
 
-  int id=0;
 
   final bnb=BottomNavigationBar(
 

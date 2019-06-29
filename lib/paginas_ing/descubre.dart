@@ -1,28 +1,32 @@
 
+import 'package:cabofind/paginas_listas_ing/list__des_acuaticas.dart';
+import 'package:cabofind/paginas_listas_ing/list__des_aereas.dart';
+import 'package:cabofind/paginas_listas_ing/list__des_cultura.dart';
+import 'package:cabofind/paginas_listas_ing/list__des_eventos.dart';
+import 'package:cabofind/paginas_listas_ing/list__des_playas.dart';
+import 'package:cabofind/paginas_listas_ing/list__des_terrestres.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Descubre_ing extends StatefulWidget {
+
 @override
 _Descubre_ing createState() => new _Descubre_ing();
 }
 
 class _Descubre_ing extends State<Descubre_ing> {
-@override
+  int id=0;
+
+  @override
 Widget build(BuildContext context) {
   final tabpages=<Widget>[
-    //llamar classes siempre despues de un <Widget>
-    //lo que se declare aqui, sera el contenido de los botones de navigacion al fondo
-    // new ImageCarousel2(),
-    //new ImageCarousel2(),
 
-    //new Listviewx(),
-    //new ImageCarousel2(),
-
-    Center(child: Icon(Icons.map,size: 60.0,color: Colors.red,),),
-    Center(child: Icon(Icons.mic,size: 60.0,color: Colors.red,),),
-    Center(child: Icon(Icons.radio,size: 60.0,color: Colors.red,),),
-    Center(child: Icon(Icons.music_video,size: 60.0,color: Colors.red,),),
+    new ListaAcuaticas_ing(),
+    new ListaTerrestres_ing(),
+    new ListaAereas_ing(),
+    new ListaEventos_ing(),
+    new ListaCultura_ing(),
+    new ListaPlayas_ing(),
 
   ];
 
@@ -38,7 +42,6 @@ Widget build(BuildContext context) {
 
   ];
 
-  int id=0;
 
   final bnb=BottomNavigationBar(
 

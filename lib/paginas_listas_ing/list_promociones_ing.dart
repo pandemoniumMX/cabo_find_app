@@ -73,7 +73,7 @@ class _Promociones_ing extends State<Promociones_ing> {
 
     Widget publicaciones =  ListView.builder(
         controller: _scrollController,
-        shrinkWrap: false,
+        shrinkWrap: true,
         physics: BouncingScrollPhysics(),
         itemCount: data == null ? 0 : data.length,
         itemBuilder: (BuildContext context, int index) {

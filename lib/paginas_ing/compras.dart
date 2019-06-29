@@ -1,4 +1,8 @@
 
+import 'package:cabofind/paginas_listas_ing/list__com_joyerias.dart';
+import 'package:cabofind/paginas_listas_ing/list__com_moda.dart';
+import 'package:cabofind/paginas_listas_ing/list__com_regalos.dart';
+import 'package:cabofind/paginas_listas_ing/list__com_tiendas.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -8,21 +12,19 @@ _Compras_ing createState() => new _Compras_ing();
 }
 
 class _Compras_ing extends State<Compras_ing> {
-@override
+  int id=0;
+
+  @override
 Widget build(BuildContext context) {
   final tabpages=<Widget>[
     //llamar classes siempre despues de un <Widget>
     //lo que se declare aqui, sera el contenido de los botones de navigacion al fondo
-    // new ImageCarousel2(),
-    //new ImageCarousel2(),
+    new ListaModa_ing(),
+    new ListaRegalos_ing(),
+    new ListaJoyerias_ing(),
+    new ListaTiendas_ing(),
 
-    //new Listviewx(),
-    //new ImageCarousel2(),
 
-    Center(child: Icon(Icons.map,size: 60.0,color: Colors.red,),),
-    Center(child: Icon(Icons.mic,size: 60.0,color: Colors.red,),),
-    Center(child: Icon(Icons.radio,size: 60.0,color: Colors.red,),),
-    Center(child: Icon(Icons.music_video,size: 60.0,color: Colors.red,),),
 
   ];
 
@@ -35,7 +37,6 @@ Widget build(BuildContext context) {
 
   ];
 
-  int id=0;
 
   final bnb=BottomNavigationBar(
 

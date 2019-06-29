@@ -1,9 +1,8 @@
-import 'dart:async';
+ import 'dart:async';
 import 'dart:convert';
 import 'package:cabofind/paginas/carrusel.dart';
 import 'package:cabofind/main.dart';
-import 'package:cabofind/paginas/publicacion_detalle.dart';
-import 'package:cabofind/paginas_ing/publicacion_detalle.dart';
+import 'package:cabofind/paginas_ing/empresa_detalle.dart';
 import 'package:http/http.dart' as http;
 import 'package:cabofind/utilidades/carousel_pro.dart';
 import 'package:cabofind/paginas/empresa_detalle.dart';
@@ -12,32 +11,28 @@ import 'package:flutter/material.dart';
 
 
 
+void main() {
+  runApp(new MaterialApp(
+    home: new ListaCultura_ing(),
 
-class Publicaciones_ing extends StatefulWidget {
-   
+  ));
+}
 
-
+class ListaCultura_ing extends StatefulWidget {
   @override
-  _Publicaciones_ing createState() => new _Publicaciones_ing();
+  _ListaAcuaticas createState() => new _ListaAcuaticas();
 
 }
 
+class _ListaAcuaticas extends State<ListaCultura_ing> {
 
-class _Publicaciones_ing extends State<Publicaciones_ing> {
-  ScrollController _scrollController = new ScrollController();
-  int _ultimoItem =0;
-  List<int> _listaNumeros = new List();
-  
   List data;
-  List data_n;
-  List data_c;
-
 
   //final List<Todo> todos;
-  Future<String> getDatas() async {
+  Future<String> getData() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/consultas_negocios/ing/list_publicaciones.php"),
+            "http://cabofind.com.mx/app_php/consultas_negocios/ing/descubre/list_descubre_cultura.php"),
        
         headers: {
           "Accept": "application/json"
@@ -50,31 +45,34 @@ class _Publicaciones_ing extends State<Publicaciones_ing> {
               response.body);
         });
     print(
-        data[0]["NEG_NOMBRE"]);
+        data[1]["NEG_NOMBRE"]);
+
 
     return "Success!";
   }
 
-
- 
   @override
   void initState() {
-    super.initState(    
-   
+    super.initState(
     );
-    this.getDatas();
-
-
+    this.getData(
+    );
   }
+  @override
+void dispose() {
+ // _audioPlayer?.dipose();
+  super.dispose();
+}
+  
 
- 
+
+
+
   Widget build(BuildContext context) {
 
-
-    Widget publicaciones =   ListView.builder(
-        controller: _scrollController,
-        shrinkWrap: true,
-        physics: BouncingScrollPhysics(),
+    Widget listado = ListView.builder(
+       shrinkWrap: true,
+      physics: BouncingScrollPhysics(),
         itemCount: data == null ? 0 : data.length,
         itemBuilder: (BuildContext context, int index) {
 
@@ -88,10 +86,10 @@ class _Publicaciones_ing extends State<Publicaciones_ing> {
 
 
                 decoration: BoxDecoration(
-                    borderRadius:BorderRadius.circular(10.0),
-
+                  borderRadius:BorderRadius.circular(10.0),
                     border: Border.all(
-                        color: Colors.blue)),
+                        color: Colors.lightBlueAccent)
+                ),
                 padding: EdgeInsets.all(
                     10.0),
                 margin: EdgeInsets.all(
@@ -101,38 +99,18 @@ class _Publicaciones_ing extends State<Publicaciones_ing> {
 
                   children: <Widget>[
 
-                    Padding(
-
-                        child: Text(
-
-                            data[index]["PUB_TITULO_ING"],
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                            fontSize: 20.0,
-
-
-                          ),
-
-                        ),
-                        padding: EdgeInsets.all(
-                            1.0)
-                    ),
-
                     FadeInImage(
 
                       image: NetworkImage(data[index]["GAL_FOTO"]),
                       fit: BoxFit.fill,
                       width: MediaQuery.of(context).size.width,
-                      height: 250,
+                      height: 220,
 
                       // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
                       placeholder: AssetImage('android/assets/images/loading.gif'),
                       fadeInDuration: Duration(milliseconds: 200),
-                     
-                      ),
-                     
-                    
+
+                    ),
                     Row(
                         children: <Widget>[
 
@@ -140,25 +118,28 @@ class _Publicaciones_ing extends State<Publicaciones_ing> {
 
                               child: Text(
 
-                                  data[index]["CAT_NOMBRE_ING"]),
+                                  data[index]["SUB_NOMBRE_ING"],
+                                overflow: TextOverflow.ellipsis,),
                               padding: EdgeInsets.all(
                                   1.0)),
                           Text(
                               " | "),
                           Padding(
                               child: new Text(
-                                  data[index]["NEG_NOMBRE"]),
+                                  data[index]["NEG_NOMBRE"],
+                                overflow: TextOverflow.ellipsis,),
                               padding: EdgeInsets.all(
                                   1.0)),
                           Text(
                               " | "),
-                          Padding(
-                              child: new Text(
-                                  data[index]["NEG_LUGAR"]),
-                              padding: EdgeInsets.all(
-                                  1.0)),
+                          Flexible(
+                            child: new Text(
+                              data[index]["NEG_LUGAR"],
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,),
 
 
+                          ),
 
                         ]),
                   ],
@@ -170,31 +151,31 @@ class _Publicaciones_ing extends State<Publicaciones_ing> {
             ),
 
             onTap: () {
-              String id_n = data[index]["ID_NEGOCIO"];
-              String id = data[index]["ID_PUBLICACION"];
-              String nom = data[index]["NEG_NOMBRE"];
-              String lug = data[index]["NEG_LUGAR"];
-              String cat = data[index]["CAT_NOMBRE_ING"];
-              String sub = data[index]["SUB_NOMBRE_ING"];
-              String gal = data[index]["GAL_FOTO"];
-              String tit = data[index]["PUB_TITULO_ING"];
-              String det = data[index]["PUB_DETALLE_ING"];
-              String fec = data[index]["PUB_FECHA"];
-              String vid = data[index]["PUB_VIDEO"];
+              String id_sql = data[index]["ID_NEGOCIO"];
+              String nombre_sql = data[index]["NEG_NOMBRE"];
+              String cat_sql = data[index]["CAT_NOMBRE_ING"];
+              String subcat_sql = data[index]["SUB_NOMBRE_ING"];
+              String foto_sql = data[index]["GAL_FOTO"];
+              String etiquetas_sql = data[index]["NEG_ETIQUETAS"];
+              String desc_sql = data[index]["NEG_DESCRIPCION_ING"];
+              String mapa_sql = data[index]["NEG_MAP"];
+              String fb_sql = data[index]["NEG_FACEBOOK"];
+              String ins_sql = data[index]["NEG_INSTAGRAM"];
+              String web_sql = data[index]["NEG_WEB"];
               String tel = data[index]["NEG_TEL"];
               String cor = data[index]["NEG_CORREO"];
+              String hor = data[index]["NEG_HORARIO_ING"];
+
+
+
 
               Navigator.push(context, new MaterialPageRoute
-                (builder: (context) => new Publicacion_detalle_fin_ing(
-                publicacion: new Publicacion(id_n,id,nom,lug,cat,sub,gal,tit,det,fec,vid,tel,cor),
-                )
+                (builder: (context) => new Empresa_det_fin_ing(empresa: new Empresa(id_sql,nombre_sql,cat_sql,subcat_sql,foto_sql,etiquetas_sql,desc_sql,mapa_sql,fb_sql,ins_sql,web_sql,tel,cor,hor))
               )
               );
 
-
             },
             //A Navigator is a widget that manages a set of child widgets with
-            //stack discipline.It allows us navigate pages.
             //stack discipline.It allows us navigate pages.
             //Navigator.of(context).push(route);
           );
@@ -202,7 +183,6 @@ class _Publicaciones_ing extends State<Publicaciones_ing> {
         },
 
     );
-
     return new Scaffold(
 
       body: Container(
@@ -213,7 +193,7 @@ class _Publicaciones_ing extends State<Publicaciones_ing> {
 
             Column(
 
-              children: <Widget>[publicaciones],
+              children: <Widget>[listado],
 
             ),
 
@@ -221,6 +201,10 @@ class _Publicaciones_ing extends State<Publicaciones_ing> {
         ),
       ),
     );
+
+
+
+
 
 
   }
