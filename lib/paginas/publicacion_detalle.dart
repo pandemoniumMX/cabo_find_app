@@ -56,6 +56,12 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
     _controller.pause();
     super.deactivate();
   }
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+
+  }
+
   Future<String> getData() async {
     var response = await http.get(
         Uri.encodeFull(
@@ -206,14 +212,13 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
                                         context: context,
                                         //videoId: widget.publicacion.vid,
                                         videoId: YoutubePlayer.convertUrlToId("${widget.publicacion.vid}"),
-                                        autoPlay: true,
+                                        autoPlay: false,
                                         width: MediaQuery.of(context).size.width,
-
                                         showVideoProgressIndicator: true,
-                                        videoProgressIndicatorColor: Colors.amber,
+                                        videoProgressIndicatorColor: Colors.blue,
                                         progressColors: ProgressColors(
-                                          playedColor: Colors.amber,
-                                          handleColor: Colors.amberAccent,
+                                          playedColor: Colors.blue,
+                                          handleColor: Colors.blueAccent,
                                         ),
                                         onPlayerInitialized: (controller) {
                                           _controller = controller;
@@ -348,11 +353,7 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
     );
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-    _controller.dispose();
-  }
+
   State<StatefulWidget> createState() {
     // TODO: implement createState
     return null;

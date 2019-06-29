@@ -296,21 +296,30 @@ class Detalles extends State<Empresa_det_fin> {
 
             ],
           ),
-          Row(children: <Widget>[
-                Text(
-                widget.empresa.cat,
-                style: TextStyle(
-                  color: Colors.grey[500],
-                ),
+        Center(
+          child: Row(children: <Widget>[
+            Text(
+              widget.empresa.cat,
+              style: TextStyle(
+                color: Colors.grey[500],
               ),
-              Text(
-                widget.empresa.subs,
-                style: TextStyle(
-                  color: Colors.grey[500],
-                ),
+            ),
+            Text(
+              " | ",
+              style: TextStyle(
+                color: Colors.grey[500],
               ),
+            ),
+            Text(
+              widget.empresa.subs,
+              style: TextStyle(
+                color: Colors.grey[500],
+              ),
+            ),
 
           ],
+          ),
+
           )
 
           
@@ -343,51 +352,44 @@ class Detalles extends State<Empresa_det_fin> {
       }
     }
 
- 
-    Widget mapSection = Container(
-      padding: const EdgeInsets.only(bottom: 10,left: 125,right: 125),
-      child: RaisedButton.icon(
-        textColor: Colors.white,
-        color: Color(0xff189bd3),
-        onPressed: mapa,
-        icon: Icon(Icons.place),
-
-        label: Text('Abrir mapa'),
-
-        //child: Text('Abrir Mapa' ),
-      ),
-      
-    );
 
 
-    Widget buttonSection = Container(
-      width: MediaQuery.of(context).size.width +30,
 
-    
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          RaisedButton.icon(
-          label: Text('Caracteristicas', style: TextStyle(color: Colors.white),) ,
-          color: Color(0xff189bd3),
-          onPressed: () => _alertCar(context),
-          icon: Icon(Icons.extension),
-          textColor: Colors.white,
+   Widget buttonSection = Container(
+     width: MediaQuery.of(context).size.width +30,
 
-        ),
+     child: Row(
+       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+       children: [
+         Column(
+           children: <Widget>[
+             FloatingActionButton(child: Icon(FontAwesomeIcons.feather), onPressed:() => _alertCar(context),backgroundColor:Color(0xff189bd3),heroTag: "bt1",),
+             Text('Caracteristicas', style: TextStyle(color: Colors.black),),
+           ],
+         ),
 
-          RaisedButton.icon(
-            label: Text('Servicios', style: TextStyle(color: Colors.white),) ,
-            color: Color(0xff189bd3),
-            onPressed: () => _alertSer(context),
-            icon: Icon(FontAwesomeIcons.conciergeBell),
-            textColor: Colors.white,
-          ),
+         Column(
+           children: <Widget>[
+             FloatingActionButton(child: Icon(FontAwesomeIcons.conciergeBell), onPressed:() => _alertSer(context),backgroundColor:Color(0xff189bd3),heroTag: "bt2",),
+             Text('Servicios', style: TextStyle(color: Colors.black),),
 
-        ],
-      ),
+           ],
+         ),
+         Column(
+           children: <Widget>[
+             FloatingActionButton(child: Icon(FontAwesomeIcons.mapMarkedAlt), onPressed:mapa,backgroundColor:Color(0xff189bd3),heroTag: "bt3",),
+             Text('Abrir mapa', style: TextStyle(color: Colors.black),),
 
-    );
+           ],
+         ),
+       ],
+     ),
+
+   );
+
+
+
+
 
 facebook() async {
     final url =  widget.empresa.fb;
@@ -536,11 +538,12 @@ facebook() async {
                                 1.0)),
                         Text(
                             " | "),
-                        Padding(
-                            child: new Text(
-                                data_list[index]["NEG_LUGAR"]),
-                            padding: EdgeInsets.all(
-                                1.0)),
+                        Flexible(
+                          child: new Text(
+                            data_list[index]["NEG_LUGAR"],
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,),
+                        ),
 
 
 
@@ -567,14 +570,6 @@ facebook() async {
             String vid = data_list[index]["PUB_VIDEO"];
             String tel = data_list[index]["NEG_TEL"];
             String cor = data_list[index]["NEG_CORREO"];
-
-
-
-
-
-
-
-
 
             Navigator.push(context, new MaterialPageRoute
               (builder: (context) => new Publicacion_detalle_fin_estatica(
@@ -613,7 +608,6 @@ facebook() async {
                 titleSection,
                 textSection,
                 buttonSection,
-                mapSection,
 
                 
 

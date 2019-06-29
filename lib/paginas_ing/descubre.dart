@@ -56,7 +56,7 @@ Widget build(BuildContext context) {
     body: tabpages[id],
     bottomNavigationBar: bnb,
     appBar: new AppBar(
-      title: new Text('Actividades'),
+      title: new Text('¿What to do?'),
     ),
   );
 }

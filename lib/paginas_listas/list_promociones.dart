@@ -152,7 +152,8 @@ class Promocionesfull extends State<Promociones> {
                       image: NetworkImage(data[index]["GAL_FOTO"]),
                       fit: BoxFit.fill,
                       width: MediaQuery.of(context).size.width,
-                      height: 250,
+                      //height: MediaQuery.of(context).size.height,
+                     height: 250,
 
                       // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
                       placeholder: AssetImage('android/assets/images/loading.gif'),
@@ -168,23 +169,30 @@ class Promocionesfull extends State<Promociones> {
 
                               child: Text(
 
-                                  data[index]["CAT_NOMBRE"]),
-                              padding: EdgeInsets.all(
-                                  1.0)),
+                                data[index]["CAT_NOMBRE"],
+                                overflow: TextOverflow.clip,),
+
+                              padding: EdgeInsets.all( 1.0),
+
+                          ),
                           Text(
                               " | "),
                           Padding(
                               child: new Text(
-                                  data[index]["NEG_NOMBRE"]),
+                                  data[index]["NEG_NOMBRE"],
+                                overflow: TextOverflow.ellipsis,),
                               padding: EdgeInsets.all(
                                   1.0)),
                           Text(
                               " | "),
-                          Padding(
+                          Flexible(
                               child: new Text(
-                                  data[index]["NEG_LUGAR"]),
-                              padding: EdgeInsets.all(
-                                  1.0)),
+                                  data[index]["NEG_LUGAR"],
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,),
+
+
+                          ),
 
 
 

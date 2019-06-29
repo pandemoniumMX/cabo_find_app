@@ -202,12 +202,12 @@ class _Publicacion_detalle_fin_estatica extends State<Publicacion_detalle_fin_es
                                         context: context,
                                         //videoId: widget.publicacion.vid,
                                         videoId: YoutubePlayer.convertUrlToId("${widget.publicacion.vid}"),
-                                        autoPlay: true,
+                                        autoPlay: false,
                                         showVideoProgressIndicator: true,
-                                        videoProgressIndicatorColor: Colors.amber,
+                                        videoProgressIndicatorColor: Colors.blue,
                                         progressColors: ProgressColors(
-                                          playedColor: Colors.amber,
-                                          handleColor: Colors.amberAccent,
+                                          playedColor: Colors.blue,
+                                          handleColor: Colors.blueAccent,
                                         ),
                                         onPlayerInitialized: (controller) {
                                           _controller = controller;

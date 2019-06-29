@@ -122,7 +122,7 @@ class _MyHomePageState extends State<MyHomePages> {
     ];
 
     final bnbi=<BottomNavigationBarItem>[
-      BottomNavigationBarItem(icon: Icon(Icons.fiber_new,),title: Text("Lo nuevo")),
+      BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.fire,),title: Text("Lo nuevo")),
       BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.percent,),title: Text("Promos")),
       BottomNavigationBarItem(icon: Icon(Icons.visibility,),title: Text("Más visto")),
       BottomNavigationBarItem(icon: Icon(Icons.favorite,),title: Text("Recomendado")),
@@ -156,19 +156,6 @@ class _MyHomePageState extends State<MyHomePages> {
         actions: <Widget>[
 
 
-          new IconButton(
-            icon: idioma_ing,
-            onPressed: () {
-              //Use`Navigator` widget to push the second screen to out stack of screens
-              Navigator.of(context).pop();
-              Navigator.push(
-                  context,
-                   new MaterialPageRoute(
-                       // builder: (BuildContext context) => new MyHomePage_ING()
-                        )
-                        );
-              }, 
-              ),
 
           new IconButton(
             icon: actionIcon,
@@ -194,12 +181,9 @@ class _MyHomePageState extends State<MyHomePages> {
           children: <Widget>[
 
             new UserAccountsDrawerHeader(
-              accountName: new Text('No registrado'),
-              accountEmail: new Text('tu_correo@.com'),
-              currentAccountPicture: new CircleAvatar(
-                backgroundImage: new NetworkImage('http://i.pravatar.cc/300'),
+              accountName: new Text('Invitado'),
+              accountEmail: new Text('Invitado@.com'),
 
-              ),
             ),
 
   
@@ -215,27 +199,7 @@ class _MyHomePageState extends State<MyHomePages> {
                     new MaterialPageRoute(
                         builder: (BuildContext context) => new Restaurantes()));
               },
-/*
-                xd Column= new  Column(
-                    children: <Widget>[
-                      Center(
-                        child: new ListTile(
-              title: new Text('Restaurantes'),
-              leading: Icon(Icons.restaurant),
-              
 
-              onTap: () {
-                Navigator.of(context).pop();
-                Navigator.push(
-                          context,
-                          new MaterialPageRoute(
-                              builder: (BuildContext context) => new Restaurantes()));
-              },
-            ),
-                      ),
-                    ],
-                  ),
-*/
             ),
             new ListTile(
               title: new Text('Vida nocturna'),

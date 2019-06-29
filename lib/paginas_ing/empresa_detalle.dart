@@ -320,51 +320,39 @@ class _Empresa_det_fin_ing extends State<Empresa_det_fin_ing> {
       }
     }
 
- 
-    Widget mapSection = Container(
-      padding: const EdgeInsets.only(bottom: 10,left: 125,right: 125),
-      child: RaisedButton.icon(
-        textColor: Colors.white,
-        color: Color(0xff189bd3),
-        onPressed: mapa,
-        icon: Icon(Icons.place),
-
-        label: Text('Open maps'),
-
-        //child: Text('Abrir Mapa' ),
-      ),
-      
-    );
 
 
-    Widget buttonSection = Container(
-      width: MediaQuery.of(context).size.width +30,
+   Widget buttonSection = Container(
+     width: MediaQuery.of(context).size.width +30,
 
-    
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          RaisedButton.icon(
-          label: Text('Features', style: TextStyle(color: Colors.white),) ,
-          color: Color(0xff189bd3),
-          onPressed: () => _alertCar(context),
-          icon: Icon(Icons.extension),
-          textColor: Colors.white,
+     child: Row(
+       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+       children: [
+         Column(
+           children: <Widget>[
+             FloatingActionButton(child: Icon(FontAwesomeIcons.feather), onPressed:() => _alertCar(context),backgroundColor:Color(0xff189bd3),heroTag: "bt1",),
+             Text('Feactures', style: TextStyle(color: Colors.black),),
+           ],
+         ),
 
-        ),
+         Column(
+           children: <Widget>[
+             FloatingActionButton(child: Icon(FontAwesomeIcons.conciergeBell), onPressed:() => _alertSer(context),backgroundColor:Color(0xff189bd3),heroTag: "bt2",),
+             Text('Services', style: TextStyle(color: Colors.black),),
 
-          RaisedButton.icon(
-            label: Text('Services', style: TextStyle(color: Colors.white),) ,
-            color: Color(0xff189bd3),
-            onPressed: () => _alertSer(context),
-            icon: Icon(FontAwesomeIcons.conciergeBell),
-            textColor: Colors.white,
-          ),
+           ],
+         ),
+         Column(
+           children: <Widget>[
+             FloatingActionButton(child: Icon(FontAwesomeIcons.mapMarkedAlt), onPressed:mapa,backgroundColor:Color(0xff189bd3),heroTag: "bt3",),
+             Text('Open map', style: TextStyle(color: Colors.black),),
 
-        ],
-      ),
+           ],
+         ),
+       ],
+     ),
 
-    );
+   );
 
 facebook() async {
     final url =  widget.empresa.fb;
@@ -580,7 +568,6 @@ facebook() async {
                 titleSection,
                 textSection,
                 buttonSection,
-                mapSection,
 
                 
 

@@ -117,23 +117,28 @@ void dispose() {
 
                               child: Text(
 
-                                  data[index]["SUB_NOMBRE"]),
+                                  data[index]["SUB_NOMBRE"],
+                                overflow: TextOverflow.ellipsis,),
                               padding: EdgeInsets.all(
                                   1.0)),
                           Text(
                               " | "),
                           Padding(
                               child: new Text(
-                                  data[index]["NEG_NOMBRE"]),
+                                  data[index]["NEG_NOMBRE"],
+                                overflow: TextOverflow.ellipsis,),
                               padding: EdgeInsets.all(
                                   1.0)),
                           Text(
                               " | "),
-                          Padding(
-                              child: new Text(
-                                  data[index]["NEG_LUGAR"]),
-                              padding: EdgeInsets.all(
-                                  1.0)),
+                          Flexible(
+                            child: new Text(
+                              data[index]["NEG_LUGAR"],
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,),
+
+
+                          ),
 
                         ]),
                   ],

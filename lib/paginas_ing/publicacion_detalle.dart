@@ -188,14 +188,14 @@ class _Publicacion_detalle_fin_ing extends State<Publicacion_detalle_fin_ing> {
                                         context: context,
                                         //videoId: widget.publicacion.vid,
                                         videoId: YoutubePlayer.convertUrlToId("${widget.publicacion.vid}"),
-                                        autoPlay: true,
+                                        autoPlay: false,
                                         width: MediaQuery.of(context).size.width,
 
                                         showVideoProgressIndicator: true,
-                                        videoProgressIndicatorColor: Colors.amber,
+                                        videoProgressIndicatorColor: Colors.blue,
                                         progressColors: ProgressColors(
-                                          playedColor: Colors.amber,
-                                          handleColor: Colors.amberAccent,
+                                          playedColor: Colors.blue,
+                                          handleColor: Colors.blueAccent,
                                         ),
                                         onPlayerInitialized: (controller) {
                                           _controller = controller;

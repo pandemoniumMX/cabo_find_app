@@ -58,7 +58,7 @@ return new Scaffold(
   body: tabpages[id],
   bottomNavigationBar: bnb,
 appBar: new AppBar(
-title: new Text('Restaurantes'),
+title: new Text('Restaurants'),
 ),
 );
 }

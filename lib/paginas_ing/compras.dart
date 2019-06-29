@@ -53,7 +53,7 @@ Widget build(BuildContext context) {
     body: tabpages[id],
     bottomNavigationBar: bnb,
     appBar: new AppBar(
-      title: new Text('Compras'),
+      title: new Text('Shopping'),
     ),
   );
 }

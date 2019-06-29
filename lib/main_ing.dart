@@ -125,7 +125,7 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
     ];
 
     final bnbi=<BottomNavigationBarItem>[
-      BottomNavigationBarItem(icon: Icon(Icons.fiber_new,),title: Text("New")),
+      BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.fire,),title: Text("New")),
       BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.percent,),title: Text("Promos")),
       BottomNavigationBarItem(icon: Icon(Icons.visibility,),title: Text("Most viewed")),
       BottomNavigationBarItem(icon: Icon(Icons.favorite,),title: Text("Recommended")),
@@ -159,19 +159,7 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
         actions: <Widget>[
 
 
-          new IconButton(
-            icon: idioma_ing,
-            onPressed: () {
-              //Use`Navigator` widget to push the second screen to out stack of screens
-              Navigator.of(context).pop();
-              Navigator.push(
-                  context,
-                   new MaterialPageRoute(
-                        builder: (BuildContext context) => new MyHomePages_ing()
-                        )
-                        );
-              }, 
-              ),
+
 
           new IconButton(
             icon: actionIcon,
@@ -253,7 +241,7 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
               },
             ),
             new ListTile(
-              title: new Text('Discover'),
+              title: new Text('¿What to do?'),
               leading: Icon(Icons.beach_access),
 
               onTap: () {
