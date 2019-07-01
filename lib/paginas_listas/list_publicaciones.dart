@@ -98,6 +98,7 @@ class Publicacionesfull extends State<Publicaciones> {
                 child: Column(
 
                   children: <Widget>[
+                    
 
                     Padding(
 

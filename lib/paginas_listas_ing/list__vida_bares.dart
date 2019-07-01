@@ -13,18 +13,18 @@ import 'package:flutter/material.dart';
 
 void main() {
   runApp(new MaterialApp(
-    home: new ListaBares(),
+    home: new ListaBares_ing(),
 
   ));
 }
 
-class ListaBares extends StatefulWidget {
+class ListaBares_ing extends StatefulWidget {
   @override
   _ListaBares createState() => new _ListaBares();
 
 }
 
-class _ListaBares extends State<ListaBares> {
+class _ListaBares extends State<ListaBares_ing> {
 
   List data;
 
@@ -32,7 +32,7 @@ class _ListaBares extends State<ListaBares> {
   Future<String> getData() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/consultas_negocios/esp/vida_nocturna/list_vida_bares.php"),
+            "http://cabofind.com.mx/app_php/consultas_negocios/ing/vida_nocturna/list_vida_bares.php"),
        
         headers: {
           "Accept": "application/json"
@@ -118,7 +118,7 @@ void dispose() {
 
                               child: Text(
 
-                                  data[index]["SUB_NOMBRE"],
+                                  data[index]["SUB_NOMBRE_ING"],
                                 overflow: TextOverflow.ellipsis,),
                               padding: EdgeInsets.all(
                                   1.0)),
@@ -154,18 +154,18 @@ void dispose() {
             onTap: () {
               String id_sql = data[index]["ID_NEGOCIO"];
               String nombre_sql = data[index]["NEG_NOMBRE"];
-              String cat_sql = data[index]["CAT_NOMBRE"];
-              String subcat_sql = data[index]["SUB_NOMBRE"];
+              String cat_sql = data[index]["CAT_NOMBRE_ING"];
+              String subcat_sql = data[index]["SUB_NOMBRE_ING"];
               String foto_sql = data[index]["GAL_FOTO"];
               String etiquetas_sql = data[index]["NEG_ETIQUETAS"];
-              String desc_sql = data[index]["NEG_DESCRIPCION"];
+              String desc_sql = data[index]["NEG_DESCRIPCION_ING"];
               String mapa_sql = data[index]["NEG_MAP"];
               String fb_sql = data[index]["NEG_FACEBOOK"];
               String ins_sql = data[index]["NEG_INSTAGRAM"];
               String web_sql = data[index]["NEG_WEB"];
               String tel = data[index]["NEG_TEL"];
               String cor = data[index]["NEG_CORREO"];
-              String hor = data[index]["NEG_HORARIO"];
+              String hor = data[index]["NEG_HORARIO_ING"];
 
 
 

@@ -24,10 +24,10 @@ Widget build(BuildContext context) {
 
     new ListaMexicanos(),
     new ListaItalianos(),
-    new ListaCafe(),
     new ListaOriental(),
     new ListaMariscos(),
     new ListaRapida(),
+    new ListaCafe(),
     new ListaSnacks(),
 
 

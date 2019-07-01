@@ -1,6 +1,8 @@
 import 'package:cabofind/paginas_listas/list__vida_antros.dart';
 import 'package:cabofind/paginas/carrusel.dart';
+import 'package:cabofind/paginas_listas_ing/list__vida_bares.dart';
 import 'package:cabofind/paginas_listas_ing/list_vida_antros.dart';
+import 'package:cabofind/paginas_listas_ing/list_vida_rockbar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -23,6 +25,8 @@ Widget build(BuildContext context) {
       // new ImageCarousel2(),
     //  new Carrusel(),
       new ListaAntros_ing(),
+      new ListaBares_ing(),
+      new Listarockbar_ing(),
 
 
 

@@ -31,7 +31,7 @@ class _ListaMariscos extends State<ListaMariscos> {
   Future<String> getData() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/consultas_negocios/esp/restaurantes/list_resturantes_mariscos.php"),
+            "http://cabofind.com.mx/app_php/consultas_negocios/esp/restaurantes/list_restaurantes_mariscos.php"),
        
         headers: {
           "Accept": "application/json"
