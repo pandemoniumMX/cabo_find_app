@@ -102,21 +102,16 @@ class _Publicaciones_ing extends State<Publicaciones_ing> {
                   children: <Widget>[
 
                     Padding(
-
-                        child: Text(
-
-                            data[index]["PUB_TITULO_ING"],
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                            fontSize: 20.0,
-
-
-                          ),
-
-                        ),
-                        padding: EdgeInsets.all(
-                            1.0)
+                      child: new Text(
+                        data[index]["PUB_TITULO_ING"],
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                          fontSize: 20.0,
+                        ),),
+                      padding: EdgeInsets.all(1.0),
                     ),
 
                     FadeInImage(

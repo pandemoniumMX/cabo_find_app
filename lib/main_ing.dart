@@ -185,10 +185,11 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
           children: <Widget>[
 
             new UserAccountsDrawerHeader(
-              accountName: new Text('No registrado'),
-              accountEmail: new Text('tu_correo@.com'),
+              accountName: new Text('Categories menu '),
+              //accountEmail: new Text('tu_correo@.com'),
               currentAccountPicture: new CircleAvatar(
-                backgroundImage: new NetworkImage('http://i.pravatar.cc/300'),
+                backgroundImage: AssetImage(
+                    'android/assets/images/splash.png'),
 
               ),
             ),

@@ -181,9 +181,13 @@ class _MyHomePageState extends State<MyHomePages> {
           children: <Widget>[
 
             new UserAccountsDrawerHeader(
-              accountName: new Text('Invitado'),
-              accountEmail: new Text('Invitado@.com'),
+              accountName: new Text('Menú categorias '),
+              //accountEmail: new Text('tu_correo@.com'),
+              currentAccountPicture: new CircleAvatar(
+                backgroundImage: AssetImage(
+                    'android/assets/images/splash.png'),
 
+              ),
             ),
 
   
