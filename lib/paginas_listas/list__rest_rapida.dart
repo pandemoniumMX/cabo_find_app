@@ -44,7 +44,7 @@ class _ListaMariscos extends State<ListaRapida> {
               response.body);
         });
     print(
-        data[1]["NEG_NOMBRE"]);
+        data[0]["NEG_NOMBRE"]);
 
 
     return "Success!";

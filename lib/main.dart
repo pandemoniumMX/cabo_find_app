@@ -203,7 +203,7 @@ class _MyHomePageState extends State<MyHomePages> {
             ),
             new ListTile(
               title: new Text('Vida nocturna'),
-              leading: Icon(Icons.group),
+              leading: Icon(FontAwesomeIcons.glassCheers),
 
               onTap: () {
                 Navigator.of(context).pop();

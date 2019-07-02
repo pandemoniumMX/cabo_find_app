@@ -230,7 +230,7 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
             ),
             new ListTile(
               title: new Text('Night life'),
-              leading: Icon(Icons.group),
+              leading: Icon(FontAwesomeIcons.glassCheers),
 
               onTap: () {
                 Navigator.of(context).pop();

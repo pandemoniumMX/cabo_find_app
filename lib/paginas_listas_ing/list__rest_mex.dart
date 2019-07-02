@@ -45,7 +45,7 @@ class _ListaMexicanos_ing extends State<ListaMexicanos_ing> {
               response.body);
         });
     print(
-        data[1]["NEG_NOMBRE"]);
+        data[0]["NEG_NOMBRE"]);
 
 
     return "Success!";

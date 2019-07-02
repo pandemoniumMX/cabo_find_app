@@ -27,10 +27,10 @@ Widget build(BuildContext context) {
   ];
 
   final bnbi=<BottomNavigationBarItem>[
-    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.hospital,),title: Text("Hospitales")),
-    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.clinicMedical,),title: Text("Consultorios")),
+    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.hospital,),title: Text("Hospitales")),    
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.hospitalSymbol,),title: Text("Especialidades")),
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.pills,),title: Text("Farmacias")),
+    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.dumbbell,),title: Text("Gimnasios")),
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.ambulance,),title: Text("Emergencia")),
 
 

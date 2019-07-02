@@ -32,14 +32,17 @@ class Note {
   String foto;
   String sub;
 
+  String cat;
 
-  Note(this.title, this.foto,this.id_n,this.sub);
+
+  Note(this.title, this.foto,this.id_n,this.sub,this.cat);
 
   Note.fromJson(Map<String, dynamic> json) {
     id_n = json['NEG_ETIQUETAS'];
     title = json['NEG_NOMBRE'];
     foto = json['GAL_FOTO'];
-    sub = json['CAT_NOMBRE'];
+    sub = json['SUB_NOMBRE'];
+    cat = json['CAT_NOMBRE'];
   }
 }
 
@@ -157,7 +160,7 @@ class _Buscador extends State<Buscador> {
     return Padding(
 
       padding: const EdgeInsets.all(8.0),
-
+/*
       child: TextField(
         decoration: InputDecoration(
             hintText: 'Buscar...'
@@ -176,7 +179,7 @@ class _Buscador extends State<Buscador> {
           });
          },
       ),
-
+*/
 
     );
       }
@@ -202,6 +205,17 @@ class _Buscador extends State<Buscador> {
             fontSize: 22,
             fontWeight: FontWeight.bold),
       ),
+      trailing: Text(
+        _notesForDisplay[index].cat,
+        style: TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.bold),
+      ),
+
+
+
+
+
 
 
 

@@ -44,7 +44,7 @@ class _ListaSnacks extends State<ListaSnacks> {
               response.body);
         });
     print(
-        data[1]["NEG_NOMBRE"]);
+        data[0]["NEG_NOMBRE"]);
 
 
     return "Success!";
