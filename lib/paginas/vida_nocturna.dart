@@ -2,7 +2,7 @@ import 'package:cabofind/paginas_listas/list__vida_antros.dart';
 import 'package:cabofind/paginas/carrusel.dart';
 import 'package:cabofind/paginas_listas/list__vida_bares.dart';
 import 'package:cabofind/paginas_listas/list_vida_rockbar.dart';
-import 'package:cabofind/paginas_listas/list_vida_terraza.dart';
+import 'package:cabofind/paginas_listas/list_vida_gaybar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -28,7 +28,7 @@ Widget build(BuildContext context) {
       new ListaAntros(),
       new ListaBares(),
       new Listarockbar(),
-      new ListaTerraza(),
+      new ListaGaybar(),
 
 
       //new ImageCarousel2(),
@@ -45,7 +45,7 @@ Widget build(BuildContext context) {
       BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.cocktail,),title: Text("Antros")),
       BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.beer,),title: Text("Bares")),
       BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.guitar,),title: Text("Rockbar")),
-      BottomNavigationBarItem(icon: Icon(Icons.bookmark,),title: Text("Terraza")),
+      BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.mask,),title: Text("Gaybar")),
     ];
 
     final bnb=BottomNavigationBar(

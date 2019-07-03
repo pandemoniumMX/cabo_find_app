@@ -42,7 +42,7 @@ class Note {
     title = json['NEG_NOMBRE'];
     foto = json['GAL_FOTO'];
     sub = json['SUB_NOMBRE'];
-    cat = json['CAT_NOMBRE'];
+    cat = json['NEG_LUGAR'];
   }
 }
 

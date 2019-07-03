@@ -93,7 +93,7 @@ class _MyHomePageState extends State<MyHomePages> {
   Icon idioma_ing = new Icon(Icons.flag);
   Icon actionIcon = new Icon(Icons.search);
 
-  Widget appBarTitle = new Text("App");
+  Widget appBarTitle = new Text("Cabofind");
   int id=0;
 
   @override
