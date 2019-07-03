@@ -4,7 +4,9 @@ import 'package:cabofind/paginas/descubre.dart';
 import 'package:cabofind/paginas/salud.dart';
 import 'package:cabofind/paginas/youtube.dart';
 import 'package:cabofind/paginas_listas/list_promociones.dart';
+import 'package:cabofind/paginas_listas/list_publicaciones_grid.dart';
 import 'package:cabofind/utilidades/buscador.dart';
+import 'package:cabofind/utilidades/buscador_2.dart';
 import 'package:cabofind/utilidades/buscador_notap.dart';
 import 'package:cabofind/utilidades/carousel_pro.dart';
 import 'package:cabofind/paginas/carrusel.dart';
@@ -110,14 +112,7 @@ class _MyHomePageState extends State<MyHomePages> {
       //new ImageCarousel2(),
       new Publicaciones(),
       new Promociones(),
-      //new Youtube(),
-
-      //new ImageCarousel2(),
-
-      Center(child: Icon(Icons.map,size: 60.0,color: Colors.red,),),
-      Center(child: Icon(Icons.mic,size: 60.0,color: Colors.red,),),
-      Center(child: Icon(Icons.radio,size: 60.0,color: Colors.red,),),
-      Center(child: Icon(Icons.music_video,size: 60.0,color: Colors.red,),),
+      new Publicaciones_grid(),
 
     ];
 

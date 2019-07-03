@@ -41,8 +41,8 @@ class Note {
     id_n = json['NEG_ETIQUETAS'];
     title = json['NEG_NOMBRE'];
     foto = json['GAL_FOTO'];
-    sub = json['SUB_NOMBRE'];
-    cat = json['NEG_LUGAR'];
+    sub = json['NEG_LUGAR'];
+    cat = json['SUB_NOMBRE'];
   }
 }
 
@@ -160,7 +160,7 @@ class _Buscador extends State<Buscador> {
     return Padding(
 
       padding: const EdgeInsets.all(8.0),
-/*
+
       child: TextField(
         decoration: InputDecoration(
             hintText: 'Buscar...'
@@ -171,15 +171,15 @@ class _Buscador extends State<Buscador> {
           setState(() {
             _notesForDisplay = _notes.where((note) {
               var noteTitle = note.title.toLowerCase();
-              var noteTitle2 = note.id_n.toLowerCase();
+              //var noteTitle2 = note.id_n.toLowerCase();
 
-              noteTitle.contains(text);
-              return noteTitle2.contains(text);
+              return noteTitle.contains(text);
+              // noteTitle2.contains(text);
             }).toList();
           });
          },
       ),
-*/
+
 
     );
       }

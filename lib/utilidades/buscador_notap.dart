@@ -43,7 +43,7 @@ class _Buscador extends State<Buscador_not> {
     });
     _list.clear();
     final response =
-    await http.get("http://cabofind.com.mx/app_php/consultas_negocios/esp/list_negocios_bus.php");
+    await http.get("http://cabofind.com.mx/app_php/consultas_negocios/esp/list_negocios.php");
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
       setState(() {
@@ -91,6 +91,7 @@ class _Buscador extends State<Buscador_not> {
               color: Colors.blue,
               child: Card(
                 child: ListTile(
+
                   leading: Icon(Icons.search),
                   title: TextField(
                     controller: controller,
@@ -116,65 +117,61 @@ class _Buscador extends State<Buscador_not> {
               child: _search.length != 0 || controller.text.isNotEmpty
                   ? ListView.builder(
                 itemCount: _search.length,
-                itemBuilder: (context, i) {
-                  final b = _search[i];
-                  return Container(
-                      padding: EdgeInsets.all(10.0),
-                      child: Column(
-                        crossAxisAlignment:
-                        CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            b.title,
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18.0),
-                          ),
-                          SizedBox(
-                            height: 4.0,
-                          ),
-                          Text(b.id_n),
-                          IconButton(
-                            icon: ( Icon(Icons.star_border)),
-                            color: Colors.red[500],
-                            onPressed:() {
-                              String id_sql = data[i]["ID_NEGOCIO"];
-                              String nombre_sql = data[i]["NEG_NOMBRE"];
-                              String cat_sql = data[i]["CAT_NOMBRE"];
-                              String subcat_sql = data[i]["SUB_NOMBRE"];
-                              String foto_sql = data[i]["GAL_FOTO"];
-                              String etiquetas_sql = data[i]["NEG_ETIQUETAS"];
-                              String desc_sql = data[i]["NEG_DESCRIPCION"];
-                              String mapa_sql = data[i]["NEG_MAP"];
-                              String fb_sql = data[i]["NEG_FACEBOOK"];
-                              String ins_sql = data[i]["NEG_INSTAGRAM"];
-                              String web_sql = data[i]["NEG_WEB"];
-                              String tel = data[i]["NEG_TEL"];
-                              String cor = data[i]["NEG_CORREO"];
-                              String hor = data[i]["NEG_HORARIO"];
+                itemBuilder: (context, index) {
+                  final b = _search[index];
+
+                                      return ListTile(
+                        title: Column(
+                          crossAxisAlignment:
+                          CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              b.title,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18.0),
+                            ),
+
+                           
+
+                          ],
+                        ),
+                                        onTap: () {
+
+                                          String id_sql = data[index]["ID_NEGOCIO"];
+                                          String nombre_sql = data[index]["NEG_NOMBRE"];
+                                          String cat_sql = data[index]["CAT_NOMBRE"];
+                                          String subcat_sql = data[index]["SUB_NOMBRE"];
+                                          String foto_sql = data[index]["GAL_FOTO"];
+                                          String etiquetas_sql = data[index]["NEG_ETIQUETAS"];
+                                          String desc_sql = data[index]["NEG_DESCRIPCION"];
+                                          String mapa_sql = data[index]["NEG_MAP"];
+                                          String fb_sql = data[index]["NEG_FACEBOOK"];
+                                          String ins_sql = data[index]["NEG_INSTAGRAM"];
+                                          String web_sql = data[index]["NEG_WEB"];
+                                          String tel = data[index]["NEG_TEL"];
+                                          String cor = data[index]["NEG_CORREO"];
+                                          String hor = data[index]["NEG_HORARIO"];
 
 
 
 
-                              Navigator.push(context, new MaterialPageRoute
-                                (builder: (context) => new Empresa_det_fin(empresa: new Empresa(id_sql,nombre_sql,cat_sql,subcat_sql,foto_sql,etiquetas_sql,desc_sql,mapa_sql,fb_sql,ins_sql,web_sql,tel,cor,hor))
-                              )
-                              );
-                            }
-                            ,
-                          ),
+                                          Navigator.push(context, new MaterialPageRoute
+                                            (builder: (context) => new Empresa_det_fin(empresa: new Empresa(id_sql,nombre_sql,cat_sql,subcat_sql,foto_sql,etiquetas_sql,desc_sql,mapa_sql,fb_sql,ins_sql,web_sql,tel,cor,hor))
+                                          )
+                                          );
 
-                        ],
-                      ));
+                                        },
+                  );
                 },
               )
                   : ListView.builder(
                 itemCount: _list.length,
-                itemBuilder: (context, i) {
-                  final a = _list[i];
-                  return Container(
-                      padding: EdgeInsets.all(10.0),
-                      child: Column(
+                itemBuilder: (context, index) {
+                  final a = _list[index];
+                  return ListTile(
+                      //padding: EdgeInsets.all(10.0),
+                      title: Column(
                         crossAxisAlignment:
                         CrossAxisAlignment.start,
                         children: <Widget>[
@@ -188,37 +185,36 @@ class _Buscador extends State<Buscador_not> {
                             height: 4.0,
                           ),
                           Text(a.title),
-                          IconButton(
-                            icon: ( Icon(Icons.star_border)),
-                            color: Colors.red[500],
-                            onPressed:() {
-                              String id_sql = data[i]["ID_NEGOCIO"];
-                              String nombre_sql = data[i]["NEG_NOMBRE"];
-                              String cat_sql = data[i]["CAT_NOMBRE"];
-                              String subcat_sql = data[i]["SUB_NOMBRE"];
-                              String foto_sql = data[i]["GAL_FOTO"];
-                              String etiquetas_sql = data[i]["NEG_ETIQUETAS"];
-                              String desc_sql = data[i]["NEG_DESCRIPCION"];
-                              String mapa_sql = data[i]["NEG_MAP"];
-                              String fb_sql = data[i]["NEG_FACEBOOK"];
-                              String ins_sql = data[i]["NEG_INSTAGRAM"];
-                              String web_sql = data[i]["NEG_WEB"];
-                              String tel = data[i]["NEG_TEL"];
-                              String cor = data[i]["NEG_CORREO"];
-                              String hor = data[i]["NEG_HORARIO"];
 
-
-
-
-                              Navigator.push(context, new MaterialPageRoute
-                                (builder: (context) => new Empresa_det_fin(empresa: new Empresa(id_sql,nombre_sql,cat_sql,subcat_sql,foto_sql,etiquetas_sql,desc_sql,mapa_sql,fb_sql,ins_sql,web_sql,tel,cor,hor))
-                              )
-                              );
-                            }
-                            ,
-                          ),
                         ],
-                      ));
+                      ),
+                      onTap: () {
+
+                    String id_sql = data[index]["ID_NEGOCIO"];
+                    String nombre_sql = data[index]["NEG_NOMBRE"];
+                    String cat_sql = data[index]["CAT_NOMBRE"];
+                    String subcat_sql = data[index]["SUB_NOMBRE"];
+                    String foto_sql = data[index]["GAL_FOTO"];
+                    String etiquetas_sql = data[index]["NEG_ETIQUETAS"];
+                    String desc_sql = data[index]["NEG_DESCRIPCION"];
+                    String mapa_sql = data[index]["NEG_MAP"];
+                    String fb_sql = data[index]["NEG_FACEBOOK"];
+                    String ins_sql = data[index]["NEG_INSTAGRAM"];
+                    String web_sql = data[index]["NEG_WEB"];
+                    String tel = data[index]["NEG_TEL"];
+                    String cor = data[index]["NEG_CORREO"];
+                    String hor = data[index]["NEG_HORARIO"];
+
+
+
+
+                    Navigator.push(context, new MaterialPageRoute
+                      (builder: (context) => new Empresa_det_fin(empresa: new Empresa(id_sql,nombre_sql,cat_sql,subcat_sql,foto_sql,etiquetas_sql,desc_sql,mapa_sql,fb_sql,ins_sql,web_sql,tel,cor,hor))
+                    )
+                    );
+
+                  },
+                  );
                 },
               ),
             ),
