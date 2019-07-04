@@ -1,6 +1,6 @@
-import 'package:cabofind/paginas_listas/list__vida_antros.dart';
+import 'package:cabofind/paginas_listas/list_vida_antros.dart';
 import 'package:cabofind/paginas/carrusel.dart';
-import 'package:cabofind/paginas_listas/list__vida_bares.dart';
+import 'package:cabofind/paginas_listas/list_vida_bares.dart';
 import 'package:cabofind/paginas_listas/list_vida_rockbar.dart';
 import 'package:cabofind/paginas_listas/list_vida_gaybar.dart';
 import 'package:flutter/material.dart';
