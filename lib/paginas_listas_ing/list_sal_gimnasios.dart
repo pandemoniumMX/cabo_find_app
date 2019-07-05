@@ -13,18 +13,18 @@ import 'package:flutter/material.dart';
 
 void main() {
   runApp(new MaterialApp(
-    home: new ListaProfesionales_ing(),
+    home: new ListaGimnasios_ing(),
 
   ));
 }
 
-class ListaProfesionales_ing extends StatefulWidget {
+class ListaGimnasios_ing extends StatefulWidget {
   @override
-  _ListaOriental createState() => new _ListaOriental();
+  _ListaAcuaticas createState() => new _ListaAcuaticas();
 
 }
 
-class _ListaOriental extends State<ListaProfesionales_ing> {
+class _ListaAcuaticas extends State<ListaGimnasios_ing> {
 
   List data;
 
@@ -32,7 +32,7 @@ class _ListaOriental extends State<ListaProfesionales_ing> {
   Future<String> getData() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/consultas_negocios/ing/servicios/list_servicios_profesionales.php"),
+            "http://cabofind.com.mx/app_php/consultas_negocios/ing/salud/list_salud_gimnasios.php"),
        
         headers: {
           "Accept": "application/json"

@@ -1,4 +1,9 @@
 
+import 'package:cabofind/paginas_listas_ing/list_sal_emergencia.dart';
+import 'package:cabofind/paginas_listas_ing/list_sal_especialidades.dart';
+import 'package:cabofind/paginas_listas_ing/list_sal_farmacias.dart';
+import 'package:cabofind/paginas_listas_ing/list_sal_gimnasios.dart';
+import 'package:cabofind/paginas_listas_ing/list_sal_hospitales.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -13,19 +18,11 @@ class _Salud_ing extends State<Salud_ing> {
   @override
 Widget build(BuildContext context) {
   final tabpages=<Widget>[
-    //llamar classes siempre despues de un <Widget>
-    //lo que se declare aqui, sera el contenido de los botones de navigacion al fondo
-    // new ImageCarousel2(),
-    //new ImageCarousel2(),
-
-    //new Listviewx(),
-    //new ImageCarousel2(),
-
-    Center(child: Icon(Icons.map,size: 60.0,color: Colors.red,),),
-    Center(child: Icon(Icons.mic,size: 60.0,color: Colors.red,),),
-    Center(child: Icon(Icons.radio,size: 60.0,color: Colors.red,),),
-    Center(child: Icon(Icons.music_video,size: 60.0,color: Colors.red,),),
-
+    new ListaHospitales_ing(),
+    new ListaEspecialidades_ing(),
+    new ListaFarmacias_ing(),
+    new ListaGimnasios_ing(),
+    new ListaEmergencia_ing(),
   ];
 
   final bnbi=<BottomNavigationBarItem>[

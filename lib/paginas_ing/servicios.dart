@@ -1,4 +1,8 @@
 
+import 'package:cabofind/paginas_listas_ing/list_serv_auto.dart';
+import 'package:cabofind/paginas_listas_ing/list_serv_bancos.dart';
+import 'package:cabofind/paginas_listas_ing/list_serv_prof.dart';
+import 'package:cabofind/paginas_listas_ing/list_serv_trans.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -13,26 +17,16 @@ class _Servicios_ing extends State<Servicios_ing> {
   @override
 Widget build(BuildContext context) {
   final tabpages=<Widget>[
-    //llamar classes siempre despues de un <Widget>
-    //lo que se declare aqui, sera el contenido de los botones de navigacion al fondo
-    // new ImageCarousel2(),
-    //new ImageCarousel2(),
-
-    //new Listviewx(),
-    //new ImageCarousel2(),
-
-    Center(child: Icon(Icons.map,size: 60.0,color: Colors.red,),),
-    Center(child: Icon(Icons.mic,size: 60.0,color: Colors.red,),),
-    Center(child: Icon(Icons.radio,size: 60.0,color: Colors.red,),),
-    Center(child: Icon(Icons.music_video,size: 60.0,color: Colors.red,),),
-
+    new ListaAutomotriz_ing(),
+    new ListaBancos_ing(),
+    new ListaProfesionales_ing(),
+    new ListaTransporte_ing(),
   ];
 
   final bnbi=<BottomNavigationBarItem>[
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.car,),title: Text("Car service")),
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.piggyBank,),title: Text("Banks")),
-    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.userTie,),title: Text("Advisory")),
-    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.userCog,),title: Text("Technicians")),
+    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.userTie,),title: Text("Professionals")),
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.taxi,),title: Text("Transport")),
 
 
