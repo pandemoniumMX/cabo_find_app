@@ -13,6 +13,7 @@ import 'package:cabofind/paginas_ing/vida_nocturna.dart';
 import 'package:cabofind/paginas_listas_ing/list_promociones_ing.dart';
 import 'package:cabofind/paginas_listas_ing/list_publicaciones_ing.dart';
 import 'package:cabofind/utilidades/carousel_pro.dart';
+import 'package:cabofind/utilidades_ing/buscador_ing.dart';
 import 'package:flutter/material.dart';
 import 'package:cabofind/paginas/acercade.dart';
 import 'package:cabofind/paginas/restaurantes.dart';
@@ -167,7 +168,7 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
                 //Use`Navigator` widget to push the second screen to out stack of screens
                 Navigator.of(context)
                     .push(MaterialPageRoute<Null>(builder: (BuildContext context) {
-                  //return new Buscador_ing();
+                  return new Buscador_ing();
                 }));
               }, ),
 

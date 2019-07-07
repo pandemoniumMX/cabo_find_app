@@ -128,7 +128,7 @@ class _Empresa_det_fin_ing extends State<Empresa_det_fin_ing> {
 
 
     print(
-        data_carrusel[2]["GAL_FOTO"]);
+        data_carrusel[0]["GAL_FOTO"]);
 
     return "Success!";
   }

@@ -160,7 +160,7 @@ class _Buscador extends State<Buscador> {
     return Padding(
 
       padding: const EdgeInsets.all(8.0),
-
+/*
       child: TextField(
         decoration: InputDecoration(
             hintText: 'Buscar...'
@@ -179,9 +179,10 @@ class _Buscador extends State<Buscador> {
           });
          },
       ),
-
+*/
 
     );
+    
       }
 
 
