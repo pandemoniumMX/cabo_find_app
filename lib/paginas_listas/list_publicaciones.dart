@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:cabofind/paginas/carrusel.dart';
 import 'package:cabofind/main.dart';
 import 'package:cabofind/paginas/publicacion_detalle.dart';
+import 'package:cabofind/paginas_listas/list_publicaciones_grid.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:cabofind/utilidades/carousel_pro.dart';
 import 'package:cabofind/paginas/empresa_detalle.dart';
@@ -203,19 +205,38 @@ class Publicacionesfull extends State<Publicaciones> {
 
     );
 
+    Widget estilo = Stack(children: <Widget>[Positioned(
+        child: FloatingActionButton(child: Icon(FontAwesomeIcons.thLarge), onPressed:() {
+          Navigator.of(context).pop();
+          Navigator.push(
+              context,
+              new MaterialPageRoute(
+                  builder: (BuildContext context) => new Publicaciones_grid()));
+        },
+          backgroundColor:Color(0xff189bd3),heroTag: "bt1",))]);
+
+
+
+
+
       return new Scaffold(
 
     body: Container(
      // height: MediaQuery.of(context).size.height,
     child: new ListView(
-      
+
     // shrinkWrap: true,
     //physics: BouncingScrollPhysics(),
     children: [
-      
+
+      Row(mainAxisAlignment:MainAxisAlignment.end ,
+        children: <Widget>[
+          //estilo
+        ],
+      ),
       Column(
         
-        children: <Widget>[publicaciones],
+        children: <Widget>[publicaciones,],
 
       ),
      

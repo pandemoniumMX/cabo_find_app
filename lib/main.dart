@@ -4,6 +4,7 @@ import 'package:cabofind/paginas/descubre.dart';
 import 'package:cabofind/paginas/salud.dart';
 import 'package:cabofind/paginas/youtube.dart';
 import 'package:cabofind/paginas_listas/list_promociones.dart';
+import 'package:cabofind/paginas_listas/list_promociones_grid.dart';
 import 'package:cabofind/paginas_listas/list_publicaciones_grid.dart';
 import 'package:cabofind/utilidades/buscador.dart';
 import 'package:cabofind/utilidades/buscador_2.dart';
@@ -110,8 +111,8 @@ class _MyHomePageState extends State<MyHomePages> {
       //lo que se declare aqui, sera el contenido de los botones de navigacion al fondo
      // new ImageCarousel2(),
       //new ImageCarousel2(),
-      new Publicaciones(),
-      new Promociones(),
+      new Publicaciones_grid(),
+      new Promociones_grid(),
       new Publicaciones_grid(),
 
     ];
