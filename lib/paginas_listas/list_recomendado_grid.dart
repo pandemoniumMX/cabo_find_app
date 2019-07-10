@@ -13,7 +13,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 
 
-class Publicaciones_grid extends StatefulWidget {
+class Recomendado_grid extends StatefulWidget {
    
 
 
@@ -23,7 +23,7 @@ class Publicaciones_grid extends StatefulWidget {
 }
 
 
-class Publicacionesfull extends State<Publicaciones_grid> {
+class Publicacionesfull extends State<Recomendado_grid> {
   ScrollController _scrollController = new ScrollController();
   int _ultimoItem =0;
   List<int> _listaNumeros = new List();
@@ -37,7 +37,7 @@ class Publicacionesfull extends State<Publicaciones_grid> {
   Future<String> getData() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/consultas_negocios/ing/list_publicaciones.php"),
+            "http://cabofind.com.mx/app_php/consultas_negocios/esp/list_recomendado.php"),
 
         headers: {
           "Accept": "application/json"
@@ -88,7 +88,7 @@ class Publicacionesfull extends State<Publicaciones_grid> {
 
               Padding(
                 child: new Text(
-                  data[index]["PUB_TITULO_ING"],
+                  data[index]["PUB_TITULO"],
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                   style: TextStyle(
@@ -145,11 +145,11 @@ class Publicacionesfull extends State<Publicaciones_grid> {
             String id = data[index]["ID_PUBLICACION"];
             String nom = data[index]["NEG_NOMBRE"];
             String lug = data[index]["NEG_LUGAR"];
-            String cat = data[index]["CAT_NOMBRE_ING"];
+            String cat = data[index]["CAT_NOMBRE"];
             String sub = data[index]["SUB_NOMBRE"];
             String gal = data[index]["GAL_FOTO"];
-            String tit = data[index]["PUB_TITULO_ING"];
-            String det = data[index]["PUB_DETALLE_ING"];
+            String tit = data[index]["PUB_TITULO"];
+            String det = data[index]["PUB_DETALLE"];
             String fec = data[index]["PUB_FECHA"];
             String vid = data[index]["PUB_VIDEO"];
             String tel = data[index]["NEG_TEL"];

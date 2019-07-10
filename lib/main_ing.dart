@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:cabofind/main.dart';
+import 'package:cabofind/main_lista_ing.dart';
 import 'package:cabofind/paginas/descubre.dart';
 import 'package:cabofind/paginas/salud.dart';
 import 'package:cabofind/paginas/youtube.dart';
@@ -10,8 +11,12 @@ import 'package:cabofind/paginas_ing/restaurantes.dart';
 import 'package:cabofind/paginas_ing/salud.dart';
 import 'package:cabofind/paginas_ing/servicios.dart';
 import 'package:cabofind/paginas_ing/vida_nocturna.dart';
+import 'package:cabofind/paginas_listas_ing/list_eventos_grid.dart';
+import 'package:cabofind/paginas_listas_ing/list_promociones_grid.dart';
 import 'package:cabofind/paginas_listas_ing/list_promociones_ing.dart';
+import 'package:cabofind/paginas_listas_ing/list_publicaciones_grid.dart';
 import 'package:cabofind/paginas_listas_ing/list_publicaciones_ing.dart';
+import 'package:cabofind/paginas_listas_ing/list_recomendado_grid.dart';
 import 'package:cabofind/utilidades/carousel_pro.dart';
 import 'package:cabofind/utilidades_ing/buscador_ing.dart';
 import 'package:flutter/material.dart';
@@ -112,16 +117,12 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
       //lo que se declare aqui, sera el contenido de los botones de navigacion al fondo
      // new ImageCarousel2(),
       //new ImageCarousel2(),
-      new Publicaciones_ing(),
-      new Promociones_ing(),
-      //new Youtube(),
+      new Publicaciones_grid(),
+      new Promociones_ing_grid(),
+      new Recomendado__ing_grid(),
+      new Recomendado__ing_grid(),
+      new Eventos_ing_grid(),
 
-      //new ImageCarousel2(),
-
-      Center(child: Icon(Icons.map,size: 60.0,color: Colors.red,),),
-      Center(child: Icon(Icons.mic,size: 60.0,color: Colors.red,),),
-      Center(child: Icon(Icons.radio,size: 60.0,color: Colors.red,),),
-      Center(child: Icon(Icons.music_video,size: 60.0,color: Colors.red,),),
 
     ];
 
@@ -159,7 +160,15 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
         title:appBarTitle,
         actions: <Widget>[
 
-
+          new IconButton(
+            icon: Icon(FontAwesomeIcons.gripLines,),
+            onPressed: () {
+              //Use`Navigator` widget to push the second screen to out stack of screens
+              Navigator.of(context)
+                  .push(MaterialPageRoute<Null>(builder: (BuildContext context) {
+                return new MyApp_lista_ing();
+              }));
+            }, ),
 
 
           new IconButton(

@@ -1,13 +1,15 @@
 import 'dart:convert';
+import 'package:cabofind/main.dart';
 import 'package:cabofind/main_ing.dart';
-import 'package:cabofind/main_lista.dart';
 import 'package:cabofind/paginas/descubre.dart';
 import 'package:cabofind/paginas/salud.dart';
 import 'package:cabofind/paginas/youtube.dart';
+import 'package:cabofind/paginas_listas/list_eventos.dart';
 import 'package:cabofind/paginas_listas/list_eventos_grid.dart';
 import 'package:cabofind/paginas_listas/list_promociones.dart';
 import 'package:cabofind/paginas_listas/list_promociones_grid.dart';
 import 'package:cabofind/paginas_listas/list_publicaciones_grid.dart';
+import 'package:cabofind/paginas_listas/list_recomendado.dart';
 import 'package:cabofind/paginas_listas/list_recomendado_grid.dart';
 import 'package:cabofind/utilidades/buscador.dart';
 import 'package:cabofind/utilidades/buscador_2.dart';
@@ -26,9 +28,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 
 
-void main() => runApp(new MyApp());
+void main() => runApp(new MyApp_lista());
 
-class MyApp extends StatelessWidget {
+class MyApp_lista extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -114,11 +116,11 @@ class _MyHomePageState extends State<MyHomePages> {
       //lo que se declare aqui, sera el contenido de los botones de navigacion al fondo
      // new ImageCarousel2(),
       //new ImageCarousel2(),
-      new Publicaciones_grid(),
-      new Promociones_grid(),
-      new Publicaciones_grid(),
-      new Recomendado_grid(),
-      new Eventos_grid(),
+      new Publicaciones(),
+      new Promociones(),
+      new Publicaciones(),
+      new Recomendado(),
+      new Eventos(),
 
     ];
 
@@ -157,12 +159,12 @@ class _MyHomePageState extends State<MyHomePages> {
         actions: <Widget>[
 
           new IconButton(
-            icon: Icon(FontAwesomeIcons.gripLines,),
+            icon: Icon(FontAwesomeIcons.thLarge,),
             onPressed: () {
               //Use`Navigator` widget to push the second screen to out stack of screens
               Navigator.of(context)
                   .push(MaterialPageRoute<Null>(builder: (BuildContext context) {
-                return new MyApp_lista();
+                return new MyApp();
               }));
             }, ),
 

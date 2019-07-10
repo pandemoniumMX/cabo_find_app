@@ -1,7 +1,10 @@
- import 'dart:async';
+import 'dart:async';
 import 'dart:convert';
 import 'package:cabofind/paginas/carrusel.dart';
 import 'package:cabofind/main.dart';
+import 'package:cabofind/paginas/publicacion_detalle.dart';
+import 'package:cabofind/paginas_listas/list_publicaciones_grid.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:cabofind/utilidades/carousel_pro.dart';
 import 'package:cabofind/paginas/empresa_detalle.dart';
@@ -10,28 +13,32 @@ import 'package:flutter/material.dart';
 
 
 
-void main() {
-  runApp(new MaterialApp(
-    home: new ListaEventos(),
 
-  ));
-}
+class Publicaciones extends StatefulWidget {
+   
 
-class ListaEventos extends StatefulWidget {
+
   @override
-  _ListaAcuaticas createState() => new _ListaAcuaticas();
+  Publicacionesfull createState() => new Publicacionesfull();
 
 }
 
-class _ListaAcuaticas extends State<ListaEventos> {
 
+class Publicacionesfull extends State<Publicaciones> {
+  ScrollController _scrollController = new ScrollController();
+  int _ultimoItem =0;
+  List<int> _listaNumeros = new List();
+  
   List data;
+  List data_n;
+  List data_c;
+
 
   //final List<Todo> todos;
   Future<String> getData() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/consultas_negocios/esp/descubre/list_descubre_eventos.php"),
+            "http://cabofind.com.mx/app_php/consultas_negocios/esp/list_publicaciones.php"),
        
         headers: {
           "Accept": "application/json"
@@ -46,32 +53,28 @@ class _ListaAcuaticas extends State<ListaEventos> {
     print(
         data[0]["NEG_NOMBRE"]);
 
-
     return "Success!";
   }
 
+
+ 
   @override
   void initState() {
-    super.initState(
+    super.initState(    
+   
     );
-    this.getData(
-    );
+    this.getData();
+
+
   }
-  @override
-void dispose() {
- // _audioPlayer?.dipose();
-  super.dispose();
-}
-  
 
-
-
-
+ 
   Widget build(BuildContext context) {
 
-    Widget listado = ListView.builder(
-       shrinkWrap: true,
-      physics: BouncingScrollPhysics(),
+    Widget publicaciones =  ListView.builder(
+        controller: _scrollController,
+        shrinkWrap: true,
+        physics: BouncingScrollPhysics(),
         itemCount: data == null ? 0 : data.length,
         itemBuilder: (BuildContext context, int index) {
 
@@ -85,10 +88,10 @@ void dispose() {
 
 
                 decoration: BoxDecoration(
-                  borderRadius:BorderRadius.circular(10.0),
+                    borderRadius:BorderRadius.circular(10.0),
+
                     border: Border.all(
-                        color: Colors.lightBlueAccent)
-                ),
+                        color: Colors.blue)),
                 padding: EdgeInsets.all(
                     10.0),
                 margin: EdgeInsets.all(
@@ -98,18 +101,34 @@ void dispose() {
 
                   children: <Widget>[
 
+
+                    Padding(
+                      child: new Text(
+                        data[index]["PUB_TITULO"],
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                          fontSize: 20.0,
+                        ),),
+                      padding: EdgeInsets.all(1.0),
+                    ),
+
                     FadeInImage(
 
                       image: NetworkImage(data[index]["GAL_FOTO"]),
                       fit: BoxFit.fill,
                       width: MediaQuery.of(context).size.width,
-                      height: 220,
+                      height: 250,
 
                       // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
                       placeholder: AssetImage('android/assets/images/loading.gif'),
                       fadeInDuration: Duration(milliseconds: 200),
-
-                    ),
+                     
+                      ),
+                     
+                    
                     Row(
                         children: <Widget>[
 
@@ -117,7 +136,7 @@ void dispose() {
 
                               child: Text(
 
-                                  data[index]["SUB_NOMBRE"],
+                                  data[index]["CAT_NOMBRE"],
                                 overflow: TextOverflow.ellipsis,),
                               padding: EdgeInsets.all(
                                   1.0)),
@@ -140,6 +159,8 @@ void dispose() {
 
                           ),
 
+
+
                         ]),
                   ],
 
@@ -150,31 +171,32 @@ void dispose() {
             ),
 
             onTap: () {
-              String id_sql = data[index]["ID_NEGOCIO"];
-              String nombre_sql = data[index]["NEG_NOMBRE"];
-              String cat_sql = data[index]["CAT_NOMBRE"];
-              String subcat_sql = data[index]["SUB_NOMBRE"];
-              String foto_sql = data[index]["GAL_FOTO"];
-              String etiquetas_sql = data[index]["NEG_ETIQUETAS"];
-              String desc_sql = data[index]["NEG_DESCRIPCION"];
-              String mapa_sql = data[index]["NEG_MAP"];
-              String fb_sql = data[index]["NEG_FACEBOOK"];
-              String ins_sql = data[index]["NEG_INSTAGRAM"];
-              String web_sql = data[index]["NEG_WEB"];
+              String id_n = data[index]["ID_NEGOCIO"];
+              String id = data[index]["ID_PUBLICACION"];
+              String nom = data[index]["NEG_NOMBRE"];
+              String lug = data[index]["NEG_LUGAR"];
+              String cat = data[index]["CAT_NOMBRE"];
+              String sub = data[index]["SUB_NOMBRE"];
+              String gal = data[index]["GAL_FOTO"];
+              String tit = data[index]["PUB_TITULO"];
+              String det = data[index]["PUB_DETALLE"];
+              String fec = data[index]["PUB_FECHA"];
+              String vid = data[index]["PUB_VIDEO"];
               String tel = data[index]["NEG_TEL"];
               String cor = data[index]["NEG_CORREO"];
-              String hor = data[index]["NEG_HORARIO"];
-
-
 
 
               Navigator.push(context, new MaterialPageRoute
-                (builder: (context) => new Empresa_det_fin(empresa: new Empresa(id_sql,nombre_sql,cat_sql,subcat_sql,foto_sql,etiquetas_sql,desc_sql,mapa_sql,fb_sql,ins_sql,web_sql,tel,cor,hor))
+                (builder: (context) => new Publicacion_detalle_fin(
+                publicacion: new Publicacion(id_n,id,nom,lug,cat,sub,gal,tit,det,fec,vid,tel,cor),
+                )
               )
               );
 
+
             },
             //A Navigator is a widget that manages a set of child widgets with
+            //stack discipline.It allows us navigate pages.
             //stack discipline.It allows us navigate pages.
             //Navigator.of(context).push(route);
           );
@@ -182,28 +204,56 @@ void dispose() {
         },
 
     );
-    return new Scaffold(
 
-      body: Container(
-        // height: MediaQuery.of(context).size.height,
-        child: new ListView(
+    Widget estilo = Stack(children: <Widget>[Positioned(
+        child: FloatingActionButton(child: Icon(FontAwesomeIcons.thLarge), onPressed:() {
+          Navigator.of(context).pop();
+          Navigator.push(
+              context,
+              new MaterialPageRoute(
+                  builder: (BuildContext context) => new Publicaciones_grid()));
+        },
+          backgroundColor:Color(0xff189bd3),heroTag: "bt1",))]);
 
-          children: [
 
-            Column(
 
-              children: <Widget>[listado],
 
-            ),
 
-          ],
-        ),
+      return new Scaffold(
+
+    body: Container(
+     // height: MediaQuery.of(context).size.height,
+    child: new ListView(
+
+    // shrinkWrap: true,
+    //physics: BouncingScrollPhysics(),
+    children: [
+
+      Row(mainAxisAlignment:MainAxisAlignment.end ,
+        children: <Widget>[
+          //estilo
+        ],
       ),
+      Column(
+        
+        children: <Widget>[publicaciones,],
+
+      ),
+     
+       
+      
+
+
+
+
+    ],
+
+    ),
+
+    ),
+
+
     );
-
-
-
-
 
 
   }

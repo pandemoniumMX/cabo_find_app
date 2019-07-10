@@ -22,7 +22,6 @@ Widget build(BuildContext context) {
     new ListaAcuaticas(),
     new ListaTerrestres(),
     new ListaAereas(),
-    new ListaEventos(),
     new ListaCultura(),
     new ListaPlayas(),
 
@@ -34,7 +33,6 @@ Widget build(BuildContext context) {
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.swimmer,),title: Text("Acuáticas")),
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.bicycle,),title: Text("Terrestres")),
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.telegramPlane,),title: Text("Aéreas")),
-    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.theaterMasks,),title: Text("Eventos")),
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.bookmark,),title: Text("Cultura")),
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.umbrellaBeach,),title: Text("Playas")),
 
