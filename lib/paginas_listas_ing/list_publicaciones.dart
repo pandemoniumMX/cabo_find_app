@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:cabofind/paginas/carrusel.dart';
 import 'package:cabofind/main.dart';
 import 'package:cabofind/paginas/publicacion_detalle.dart';
+import 'package:cabofind/paginas_ing/publicacion_detalle.dart';
 import 'package:cabofind/paginas_listas/list_publicaciones_grid.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
@@ -38,7 +39,7 @@ class Publicacionesfull extends State<Publicaciones> {
   Future<String> getData() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/consultas_negocios/esp/list_publicaciones.php"),
+            "http://cabofind.com.mx/app_php/consultas_negocios/ing/list_publicaciones.php"),
        
         headers: {
           "Accept": "application/json"
@@ -175,11 +176,11 @@ class Publicacionesfull extends State<Publicaciones> {
               String id = data[index]["ID_PUBLICACION"];
               String nom = data[index]["NEG_NOMBRE"];
               String lug = data[index]["NEG_LUGAR"];
-              String cat = data[index]["CAT_NOMBRE"];
+              String cat = data[index]["CAT_NOMBRE_ING"];
               String sub = data[index]["SUB_NOMBRE"];
               String gal = data[index]["GAL_FOTO"];
-              String tit = data[index]["PUB_TITULO"];
-              String det = data[index]["PUB_DETALLE"];
+              String tit = data[index]["PUB_TITULO_ING"];
+              String det = data[index]["PUB_DETALLE_ING"];
               String fec = data[index]["PUB_FECHA"];
               String vid = data[index]["PUB_VIDEO"];
               String tel = data[index]["NEG_TEL"];
@@ -187,7 +188,7 @@ class Publicacionesfull extends State<Publicaciones> {
 
 
               Navigator.push(context, new MaterialPageRoute
-                (builder: (context) => new Publicacion_detalle_fin(
+                (builder: (context) => new Publicacion_detalle_fin_ing(
                 publicacion: new Publicacion(id_n,id,nom,lug,cat,sub,gal,tit,det,fec,vid,tel,cor),
                 )
               )

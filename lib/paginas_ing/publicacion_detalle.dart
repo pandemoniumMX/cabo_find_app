@@ -33,13 +33,21 @@ class _Publicacion_detalle_fin_ing extends State<Publicacion_detalle_fin_ing> {
   List dataneg;
 
 
+
+
   YoutubePlayerController _controller = YoutubePlayerController();
-
-
+  var _idController = TextEditingController();
+  var _seekToController = TextEditingController();
+  double _volume = 100;
+  bool _muted = false;
+  String _playerStatus = "";
+  String _errorCode = '0';
 
   void listener() {
 
     setState(() {
+      _playerStatus = _controller.value.playerState.toString();
+      _errorCode = _controller.value.errorCode.toString();
       print(_controller.value.toString());
     });
   }
@@ -50,6 +58,12 @@ class _Publicacion_detalle_fin_ing extends State<Publicacion_detalle_fin_ing> {
     _controller.pause();
     super.deactivate();
   }
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+
+  }
+
   Future<String> getData() async {
     var response = await http.get(
         Uri.encodeFull(
@@ -118,144 +132,148 @@ class _Publicacion_detalle_fin_ing extends State<Publicacion_detalle_fin_ing> {
 
 
             title: new Container(
-                  padding: const EdgeInsets.only(top:5.0),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        /*1*/
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            /*2*/
-                            Center(
+              padding: const EdgeInsets.only(top:5.0),
+              child: Row(
+                children: [
+                  Expanded(
+                    /*1*/
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        /*2*/
+                        Center(
+                          child: Text(
+                            widget.publicacion.titulo,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 23.0
+
+                            ),
+                          ),
+
+                        ),
+                        SizedBox(
+                          height: 15.0,
+                        ),
+                        Center(
+                          //  padding: const EdgeInsets.only(bottom: 10,left: 150.0),
+                          child: Text(
+                            widget.publicacion.cat,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15.0,
+                                color: Color(0xff2E85DC)
+
+                            ),
+                          ),
+
+                        ),
+                        SizedBox(
+                          height: 20.0,
+                        ),
+
+                        Column(
+                          children: <Widget>[
+
+                            Container(
+
+                              padding: const EdgeInsets.only(left:20.0,bottom: 20.0,),
                               child: Text(
-                                widget.publicacion.titulo,
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 23.0
+                                widget.publicacion.det,
+                                //softWrap: true,
+                                style: TextStyle(fontSize: 20.0,
 
                                 ),
                               ),
 
                             ),
-                            SizedBox(
-                              height: 15.0,
-                            ),
-                            Center(
-                              //  padding: const EdgeInsets.only(bottom: 10,left: 150.0),
-                              child: Text(
-                                widget.publicacion.cat,
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 15.0,
-                                    color: Color(0xff2E85DC)
-
-                                ),
-                              ),
-
-                            ),
-                            SizedBox(
-                              height: 20.0,
-                            ),
-
-                            Column(
-                              children: <Widget>[
-
-                                Container(
-
-                                padding: const EdgeInsets.only(left:20.0,bottom: 20.0,),
-                                child: Text(
-                                  widget.publicacion.det,
-                                  //softWrap: true,
-                                  style: TextStyle(fontSize: 20.0,
-
+                            Container(
+                              child:
+                              Column(
+                                children: <Widget>[
+                                  SizedBox(
+                                    height: 20.0,
                                   ),
-                                ),
+                                  Center(child: Text('Promotional video',style: TextStyle(fontSize: 23.0,color: Colors.blueAccent ),)),
+                                  SizedBox(
+                                    height: 20.0,
+                                  ),
+                                  YoutubePlayer(
+                                    context: context,
+                                    //videoId: widget.publicacion.vid,
+                                    videoId: YoutubePlayer.convertUrlToId("${widget.publicacion.vid}"),
+                                    autoPlay: false,
+                                    width: MediaQuery.of(context).size.width,
+                                    showVideoProgressIndicator: true,
+                                    videoProgressIndicatorColor: Colors.blue,
+                                    progressColors: ProgressColors(
+                                      playedColor: Colors.blue,
+                                      handleColor: Colors.blueAccent,
+                                    ),
+                                    onPlayerInitialized: (controller) {
+                                      _controller = controller;
+                                      _controller.addListener(listener);
+                                    },
+                                  ),
+                                  SizedBox(
+                                    height: 20.0,
+                                  ),
+                                ],
+                              ),
+
+                            ),
+
+                            Container(
+                              padding: const EdgeInsets.only(bottom: 10,left: 20,right: 20),
+                              child: RaisedButton(
+
+                                //child: Text(‘Send data to the second page’),
+                                onPressed: () {
+
+                                  String id_sql = data[index]["ID_NEGOCIO"];
+                                  String nombre_sql = data[index]["NEG_NOMBRE"];
+                                  String cat_sql = data[index]["CAT_NOMBRE_ING"];
+                                  String subcat_sql = data[index]["SUB_NOMBRE_ING"];
+                                  String foto_sql = data[index]["GAL_FOTO"];
+                                  String etiquetas_sql = data[index]["NEG_ETIQUETAS"];
+                                  String desc_sql = data[index]["NEG_DESCRIPCION_ING"];
+                                  String mapa_sql = data[index]["NEG_MAP"];
+                                  String fb_sql = data[index]["NEG_FACEBOOK"];
+                                  String ins_sql = data[index]["NEG_INSTAGRAM"];
+                                  String web_sql = data[index]["NEG_WEB"];
+                                  String tel = data[index]["NEG_TEL"];
+                                  String cor = data[index]["NEG_CORREO"];
+                                  String hor = data[index]["NEG_HORARIO_ING"];
+
+                                  Navigator.push(context, new MaterialPageRoute
+                                    (builder: (context) => new Empresa_det_fin_ing(empresa: new Empresa(id_sql,nombre_sql,cat_sql,subcat_sql,foto_sql,etiquetas_sql,desc_sql,mapa_sql,fb_sql,ins_sql,web_sql,tel,cor,hor))
+                                  )
+                                  );
+                                },
+
+                                shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
+                                color: Colors.blue,
+                                child: Text('More information', style: TextStyle(fontSize: 20, color: Colors.white)),
 
                               ),
-                                Container(
-                                  child:
-                                  Column(
-                                    children: <Widget>[
-                                      SizedBox(
-                                        height: 20.0,
-                                      ),
-                                      Center(child: Text('Promotional video',style: TextStyle(fontSize: 23.0,color: Colors.blueAccent ),)),
-                                      SizedBox(
-                                        height: 20.0,
-                                      ),
-                                      YoutubePlayer(
-                                        context: context,
-                                        //videoId: widget.publicacion.vid,
-                                        videoId: YoutubePlayer.convertUrlToId("${widget.publicacion.vid}"),
-                                        autoPlay: false,
-                                        width: MediaQuery.of(context).size.width,
 
-                                        showVideoProgressIndicator: true,
-                                        videoProgressIndicatorColor: Colors.blue,
-                                        progressColors: ProgressColors(
-                                          playedColor: Colors.blue,
-                                          handleColor: Colors.blueAccent,
-                                        ),
-                                        onPlayerInitialized: (controller) {
-                                          _controller = controller;
-                                          _controller.addListener(listener);
-                                        },
-                                      ),
-                                      SizedBox(
-                                        height: 20.0,
-                                                ),
-                                              ],
-                                            ),
-
-                                          ),
-
-                              Container(
-                                padding: const EdgeInsets.only(bottom: 10,left: 20,right: 20),
-                                child: RaisedButton(
-
-                                  onPressed: () {
-
-                                    String id_sql = data[index]["ID_NEGOCIO"];
-                                    String nombre_sql = data[index]["NEG_NOMBRE"];
-                                    String cat_sql = data[index]["CAT_NOMBRE_ING"];
-                                    String subcat_sql = data[index]["SUB_NOMBRE_ING"];
-                                    String foto_sql = data[index]["GAL_FOTO"];
-                                    String etiquetas_sql = data[index]["NEG_ETIQUETAS"];
-                                    String desc_sql = data[index]["NEG_DESCRIPCION_ING"];
-                                    String mapa_sql = data[index]["NEG_MAP"];
-                                    String fb_sql = data[index]["NEG_FACEBOOK"];
-                                    String ins_sql = data[index]["NEG_INSTAGRAM"];
-                                    String web_sql = data[index]["NEG_WEB"];
-                                    String tel = data[index]["NEG_TEL"];
-                                    String cor = data[index]["NEG_CORREO"];
-                                    String hor = data[index]["NEG_HORARIO_ING"];
-
-                                    Navigator.push(context, new MaterialPageRoute
-                                      (builder: (context) => new Empresa_det_fin_ing(empresa: new Empresa(id_sql,nombre_sql,cat_sql,subcat_sql,foto_sql,etiquetas_sql,desc_sql,mapa_sql,fb_sql,ins_sql,web_sql,tel,cor,hor))
-                                    )
-                                    );
-                                  },
-
-                                  shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
-                                  color: Colors.blue,
-                                  child: Text('More information', style: TextStyle(fontSize: 20, color: Colors.white)),
-
-                                ),
-                              ),
-                              ],
                             ),
 
                           ],
                         ),
-                      ),
-                      /*3*/
 
 
-                    ],
+
+                      ],
+                    ),
                   ),
+                  /*3*/
 
-                ),
+
+                ],
+              ),
+
+            ),
           );
 
         },
@@ -281,7 +299,7 @@ class _Publicacion_detalle_fin_ing extends State<Publicacion_detalle_fin_ing> {
              //boton,
              Container(
                child: publicaciones,
-               height: 800.0,
+               height: 550.0,
              )
 
 
@@ -323,11 +341,7 @@ class _Publicacion_detalle_fin_ing extends State<Publicacion_detalle_fin_ing> {
     );
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-    _controller.dispose();
-  }
+
   State<StatefulWidget> createState() {
     // TODO: implement createState
     return null;

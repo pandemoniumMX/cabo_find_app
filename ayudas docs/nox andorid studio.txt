@@ -1,6 +1,13 @@
 nox_adb.exe connect 127.0.0.1:62001
 
+./nox_adb.exe connect 127.0.0.1:62001
+
+D:\Program Files\Nox\bin
+
 --enable-software-rendering
+
+"args": ["--enable-software-rendering"]
+
 
 https://camposha.info/course/flutter-mysql/lesson/flutter-php-mysql-fill-listview-with-images-and-text/
 https://github.com/Oclemy/flutter_listview_php_mysql;
