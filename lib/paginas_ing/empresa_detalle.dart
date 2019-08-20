@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:cabofind/paginas/publicacion_detalle.dart';
 import 'package:cabofind/paginas/publicacion_detalle_estatica.dart';
+import 'package:cabofind/paginas_ing/publicacion_detalle_estatica.dart';
 import 'package:cabofind/utilidades/carousel_pro.dart';
 import 'package:http/http.dart' as http;
 import 'package:cabofind/utilidades/classes.dart';
@@ -113,7 +114,7 @@ class _Empresa_det_fin_ing extends State<Empresa_det_fin_ing> {
    Future<String> getCarrusel() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/galeria_api.php?ID=${widget.empresa.id_nm}"),
+            "http://cabofind.com.mx/app_php/APIs/ing/galeria_api.php?ID=${widget.empresa.id_nm}"),
 
         headers: {
           "Accept": "application/json"
@@ -276,7 +277,7 @@ class _Empresa_det_fin_ing extends State<Empresa_det_fin_ing> {
                  child:  FadeInImage(
 
                    image: NetworkImage(data_carrusel[index]["GAL_FOTO"]),
-                   fit: BoxFit.cover,
+                   fit: BoxFit.fill,
                    width: MediaQuery.of(context).size.width,
                    height: 400,
 
@@ -297,9 +298,7 @@ class _Empresa_det_fin_ing extends State<Empresa_det_fin_ing> {
     
     Widget titleSection = Container(
           width: MediaQuery.of(context).size.width,
-      decoration: BoxDecoration(
-          border: Border.all(
-              color: Colors.blue)),
+    
       padding: const EdgeInsets.all(20),
       child: Column(
         children:[
@@ -312,7 +311,7 @@ class _Empresa_det_fin_ing extends State<Empresa_det_fin_ing> {
                   widget.empresa.nombre,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                      fontSize: 20.0
+                      fontSize: 28.0
                   ),
                 ),
 
@@ -323,16 +322,25 @@ class _Empresa_det_fin_ing extends State<Empresa_det_fin_ing> {
             ],
           ),
           Row(children: <Widget>[
-                Text(
-                widget.empresa.cat,
-                style: TextStyle(
-                  color: Colors.grey[500],
-                ),
+                Padding(
+              padding: const EdgeInsets.only(left:120.0),
+                  child: Text(
+                  widget.empresa.cat,
+                  style: TextStyle(
+                    color: Colors.blue[500],
+                  ),
               ),
+                ),
+              Text(
+              " | ",
+              style: TextStyle(
+                color: Colors.grey[500],
+              ),
+            ),
               Text(
                 widget.empresa.subs,
                 style: TextStyle(
-                  color: Colors.grey[500],
+                  color: Colors.blue[500],
                 ),
               ),
 
@@ -585,7 +593,7 @@ facebook() async {
             String cor = data_list[index]["NEG_CORREO"];
 
             Navigator.push(context, new MaterialPageRoute
-              (builder: (context) => new Publicacion_detalle_fin_estatica(
+              (builder: (context) => new Publicacion_detalle_fin_estatica_ing(
               publicacion: new Publicacion(id_n,id,nom,lug,cat,sub,gal,tit,det,fec,vid,tel,cor),
             )
             )
@@ -627,6 +635,23 @@ facebook() async {
 
               ],
             ),
+
+             Container(
+              child: Column(
+                children: <Widget>[
+                  SizedBox(
+                    height: 15.0,
+                  ),
+                 Center(child: Text('Gallery',style: TextStyle(fontSize: 20.0,color: Colors.blueAccent ),)),
+                  SizedBox(
+                    height: 15.0,
+                  ),
+
+                ],
+              )
+
+            ),
+
             Container(
               child: carrusel,
               height: 400.0,

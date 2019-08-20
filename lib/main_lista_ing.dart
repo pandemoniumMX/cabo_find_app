@@ -118,7 +118,7 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
       new Publicaciones_ing(),
       new Promociones_ing(),
       new Recomendado_ing(),
-      new Eventos_ing(),
+      //new Eventos_ing(),
       new Eventos_ing(),
 
       //new ImageCarousel2(),
@@ -133,7 +133,7 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
     final bnbi=<BottomNavigationBarItem>[
       BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.fire,),title: Text("New")),
       BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.percent,),title: Text("Promos")),
-      BottomNavigationBarItem(icon: Icon(Icons.visibility,),title: Text("Most viewed")),
+      //BottomNavigationBarItem(icon: Icon(Icons.visibility,),title: Text("Most viewed")),
       BottomNavigationBarItem(icon: Icon(Icons.favorite,),title: Text("Recommended")),
       BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.calendarWeek,),title: Text("Events")),
 

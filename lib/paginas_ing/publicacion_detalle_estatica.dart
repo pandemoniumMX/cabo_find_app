@@ -12,12 +12,12 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 
 
-class Publicacion_detalle_fin_estatica extends StatefulWidget {
+class Publicacion_detalle_fin_estatica_ing extends StatefulWidget {
 
   List data;
   final Publicacion publicacion;
   final Empresa empresa;
-  Publicacion_detalle_fin_estatica({Key key, @required this.publicacion, this.empresa}) : super(
+  Publicacion_detalle_fin_estatica_ing({Key key, @required this.publicacion, this.empresa}) : super(
       key: key);
 
 
@@ -26,7 +26,7 @@ class Publicacion_detalle_fin_estatica extends StatefulWidget {
   _Publicacion_detalle_fin_estatica createState() => new _Publicacion_detalle_fin_estatica();
 }
 
-class _Publicacion_detalle_fin_estatica extends State<Publicacion_detalle_fin_estatica> {
+class _Publicacion_detalle_fin_estatica extends State<Publicacion_detalle_fin_estatica_ing> {
   List data;
   List datacar;
   List dataneg;
@@ -60,8 +60,7 @@ class _Publicacion_detalle_fin_estatica extends State<Publicacion_detalle_fin_es
   Future<String> getData() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/list_negocios_api.php?ID=${widget.publicacion.id_n}"),
-          //"http://cabofind.com.mx/app_php/list_negocios.php?"),
+            "http://cabofind.com.mx/app_php/APIs/ing/list_negocios_api.php?ID=${widget.publicacion.id_n}"),
 
 
         headers: {
@@ -83,8 +82,7 @@ class _Publicacion_detalle_fin_estatica extends State<Publicacion_detalle_fin_es
   Future<String> getNeg() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/list_negocios_api.php?ID=${widget.publicacion.id_n}"),
-        //"http://cabofind.com.mx/app_php/list_negocios.php?"),
+            "http://cabofind.com.mx/app_php/APIs/ing/list_negocios_api.php?ID=${widget.publicacion.id_n}"),
 
 
         headers: {
@@ -265,7 +263,7 @@ class _Publicacion_detalle_fin_estatica extends State<Publicacion_detalle_fin_es
              //boton,
              Container(
                child: publicaciones,
-               height: 800.0,
+               height: 550.0,
              )
 
 

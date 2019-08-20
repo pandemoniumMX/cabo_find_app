@@ -279,7 +279,7 @@ class Detalles extends State<Empresa_det_fin> {
                  child:  FadeInImage(
 
                    image: NetworkImage(data_carrusel[index]["GAL_FOTO"]),
-                   fit: BoxFit.cover,
+                   fit: BoxFit.fill,
                    width: MediaQuery.of(context).size.width,
                    height: 400,
 
@@ -300,9 +300,7 @@ class Detalles extends State<Empresa_det_fin> {
     
     Widget titleSection = Container(
           width: MediaQuery.of(context).size.width,
-      decoration: BoxDecoration(
-          border: Border.all(
-              color: Colors.blue)),
+
       padding: const EdgeInsets.all(20),
       child: Column(
         children:[
@@ -315,7 +313,8 @@ class Detalles extends State<Empresa_det_fin> {
                   widget.empresa.nombre,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                      fontSize: 20.0
+                      fontSize: 28.0,
+                     //color: Colors.blue[500],
                   ),
                 ),
 
@@ -327,10 +326,14 @@ class Detalles extends State<Empresa_det_fin> {
           ),
         Center(
           child: Row(children: <Widget>[
-            Text(
-              widget.empresa.cat,
-              style: TextStyle(
-                color: Colors.grey[500],
+            Padding(
+              padding: const EdgeInsets.only(left:120.0),
+              child: Text(
+
+                widget.empresa.cat,
+                style: TextStyle(
+                  color: Colors.blue[500],
+                ),
               ),
             ),
             Text(
@@ -342,7 +345,7 @@ class Detalles extends State<Empresa_det_fin> {
             Text(
               widget.empresa.subs,
               style: TextStyle(
-                color: Colors.grey[500],
+                color: Colors.blue[500],
               ),
             ),
 
@@ -653,11 +656,30 @@ class Detalles extends State<Empresa_det_fin> {
 
               ],
             ),
+
+            Container(
+              child: Column(
+                children: <Widget>[
+                  SizedBox(
+                    height: 15.0,
+                  ),
+                 Center(child: Text('Galería de imagenes',style: TextStyle(fontSize: 20.0,color: Colors.blueAccent ),)),
+                  SizedBox(
+                    height: 15.0,
+                  ),
+
+                ],
+              )
+
+            ),
+
             Container(
               child: carrusel,
               height: 400.0,
 
             ),
+
+            
 
             Container(
               child: Column(
