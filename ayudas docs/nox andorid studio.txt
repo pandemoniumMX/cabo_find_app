@@ -13,3 +13,7 @@ https://camposha.info/course/flutter-mysql/lesson/flutter-php-mysql-fill-listvie
 https://github.com/Oclemy/flutter_listview_php_mysql;
 
 https://medium.com/@studymongolian/a-complete-guide-to-flutters-listtile-597a20a3d449
+
+
+
+keytool -genkey -v -keystore c:/Users/Pandemonium/key.jks -keyalg RSA -keysize 2048 -validity 10000 -alias key

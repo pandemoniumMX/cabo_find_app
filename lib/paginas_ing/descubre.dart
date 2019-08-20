@@ -24,7 +24,7 @@ Widget build(BuildContext context) {
     new ListaAcuaticas_ing(),
     new ListaTerrestres_ing(),
     new ListaAereas_ing(),
-    new ListaEventos_ing(),
+    //new ListaEventos_ing(),
     new ListaCultura_ing(),
     new ListaPlayas_ing(),
 
@@ -34,7 +34,7 @@ Widget build(BuildContext context) {
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.swimmer,),title: Text("Water")),
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.bicycle,),title: Text("Land")),
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.telegramPlane,),title: Text("Air")),
-    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.theaterMasks,),title: Text("Events")),
+    //BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.theaterMasks,),title: Text("Events")),
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.bookmark,),title: Text("Culture")),
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.umbrellaBeach,),title: Text("Beaches")),
 
