@@ -325,17 +325,19 @@ class Detalles extends State<Empresa_det_fin> {
             ],
           ),
         Center(
-          child: Row(children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(left:120.0),
-              child: Text(
+          child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+          
+              Text(
 
                 widget.empresa.cat,
                 style: TextStyle(
                   color: Colors.blue[500],
                 ),
               ),
-            ),
+              
+
             Text(
               " | ",
               style: TextStyle(
@@ -347,7 +349,9 @@ class Detalles extends State<Empresa_det_fin> {
               style: TextStyle(
                 color: Colors.blue[500],
               ),
-            ),
+            ), 
+            
+            
 
           ],
           ),

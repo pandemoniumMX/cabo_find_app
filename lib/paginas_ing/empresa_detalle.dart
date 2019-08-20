@@ -321,16 +321,17 @@ class _Empresa_det_fin_ing extends State<Empresa_det_fin_ing> {
 
             ],
           ),
-          Row(children: <Widget>[
-                Padding(
-              padding: const EdgeInsets.only(left:120.0),
-                  child: Text(
+          Row(       
+          mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+         
+                  Text(
                   widget.empresa.cat,
                   style: TextStyle(
                     color: Colors.blue[500],
                   ),
               ),
-                ),
+                
               Text(
               " | ",
               style: TextStyle(
