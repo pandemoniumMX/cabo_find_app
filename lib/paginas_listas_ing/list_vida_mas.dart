@@ -12,18 +12,18 @@ import 'package:flutter/material.dart';
 
 void main() {
   runApp(new MaterialApp(
-    home: new ListaGaybar(),
+    home: new ListaMas_ing(),
 
   ));
 }
 
-class ListaGaybar extends StatefulWidget {
+class ListaMas_ing extends StatefulWidget {
   @override
   _ListaTerraza createState() => new _ListaTerraza();
 
 }
 
-class _ListaTerraza extends State<ListaGaybar> {
+class _ListaTerraza extends State<ListaMas_ing> {
 
   List data;
 
@@ -31,7 +31,7 @@ class _ListaTerraza extends State<ListaGaybar> {
   Future<String> getData() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/consultas_negocios/esp/vida_nocturna/list_vida_gaybar.php"),
+            "http://cabofind.com.mx/app_php/consultas_negocios/ing/vida_nocturna/list_vida_mas.php"),
        
         headers: {
           "Accept": "application/json"

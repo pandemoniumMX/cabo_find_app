@@ -2,6 +2,7 @@ import 'package:cabofind/paginas_listas/list_vida_antros.dart';
 import 'package:cabofind/paginas/carrusel.dart';
 import 'package:cabofind/paginas_listas_ing/list__vida_bares.dart';
 import 'package:cabofind/paginas_listas_ing/list_vida_antros.dart';
+import 'package:cabofind/paginas_listas_ing/list_vida_mas.dart';
 import 'package:cabofind/paginas_listas_ing/list_vida_rockbar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -27,6 +28,8 @@ Widget build(BuildContext context) {
       new ListaAntros_ing(),
       new ListaBares_ing(),
       new Listarockbar_ing(),
+      new ListaMas_ing(),
+
 
 
 
@@ -43,7 +46,7 @@ Widget build(BuildContext context) {
       BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.cocktail,),title: Text("Clubs")),
       BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.beer,),title: Text("Bars")),
       BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.guitar,),title: Text("Rockbar")),
-      BottomNavigationBarItem(icon: Icon(Icons.bookmark,),title: Text("Terrace")),
+      BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.searchPlus,),title: Text("More")),
     ];
 
     final bnb=BottomNavigationBar(
