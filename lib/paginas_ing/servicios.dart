@@ -1,6 +1,7 @@
 
 import 'package:cabofind/paginas_listas_ing/list_serv_auto.dart';
 import 'package:cabofind/paginas_listas_ing/list_serv_bancos.dart';
+import 'package:cabofind/paginas_listas_ing/list_serv_mascotas.dart';
 import 'package:cabofind/paginas_listas_ing/list_serv_prof.dart';
 import 'package:cabofind/paginas_listas_ing/list_serv_trans.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +22,7 @@ Widget build(BuildContext context) {
     new ListaBancos_ing(),
     new ListaProfesionales_ing(),
     new ListaTransporte_ing(),
+    new ListaMascotas_ing(),
   ];
 
   final bnbi=<BottomNavigationBarItem>[
@@ -28,6 +30,8 @@ Widget build(BuildContext context) {
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.piggyBank,),title: Text("Banks")),
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.userTie,),title: Text("Professionals")),
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.taxi,),title: Text("Transport")),
+    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.dog,),title: Text("Pets")),
+
 
 
   ];
