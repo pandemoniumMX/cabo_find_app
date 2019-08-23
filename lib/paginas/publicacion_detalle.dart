@@ -162,9 +162,7 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
                               ),
 
                             ),
-                            SizedBox(
-                              height: 15.0,
-                            ),
+                            
                             Center(
                               //  padding: const EdgeInsets.only(bottom: 10,left: 150.0),
                               child: Text(

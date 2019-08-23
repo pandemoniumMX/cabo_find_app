@@ -3,6 +3,7 @@ import 'package:cabofind/paginas_listas_ing/list__com_joyerias.dart';
 import 'package:cabofind/paginas_listas_ing/list__com_moda.dart';
 import 'package:cabofind/paginas_listas_ing/list__com_regalos.dart';
 import 'package:cabofind/paginas_listas_ing/list__com_tiendas.dart';
+import 'package:cabofind/paginas_listas_ing/list_serv_prov.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -23,6 +24,7 @@ Widget build(BuildContext context) {
     new ListaRegalos_ing(),
     new ListaJoyerias_ing(),
     new ListaTiendas_ing(),
+    new ListaProveedores_ing(),
 
 
 
@@ -33,6 +35,7 @@ Widget build(BuildContext context) {
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.gift,),title: Text("Souvenirs")),
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.gem,),title: Text("Jewelry")),
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.store,),title: Text("Stores")),
+    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.boxOpen,),title: Text("Suppliers")),
 
 
   ];

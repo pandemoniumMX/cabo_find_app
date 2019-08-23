@@ -157,6 +157,7 @@ class _Publicacion_detalle_fin_estatica extends State<Publicacion_detalle_fin_es
                               ),
 
                             ),
+                            
 
                             Center(
                               //  padding: const EdgeInsets.only(bottom: 10,left: 150.0),

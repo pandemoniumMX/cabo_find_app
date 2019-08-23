@@ -3,6 +3,7 @@ import 'package:cabofind/paginas_listas/list_serv_auto.dart';
 import 'package:cabofind/paginas_listas/list_serv_bancos.dart';
 import 'package:cabofind/paginas_listas/list_serv_mascotas.dart';
 import 'package:cabofind/paginas_listas/list_serv_prof.dart';
+import 'package:cabofind/paginas_listas/list_serv_prov.dart';
 import 'package:cabofind/paginas_listas/list_serv_trans.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -30,11 +31,12 @@ Widget build(BuildContext context) {
   ];
 
   final bnbi=<BottomNavigationBarItem>[
-    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.car,),title: Text("Automotriz")),
+    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.car,),title: Text("Autos")),
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.piggyBank,),title: Text("Bancos")),
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.userTie,),title: Text("Profesionales")),
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.taxi,),title: Text("Transporte")),
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.dog,),title: Text("Mascotas")),
+
 
 
 
