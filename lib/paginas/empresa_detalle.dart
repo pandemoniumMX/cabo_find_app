@@ -137,7 +137,16 @@ class Detalles extends State<Empresa_det_fin> {
 
     return "Success!";
   }
+Future<String> insertVisita() async {
+    var response = await http.get(
+        Uri.encodeFull(
+            "http://cabofind.com.mx/app_php/APIs/esp/insert_visita_negocio.php?ID=${widget.empresa.id_nm}"),
 
+        headers: {
+          "Accept": "application/json"
+        }
+    );
+}
    Future<String> getCarrusel() async {
     var response = await http.get(
         Uri.encodeFull(
@@ -147,6 +156,8 @@ class Detalles extends State<Empresa_det_fin> {
           "Accept": "application/json"
         }
     );
+   
+    
 
     this.setState(
             () {
@@ -170,6 +181,8 @@ class Detalles extends State<Empresa_det_fin> {
     this.getSer();
     this.getCarrusel();
     this.getHorarios();
+    this.insertVisita();
+
   }
 
  Widget build(BuildContext context){
