@@ -17,6 +17,7 @@ import 'package:cabofind/paginas_listas_ing/list_promociones_ing.dart';
 import 'package:cabofind/paginas_listas_ing/list_publicaciones_grid.dart';
 import 'package:cabofind/paginas_listas_ing/list_publicaciones_ing.dart';
 import 'package:cabofind/paginas_listas_ing/list_recomendado_grid.dart';
+import 'package:cabofind/utilidades/banderasicon_icons.dart';
 import 'package:cabofind/utilidades/carousel_pro.dart';
 import 'package:cabofind/utilidades_ing/buscador_ing.dart';
 import 'package:flutter/material.dart';
@@ -159,6 +160,22 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
         centerTitle: true,
         title:appBarTitle,
         actions: <Widget>[
+
+
+        new IconButton(
+           // padding: const EdgeInsets.only(right: 150.0),
+             icon: Icon(FontAwesomeIcons.globe,),
+             
+            onPressed: () {
+              Navigator.of(context).pop();
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new MyHomePages()
+                        )
+                        );
+            },
+             ),
 
           new IconButton(
             icon: Icon(FontAwesomeIcons.gripLines,),

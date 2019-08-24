@@ -133,7 +133,16 @@ class _Empresa_det_fin_ing extends State<Empresa_det_fin_ing> {
 
     return "Success!";
   }
+Future<String> insertVisita() async {
+    var response = await http.get(
+        Uri.encodeFull(
+            "http://cabofind.com.mx/app_php/APIs/ing/insert_visita_negocio.php?ID=${widget.empresa.id_nm}"),
 
+        headers: {
+          "Accept": "application/json"
+        }
+    );
+}
   Future<String> getHorarios() async {
     var response = await http.get(
         Uri.encodeFull(
@@ -168,6 +177,8 @@ class _Empresa_det_fin_ing extends State<Empresa_det_fin_ing> {
     this.getSer();
     this.getCarrusel();
     this.getHorarios();
+    this.insertVisita();
+
 
   }
 

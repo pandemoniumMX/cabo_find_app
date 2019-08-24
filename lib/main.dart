@@ -9,12 +9,14 @@ import 'package:cabofind/paginas_listas/list_promociones.dart';
 import 'package:cabofind/paginas_listas/list_promociones_grid.dart';
 import 'package:cabofind/paginas_listas/list_publicaciones_grid.dart';
 import 'package:cabofind/paginas_listas/list_recomendado_grid.dart';
+import 'package:cabofind/utilidades/banderasicon_icons.dart' as banderax;
 import 'package:cabofind/utilidades/buscador.dart';
 import 'package:cabofind/utilidades/buscador_2.dart';
 import 'package:cabofind/utilidades/buscador_notap.dart';
 import 'package:cabofind/utilidades/carousel_pro.dart';
 import 'package:cabofind/paginas/carrusel.dart';
 import 'package:cabofind/paginas_listas/list_publicaciones.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:cabofind/paginas/acercade.dart';
 import 'package:cabofind/paginas/restaurantes.dart';
@@ -22,6 +24,7 @@ import 'package:cabofind/paginas/vida_nocturna.dart';
 import 'package:cabofind/paginas/servicios.dart';
 import 'package:cabofind/paginas/compras.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 
 
 
@@ -96,7 +99,8 @@ Widget slider = Container(
 
 
 class _MyHomePageState extends State<MyHomePages> {
-  Icon idioma_ing = new Icon(Icons.flag);
+ // Icon idioma_ing = new Icon(FontAwesomeIcons.flagUsa);
+
   Icon actionIcon = new Icon(Icons.search);
 
   Widget appBarTitle = new Text("Cabofind");
@@ -148,13 +152,31 @@ class _MyHomePageState extends State<MyHomePages> {
 
       body: tabpages[id],
       bottomNavigationBar: bnb,
-
-
       appBar: new AppBar(
-
+        
         centerTitle: true,
         title:appBarTitle,
-        actions: <Widget>[
+        actions: <Widget>[          
+          
+
+              
+               new IconButton(
+           // padding: const EdgeInsets.only(right: 150.0),
+             icon: Icon(FontAwesomeIcons.globe,),
+             
+            onPressed: () {
+              Navigator.of(context).pop();
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new MyHomePages_ing()
+                        )
+                        );
+            },
+             ),
+              
+            
+          
 
           new IconButton(
             icon: Icon(FontAwesomeIcons.gripLines,),
@@ -288,7 +310,7 @@ class _MyHomePageState extends State<MyHomePages> {
             ),
             new ListTile(
               title: new Text('English'),
-              leading: Icon(Icons.flag),
+              leading: Icon(FontAwesomeIcons.flagUsa),
 
               onTap: () {
                 Navigator.of(context).pop();

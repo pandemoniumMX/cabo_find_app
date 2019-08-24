@@ -107,6 +107,19 @@ class _Publicacion_detalle_fin_ing extends State<Publicacion_detalle_fin_ing> {
     return "Success!";
   }
 
+Future<String> insertPublicacion() async {
+    var response = await http.get(
+        Uri.encodeFull(
+            "http://cabofind.com.mx/app_php/APIs/ing/insert_visita_publicacion.php?ID=${widget.publicacion.id}"),
+          //"http://cabofind.com.mx/app_php/list_negocios.php?"),
+
+
+        headers: {
+          "Accept": "application/json"
+        }
+    );
+}
+
   @override
   void initState() {
     super.initState(
@@ -114,6 +127,8 @@ class _Publicacion_detalle_fin_ing extends State<Publicacion_detalle_fin_ing> {
     );
     this.getData();
     this.getNeg();
+    this.insertPublicacion();
+
 
   }
   @override
