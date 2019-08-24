@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:cabofind/main.dart';
 import 'package:cabofind/main_ing.dart';
+import 'package:cabofind/main_lista.dart';
 import 'package:cabofind/paginas/descubre.dart';
 import 'package:cabofind/paginas/salud.dart';
 import 'package:cabofind/paginas/youtube.dart';
@@ -164,6 +165,39 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
         title:appBarTitle,
         actions: <Widget>[
 
+          new InkResponse(
+                onTap: () {
+              Navigator.of(context).pop();
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new MyApp_lista()
+                        )
+                        );
+            },
+                child: new Center(
+                  //padding: const EdgeInsets.all(13.0),
+                  
+                  child: new Container(
+                   decoration: BoxDecoration(
+                  borderRadius:BorderRadius.circular(8.0),
+                  image: DecorationImage(
+                      image: ExactAssetImage('assets/mexflag.png'),
+                      fit: BoxFit.fill,
+                    ),
+                  
+                      
+                      ),
+                      child: new Text("     ",
+                    
+                    style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25.0),
+                    ),
+                    
+                    
+
+                  ),
+                )
+                ),
 
           new IconButton(
             icon: Icon(FontAwesomeIcons.thLarge,),
@@ -324,7 +358,7 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
                 Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (BuildContext context) => new MyHomePages()
+                        builder: (BuildContext context) => new MyApp_lista()
                         )
                         );
               },
