@@ -168,7 +168,7 @@ Future<String> insertPublicacion() async {
 
                         ),
                         SizedBox(
-                          height: 15.0,
+                          height: 5.0,
                         ),
                         Center(
                           //  padding: const EdgeInsets.only(bottom: 10,left: 150.0),
@@ -184,7 +184,7 @@ Future<String> insertPublicacion() async {
 
                         ),
                         SizedBox(
-                          height: 20.0,
+                          height: 5.0,
                         ),
 
                         Column(
@@ -207,11 +207,11 @@ Future<String> insertPublicacion() async {
                               Column(
                                 children: <Widget>[
                                   SizedBox(
-                                    height: 20.0,
+                                    height: 5.0,
                                   ),
                                   Center(child: Text('Promotional video',style: TextStyle(fontSize: 23.0,color: Colors.blueAccent ),)),
                                   SizedBox(
-                                    height: 20.0,
+                                    height: 5.0,
                                   ),
                                   YoutubePlayer(
                                     context: context,
@@ -231,7 +231,7 @@ Future<String> insertPublicacion() async {
                                     },
                                   ),
                                   SizedBox(
-                                    height: 20.0,
+                                    height: 5.0,
                                   ),
                                 ],
                               ),

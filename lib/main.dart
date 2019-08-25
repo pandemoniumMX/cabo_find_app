@@ -23,7 +23,14 @@ import 'package:cabofind/paginas/restaurantes.dart';
 import 'package:cabofind/paginas/vida_nocturna.dart';
 import 'package:cabofind/paginas/servicios.dart';
 import 'package:cabofind/paginas/compras.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:imei_plugin/imei_plugin.dart';
+import 'package:http/http.dart' as http;
+import 'package:device_info/device_info.dart';
+import 'package:devicelocale/devicelocale.dart';
+
+
 
 
 
@@ -56,7 +63,12 @@ class MyHomePages extends StatefulWidget {
   @override
   _MyHomePageState createState() => new _MyHomePageState();
 
+
 }
+  @override
+
+
+  
 
 Widget slider = Container(
     child: Stack(
@@ -96,6 +108,18 @@ Widget slider = Container(
     )
 );
 
+class ImeiPlugin {
+  static const MethodChannel _channel = const MethodChannel('imei_plugin');
+
+  // get imei android device @return String or null
+  static Future<String> get getImei async {
+    final String version = await _channel.invokeMethod('getImei');
+    print('Running on ${version}');
+    return version;
+  }
+
+}
+
 
 
 class _MyHomePageState extends State<MyHomePages> {
@@ -106,9 +130,74 @@ class _MyHomePageState extends State<MyHomePages> {
   Widget appBarTitle = new Text("Cabofind");
   int id=0;
 
-  @override
+    @override
+    Future<String> checkModelAndroid() async {
 
-//  dispose();
+    List languages;
+    //String currentLocale;
+      
+      try {
+      languages = await Devicelocale.preferredLanguages;
+      print(languages);
+    } on PlatformException {
+      print("Error obtaining preferred languages");
+    }
+    
+
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+    //print('Running on ${androidInfo.id}');
+    var response = await http.get(
+        Uri.encodeFull(
+            "http://cabofind.com.mx/app_php/APIs/esp/insertInfo.php?MOD=${androidInfo.model}&BOOT=${androidInfo.bootloader}&VERSION=${androidInfo.product}&IDIOMA=${languages}"),
+
+        headers: {
+          "Accept": "application/json"
+        }
+    );
+  
+  } 
+  /*
+  @override
+    Future<String> checkModelIos() async {
+      List languages;
+    //String currentLocale;
+      
+      try {
+      languages = await Devicelocale.preferredLanguages;
+      print(languages);
+    } on PlatformException {
+      print("Error obtaining preferred languages");
+    }
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
+    //print('Running on ${iosInfo.identifierForVendor}');
+    var response = await http.get(
+        Uri.encodeFull(
+            "http://cabofind.com.mx/app_php/APIs/esp/insertInfoiOS.php?MOD=${iosInfo.model}&BOOT=${iosInfo.utsname.nodename}&VERSION=${iosInfo.systemName}&IDIOMA=${languages}"),
+
+        headers: {
+          "Accept": "application/json"
+        }
+    );
+
+  }
+*/
+
+
+
+
+ @override
+  void initState() {
+    super.initState(
+
+    );
+    //this.checkModelIos();
+    this.checkModelAndroid();
+  
+
+
+  }
 
   Widget build(BuildContext context) {
    // new Publicaciones();

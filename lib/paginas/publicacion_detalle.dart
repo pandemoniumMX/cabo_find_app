@@ -177,7 +177,7 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
 
                             ),
                             SizedBox(
-                              height: 20.0,
+                              height: 5.0,
                             ),
 
                             Column(
@@ -200,11 +200,11 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
                                   Column(
                                     children: <Widget>[
                                       SizedBox(
-                                        height: 20.0,
+                                        height: 5.0,
                                       ),
                                       Center(child: Text('Video promocional',style: TextStyle(fontSize: 23.0,color: Colors.blueAccent ),)),
                                       SizedBox(
-                                        height: 20.0,
+                                        height: 5.0,
                                       ),
                                       YoutubePlayer(
                                         context: context,
@@ -224,7 +224,7 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
                                         },
                                       ),
                                       SizedBox(
-                                        height: 20.0,
+                                        height: 5.0,
                                                 ),
                                               ],
                                             ),
@@ -264,7 +264,7 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
 
                 shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
                 color: Colors.blue,
-                child: Text('Más informacion', style: TextStyle(fontSize: 20, color: Colors.white)),
+                child: Text('Más información', style: TextStyle(fontSize: 20, color: Colors.white)),
 
               ),
 
