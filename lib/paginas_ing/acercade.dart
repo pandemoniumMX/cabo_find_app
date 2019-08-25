@@ -44,6 +44,15 @@ Widget build(BuildContext context) {
      }
    }
 
+   facebook() async {
+     final url =  "https://www.facebook.com/CaboFind/";
+     if (await canLaunch(url)) {
+       await launch(url);
+     } else {
+       throw 'Could not launch $url';
+     }
+   }
+
 return new Scaffold(
 appBar: new AppBar(
 title: new Text('About us'),
@@ -105,6 +114,13 @@ body: Center(
               children: <Widget>[
                 FloatingActionButton(child: Icon(FontAwesomeIcons.envelope), onPressed:correo,backgroundColor:Color(0xff01969A),heroTag: "bt3",),
                 Text('Mail', style: TextStyle(color: Colors.black),),
+              ],
+            ),
+
+            Column(
+              children: <Widget>[
+                FloatingActionButton(child: Icon(FontAwesomeIcons.facebook), onPressed:facebook,backgroundColor:Color(0xff01969A),heroTag: "bt4",),
+                Text('Facebook', style: TextStyle(color: Colors.black),),
               ],
             ),
              

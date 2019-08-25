@@ -161,7 +161,7 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
 
       appBar: new AppBar(
 
-        centerTitle: true,
+        //enterTitle: true,
         title:appBarTitle,
         actions: <Widget>[
 

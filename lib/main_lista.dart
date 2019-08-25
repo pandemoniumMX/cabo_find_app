@@ -155,7 +155,7 @@ class _MyHomePageState extends State<MyHomePages> {
 
       appBar: new AppBar(
 
-        centerTitle: true,
+        //enterTitle: true,
         title:appBarTitle,
         actions: <Widget>[
 
