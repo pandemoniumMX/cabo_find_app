@@ -16,7 +16,7 @@ import 'package:cabofind/paginas_listas_ing/list_eventos.dart';
 import 'package:cabofind/paginas_listas_ing/list_promociones_ing.dart';
 import 'package:cabofind/paginas_listas_ing/list_publicaciones_ing.dart';
 import 'package:cabofind/paginas_listas_ing/list_recomendado.dart';
-import 'package:cabofind/utilidades/carousel_pro.dart';
+
 import 'package:cabofind/utilidades_ing/buscador_ing.dart';
 import 'package:flutter/material.dart';
 import 'package:cabofind/paginas/acercade.dart';
@@ -57,43 +57,6 @@ class MyHomePages_ing extends StatefulWidget {
 
 }
 
-Widget slider = Container(
-    child: Stack(
-
-      children: <Widget>[
-
-        Container(
-
-          margin: EdgeInsets.only(
-              top: 0.0),
-          padding: EdgeInsets.all(
-              10.10),
-          height: 250.0,
-          child: Carousel(
-            boxFit: BoxFit.cover,
-            images: [
-
-              AssetImage(
-                  'android/assets/images/img1.jpg'),
-              AssetImage(
-                  'android/assets/images/img2.jpg'),
-              AssetImage(
-                  'android/assets/images/img3.jpg'),
-              AssetImage(
-                  'android/assets/images/img4.jpg'),
-              AssetImage(
-                  'android/assets/images/img5.jpg'),
-             
-            ],
-            animationCurve: Curves.fastOutSlowIn,
-            animationDuration: Duration(
-                milliseconds: 2000),
-          ),
-        ),
-
-      ],
-    )
-);
 
 
 

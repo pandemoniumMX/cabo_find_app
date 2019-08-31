@@ -29,13 +29,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.4"
-  carousel_pro:
-    dependency: "direct main"
-    description:
-      name: carousel_pro
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.0.13"
   charcode:
     dependency: transitive
     description:
@@ -70,14 +63,7 @@ packages:
       name: crypto
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.1+1"
-  cupertino_icons:
-    dependency: transitive
-    description:
-      name: cupertino_icons
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.1.2"
+    version: "2.1.2"
   device_info:
     dependency: "direct main"
     description:
@@ -111,6 +97,11 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.7.2+1"
+  flutter_localizations:
+    dependency: "direct main"
+    description: flutter
+    source: sdk
+    version: "0.0.0"
   flutter_page_indicator:
     dependency: transitive
     description:
@@ -137,13 +128,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_widget_gallery:
-    dependency: "direct main"
-    description:
-      name: flutter_widget_gallery
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.1.2+1"
   font_awesome_flutter:
     dependency: "direct main"
     description:
@@ -172,13 +156,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.4"
-  imei_plugin:
-    dependency: "direct main"
+  intl:
+    dependency: transitive
     description:
-      name: imei_plugin
+      name: intl
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.0"
+    version: "0.15.8"
   matcher:
     dependency: transitive
     description:

@@ -38,10 +38,10 @@ Widget build(BuildContext context) {
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.pepperHot,),title: Text("Mexicano")),
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.pizzaSlice,),title: Text("Italiano")),
     BottomNavigationBarItem(icon: Icon(Icons.favorite,),title: Text("Oriental")),
-    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.fish,),title: Text("Marisco")),
+    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.fish,),title: Text("Mariscos")),
     BottomNavigationBarItem(icon: Icon(Icons.fastfood,),title: Text("Rápida")),
-    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.coffee,),title: Text("Café")),
-    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.cookieBite,),title: Text("Snack")),
+    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.utensils,),title: Text("Otros")),
+    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.iceCream,),title: Text("Snack")),
 
 
   ];

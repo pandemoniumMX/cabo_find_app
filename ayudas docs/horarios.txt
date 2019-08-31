@@ -1,22 +1,38 @@
-LUNES...................24HRS
-MARTES.................24HRS
-MIERCOLES...........24HRS
-JUEVEZ..................24HRS
-VIERNES................24HRS
-SABADO.................24HRS
-DOMINGO..............24HRS
+LUNES....................8AM-8PM
+MARTES.................8AM-8PM
+MIERCOLES...........8AM-8PM
+JUEVES..................8AM-8PM
+VIERNES................8AM-8PM
+SABADO.................8AM-8PM
+DOMINGO..............8AM-8PM
 
 
-MONDAY..................24HRS
-TUESDAY..................24HRS
-WEDNESDAY...........24HRS
-THURSDAY..............24HRS
-FRIDAY....................24HRS
-SATURDAY..............24HRS
-SUNDAY..................24HRS
+MONDAY..................8AM-8PM
+TUESDAY..................8AM-8PM
+WEDNESDAY...........8AM-8PM
+THURSDAY..............8AM-8PM
+FRIDAY....................8AM-8PM
+SATURDAY..............8AM-8PM
+SUNDAY..................8AM-8PM
 
 http://cabofind.com.mx/assets/galeria/empresas/8/logo.jpg
 
 
 https://www.youtube.com/watch?v=9k6tvyyowk0
  video coming soon
+
+LUNES.............6AM-11AM 4PM-10PM
+MARTES...........6AM-11AM 4PM-10PM
+MIERCOLES.....6AM-11AM 4PM-10PM
+JUEVES.........6AM-11AM 4PM-10PM
+VIERNES.........6AM-11AM 4PM-10PM
+SABADO..........CERRADO
+DOMINGO........CERRADO
+
+MONDAY...........6AM-11AM 4PM-10PM
+TUESDAY..........6AM-11AM 4PM-10PM
+WEDNESDAY......6AM-11AM 4PM-10PM
+THURSDAY.....6AM-11AM 4PM-10PM
+FRIDAY.......6AM-11AM 4PM-10PM
+SATURDAY.....CLOSE
+SUNDAY........CLOSE

@@ -4,7 +4,7 @@ import 'package:cabofind/paginas/carrusel.dart';
 import 'package:cabofind/main.dart';
 import 'package:cabofind/paginas_ing/empresa_detalle.dart';
 import 'package:http/http.dart' as http;
-import 'package:cabofind/utilidades/carousel_pro.dart';
+
 import 'package:cabofind/paginas/empresa_detalle.dart';
 import 'package:cabofind/utilidades/classes.dart';
 import 'package:flutter/material.dart';

@@ -18,7 +18,7 @@ if (flutterVersionCode == null) {
 
 def flutterVersionName = localProperties.getProperty('flutter.versionName')
 if (flutterVersionName == null) {
-    flutterVersionName = '1.0.1'
+    flutterVersionName = '1.0.0'
 }
 
 apply plugin: 'com.android.application'
@@ -39,10 +39,10 @@ android {
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.israel.cabofind"
-        minSdkVersion 16
+        minSdkVersion 19
         targetSdkVersion 28
-        versionCode flutterVersionCode.toInteger()
-        versionName "1.0.1" //Ir aumentando la version
+        versionCode 4 //Ir aumentando la version
+        versionName "1.0.3" //Ir aumentando la version
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 

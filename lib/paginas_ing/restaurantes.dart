@@ -38,8 +38,8 @@ Widget build(BuildContext context) {
     BottomNavigationBarItem(icon: Icon(Icons.favorite,),title: Text("Oriental")),
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.fish,),title: Text("Seafood")),
     BottomNavigationBarItem(icon: Icon(Icons.fastfood,),title: Text("Fastfood")),
-    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.coffee,),title: Text("Coffe")),
-    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.cookieBite,),title: Text("Snack")),
+    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.utensils,),title: Text("Others")),
+    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.iceCream,),title: Text("Snack")),
 
 
   ];

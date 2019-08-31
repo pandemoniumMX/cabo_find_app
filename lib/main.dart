@@ -13,7 +13,7 @@ import 'package:cabofind/utilidades/banderasicon_icons.dart' as banderax;
 import 'package:cabofind/utilidades/buscador.dart';
 import 'package:cabofind/utilidades/buscador_2.dart';
 import 'package:cabofind/utilidades/buscador_notap.dart';
-import 'package:cabofind/utilidades/carousel_pro.dart';
+
 import 'package:cabofind/paginas/carrusel.dart';
 import 'package:cabofind/paginas_listas/list_publicaciones.dart';
 import 'package:flutter/foundation.dart';
@@ -25,7 +25,6 @@ import 'package:cabofind/paginas/servicios.dart';
 import 'package:cabofind/paginas/compras.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:imei_plugin/imei_plugin.dart';
 import 'package:http/http.dart' as http;
 import 'package:device_info/device_info.dart';
 import 'package:devicelocale/devicelocale.dart';
@@ -70,43 +69,7 @@ class MyHomePages extends StatefulWidget {
 
   
 
-Widget slider = Container(
-    child: Stack(
 
-      children: <Widget>[
-
-        Container(
-
-          margin: EdgeInsets.only(
-              top: 0.0),
-          padding: EdgeInsets.all(
-              10.10),
-          height: 250.0,
-          child: Carousel(
-            boxFit: BoxFit.cover,
-            images: [
-
-              AssetImage(
-                  'android/assets/images/img1.jpg'),
-              AssetImage(
-                  'android/assets/images/img2.jpg'),
-              AssetImage(
-                  'android/assets/images/img3.jpg'),
-              AssetImage(
-                  'android/assets/images/img4.jpg'),
-              AssetImage(
-                  'android/assets/images/img5.jpg'),
-             
-            ],
-            animationCurve: Curves.fastOutSlowIn,
-            animationDuration: Duration(
-                milliseconds: 2000),
-          ),
-        ),
-
-      ],
-    )
-);
 
 class ImeiPlugin {
   static const MethodChannel _channel = const MethodChannel('imei_plugin');
@@ -129,27 +92,25 @@ class _MyHomePageState extends State<MyHomePages> {
 
   Widget appBarTitle = new Text("Cabofind");
   int id=0;
+ 
+
 
     @override
     Future<String> checkModelAndroid() async {
-
-    List languages;
-    //String currentLocale;
-      
-      try {
-      languages = await Devicelocale.preferredLanguages;
-      print(languages);
+       String currentLocale;
+    try {
+      currentLocale = await Devicelocale.currentLocale;
+      print(currentLocale);
     } on PlatformException {
-      print("Error obtaining preferred languages");
+      print("Error obtaining current locale");
     }
-    
 
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
     //print('Running on ${androidInfo.id}');
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/insertInfo.php?MOD=${androidInfo.model}&BOOT=${androidInfo.display},${androidInfo.bootloader}&VERSION=${androidInfo.product}&IDIOMA=${languages}"),
+            "http://cabofind.com.mx/app_php/APIs/esp/insertInfo.php?MOD=${androidInfo.model}&BOOT=${androidInfo.display},${androidInfo.bootloader}&VERSION=${androidInfo.product}&IDIOMA=${currentLocale}"),
 
         headers: {
           "Accept": "application/json"
