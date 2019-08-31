@@ -2,6 +2,9 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:cabofind/paginas/empresa_detalle.dart';
 import 'package:cabofind/paginas_listas/list_publicaciones.dart';
+import 'package:device_info/device_info.dart';
+import 'package:devicelocale/devicelocale.dart';
+import 'package:flutter/services.dart';
 //import 'package:custom_chewie/custom_chewie.dart';
 import 'package:http/http.dart' as http;
 import 'package:cabofind/utilidades/classes.dart';
@@ -86,9 +89,23 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
   }
 
   Future<String> insertPublicacion() async {
+
+    String currentLocale;
+    try {
+      currentLocale = await Devicelocale.currentLocale;
+      print(currentLocale);
+    } on PlatformException {
+      print("Error obtaining current locale");
+    }
+
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+    //print('Running on ${androidInfo.id}');
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/insert_visita_publicacion.php?ID=${widget.publicacion.id}"),
+            //"http://cabofind.com.mx/app_php/APIs/esp/insert_visita_publicacion.php?ID=${widget.publicacion.id}"),
+            "http://cabofind.com.mx/app_php/APIs/esp/insert_visita_publicacion.php?MOD=${androidInfo.model}&BOOT=${androidInfo.display},${androidInfo.bootloader}&VERSION=${androidInfo.product}&IDIOMA=${currentLocale}&ID=${widget.publicacion.id}"),
+
           //"http://cabofind.com.mx/app_php/list_negocios.php?"),
 
 
