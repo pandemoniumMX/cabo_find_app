@@ -90,7 +90,7 @@ class _MyHomePageState extends State<MyHomePages> {
     ];
 
     final bnbi=<BottomNavigationBarItem>[
-      BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.fire,),title: Text("Lo nuevo")),
+      BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.fire,),title: Text("Inicio")),
       BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.percent,),title: Text("Promos")),
       //BottomNavigationBarItem(icon: Icon(Icons.visibility,),title: Text("Más visto")),
       BottomNavigationBarItem(icon: Icon(Icons.favorite,),title: Text("Recomendado")),
