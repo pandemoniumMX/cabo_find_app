@@ -98,7 +98,7 @@ void dispose() {
                     FadeInImage(
 
                       image: NetworkImage(data[index]["GAL_FOTO"]),
-                      fit: BoxFit.fill,
+                      fit: BoxFit.cover,
                       width: MediaQuery.of(context).size.width,
                       height: 220,
 

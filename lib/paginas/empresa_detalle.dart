@@ -140,6 +140,7 @@ class Detalles extends State<Empresa_det_fin> {
 
     return "Success!";
   }
+//contador de visitas android
 Future<String> insertVisitaAndroid() async {
     String currentLocale;
     try {
