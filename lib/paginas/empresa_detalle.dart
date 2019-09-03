@@ -140,9 +140,7 @@ class Detalles extends State<Empresa_det_fin> {
 
     return "Success!";
   }
-Future<String> insertVisita() async {
-
-
+Future<String> insertVisitaAndroid() async {
     String currentLocale;
     try {
       currentLocale = await Devicelocale.currentLocale;
@@ -157,7 +155,7 @@ Future<String> insertVisita() async {
     var response = await http.get(
         Uri.encodeFull(
            // "http://cabofind.com.mx/app_php/APIs/esp/insert_visita_negocio.php?ID=${widget.empresa.id_nm}"),
-            "http://cabofind.com.mx/app_php/APIs/esp/insert_visita_negocio.php?MOD=${androidInfo.model}&BOOT=${androidInfo.display},${androidInfo.bootloader}&VERSION=${androidInfo.product}&IDIOMA=${currentLocale}&ID=${widget.empresa.id_nm}"),
+            "http://cabofind.com.mx/app_php/APIs/esp/insert_visita_negocio.php?MOD=${androidInfo.model}&BOOT=${androidInfo.display},${androidInfo.bootloader}&VERSION=${androidInfo.product}&IDIOMA=esp&ID=${widget.empresa.id_nm}&SO=Android"),
 
 
         headers: {
@@ -165,6 +163,31 @@ Future<String> insertVisita() async {
         }
     );
 }
+/*
+Future<String> insertVisitaiOS() async {
+    String currentLocale;
+    try {
+      currentLocale = await Devicelocale.currentLocale;
+      print(currentLocale);
+    } on PlatformException {
+      print("Error obtaining current locale");
+    }
+
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
+    //print('Running on ${iosInfo.identifierForVendor}');
+    var response = await http.get(
+        Uri.encodeFull(
+           // "http://cabofind.com.mx/app_php/APIs/esp/insert_visita_negocio.php?ID=${widget.empresa.id_nm}"),
+            "http://cabofind.com.mx/app_php/APIs/esp/insert_visita_negocio.php?MOD=${iosInfo.model}&BOOT=${iosInfo.utsname.nodename},${iosInfo.utsname.sysname}&VERSION=${iosInfo.systemName}&IDIOMA=${currentLocale}&ID=${widget.empresa.id_nm}&SO=iOS"),
+
+
+        headers: {
+          "Accept": "application/json"
+        }
+    );
+}
+*/
    Future<String> getCarrusel() async {
     var response = await http.get(
         Uri.encodeFull(
@@ -199,7 +222,7 @@ Future<String> insertVisita() async {
     this.getSer();
     this.getCarrusel();
     this.getHorarios();
-    this.insertVisita();
+    this.insertVisitaAndroid();
 
   }
 

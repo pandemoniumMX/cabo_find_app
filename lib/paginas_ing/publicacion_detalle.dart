@@ -110,7 +110,7 @@ class _Publicacion_detalle_fin_ing extends State<Publicacion_detalle_fin_ing> {
     return "Success!";
   }
 
-Future<String> insertPublicacion() async {
+Future<String> insertPublicacionAndroid() async {
     String currentLocale;
     try {
       currentLocale = await Devicelocale.currentLocale;
@@ -125,7 +125,7 @@ Future<String> insertPublicacion() async {
     var response = await http.get(
         Uri.encodeFull(
             //"http://cabofind.com.mx/app_php/APIs/esp/insert_visita_publicacion.php?ID=${widget.publicacion.id}"),
-            "http://cabofind.com.mx/app_php/APIs/ing/insert_visita_publicacion.php?MOD=${androidInfo.model}&BOOT=${androidInfo.display},${androidInfo.bootloader}&VERSION=${androidInfo.product}&IDIOMA=${currentLocale}&ID=${widget.publicacion.id}"),
+            "http://cabofind.com.mx/app_php/APIs/ing/insert_visita_publicacion.php?MOD=${androidInfo.model}&BOOT=${androidInfo.display},${androidInfo.bootloader}&VERSION=${androidInfo.product}&IDIOMA=${currentLocale}&ID=${widget.publicacion.id}&SO=Android"),
 
           //"http://cabofind.com.mx/app_php/list_negocios.php?"),
 
@@ -136,6 +136,33 @@ Future<String> insertPublicacion() async {
     );
 }
 
+/*
+Future<String> insertPublicacioniOS() async {
+
+    String currentLocale;
+    try {
+      currentLocale = await Devicelocale.currentLocale;
+      print(currentLocale);
+    } on PlatformException {
+      print("Error obtaining current locale");
+    }
+
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
+    //print('Running on ${iosInfo.identifierForVendor}');
+    var response = await http.get(
+        Uri.encodeFull(
+    "http://cabofind.com.mx/app_php/APIs/ing/insert_visita_publicacion.php?MOD=${iosInfo.model}&BOOT=${iosInfo.utsname.nodename},${iosInfo.utsname.sysname}&VERSION=${iosInfo.systemName}&IDIOMA=${currentLocale}&ID=${widget.publicacion.id}&SO=iOS"),
+
+
+
+        headers: {
+          "Accept": "application/json"
+        }
+    );
+}
+*/
+
   @override
   void initState() {
     super.initState(
@@ -143,7 +170,7 @@ Future<String> insertPublicacion() async {
     );
     this.getData();
     this.getNeg();
-    this.insertPublicacion();
+    this.insertPublicacionAndroid();
 
 
   }

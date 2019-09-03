@@ -53,6 +53,16 @@ Widget build(BuildContext context) {
      }
    }
 
+    cuestionario() async {
+     final url =  "https://docs.google.com/forms/d/e/1FAIpQLSc1swXE7NYyRZzSJd130aYrIO5Yl9uVGsXSCRAVOOJ88KVmRA/viewform?usp=sf_link";
+     if (await canLaunch(url)) {
+       await launch(url);
+     } else {
+       throw 'Could not launch $url';
+     }
+   }
+
+
 
 return new Scaffold(
 appBar: new AppBar(
@@ -118,10 +128,18 @@ body: Center(
               ],
             ),
 
+            
             Column(
               children: <Widget>[
                 FloatingActionButton(child: Icon(FontAwesomeIcons.facebook), onPressed:facebook,backgroundColor:Color(0xff01969A),heroTag: "bt4",),
                 Text('Facebook', style: TextStyle(color: Colors.black),),
+              ],
+            ),
+
+            Column(
+              children: <Widget>[
+                FloatingActionButton(child: Icon(FontAwesomeIcons.edit), onPressed:cuestionario,backgroundColor:Color(0xff01969A),heroTag: "bt5",),
+                Text('Registro', style: TextStyle(color: Colors.black),),
               ],
             ),
              

@@ -95,7 +95,7 @@ class _MyHomePageState extends State<MyHomePages> {
  
 
 
-    @override
+    @override//Registro descarga en Android
     Future<String> checkModelAndroid() async {
        String currentLocale;
     try {
@@ -118,17 +118,15 @@ class _MyHomePageState extends State<MyHomePages> {
     );
   
   } 
-  /*
+  /*Registro descarga en iOS
   @override
     Future<String> checkModelIos() async {
-      List languages;
-    //String currentLocale;
-      
-      try {
-      languages = await Devicelocale.preferredLanguages;
-      print(languages);
+    String currentLocale;
+    try {
+      currentLocale = await Devicelocale.currentLocale;
+      print(currentLocale);
     } on PlatformException {
-      print("Error obtaining preferred languages");
+      print("Error obtaining current locale");
     }
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     IosDeviceInfo iosInfo = await deviceInfo.iosInfo;

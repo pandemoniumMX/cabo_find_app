@@ -53,6 +53,8 @@ Widget build(BuildContext context) {
      }
    }
 
+   
+
 return new Scaffold(
 appBar: new AppBar(
 title: new Text('About us'),
@@ -117,12 +119,16 @@ body: Center(
               ],
             ),
 
+            
+
             Column(
               children: <Widget>[
-                FloatingActionButton(child: Icon(FontAwesomeIcons.facebook), onPressed:facebook,backgroundColor:Color(0xff01969A),heroTag: "bt4",),
+                FloatingActionButton(child: Icon(FontAwesomeIcons.facebook), onPressed:facebook,backgroundColor:Color(0xff01969A),heroTag: "bt5",),
                 Text('Facebook', style: TextStyle(color: Colors.black),),
               ],
             ),
+
+            
              
           ],
         ),
