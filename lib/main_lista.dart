@@ -12,6 +12,7 @@ import 'package:cabofind/paginas_listas/list_promociones_grid.dart';
 import 'package:cabofind/paginas_listas/list_publicaciones_grid.dart';
 import 'package:cabofind/paginas_listas/list_recomendado.dart';
 import 'package:cabofind/paginas_listas/list_recomendado_grid.dart';
+import 'package:cabofind/paginas_listas/list_visitado.dart';
 import 'package:cabofind/utilidades/buscador.dart';
 import 'package:cabofind/utilidades/buscador_2.dart';
 import 'package:cabofind/utilidades/buscador_notap.dart';
@@ -83,7 +84,7 @@ class _MyHomePageState extends State<MyHomePages> {
       //new ImageCarousel2(),
       new Publicaciones(),
       new Promociones(),
-     // new Publicaciones(),
+     new Promociones_visitado(),
       new Recomendado(),
       new Eventos(),
 
@@ -92,7 +93,7 @@ class _MyHomePageState extends State<MyHomePages> {
     final bnbi=<BottomNavigationBarItem>[
       BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.fire,),title: Text("Inicio")),
       BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.percent,),title: Text("Promos")),
-      //BottomNavigationBarItem(icon: Icon(Icons.visibility,),title: Text("Más visto")),
+      BottomNavigationBarItem(icon: Icon(Icons.visibility,),title: Text("Más vistos")),
       BottomNavigationBarItem(icon: Icon(Icons.favorite,),title: Text("Recomendado")),
       BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.calendarWeek,),title: Text("Eventos")),
 

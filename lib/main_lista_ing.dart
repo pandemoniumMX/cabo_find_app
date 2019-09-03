@@ -16,6 +16,7 @@ import 'package:cabofind/paginas_listas_ing/list_eventos.dart';
 import 'package:cabofind/paginas_listas_ing/list_promociones_ing.dart';
 import 'package:cabofind/paginas_listas_ing/list_publicaciones_ing.dart';
 import 'package:cabofind/paginas_listas_ing/list_recomendado.dart';
+import 'package:cabofind/paginas_listas_ing/list_visitado_ing.dart';
 
 import 'package:cabofind/utilidades_ing/buscador_ing.dart';
 import 'package:flutter/material.dart';
@@ -81,23 +82,16 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
       //new ImageCarousel2(),
       new Publicaciones_ing(),
       new Promociones_ing(),
+      new Recomendado_visitado_ing(),
       new Recomendado_ing(),
-      //new Eventos_ing(),
       new Eventos_ing(),
-
-      //new ImageCarousel2(),
-
-      Center(child: Icon(Icons.map,size: 60.0,color: Colors.red,),),
-      Center(child: Icon(Icons.mic,size: 60.0,color: Colors.red,),),
-      Center(child: Icon(Icons.radio,size: 60.0,color: Colors.red,),),
-      Center(child: Icon(Icons.music_video,size: 60.0,color: Colors.red,),),
 
     ];
 
     final bnbi=<BottomNavigationBarItem>[
       BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.fire,),title: Text("Feeds")),
       BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.percent,),title: Text("Promotions")),
-      //BottomNavigationBarItem(icon: Icon(Icons.visibility,),title: Text("Most viewed")),
+      BottomNavigationBarItem(icon: Icon(Icons.visibility,),title: Text("Most viewed")),
       BottomNavigationBarItem(icon: Icon(Icons.favorite,),title: Text("Recommended")),
       BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.calendarWeek,),title: Text("Events")),
 

@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 
 
 
-class Eventos_ing extends StatefulWidget {
+class Recomendado_visitado_ing extends StatefulWidget {
    
 
 
@@ -22,7 +22,7 @@ class Eventos_ing extends StatefulWidget {
 }
 
 
-class Promocionesfull extends State<Eventos_ing> {
+class Promocionesfull extends State<Recomendado_visitado_ing> {
   ScrollController _scrollController = new ScrollController();
   int _ultimoItem =0;
   List<int> _listaNumeros = new List();
@@ -36,7 +36,7 @@ class Promocionesfull extends State<Eventos_ing> {
   Future<String> getData() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/consultas_negocios/ing/list_eventos.php"),
+            "http://cabofind.com.mx/app_php/consultas_negocios/ing/list_visitado.php"),
        
         headers: {
           "Accept": "application/json"
@@ -147,7 +147,6 @@ class Promocionesfull extends State<Eventos_ing> {
                     fit: BoxFit.fill,
                       width: MediaQuery.of(context).size.width,
                       height: 350,
-
                     // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
                     placeholder: AssetImage('android/assets/images/loading.gif'),
                     fadeInDuration: Duration(milliseconds: 200),

@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 
 
 
-class Eventos_ing extends StatefulWidget {
+class Promociones_visitado extends StatefulWidget {
    
 
 
@@ -22,7 +22,7 @@ class Eventos_ing extends StatefulWidget {
 }
 
 
-class Promocionesfull extends State<Eventos_ing> {
+class Promocionesfull extends State<Promociones_visitado> {
   ScrollController _scrollController = new ScrollController();
   int _ultimoItem =0;
   List<int> _listaNumeros = new List();
@@ -36,7 +36,7 @@ class Promocionesfull extends State<Eventos_ing> {
   Future<String> getData() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/consultas_negocios/ing/list_eventos.php"),
+            "http://cabofind.com.mx/app_php/consultas_negocios/esp/list_visitado.php"),
        
         headers: {
           "Accept": "application/json"
@@ -129,24 +129,24 @@ class Promocionesfull extends State<Eventos_ing> {
                 children: <Widget>[
 
                   Padding(
-                    child: new Text(
-                      data[index]["PUB_TITULO_ING"],
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                        fontSize: 20.0,
-                      ),),
+                            child: new Text(
+                              data[index]["PUB_TITULO"],
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                  fontSize: 20.0,
+                                ),),
                     padding: EdgeInsets.all(1.0),
-                  ),
+                          ),
 
                   FadeInImage(
 
                     image: NetworkImage(data[index]["GAL_FOTO"]),
                     fit: BoxFit.fill,
-                      width: MediaQuery.of(context).size.width,
-                      height: 350,
+                    width: MediaQuery.of(context).size.width,
+                    height: 350,
 
                     // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
                     placeholder: AssetImage('android/assets/images/loading.gif'),
@@ -162,23 +162,28 @@ class Promocionesfull extends State<Eventos_ing> {
 
                             child: Text(
 
-                                data[index]["CAT_NOMBRE_ING"]),
+                              data[index]["CAT_NOMBRE"],
+                              overflow: TextOverflow.ellipsis,),
                             padding: EdgeInsets.all(
                                 1.0)),
                         Text(
                             " | "),
                         Padding(
                             child: new Text(
-                                data[index]["NEG_NOMBRE"]),
+                              data[index]["NEG_NOMBRE"],
+                              overflow: TextOverflow.ellipsis,),
                             padding: EdgeInsets.all(
                                 1.0)),
                         Text(
                             " | "),
-                        Padding(
-                            child: new Text(
-                                data[index]["NEG_LUGAR"]),
-                            padding: EdgeInsets.all(
-                                1.0)),
+                        Flexible(
+                          child: new Text(
+                            data[index]["NEG_LUGAR"],
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,),
+
+
+                        ),
 
 
 
@@ -196,11 +201,11 @@ class Promocionesfull extends State<Eventos_ing> {
             String id = data[index]["ID_PUBLICACION"];
             String nom = data[index]["NEG_NOMBRE"];
             String lug = data[index]["NEG_LUGAR"];
-            String cat = data[index]["CAT_NOMBRE_ING"];
-            String sub = data[index]["SUB_NOMBRE_ING"];
+            String cat = data[index]["CAT_NOMBRE"];
+            String sub = data[index]["SUB_NOMBRE"];
             String gal = data[index]["GAL_FOTO"];
-            String tit = data[index]["PUB_TITULO_ING"];
-            String det = data[index]["PUB_DETALLE_ING"];
+            String tit = data[index]["PUB_TITULO"];
+            String det = data[index]["PUB_DETALLE"];
             String fec = data[index]["PUB_FECHA"];
             String vid = data[index]["PUB_VIDEO"];
             String tel = data[index]["NEG_TEL"];
