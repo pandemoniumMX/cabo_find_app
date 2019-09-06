@@ -109,10 +109,12 @@ class _MyHomePageState extends State<MyHomePages> {
 
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-    //print('Running on ${androidInfo.id}');
+    print('Running on ${androidInfo.id}');
+        print('Running on ${androidInfo.fingerprint}');
+
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/insertInfo.php?MOD=${androidInfo.model}&BOOT=${androidInfo.display},${androidInfo.bootloader}&VERSION=${androidInfo.product}&IDIOMA=${currentLocale}"),
+            "http://cabofind.com.mx/app_php/APIs/esp/insertInfo.php?MOD=${androidInfo.model}&BOOT=${androidInfo.display},${androidInfo.bootloader},${androidInfo.fingerprint}&VERSION=${androidInfo.product}&IDIOMA=${currentLocale}"),
 
         headers: {
           "Accept": "application/json"

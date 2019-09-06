@@ -125,7 +125,7 @@ Future<String> insertPublicacionAndroid() async {
     var response = await http.get(
         Uri.encodeFull(
             //"http://cabofind.com.mx/app_php/APIs/esp/insert_visita_publicacion.php?ID=${widget.publicacion.id}"),
-            "http://cabofind.com.mx/app_php/APIs/ing/insert_visita_publicacion.php?MOD=${androidInfo.model}&BOOT=${androidInfo.display},${androidInfo.bootloader}&VERSION=${androidInfo.product}&IDIOMA=${currentLocale}&ID=${widget.publicacion.id}&SO=Android"),
+            "http://cabofind.com.mx/app_php/APIs/ing/insert_visita_publicacion.php?MOD=${androidInfo.model}&BOOT=${androidInfo.display},${androidInfo.bootloader},${androidInfo.fingerprint}&VERSION=${androidInfo.product}&IDIOMA=${currentLocale}&ID=${widget.publicacion.id}&SO=Android"),
 
           //"http://cabofind.com.mx/app_php/list_negocios.php?"),
 
