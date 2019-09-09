@@ -30,7 +30,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:device_info/device_info.dart';
 import 'package:devicelocale/devicelocale.dart';
-
+//import 'package:geocoder/geocoder.dart';
+//import 'package:geolocator/geolocator.dart';
 
 
 
@@ -148,7 +149,17 @@ class _MyHomePageState extends State<MyHomePages> {
 */
 
 
-
+/*
+    _getLocation() async
+      {
+        Position position = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+        debugPrint('location: ${position.latitude}');
+        final coordinates = new Coordinates(position.latitude, position.longitude);
+        var addresses = await Geocoder.local.findAddressesFromCoordinates(coordinates);
+        var first = addresses.first;
+        print("${first.featureName} : ${first.addressLine}");
+      }
+*/
 
  @override
   void initState() {
@@ -157,6 +168,7 @@ class _MyHomePageState extends State<MyHomePages> {
     );
     //this.checkModelIos();
     this.checkModelAndroid();
+    ///this._getLocation();
   
 
 

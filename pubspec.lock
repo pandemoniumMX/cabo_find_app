@@ -96,7 +96,7 @@ packages:
       name: flutter_launcher_icons
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.7.2+1"
+    version: "0.7.3"
   flutter_localizations:
     dependency: "direct main"
     description: flutter
@@ -128,6 +128,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  fluttertoast:
+    dependency: "direct main"
+    description:
+      name: fluttertoast
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.1.3"
   font_awesome_flutter:
     dependency: "direct main"
     description:

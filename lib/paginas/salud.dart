@@ -1,4 +1,5 @@
 
+import 'package:cabofind/paginas_listas/list_sal_belleza.dart';
 import 'package:cabofind/paginas_listas/list_sal_emergencia.dart';
 import 'package:cabofind/paginas_listas/list_sal_especialidades.dart';
 import 'package:cabofind/paginas_listas/list_sal_farmacias.dart';
@@ -20,14 +21,16 @@ Widget build(BuildContext context) {
     new ListaHospitales(),
     new ListaEspecialidades(),
     new ListaFarmacias(),
+    new ListaBelleza(),
     new ListaGimnasios(),
     new ListaEmergencia(),
   ];
 
   final bnbi=<BottomNavigationBarItem>[
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.hospital,),title: Text("Hospitales")),    
-    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.hospitalSymbol,),title: Text("Especialidades")),
+    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.hospitalSymbol,),title: Text("Consultorios")),
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.pills,),title: Text("Farmacias")),
+    BottomNavigationBarItem(icon: Icon(Icons.face,),title: Text("Belleza")),
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.dumbbell,),title: Text("Gimnasios")),
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.ambulance,),title: Text("Emergencia")),
 

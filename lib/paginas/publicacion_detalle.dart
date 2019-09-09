@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 
 
@@ -87,6 +88,34 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
 
     return "Success!";
   }
+
+  Future<String> insertRecomendacion() async {
+    
+       String currentLocale;
+    try {
+      currentLocale = await Devicelocale.currentLocale;
+      print(currentLocale);
+    } on PlatformException {
+      print("Error obtaining current locale");
+    }
+
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+    print('Running on ${androidInfo.id}');
+        print('Running on ${androidInfo.fingerprint}');
+
+    var response = await http.get(
+        Uri.encodeFull(
+            "http://cabofind.com.mx/app_php/APIs/esp/insert_recomendacion_publicacion.php?MOD=${androidInfo.model}&BOOT=${androidInfo.display},${androidInfo.bootloader},${androidInfo.fingerprint}&VERSION=${androidInfo.product}&IDIOMA=${currentLocale},&ID=${widget.publicacion.id}&SO=Android"),
+
+        headers: {
+          "Accept": "application/json"
+        }
+    );
+  
+  }
+
+
 
 //contador visita publicacion Android
   Future<String> insertPublicacionAndroid() async {
@@ -190,6 +219,14 @@ Future<String> insertPublicacioniOS() async {
 
   Widget build(BuildContext context){
 
+    void showShortToast() {
+      Fluttertoast.showToast(
+          msg: "Has recomendado esta publicación",
+          toastLength: Toast.LENGTH_SHORT,
+          backgroundColor: Colors.blue,
+          textColor: Colors.white,
+          timeInSecForIos: 1);
+    }
 
     Widget publicaciones =  Container(
 
@@ -360,9 +397,32 @@ Future<String> insertPublicacioniOS() async {
 
         body: ListView(
           //scrollDirection: Axis.horizontal,
-          children: [
-            Image.network(widget.publicacion.logo
-                ,width: MediaQuery.of(context).size.width,height: 300,fit: BoxFit.fill ),
+          children: [           
+         
+                Stack(
+                children: <Widget>[
+
+                   Image.network(widget.publicacion.logo
+                ,width: MediaQuery.of(context).size.width,height: 300,fit: BoxFit.fill ),              
+                Positioned(
+                        right: 0.0,
+                        bottom: 240.0,
+                        child: new FloatingActionButton(
+                          child: new Image.asset(
+                        "assets/rating.png",
+                        fit: BoxFit.cover,
+                        width: 50.0,
+                        height: 50.0,
+
+                      ),
+                          backgroundColor: Colors.black,
+                           onPressed: (){showShortToast();insertRecomendacion();},
+
+                        ),
+                      ),
+                            ]
+              ),
+                
             //Image.asset('android/assets/images/img1.jpg',width: 600,height: 240,fit: BoxFit.cover,),
             //loading,
             //titleSection,
