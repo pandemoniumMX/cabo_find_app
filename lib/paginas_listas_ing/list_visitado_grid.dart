@@ -105,7 +105,7 @@ class Publicacionesfull extends State<Publicaciones_vistos_grid_ing> {
                 image: NetworkImage(data[index]["GAL_FOTO"]),
                 fit: BoxFit.cover,
                 width: MediaQuery.of(context).size.width,
-                height: 250,
+                height: MediaQuery.of(context).size.height * 0.38,
 
                 // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
                 placeholder: AssetImage('android/assets/images/loading.gif'),

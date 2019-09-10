@@ -1,19 +1,19 @@
-LUNES....................8AM-8PM
-MARTES.................8AM-8PM
-MIERCOLES...........8AM-8PM
-JUEVES..................8AM-8PM
-VIERNES................8AM-8PM
-SABADO.................8AM-8PM
-DOMINGO..............8AM-8PM
+LUNES....................9AM-8PM
+MARTES.................9AM-8PM
+MIERCOLES...........9AM-8PM
+JUEVES..................9AM-8PM
+VIERNES................9AM-8PM
+SABADO.................9AM-8PM
+DOMINGO..............Cerrado
 
 
-MONDAY..................8AM-8PM
-TUESDAY..................8AM-8PM
-WEDNESDAY...........8AM-8PM
-THURSDAY..............8AM-8PM
-FRIDAY....................8AM-8PM
-SATURDAY..............8AM-8PM
-SUNDAY..................8AM-8PM
+MONDAY..................9AM-8PM
+TUESDAY..................9AM-8PM
+WEDNESDAY...........9AM-8PM
+THURSDAY..............9AM-8PM
+FRIDAY....................9AM-8PM
+SATURDAY..............9AM-8PM
+SUNDAY..................Close
 
 http://cabofind.com.mx/assets/galeria/empresas/8/logo.jpg
 

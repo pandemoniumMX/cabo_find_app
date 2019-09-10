@@ -214,10 +214,8 @@ Future<String> insertPublicacioniOS() async {
           timeInSecForIos: 1);
     }
     
-    Widget publicaciones =  Container(
-
-      child:  ListView.builder(
-        shrinkWrap: false,
+    Widget publicaciones =  ListView.builder(
+        shrinkWrap: true,
         physics: BouncingScrollPhysics(),
         itemCount: data == null ? 0 : data.length,
         itemBuilder: (BuildContext context, int index) {
@@ -371,7 +369,7 @@ Future<String> insertPublicacioniOS() async {
           );
 
         },
-      ),
+      
     );
 
 
@@ -407,11 +405,11 @@ Future<String> insertPublicacioniOS() async {
                             ]
               ),
 
-              Container(
-               child: publicaciones,
-               height: 550.0,
-               //height: MediaQuery.of(context).size.height+550,
-             )
+              Column(
+              children: <Widget>[publicaciones],
+             // height:1000.0,
+
+            )
 
 
 

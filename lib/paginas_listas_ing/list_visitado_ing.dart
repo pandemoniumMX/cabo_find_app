@@ -173,11 +173,14 @@ class Promocionesfull extends State<Recomendado_visitado_ing> {
                                 1.0)),
                         Text(
                             " | "),
-                        Padding(
-                            child: new Text(
-                                data[index]["NEG_LUGAR"]),
-                            padding: EdgeInsets.all(
-                                1.0)),
+                        Flexible(
+                        child: new Text(
+                        data[index]["NEG_LUGAR"],
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,),
+
+
+                    ),
 
 
 
