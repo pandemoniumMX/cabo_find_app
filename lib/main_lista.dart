@@ -3,6 +3,7 @@ import 'package:cabofind/main.dart';
 import 'package:cabofind/main_ing.dart';
 import 'package:cabofind/main_lista_ing.dart';
 import 'package:cabofind/paginas/descubre.dart';
+import 'package:cabofind/paginas/educacion.dart';
 import 'package:cabofind/paginas/salud.dart';
 import 'package:cabofind/paginas/youtube.dart';
 import 'package:cabofind/paginas_listas/list_eventos.dart';
@@ -285,7 +286,7 @@ class _MyHomePageState extends State<MyHomePages> {
                 Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (BuildContext context) => new Salud()));
+                        builder: (BuildContext context) => new Educacion()));
               },
             ),
             new ListTile(

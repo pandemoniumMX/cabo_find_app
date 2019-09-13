@@ -7,6 +7,7 @@ import 'package:cabofind/paginas/youtube.dart';
 import 'package:cabofind/paginas_ing/acercade.dart';
 import 'package:cabofind/paginas_ing/compras.dart';
 import 'package:cabofind/paginas_ing/descubre.dart';
+import 'package:cabofind/paginas_ing/educacion.dart';
 import 'package:cabofind/paginas_ing/restaurantes.dart';
 import 'package:cabofind/paginas_ing/salud.dart';
 import 'package:cabofind/paginas_ing/servicios.dart';
@@ -312,7 +313,7 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
                 Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (BuildContext context) => new Salud_ing()));
+                        builder: (BuildContext context) => new Educacion_ing()));
               },
             ),
 

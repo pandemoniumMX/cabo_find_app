@@ -64,11 +64,11 @@ List databaja;
 
     this.setState(
             () {
-          data = json.decode(
+          databaja = json.decode(
               response.body);
         });
     print(
-        data[0]["NEG_NOMBRE"]);
+        databaja[0]["NEG_NOMBRE"]);
 
 
     return "Success!";
@@ -146,13 +146,13 @@ void dispose() {
                         bottom: 160.0,
                         child: new FloatingActionButton(
                           child: new Image.asset(
-                        "assets/premium.png",
+                        "assets/premium1.png",
                         fit: BoxFit.cover,
                         width: 50.0,
                         height: 50.0,
 
                       ),
-                          backgroundColor: Colors.white,
+                          backgroundColor: Colors.transparent,
                            onPressed: (){},
 
                         ),
