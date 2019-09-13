@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:cabofind/main_ing.dart';
 import 'package:cabofind/main_lista.dart';
 import 'package:cabofind/paginas/descubre.dart';
+import 'package:cabofind/paginas/educacion.dart';
 import 'package:cabofind/paginas/salud.dart';
 import 'package:cabofind/paginas/youtube.dart';
 import 'package:cabofind/paginas_listas/list_eventos_grid.dart';
@@ -378,6 +379,20 @@ class _MyHomePageState extends State<MyHomePages> {
                         builder: (BuildContext context) => new Salud()));
               },
             ),
+
+            new ListTile(
+              title: new Text('Educación'),
+              leading: Icon(FontAwesomeIcons.graduationCap),
+
+              onTap: () {
+                Navigator.of(context).pop();
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Educacion()));
+              },
+            ),
+
             new ListTile(
               title: new Text('Acerca de nosotros'),
               leading: Icon(Icons.record_voice_over),

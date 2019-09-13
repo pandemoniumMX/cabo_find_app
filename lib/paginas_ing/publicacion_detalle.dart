@@ -385,10 +385,10 @@ Future<String> insertPublicacioniOS() async {
                 children: <Widget>[
 
                    Image.network(widget.publicacion.logo
-                ,width: MediaQuery.of(context).size.width,height: 300,fit: BoxFit.fill ),              
+                ,width: MediaQuery.of(context).size.width,height: 450,fit: BoxFit.fill ),              
                 Positioned(
                         right: 0.0,
-                        bottom: 240.0,
+                        bottom: 390.0,
                         child: new FloatingActionButton(
                           child: new Image.asset(
                         "assets/rating.png",

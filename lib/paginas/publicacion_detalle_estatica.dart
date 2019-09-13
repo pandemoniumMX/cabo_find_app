@@ -2,6 +2,10 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:cabofind/paginas/empresa_detalle.dart';
 import 'package:cabofind/paginas_listas/list_publicaciones.dart';
+import 'package:device_info/device_info.dart';
+import 'package:devicelocale/devicelocale.dart';
+import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 //import 'package:custom_chewie/custom_chewie.dart';
 import 'package:http/http.dart' as http;
 import 'package:cabofind/utilidades/classes.dart';
@@ -105,6 +109,61 @@ class _Publicacion_detalle_fin_estatica extends State<Publicacion_detalle_fin_es
 
 
 
+ Future<String> insertRecomendacion() async {
+    
+       String currentLocale;
+    try {
+      currentLocale = await Devicelocale.currentLocale;
+      print(currentLocale);
+    } on PlatformException {
+      print("Error obtaining current locale");
+    }
+
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+    print('Running on ${androidInfo.id}');
+        print('Running on ${androidInfo.fingerprint}');
+
+    var response = await http.get(
+        Uri.encodeFull(
+            "http://cabofind.com.mx/app_php/APIs/ing/insert_recomendacion_publicacion.php?MOD=${androidInfo.model}&BOOT=${androidInfo.display},${androidInfo.bootloader},${androidInfo.fingerprint}&VERSION=${androidInfo.product}&IDIOMA=${currentLocale},&ID=${widget.publicacion.id}&SO=Android"),
+
+        headers: {
+          "Accept": "application/json"
+        }
+    );
+  
+  }
+
+  /*
+Future<String> insertRecomendacion() async {
+    
+      String currentLocale;
+    try {
+      currentLocale = await Devicelocale.currentLocale;
+      print(currentLocale);
+    } on PlatformException {
+      print("Error obtaining current locale");
+    }
+
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
+    //print('Running on ${iosInfo.identifierForVendor}');
+    var response = await http.get(
+        Uri.encodeFull(
+            "http://cabofind.com.mx/app_php/APIs/esp/insert_recomendacion_publicacion.php?MOD=${iosInfo.model}&BOOT=${iosInfo.utsname.nodename},${iosInfo.utsname.sysname}&VERSION=${iosInfo.systemName}&IDIOMA=${currentLocale}&ID=${widget.publicacion.id}&SO=iOS"),
+
+        headers: {
+          "Accept": "application/json"
+        }
+    );
+  
+  }
+  */
+
+
+
+
   @override
   void initState() {
     super.initState(
@@ -123,12 +182,18 @@ class _Publicacion_detalle_fin_estatica extends State<Publicacion_detalle_fin_es
   @override
 
   Widget build(BuildContext context){
+    
+void showShortToast() {
+      Fluttertoast.showToast(
+          msg: "You have recommended this publication",
+          toastLength: Toast.LENGTH_SHORT,
+          backgroundColor: Colors.blue,
+          textColor: Colors.white,
+          timeInSecForIos: 1);
+    }
 
-
-    Widget publicaciones =  Container(
-
-      child:  ListView.builder(
-        shrinkWrap: false,
+    Widget publicaciones =   ListView.builder(
+        shrinkWrap: true,
         physics: BouncingScrollPhysics(),
         itemCount: data == null ? 0 : data.length,
         itemBuilder: (BuildContext context, int index) {
@@ -244,7 +309,7 @@ class _Publicacion_detalle_fin_estatica extends State<Publicacion_detalle_fin_es
           );
 
         },
-      ),
+      
     );
 
 
@@ -256,18 +321,34 @@ class _Publicacion_detalle_fin_estatica extends State<Publicacion_detalle_fin_es
         body: ListView(
           //scrollDirection: Axis.horizontal,
           children: [
-            Image.network(widget.publicacion.logo
-                ,width: MediaQuery.of(context).size.width,height: 300,fit: BoxFit.fill ),
-            //Image.asset('android/assets/images/img1.jpg',width: 600,height: 240,fit: BoxFit.cover,),
-            //loading,
-            //titleSection,
-            //textSection,
-            //video,
-             //boton,
-             Container(
-               child: publicaciones,
-               height: 550.0,
-             )
+            Stack(
+                children: <Widget>[
+
+                   Image.network(widget.publicacion.logo
+                ,width: MediaQuery.of(context).size.width,height: 450,fit: BoxFit.fill ),              
+                Positioned(
+                        right: 0.0,
+                        bottom: 390.0,
+                        child: new FloatingActionButton(
+                          child: new Image.asset(
+                        "assets/rating.png",
+                        fit: BoxFit.cover,
+                        width: 50.0,
+                        height: 50.0,
+
+                      ),
+                          backgroundColor: Colors.black,
+                           onPressed: (){showShortToast();insertRecomendacion();},
+
+                        ),
+                      ),
+                            ]
+              ),
+             Column(
+              children: <Widget>[publicaciones],
+             // height:1000.0,
+
+            )
 
 
 

@@ -277,6 +277,18 @@ class _MyHomePageState extends State<MyHomePages> {
               },
             ),
             new ListTile(
+              title: new Text('Educación'),
+              leading: Icon(FontAwesomeIcons.graduationCap),
+
+              onTap: () {
+                Navigator.of(context).pop();
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Salud()));
+              },
+            ),
+            new ListTile(
               title: new Text('Acerca de nosotros'),
               leading: Icon(Icons.record_voice_over),
 

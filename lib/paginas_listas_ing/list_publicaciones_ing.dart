@@ -29,6 +29,7 @@ class _Publicaciones_ing extends State<Publicaciones_ing> {
   List<int> _listaNumeros = new List();
   
   List data;
+List databaja;
   List data_n;
   List data_c;
 

@@ -29,6 +29,7 @@ class Publicacionesfull extends State<Promociones_visitado_grid> {
   List<int> _listaNumeros = new List();
 
   List data;
+List databaja;
   List data_n;
   List data_c;
 

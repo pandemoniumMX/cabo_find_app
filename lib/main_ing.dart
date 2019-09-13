@@ -302,6 +302,20 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
                         builder: (BuildContext context) => new Salud_ing()));
               },
             ),
+
+            new ListTile(
+              title: new Text('Education'),
+              leading: Icon(FontAwesomeIcons.graduationCap),
+
+              onTap: () {
+                Navigator.of(context).pop();
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Salud_ing()));
+              },
+            ),
+
             new ListTile(
               title: new Text('About us'),
               leading: Icon(Icons.record_voice_over),

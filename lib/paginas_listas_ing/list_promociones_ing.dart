@@ -29,6 +29,7 @@ class _Promociones_ing extends State<Promociones_ing> {
   List<int> _listaNumeros = new List();
   
   List data;
+List databaja;
   List data_n;
   List data_c;
 
