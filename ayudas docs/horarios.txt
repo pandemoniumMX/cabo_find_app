@@ -1,16 +1,16 @@
-LUNES....................9AM-8PM
-MARTES.................9AM-8PM
-MIERCOLES...........9AM-8PM
-JUEVES..................9AM-8PM
-VIERNES................9AM-8PM
-SABADO.................9AM-8PM
-DOMINGO..............Cerrado
+LUNES....................4PM-11PM
+MARTES.................4PM-11PM
+MIERCOLES...........4PM-11PM
+JUEVES..................4PM-11PM
+VIERNES................4PM-11PM
+SABADO.................4PM-11PM
+DOMINGO..............4PM-11PM
 
 
-MONDAY..................9AM-8PM
-TUESDAY..................9AM-8PM
-WEDNESDAY...........9AM-8PM
-THURSDAY..............9AM-8PM
-FRIDAY....................9AM-8PM
-SATURDAY..............9AM-8PM
-SUNDAY..................Close
+MONDAY..................4PM-11PM
+TUESDAY..................4PM-11PM
+WEDNESDAY...........4PM-11PM
+THURSDAY..............4PM-11PM
+FRIDAY....................4PM-11PM
+SATURDAY..............4PM-11PM
+SUNDAY..................4PM-11PM
