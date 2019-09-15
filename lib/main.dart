@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'package:cabofind/main_ing.dart';
 import 'package:cabofind/main_lista.dart';
+import 'package:cabofind/notificaciones/push_publicacion_android.dart';
 import 'package:cabofind/paginas/descubre.dart';
 import 'package:cabofind/paginas/educacion.dart';
+import 'package:cabofind/paginas/publicacion_detalle_push.dart';
 import 'package:cabofind/paginas/salud.dart';
 import 'package:cabofind/paginas/youtube.dart';
 import 'package:cabofind/paginas_listas/list_eventos_grid.dart';
@@ -31,25 +33,34 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:device_info/device_info.dart';
 import 'package:devicelocale/devicelocale.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 //import 'package:geocoder/geocoder.dart';
 //import 'package:geolocator/geolocator.dart';
 
 
 
+FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
+void fcmSubscribe() {
+    _firebaseMessaging.subscribeToTopic('Todos');
+  }
+void main() => runApp(new Myapp());
 
-
-void main() => runApp(new MyApp());
-
-class MyApp extends StatelessWidget {
+class Myapp extends StatelessWidget {
   // This widget is the root of your application.
+    final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
+
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
+      navigatorKey: navigatorKey,
+
+      routes: {
+        'publicacionx' : (BuildContext context) => Publicacion_detalle_fin_push(),
+      },
         debugShowCheckedModeBanner:false,
         theme: ThemeData(
           primarySwatch: Colors.blue,
-          //primaryColor: Color(0xff01969a)
           primaryColor: Colors.blue,
           accentColor: Colors.black26,
         ),
@@ -63,35 +74,21 @@ class MyApp extends StatelessWidget {
   }
 }
 
+
+
 class MyHomePages extends StatefulWidget {
   @override
   _MyHomePageState createState() => new _MyHomePageState();
 
 
 }
-  @override
-
-
-  
-
-
-
-class ImeiPlugin {
-  static const MethodChannel _channel = const MethodChannel('imei_plugin');
-
-  // get imei android device @return String or null
-  static Future<String> get getImei async {
-    final String version = await _channel.invokeMethod('getImei');
-    print('Running on ${version}');
-    return version;
-  }
-
-}
 
 
 
 class _MyHomePageState extends State<MyHomePages> {
- // Icon idioma_ing = new Icon(FontAwesomeIcons.flagUsa);
+
+
+
 
   Icon actionIcon = new Icon(Icons.search);
 
@@ -162,12 +159,27 @@ class _MyHomePageState extends State<MyHomePages> {
         print("${first.featureName} : ${first.addressLine}");
       }
 */
+  final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
 
  @override
   void initState() {
-    super.initState(
+    super.initState();
+    fcmSubscribe();    
+    final pushpub = new PushNotificationPubAndroid();
+    pushpub.initNotifications();
 
-    );
+    pushpub.mensajes.listen( (data) {
+
+      // Navigator.pushNamed(context, 'mensaje');
+      print('Argumento del Push');
+      print(data);
+
+      //navigatorKey.currentState.pushNamed('Publicacion_detalle_fin_push', arguments: data );
+      navigatorKey.currentState.pushNamed('publicacionx', arguments: data );
+      
+              
+    });
+    
     //this.checkModelIos();
     this.checkModelAndroid();
     ///this._getLocation();
@@ -177,6 +189,28 @@ class _MyHomePageState extends State<MyHomePages> {
   }
 
   Widget build(BuildContext context) {
+    /*
+    return new MaterialApp(
+      navigatorKey: navigatorKey,
+
+      routes: {
+        'publicacionx' : (BuildContext context) => Publicacion_detalle_fin_push(),
+      },
+        debugShowCheckedModeBanner:false,
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          //primaryColor: Color(0xff01969a)
+          primaryColor: Colors.blue,
+          accentColor: Colors.black26,
+        ),
+        home: new Container(
+            child:           new MyHomePages()
+        )
+
+
+
+    );
+    */
    // new Publicaciones();
 
     final tabpages=<Widget>[

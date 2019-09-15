@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "834898574094",
+    "firebase_url": "https://cabofind-push.firebaseio.com",
+    "project_id": "cabofind-push",
+    "storage_bucket": "cabofind-push.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:834898574094:android:5c3c46138009f6982eb55f",
+        "android_client_info": {
+          "package_name": "com.israel.cabofind"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "834898574094-2ihmui9b4hudphnhai47ggnbq8jhkndb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDKX9YFxXAIDj5Y0dMtPKV97HvJK65eK2A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "834898574094-2ihmui9b4hudphnhai47ggnbq8jhkndb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

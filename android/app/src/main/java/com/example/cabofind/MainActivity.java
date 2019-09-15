@@ -1,4 +1,4 @@
-package com.example.cabofind;
+package com.israel.cabofind;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;
