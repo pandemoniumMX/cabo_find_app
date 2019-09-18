@@ -133,22 +133,20 @@ List databaja;
                     Row(
                         children: <Widget>[
 
-                          Padding(
+                          Flexible(
 
                               child: Text(
 
                                   data[index]["CAT_NOMBRE"],
                                 overflow: TextOverflow.ellipsis,),
-                              padding: EdgeInsets.all(
-                                  1.0)),
+                              ),
                           Text(
                               " | "),
-                          Padding(
+                          Flexible(
                               child: new Text(
                                   data[index]["NEG_NOMBRE"],
                                 overflow: TextOverflow.ellipsis,),
-                              padding: EdgeInsets.all(
-                                  1.0)),
+                              ),
                           Text(
                               " | "),
                           Flexible(

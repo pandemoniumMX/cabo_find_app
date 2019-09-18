@@ -74,19 +74,24 @@ class Publicacionesfull extends State<Publicaciones_grid> {
       return new Scaffold(
 
     body: Container(
-     // height: MediaQuery.of(context).size.height,
+      //height: 1000.0,
     child: new  StaggeredGridView.countBuilder(
+      shrinkWrap: true,
+      physics: BouncingScrollPhysics(),
       crossAxisCount: 4,
       itemCount:data == null ? 0 : data.length,
       itemBuilder: (BuildContext context, int index) => new Container(
+        //height: 1000.0,
           //color: Colors.white,
         child: InkWell(
+
                   child: Column(
+
 
             children: <Widget>[
 
 
-              Padding(
+              Flexible(
                 child: new Text(
                   data[index]["PUB_TITULO"],
                   overflow: TextOverflow.ellipsis,
@@ -96,7 +101,6 @@ class Publicacionesfull extends State<Publicaciones_grid> {
                     color: Colors.black,
                     fontSize: 20.0,
                   ),),
-                padding: EdgeInsets.all(1.0),
               ),
 
               FadeInImage(
@@ -104,8 +108,8 @@ class Publicacionesfull extends State<Publicaciones_grid> {
                 image: NetworkImage(data[index]["GAL_FOTO"]),
                 fit: BoxFit.cover,
                 width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height * 0.38,
-
+                height: MediaQuery.of(context).size.height / 2.8,
+                //height: 230.0,
                 // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
                 placeholder: AssetImage('android/assets/images/loading.gif'),
                 fadeInDuration: Duration(milliseconds: 200),
@@ -117,12 +121,11 @@ class Publicacionesfull extends State<Publicaciones_grid> {
                   children: <Widget>[
 
 
-                    Padding(
+                    Flexible(
                         child: new Text(
                           data[index]["NEG_NOMBRE"],
                           overflow: TextOverflow.ellipsis,),
-                        padding: EdgeInsets.all(
-                            1.0)),
+                        ),
                     Text(
                         " | "),
                     Flexible(
@@ -174,6 +177,7 @@ class Publicacionesfull extends State<Publicaciones_grid> {
       mainAxisSpacing: 4.0,
       crossAxisSpacing: 4.0,
     ),
+
 
     ),
 

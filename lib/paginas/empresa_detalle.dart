@@ -59,8 +59,7 @@ class Detalles extends State<Empresa_det_fin> {
           data = json.decode(
               response.body);
         });
-    print(
-        data[0]["CAR_NOMBRE"]);
+
 
     return "Success!";
   }
@@ -85,8 +84,7 @@ class Detalles extends State<Empresa_det_fin> {
               data1 = json.decode(
               response.body);
         });
-    print(
-        data1[0]["SERV_NOMBRE"]);
+
 
     return "Success!";
   }
@@ -111,8 +109,7 @@ class Detalles extends State<Empresa_det_fin> {
               data_hor = json.decode(
               response.body);
         });
-    print(
-        data_hor[0]["NEG_HORARIO"]);
+
 
     return "Success!";
   }
@@ -135,12 +132,12 @@ class Detalles extends State<Empresa_det_fin> {
           data_list = json.decode(
               response.body);
         });
-    print(
-        data_list[0]["NEG_LUGAR"]);
+
 
     return "Success!";
   }
 //contador de visitas android
+/*
 Future<String> insertVisitaAndroid() async {
     String currentLocale;
     try {
@@ -164,7 +161,7 @@ Future<String> insertVisitaAndroid() async {
         }
     );
 }
-/*
+*/
 Future<String> insertVisitaiOS() async {
     String currentLocale;
     try {
@@ -180,7 +177,7 @@ Future<String> insertVisitaiOS() async {
     var response = await http.get(
         Uri.encodeFull(
            // "http://cabofind.com.mx/app_php/APIs/esp/insert_visita_negocio.php?ID=${widget.empresa.id_nm}"),
-            "http://cabofind.com.mx/app_php/APIs/esp/insert_visita_negocio.php?MOD=${iosInfo.model}&BOOT=${iosInfo.utsname.nodename},${iosInfo.utsname.sysname}&VERSION=${iosInfo.systemName}&IDIOMA=$esp&ID=${widget.empresa.id_nm}&SO=iOS"),
+            "http://cabofind.com.mx/app_php/APIs/esp/insert_visita_negocio.php?MOD=${iosInfo.model}&BOOT=${iosInfo.utsname.nodename},${iosInfo.utsname.sysname}&VERSION=${iosInfo.systemName}&IDIOMA=esp&ID=${widget.empresa.id_nm}&SO=iOS"),
 
 
         headers: {
@@ -188,7 +185,7 @@ Future<String> insertVisitaiOS() async {
         }
     );
 }
-*/
+
    Future<String> getCarrusel() async {
     var response = await http.get(
         Uri.encodeFull(
@@ -208,8 +205,7 @@ Future<String> insertVisitaiOS() async {
         });
 
 
-    print(
-        data_carrusel[0]["negocios_ID_NEGOCIO"]);
+
 
     return "Success!";
   }
@@ -223,7 +219,7 @@ Future<String> insertVisitaiOS() async {
     this.getSer();
     this.getCarrusel();
     this.getHorarios();
-    this.insertVisitaAndroid();
+    this.insertVisitaiOS;
 
   }
 

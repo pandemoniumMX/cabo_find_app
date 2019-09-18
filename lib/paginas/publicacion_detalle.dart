@@ -89,7 +89,7 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
     return "Success!";
   }
 
-  Future<String> insertRecomendacion() async {
+  Future<String> insertRecomendacioniOS() async {
     
        String currentLocale;
     try {
@@ -100,13 +100,12 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
     }
 
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-    AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-    print('Running on ${androidInfo.id}');
-        print('Running on ${androidInfo.fingerprint}');
-
+    IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
+    //print('Running on ${iosInfo.identifierForVendor}');
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/insert_recomendacion_publicacion.php?MOD=${androidInfo.model}&BOOT=${androidInfo.display},${androidInfo.bootloader},${androidInfo.fingerprint}&VERSION=${androidInfo.product}&IDIOMA=${currentLocale},&ID=${widget.publicacion.id}&SO=Android"),
+          "http://cabofind.com.mx/app_php/APIs/esp/insert_recomendacion_publicacion.php?MOD=${iosInfo.model}&BOOT=${iosInfo.utsname.nodename},${iosInfo.utsname.sysname}&VERSION=${iosInfo.systemName}&IDIOMA=${currentLocale}&ID=${widget.publicacion.id}&SO=iOS"),
+            //"http://cabofind.com.mx/app_php/APIs/ing/insert_recomendacion_publicacion.php?MOD=${androidInfo.model}&BOOT=${androidInfo.display},${androidInfo.bootloader},${androidInfo.fingerprint}&VERSION=${androidInfo.product}&IDIOMA=${currentLocale},&ID=${widget.publicacion.id}&SO=Android"),
 
         headers: {
           "Accept": "application/json"
@@ -116,7 +115,7 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
   }
 
 
-
+/*
 //contador visita publicacion Android
   Future<String> insertPublicacionAndroid() async {
 
@@ -144,7 +143,9 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
         }
     );
 }
-/*
+*/
+
+
 Future<String> insertPublicacioniOS() async {
 
     String currentLocale;
@@ -171,7 +172,7 @@ Future<String> insertPublicacioniOS() async {
         }
     );
 }
-*/
+
 
 
   Future<String> getNeg() async {
@@ -204,7 +205,7 @@ Future<String> insertPublicacioniOS() async {
     super.initState(
 
     );
-    this.insertPublicacionAndroid();
+    this.insertPublicacioniOS();
     this.getData();
     this.getNeg();
 
@@ -414,7 +415,7 @@ Future<String> insertPublicacioniOS() async {
 
                       ),
                           backgroundColor: Colors.black,
-                           onPressed: (){showShortToast();insertRecomendacion();},
+                           onPressed: (){showShortToast();insertRecomendacioniOS();},
 
                         ),
                       ),

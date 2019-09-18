@@ -136,6 +136,7 @@ class _Empresa_det_fin_ing extends State<Empresa_det_fin_ing> {
 
     return "Success!";
   }
+  /*
   //contador visitas empresa Android
 Future<String> insertVisitaAndroid() async {
     String currentLocale;
@@ -160,8 +161,8 @@ Future<String> insertVisitaAndroid() async {
         }
     );
 }
-
-/*Contador visitas iOS
+*/
+//Contador visitas iOS
 Future<String> insertVisitaiOS() async {
     String currentLocale;
     try {
@@ -185,7 +186,7 @@ Future<String> insertVisitaiOS() async {
         }
     );
 }
-*/
+
 
   Future<String> getHorarios() async {
     var response = await http.get(
@@ -221,7 +222,7 @@ Future<String> insertVisitaiOS() async {
     this.getSer();
     this.getCarrusel();
     this.getHorarios();
-    this.insertVisitaAndroid();
+    this.insertVisitaiOS();
 
 
   }

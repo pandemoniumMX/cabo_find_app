@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'package:cabofind/main_ing.dart';
 import 'package:cabofind/main_lista.dart';
-import 'package:cabofind/notificaciones/push_publicacion_android.dart';
+//import 'package:cabofind/notificaciones/push_publicacion_android.dart';
 import 'package:cabofind/paginas/descubre.dart';
 import 'package:cabofind/paginas/educacion.dart';
-import 'package:cabofind/paginas/publicacion_detalle_push.dart';
+//import 'package:cabofind/paginas/publicacion_detalle_push.dart';
 import 'package:cabofind/paginas/salud.dart';
 import 'package:cabofind/paginas/youtube.dart';
 import 'package:cabofind/paginas_listas/list_eventos_grid.dart';
@@ -33,31 +33,36 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:device_info/device_info.dart';
 import 'package:devicelocale/devicelocale.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
+//import 'package:firebase_messaging/firebase_messaging.dart';
 //import 'package:geocoder/geocoder.dart';
 //import 'package:geolocator/geolocator.dart';
 
 
 
-FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-
+//FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+/*
 void fcmSubscribe() {
     _firebaseMessaging.subscribeToTopic('Todos');
   }
+  *
+ */
 void main() => runApp(new Myapp());
 
 class Myapp extends StatelessWidget {
   // This widget is the root of your application.
-    final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
+   // final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
 
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
+    /*
       navigatorKey: navigatorKey,
 
       routes: {
         'publicacionx' : (BuildContext context) => Publicacion_detalle_fin_push(),
       },
+      */
+
         debugShowCheckedModeBanner:false,
         theme: ThemeData(
           primarySwatch: Colors.blue,
@@ -96,7 +101,7 @@ class _MyHomePageState extends State<MyHomePages> {
   int id=0;
  
 
-
+/*
     @override//Registro descarga en Android
     Future<String> checkModelAndroid() async {
        String currentLocale;
@@ -121,8 +126,9 @@ class _MyHomePageState extends State<MyHomePages> {
         }
     );
   
-  } 
-  /*Registro descarga en iOS
+  }
+  */
+  //Registro descarga en iOS
   @override
     Future<String> checkModelIos() async {
     String currentLocale;
@@ -137,7 +143,7 @@ class _MyHomePageState extends State<MyHomePages> {
     //print('Running on ${iosInfo.identifierForVendor}');
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/insertInfoiOS.php?MOD=${iosInfo.model}&BOOT=${iosInfo.utsname.nodename}&VERSION=${iosInfo.systemName}&IDIOMA=${languages}"),
+            "http://cabofind.com.mx/app_php/APIs/esp/insertInfoiOS.php?MOD=${iosInfo.model}&BOOT=${iosInfo.utsname.nodename}&VERSION=${iosInfo.systemName}&IDIOMA=${currentLocale}"),
 
         headers: {
           "Accept": "application/json"
@@ -145,7 +151,7 @@ class _MyHomePageState extends State<MyHomePages> {
     );
 
   }
-*/
+
 
 
 /*
@@ -159,11 +165,12 @@ class _MyHomePageState extends State<MyHomePages> {
         print("${first.featureName} : ${first.addressLine}");
       }
 */
-  final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
+  //final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
 
  @override
   void initState() {
     super.initState();
+    /*
     fcmSubscribe();    
     final pushpub = new PushNotificationPubAndroid();
     pushpub.initNotifications();
@@ -179,9 +186,9 @@ class _MyHomePageState extends State<MyHomePages> {
       
               
     });
-    
-    //this.checkModelIos();
-    this.checkModelAndroid();
+    */
+    this.checkModelIos();
+    //this.checkModelAndroid();
     ///this._getLocation();
   
 
