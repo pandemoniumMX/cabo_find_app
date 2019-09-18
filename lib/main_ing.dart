@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:cabofind/main.dart';
 import 'package:cabofind/main_lista_ing.dart';
+import 'package:cabofind/notificaciones/push_publicacion_android.dart';
 import 'package:cabofind/paginas/descubre.dart';
 import 'package:cabofind/paginas/salud.dart';
 import 'package:cabofind/paginas/youtube.dart';
@@ -28,6 +29,18 @@ import 'package:cabofind/paginas/restaurantes.dart';
 import 'package:cabofind/paginas/servicios.dart';
 import 'package:cabofind/paginas/compras.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+//import 'package:geocoder/geocoder.dart';
+//import 'package:geolocator/geolocator.dart';
+
+
+
+FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+
+void fcmSubscribe() {
+  _firebaseMessaging.unsubscribeFromTopic('Todos');
+    _firebaseMessaging.subscribeToTopic('All');
+  }
 
 void main() => runApp(new MyApp_ing());
 
@@ -73,8 +86,32 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
   int id=0;
 
   @override
+  void initState() {
+    super.initState();
+    
+    fcmSubscribe();    
+    final pushpub = new PushNotificationPubAndroid();
+    pushpub.initNotifications();
+/*
+    pushpub.mensajes.listen( (data) {
 
-//  dispose();
+      // Navigator.pushNamed(context, 'mensaje');
+      print('Argumento del Push');
+      print(data);
+
+      //navigatorKey.currentState.pushNamed('Publicacion_detalle_fin_push', arguments: data );
+      navigatorKey.currentState.pushNamed('publicacionx', arguments: data );
+      
+              
+    });
+    */
+    //this.checkModelIos();
+    //this.checkModelAndroid();
+    ///this._getLocation();
+  
+
+
+  }
 
   Widget build(BuildContext context) {
    // new Publicaciones();
