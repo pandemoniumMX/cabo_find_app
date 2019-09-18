@@ -1,4 +1,7 @@
-/*
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'dart:io';
+import 'dart:async';
+
 class PushNotificationPubAndroid {
 
   FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
@@ -27,7 +30,7 @@ class PushNotificationPubAndroid {
 
         print('======= On Message ========');
         print( info );
-/*
+
         String argumento = 'no-data';
         if ( Platform.isAndroid  ) {  
           argumento = info['data']['comida'] ?? 'no-data';
@@ -36,10 +39,10 @@ class PushNotificationPubAndroid {
         }
 
         _mensajesStreamController.sink.add(argumento);
-*/
+
       },
       onLaunch: ( info ) {
-/*
+
         print('======= On Launch ========');
         print( info );
 
@@ -54,7 +57,7 @@ class PushNotificationPubAndroid {
         }
 
         _mensajesStreamController.sink.add(argumento); 
-*/
+
         
 
       },
@@ -91,4 +94,3 @@ class PushNotificationPubAndroid {
   }
 
 }
-*/

@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'package:cabofind/main_ing.dart';
 import 'package:cabofind/main_lista.dart';
+import 'package:cabofind/notificaciones/push_publicacion_android.dart';
 //import 'package:cabofind/notificaciones/push_publicacion_android.dart';
 import 'package:cabofind/paginas/descubre.dart';
 import 'package:cabofind/paginas/educacion.dart';
+import 'package:cabofind/paginas/publicacion_detalle_push.dart';
 //import 'package:cabofind/paginas/publicacion_detalle_push.dart';
 import 'package:cabofind/paginas/salud.dart';
 import 'package:cabofind/paginas/youtube.dart';
@@ -33,39 +35,37 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:device_info/device_info.dart';
 import 'package:devicelocale/devicelocale.dart';
-//import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 //import 'package:geocoder/geocoder.dart';
 //import 'package:geolocator/geolocator.dart';
 
 
 
-//FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-/*
+FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+
 void fcmSubscribe() {
     _firebaseMessaging.subscribeToTopic('Todos');
   }
-  *
- */
+  
+
 void main() => runApp(new Myapp());
 
 class Myapp extends StatelessWidget {
   // This widget is the root of your application.
-   // final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
+   final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
 
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
-    /*
+   return new MaterialApp(
       navigatorKey: navigatorKey,
 
       routes: {
         'publicacionx' : (BuildContext context) => Publicacion_detalle_fin_push(),
       },
-      */
-
         debugShowCheckedModeBanner:false,
         theme: ThemeData(
           primarySwatch: Colors.blue,
+          //primaryColor: Color(0xff01969a)
           primaryColor: Colors.blue,
           accentColor: Colors.black26,
         ),
@@ -101,7 +101,7 @@ class _MyHomePageState extends State<MyHomePages> {
   int id=0;
  
 
-/*
+
     @override//Registro descarga en Android
     Future<String> checkModelAndroid() async {
        String currentLocale;
@@ -127,7 +127,8 @@ class _MyHomePageState extends State<MyHomePages> {
     );
   
   }
-  */
+  
+  /*
   //Registro descarga en iOS
   @override
     Future<String> checkModelIos() async {
@@ -151,7 +152,7 @@ class _MyHomePageState extends State<MyHomePages> {
     );
 
   }
-
+*/
 
 
 /*
@@ -170,11 +171,11 @@ class _MyHomePageState extends State<MyHomePages> {
  @override
   void initState() {
     super.initState();
-    /*
+    
     fcmSubscribe();    
     final pushpub = new PushNotificationPubAndroid();
     pushpub.initNotifications();
-
+/*
     pushpub.mensajes.listen( (data) {
 
       // Navigator.pushNamed(context, 'mensaje');
@@ -187,8 +188,8 @@ class _MyHomePageState extends State<MyHomePages> {
               
     });
     */
-    this.checkModelIos();
-    //this.checkModelAndroid();
+    //this.checkModelIos();
+    this.checkModelAndroid();
     ///this._getLocation();
   
 

@@ -88,7 +88,7 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
 
     return "Success!";
   }
-
+/*
   Future<String> insertRecomendacioniOS() async {
     
        String currentLocale;
@@ -113,9 +113,33 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
     );
   
   }
+*/
+Future<String> insertRecomendacion() async {
+    
+       String currentLocale;
+    try {
+      currentLocale = await Devicelocale.currentLocale;
+      print(currentLocale);
+    } on PlatformException {
+      print("Error obtaining current locale");
+    }
 
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+    print('Running on ${androidInfo.id}');
+        print('Running on ${androidInfo.fingerprint}');
 
-/*
+    var response = await http.get(
+        Uri.encodeFull(
+            "http://cabofind.com.mx/app_php/APIs/esp/insert_recomendacion_publicacion.php?MOD=${androidInfo.model}&BOOT=${androidInfo.display},${androidInfo.bootloader},${androidInfo.fingerprint}&VERSION=${androidInfo.product}&IDIOMA=${currentLocale},&ID=${widget.publicacion.id}&SO=Android"),
+
+        headers: {
+          "Accept": "application/json"
+        }
+    );
+  
+  }
+
 //contador visita publicacion Android
   Future<String> insertPublicacionAndroid() async {
 
@@ -143,9 +167,9 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
         }
     );
 }
-*/
 
 
+/*
 Future<String> insertPublicacioniOS() async {
 
     String currentLocale;
@@ -173,7 +197,7 @@ Future<String> insertPublicacioniOS() async {
     );
 }
 
-
+*/
 
   Future<String> getNeg() async {
     var response = await http.get(
@@ -205,7 +229,7 @@ Future<String> insertPublicacioniOS() async {
     super.initState(
 
     );
-    this.insertPublicacioniOS();
+    this.insertPublicacionAndroid();
     this.getData();
     this.getNeg();
 
@@ -415,7 +439,7 @@ Future<String> insertPublicacioniOS() async {
 
                       ),
                           backgroundColor: Colors.black,
-                           onPressed: (){showShortToast();insertRecomendacioniOS();},
+                           onPressed: (){showShortToast();insertRecomendacion();},
 
                         ),
                       ),

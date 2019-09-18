@@ -110,7 +110,7 @@ class _Publicacion_detalle_fin_ing extends State<Publicacion_detalle_fin_ing> {
 
     return "Success!";
   }
-
+/*
   Future<String> insertRecomendacioniOS() async {
     
        String currentLocale;
@@ -135,7 +135,9 @@ class _Publicacion_detalle_fin_ing extends State<Publicacion_detalle_fin_ing> {
     );
   
   }
-/*
+*/
+
+
   Future<String> insertRecomendacion() async {
     
        String currentLocale;
@@ -161,8 +163,8 @@ class _Publicacion_detalle_fin_ing extends State<Publicacion_detalle_fin_ing> {
     );
   
   }
-  /*
-*/
+  
+
 Future<String> insertPublicacionAndroid() async {
     String currentLocale;
     try {
@@ -189,7 +191,7 @@ Future<String> insertPublicacionAndroid() async {
     );
 }
 
-*/
+/*
 Future<String> insertPublicacioniOS() async {
 
     String currentLocale;
@@ -214,7 +216,7 @@ Future<String> insertPublicacioniOS() async {
         }
     );
 }
-
+*/
 
   @override
   void initState() {
@@ -223,7 +225,7 @@ Future<String> insertPublicacioniOS() async {
     );
     this.getData();
     this.getNeg();
-    this.insertPublicacioniOS();
+    this.insertPublicacionAndroid();
 
 
   }
@@ -424,7 +426,7 @@ Future<String> insertPublicacioniOS() async {
 
                       ),
                           backgroundColor: Colors.black,
-                           onPressed: (){showShortToast();insertRecomendacioniOS();},
+                           onPressed: (){showShortToast();insertRecomendacion();},
 
                         ),
                       ),
