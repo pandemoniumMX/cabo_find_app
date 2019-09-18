@@ -408,7 +408,7 @@ Future<String> insertPublicacioniOS() async {
                         bottom: 390.0,
                         child: new FloatingActionButton(
                           child: new Image.asset(
-                        "assets/rating.png",
+                        "assets/recomend.png",
                         fit: BoxFit.cover,
                         width: 50.0,
                         height: 50.0,
