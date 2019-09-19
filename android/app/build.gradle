@@ -41,8 +41,13 @@ android {
         applicationId "com.israel.cabofind"
         minSdkVersion 16
         targetSdkVersion 28
+<<<<<<< Updated upstream
         versionCode 16 //Ir aumentando la version
         versionName "1.1.5" //Ir aumentando la version
+=======
+        versionCode 18 //Ir aumentando la version
+        versionName "1.1.7" //Ir aumentando la version
+>>>>>>> Stashed changes
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 

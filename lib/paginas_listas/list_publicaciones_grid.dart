@@ -103,17 +103,19 @@ class Publicacionesfull extends State<Publicaciones_grid> {
                   ),),
               ),
 
-              FadeInImage(
+              Expanded(
+                              child: FadeInImage(
 
-                image: NetworkImage(data[index]["GAL_FOTO"]),
-                fit: BoxFit.cover,
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height / 2.8,
-                //height: 230.0,
-                // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
-                placeholder: AssetImage('android/assets/images/loading.gif'),
-                fadeInDuration: Duration(milliseconds: 200),
+                  image: NetworkImage(data[index]["GAL_FOTO"]),
+                  fit: BoxFit.cover,
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height / 2.8,
+                  //height: 230.0,
+                  // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
+                  placeholder: AssetImage('android/assets/images/loading.gif'),
+                  fadeInDuration: Duration(milliseconds: 200),
 
+                ),
               ),
 
 
