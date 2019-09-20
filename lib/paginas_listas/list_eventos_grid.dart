@@ -116,8 +116,7 @@ List databaja;
                     image: NetworkImage(data[index]["GAL_FOTO"]),
                     fit: BoxFit.cover,
                     width: MediaQuery.of(context).size.width,
-                    //height: MediaQuery.of(context).size.height * 0.25,
-                    height: 150.0,
+                    height: MediaQuery.of(context).size.height,
 
                     // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
                     placeholder: AssetImage('android/assets/images/loading.gif'),

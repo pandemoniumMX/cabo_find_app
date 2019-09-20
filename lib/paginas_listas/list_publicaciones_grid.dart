@@ -84,15 +84,11 @@ class Publicacionesfull extends State<Publicaciones_grid> {
         //height: 1000.0,
           //color: Colors.white,
         child: Container(
-          decoration: BoxDecoration(
-                    borderRadius:BorderRadius.circular(10.0),
-
-                    border: Border.all(
-                        color: Colors.blue)),
-                padding: EdgeInsets.all(
-                    1.0),
-                margin: EdgeInsets.all(
-                    1.0),
+                decoration: BoxDecoration(
+                borderRadius:BorderRadius.circular(10.0),
+                border: Border.all(color: Colors.blue)),
+                padding: EdgeInsets.all(1.0),
+                margin: EdgeInsets.all(1.0),
           child: InkWell(
 
                     child: Column(
@@ -101,7 +97,7 @@ class Publicacionesfull extends State<Publicaciones_grid> {
               children: <Widget>[
 
 
-                Flexible(
+                Padding(
                   child: new Text(
                     data[index]["PUB_TITULO"],
                     overflow: TextOverflow.ellipsis,
@@ -111,6 +107,7 @@ class Publicacionesfull extends State<Publicaciones_grid> {
                       color: Colors.black,
                       fontSize: 20.0,
                     ),),
+                  padding: EdgeInsets.all(1.0),
                 ),
 
                 Expanded(
@@ -119,7 +116,7 @@ class Publicacionesfull extends State<Publicaciones_grid> {
                     image: NetworkImage(data[index]["GAL_FOTO"]),
                     fit: BoxFit.cover,
                     width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height / 2.8,
+                    height: MediaQuery.of(context).size.height,
                     //height: 230.0,
                     // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
                     placeholder: AssetImage('android/assets/images/loading.gif'),

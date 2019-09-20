@@ -81,92 +81,101 @@ List databaja;
           itemCount:data == null ? 0 : data.length,
           itemBuilder: (BuildContext context, int index) => new Container(
             //color: Colors.white,
-            child: InkWell(
-              child: Column(
+            child: Container(
+                decoration: BoxDecoration(
+                borderRadius:BorderRadius.circular(10.0),
+                border: Border.all(color: Colors.blue)),
+                padding: EdgeInsets.all(1.0),
+                margin: EdgeInsets.all(1.0),
+              child: InkWell(
+                child: Column(
 
-                children: <Widget>[
-
-
-                  Padding(
-                    child: new Text(
-                      data[index]["PUB_TITULO_ING"],
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                        fontSize: 20.0,
-                      ),),
-                    padding: EdgeInsets.all(1.0),
-                  ),
-
-                  FadeInImage(
-
-                    image: NetworkImage(data[index]["GAL_FOTO"]),
-                    fit: BoxFit.cover,
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height * 0.38,
-
-                    // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
-                    placeholder: AssetImage('android/assets/images/loading.gif'),
-                    fadeInDuration: Duration(milliseconds: 200),
-
-                  ),
+                  children: <Widget>[
 
 
-                  Row(
-                      children: <Widget>[
+                    Padding(
+                      child: new Text(
+                        data[index]["PUB_TITULO_ING"],
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                          fontSize: 20.0,
+                        ),),
+                      padding: EdgeInsets.all(1.0),
+                    ),
+
+                    Expanded(
+                                          child: FadeInImage(
+
+                        image: NetworkImage(data[index]["GAL_FOTO"]),
+                        fit: BoxFit.cover,
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height,
+
+                        // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
+                        placeholder: AssetImage('android/assets/images/loading.gif'),
+                        fadeInDuration: Duration(milliseconds: 200),
+
+                      ),
+                    ),
 
 
-                        Padding(
+                    Row(
+                        children: <Widget>[
+
+
+                          Padding(
+                              child: new Text(
+                                data[index]["NEG_NOMBRE"],
+                                overflow: TextOverflow.ellipsis,),
+                              padding: EdgeInsets.all(
+                                  1.0)),
+                          Text(
+                              " | "),
+                          Flexible(
                             child: new Text(
-                              data[index]["NEG_NOMBRE"],
-                              overflow: TextOverflow.ellipsis,),
-                            padding: EdgeInsets.all(
-                                1.0)),
-                        Text(
-                            " | "),
-                        Flexible(
-                          child: new Text(
-                            data[index]["NEG_LUGAR"],
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,),
+                              data[index]["NEG_LUGAR"],
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,),
 
 
-                        ),
+                          ),
 
 
 
-                      ]),
-                ],
+                        ]),
+                  ],
 
-              ),
-              onTap: () {
-                String id_n = data[index]["ID_NEGOCIO"];
-                String id = data[index]["ID_PUBLICACION"];
-                String nom = data[index]["NEG_NOMBRE"];
-                String lug = data[index]["NEG_LUGAR"];
-                String cat = data[index]["CAT_NOMBRE_ING"];
-                String sub = data[index]["SUB_NOMBRE"];
-                String gal = data[index]["GAL_FOTO"];
-                String tit = data[index]["PUB_TITULO_ING"];
-                String det = data[index]["PUB_DETALLE_ING"];
-                String fec = data[index]["PUB_FECHA"];
-                String vid = data[index]["PUB_VIDEO"];
-                String tel = data[index]["NEG_TEL"];
-                String cor = data[index]["NEG_CORREO"];
+                ),
+                onTap: () {
+                  String id_n = data[index]["ID_NEGOCIO"];
+                  String id = data[index]["ID_PUBLICACION"];
+                  String nom = data[index]["NEG_NOMBRE"];
+                  String lug = data[index]["NEG_LUGAR"];
+                  String cat = data[index]["CAT_NOMBRE_ING"];
+                  String sub = data[index]["SUB_NOMBRE"];
+                  String gal = data[index]["GAL_FOTO"];
+                  String tit = data[index]["PUB_TITULO_ING"];
+                  String det = data[index]["PUB_DETALLE_ING"];
+                  String fec = data[index]["PUB_FECHA"];
+                  String vid = data[index]["PUB_VIDEO"];
+                  String tel = data[index]["NEG_TEL"];
+                  String cor = data[index]["NEG_CORREO"];
 
 
-            Navigator.push(context, new MaterialPageRoute
-              (builder: (context) => new Publicacion_detalle_fin(
-              publicacion: new Publicacion(id_n,id,nom,lug,cat,sub,gal,tit,det,fec,vid,tel,cor),
-            )
-            )
-            );
+              Navigator.push(context, new MaterialPageRoute
+                (builder: (context) => new Publicacion_detalle_fin(
+                publicacion: new Publicacion(id_n,id,nom,lug,cat,sub,gal,tit,det,fec,vid,tel,cor),
+              )
+              )
+              );
 
 
           },
         ),
+            ),
 
       ),
 
