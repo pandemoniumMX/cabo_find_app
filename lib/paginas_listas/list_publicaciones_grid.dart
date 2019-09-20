@@ -83,93 +83,104 @@ class Publicacionesfull extends State<Publicaciones_grid> {
       itemBuilder: (BuildContext context, int index) => new Container(
         //height: 1000.0,
           //color: Colors.white,
-        child: InkWell(
+        child: Container(
+          decoration: BoxDecoration(
+                    borderRadius:BorderRadius.circular(10.0),
 
-                  child: Column(
+                    border: Border.all(
+                        color: Colors.blue)),
+                padding: EdgeInsets.all(
+                    1.0),
+                margin: EdgeInsets.all(
+                    1.0),
+          child: InkWell(
+
+                    child: Column(
 
 
-            children: <Widget>[
+              children: <Widget>[
 
 
-              Flexible(
-                child: new Text(
-                  data[index]["PUB_TITULO"],
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                    fontSize: 20.0,
-                  ),),
-              ),
-
-              Expanded(
-                              child: FadeInImage(
-
-                  image: NetworkImage(data[index]["GAL_FOTO"]),
-                  fit: BoxFit.cover,
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height / 2.8,
-                  //height: 230.0,
-                  // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
-                  placeholder: AssetImage('android/assets/images/loading.gif'),
-                  fadeInDuration: Duration(milliseconds: 200),
-
+                Flexible(
+                  child: new Text(
+                    data[index]["PUB_TITULO"],
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                      fontSize: 20.0,
+                    ),),
                 ),
-              ),
+
+                Expanded(
+                                child: FadeInImage(
+
+                    image: NetworkImage(data[index]["GAL_FOTO"]),
+                    fit: BoxFit.cover,
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height / 2.8,
+                    //height: 230.0,
+                    // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
+                    placeholder: AssetImage('android/assets/images/loading.gif'),
+                    fadeInDuration: Duration(milliseconds: 200),
+
+                  ),
+                ),
 
 
-              Row(
-                  children: <Widget>[
+                Row(
+                    children: <Widget>[
 
 
-                    Flexible(
+                      Flexible(
+                          child: new Text(
+                            data[index]["NEG_NOMBRE"],
+                            overflow: TextOverflow.ellipsis,),
+                          ),
+                      Text(
+                          " | "),
+                      Flexible(
                         child: new Text(
-                          data[index]["NEG_NOMBRE"],
-                          overflow: TextOverflow.ellipsis,),
-                        ),
-                    Text(
-                        " | "),
-                    Flexible(
-                      child: new Text(
-                        data[index]["NEG_LUGAR"],
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,),
+                          data[index]["NEG_LUGAR"],
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,),
 
 
-                    ),
+                      ),
 
 
 
-                  ]),
-            ],
+                    ]),
+              ],
 
+            ),
+            onTap: () {
+              String id_n = data[index]["ID_NEGOCIO"];
+              String id = data[index]["ID_PUBLICACION"];
+              String nom = data[index]["NEG_NOMBRE"];
+              String lug = data[index]["NEG_LUGAR"];
+              String cat = data[index]["CAT_NOMBRE"];
+              String sub = data[index]["SUB_NOMBRE"];
+              String gal = data[index]["GAL_FOTO"];
+              String tit = data[index]["PUB_TITULO"];
+              String det = data[index]["PUB_DETALLE"];
+              String fec = data[index]["PUB_FECHA"];
+              String vid = data[index]["PUB_VIDEO"];
+              String tel = data[index]["NEG_TEL"];
+              String cor = data[index]["NEG_CORREO"];
+
+
+              Navigator.push(context, new MaterialPageRoute
+                (builder: (context) => new Publicacion_detalle_fin(
+                publicacion: new Publicacion(id_n,id,nom,lug,cat,sub,gal,tit,det,fec,vid,tel,cor),
+              )
+              )
+              );
+
+
+            },
           ),
-          onTap: () {
-            String id_n = data[index]["ID_NEGOCIO"];
-            String id = data[index]["ID_PUBLICACION"];
-            String nom = data[index]["NEG_NOMBRE"];
-            String lug = data[index]["NEG_LUGAR"];
-            String cat = data[index]["CAT_NOMBRE"];
-            String sub = data[index]["SUB_NOMBRE"];
-            String gal = data[index]["GAL_FOTO"];
-            String tit = data[index]["PUB_TITULO"];
-            String det = data[index]["PUB_DETALLE"];
-            String fec = data[index]["PUB_FECHA"];
-            String vid = data[index]["PUB_VIDEO"];
-            String tel = data[index]["NEG_TEL"];
-            String cor = data[index]["NEG_CORREO"];
-
-
-            Navigator.push(context, new MaterialPageRoute
-              (builder: (context) => new Publicacion_detalle_fin(
-              publicacion: new Publicacion(id_n,id,nom,lug,cat,sub,gal,tit,det,fec,vid,tel,cor),
-            )
-            )
-            );
-
-
-          },
         ),
 
       ),
