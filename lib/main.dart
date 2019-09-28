@@ -67,7 +67,7 @@ class Myapp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
           //primaryColor: Color(0xff01969a)
-          primaryColor: Colors.blue,
+          primaryColor: Color(0xff01969A),
           accentColor: Colors.black26,
         ),
         home: new Container(
@@ -209,7 +209,7 @@ class _MyHomePageState extends State<MyHomePages> {
         theme: ThemeData(
           primarySwatch: Colors.blue,
           //primaryColor: Color(0xff01969a)
-          primaryColor: Colors.blue,
+          primaryColor: Color(0xff01969A),
           accentColor: Colors.black26,
         ),
         home: new Container(
