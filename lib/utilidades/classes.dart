@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Empresa {
-  final String id_nm;
-  
-
-
+  final String id_nm; 
   Empresa(this.id_nm);
 
 

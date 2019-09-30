@@ -19,7 +19,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 
 class Empresa_det_fin extends StatefulWidget {
-List data;
 //final Publicacion publicacion;
 final Empresa empresa;
 
@@ -35,7 +34,7 @@ class Detalles extends State<Empresa_det_fin> {
   ScrollController _scrollController = new ScrollController();
 
   List data;
-  List data1;
+  List data_serv;
   List dataneg;
   List data_list;
   List data_carrusel;
@@ -44,11 +43,7 @@ class Detalles extends State<Empresa_det_fin> {
   Future<String> getInfo() async {
     var response = await http.get(
         Uri.encodeFull(
-          //"http://cabofind.com.mx/app_php/list_caracteristicas.php?ID=${widget.empresa.id}"),
             "http://cabofind.com.mx/app_php/APIs/esp/list_negocios_api.php?ID=${widget.empresa.id_nm}"),
-         //"http://cabofind.com.mx/app_php/list_caracteristicas.php"),
-
-
 
         headers: {
           "Accept": "application/json"
@@ -70,11 +65,7 @@ class Detalles extends State<Empresa_det_fin> {
   Future<String> getCar() async {
     var response = await http.get(
         Uri.encodeFull(
-          //"http://cabofind.com.mx/app_php/list_caracteristicas.php?ID=${widget.empresa.id}"),
             "http://cabofind.com.mx/app_php/APIs/esp/list_caracteristicas_api.php?ID=${widget.empresa.id_nm}"),
-         //"http://cabofind.com.mx/app_php/list_caracteristicas.php"),
-
-
 
         headers: {
           "Accept": "application/json"
@@ -95,11 +86,7 @@ class Detalles extends State<Empresa_det_fin> {
   Future<String> getSer() async {
     var response = await http.get(
         Uri.encodeFull(
-          //"http://cabofind.com.mx/app_php/list_caracteristicas_api.php?ID=${widget.empresa.id}"),
             "http://cabofind.com.mx/app_php/APIs/esp/list_servicios_api.php?ID=${widget.empresa.id_nm}"),
-        //"http://cabofind.com.mx/app_php/list_caracteristicas.php"),
-
-
 
         headers: {
           "Accept": "application/json"
@@ -108,7 +95,7 @@ class Detalles extends State<Empresa_det_fin> {
 
     this.setState(
             () {
-              data1 = json.decode(
+              data_serv = json.decode(
               response.body);
         });
 
@@ -120,11 +107,7 @@ class Detalles extends State<Empresa_det_fin> {
   Future<String> getHorarios() async {
     var response = await http.get(
         Uri.encodeFull(
-          //"http://cabofind.com.mx/app_php/list_caracteristicas_api.php?ID=${widget.empresa.id}"),
             "http://cabofind.com.mx/app_php/APIs/esp/list_horarios_api.php?ID=${widget.empresa.id_nm}"),
-        //"http://cabofind.com.mx/app_php/list_caracteristicas.php"),
-
-
 
         headers: {
           "Accept": "application/json"
@@ -145,7 +128,6 @@ class Detalles extends State<Empresa_det_fin> {
   Future<String> get_list() async {
     var response = await http.get(
         Uri.encodeFull(
-          // "http://cabofind.com.mx/app_php/list_publicaciones.php"),
          "http://cabofind.com.mx/app_php/APIs/esp/list_publicaciones_api.php?ID=${widget.empresa.id_nm}"),
 
 
@@ -164,7 +146,7 @@ class Detalles extends State<Empresa_det_fin> {
     return "Success!";
   }
 //contador de visitas android
-/*
+
 Future<String> insertVisitaAndroid() async {
     String currentLocale;
     try {
@@ -179,7 +161,6 @@ Future<String> insertVisitaAndroid() async {
     //print('Running on ${androidInfo.id}');
     var response = await http.get(
         Uri.encodeFull(
-           // "http://cabofind.com.mx/app_php/APIs/esp/insert_visita_negocio.php?ID=${widget.empresa.id_nm}"),
             "http://cabofind.com.mx/app_php/APIs/esp/insert_visita_negocio.php?MOD=${androidInfo.model}&BOOT=${androidInfo.display},${androidInfo.bootloader},${androidInfo.fingerprint}&VERSION=${androidInfo.product}&IDIOMA=esp&ID=${widget.empresa.id_nm}&SO=Android"),
 
 
@@ -188,7 +169,7 @@ Future<String> insertVisitaAndroid() async {
         }
     );
 }
-*/
+/*
 Future<String> insertVisitaiOS() async {
     String currentLocale;
     try {
@@ -212,7 +193,7 @@ Future<String> insertVisitaiOS() async {
         }
     );
 }
-
+*/
    Future<String> getCarrusel() async {
     var response = await http.get(
         Uri.encodeFull(
@@ -245,6 +226,7 @@ Future<String> insertVisitaiOS() async {
     this.getCarrusel();
     this.getHorarios();
     this.getInfo();
+    this.insertVisitaAndroid();
    // this.insertVisitaiOS;
 
   }
@@ -295,11 +277,11 @@ Future<String> insertVisitaiOS() async {
                  width: double.maxFinite,
                  height: 300.0,
                  child: ListView.builder(
-                     itemCount: data1 == null ? 0 : data1.length,
+                     itemCount: data_serv == null ? 0 : data_serv.length,
                      itemBuilder: (BuildContext context, int index) {
                        return Column(
                          children: <Widget>[
-                           Container(child: Text(data1[index]["SERV_NOMBRE"],style: TextStyle(),),padding: EdgeInsets.only(bottom:15.0),) ,
+                           Container(child: Text(data_serv[index]["SERV_NOMBRE"],style: TextStyle(),),padding: EdgeInsets.only(bottom:15.0),) ,
                          ],
                        );
                      }
@@ -324,9 +306,18 @@ Future<String> insertVisitaiOS() async {
            return AlertDialog(
              title: Text('Horarios',style: TextStyle(fontSize: 25.0,),),
              content: Container(
-
-                           child: Container(child: Text(data_hor[0]["NEG_HORARIO"],style: TextStyle(),)
-                           )
+                 width: double.maxFinite,
+                 height: 300.0,
+                 child: ListView.builder(
+                     itemCount: data_hor == null ? 0 : data_hor.length,
+                     itemBuilder: (BuildContext context, int index) {
+                       return Column(
+                         children: <Widget>[
+                           Container(child: Text(data_hor[0]["NEG_HORARIO"],style: TextStyle(),),padding: EdgeInsets.only(bottom:15.0),) ,
+                         ],
+                       );
+                     }
+                 )
              ),
              actions: <Widget>[
                new FlatButton(
@@ -762,7 +753,7 @@ Future<String> insertVisitaiOS() async {
                 //Image.asset('android/assets/images/img1.jpg',width: 600,height: 240,fit: BoxFit.cover,),
                 //loading,
                 titleSection,
-                textSection,
+               textSection,
                 buttonSection,
 
 
@@ -841,26 +832,7 @@ Future<String> insertVisitaiOS() async {
     );
   }
 
-  Column _buildButtonColumn(Color color, IconData icon, String label) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Icon(icon, color: color),
-        Container(
-          margin: const EdgeInsets.only(top: 8),
-          child: Text(
-            label,
-            style: TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w400,
-              color: color,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
+ 
 
  
 }
