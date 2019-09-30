@@ -5,7 +5,6 @@ import 'package:cabofind/notificaciones/push_publicacion_android.dart';
 //import 'package:cabofind/notificaciones/push_publicacion_android.dart';
 import 'package:cabofind/paginas/descubre.dart';
 import 'package:cabofind/paginas/educacion.dart';
-import 'package:cabofind/paginas/publicacion_detalle_push.dart';
 //import 'package:cabofind/paginas/publicacion_detalle_push.dart';
 import 'package:cabofind/paginas/salud.dart';
 import 'package:cabofind/paginas/youtube.dart';
@@ -53,16 +52,17 @@ void main() => runApp(new Myapp());
 
 class Myapp extends StatelessWidget {
   // This widget is the root of your application.
-   final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
+  // final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
 
   @override
   Widget build(BuildContext context) {
    return new MaterialApp(
-      navigatorKey: navigatorKey,
-
+     // navigatorKey: navigatorKey,
+/*
       routes: {
         'publicacionx' : (BuildContext context) => Publicacion_detalle_fin_push(),
       },
+*/
         debugShowCheckedModeBanner:false,
         theme: ThemeData(
           primarySwatch: Colors.blue,

@@ -21,3 +21,6 @@ keytool -genkey -v -keystore c:/Users/Pandemonium/key.jks -keyalg RSA -keysize 2
 
 
 flutter build appbundle --target-platform android-arm,android-arm64
+
+
+C:\flutter\bin\

@@ -454,7 +454,7 @@ Future<String> insertVisitaiOS() async {
       child: Card(
               child: Text(
          dataneg[0]["NEG_DESCRIPCION"],        
-          maxLines: 10,
+          maxLines: 15,
           softWrap: true,
           textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 18.0),
@@ -510,7 +510,8 @@ Future<String> insertVisitaiOS() async {
    }
 
    telefono() async {
-     final url =  "tel: dataneg[0]['NEG_TEL']";
+     final tel = dataneg[0]["NEG_TEL"];
+     final url =  "tel: $tel";
      if (await canLaunch(url)) {
        await launch(url);
      } else {
@@ -519,7 +520,8 @@ Future<String> insertVisitaiOS() async {
    }
 
    correo() async {
-     final url =  "'mailto:' dataneg[0]['NEG_CORREO']";
+     final mail = dataneg[0]["NEG_CORREO"];
+     final url = "mailto: $mail";
      if (await canLaunch(url)) {
        await launch(url);
      } else {
