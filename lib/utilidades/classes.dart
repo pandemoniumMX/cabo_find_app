@@ -2,22 +2,10 @@ import 'package:flutter/material.dart';
 
 class Empresa {
   final String id_nm;
-  final String nombre;
-  final String cat;
-  final String subs;
-  final String logo;
-  final String etiquetas;
-  final String desc;
-  final String maps;
-  final String fb;
-  final String inst;
-  final String web;
-  final String tel;
-  final String cor;
-  final String hor;
+  
 
 
-  Empresa(this.id_nm,this.nombre,this.cat,this.subs,this.logo,this.etiquetas, this.desc,this.maps, this.fb,this.inst,this.web,this.tel,this.cor,this.hor);
+  Empresa(this.id_nm);
 
 
 

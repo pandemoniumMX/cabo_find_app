@@ -51,8 +51,7 @@ List databaja;
           data = json.decode(
               response.body);
         });
-    print(
-        data[0]["NEG_NOMBRE"]);
+    
 
     return "Success!";
   }

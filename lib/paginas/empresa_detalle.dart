@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'package:cabofind/paginas/publicacion_detalle.dart';
 import 'package:cabofind/paginas/publicacion_detalle_estatica.dart';
 import 'package:device_info/device_info.dart';
@@ -35,10 +36,36 @@ class Detalles extends State<Empresa_det_fin> {
 
   List data;
   List data1;
+  List dataneg;
   List data_list;
   List data_carrusel;
   List data_hor;
 
+  Future<String> getInfo() async {
+    var response = await http.get(
+        Uri.encodeFull(
+          //"http://cabofind.com.mx/app_php/list_caracteristicas.php?ID=${widget.empresa.id}"),
+            "http://cabofind.com.mx/app_php/APIs/esp/list_negocios_api.php?ID=${widget.empresa.id_nm}"),
+         //"http://cabofind.com.mx/app_php/list_caracteristicas.php"),
+
+
+
+        headers: {
+          "Accept": "application/json"
+        }
+    );
+
+    this.setState(
+            () {
+          dataneg = json.decode(
+              response.body);
+        });
+
+
+    return "Success!";
+  }
+
+ 
 
   Future<String> getCar() async {
     var response = await http.get(
@@ -211,15 +238,14 @@ Future<String> insertVisitaiOS() async {
   }
 
   void initState() {
-    super.initState(
-
-    );
+    super.initState();
     this.getCar();
     this.get_list();
     this.getSer();
     this.getCarrusel();
     this.getHorarios();
-    this.insertVisitaiOS;
+    this.getInfo();
+   // this.insertVisitaiOS;
 
   }
 
@@ -350,78 +376,84 @@ Future<String> insertVisitaiOS() async {
 
     
     Widget titleSection = Container(
-          width: MediaQuery.of(context).size.width,
+     // width: MediaQuery.of(context).size.width,
+      //padding: const EdgeInsets.all(20),
+     height:  100.0,
+      child: new ListView.builder(
+        itemCount: dataneg == null ? 0 : dataneg.length,
+       itemBuilder: (BuildContext context, int index) {
 
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        children:[
-          Row(
-            mainAxisAlignment: 
-            MainAxisAlignment.center,            
-            children: [
+         return  new Column(
+          children:[
+            Row(
+              mainAxisAlignment: 
+              MainAxisAlignment.center,            
+              children: [
 
-                 Text(
-                  widget.empresa.nombre,
+                   Text(
+                    dataneg[0]["NEG_NOMBRE"],
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                        fontSize: 28.0,
+                       //color: Colors.blue[500],
+                    ),
+                  ),               
+
+              ],
+            ),
+          Center(
+            child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+            
+                Text(
+
+                  dataneg[0]["CAT_NOMBRE"],
                   style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                      fontSize: 28.0,
-                     //color: Colors.blue[500],
+                    color: Colors.blue[500],
                   ),
                 ),
+                
 
-
-
-              
-
-            ],
-          ),
-        Center(
-          child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-          
               Text(
-
-                widget.empresa.cat,
+                " | ",
+                style: TextStyle(
+                  color: Colors.grey[500],
+                ),
+              ),
+              Text(
+                dataneg[0]["SUB_NOMBRE"],
                 style: TextStyle(
                   color: Colors.blue[500],
                 ),
-              ),
+              ), 
+              
               
 
-            Text(
-              " | ",
-              style: TextStyle(
-                color: Colors.grey[500],
-              ),
+            ],
             ),
-            Text(
-              widget.empresa.subs,
-              style: TextStyle(
-                color: Colors.blue[500],
-              ),
-            ), 
+
+            )
+
             
-            
-
-          ],
-          ),
-
-          )
-
-          
-        ],
+          ],       
+       
+        );
+       },
       ),
+       
+    
     );
 
     Color color = Theme.of(context).primaryColor;
 
 
     Widget textSection = Container(
+
       padding: const EdgeInsets.only(bottom: 10,left: 20,right: 20),
       child: Card(
               child: Text(
-           widget.empresa.desc,
+         dataneg[0]["NEG_DESCRIPCION"],        
           maxLines: 10,
           softWrap: true,
           textAlign: TextAlign.center,
@@ -430,17 +462,28 @@ Future<String> insertVisitaiOS() async {
       ),
 
     );
+
     mapa() async {
-      final url =  widget.empresa.maps;
+      if (Platform.isAndroid) {
+        final url =  dataneg[0]["NEG_MAP"];
       if (await canLaunch(url)) {
         await launch(url);
       } else {
         throw 'Could not launch $url';
       }
+      } else {
+      final url =  dataneg[0]["NEG_MAP_IOS"];
+      if (await canLaunch(url)) {
+        await launch(url);
+      } else {
+        throw 'Could not launch $url';
+      }
+      }
+      
     }
 
    facebook() async {
-     final url =  widget.empresa.fb;
+     final url =  dataneg[0]["NEG_FACEBOOK"];
      if (await canLaunch(url)) {
        await launch(url);
      } else {
@@ -449,7 +492,7 @@ Future<String> insertVisitaiOS() async {
    }
 
    web() async {
-     final url =  widget.empresa.web;
+     final url =  dataneg[0]["NEG_WEB"];
      if (await canLaunch(url)) {
        await launch(url);
      } else {
@@ -458,7 +501,7 @@ Future<String> insertVisitaiOS() async {
    }
 
    instagram() async {
-     final url =  widget.empresa.inst;
+     final url =  dataneg[0]["NEG_WEB"];
      if (await canLaunch(url)) {
        await launch(url);
      } else {
@@ -467,7 +510,7 @@ Future<String> insertVisitaiOS() async {
    }
 
    telefono() async {
-     final url =  "tel:${widget.empresa.tel}";
+     final url =  "tel: dataneg[0]['NEG_TEL']";
      if (await canLaunch(url)) {
        await launch(url);
      } else {
@@ -476,7 +519,7 @@ Future<String> insertVisitaiOS() async {
    }
 
    correo() async {
-     final url =  "mailto:${widget.empresa.cor}";
+     final url =  "'mailto:' dataneg[0]['NEG_CORREO']";
      if (await canLaunch(url)) {
        await launch(url);
      } else {
@@ -700,7 +743,20 @@ Future<String> insertVisitaiOS() async {
             Column(
 
               children: <Widget>[
-                Image.network( widget.empresa.logo,width: MediaQuery.of(context).size.width,height: 300,fit: BoxFit.fill ),
+                FadeInImage(
+
+                    image: NetworkImage(dataneg[0]["GAL_FOTO"]),
+                    fit: BoxFit.fill,
+                    width: MediaQuery.of(context).size.width,
+                    height: 300,
+
+                    // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
+                    placeholder: AssetImage('android/assets/images/loading.gif'),
+                    fadeInDuration: Duration(milliseconds: 200),
+
+                  ),
+
+               // Image.network( dataneg[0]["GAL_FOTO"],width: MediaQuery.of(context).size.width,height: 300,fit: BoxFit.fill ),
                 //Image.asset('android/assets/images/img1.jpg',width: 600,height: 240,fit: BoxFit.cover,),
                 //loading,
                 titleSection,
@@ -758,7 +814,7 @@ Future<String> insertVisitaiOS() async {
                   SizedBox(
                     height: 20.0,
                   ),
-                  Center(child: Text('Publicaciones ${widget.empresa.nombre}',style: TextStyle(fontSize: 20.0,color: Colors.blueAccent ),)),
+                  Center(child: Text('Publicaciones',style: TextStyle(fontSize: 20.0,color: Colors.blueAccent ),)),
                 ],
               ),
               height: 50.0,
@@ -777,7 +833,7 @@ Future<String> insertVisitaiOS() async {
         ),
 
         appBar: new AppBar(
-          title: new Text( widget.empresa.nombre),
+          title: new Text( dataneg[0]["NEG_NOMBRE"]),
         ),
 
     );

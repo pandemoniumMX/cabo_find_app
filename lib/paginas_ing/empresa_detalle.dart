@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'package:cabofind/paginas/publicacion_detalle.dart';
 import 'package:cabofind/paginas/publicacion_detalle_estatica.dart';
 import 'package:cabofind/paginas_ing/publicacion_detalle_estatica.dart';
@@ -35,9 +36,32 @@ class _Empresa_det_fin_ing extends State<Empresa_det_fin_ing> {
   List data_list;
   List data_carrusel;
   List data_hor;
+  List dataneg;
+
+
+Future<String> getInfo() async {
+    var response = await http.get(
+        Uri.encodeFull(
+          //"http://cabofind.com.mx/app_php/list_caracteristicas.php?ID=${widget.empresa.id}"),
+            "http://cabofind.com.mx/app_php/APIs/esp/list_info_neg.php?ID=${widget.empresa.id_nm}"),
+         //"http://cabofind.com.mx/app_php/list_caracteristicas.php"),
 
 
 
+        headers: {
+          "Accept": "application/json"
+        }
+    );
+
+    this.setState(
+            () {
+          dataneg = json.decode(
+              response.body);
+        });
+
+
+    return "Success!";
+  }
 
 
 
@@ -356,59 +380,72 @@ Future<String> insertVisitaiOS() async {
     
     Widget titleSection = Container(
           width: MediaQuery.of(context).size.width,
-    
+
       padding: const EdgeInsets.all(20),
-      child: Column(
-        children:[
-          Row(
-            mainAxisAlignment: 
-            MainAxisAlignment.center,            
-            children: [
+      child: new ListView.builder(
+              itemCount: data_carrusel == null ? 0 : data_carrusel.length,
+       itemBuilder: (BuildContext context, int index) {
 
-                 Text(
-                  widget.empresa.nombre,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                      fontSize: 28.0
-                  ),
-                ),
+         return  new Column(
+          children:[
+            Row(
+              mainAxisAlignment: 
+              MainAxisAlignment.center,            
+              children: [
 
+                   Text(
+                    dataneg[index]["NEG_NOMBRE"],
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                        fontSize: 28.0,
+                       //color: Colors.blue[500],
+                    ),
+                  ),               
 
+              ],
+            ),
+          Center(
+            child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+            
+                Text(
 
-              
-
-            ],
-          ),
-          Row(       
-          mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-         
-                  Text(
-                  widget.empresa.cat,
+                  dataneg[index]["CAT_NOMBRE"],
                   style: TextStyle(
                     color: Colors.blue[500],
                   ),
-              ),
+                ),
                 
+
               Text(
-              " | ",
-              style: TextStyle(
-                color: Colors.grey[500],
+                " | ",
+                style: TextStyle(
+                  color: Colors.grey[500],
+                ),
               ),
-            ),
               Text(
-                widget.empresa.subs,
+                dataneg[index]["SUB_NOMBRE"],
                 style: TextStyle(
                   color: Colors.blue[500],
                 ),
-              ),
+              ), 
+              
+              
 
-          ],
-          )
+            ],
+            ),
 
-          
-        ],
+            )
+
+            
+          ],       
+       
+        );
+       },
       ),
+       
+    
     );
 
 
@@ -417,7 +454,7 @@ Future<String> insertVisitaiOS() async {
       padding: const EdgeInsets.only(bottom: 10,left: 20,right: 20),
       child: Card(
               child: Text(
-           widget.empresa.desc,
+          dataneg[0]["NEG_DESCRIPCION"],
           maxLines: 10,
           softWrap: true,
           textAlign: TextAlign.center,
@@ -426,16 +463,70 @@ Future<String> insertVisitaiOS() async {
       ),
 
     );
+    
     mapa() async {
-      final url =  widget.empresa.maps;
+      if (Platform.isAndroid) {
+        final url =  dataneg[0]["NEG_MAP"];
       if (await canLaunch(url)) {
         await launch(url);
       } else {
         throw 'Could not launch $url';
       }
+      } else {
+      final url =  dataneg[0]["NEG_MAP_IOS"];
+      if (await canLaunch(url)) {
+        await launch(url);
+      } else {
+        throw 'Could not launch $url';
+      }
+      }
+      
     }
 
+   facebook() async {
+     final url =  dataneg[0]["NEG_FACEBOOK"];
+     if (await canLaunch(url)) {
+       await launch(url);
+     } else {
+       throw 'Could not launch $url';
+     }
+   }
 
+   web() async {
+     final url =  dataneg[0]["NEG_WEB"];
+     if (await canLaunch(url)) {
+       await launch(url);
+     } else {
+       throw 'Could not launch $url';
+     }
+   }
+
+   instagram() async {
+     final url =  dataneg[0]["NEG_WEB"];
+     if (await canLaunch(url)) {
+       await launch(url);
+     } else {
+       throw 'Could not launch $url';
+     }
+   }
+
+   telefono() async {
+     final url =  "tel: dataneg[0]['NEG_TEL']";
+     if (await canLaunch(url)) {
+       await launch(url);
+     } else {
+       throw 'Could not launch $url';
+     }
+   }
+
+   correo() async {
+     final url =  "mailto:dataneg[0]['NEG_CORREO']";
+     if (await canLaunch(url)) {
+       await launch(url);
+     } else {
+       throw 'Could not launch $url';
+     }
+   }
 
    Widget buttonSection = Container(
      width: MediaQuery.of(context).size.width +30,
@@ -476,50 +567,7 @@ Future<String> insertVisitaiOS() async {
 
    );
 
-facebook() async {
-    final url =  widget.empresa.fb;
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
 
-  web() async {
-    final url =  widget.empresa.web;
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
-
-  instagram() async {
-    final url =  widget.empresa.inst;
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
-
-   telefono() async {
-     final url =  "tel:${widget.empresa.tel}";
-     if (await canLaunch(url)) {
-       await launch(url);
-     } else {
-       throw 'Could not launch $url';
-     }
-   }
-
-   correo() async {
-     final url =  "mailto:${widget.empresa.cor}";
-     if (await canLaunch(url)) {
-       await launch(url);
-     } else {
-       throw 'Could not launch $url';
-     }
-   }
 
   Widget social(){
      return Row(
@@ -684,7 +732,7 @@ facebook() async {
             Column(
 
               children: <Widget>[
-                Image.network( widget.empresa.logo,width: MediaQuery.of(context).size.width,height: 300,fit: BoxFit.cover ),
+                Image.network( dataneg[0]["GAL_FOTO"],width: MediaQuery.of(context).size.width,height: 300,fit: BoxFit.fill ),
                 //Image.asset('android/assets/images/img1.jpg',width: 600,height: 240,fit: BoxFit.cover,),
                 //loading,
                 titleSection,
@@ -741,7 +789,7 @@ facebook() async {
                   SizedBox(
                     height: 20.0,
                   ),
-                  Center(child: Text('Posts ${widget.empresa.nombre}',style: TextStyle(fontSize: 20.0,color: Colors.blueAccent ),)),
+                  Center(child: Text('Posts',style: TextStyle(fontSize: 20.0,color: Colors.blueAccent ),)),
                 ],
               ),
               height: 50.0,
@@ -758,7 +806,7 @@ facebook() async {
         ),
 
         appBar: new AppBar(
-          title: new Text( widget.empresa.nombre),
+          title: new Text( dataneg[0]["NEG_NOMBRE"]),
         ),
 
     );

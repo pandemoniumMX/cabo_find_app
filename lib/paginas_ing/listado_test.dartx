@@ -41,8 +41,7 @@ class HomePageState extends State<Listviewx> {
           data = json.decode(
               response.body);
         });
-    print(
-        data[0]["NEG_NOMBRE"]);
+    
 
     print(
         data[2]["GAL_FOTO"]);

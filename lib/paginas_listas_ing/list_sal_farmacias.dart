@@ -45,8 +45,7 @@ List databaja;
           data = json.decode(
               response.body);
         });
-    print(
-        data[0]["NEG_NOMBRE"]);
+    
 
 
     return "Success!";
@@ -200,28 +199,9 @@ void dispose() {
           ),
 
           onTap: () {
-            String id_sql = data[index]["ID_NEGOCIO"];
-            String nombre_sql = data[index]["NEG_NOMBRE"];
-            String cat_sql = data[index]["CAT_NOMBRE_ING"];
-            String subcat_sql = data[index]["SUB_NOMBRE_ING"];
-            String foto_sql = data[index]["GAL_FOTO"];
-            String etiquetas_sql = data[index]["NEG_ETIQUETAS"];
-            String desc_sql = data[index]["NEG_DESCRIPCION_ING"];
-            String mapa_sql = data[index]["NEG_MAP"];
-            String fb_sql = data[index]["NEG_FACEBOOK"];
-            String ins_sql = data[index]["NEG_INSTAGRAM"];
-            String web_sql = data[index]["NEG_WEB"];
-            String tel = data[index]["NEG_TEL"];
-            String cor = data[index]["NEG_CORREO"];
-            String hor = data[index]["NEG_HORARIO_ING"];
-
-
-
-
-            Navigator.push(context, new MaterialPageRoute
-              (builder: (context) => new Empresa_det_fin_ing(empresa: new Empresa(id_sql,nombre_sql,cat_sql,subcat_sql,foto_sql,etiquetas_sql,desc_sql,mapa_sql,fb_sql,ins_sql,web_sql,tel,cor,hor))
-            )
-            );
+              String id_sql = data[index]["ID_NEGOCIO"]; 
+              Navigator.push(context, new MaterialPageRoute
+                (builder: (context) => new Empresa_det_fin_ing(empresa: new Empresa(id_sql))));
 
           },
           //A Navigator is a widget that manages a set of child widgets with
@@ -313,28 +293,9 @@ void dispose() {
           ),
 
           onTap: () {
-            String id_sql = databaja[index]["ID_NEGOCIO"];
-            String nombre_sql = databaja[index]["NEG_NOMBRE"];
-            String cat_sql = databaja[index]["CAT_NOMBRE_ING"];
-            String subcat_sql = databaja[index]["SUB_NOMBRE_ING"];
-            String foto_sql = databaja[index]["GAL_FOTO"];
-            String etiquetas_sql = databaja[index]["NEG_ETIQUETAS"];
-            String desc_sql = databaja[index]["NEG_DESCRIPCION_ING"];
-            String mapa_sql = databaja[index]["NEG_MAP"];
-            String fb_sql = databaja[index]["NEG_FACEBOOK"];
-            String ins_sql = databaja[index]["NEG_INSTAGRAM"];
-            String web_sql = databaja[index]["NEG_WEB"];
-            String tel = databaja[index]["NEG_TEL"];
-            String cor = databaja[index]["NEG_CORREO"];
-            String hor = databaja[index]["NEG_HORARIO_ING"];
-
-
-
-
-            Navigator.push(context, new MaterialPageRoute
-              (builder: (context) => new Empresa_det_fin_ing(empresa: new Empresa(id_sql,nombre_sql,cat_sql,subcat_sql,foto_sql,etiquetas_sql,desc_sql,mapa_sql,fb_sql,ins_sql,web_sql,tel,cor,hor))
-            )
-            );
+              String id_sql = databaja[index]["ID_NEGOCIO"];
+              Navigator.push(context, new MaterialPageRoute
+                (builder: (context) => new Empresa_det_fin_ing(empresa: new Empresa(id_sql))));
 
           },
           //A Navigator is a widget that manages a set of child widgets with
