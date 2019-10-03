@@ -35,6 +35,7 @@ class _Publicacion_detalle_fin_ing extends State<Publicacion_detalle_fin_ing> {
   List data;
   List datacar;
   List dataneg;
+  List data_pub;
 
 
 
@@ -155,7 +156,7 @@ class _Publicacion_detalle_fin_ing extends State<Publicacion_detalle_fin_ing> {
 
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/ing/insert_recomendacion_publicacion.php?MOD=${androidInfo.model}&BOOT=${androidInfo.display},${androidInfo.bootloader},${androidInfo.fingerprint}&VERSION=${androidInfo.product}&IDIOMA=${currentLocale},&ID=${widget.publicacion.id}&SO=Android"),
+            "http://cabofind.com.mx/app_php/APIs/ing/insert_recomendacion_publicacion.php?MOD=${androidInfo.model}&BOOT=${androidInfo.display},${androidInfo.bootloader},${androidInfo.fingerprint}&VERSION=${androidInfo.product}&IDIOMA=${currentLocale},&ID=${widget.publicacion.id_p}&SO=Android"),
 
         headers: {
           "Accept": "application/json"
@@ -180,7 +181,7 @@ Future<String> insertPublicacionAndroid() async {
     var response = await http.get(
         Uri.encodeFull(
             //"http://cabofind.com.mx/app_php/APIs/esp/insert_visita_publicacion.php?ID=${widget.publicacion.id}"),
-            "http://cabofind.com.mx/app_php/APIs/ing/insert_visita_publicacion.php?MOD=${androidInfo.model}&BOOT=${androidInfo.display},${androidInfo.bootloader},${androidInfo.fingerprint}&VERSION=${androidInfo.product}&IDIOMA=${currentLocale}&ID=${widget.publicacion.id}&SO=Android"),
+            "http://cabofind.com.mx/app_php/APIs/ing/insert_visita_publicacion.php?MOD=${androidInfo.model}&BOOT=${androidInfo.display},${androidInfo.bootloader},${androidInfo.fingerprint}&VERSION=${androidInfo.product}&IDIOMA=${currentLocale}&ID=${widget.publicacion.id_p}&SO=Android"),
 
           //"http://cabofind.com.mx/app_php/list_negocios.php?"),
 
@@ -217,6 +218,27 @@ Future<String> insertPublicacioniOS() async {
     );
 }
 */
+  Future<String> getPub() async {
+    var response = await http.get(
+        Uri.encodeFull(
+            "http://cabofind.com.mx/app_php/APIs/ing/list_publicaciones_api.php?ID=${widget.publicacion.id_p}"),
+        //"http://cabofind.com.mx/app_php/list_negocios.php?"),
+
+
+        headers: {
+          "Accept": "application/json"
+        }
+    );
+
+    this.setState(
+            () {
+              data_pub = json.decode(
+              response.body);
+        });
+    
+
+    return "Success!";
+  }
 
   @override
   void initState() {
@@ -226,6 +248,7 @@ Future<String> insertPublicacioniOS() async {
     this.getData();
     this.getNeg();
     this.insertPublicacionAndroid();
+    this.getPub();
 
 
   }
@@ -263,7 +286,7 @@ Future<String> insertPublicacioniOS() async {
                         /*2*/
                         Center(
                           child: Text(
-                            widget.publicacion.titulo,
+                             data_pub[0]["PUB_TITULO_ING"],
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 23.0
@@ -278,7 +301,7 @@ Future<String> insertPublicacioniOS() async {
                         Center(
                           //  padding: const EdgeInsets.only(bottom: 10,left: 150.0),
                           child: Text(
-                            widget.publicacion.cat,
+                            data_pub[0]["CAT_NOMBRE_ING"],
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 15.0,
@@ -299,7 +322,7 @@ Future<String> insertPublicacioniOS() async {
 
                               padding: const EdgeInsets.only(left:20.0,bottom: 20.0,),
                               child: Text(
-                                widget.publicacion.det,
+                               data_pub[0]["PUB_DETALLE_ING"],
                                 //softWrap: true,
                                 style: TextStyle(fontSize: 20.0,
 
@@ -321,7 +344,7 @@ Future<String> insertPublicacioniOS() async {
                                   YoutubePlayer(
                                     context: context,
                                     //videoId: widget.publicacion.vid,
-                                    videoId: YoutubePlayer.convertUrlToId("${widget.publicacion.vid}"),
+                                    videoId: YoutubePlayer.convertUrlToId( data_pub[0]["PUB_VIDEO"],),
                                     autoPlay: false,
                                     width: MediaQuery.of(context).size.width,
                                     showVideoProgressIndicator: true,
@@ -400,7 +423,7 @@ Future<String> insertPublicacioniOS() async {
             Stack(
                 children: <Widget>[
 
-                   Image.network(widget.publicacion.logo
+                   Image.network(data_pub[0]["GAL_FOTO"]
                 ,width: MediaQuery.of(context).size.width,height: 450,fit: BoxFit.fill ),              
                 Positioned(
                         right: 0.0,
@@ -432,7 +455,7 @@ Future<String> insertPublicacioniOS() async {
           ],
         ),
         appBar: new AppBar(
-          title: new Text(widget.publicacion.nombre,
+          title: new Text(data_pub[0]["PUB_TITULO"],
             style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 20.0

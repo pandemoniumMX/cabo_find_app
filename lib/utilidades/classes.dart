@@ -9,20 +9,8 @@ class Empresa {
 }
 
 class Publicacion {
-  final String id_n;
-  final String id;
-  final String nombre;
-  final String neg;
-  final String cat;
-  final String subs;
-  final String logo;
-  final String titulo;
-  final String det;
-  final String fec;
-  final String vid;
-  final String tel;
-  final String cor;
-  
+  final String id_p; 
+  final String id_n; 
 
-  Publicacion(this.id_n,this.id,this.nombre,this.neg,this.cat,this.subs,this.logo,this.titulo, this.det,this.fec,this.vid,this.tel,this.cor);
+  Publicacion(this.id_p, this.id_n);
 }

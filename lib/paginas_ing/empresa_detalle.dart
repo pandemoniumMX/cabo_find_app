@@ -689,21 +689,11 @@ Future<String> insertVisitaiOS() async {
           onTap: () {
             String id_n = data_list[index]["ID_NEGOCIO"];
             String id = data_list[index]["ID_PUBLICACION"];
-            String nom = data_list[index]["NEG_NOMBRE"];
-            String lug = data_list[index]["NEG_LUGAR"];
-            String cat = data_list[index]["CAT_NOMBRE_ING"];
-            String sub = data_list[index]["SUB_NOMBRE_ING"];
-            String gal = data_list[index]["GAL_FOTO"];
-            String tit = data_list[index]["PUB_TITULO_ING"];
-            String det = data_list[index]["PUB_DETALLE_ING"];
-            String fec = data_list[index]["PUB_FECHA"];
-            String vid = data_list[index]["PUB_VIDEO"];
-            String tel = data_list[index]["NEG_TEL"];
-            String cor = data_list[index]["NEG_CORREO"];
+            
 
             Navigator.push(context, new MaterialPageRoute
               (builder: (context) => new Publicacion_detalle_fin_estatica_ing(
-              publicacion: new Publicacion(id_n,id,nom,lug,cat,sub,gal,tit,det,fec,vid,tel,cor),
+              publicacion: new Publicacion(id_n,id),
             )
             )
             );

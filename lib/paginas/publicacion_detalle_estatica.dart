@@ -34,6 +34,7 @@ class _Publicacion_detalle_fin_estatica extends State<Publicacion_detalle_fin_es
   List data;
   List datacar;
   List dataneg;
+  List data_pub;
 
 
   YoutubePlayerController _controller = YoutubePlayerController();
@@ -126,7 +127,7 @@ class _Publicacion_detalle_fin_estatica extends State<Publicacion_detalle_fin_es
 
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/ing/insert_recomendacion_publicacion.php?MOD=${androidInfo.model}&BOOT=${androidInfo.display},${androidInfo.bootloader},${androidInfo.fingerprint}&VERSION=${androidInfo.product}&IDIOMA=${currentLocale},&ID=${widget.publicacion.id}&SO=Android"),
+            "http://cabofind.com.mx/app_php/APIs/ing/insert_recomendacion_publicacion.php?MOD=${androidInfo.model}&BOOT=${androidInfo.display},${androidInfo.bootloader},${androidInfo.fingerprint}&VERSION=${androidInfo.product}&IDIOMA=${currentLocale},&ID=${widget.publicacion.id_p}&SO=Android"),
 
         headers: {
           "Accept": "application/json"
@@ -161,7 +162,27 @@ Future<String> insertRecomendacion() async {
   }
   */
 
+Future<String> getPub() async {
+    var response = await http.get(
+        Uri.encodeFull(
+            "http://cabofind.com.mx/app_php/APIs/esp/list_publicaciones_api.php?ID=${widget.publicacion.id_p}"),
+        //"http://cabofind.com.mx/app_php/list_negocios.php?"),
 
+
+        headers: {
+          "Accept": "application/json"
+        }
+    );
+
+    this.setState(
+            () {
+              data_pub = json.decode(
+              response.body);
+        });
+    
+
+    return "Success!";
+  }
 
 
   @override
@@ -171,6 +192,7 @@ Future<String> insertRecomendacion() async {
     );
     this.getData();
     this.getNeg();
+    this.getPub();
 
   }
 
@@ -185,7 +207,7 @@ Future<String> insertRecomendacion() async {
     
 void showShortToast() {
       Fluttertoast.showToast(
-          msg: "You have recommended this publication",
+          msg: "Has recomendado esta publicación",
           toastLength: Toast.LENGTH_SHORT,
           backgroundColor: Colors.blue,
           textColor: Colors.white,
@@ -213,7 +235,7 @@ void showShortToast() {
                             /*2*/
                             Center(
                               child: Text(
-                                widget.publicacion.titulo,
+                                data_pub[0]["PUB_TITULO"],
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 25.0
@@ -227,7 +249,7 @@ void showShortToast() {
                             Center(
                               //  padding: const EdgeInsets.only(bottom: 10,left: 150.0),
                               child: Text(
-                                widget.publicacion.cat,
+                                data_pub[0]["CAT_NOMBRE"],
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 15.0,
@@ -245,7 +267,7 @@ void showShortToast() {
 
                                 padding: const EdgeInsets.only(left:20.0,bottom: 20.0,),
                                 child: Text(
-                                  widget.publicacion.det,
+                                   data_pub[0]["PUB_DETALLE"],
                                   //softWrap: true,
                                   style: TextStyle(fontSize: 20.0,
 
@@ -267,7 +289,7 @@ void showShortToast() {
                                       YoutubePlayer(
                                         context: context,
                                         //videoId: widget.publicacion.vid,
-                                        videoId: YoutubePlayer.convertUrlToId("${widget.publicacion.vid}"),
+                                       videoId: YoutubePlayer.convertUrlToId( data_pub[0]["PUB_VIDEO"],),
                                         autoPlay: false,
                                         showVideoProgressIndicator: true,
                                         videoProgressIndicatorColor: Colors.blue,
@@ -324,7 +346,7 @@ void showShortToast() {
             Stack(
                 children: <Widget>[
 
-                   Image.network(widget.publicacion.logo
+                   Image.network(data_pub[0]["GAL_FOTO"]
                 ,width: MediaQuery.of(context).size.width,height: 450,fit: BoxFit.fill ),              
                 Positioned(
                         right: 0.0,
@@ -355,7 +377,7 @@ void showShortToast() {
           ],
         ),
         appBar: new AppBar(
-          title: new Text(widget.publicacion.nombre,
+          title: new Text(data_pub[0]["PUB_TITULO"],
             style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 20.0

@@ -170,21 +170,11 @@ List databaja;
             onTap: () {
               String id_n = data[index]["ID_NEGOCIO"];
               String id = data[index]["ID_PUBLICACION"];
-              String nom = data[index]["NEG_NOMBRE"];
-              String lug = data[index]["NEG_LUGAR"];
-              String cat = data[index]["CAT_NOMBRE_ING"];
-              String sub = data[index]["SUB_NOMBRE_ING"];
-              String gal = data[index]["GAL_FOTO"];
-              String tit = data[index]["PUB_TITULO_ING"];
-              String det = data[index]["PUB_DETALLE_ING"];
-              String fec = data[index]["PUB_FECHA"];
-              String vid = data[index]["PUB_VIDEO"];
-              String tel = data[index]["NEG_TEL"];
-              String cor = data[index]["NEG_CORREO"];
+             
 
               Navigator.push(context, new MaterialPageRoute
                 (builder: (context) => new Publicacion_detalle_fin_ing(
-                publicacion: new Publicacion(id_n,id,nom,lug,cat,sub,gal,tit,det,fec,vid,tel,cor),
+                publicacion: new Publicacion(id_n,id),
                 )
               )
               );

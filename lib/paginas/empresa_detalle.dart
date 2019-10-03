@@ -31,7 +31,7 @@ Empresa_det_fin({Key key, @required this.empresa}) : super(
 }
 
 class Detalles extends State<Empresa_det_fin> {
-  ScrollController _scrollController = new ScrollController();
+ // ScrollController _scrollController = new ScrollController();
 
   List data;
   List data_serv;
@@ -313,7 +313,7 @@ Future<String> insertVisitaiOS() async {
                      itemBuilder: (BuildContext context, int index) {
                        return Column(
                          children: <Widget>[
-                           Container(child: Text(data_hor[0]["NEG_HORARIO"],style: TextStyle(),),padding: EdgeInsets.only(bottom:15.0),) ,
+                           Container(child: Text(data_hor[index]["NEG_HORARIO"],style: TextStyle(),),padding: EdgeInsets.only(bottom:15.0),) ,
                          ],
                        );
                      }
@@ -382,7 +382,7 @@ Future<String> insertVisitaiOS() async {
               children: [
 
                    Text(
-                    dataneg[0]["NEG_NOMBRE"],
+                    dataneg[index]["NEG_NOMBRE"],
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                         fontSize: 28.0,
@@ -399,7 +399,7 @@ Future<String> insertVisitaiOS() async {
             
                 Text(
 
-                  dataneg[0]["CAT_NOMBRE"],
+                  dataneg[index]["CAT_NOMBRE"],
                   style: TextStyle(
                     color: Colors.blue[500],
                   ),
@@ -413,7 +413,7 @@ Future<String> insertVisitaiOS() async {
                 ),
               ),
               Text(
-                dataneg[0]["SUB_NOMBRE"],
+                dataneg[index]["SUB_NOMBRE"],
                 style: TextStyle(
                   color: Colors.blue[500],
                 ),
@@ -692,21 +692,11 @@ Future<String> insertVisitaiOS() async {
           onTap: () {
             String id_n = data_list[index]["ID_NEGOCIO"];
             String id = data_list[index]["ID_PUBLICACION"];
-            String nom = data_list[index]["NEG_NOMBRE"];
-            String lug = data_list[index]["NEG_LUGAR"];
-            String cat = data_list[index]["CAT_NOMBRE"];
-            String sub = data_list[index]["SUB_NOMBRE"];
-            String gal = data_list[index]["GAL_FOTO"];
-            String tit = data_list[index]["PUB_TITULO"];
-            String det = data_list[index]["PUB_DETALLE"];
-            String fec = data_list[index]["PUB_FECHA"];
-            String vid = data_list[index]["PUB_VIDEO"];
-            String tel = data_list[index]["NEG_TEL"];
-            String cor = data_list[index]["NEG_CORREO"];
+            
 
             Navigator.push(context, new MaterialPageRoute
               (builder: (context) => new Publicacion_detalle_fin_estatica(
-              publicacion: new Publicacion(id_n,id,nom,lug,cat,sub,gal,tit,det,fec,vid,tel,cor),
+              publicacion: new Publicacion(id_n,id),
             )
             )
             );
