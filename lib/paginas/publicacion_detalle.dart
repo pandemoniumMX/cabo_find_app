@@ -591,7 +591,7 @@ Future<String> insertPublicacioniOS() async {
           ],
         ),
         appBar: new AppBar(
-          title: new Text( 'Cabofind',
+          title: new Text( 'Volver',
             style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 20.0

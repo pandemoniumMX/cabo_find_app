@@ -365,7 +365,23 @@ Future<String> insertVisitaiOS() async {
      ),
    );
 
-    
+    _mapa(BuildContext context) async {
+     if (Platform.isAndroid) {
+        final url =  dataneg[0]["NEG_MAP"];
+      if (await canLaunch(url)) {
+        await launch(url);
+      } else {
+        throw 'Could not launch $url';
+      }
+      } else {
+      final url =  dataneg[0]["NEG_MAP_IOS"];
+      if (await canLaunch(url)) {
+        await launch(url);
+      } else {
+        throw 'Could not launch $url';
+      }
+      }
+   }
     Widget titleSection = Container(
      // width: MediaQuery.of(context).size.width,
       //padding: const EdgeInsets.all(20),
@@ -373,6 +389,72 @@ Future<String> insertVisitaiOS() async {
       child: new ListView.builder(
         itemCount: dataneg == null ? 0 : dataneg.length,
        itemBuilder: (BuildContext context, int index) {
+
+         mapa() async {
+      if (Platform.isAndroid) {
+        final url =  dataneg[index]["NEG_MAP"];
+      if (await canLaunch(url)) {
+        await launch(url);
+      } else {
+        throw 'Could not launch $url';
+      }
+      } else {
+      final url =  dataneg[0]["NEG_MAP_IOS"];
+      if (await canLaunch(url)) {
+        await launch(url);
+      } else {
+        throw 'Could not launch $url';
+      }
+      }
+      
+    }
+
+   facebook() async {
+     final url =  dataneg[index]["NEG_FACEBOOK"];
+     if (await canLaunch(url)) {
+       await launch(url);
+     } else {
+       throw 'Could not launch $url';
+     }
+   }
+
+   web() async {
+     final url =  dataneg[index]["NEG_WEB"];
+     if (await canLaunch(url)) {
+       await launch(url);
+     } else {
+       throw 'Could not launch $url';
+     }
+   }
+
+   instagram() async {
+     final url =  dataneg[index]["NEG_WEB"];
+     if (await canLaunch(url)) {
+       await launch(url);
+     } else {
+       throw 'Could not launch $url';
+     }
+   }
+
+   telefono() async {
+     final tel = dataneg[index]["NEG_TEL"];
+     final url =  "tel: $tel";
+     if (await canLaunch(url)) {
+       await launch(url);
+     } else {
+       throw 'Could not launch $url';
+     }
+   }
+
+   correo() async {
+     final mail = dataneg[index]["NEG_CORREO"];
+     final url = "mailto: $mail";
+     if (await canLaunch(url)) {
+       await launch(url);
+     } else {
+       throw 'Could not launch $url';
+     }
+   }
 
          return  new Column(
           children:[
@@ -420,14 +502,34 @@ Future<String> insertVisitaiOS() async {
               ), 
               
               
+              
 
             ],
             ),
 
-            )
+            ),
 
-            
-          ],       
+         Row(
+         mainAxisAlignment: MainAxisAlignment.center,
+         children: <Widget>[
+         SizedBox(width: 30),
+         FloatingActionButton(child: Icon(FontAwesomeIcons.instagram), onPressed: instagram,backgroundColor:Color(0xff189bd3),heroTag: "bt1",),
+         Expanded(child: SizedBox(width: 5.0,)),
+         FloatingActionButton(child: Icon(FontAwesomeIcons.facebook), onPressed: facebook,backgroundColor:Color(0xff189bd3),heroTag: "bt3",),
+         Expanded(child: SizedBox(width: 5.0,)),
+         FloatingActionButton(child: Icon(FontAwesomeIcons.globeAmericas), onPressed: web,backgroundColor:Color(0xff189bd3),heroTag: "bt4",),
+         Expanded(child: SizedBox(width: 5.0,)),
+         FloatingActionButton(child: Icon(FontAwesomeIcons.phone), onPressed: telefono,backgroundColor:Color(0xff189bd3),heroTag: "bt5",),
+         Expanded(child: SizedBox(width: 5.0,)),
+         FloatingActionButton(child: Icon(FontAwesomeIcons.envelope), onPressed: correo,backgroundColor:Color(0xff189bd3),heroTag: "bt6W",),
+         Expanded(child: SizedBox(width: 5.0,)),
+
+         ],
+         ),
+
+
+          ],
+
        
         );
        },
@@ -454,71 +556,7 @@ Future<String> insertVisitaiOS() async {
 
     );
 
-    mapa() async {
-      if (Platform.isAndroid) {
-        final url =  dataneg[0]["NEG_MAP"];
-      if (await canLaunch(url)) {
-        await launch(url);
-      } else {
-        throw 'Could not launch $url';
-      }
-      } else {
-      final url =  dataneg[0]["NEG_MAP_IOS"];
-      if (await canLaunch(url)) {
-        await launch(url);
-      } else {
-        throw 'Could not launch $url';
-      }
-      }
-      
-    }
-
-   facebook() async {
-     final url =  dataneg[0]["NEG_FACEBOOK"];
-     if (await canLaunch(url)) {
-       await launch(url);
-     } else {
-       throw 'Could not launch $url';
-     }
-   }
-
-   web() async {
-     final url =  dataneg[0]["NEG_WEB"];
-     if (await canLaunch(url)) {
-       await launch(url);
-     } else {
-       throw 'Could not launch $url';
-     }
-   }
-
-   instagram() async {
-     final url =  dataneg[0]["NEG_WEB"];
-     if (await canLaunch(url)) {
-       await launch(url);
-     } else {
-       throw 'Could not launch $url';
-     }
-   }
-
-   telefono() async {
-     final tel = dataneg[0]["NEG_TEL"];
-     final url =  "tel: $tel";
-     if (await canLaunch(url)) {
-       await launch(url);
-     } else {
-       throw 'Could not launch $url';
-     }
-   }
-
-   correo() async {
-     final mail = dataneg[0]["NEG_CORREO"];
-     final url = "mailto: $mail";
-     if (await canLaunch(url)) {
-       await launch(url);
-     } else {
-       throw 'Could not launch $url';
-     }
-   }
+    
 
 
 
@@ -554,7 +592,7 @@ Future<String> insertVisitaiOS() async {
          ),
          Column(
            children: <Widget>[
-             FloatingActionButton(child: Icon(FontAwesomeIcons.mapMarkedAlt), onPressed:mapa,backgroundColor:Color(0xff189bd3),heroTag: "bt4",),
+             FloatingActionButton(child: Icon(FontAwesomeIcons.mapMarkedAlt), onPressed:() => _mapa(context),backgroundColor:Color(0xff189bd3),heroTag: "bt4",),
              Text('Abrir mapa', style: TextStyle(color: Colors.black),),
 
            ],
@@ -570,9 +608,10 @@ Future<String> insertVisitaiOS() async {
 
 
 
-
+/*
   Widget social(){
      return Row(
+
        mainAxisAlignment: MainAxisAlignment.center,
        children: <Widget>[
          SizedBox(width: 30),
@@ -590,7 +629,7 @@ Future<String> insertVisitaiOS() async {
        ],
      );
    }
-
+*/
   Widget publicaciones =  ListView.builder(
       shrinkWrap: true,
       physics: BouncingScrollPhysics(),
@@ -785,7 +824,7 @@ Future<String> insertVisitaiOS() async {
                   SizedBox(
                     height: 15.0,
                   ),
-                 social(),
+                // social(),
 
                 ],
               )
