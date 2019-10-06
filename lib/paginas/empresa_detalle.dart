@@ -270,12 +270,18 @@ final graphResponse = await http.get(
             'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,picture,email&access_token=${token}');
 final profile = json.decode(graphResponse.body);
  print(profile[ 'email'],);
-print(profile[ 'picture']["data"]["url"],);
-final picture = print(userProfile[ 'picture']["data"]["url"],);
-
+ print(profile[ 'last_name'],);
+//final pictures= profile[ 'picture']["data"]["url"];
+final id= profile['id'];
+final correofb= profile['email'];
+final nombresfb= profile['first_name'];
+final apellidosfb= profile['last_name'];
+final imagenfb = profile['picture'];
+//final imagenfb = profile['picture'];
+//final url =  dataneg[0]["NEG_WEB"];
 var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/insertar_resena.php?MOD=${picture}"),
+            'http://cabofind.com.mx/app_php/APIs/esp/insertar_resena.php?ID_FB=$id,CORREO=$correofb,NOM=$nombresfb,APE=$apellidosfb,FOTO=$imagenfb,IDIOMA=ESP,RESENA=GG,VALOR=GG,ID_N=3'),
 
         headers: {
           "Accept": "application/json"
@@ -750,7 +756,7 @@ void initiateFacebookLogin() async{
   
                    child: Text(
   
-                  'asdadlajddddddddddddlaskjassdñlkjasdñljsñlsjldlasdjñladjñljñlajsdflñ',  
+                  'Ejemplo de reseña basica calificando al negocio',  
                   maxLines: 10,
   
                   softWrap: true,
@@ -853,7 +859,7 @@ void initiateFacebookLogin() async{
    }
 
    instagram() async {
-     final url =  dataneg[index]["NEG_WEB"];
+     final url =  dataneg[index]["NEG_INSTAGRAM"];
      if (await canLaunch(url)) {
        await launch(url);
      } else {
