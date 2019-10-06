@@ -16,6 +16,8 @@ https://github.com/Oclemy/flutter_listview_php_mysql;
 https://medium.com/@studymongolian/a-complete-guide-to-flutters-listtile-597a20a3d449
 
 
+./keytool -exportcert -alias androiddebugkey -keystore C:\Users\Pandemonium\.android\debug.keystore | C:\ssl\bin\openssl sha1 -binary | C:\ssl\bin\openssl base64  
+
 
 keytool -genkey -v -keystore c:/Users/Pandemonium/key.jks -keyalg RSA -keysize 2048 -validity 10000 -alias key
 

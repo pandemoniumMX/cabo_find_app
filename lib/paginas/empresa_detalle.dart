@@ -6,6 +6,7 @@ import 'package:cabofind/paginas/publicacion_detalle_estatica.dart';
 import 'package:device_info/device_info.dart';
 import 'package:devicelocale/devicelocale.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:cabofind/utilidades/classes.dart';
@@ -32,13 +33,38 @@ Empresa_det_fin({Key key, @required this.empresa}) : super(
 
 class Detalles extends State<Empresa_det_fin> {
  // ScrollController _scrollController = new ScrollController();
-
+  bool isLoggedIn=false;
   List data;
   List data_serv;
   List dataneg;
   List data_list;
   List data_carrusel;
   List data_hor;
+  List logos;
+  List descripcion;
+
+  void initiateFacebookLogin() async{
+  var login = FacebookLogin();
+  var result = await login.logIn(['email']);
+  switch(result.status){
+    case FacebookLoginStatus.error:
+    print("Surgio un error");
+    break;
+    case FacebookLoginStatus.cancelledByUser:
+    print("Cancelado por el usuario");
+    break;
+    case FacebookLoginStatus.loggedIn:
+    onLoginStatusChange(true);
+    break;
+  }
+}
+
+void onLoginStatusChange(bool isLoggedIn){
+  setState(() {
+   this.isLoggedIn=isLoggedIn; 
+  });
+}
+
 
   Future<String> getInfo() async {
     var response = await http.get(
@@ -60,6 +86,7 @@ class Detalles extends State<Empresa_det_fin> {
     return "Success!";
   }
 
+  
  
 
   Future<String> getCar() async {
@@ -225,7 +252,8 @@ Future<String> insertVisitaiOS() async {
     this.getSer();
     this.getCarrusel();
     this.getHorarios();
-    this.getInfo();
+    this.getInfo();   
+
     this.insertVisitaAndroid();
    // this.insertVisitaiOS;
 
@@ -299,12 +327,12 @@ Future<String> insertVisitaiOS() async {
          });
    }
 
-   _alertHorario(BuildContext context) async {
+    _alertHorario(BuildContext context) async {
      return showDialog(
          context: context,
          builder: (context) {
            return AlertDialog(
-             title: Text('Horarios',style: TextStyle(fontSize: 25.0,),),
+             title: Text('Horario',style: TextStyle(fontSize: 25.0,),),
              content: Container(
                  width: double.maxFinite,
                  height: 300.0,
@@ -331,6 +359,46 @@ Future<String> insertVisitaiOS() async {
          });
    }
 
+   _mapa(BuildContext context) async {
+     return showDialog(
+         context: context,
+         builder: (context) {
+           return Container (
+     // width: MediaQuery.of(context).size.width,
+      //padding: const EdgeInsets.all(20),
+     height:  75.0,
+      child: new ListView.builder(
+        itemCount: dataneg == null ? 0 : dataneg.length,
+       itemBuilder: (BuildContext context, int index) {
+
+         mapa() async {
+      if (Platform.isAndroid) {
+        final url =  dataneg[index]["NEG_MAP"];
+      if (await canLaunch(url)) {
+        await launch(url);
+      } else {
+        throw 'Could not launch $url';
+      }
+      } else {
+      final url =  dataneg[index]["NEG_MAP_IOS"];
+      if (await canLaunch(url)) {
+        await launch(url);
+      } else {
+        throw 'Could not launch $url';
+      }
+      }    
+    }
+      
+      }
+      )
+      
+    );
+         });
+   }
+
+   
+
+ 
   Widget carrusel =   Container(
      child: new ListView.builder(
 
@@ -365,27 +433,179 @@ Future<String> insertVisitaiOS() async {
      ),
    );
 
-    _mapa(BuildContext context) async {
-     if (Platform.isAndroid) {
-        final url =  dataneg[0]["NEG_MAP"];
-      if (await canLaunch(url)) {
-        await launch(url);
-      } else {
-        throw 'Could not launch $url';
-      }
-      } else {
-      final url =  dataneg[0]["NEG_MAP_IOS"];
-      if (await canLaunch(url)) {
-        await launch(url);
-      } else {
-        throw 'Could not launch $url';
-      }
-      }
-   }
+    
     Widget titleSection = Container(
      // width: MediaQuery.of(context).size.width,
       //padding: const EdgeInsets.all(20),
+     height:  50.0,
+      child: new ListView.builder(
+        itemCount: dataneg == null ? 0 : dataneg.length,
+       itemBuilder: (BuildContext context, int index) {    
+
+         return  new Column(
+          children:[
+            Row(
+              mainAxisAlignment: 
+              MainAxisAlignment.center,            
+              children: [
+
+                   Text(
+                    dataneg[index]["NEG_NOMBRE"],
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                        fontSize: 28.0,
+                       //color: Colors.blue[500],
+                    ),
+                  ),               
+
+              ],
+            ),
+          Center(
+            child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+            
+                Text(
+
+                  dataneg[index]["CAT_NOMBRE"],
+                  style: TextStyle(
+                    color: Colors.blue[500],
+                  ),
+                ),
+                
+
+              Text(
+                " | ",
+                style: TextStyle(
+                  color: Colors.grey[500],
+                ),
+              ),
+              Text(
+                dataneg[index]["SUB_NOMBRE"],
+                style: TextStyle(
+                  color: Colors.blue[500],
+                ),
+              ), 
+              
+              
+              
+
+            ],
+            ),
+
+            ),
+
+         
+
+
+          ],
+
+       
+        );
+       },
+      ),
+       
+    
+    );
+
+    Color color = Theme.of(context).primaryColor;
+
+
+    Widget textSection = Container(
+     // height:  MediaQuery.of(context).size.height,
      height:  100.0,
+      child: new ListView.builder(
+        itemCount: dataneg == null ? 0 : dataneg.length,
+       itemBuilder: (BuildContext context, int index) {
+  //padding: const EdgeInsets.only(bottom: 10,left: 20,right: 20);
+      return new Card(
+              child: Text(
+         dataneg[index]["NEG_DESCRIPCION"],        
+          maxLines: 20,
+          softWrap: true,
+          textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 18.0),
+        ),
+      );
+       }
+      )
+    );
+
+    Widget logo = Container(
+     // height:  MediaQuery.of(context).size.height,
+     height:  300.0,
+      child: new ListView.builder(
+        itemCount: dataneg == null ? 0 : dataneg.length,
+       itemBuilder: (BuildContext context, int index) {
+
+      return new FadeInImage(
+
+                    image: NetworkImage(dataneg[index]["GAL_FOTO"]),
+                    fit: BoxFit.fill,
+                    width: MediaQuery.of(context).size.width,
+                    height: 300,
+
+                    // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
+                    placeholder: AssetImage('android/assets/images/loading.gif'),
+                    fadeInDuration: Duration(milliseconds: 200),
+
+                  );
+       }
+      )
+    );
+
+
+   Widget buttonSection = Container(
+     width: MediaQuery.of(context).size.width +30,
+
+     child: Row(
+       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+       children: [
+         Column(
+           children: <Widget>[
+             FloatingActionButton(child: Icon(FontAwesomeIcons.feather), onPressed:() => _alertCar(context),backgroundColor:Color(0xff189bd3),heroTag: "bt1",),
+             Text('Caracteristicas', style: TextStyle(color: Colors.black),),
+           ],
+         ),
+
+         Column(
+           children: <Widget>[
+             FloatingActionButton(child: Icon(FontAwesomeIcons.conciergeBell), onPressed:() => _alertSer(context),backgroundColor:Color(0xff189bd3),heroTag: "bt2",),
+             Text('Servicios', style: TextStyle(color: Colors.black),),
+
+           ],
+         ),
+         Column(
+           children: <Widget>[
+             FloatingActionButton(child: Icon(FontAwesomeIcons.clock), onPressed:() => _alertHorario(context),backgroundColor:Color(0xff189bd3),heroTag: "bt3",),
+             Text('Horarios', style: TextStyle(color: Colors.black),),
+
+           ],
+         ),
+         Column(
+           children: <Widget>[
+             FloatingActionButton(child: Icon(FontAwesomeIcons.mapMarkedAlt), onPressed:() => _mapa(context),backgroundColor:Color(0xff189bd3),heroTag: "bt4",),
+             Text('Abrir mapa', style: TextStyle(color: Colors.black),),
+
+           ],
+         ),
+       ],
+     ),
+
+   );
+
+
+
+
+
+
+
+
+  Widget social() { 
+    return Container (
+     // width: MediaQuery.of(context).size.width,
+      //padding: const EdgeInsets.all(20),
+      height:  60.0,
       child: new ListView.builder(
         itemCount: dataneg == null ? 0 : dataneg.length,
        itemBuilder: (BuildContext context, int index) {
@@ -399,7 +619,7 @@ Future<String> insertVisitaiOS() async {
         throw 'Could not launch $url';
       }
       } else {
-      final url =  dataneg[0]["NEG_MAP_IOS"];
+      final url =  dataneg[index]["NEG_MAP_IOS"];
       if (await canLaunch(url)) {
         await launch(url);
       } else {
@@ -455,61 +675,7 @@ Future<String> insertVisitaiOS() async {
        throw 'Could not launch $url';
      }
    }
-
-         return  new Column(
-          children:[
-            Row(
-              mainAxisAlignment: 
-              MainAxisAlignment.center,            
-              children: [
-
-                   Text(
-                    dataneg[index]["NEG_NOMBRE"],
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                        fontSize: 28.0,
-                       //color: Colors.blue[500],
-                    ),
-                  ),               
-
-              ],
-            ),
-          Center(
-            child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-            
-                Text(
-
-                  dataneg[index]["CAT_NOMBRE"],
-                  style: TextStyle(
-                    color: Colors.blue[500],
-                  ),
-                ),
-                
-
-              Text(
-                " | ",
-                style: TextStyle(
-                  color: Colors.grey[500],
-                ),
-              ),
-              Text(
-                dataneg[index]["SUB_NOMBRE"],
-                style: TextStyle(
-                  color: Colors.blue[500],
-                ),
-              ), 
-              
-              
-              
-
-            ],
-            ),
-
-            ),
-
-         Row(
+         return new Row(
          mainAxisAlignment: MainAxisAlignment.center,
          children: <Widget>[
          SizedBox(width: 30),
@@ -525,111 +691,20 @@ Future<String> insertVisitaiOS() async {
          Expanded(child: SizedBox(width: 5.0,)),
 
          ],
-         ),
+         );
 
 
-          ],
+         
 
-       
-        );
-       },
-      ),
-       
-    
+         
+      
+      }
+      )
+      
     );
-
-    Color color = Theme.of(context).primaryColor;
-
-
-    Widget textSection = Container(
-
-      padding: const EdgeInsets.only(bottom: 10,left: 20,right: 20),
-      child: Card(
-              child: Text(
-         dataneg[0]["NEG_DESCRIPCION"],        
-          maxLines: 15,
-          softWrap: true,
-          textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 18.0),
-        ),
-      ),
-
-    );
-
+  }
     
 
-
-
-
-
-
-   Widget buttonSection = Container(
-     width: MediaQuery.of(context).size.width +30,
-
-     child: Row(
-       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-       children: [
-         Column(
-           children: <Widget>[
-             FloatingActionButton(child: Icon(FontAwesomeIcons.feather), onPressed:() => _alertCar(context),backgroundColor:Color(0xff189bd3),heroTag: "bt1",),
-             Text('Caracteristicas', style: TextStyle(color: Colors.black),),
-           ],
-         ),
-
-         Column(
-           children: <Widget>[
-             FloatingActionButton(child: Icon(FontAwesomeIcons.conciergeBell), onPressed:() => _alertSer(context),backgroundColor:Color(0xff189bd3),heroTag: "bt2",),
-             Text('Servicios', style: TextStyle(color: Colors.black),),
-
-           ],
-         ),
-         Column(
-           children: <Widget>[
-             FloatingActionButton(child: Icon(FontAwesomeIcons.clock), onPressed:() => _alertHorario(context),backgroundColor:Color(0xff189bd3),heroTag: "bt3",),
-             Text('Horarios', style: TextStyle(color: Colors.black),),
-
-           ],
-         ),
-         Column(
-           children: <Widget>[
-             FloatingActionButton(child: Icon(FontAwesomeIcons.mapMarkedAlt), onPressed:() => _mapa(context),backgroundColor:Color(0xff189bd3),heroTag: "bt4",),
-             Text('Abrir mapa', style: TextStyle(color: Colors.black),),
-
-           ],
-         ),
-       ],
-     ),
-
-   );
-
-
-
-
-
-
-
-/*
-  Widget social(){
-     return Row(
-
-       mainAxisAlignment: MainAxisAlignment.center,
-       children: <Widget>[
-         SizedBox(width: 30),
-         FloatingActionButton(child: Icon(FontAwesomeIcons.instagram), onPressed: instagram,backgroundColor:Color(0xff189bd3),heroTag: "bt1",),
-         Expanded(child: SizedBox(width: 5.0,)),
-         FloatingActionButton(child: Icon(FontAwesomeIcons.facebook), onPressed: facebook,backgroundColor:Color(0xff189bd3),heroTag: "bt3",),
-         Expanded(child: SizedBox(width: 5.0,)),
-         FloatingActionButton(child: Icon(FontAwesomeIcons.globeAmericas), onPressed: web,backgroundColor:Color(0xff189bd3),heroTag: "bt4",),
-         Expanded(child: SizedBox(width: 5.0,)),
-         FloatingActionButton(child: Icon(FontAwesomeIcons.phone), onPressed: telefono,backgroundColor:Color(0xff189bd3),heroTag: "bt5",),
-         Expanded(child: SizedBox(width: 5.0,)),
-         FloatingActionButton(child: Icon(FontAwesomeIcons.envelope), onPressed: correo,backgroundColor:Color(0xff189bd3),heroTag: "bt6W",),
-         Expanded(child: SizedBox(width: 5.0,)),
-
-       ],
-     );
-   }
-*/
   Widget publicaciones =  ListView.builder(
       shrinkWrap: true,
       physics: BouncingScrollPhysics(),
@@ -765,24 +840,12 @@ Future<String> insertVisitaiOS() async {
             Column(
 
               children: <Widget>[
-                FadeInImage(
+               
 
-                    image: NetworkImage(dataneg[0]["GAL_FOTO"]),
-                    fit: BoxFit.fill,
-                    width: MediaQuery.of(context).size.width,
-                    height: 300,
-
-                    // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
-                    placeholder: AssetImage('android/assets/images/loading.gif'),
-                    fadeInDuration: Duration(milliseconds: 200),
-
-                  ),
-
-               // Image.network( dataneg[0]["GAL_FOTO"],width: MediaQuery.of(context).size.width,height: 300,fit: BoxFit.fill ),
-                //Image.asset('android/assets/images/img1.jpg',width: 600,height: 240,fit: BoxFit.cover,),
-                //loading,
+                logo,
+                SizedBox(height: 15.0,),
                 titleSection,
-               textSection,
+                textSection,
                 buttonSection,
 
 
@@ -824,7 +887,7 @@ Future<String> insertVisitaiOS() async {
                   SizedBox(
                     height: 15.0,
                   ),
-                // social(),
+                 social(),
 
                 ],
               )
@@ -855,7 +918,7 @@ Future<String> insertVisitaiOS() async {
         ),
 
         appBar: new AppBar(
-          title: new Text( dataneg[0]["NEG_NOMBRE"]),
+          title: new Text( 'Regresar'),
         ),
 
     );
