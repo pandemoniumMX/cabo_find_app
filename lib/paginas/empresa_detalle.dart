@@ -33,6 +33,13 @@ Empresa_det_fin({Key key, @required this.empresa}) : super(
 
 class Detalles extends State<Empresa_det_fin> {
  // ScrollController _scrollController = new ScrollController();
+   Map userProfile;
+
+  List _cities  =
+  ["⭐", "⭐⭐", "⭐⭐⭐", "⭐⭐⭐⭐", "⭐⭐⭐⭐⭐"];
+
+  List<DropdownMenuItem<String>> _dropDownMenuItems;
+  String _currentCity;
   bool isLoggedIn=false;
   List data;
   List data_serv;
@@ -43,27 +50,8 @@ class Detalles extends State<Empresa_det_fin> {
   List logos;
   List descripcion;
 
-  void initiateFacebookLogin() async{
-  var login = FacebookLogin();
-  var result = await login.logIn(['email']);
-  switch(result.status){
-    case FacebookLoginStatus.error:
-    print("Surgio un error");
-    break;
-    case FacebookLoginStatus.cancelledByUser:
-    print("Cancelado por el usuario");
-    break;
-    case FacebookLoginStatus.loggedIn:
-    onLoginStatusChange(true);
-    break;
-  }
-}
+  
 
-void onLoginStatusChange(bool isLoggedIn){
-  setState(() {
-   this.isLoggedIn=isLoggedIn; 
-  });
-}
 
 
   Future<String> getInfo() async {
@@ -244,8 +232,14 @@ Future<String> insertVisitaiOS() async {
 
     return "Success!";
   }
+  
+  
+
+
 
   void initState() {
+     _dropDownMenuItems = getDropDownMenuItems();
+    _currentCity = _dropDownMenuItems[0].value;
     super.initState();
     this.getCar();
     this.get_list();
@@ -253,11 +247,134 @@ Future<String> insertVisitaiOS() async {
     this.getCarrusel();
     this.getHorarios();
     this.getInfo();   
-
     this.insertVisitaAndroid();
+  
    // this.insertVisitaiOS;
 
   }
+List<DropdownMenuItem<String>> getDropDownMenuItems() {
+    List<DropdownMenuItem<String>> items = new List();
+    for (String city in _cities) {
+      items.add(new DropdownMenuItem(
+          value: city,
+          child: new Text(city)
+      ));
+    }
+    return items;
+  }
+
+void getInfofb(FacebookLoginResult result) async {
+ //final result = await facebookSignIn.logInWithReadPermissions(['email']);
+final token = result.accessToken.token;
+final graphResponse = await http.get(
+            'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,picture,email&access_token=${token}');
+final profile = json.decode(graphResponse.body);
+ print(profile[ 'email'],);
+print(profile[ 'picture']["data"]["url"],);
+final picture = print(userProfile[ 'picture']["data"]["url"],);
+
+var response = await http.get(
+        Uri.encodeFull(
+            "http://cabofind.com.mx/app_php/APIs/esp/insertar_resena.php?MOD=${picture}"),
+
+        headers: {
+          "Accept": "application/json"
+        }
+    );
+setState(() {
+          userProfile = profile;
+        });
+        }
+
+
+void changedDropDownItem(String selectedCity) {
+    setState(() {
+      _currentCity = selectedCity;
+    });
+
+}
+
+void onLoginStatusChange(bool isLoggedIn){
+  setState(() {
+   this.isLoggedIn=isLoggedIn; 
+   
+  });
+}
+
+void initiateFacebookLogin() async{
+  var login = FacebookLogin();
+  var result = await login.logIn(['email']);
+  switch(result.status){
+    case FacebookLoginStatus.error:
+    print("Surgio un error");
+    break;
+    case FacebookLoginStatus.cancelledByUser:
+    print("Cancelado por el usuario");
+    break;
+    case FacebookLoginStatus.loggedIn:
+    onLoginStatusChange(true);
+    getInfofb(result);
+    return showDialog(
+         context: context,
+         builder: (context) {
+           return AlertDialog(
+             title: Text('Reseña',style: TextStyle(fontSize: 25.0,),),
+             content: Container(
+                 width: MediaQuery.of(context).size.width,
+                 height: 350.0,
+                 child:  
+                Column(
+                                    children: <Widget>[
+    
+
+            Text('Valoracion por estrellas'),
+           SizedBox(height: 15.0,),
+            DropdownButton(
+                value: _currentCity,
+                items: _dropDownMenuItems,
+                onChanged: changedDropDownItem,
+              ),
+                         SizedBox(height: 15.0,),
+
+                          Text('Escribe una breve reseña'),
+
+              TextFormField(
+                validator: (value) {  
+                if (value.isEmpty) {  
+                     return 'No puedes enviar una reseña vacia';  
+                }  
+                return null;  
+              },  
+              maxLines: 5,    
+  
+            ),
+            ],
+                 )
+                 
+             ),
+             actions: <Widget>[
+               new FlatButton(
+                 child: new Text('Cancelar'),
+                 onPressed: () {
+                   Navigator.of(context).pop();
+                 },
+               ),
+               new FlatButton(
+                 child: new Text('Enviar'),
+                 onPressed: (){ getInfofb;},
+               )
+             ],
+           );
+         });
+
+         
+    break;
+  }
+}
+
+
+
+
 
  Widget build(BuildContext context){
 
@@ -439,6 +556,7 @@ Future<String> insertVisitaiOS() async {
       //padding: const EdgeInsets.all(20),
      height:  50.0,
       child: new ListView.builder(
+        shrinkWrap: true,
         itemCount: dataneg == null ? 0 : dataneg.length,
        itemBuilder: (BuildContext context, int index) {    
 
@@ -515,6 +633,7 @@ Future<String> insertVisitaiOS() async {
      // height:  MediaQuery.of(context).size.height,
      height:  100.0,
       child: new ListView.builder(
+        shrinkWrap: true,
         itemCount: dataneg == null ? 0 : dataneg.length,
        itemBuilder: (BuildContext context, int index) {
   //padding: const EdgeInsets.only(bottom: 10,left: 20,right: 20);
@@ -535,6 +654,7 @@ Future<String> insertVisitaiOS() async {
      // height:  MediaQuery.of(context).size.height,
      height:  300.0,
       child: new ListView.builder(
+        shrinkWrap: true,
         itemCount: dataneg == null ? 0 : dataneg.length,
        itemBuilder: (BuildContext context, int index) {
 
@@ -594,6 +714,88 @@ Future<String> insertVisitaiOS() async {
 
    );
 
+   Widget resenasection = Container(
+     width: MediaQuery.of(context).size.width -1.0,
+    
+     child: Card(
+            child: Row(
+         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+         children: [
+           Column(
+             children: <Widget>[
+              FloatingActionButton(
+                                    child: new Image.asset(
+                                      "assets/recomend.png",
+                                  fit: BoxFit.cover,
+                                  width: 50.0,
+                                  height: 50.0,
+                                ),
+                                            backgroundColor: Colors.black, onPressed: () {},           
+                  ),      
+                  Row(
+  
+                   children: <Widget>[
+                    Text( 
+                   'Pedro ', 
+                    style: TextStyle(fontSize: 18.0),  
+                  ),
+                  ], 
+                  ),   
+                ],
+              ),
+         
+          Container(
+
+            child: Flexible(
+  
+                   child: Text(
+  
+                  'asdadlajddddddddddddlaskjassdñlkjasdñljsñlsjldlasdjñladjñljñlajsdflñ',  
+                  maxLines: 10,
+  
+                  softWrap: true,
+  
+                 // textAlign: TextAlign.left,
+  
+                         style: TextStyle(fontSize: 18.0),
+  
+                ),
+  
+                    
+
+            ),
+          ),
+
+          Container(
+
+            child: Flexible(
+  
+                   child: Text(
+  
+                  '⭐⭐⭐⭐⭐',  
+                  maxLines: 10,
+  
+                  softWrap: true,
+  
+                 // textAlign: TextAlign.left,
+  
+                         style: TextStyle(fontSize: 18.0),
+  
+                ),
+  
+                    
+
+            ),
+          ), 
+
+          
+       ],
+
+   ),
+   
+     )
+   );
+
 
 
 
@@ -605,10 +807,13 @@ Future<String> insertVisitaiOS() async {
     return Container (
      // width: MediaQuery.of(context).size.width,
       //padding: const EdgeInsets.all(20),
+
       height:  60.0,
       child: new ListView.builder(
+        shrinkWrap: true,
         itemCount: dataneg == null ? 0 : dataneg.length,
        itemBuilder: (BuildContext context, int index) {
+         
 
          mapa() async {
       if (Platform.isAndroid) {
@@ -676,7 +881,7 @@ Future<String> insertVisitaiOS() async {
      }
    }
          return new Row(
-         mainAxisAlignment: MainAxisAlignment.center,
+         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
          children: <Widget>[
          SizedBox(width: 30),
          FloatingActionButton(child: Icon(FontAwesomeIcons.instagram), onPressed: instagram,backgroundColor:Color(0xff189bd3),heroTag: "bt1",),
@@ -687,7 +892,7 @@ Future<String> insertVisitaiOS() async {
          Expanded(child: SizedBox(width: 5.0,)),
          FloatingActionButton(child: Icon(FontAwesomeIcons.phone), onPressed: telefono,backgroundColor:Color(0xff189bd3),heroTag: "bt5",),
          Expanded(child: SizedBox(width: 5.0,)),
-         FloatingActionButton(child: Icon(FontAwesomeIcons.envelope), onPressed: correo,backgroundColor:Color(0xff189bd3),heroTag: "bt6W",),
+         FloatingActionButton(child: Icon(FontAwesomeIcons.envelope), onPressed: correo,backgroundColor:Color(0xff189bd3),heroTag: "bt6",),
          Expanded(child: SizedBox(width: 5.0,)),
 
          ],
@@ -909,7 +1114,60 @@ Future<String> insertVisitaiOS() async {
               children: <Widget>[publicaciones],
              // height:1000.0,
 
-            )
+            ),
+
+            Container(
+              child: Column(
+                children: <Widget>[
+                  SizedBox(
+                    height: 15.0,
+                  ),
+                 Center(child: Text('Reseñas',style: TextStyle(fontSize: 20.0,color: Colors.blueAccent ),)),
+                  SizedBox(
+                    height: 15.0,
+                  ),
+
+                ],
+              )
+
+            ),
+            Column(
+              children: <Widget>[resenasection],
+             // height:1000.0,
+
+            ),
+
+            SizedBox(
+                    height: 15.0,
+                  ),
+
+            Container(
+  
+                padding: const EdgeInsets.only(bottom: 10,left: 20,right: 20),
+  
+                child: RaisedButton(
+  
+  
+  
+                  //child: Text(‘Send data to the second page’),
+  
+                  onPressed: ()=>initiateFacebookLogin(),
+  
+  
+  
+                  shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
+  
+                  color: Colors.blue,
+  
+                  child: Text('Reseña usando Facebook', style: TextStyle(fontSize: 20, color: Colors.white)),
+  
+  
+  
+                ),
+  
+  
+  
+              ),
 
 
 
