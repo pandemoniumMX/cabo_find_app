@@ -37,7 +37,7 @@ class MyApp_lista_ing extends StatelessWidget {
         debugShowCheckedModeBanner:false,
         theme: ThemeData(
           primarySwatch: Colors.blue,
-          primaryColor: Color(0xff01969A),
+          primaryColor: Colors.blue,
           accentColor: Colors.black26,
         ),
         home: new Container(
