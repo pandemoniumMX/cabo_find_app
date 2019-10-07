@@ -267,9 +267,68 @@ Future<String> insertVisitaiOS() async {
    // this.insertVisitaiOS;
 
   }
+<<<<<<< HEAD
   TextEditingController controllerCode = new TextEditingController();
 
   void initiateFacebookLogin() async{
+=======
+List<DropdownMenuItem<String>> getDropDownMenuItems() {
+    List<DropdownMenuItem<String>> items = new List();
+    for (String city in _cities) {
+      items.add(new DropdownMenuItem(
+          value: city,
+          child: new Text(city)
+      ));
+    }
+    return items;
+  }
+
+void getInfofb(FacebookLoginResult result) async {
+ //final result = await facebookSignIn.logInWithReadPermissions(['email']);
+final token = result.accessToken.token;
+final graphResponse = await http.get(
+            'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,picture,email&access_token=${token}');
+final profile = json.decode(graphResponse.body);
+ print(profile[ 'email'],);
+ print(profile[ 'last_name'],);
+//final pictures= profile[ 'picture']["data"]["url"];
+final id= profile['id'];
+final correofb= profile['email'];
+final nombresfb= profile['first_name'];
+final apellidosfb= profile['last_name'];
+final imagenfb = profile['picture'];
+//final imagenfb = profile['picture'];
+//final url =  dataneg[0]["NEG_WEB"];
+var response = await http.get(
+        Uri.encodeFull(
+            'http://cabofind.com.mx/app_php/APIs/esp/insertar_resena.php?ID_FB=$id,CORREO=$correofb,NOM=$nombresfb,APE=$apellidosfb,FOTO=$imagenfb,IDIOMA=ESP,RESENA=GG,VALOR=GG,ID_N=3'),
+
+        headers: {
+          "Accept": "application/json"
+        }
+    );
+setState(() {
+          userProfile = profile;
+        });
+        }
+
+
+void changedDropDownItem(String selectedCity) {
+    setState(() {
+      _currentCity = selectedCity;
+    });
+
+}
+
+void onLoginStatusChange(bool isLoggedIn){
+  setState(() {
+   this.isLoggedIn=isLoggedIn; 
+   
+  });
+}
+
+void initiateFacebookLogin() async{
+>>>>>>> parent of 6fc1c22... reseñas fb 70% pulir dropdown y actualizar vista
   var login = FacebookLogin();
   var result = await login.logIn(['email']);
   switch(result.status){
@@ -297,6 +356,7 @@ Future<String> insertVisitaiOS() async {
 
             Text('Valoracion por estrellas'),
            SizedBox(height: 15.0,),
+<<<<<<< HEAD
             DropdownButton<String>(
 
 					    items: _currencies.map((String dropDownStringItem) {
@@ -314,13 +374,31 @@ Future<String> insertVisitaiOS() async {
 					    value: _currentItemSelected,
 
 				    ),
+=======
+            DropdownButton(
+                value: _currentCity,
+                items: _dropDownMenuItems,
+                onChanged: changedDropDownItem,
+              ),
+>>>>>>> parent of 6fc1c22... reseñas fb 70% pulir dropdown y actualizar vista
                          SizedBox(height: 15.0,),
 
                           Text('Escribe una breve reseña'),
 
+<<<<<<< HEAD
               TextField(
                 controller: controllerCode,                
                 maxLines: 5,    
+=======
+              TextFormField(
+                validator: (value) {  
+                if (value.isEmpty) {  
+                     return 'No puedes enviar una reseña vacia';  
+                }  
+                return null;  
+              },  
+              maxLines: 5,    
+>>>>>>> parent of 6fc1c22... reseñas fb 70% pulir dropdown y actualizar vista
   
             ),
             ],
@@ -336,11 +414,15 @@ Future<String> insertVisitaiOS() async {
                ),
                new FlatButton(
                  child: new Text('Enviar'),
+<<<<<<< HEAD
                  onPressed: (){ getInfofb;
                  Navigator.of(context).pop();
                                                  
                  
                  },
+=======
+                 onPressed: (){ getInfofb;},
+>>>>>>> parent of 6fc1c22... reseñas fb 70% pulir dropdown y actualizar vista
                )
              ],
            );
@@ -349,7 +431,6 @@ Future<String> insertVisitaiOS() async {
          
     break;
   }
- 
 }
 
   //DropdownButton controllerName = new DropdownButton();
