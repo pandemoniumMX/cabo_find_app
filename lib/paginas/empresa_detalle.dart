@@ -35,8 +35,11 @@ class Detalles extends State<Empresa_det_fin> {
  // ScrollController _scrollController = new ScrollController();
    Map userProfile;
 
-  List _cities  =
-  ["⭐", "⭐⭐", "⭐⭐⭐", "⭐⭐⭐⭐", "⭐⭐⭐⭐⭐"];
+  String nameCity = "";
+	var _currencies = ['⭐', '⭐⭐', '⭐⭐⭐', '⭐⭐⭐⭐','⭐⭐⭐⭐⭐'];
+	var _currentItemSelected = '⭐'; 
+  
+  
 
   List<DropdownMenuItem<String>> _dropDownMenuItems;
   String _currentCity;
@@ -47,6 +50,8 @@ class Detalles extends State<Empresa_det_fin> {
   List data_list;
   List data_carrusel;
   List data_hor;
+  List data_resena;
+
   List logos;
   List descripcion;
 
@@ -67,6 +72,26 @@ class Detalles extends State<Empresa_det_fin> {
     this.setState(
             () {
           dataneg = json.decode(
+              response.body);
+        });
+
+
+    return "Success!";
+  }
+
+  Future<String> getResena() async {
+    var response = await http.get(
+        Uri.encodeFull(
+            "http://cabofind.com.mx/app_php/APIs/esp/list_resena.php?ID=${widget.empresa.id_nm}"),
+
+        headers: {
+          "Accept": "application/json"
+        }
+    );
+
+    this.setState(
+            () {
+          data_resena = json.decode(
               response.body);
         });
 
@@ -218,28 +243,17 @@ Future<String> insertVisitaiOS() async {
           "Accept": "application/json"
         }
     );
-   
-    
-
     this.setState(
             () {
           data_carrusel = json.decode(
               response.body);
         });
-
-
-
-
     return "Success!";
   }
-  
-  
-
 
 
   void initState() {
-     _dropDownMenuItems = getDropDownMenuItems();
-    _currentCity = _dropDownMenuItems[0].value;
+     
     super.initState();
     this.getCar();
     this.get_list();
@@ -247,76 +261,15 @@ Future<String> insertVisitaiOS() async {
     this.getCarrusel();
     this.getHorarios();
     this.getInfo();   
+    this.getResena();
     this.insertVisitaAndroid();
   
    // this.insertVisitaiOS;
 
   }
-List<DropdownMenuItem<String>> getDropDownMenuItems() {
-    List<DropdownMenuItem<String>> items = new List();
-    for (String city in _cities) {
-      items.add(new DropdownMenuItem(
-
-          value: city,
-          child: new Text(city)
-      ));
-    }
-    return items;
-  }
   TextEditingController controllerCode = new TextEditingController();
-  //DropdownButton controllerName = new DropdownButton();
 
-  String controllerName;
-
-
-void getInfofb(FacebookLoginResult result) async {
- //final result = await facebookSignIn.logInWithReadPermissions(['email']);
-final token = result.accessToken.token;
-final graphResponse = await http.get(
-            'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,picture,email&access_token=${token}');
-final profile = json.decode(graphResponse.body);
- print(profile[ 'email'],);
- print(profile[ 'last_name'],);
-//final pictures= profile[ 'picture']["data"]["url"];
-final id= profile['id'];
-final correofb= profile['email'];
-final nombresfb= profile['first_name'];
-final apellidosfb= profile['last_name'];
-final imagenfb = profile[ 'picture']["data"]["url"];
-final resena = controllerCode.text;
-final valor = _currentCity;
-
-//final imagenfb = profile['picture'];
-//final url =  dataneg[0]["NEG_WEB"];
-var response = await http.get(
-        Uri.encodeFull(
-            'http://cabofind.com.mx/app_php/APIs/esp/insertar_resena.php?ID_FB=${id}&CORREO=${correofb}&NOM=${nombresfb}&APE=${apellidosfb}&FOTO=${imagenfb}&IDIOMA=ESP&RESENA=${resena}&VALOR=${valor}&ID_N=${widget.empresa.id_nm}'),
-
-        headers: {
-          "Accept": "application/json"
-        }
-    );
-setState(() {
-          userProfile = profile;
-        });
-        }
-
-
-void changedDropDownItem(String selectedCity) {
-    setState(() {
-      _currentCity = selectedCity;
-    });
-
-}
-
-void onLoginStatusChange(bool isLoggedIn){
-  setState(() {
-   this.isLoggedIn=isLoggedIn; 
-   
-  });
-}
-
-void initiateFacebookLogin() async{
+  void initiateFacebookLogin() async{
   var login = FacebookLogin();
   var result = await login.logIn(['email']);
   switch(result.status){
@@ -344,21 +297,30 @@ void initiateFacebookLogin() async{
 
             Text('Valoracion por estrellas'),
            SizedBox(height: 15.0,),
-            DropdownButton(
+            DropdownButton<String>(
 
-                value: _currentCity,
-                items: _dropDownMenuItems,
-                onChanged: changedDropDownItem,
+					    items: _currencies.map((String dropDownStringItem) {
+					    	return DropdownMenuItem<String>(
+							    value: dropDownStringItem,
+							    child: Text(dropDownStringItem),
+						    );
+					    }).toList(),
 
-              ),
+					    onChanged: (String newValueSelected) {
+					    	// Your code to execute, when a menu item is selected from drop down
+						    _onDropDownItemSelected(newValueSelected);
+					    },
+
+					    value: _currentItemSelected,
+
+				    ),
                          SizedBox(height: 15.0,),
 
                           Text('Escribe una breve reseña'),
 
               TextField(
-                controller: controllerCode,
-                
-              maxLines: 5,    
+                controller: controllerCode,                
+                maxLines: 5,    
   
             ),
             ],
@@ -375,10 +337,8 @@ void initiateFacebookLogin() async{
                new FlatButton(
                  child: new Text('Enviar'),
                  onPressed: (){ getInfofb;
-                 
-                 Navigator.pop(context);
-                 
-                 
+                 Navigator.of(context).pop();
+                                                 
                  
                  },
                )
@@ -392,6 +352,60 @@ void initiateFacebookLogin() async{
  
 }
 
+  //DropdownButton controllerName = new DropdownButton();
+
+  String controllerName;
+
+
+void getInfofb(FacebookLoginResult result) async {
+ //final result = await facebookSignIn.logInWithReadPermissions(['email']);
+final token = result.accessToken.token;
+final graphResponse = await http.get(
+            'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,picture,email&access_token=${token}');
+final profile = json.decode(graphResponse.body);
+ print(profile[ 'email'],);
+ print(profile[ 'last_name'],);
+//final pictures= profile[ 'picture']["data"]["url"];
+final id= profile['id'];
+final correofb= profile['email'];
+final nombresfb= profile['first_name'];
+final apellidosfb= profile['last_name'];
+//final imagenfb = profile[ 'picture']["data"]["url"];
+final resena = controllerCode.text;
+final valor = _currentItemSelected;
+
+//final imagenfb = profile['picture'];
+//final url =  dataneg[0]["NEG_WEB"];
+var response = await http.get(
+        Uri.encodeFull(
+            'http://cabofind.com.mx/app_php/APIs/esp/insertar_resena.php?ID_FB=${id}&CORREO=${correofb}&NOM=${nombresfb}&APE=${apellidosfb}&FOTO=1&IDIOMA=ESP&RESENA=${resena}&VALOR=${valor}&ID_N=${widget.empresa.id_nm}'),
+
+        headers: {
+          "Accept": "application/json"
+        }
+    );
+setState(() {
+          userProfile = profile;
+          
+        });
+        }
+
+
+
+void onLoginStatusChange(bool isLoggedIn){
+  setState(() {
+   this.isLoggedIn=isLoggedIn; 
+   
+  });
+}
+
+
+
+void _onDropDownItemSelected(String newValueSelected) {
+	  setState(() {
+		  this._currentItemSelected = newValueSelected;
+	  });
+  }
 
 
 
@@ -571,77 +585,63 @@ void initiateFacebookLogin() async{
    );
 
     
-    Widget titleSection = Container(
+    Widget titleSection = Column(
      // width: MediaQuery.of(context).size.width,
       //padding: const EdgeInsets.all(20),
-     height:  50.0,
-      child: new ListView.builder(
-        shrinkWrap: true,
-        itemCount: dataneg == null ? 0 : dataneg.length,
-       itemBuilder: (BuildContext context, int index) {    
-
-         return  new Column(
-          children:[
-            Row(
-              mainAxisAlignment: 
-              MainAxisAlignment.center,            
-              children: [
-
-                   Text(
-                    dataneg[index]["NEG_NOMBRE"],
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                        fontSize: 28.0,
-                       //color: Colors.blue[500],
-                    ),
-                  ),               
-
-              ],
-            ),
-          Center(
-            child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-            
-                Text(
-
-                  dataneg[index]["CAT_NOMBRE"],
-                  style: TextStyle(
-                    color: Colors.blue[500],
-                  ),
-                ),
-                
-
-              Text(
-                " | ",
-                style: TextStyle(
-                  color: Colors.grey[500],
-                ),
+      children: <Widget>[
+    new ListView.builder(  
+          shrinkWrap: true,  
+          itemCount: dataneg == null ? 0 : dataneg.length,  
+         itemBuilder: (BuildContext context, int index) {    
+           return  new Column(
+            children:[  
+              Row(
+                mainAxisAlignment:   
+                MainAxisAlignment.center,  
+                children: [
+                     Text(  
+                      dataneg[index]["NEG_NOMBRE"],  
+                      style: TextStyle(  
+                        fontWeight: FontWeight.bold,  
+                          fontSize: 28.0,
+                      ),
+                    ),  
+                ], 
               ),
-              Text(
-                dataneg[index]["SUB_NOMBRE"],
-                style: TextStyle(
-                  color: Colors.blue[500],
-                ),
-              ), 
-              
-              
-              
-
-            ],
-            ),
-
-            ),
-
-         
-
-
-          ],
-
-       
-        );
-       },
-      ),
+  
+            Center(  
+              child: Row(  
+              mainAxisAlignment: MainAxisAlignment.center,  
+                children: <Widget>[  
+                  Text( 
+  
+                      dataneg[index]["CAT_NOMBRE"],  
+                    style: TextStyle(  
+                      color: Colors.blue[500],  
+                    ),  
+                  ),
+                Text(  
+                  " | ",  
+                  style: TextStyle(  
+                    color: Colors.grey[500],  
+                  ),  
+                ),  
+                Text(  
+                  dataneg[index]["SUB_NOMBRE"],  
+                  style: TextStyle(  
+                    color: Colors.blue[500],
+  
+                  ),
+  
+                ),   
+              ],  
+              ),  
+              ),
+            ],  
+          );  
+         },  
+        ),
+],
        
     
     );
@@ -649,25 +649,26 @@ void initiateFacebookLogin() async{
     Color color = Theme.of(context).primaryColor;
 
 
-    Widget textSection = Container(
+    Widget textSection = Column(
      // height:  MediaQuery.of(context).size.height,
-     height:  100.0,
-      child: new ListView.builder(
-        shrinkWrap: true,
-        itemCount: dataneg == null ? 0 : dataneg.length,
-       itemBuilder: (BuildContext context, int index) {
-  //padding: const EdgeInsets.only(bottom: 10,left: 20,right: 20);
-      return new Card(
-              child: Text(
-         dataneg[index]["NEG_DESCRIPCION"],        
-          maxLines: 20,
-          softWrap: true,
-          textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 18.0),
+      children: <Widget>[
+    new ListView.builder(  
+          shrinkWrap: true,  
+          itemCount: dataneg == null ? 0 : dataneg.length,  
+         itemBuilder: (BuildContext context, int index) {  
+ 
+        return new Card(  
+                child: Text(  
+           dataneg[index]["NEG_DESCRIPCION"],    
+            maxLines: 20,  
+            softWrap: true,  
+            textAlign: TextAlign.center,  
+            style: TextStyle(fontSize: 18.0),  
+          ),
+        );  
+         }  
         ),
-      );
-       }
-      )
+]
     );
 
     Widget logo = Container(
@@ -734,94 +735,65 @@ void initiateFacebookLogin() async{
 
    );
 
-   Widget resenasection = Container(
-     width: MediaQuery.of(context).size.width -1.0,
-    
-     child: Card(
-            child: Row(
-         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-         children: [
-           Column(
-             children: <Widget>[
-              FloatingActionButton(
-                                    child: new Image.asset(
-                                      "assets/recomend.png",
-                                  fit: BoxFit.cover,
-                                  width: 50.0,
-                                  height: 50.0,
-                                ),
-                                            backgroundColor: Colors.black, onPressed: () {},           
-                  ),      
-                  Row(
-  
-                   children: <Widget>[
-                    Text( 
-                   'Pedro ', 
-                    style: TextStyle(fontSize: 18.0),  
-                  ),
-                  ], 
-                  ),   
-                ],
-              ),
-         
-          Container(
-
-            child: Flexible(
-  
-                   child: Text(
-  
-                  'Ejemplo de reseña basica calificando al negocio',  
-                  maxLines: 10,
-  
-                  softWrap: true,
-  
-                 // textAlign: TextAlign.left,
-  
-                         style: TextStyle(fontSize: 18.0),
-  
-                ),
-  
-                    
-
-            ),
-          ),
-
-          Container(
-
-            child: Flexible(
-  
-                   child: Text(
-  
-                  '⭐⭐⭐⭐⭐',  
-                  maxLines: 10,
-  
-                  softWrap: true,
-  
-                 // textAlign: TextAlign.left,
-  
-                         style: TextStyle(fontSize: 18.0),
-  
-                ),
-  
-                    
-
-            ),
-          ), 
-
-          
-       ],
-
-   ),
    
-     )
-   );
 
-
-
-
-
-
-
+       Widget resenasection = Column(
+         
+     // height:  MediaQuery.of(context).size.height,
+      children: <Widget>[
+    new ListView.builder(  
+         shrinkWrap: true,  
+          itemCount: data_resena == null ? 0 : data_resena.length,  
+         itemBuilder: (BuildContext context, int index) {  
+        return new Card(  
+              child: Row(  
+           mainAxisAlignment: MainAxisAlignment.spaceBetween,  
+           children: [  
+             Column(  
+               children: <Widget>[  
+                Image.network(data_resena[index]["COM_FOTO"],
+                              width: 50,
+                              height: 50,
+                              fit: BoxFit.fill ),     
+                      Row(
+                     children: <Widget>[  
+                      Text(   
+                      data_resena[index]["COM_NOMBRES"], 
+                      style: TextStyle(fontSize: 18.0),    
+                    ),  
+                    ],   
+                    ),     
+                  ],  
+                ),  
+            Container(  
+              child: Flexible(
+                     child: Text(    
+                     data_resena[index]["COM_RESENA"],  
+                    maxLines: 10,  
+                    softWrap: true,    
+                    style: TextStyle(fontSize: 18.0),  
+                    ),  
+              ),  
+            ),
+            Container(  
+              child: Flexible(    
+                     child: Text(   
+                    data_resena[index]["COM_VALOR"],    
+                    maxLines: 10,   
+                    softWrap: true,      
+                    style: TextStyle(fontSize: 18.0),    
+                    ),   
+                    ),  
+                    ),             
+                    ],  
+                    ),     
+                    );                    
+  
+         }
+  
+        ),
+      ]
+    );  
 
   Widget social() { 
     return Container (
@@ -1151,11 +1123,10 @@ void initiateFacebookLogin() async{
               )
 
             ),
-            Column(
-              children: <Widget>[resenasection],
-             // height:1000.0,
-
+            Container(
+              child: resenasection,
             ),
+            
 
             SizedBox(
                     height: 15.0,
