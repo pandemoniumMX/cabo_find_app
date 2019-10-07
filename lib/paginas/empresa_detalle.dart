@@ -256,12 +256,18 @@ List<DropdownMenuItem<String>> getDropDownMenuItems() {
     List<DropdownMenuItem<String>> items = new List();
     for (String city in _cities) {
       items.add(new DropdownMenuItem(
+
           value: city,
           child: new Text(city)
       ));
     }
     return items;
   }
+  TextEditingController controllerCode = new TextEditingController();
+  //DropdownButton controllerName = new DropdownButton();
+
+  String controllerName;
+
 
 void getInfofb(FacebookLoginResult result) async {
  //final result = await facebookSignIn.logInWithReadPermissions(['email']);
@@ -276,12 +282,15 @@ final id= profile['id'];
 final correofb= profile['email'];
 final nombresfb= profile['first_name'];
 final apellidosfb= profile['last_name'];
-final imagenfb = profile['picture'];
+final imagenfb = profile[ 'picture']["data"]["url"];
+final resena = controllerCode.text;
+final valor = _currentCity;
+
 //final imagenfb = profile['picture'];
 //final url =  dataneg[0]["NEG_WEB"];
 var response = await http.get(
         Uri.encodeFull(
-            'http://cabofind.com.mx/app_php/APIs/esp/insertar_resena.php?ID_FB=$id,CORREO=$correofb,NOM=$nombresfb,APE=$apellidosfb,FOTO=$imagenfb,IDIOMA=ESP,RESENA=GG,VALOR=GG,ID_N=3'),
+            'http://cabofind.com.mx/app_php/APIs/esp/insertar_resena.php?ID_FB=${id}&CORREO=${correofb}&NOM=${nombresfb}&APE=${apellidosfb}&FOTO=${imagenfb}&IDIOMA=ESP&RESENA=${resena}&VALOR=${valor}&ID_N=${widget.empresa.id_nm}'),
 
         headers: {
           "Accept": "application/json"
@@ -336,21 +345,19 @@ void initiateFacebookLogin() async{
             Text('Valoracion por estrellas'),
            SizedBox(height: 15.0,),
             DropdownButton(
+
                 value: _currentCity,
                 items: _dropDownMenuItems,
                 onChanged: changedDropDownItem,
+
               ),
                          SizedBox(height: 15.0,),
 
                           Text('Escribe una breve reseña'),
 
-              TextFormField(
-                validator: (value) {  
-                if (value.isEmpty) {  
-                     return 'No puedes enviar una reseña vacia';  
-                }  
-                return null;  
-              },  
+              TextField(
+                controller: controllerCode,
+                
               maxLines: 5,    
   
             ),
@@ -367,7 +374,13 @@ void initiateFacebookLogin() async{
                ),
                new FlatButton(
                  child: new Text('Enviar'),
-                 onPressed: (){ getInfofb;},
+                 onPressed: (){ getInfofb;
+                 
+                 Navigator.pop(context);
+                 
+                 
+                 
+                 },
                )
              ],
            );
@@ -376,6 +389,7 @@ void initiateFacebookLogin() async{
          
     break;
   }
+ 
 }
 
 
