@@ -35,11 +35,8 @@ class Detalles extends State<Empresa_det_fin> {
  // ScrollController _scrollController = new ScrollController();
    Map userProfile;
 
-  String nameCity = "";
-	var _currencies = ['⭐', '⭐⭐', '⭐⭐⭐', '⭐⭐⭐⭐','⭐⭐⭐⭐⭐'];
-	var _currentItemSelected = '⭐'; 
-  
-  
+  List _cities  =
+  ["⭐", "⭐⭐", "⭐⭐⭐", "⭐⭐⭐⭐", "⭐⭐⭐⭐⭐"];
 
   List<DropdownMenuItem<String>> _dropDownMenuItems;
   String _currentCity;
@@ -50,13 +47,31 @@ class Detalles extends State<Empresa_det_fin> {
   List data_list;
   List data_carrusel;
   List data_hor;
-  List data_resena;
-
   List logos;
   List descripcion;
+  List data_resena;
+
 
   
+Future<String> getResena() async {
+    var response = await http.get(
+        Uri.encodeFull(
+            "http://cabofind.com.mx/app_php/APIs/esp/list_resena.php?ID=${widget.empresa.id_nm}"),
 
+        headers: {
+          "Accept": "application/json"
+        }
+    );
+
+    this.setState(
+            () {
+          data_resena = json.decode(
+              response.body);
+        });
+
+
+    return "Success!";
+  }
 
 
   Future<String> getInfo() async {
@@ -72,26 +87,6 @@ class Detalles extends State<Empresa_det_fin> {
     this.setState(
             () {
           dataneg = json.decode(
-              response.body);
-        });
-
-
-    return "Success!";
-  }
-
-  Future<String> getResena() async {
-    var response = await http.get(
-        Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/list_resena.php?ID=${widget.empresa.id_nm}"),
-
-        headers: {
-          "Accept": "application/json"
-        }
-    );
-
-    this.setState(
-            () {
-          data_resena = json.decode(
               response.body);
         });
 
@@ -218,7 +213,6 @@ Future<String> insertVisitaiOS() async {
     } on PlatformException {
       print("Error obtaining current locale");
     }
-
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
     //print('Running on ${iosInfo.identifierForVendor}');
@@ -226,8 +220,6 @@ Future<String> insertVisitaiOS() async {
         Uri.encodeFull(
            // "http://cabofind.com.mx/app_php/APIs/esp/insert_visita_negocio.php?ID=${widget.empresa.id_nm}"),
             "http://cabofind.com.mx/app_php/APIs/esp/insert_visita_negocio.php?MOD=${iosInfo.model}&BOOT=${iosInfo.utsname.nodename},${iosInfo.utsname.sysname}&VERSION=${iosInfo.systemName}&IDIOMA=esp&ID=${widget.empresa.id_nm}&SO=iOS"),
-
-
         headers: {
           "Accept": "application/json"
         }
@@ -243,17 +235,28 @@ Future<String> insertVisitaiOS() async {
           "Accept": "application/json"
         }
     );
+   
+    
+
     this.setState(
             () {
           data_carrusel = json.decode(
               response.body);
         });
+
+
+
+
     return "Success!";
   }
+  
+  
+
 
 
   void initState() {
-     
+     _dropDownMenuItems = getDropDownMenuItems();
+    _currentCity = _dropDownMenuItems[0].value;
     super.initState();
     this.getCar();
     this.get_list();
@@ -261,57 +264,28 @@ Future<String> insertVisitaiOS() async {
     this.getCarrusel();
     this.getHorarios();
     this.getInfo();   
-    this.getResena();
     this.insertVisitaAndroid();
+    this.getResena();
   
    // this.insertVisitaiOS;
 
   }
-<<<<<<< HEAD
-  TextEditingController controllerCode = new TextEditingController();
-
-  void initiateFacebookLogin() async{
-=======
 List<DropdownMenuItem<String>> getDropDownMenuItems() {
     List<DropdownMenuItem<String>> items = new List();
     for (String city in _cities) {
       items.add(new DropdownMenuItem(
+
           value: city,
           child: new Text(city)
       ));
     }
     return items;
   }
+  TextEditingController controllerCode = new TextEditingController();
+  
+  //DropdownButton controllerName = new DropdownButton();
 
-void getInfofb(FacebookLoginResult result) async {
- //final result = await facebookSignIn.logInWithReadPermissions(['email']);
-final token = result.accessToken.token;
-final graphResponse = await http.get(
-            'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,picture,email&access_token=${token}');
-final profile = json.decode(graphResponse.body);
- print(profile[ 'email'],);
- print(profile[ 'last_name'],);
-//final pictures= profile[ 'picture']["data"]["url"];
-final id= profile['id'];
-final correofb= profile['email'];
-final nombresfb= profile['first_name'];
-final apellidosfb= profile['last_name'];
-final imagenfb = profile['picture'];
-//final imagenfb = profile['picture'];
-//final url =  dataneg[0]["NEG_WEB"];
-var response = await http.get(
-        Uri.encodeFull(
-            'http://cabofind.com.mx/app_php/APIs/esp/insertar_resena.php?ID_FB=$id,CORREO=$correofb,NOM=$nombresfb,APE=$apellidosfb,FOTO=$imagenfb,IDIOMA=ESP,RESENA=GG,VALOR=GG,ID_N=3'),
-
-        headers: {
-          "Accept": "application/json"
-        }
-    );
-setState(() {
-          userProfile = profile;
-        });
-        }
-
+  String controllerName;
 
 void changedDropDownItem(String selectedCity) {
     setState(() {
@@ -328,7 +302,6 @@ void onLoginStatusChange(bool isLoggedIn){
 }
 
 void initiateFacebookLogin() async{
->>>>>>> parent of 6fc1c22... reseñas fb 70% pulir dropdown y actualizar vista
   var login = FacebookLogin();
   var result = await login.logIn(['email']);
   switch(result.status){
@@ -356,49 +329,21 @@ void initiateFacebookLogin() async{
 
             Text('Valoracion por estrellas'),
            SizedBox(height: 15.0,),
-<<<<<<< HEAD
-            DropdownButton<String>(
-
-					    items: _currencies.map((String dropDownStringItem) {
-					    	return DropdownMenuItem<String>(
-							    value: dropDownStringItem,
-							    child: Text(dropDownStringItem),
-						    );
-					    }).toList(),
-
-					    onChanged: (String newValueSelected) {
-					    	// Your code to execute, when a menu item is selected from drop down
-						    _onDropDownItemSelected(newValueSelected);
-					    },
-
-					    value: _currentItemSelected,
-
-				    ),
-=======
             DropdownButton(
+
                 value: _currentCity,
                 items: _dropDownMenuItems,
                 onChanged: changedDropDownItem,
+
               ),
->>>>>>> parent of 6fc1c22... reseñas fb 70% pulir dropdown y actualizar vista
                          SizedBox(height: 15.0,),
 
                           Text('Escribe una breve reseña'),
 
-<<<<<<< HEAD
               TextField(
-                controller: controllerCode,                
-                maxLines: 5,    
-=======
-              TextFormField(
-                validator: (value) {  
-                if (value.isEmpty) {  
-                     return 'No puedes enviar una reseña vacia';  
-                }  
-                return null;  
-              },  
+                controller: controllerCode,
+                
               maxLines: 5,    
->>>>>>> parent of 6fc1c22... reseñas fb 70% pulir dropdown y actualizar vista
   
             ),
             ],
@@ -414,15 +359,13 @@ void initiateFacebookLogin() async{
                ),
                new FlatButton(
                  child: new Text('Enviar'),
-<<<<<<< HEAD
                  onPressed: (){ getInfofb;
-                 Navigator.of(context).pop();
-                                                 
+                 
+                 Navigator.pop(context);
+                 
+                 
                  
                  },
-=======
-                 onPressed: (){ getInfofb;},
->>>>>>> parent of 6fc1c22... reseñas fb 70% pulir dropdown y actualizar vista
                )
              ],
            );
@@ -431,12 +374,8 @@ void initiateFacebookLogin() async{
          
     break;
   }
+ 
 }
-
-  //DropdownButton controllerName = new DropdownButton();
-
-  String controllerName;
-
 
 void getInfofb(FacebookLoginResult result) async {
  //final result = await facebookSignIn.logInWithReadPermissions(['email']);
@@ -451,15 +390,15 @@ final id= profile['id'];
 final correofb= profile['email'];
 final nombresfb= profile['first_name'];
 final apellidosfb= profile['last_name'];
-//final imagenfb = profile[ 'picture']["data"]["url"];
+final imagenfb = profile[ 'picture']["data"]["url"];
 final resena = controllerCode.text;
-final valor = _currentItemSelected;
+final valor = _currentCity;
 
 //final imagenfb = profile['picture'];
 //final url =  dataneg[0]["NEG_WEB"];
 var response = await http.get(
         Uri.encodeFull(
-            'http://cabofind.com.mx/app_php/APIs/esp/insertar_resena.php?ID_FB=${id}&CORREO=${correofb}&NOM=${nombresfb}&APE=${apellidosfb}&FOTO=1&IDIOMA=ESP&RESENA=${resena}&VALOR=${valor}&ID_N=${widget.empresa.id_nm}'),
+            'http://cabofind.com.mx/app_php/APIs/esp/insertar_resena.php?ID_FB=${id}&CORREO=${correofb}&NOM=${nombresfb}&APE=${apellidosfb}&FOTO=${imagenfb}&IDIOMA=ESP&RESENA=${resena}&VALOR=${valor}&ID_N=${widget.empresa.id_nm}'),
 
         headers: {
           "Accept": "application/json"
@@ -467,26 +406,9 @@ var response = await http.get(
     );
 setState(() {
           userProfile = profile;
-          
         });
         }
 
-
-
-void onLoginStatusChange(bool isLoggedIn){
-  setState(() {
-   this.isLoggedIn=isLoggedIn; 
-   
-  });
-}
-
-
-
-void _onDropDownItemSelected(String newValueSelected) {
-	  setState(() {
-		  this._currentItemSelected = newValueSelected;
-	  });
-  }
 
 
 
@@ -591,42 +513,24 @@ void _onDropDownItemSelected(String newValueSelected) {
          });
    }
 
-   _mapa(BuildContext context) async {
-     return showDialog(
-         context: context,
-         builder: (context) {
-           return Container (
-     // width: MediaQuery.of(context).size.width,
-      //padding: const EdgeInsets.all(20),
-     height:  75.0,
-      child: new ListView.builder(
-        itemCount: dataneg == null ? 0 : dataneg.length,
-       itemBuilder: (BuildContext context, int index) {
-
-         mapa() async {
+   _mapa() async {
       if (Platform.isAndroid) {
-        final url =  dataneg[index]["NEG_MAP"];
+        final url =  dataneg[0]["NEG_MAP"];
       if (await canLaunch(url)) {
         await launch(url);
       } else {
         throw 'Could not launch $url';
       }
       } else {
-      final url =  dataneg[index]["NEG_MAP_IOS"];
+      final url =  dataneg[0]["NEG_MAP_IOS"];
       if (await canLaunch(url)) {
         await launch(url);
       } else {
         throw 'Could not launch $url';
       }
-      }    
+      }
+      
     }
-      
-      }
-      )
-      
-    );
-         });
-   }
 
    
 
@@ -666,63 +570,77 @@ void _onDropDownItemSelected(String newValueSelected) {
    );
 
     
-    Widget titleSection = Column(
+    Widget titleSection = Container(
      // width: MediaQuery.of(context).size.width,
       //padding: const EdgeInsets.all(20),
-      children: <Widget>[
-    new ListView.builder(  
-          shrinkWrap: true,  
-          itemCount: dataneg == null ? 0 : dataneg.length,  
-         itemBuilder: (BuildContext context, int index) {    
-           return  new Column(
-            children:[  
-              Row(
-                mainAxisAlignment:   
-                MainAxisAlignment.center,  
-                children: [
-                     Text(  
-                      dataneg[index]["NEG_NOMBRE"],  
-                      style: TextStyle(  
-                        fontWeight: FontWeight.bold,  
-                          fontSize: 28.0,
-                      ),
-                    ),  
-                ], 
-              ),
-  
-            Center(  
-              child: Row(  
-              mainAxisAlignment: MainAxisAlignment.center,  
-                children: <Widget>[  
-                  Text( 
-  
-                      dataneg[index]["CAT_NOMBRE"],  
-                    style: TextStyle(  
-                      color: Colors.blue[500],  
-                    ),  
-                  ),
-                Text(  
-                  " | ",  
-                  style: TextStyle(  
-                    color: Colors.grey[500],  
-                  ),  
-                ),  
-                Text(  
-                  dataneg[index]["SUB_NOMBRE"],  
-                  style: TextStyle(  
+     height:  50.0,
+      child: new ListView.builder(
+        shrinkWrap: true,
+        itemCount: dataneg == null ? 0 : dataneg.length,
+       itemBuilder: (BuildContext context, int index) {    
+
+         return  new Column(
+          children:[
+            Row(
+              mainAxisAlignment: 
+              MainAxisAlignment.center,            
+              children: [
+
+                   Text(
+                    dataneg[index]["NEG_NOMBRE"],
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                        fontSize: 28.0,
+                       //color: Colors.blue[500],
+                    ),
+                  ),               
+
+              ],
+            ),
+          Center(
+            child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+            
+                Text(
+
+                  dataneg[index]["CAT_NOMBRE"],
+                  style: TextStyle(
                     color: Colors.blue[500],
-  
                   ),
-  
-                ),   
-              ],  
-              ),  
+                ),
+                
+
+              Text(
+                " | ",
+                style: TextStyle(
+                  color: Colors.grey[500],
+                ),
               ),
-            ],  
-          );  
-         },  
-        ),
-],
+              Text(
+                dataneg[index]["SUB_NOMBRE"],
+                style: TextStyle(
+                  color: Colors.blue[500],
+                ),
+              ), 
+              
+              
+              
+
+            ],
+            ),
+
+            ),
+
+         
+
+
+          ],
+
+       
+        );
+       },
+      ),
        
     
     );
@@ -730,26 +648,25 @@ void _onDropDownItemSelected(String newValueSelected) {
     Color color = Theme.of(context).primaryColor;
 
 
-    Widget textSection = Column(
+    Widget textSection = Container(
      // height:  MediaQuery.of(context).size.height,
-      children: <Widget>[
-    new ListView.builder(  
-          shrinkWrap: true,  
-          itemCount: dataneg == null ? 0 : dataneg.length,  
-         itemBuilder: (BuildContext context, int index) {  
- 
-        return new Card(  
-                child: Text(  
-           dataneg[index]["NEG_DESCRIPCION"],    
-            maxLines: 20,  
-            softWrap: true,  
-            textAlign: TextAlign.center,  
-            style: TextStyle(fontSize: 18.0),  
-          ),
-        );  
-         }  
+     height:  100.0,
+      child: new ListView.builder(
+        shrinkWrap: true,
+        itemCount: dataneg == null ? 0 : dataneg.length,
+       itemBuilder: (BuildContext context, int index) {
+  //padding: const EdgeInsets.only(bottom: 10,left: 20,right: 20);
+      return new Card(
+              child: Text(
+         dataneg[index]["NEG_DESCRIPCION"],        
+          maxLines: 20,
+          softWrap: true,
+          textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 18.0),
         ),
-]
+      );
+       }
+      )
     );
 
     Widget logo = Container(
@@ -806,7 +723,7 @@ void _onDropDownItemSelected(String newValueSelected) {
          ),
          Column(
            children: <Widget>[
-             FloatingActionButton(child: Icon(FontAwesomeIcons.mapMarkedAlt), onPressed:() => _mapa(context),backgroundColor:Color(0xff189bd3),heroTag: "bt4",),
+             FloatingActionButton(child: Icon(FontAwesomeIcons.mapMarkedAlt), onPressed:() => _mapa(),backgroundColor:Color(0xff189bd3),heroTag: "bt4",),
              Text('Abrir mapa', style: TextStyle(color: Colors.black),),
 
            ],
@@ -816,9 +733,7 @@ void _onDropDownItemSelected(String newValueSelected) {
 
    );
 
-   
-
-       Widget resenasection = Column(
+   Widget resenasection = Column(
          
      // height:  MediaQuery.of(context).size.height,
       children: <Widget>[
@@ -874,7 +789,8 @@ void _onDropDownItemSelected(String newValueSelected) {
   
         ),
       ]
-    );  
+    );
+
 
   Widget social() { 
     return Container (
@@ -1204,10 +1120,11 @@ void _onDropDownItemSelected(String newValueSelected) {
               )
 
             ),
-            Container(
-              child: resenasection,
+            Column(
+              children: <Widget>[resenasection],
+             // height:1000.0,
+
             ),
-            
 
             SizedBox(
                     height: 15.0,
