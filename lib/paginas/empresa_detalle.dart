@@ -5,6 +5,7 @@ import 'package:cabofind/paginas/publicacion_detalle.dart';
 import 'package:cabofind/paginas/publicacion_detalle_estatica.dart';
 import 'package:device_info/device_info.dart';
 import 'package:devicelocale/devicelocale.dart';
+import 'package:dropdownfield/dropdownfield.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 
@@ -13,6 +14,8 @@ import 'package:cabofind/utilidades/classes.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+import 'reseña_insert.dart';
 
 
 
@@ -32,11 +35,36 @@ Empresa_det_fin({Key key, @required this.empresa}) : super(
 }
 
 class Detalles extends State<Empresa_det_fin> {
- // ScrollController _scrollController = new ScrollController();
+  TextEditingController controllerCode =  TextEditingController();
+  String _displayValue = "";
+  _onSubmitted(String value) {
+    setState(() => _displayValue = value);
+  }
+
+
+
+  
+
    Map userProfile;
 
   List _cities  =
   ["⭐", "⭐⭐", "⭐⭐⭐", "⭐⭐⭐⭐", "⭐⭐⭐⭐⭐"];
+
+  Map<String, dynamic> formData;
+  List<String> cities = [
+    '⭐',
+    '⭐⭐',
+    '⭐⭐⭐',
+    '⭐⭐⭐⭐',
+    '⭐⭐⭐⭐⭐',
+  ];
+
+  Detalles() {
+    formData = {
+      'City': '👍',
+     
+    };
+  }
 
   List<DropdownMenuItem<String>> _dropDownMenuItems;
   String _currentCity;
@@ -49,29 +77,9 @@ class Detalles extends State<Empresa_det_fin> {
   List data_hor;
   List logos;
   List descripcion;
-  List data_resena;
-
 
   
-Future<String> getResena() async {
-    var response = await http.get(
-        Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/list_resena.php?ID=${widget.empresa.id_nm}"),
 
-        headers: {
-          "Accept": "application/json"
-        }
-    );
-
-    this.setState(
-            () {
-          data_resena = json.decode(
-              response.body);
-        });
-
-
-    return "Success!";
-  }
 
 
   Future<String> getInfo() async {
@@ -255,8 +263,6 @@ Future<String> insertVisitaiOS() async {
 
 
   void initState() {
-     _dropDownMenuItems = getDropDownMenuItems();
-    _currentCity = _dropDownMenuItems[0].value;
     super.initState();
     this.getCar();
     this.get_list();
@@ -265,7 +271,6 @@ Future<String> insertVisitaiOS() async {
     this.getHorarios();
     this.getInfo();   
     this.insertVisitaAndroid();
-    this.getResena();
   
    // this.insertVisitaiOS;
 
@@ -281,25 +286,20 @@ List<DropdownMenuItem<String>> getDropDownMenuItems() {
     }
     return items;
   }
-  TextEditingController controllerCode = new TextEditingController();
   
-  //DropdownButton controllerName = new DropdownButton();
-
-  String controllerName;
-
-void changedDropDownItem(String selectedCity) {
-    setState(() {
-      _currentCity = selectedCity;
-    });
-
-}
-
 void onLoginStatusChange(bool isLoggedIn){
   setState(() {
    this.isLoggedIn=isLoggedIn; 
    
   });
 }
+
+      @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    controllerCode.dispose();
+    super.dispose();
+  }
 
 void initiateFacebookLogin() async{
   var login = FacebookLogin();
@@ -313,7 +313,10 @@ void initiateFacebookLogin() async{
     break;
     case FacebookLoginStatus.loggedIn:
     onLoginStatusChange(true);
-    getInfofb(result);
+    getInfofb(result,_displayValue);
+
+    
+               
     return showDialog(
          context: context,
          builder: (context) {
@@ -324,29 +327,13 @@ void initiateFacebookLogin() async{
                  height: 350.0,
                  child:  
                 Column(
-                                    children: <Widget>[
-    
-
-            Text('Valoracion por estrellas'),
-           SizedBox(height: 15.0,),
-            DropdownButton(
-
-                value: _currentCity,
-                items: _dropDownMenuItems,
-                onChanged: changedDropDownItem,
-
-              ),
-                         SizedBox(height: 15.0,),
-
-                          Text('Escribe una breve reseña'),
-
+                                    children: <Widget>[    
+              Text('Escribe una breve reseña'),
               TextField(
                 controller: controllerCode,
-                
-              maxLines: 5,    
-  
-            ),
-            ],
+                maxLines: 5, 
+                ),
+                ],
                  )
                  
              ),
@@ -359,11 +346,10 @@ void initiateFacebookLogin() async{
                ),
                new FlatButton(
                  child: new Text('Enviar'),
-                 onPressed: (){ getInfofb;
-                 
-                 Navigator.pop(context);
-                 
-                 
+                 onPressed: (){ getInfofb;  
+                 setState(() {
+                  _displayValue = controllerCode.text; 
+                 });
                  
                  },
                )
@@ -375,9 +361,10 @@ void initiateFacebookLogin() async{
     break;
   }
  
-}
+}  
 
-void getInfofb(FacebookLoginResult result) async {
+Future<String> getInfofb(FacebookLoginResult result, _displayValue) async {
+
  //final result = await facebookSignIn.logInWithReadPermissions(['email']);
 final token = result.accessToken.token;
 final graphResponse = await http.get(
@@ -391,8 +378,8 @@ final correofb= profile['email'];
 final nombresfb= profile['first_name'];
 final apellidosfb= profile['last_name'];
 final imagenfb = profile[ 'picture']["data"]["url"];
-final resena = controllerCode.text;
-final valor = _currentCity;
+final resena = _displayValue;
+final valor = formData['City'];
 
 //final imagenfb = profile['picture'];
 //final url =  dataneg[0]["NEG_WEB"];
@@ -403,17 +390,19 @@ var response = await http.get(
         headers: {
           "Accept": "application/json"
         }
-    );
-setState(() {
-          userProfile = profile;
-        });
+    );   
         }
+
+        
+
 
 
 
 
 
  Widget build(BuildContext context){
+
+
 
 
    _alertCar(BuildContext context) async {
@@ -528,8 +517,7 @@ setState(() {
       } else {
         throw 'Could not launch $url';
       }
-      }
-      
+      }    
     }
 
    
@@ -733,63 +721,93 @@ setState(() {
 
    );
 
-   Widget resenasection = Column(
-         
-     // height:  MediaQuery.of(context).size.height,
-      children: <Widget>[
-    new ListView.builder(  
-         shrinkWrap: true,  
-          itemCount: data_resena == null ? 0 : data_resena.length,  
-         itemBuilder: (BuildContext context, int index) {  
-        return new Card(  
-              child: Row(  
-           mainAxisAlignment: MainAxisAlignment.spaceBetween,  
-           children: [  
-             Column(  
-               children: <Widget>[  
-                Image.network(data_resena[index]["COM_FOTO"],
-                              width: 50,
-                              height: 50,
-                              fit: BoxFit.fill ),     
-                      Row(
-                     children: <Widget>[  
-                      Text(   
-                      data_resena[index]["COM_NOMBRES"], 
-                      style: TextStyle(fontSize: 18.0),    
-                    ),  
-                    ],   
-                    ),     
-                  ],  
-                ),  
-            Container(  
-              child: Flexible(
-                     child: Text(    
-                     data_resena[index]["COM_RESENA"],  
-                    maxLines: 10,  
-                    softWrap: true,    
+   Widget resenasection = Container(
+     width: MediaQuery.of(context).size.width -1.0,
+    
+     child: Card(
+            child: Row(
+         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+         children: [
+           Column(
+             children: <Widget>[
+              FloatingActionButton(
+                                    child: new Image.asset(
+                                      "assets/recomend.png",
+                                  fit: BoxFit.cover,
+                                  width: 50.0,
+                                  height: 50.0,
+                                ),
+                                            backgroundColor: Colors.black, onPressed: () {},           
+                  ),      
+                  Row(
+  
+                   children: <Widget>[
+                    Text( 
+                   'Pedro ', 
                     style: TextStyle(fontSize: 18.0),  
-                    ),  
-              ),  
+                  ),
+                  ], 
+                  ),   
+                ],
+              ),
+         
+          Container(
+
+            child: Flexible(
+  
+                   child: Text(
+  
+                  'Ejemplo de reseña basica calificando al negocio',  
+                  maxLines: 10,
+  
+                  softWrap: true,
+  
+                 // textAlign: TextAlign.left,
+  
+                         style: TextStyle(fontSize: 18.0),
+  
+                ),
+  
+                    
+
             ),
-            Container(  
-              child: Flexible(    
-                     child: Text(   
-                    data_resena[index]["COM_VALOR"],    
-                    maxLines: 10,   
-                    softWrap: true,      
-                    style: TextStyle(fontSize: 18.0),    
-                    ),   
-                    ),  
-                    ),             
-                    ],  
-                    ),     
-                    );                    
+          ),
+
+          Container(
+
+            child: Flexible(
   
-         }
+                   child: Text(
   
-        ),
-      ]
-    );
+                  '⭐⭐⭐⭐⭐',  
+                  maxLines: 10,
+  
+                  softWrap: true,
+  
+                 // textAlign: TextAlign.left,
+  
+                         style: TextStyle(fontSize: 18.0),
+  
+                ),
+  
+                    
+
+            ),
+          ), 
+
+          
+       ],
+
+   ),
+   
+     )
+   );
+
+
+
+
+
+
 
 
   Widget social() { 
