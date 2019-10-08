@@ -77,7 +77,27 @@ class Detalles extends State<Empresa_det_fin> {
   List data_hor;
   List logos;
   List descripcion;
+  List data_resena;
 
+Future<String> getResena() async {
+    var response = await http.get(
+        Uri.encodeFull(
+            "http://cabofind.com.mx/app_php/APIs/esp/list_resena.php?ID=${widget.empresa.id_nm}"),
+
+        headers: {
+          "Accept": "application/json"
+        }
+    );
+
+    this.setState(
+            () {
+          data_resena = json.decode(
+              response.body);
+        });
+
+
+    return "Success!";
+  }
   
 
 
@@ -271,6 +291,7 @@ Future<String> insertVisitaiOS() async {
     this.getHorarios();
     this.getInfo();   
     this.insertVisitaAndroid();
+    this.getResena();
   
    // this.insertVisitaiOS;
 
@@ -720,89 +741,65 @@ var response = await http.get(
 
    );
 
-   Widget resenasection = Container(
-     width: MediaQuery.of(context).size.width -1.0,
-    
-     child: Card(
-            child: Row(
-         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-         children: [
-           Column(
-             children: <Widget>[
-              FloatingActionButton(
-                                    child: new Image.asset(
-                                      "assets/recomend.png",
-                                  fit: BoxFit.cover,
-                                  width: 50.0,
-                                  height: 50.0,
-                                ),
-                                            backgroundColor: Colors.black, onPressed: () {},           
-                  ),      
-                  Row(
   
-                   children: <Widget>[
-                    Text( 
-                   'Pedro ', 
-                    style: TextStyle(fontSize: 18.0),  
-                  ),
-                  ], 
-                  ),   
-                ],
-              ),
+
+Widget resenasection = Column(
          
-          Container(
-
-            child: Flexible(
-  
-                   child: Text(
-  
-                  'Ejemplo de reseña basica calificando al negocio',  
-                  maxLines: 10,
-  
-                  softWrap: true,
-  
-                 // textAlign: TextAlign.left,
-  
-                         style: TextStyle(fontSize: 18.0),
-  
-                ),
-  
-                    
-
+     // height:  MediaQuery.of(context).size.height,
+      children: <Widget>[
+    new ListView.builder(  
+         shrinkWrap: true,  
+          itemCount: data_resena == null ? 0 : data_resena.length,  
+         itemBuilder: (BuildContext context, int index) {  
+        return new Card(  
+              child: Row(  
+           mainAxisAlignment: MainAxisAlignment.spaceBetween,  
+           children: [  
+             Column(  
+               children: <Widget>[  
+                Image.network(data_resena[index]["COM_FOTO"],
+                              width: 50,
+                              height: 50,
+                              fit: BoxFit.fill ),     
+                      Row(
+                     children: <Widget>[  
+                      Text(   
+                      data_resena[index]["COM_NOMBRES"], 
+                      style: TextStyle(fontSize: 18.0),    
+                    ),  
+                    ],   
+                    ),     
+                  ],  
+                ),  
+            Container(  
+              child: Flexible(
+                     child: Text(    
+                     data_resena[index]["COM_RESENA"],  
+                    maxLines: 10,  
+                    softWrap: true,    
+                    style: TextStyle(fontSize: 18.0),  
+                    ),  
+              ),  
             ),
-          ),
-
-          Container(
-
-            child: Flexible(
+            Container(  
+              child: Flexible(    
+                     child: Text(   
+                    data_resena[index]["COM_VALOR"],    
+                    maxLines: 10,   
+                    softWrap: true,      
+                    style: TextStyle(fontSize: 18.0),    
+                    ),   
+                    ),  
+                    ),             
+                    ],  
+                    ),     
+                    );                    
   
-                   child: Text(
+         }
   
-                  '⭐⭐⭐⭐⭐',  
-                  maxLines: 10,
-  
-                  softWrap: true,
-  
-                 // textAlign: TextAlign.left,
-  
-                         style: TextStyle(fontSize: 18.0),
-  
-                ),
-  
-                    
-
-            ),
-          ), 
-
-          
-       ],
-
-   ),
-   
-     )
-   );
-
-
+        ),
+      ]
+    );  
 
 
 
@@ -1137,11 +1134,7 @@ var response = await http.get(
               )
 
             ),
-            Column(
-              children: <Widget>[resenasection],
-             // height:1000.0,
-
-            ),
+            resenasection,
 
             SizedBox(
                     height: 15.0,
