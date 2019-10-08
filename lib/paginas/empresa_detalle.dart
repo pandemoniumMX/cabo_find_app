@@ -313,7 +313,7 @@ void initiateFacebookLogin() async{
     break;
     case FacebookLoginStatus.loggedIn:
     onLoginStatusChange(true);
-    getInfofb(result,_displayValue);
+    //getInfofb(result,_displayValue);
 
     
                
@@ -346,10 +346,9 @@ void initiateFacebookLogin() async{
                ),
                new FlatButton(
                  child: new Text('Enviar'),
-                 onPressed: (){ getInfofb;  
-                 setState(() {
-                  _displayValue = controllerCode.text; 
-                 });
+                 onPressed: (){ getInfofb(result,_displayValue);  
+                 
+                 Navigator.of(context).pop();
                  
                  },
                )
@@ -363,7 +362,7 @@ void initiateFacebookLogin() async{
  
 }  
 
-Future<String> getInfofb(FacebookLoginResult result, _displayValue) async {
+void getInfofb(FacebookLoginResult result, _displayValue) async {
 
  //final result = await facebookSignIn.logInWithReadPermissions(['email']);
 final token = result.accessToken.token;
@@ -378,7 +377,7 @@ final correofb= profile['email'];
 final nombresfb= profile['first_name'];
 final apellidosfb= profile['last_name'];
 final imagenfb = profile[ 'picture']["data"]["url"];
-final resena = _displayValue;
+final resena = controllerCode.text;
 final valor = formData['City'];
 
 //final imagenfb = profile['picture'];
