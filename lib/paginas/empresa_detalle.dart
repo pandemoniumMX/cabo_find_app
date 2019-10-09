@@ -192,7 +192,7 @@ Future<String> getResena() async {
     return "Success!";
   }
 //contador de visitas android
-
+/*
 Future<String> insertVisitaAndroid() async {
     String currentLocale;
     try {
@@ -215,7 +215,8 @@ Future<String> insertVisitaAndroid() async {
         }
     );
 }
-/*
+*/
+
 Future<String> insertVisitaiOS() async {
     String currentLocale;
     try {
@@ -236,7 +237,7 @@ Future<String> insertVisitaiOS() async {
         }
     );
 }
-*/
+
    Future<String> getCarrusel() async {
     var response = await http.get(
         Uri.encodeFull(
@@ -275,10 +276,10 @@ Future<String> insertVisitaiOS() async {
     this.getCarrusel();
     this.getHorarios();
     this.getInfo();   
-    this.insertVisitaAndroid();
+    //this.insertVisitaiOS();
     this.getResena();
   
-   // this.insertVisitaiOS;
+    this.insertVisitaiOS;
 
   }
 List<DropdownMenuItem<String>> getDropDownMenuItems() {

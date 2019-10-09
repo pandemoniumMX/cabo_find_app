@@ -88,7 +88,7 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
 
     return "Success!";
   }
-/*
+
   Future<String> insertRecomendacioniOS() async {
     
        String currentLocale;
@@ -104,7 +104,7 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
     //print('Running on ${iosInfo.identifierForVendor}');
     var response = await http.get(
         Uri.encodeFull(
-          "http://cabofind.com.mx/app_php/APIs/esp/insert_recomendacion_publicacion.php?MOD=${iosInfo.model}&BOOT=${iosInfo.utsname.nodename},${iosInfo.utsname.sysname}&VERSION=${iosInfo.systemName}&IDIOMA=${currentLocale}&ID=${widget.publicacion.id}&SO=iOS"),
+          "http://cabofind.com.mx/app_php/APIs/esp/insert_recomendacion_publicacion.php?MOD=${iosInfo.model}&BOOT=${iosInfo.utsname.nodename},${iosInfo.utsname.sysname}&VERSION=${iosInfo.systemName}&IDIOMA=${currentLocale}&ID=${widget.publicacion.id_p}&SO=iOS"),
             //"http://cabofind.com.mx/app_php/APIs/ing/insert_recomendacion_publicacion.php?MOD=${androidInfo.model}&BOOT=${androidInfo.display},${androidInfo.bootloader},${androidInfo.fingerprint}&VERSION=${androidInfo.product}&IDIOMA=${currentLocale},&ID=${widget.publicacion.id}&SO=Android"),
 
         headers: {
@@ -113,7 +113,7 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
     );
   
   }
-*/
+/*
 Future<String> insertRecomendacion() async {
     
        String currentLocale;
@@ -165,9 +165,9 @@ Future<String> insertRecomendacion() async {
         }
     );
 }
+*/
 
 
-/*
 Future<String> insertPublicacioniOS() async {
 
     String currentLocale;
@@ -184,7 +184,7 @@ Future<String> insertPublicacioniOS() async {
     var response = await http.get(
         Uri.encodeFull(
             //"http://cabofind.com.mx/app_php/APIs/esp/insert_visita_publicacion.php?ID=${widget.publicacion.id}"),
-            "http://cabofind.com.mx/app_php/APIs/esp/insert_visita_publicacion.php?MOD=${iosInfo.model}&BOOT=${iosInfo.utsname.nodename},${iosInfo.utsname.sysname}&VERSION=${iosInfo.systemName}&IDIOMA=${currentLocale}&ID=${widget.publicacion.id}&SO=iOS"),
+            "http://cabofind.com.mx/app_php/APIs/esp/insert_visita_publicacion.php?MOD=${iosInfo.model}&BOOT=${iosInfo.utsname.nodename},${iosInfo.utsname.sysname}&VERSION=${iosInfo.systemName}&IDIOMA=${currentLocale}&ID=${widget.publicacion.id_p}&SO=iOS"),
 
           //"http://cabofind.com.mx/app_php/list_negocios.php?"),
 
@@ -195,7 +195,7 @@ Future<String> insertPublicacioniOS() async {
     );
 }
 
-*/
+
 
   Future<String> getNeg() async {
     var response = await http.get(
@@ -247,7 +247,7 @@ Future<String> insertPublicacioniOS() async {
     super.initState(
 
     );
-    this.insertPublicacionAndroid();
+    this.insertPublicacioniOS();
     this.getData();
     this.getNeg();
     this.getPub();
@@ -301,7 +301,7 @@ Future<String> insertPublicacioniOS() async {
                                 height: 50.0,
                               ),
                                   backgroundColor: Colors.black,
-                                  onPressed: (){showShortToast();insertRecomendacion();},
+                                  onPressed: (){showShortToast();insertRecomendacioniOS();},
                                 ),
                               ),                                    ]
                       ),

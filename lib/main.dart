@@ -102,7 +102,7 @@ class _MyHomePageState extends State<MyHomePages> {
   int id=0;
  
 
-
+/*
     @override//Registro descarga en Android
     Future<String> checkModelAndroid() async {
        String currentLocale;
@@ -128,8 +128,8 @@ class _MyHomePageState extends State<MyHomePages> {
     );
   
   }
+  */
   
-  /*
   //Registro descarga en iOS
   @override
     Future<String> checkModelIos() async {
@@ -153,7 +153,7 @@ class _MyHomePageState extends State<MyHomePages> {
     );
 
   }
-*/
+
 
 
 /*
@@ -190,7 +190,7 @@ class _MyHomePageState extends State<MyHomePages> {
     });
     */
     //this.checkModelIos();
-    this.checkModelAndroid();
+    this.checkModelIos();
     ///this._getLocation();
   
 

@@ -109,7 +109,7 @@ class _Publicacion_detalle_fin_estatica extends State<Publicacion_detalle_fin_es
   }
 
 
-
+/*
  Future<String> insertRecomendacion() async {
     
        String currentLocale;
@@ -135,9 +135,9 @@ class _Publicacion_detalle_fin_estatica extends State<Publicacion_detalle_fin_es
     );
   
   }
-
-  /*
-Future<String> insertRecomendacion() async {
+*/
+  
+Future<String> insertRecomendacionIOS() async {
     
       String currentLocale;
     try {
@@ -152,7 +152,7 @@ Future<String> insertRecomendacion() async {
     //print('Running on ${iosInfo.identifierForVendor}');
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/insert_recomendacion_publicacion.php?MOD=${iosInfo.model}&BOOT=${iosInfo.utsname.nodename},${iosInfo.utsname.sysname}&VERSION=${iosInfo.systemName}&IDIOMA=${currentLocale}&ID=${widget.publicacion.id}&SO=iOS"),
+            "http://cabofind.com.mx/app_php/APIs/esp/insert_recomendacion_publicacion.php?MOD=${iosInfo.model}&BOOT=${iosInfo.utsname.nodename},${iosInfo.utsname.sysname}&VERSION=${iosInfo.systemName}&IDIOMA=${currentLocale}&ID=${widget.publicacion.id_p}&SO=iOS"),
 
         headers: {
           "Accept": "application/json"
@@ -160,7 +160,7 @@ Future<String> insertRecomendacion() async {
     );
   
   }
-  */
+  
 
 Future<String> getPub() async {
     var response = await http.get(
@@ -243,7 +243,7 @@ void showShortToast() {
                                 height: 50.0,
                               ),
                                   backgroundColor: Colors.black,
-                                  onPressed: (){showShortToast();insertRecomendacion();},
+                                  onPressed: (){showShortToast();insertRecomendacionIOS();},
                                 ),
                               ),                                    ]
                       ),
