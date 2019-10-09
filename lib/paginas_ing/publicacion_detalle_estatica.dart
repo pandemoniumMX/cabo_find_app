@@ -209,126 +209,118 @@ Future<String> insertRecomendacion() async {
               textColor: Colors.white,
               timeInSecForIos: 1);
         }
-        Widget publicaciones =  Container(
-    
-          child:  ListView.builder(
-            shrinkWrap: false,
-            physics: BouncingScrollPhysics(),
-            itemCount: data == null ? 0 : data.length,
-            itemBuilder: (BuildContext context, int index) {
-    
-              return new ListTile(
-    
-    
-                title: new Container(
+        Widget publicaciones =  ListView.builder(
+      shrinkWrap: true,
+      physics: BouncingScrollPhysics(),
+        itemCount: data_pub == null ? 0 : data_pub.length,
+        itemBuilder: (BuildContext context, int index) {
+       // final titulo =  data_pub[index]["PUB_TITULO"];
+          return new ListTile(
+
+            title: new Container(
                   padding: const EdgeInsets.only(top:5.0),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            /*1*/
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                /*2*/
-                                Center(
-                                  child: Text(
-                                   data_pub[0]["PUB_TITULO_ING"],
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 25.0
-    
-                                    ),
-                                  ),
-    
+                  child: Column(
+                      children: <Widget>[
+                        Stack(
+                        children: <Widget>[
+                          Image.network(data_pub[index]["GAL_FOTO"],
+                              width: MediaQuery.of(context).size.width,
+                              height: 450,
+                              fit: BoxFit.fill ),
+                        Positioned(
+                                right: 0.0,
+                                bottom: 390.0,
+                                child: new FloatingActionButton(
+                                  child: new Image.asset(
+                                    "assets/recomend.png",
+                                fit: BoxFit.cover,
+                                width: 50.0,
+                                height: 50.0,
+                              ),
+                                  backgroundColor: Colors.black,
+                                  onPressed: (){showShortToast();insertRecomendacion();},
                                 ),
-    
-                                Center(
-                                  //  padding: const EdgeInsets.only(bottom: 10,left: 150.0),
-                                  child: Text(
-                                    data_pub[0]["CAT_NOMBRE_ING"],
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15.0,
-                                        color: Color(0xff2E85DC)
-    
-                                    ),
-                                  ),
-    
-                                ),
-    
-                                Column(
-                                  children: <Widget>[
-    
-                                    Container(
-    
-                                    padding: const EdgeInsets.only(left:20.0,bottom: 20.0,),
-                                    child: Text(
-                                      data_pub[0]["PUB_DETALLE_ING"],
-                                      //softWrap: true,
-                                      style: TextStyle(fontSize: 20.0,
-    
-                                      ),
-                                    ),
-    
-                                  ),
-                                    Container(
-                                      child:
-                                      Column(
-                                        children: <Widget>[
-                                          SizedBox(
-                                            height: 20.0,
-                                          ),
-                                          Center(child: Text('Promotional video',style: TextStyle(fontSize: 23.0,color: Colors.blueAccent ),)),
-                                          SizedBox(
-                                            height: 20.0,
-                                          ),
-                                          YoutubePlayer(
-                                            context: context,
-                                            //videoId: widget.publicacion.vid,
-                                            videoId: YoutubePlayer.convertUrlToId( data_pub[0]["PUB_VIDEO"],),
-                                            autoPlay: false,
-                                            showVideoProgressIndicator: true,
-                                            videoProgressIndicatorColor: Colors.blue,
-                                            progressColors: ProgressColors(
-                                              playedColor: Colors.blue,
-                                              handleColor: Colors.blueAccent,
-                                            ),
-                                            onPlayerInitialized: (controller) {
-                                              _controller = controller;
-                                              _controller.addListener(listener);
-                                            },
-                                          ),
-                                          SizedBox(
-                                            height: 20.0,
-                                                    ),
-                                                  ],
-                                                ),
-    
-                                              ),
-    
-    
-    
-                                  ],
-                                ),
-    
-                                
-    
-                              ],
-                            ),
-                          ),
-                          /*3*/
-    
-    
-                        ],
+                              ),                                    ]
                       ),
-    
-                    ),
-    
-              );
-    
-            },
-          ),
-        );
+                     SizedBox(height: 5.0,),  
+                          
+                        Row(  
+                        children: [  
+                          Expanded(  
+                            child: Column(  
+                              crossAxisAlignment: CrossAxisAlignment.start,  
+                              children: [
+  
+                                Center(  
+                                  child: Text(  
+                                    data_pub[index]["PUB_TITULO_ING"],  
+                                    style: TextStyle(  
+                                        fontWeight: FontWeight.bold,  
+                                        fontSize: 23.0
+                                    ),  
+                                  ),  
+                                ), 
+                                
+  
+                                Center(
+                                  child: Text(  
+                                    data_pub[index]["CAT_NOMBRE_ING"],  
+                                    style: TextStyle(  
+                                        fontWeight: FontWeight.bold,  
+                                        fontSize: 15.0,  
+                                        color: Color(0xff2E85DC) 
+                                    ),  
+                                  ),
+                                ),  
+                                SizedBox(height: 5.0,),     
+                                Column(  
+                                  children: <Widget>[
+                                    Container(  
+                                    padding: const EdgeInsets.only(left:20.0,bottom: 20.0,),  
+                                    child: Text(  
+                                      data_pub[index]["PUB_DETALLE_ING"],
+                                      style: TextStyle(fontSize: 20.0,  
+                                      ),  
+                                    ),
+                                  ),  
+                                      Column(  
+                                        children: <Widget>[  
+                                         SizedBox(height: 5.0,),    
+                                          Center(child: Text('Promotional video',style: TextStyle(fontSize: 23.0,color: Colors.blueAccent ),)),  
+                                          SizedBox(height: 5.0,),  
+                                          YoutubePlayer(  
+                                            context: context,  
+                                            videoId: YoutubePlayer.convertUrlToId( data_pub[index]["PUB_VIDEO"],),  
+                                            autoPlay: false,  
+                                            width: MediaQuery.of(context).size.width,  
+                                            showVideoProgressIndicator: true,  
+                                            videoProgressIndicatorColor: Colors.blue,  
+                                            progressColors: ProgressColors(  
+                                              playedColor: Colors.blue,  
+                                              handleColor: Colors.blueAccent,  
+                                            ),  
+                                            onPlayerInitialized: (controller) {  
+                                              _controller = controller;  
+                                              _controller.addListener(listener);  
+                                            },  
+                                          ),  
+                                          SizedBox(height: 5.0,),  
+                                                  ],  
+                                                ),
+                
+                              ],  
+                              ),   
+                              ],  
+                            ), 
+                          ), 
+                          ],  
+                      ),
+                    ],
+                  ),
+                ),
+          );
+        },
+      );
     
     
     
@@ -339,29 +331,7 @@ Future<String> insertRecomendacion() async {
             body: ListView(
               //scrollDirection: Axis.horizontal,
               children: [
-                Stack(
-                    children: <Widget>[
-    
-                       Image.network(data_pub[0]["GAL_FOTO"]
-                    ,width: MediaQuery.of(context).size.width,height: 450,fit: BoxFit.fill ),              
-                    Positioned(
-                            right: 0.0,
-                            bottom: 390.0,
-                            child: new FloatingActionButton(
-                              child: new Image.asset(
-                            "assets/recomend.png",
-                            fit: BoxFit.cover,
-                            width: 50.0,
-                            height: 50.0,
-    
-                          ),
-                              backgroundColor: Colors.black,
-                               onPressed: (){showShortToast();insertRecomendacion();},
-    
-                            ),
-                          ),
-                                ]
-                  ),
+                
                  Column(
                   children: <Widget>[publicaciones],
                  // height:1000.0,
@@ -372,7 +342,7 @@ Future<String> insertRecomendacion() async {
               ],
             ),
             appBar: new AppBar(
-              title: new Text(data_pub[0]["PUB_TITULO"],
+              title: new Text('Regresar',
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 20.0
@@ -385,26 +355,7 @@ Future<String> insertRecomendacion() async {
         );
       }
     
-      Column _buildButtonColumn(Color color, IconData icon, String label) {
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon, color: color),
-            Container(
-              margin: const EdgeInsets.only(top: 8),
-              child: Text(
-                label,
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w400,
-                  color: color,
-                ),
-              ),
-            ),
-          ],
-        );
-      }
+    
     
       @override
       void dispose() {

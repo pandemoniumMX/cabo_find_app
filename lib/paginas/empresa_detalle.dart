@@ -657,10 +657,11 @@ var response = await http.get(
     Color color = Theme.of(context).primaryColor;
 
 
-    Widget textSection = Container(
+    Widget textSection = Column(
      // height:  MediaQuery.of(context).size.height,
-     height:  100.0,
-      child: new ListView.builder(
+     
+     children: <Widget>[
+        new ListView.builder(
         shrinkWrap: true,
         itemCount: dataneg == null ? 0 : dataneg.length,
        itemBuilder: (BuildContext context, int index) {
@@ -676,12 +677,14 @@ var response = await http.get(
       );
        }
       )
+      ]
     );
 
-    Widget logo = Container(
+    Widget logo = Column(
      // height:  MediaQuery.of(context).size.height,
-     height:  300.0,
-      child: new ListView.builder(
+    
+      children: <Widget>[
+         new ListView.builder(
         shrinkWrap: true,
         itemCount: dataneg == null ? 0 : dataneg.length,
        itemBuilder: (BuildContext context, int index) {
@@ -700,6 +703,7 @@ var response = await http.get(
                   );
        }
       )
+      ]
     );
 
 

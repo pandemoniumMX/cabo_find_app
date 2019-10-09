@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:cabofind/paginas/empresa_detalle.dart';
 import 'package:cabofind/paginas_ing/empresa_detalle.dart';
+import 'package:cabofind/paginas_ing/publicacion_detalle_estatica.dart';
 import 'package:cabofind/paginas_listas/list_publicaciones.dart';
 import 'package:device_info/device_info.dart';
 import 'package:devicelocale/devicelocale.dart';
@@ -266,146 +267,132 @@ Future<String> insertPublicacioniOS() async {
     }
     
     Widget publicaciones =  ListView.builder(
-        shrinkWrap: true,
-        physics: BouncingScrollPhysics(),
+      shrinkWrap: true,
+      physics: BouncingScrollPhysics(),
         itemCount: data_pub == null ? 0 : data_pub.length,
         itemBuilder: (BuildContext context, int index) {
-
+       // final titulo =  data_pub[index]["PUB_TITULO"];
           return new ListTile(
 
-
             title: new Container(
-              padding: const EdgeInsets.only(top:5.0),
-              child: Row(
-                children: [
-                  Expanded(
-                    /*1*/
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        /*2*/
-                        Center(
-                          child: Text(
-                             data_pub[0]["PUB_TITULO_ING"],
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 23.0
-
-                            ),
-                          ),
-
-                        ),
-                        SizedBox(
-                          height: 5.0,
-                        ),
-                        Center(
-                          //  padding: const EdgeInsets.only(bottom: 10,left: 150.0),
-                          child: Text(
-                            data_pub[0]["CAT_NOMBRE_ING"],
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15.0,
-                                color: Color(0xff2E85DC)
-
-                            ),
-                          ),
-
-                        ),
-                        SizedBox(
-                          height: 5.0,
-                        ),
-
-                        Column(
-                          children: <Widget>[
-
-                            Container(
-
-                              padding: const EdgeInsets.only(left:20.0,bottom: 20.0,),
-                              child: Text(
-                               data_pub[0]["PUB_DETALLE_ING"],
-                                //softWrap: true,
-                                style: TextStyle(fontSize: 20.0,
-
+                  padding: const EdgeInsets.only(top:5.0),
+                  child: Column(
+                      children: <Widget>[
+                        Stack(
+                        children: <Widget>[
+                          Image.network(data_pub[index]["GAL_FOTO"],
+                              width: MediaQuery.of(context).size.width,
+                              height: 450,
+                              fit: BoxFit.fill ),
+                        Positioned(
+                                right: 0.0,
+                                bottom: 390.0,
+                                child: new FloatingActionButton(
+                                  child: new Image.asset(
+                                    "assets/recomend.png",
+                                fit: BoxFit.cover,
+                                width: 50.0,
+                                height: 50.0,
+                              ),
+                                  backgroundColor: Colors.black,
+                                  onPressed: (){showShortToast();insertRecomendacion();},
                                 ),
-                              ),
-
-                            ),
-                            Container(
-                              child:
-                              Column(
-                                children: <Widget>[
-                                  SizedBox(
-                                    height: 5.0,
+                              ),                                    ]
+                      ),
+                     SizedBox(height: 5.0,),  
+                          
+                        Row(  
+                        children: [  
+                          Expanded(  
+                            child: Column(  
+                              crossAxisAlignment: CrossAxisAlignment.start,  
+                              children: [
+  
+                                Center(  
+                                  child: Text(  
+                                    data_pub[index]["PUB_TITULO_ING"],  
+                                    style: TextStyle(  
+                                        fontWeight: FontWeight.bold,  
+                                        fontSize: 23.0
+                                    ),  
+                                  ),  
+                                ), 
+                                
+  
+                                Center(
+                                  child: Text(  
+                                    data_pub[index]["CAT_NOMBRE_ING"],  
+                                    style: TextStyle(  
+                                        fontWeight: FontWeight.bold,  
+                                        fontSize: 15.0,  
+                                        color: Color(0xff2E85DC) 
+                                    ),  
                                   ),
-                                  Center(child: Text('Promotional video',style: TextStyle(fontSize: 23.0,color: Colors.blueAccent ),)),
-                                  SizedBox(
-                                    height: 5.0,
-                                  ),
-                                  YoutubePlayer(
-                                    context: context,
-                                    //videoId: widget.publicacion.vid,
-                                    videoId: YoutubePlayer.convertUrlToId( data_pub[0]["PUB_VIDEO"],),
-                                    autoPlay: false,
-                                    width: MediaQuery.of(context).size.width,
-                                    showVideoProgressIndicator: true,
-                                    videoProgressIndicatorColor: Colors.blue,
-                                    progressColors: ProgressColors(
-                                      playedColor: Colors.blue,
-                                      handleColor: Colors.blueAccent,
+                                ),  
+                                SizedBox(height: 5.0,),     
+                                Column(  
+                                  children: <Widget>[
+                                    Container(  
+                                    padding: const EdgeInsets.only(left:20.0,bottom: 20.0,),  
+                                    child: Text(  
+                                      data_pub[index]["PUB_DETALLE_ING"],
+                                      style: TextStyle(fontSize: 20.0,  
+                                      ),  
                                     ),
-                                    onPlayerInitialized: (controller) {
-                                      _controller = controller;
-                                      _controller.addListener(listener);
-                                    },
-                                  ),
-                                  SizedBox(
-                                    height: 5.0,
-                                  ),
-                                ],
-                              ),
-                            ),
+                                  ),  
+                                      Column(  
+                                        children: <Widget>[  
+                                         SizedBox(height: 5.0,),    
+                                          Center(child: Text('Promotional video',style: TextStyle(fontSize: 23.0,color: Colors.blueAccent ),)),  
+                                          SizedBox(height: 5.0,),  
+                                          YoutubePlayer(  
+                                            context: context,  
+                                            videoId: YoutubePlayer.convertUrlToId( data_pub[index]["PUB_VIDEO"],),  
+                                            autoPlay: false,  
+                                            width: MediaQuery.of(context).size.width,  
+                                            showVideoProgressIndicator: true,  
+                                            videoProgressIndicatorColor: Colors.blue,  
+                                            progressColors: ProgressColors(  
+                                              playedColor: Colors.blue,  
+                                              handleColor: Colors.blueAccent,  
+                                            ),  
+                                            onPlayerInitialized: (controller) {  
+                                              _controller = controller;  
+                                              _controller.addListener(listener);  
+                                            },  
+                                          ),  
+                                          SizedBox(height: 5.0,),  
+                                                  ],  
+                                                ),
+              Container(  
 
-                            Container(
-                              padding: const EdgeInsets.only(bottom: 10,left: 20,right: 20),
-                              child: RaisedButton(
-                                //child: Text(‘Send data to the second page’),
-                                onPressed: () {
-                                  String id_sql = data_pub[index]["ID_NEGOCIO"];                                  
-
-                                  Navigator.push(context, new MaterialPageRoute
-                                    (builder: (context) => new Empresa_det_fin_ing(empresa: new Empresa(id_sql))
-                                  )
-                                  );
-                                },
-
-                                shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
-                                color: Colors.blue,
-                                child: Text('More information', style: TextStyle(fontSize: 20, color: Colors.white)),
-
-                              ),
-
-                            ),
-
-                          ],
-                        ),
-
-
-
-                      ],
-                    ),
+                padding: const EdgeInsets.only(bottom: 10,left: 20,right: 20),  
+                child: RaisedButton(  
+                  onPressed: () {  
+                      String id_sql = data_pub[index]["ID_NEGOCIO"];  
+                      Navigator.push(context, new MaterialPageRoute  
+                        (builder: (context) => new Publicacion_detalle_fin_estatica_ing(empresa: new Empresa(id_sql))  
+                      )  
+                      );  
+                  },   
+                  shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),  
+                  color: Colors.blue,  
+                  child: Text('More information', style: TextStyle(fontSize: 20, color: Colors.white)),   
+                  ),  
+                  ),  
+                              ],  
+                              ),   
+                              ],  
+                            ), 
+                          ), 
+                          ],  
+                      ),
+                    ],
                   ),
-                  /*3*/
-
-
-                ],
-              ),
-
-            ),
+                ),
           );
-
         },
-      
-    );
+      );
 
 
 
@@ -416,29 +403,7 @@ Future<String> insertPublicacioniOS() async {
         body: ListView(
           //scrollDirection: Axis.horizontal,
           children: [
-            Stack(
-                children: <Widget>[
-
-                   Image.network(data_pub[0]["GAL_FOTO"]
-                ,width: MediaQuery.of(context).size.width,height: 450,fit: BoxFit.fill ),              
-                Positioned(
-                        right: 0.0,
-                        bottom: 390.0,
-                        child: new FloatingActionButton(
-                          child: new Image.asset(
-                        "assets/recomend.png",
-                        fit: BoxFit.cover,
-                        width: 50.0,
-                        height: 50.0,
-
-                      ),
-                          backgroundColor: Colors.black,
-                           onPressed: (){showShortToast();insertRecomendacion();},
-
-                        ),
-                      ),
-                            ]
-              ),
+            
 
               Column(
               children: <Widget>[publicaciones],
@@ -461,27 +426,6 @@ Future<String> insertPublicacioniOS() async {
           ),
 
         )
-    );
-  }
-
-  Column _buildButtonColumn(Color color, IconData icon, String label) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Icon(icon, color: color),
-        Container(
-          margin: const EdgeInsets.only(top: 8),
-          child: Text(
-            label,
-            style: TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w400,
-              color: color,
-            ),
-          ),
-        ),
-      ],
     );
   }
 

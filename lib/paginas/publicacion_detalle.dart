@@ -353,7 +353,7 @@ Future<String> insertPublicacioniOS() async {
                                           SizedBox(height: 5.0,),  
                                           YoutubePlayer(  
                                             context: context,  
-                                            videoId: YoutubePlayer.convertUrlToId( data_pub[0]["PUB_VIDEO"],),  
+                                            videoId: YoutubePlayer.convertUrlToId( data_pub[index]["PUB_VIDEO"],),  
                                             autoPlay: false,  
                                             width: MediaQuery.of(context).size.width,  
                                             showVideoProgressIndicator: true,  

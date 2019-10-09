@@ -6,9 +6,7 @@ import 'package:cabofind/paginas/publicacion_detalle_estatica.dart';
 import 'package:cabofind/paginas_ing/publicacion_detalle_estatica.dart';
 import 'package:device_info/device_info.dart';
 import 'package:devicelocale/devicelocale.dart';
-import 'package:dropdownfield/dropdownfield.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:cabofind/utilidades/classes.dart';
@@ -17,78 +15,38 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 
-
-
-
-
-
 class Empresa_det_fin_ing extends StatefulWidget {
+List data;
 //final Publicacion publicacion;
 final Empresa empresa;
 
-Empresa_det_fin_ing({Key key, @required this.empresa}) : super(
+  Empresa_det_fin_ing({Key key, @required this.empresa}) : super(
     key: key);
 
 @override
-  Detalles createState() => new Detalles();
+_Empresa_det_fin_ing createState() => new _Empresa_det_fin_ing();
 
 }
 
-class Detalles extends State<Empresa_det_fin_ing> {
-  TextEditingController controllerCode =  TextEditingController();
-  String _displayValue = "";
-  String _displayValor = "";
+class _Empresa_det_fin_ing extends State<Empresa_det_fin_ing> {
+  ScrollController _scrollController = new ScrollController();
 
-
-
-  
-
-   Map userProfile;
-
- List _cities  =
-  ["","👍", "👎"];
-
-  List<DropdownMenuItem<String>> _dropDownMenuItems;
-  String _currentCity;
-
-  bool isLoggedIn=false;
   List data;
-  List data_serv;
-  List dataneg;
+  List data1;
   List data_list;
   List data_carrusel;
   List data_hor;
-  List logos;
-  List descripcion;
-  List data_resena;
+  List dataneg;
 
-Future<String> getResena() async {
+
+Future<String> getInfo() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/ing/list_resena.php?ID=${widget.empresa.id_nm}"),
-
-        headers: {
-          "Accept": "application/json"
-        }
-    );
-
-    this.setState(
-            () {
-          data_resena = json.decode(
-              response.body);
-        });
+          //"http://cabofind.com.mx/app_php/list_caracteristicas.php?ID=${widget.empresa.id}"),
+            "http://cabofind.com.mx/app_php/APIs/esp/list_info_neg.php?ID=${widget.empresa.id_nm}"),
+         //"http://cabofind.com.mx/app_php/list_caracteristicas.php"),
 
 
-    return "Success!";
-  }
-  
-
-
-
-  Future<String> getInfo() async {
-    var response = await http.get(
-        Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/ing/list_negocios_api.php?ID=${widget.empresa.id_nm}"),
 
         headers: {
           "Accept": "application/json"
@@ -105,13 +63,16 @@ Future<String> getResena() async {
     return "Success!";
   }
 
-  
- 
+
+
+
 
   Future<String> getCar() async {
     var response = await http.get(
         Uri.encodeFull(
             "http://cabofind.com.mx/app_php/APIs/ing/list_caracteristicas_api.php?ID=${widget.empresa.id_nm}"),
+
+
 
         headers: {
           "Accept": "application/json"
@@ -123,7 +84,8 @@ Future<String> getResena() async {
           data = json.decode(
               response.body);
         });
-
+    print(
+        data[0]["CAR_NOMBRE"]);
 
     return "Success!";
   }
@@ -134,26 +96,7 @@ Future<String> getResena() async {
         Uri.encodeFull(
             "http://cabofind.com.mx/app_php/APIs/ing/list_servicios_api.php?ID=${widget.empresa.id_nm}"),
 
-        headers: {
-          "Accept": "application/json"
-        }
-    );
 
-    this.setState(
-            () {
-              data_serv = json.decode(
-              response.body);
-        });
-
-
-    return "Success!";
-  }
-
-
-  Future<String> getHorarios() async {
-    var response = await http.get(
-        Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/ing/list_horarios_api.php?ID=${widget.empresa.id_nm}"),
 
         headers: {
           "Accept": "application/json"
@@ -162,13 +105,15 @@ Future<String> getResena() async {
 
     this.setState(
             () {
-              data_hor = json.decode(
+              data1 = json.decode(
               response.body);
         });
-
+    print(
+        data1[0]["SERV_NOMBRE"]);
 
     return "Success!";
   }
+
 
 
   Future<String> get_list() async {
@@ -187,12 +132,36 @@ Future<String> getResena() async {
           data_list = json.decode(
               response.body);
         });
-
+    print(
+        data_list[0]["NEG_LUGAR"]);
 
     return "Success!";
   }
-//contador de visitas android
 
+   Future<String> getCarrusel() async {
+    var response = await http.get(
+        Uri.encodeFull(
+            "http://cabofind.com.mx/app_php/APIs/ing/galeria_api.php?ID=${widget.empresa.id_nm}"),
+
+        headers: {
+          "Accept": "application/json"
+        }
+    );
+
+    this.setState(
+            () {
+          data_carrusel = json.decode(
+              response.body);
+        });
+
+
+    print(
+        data_carrusel[0]["GAL_FOTO"]);
+
+    return "Success!";
+  }
+  
+  //contador visitas empresa Android
 Future<String> insertVisitaAndroid() async {
     String currentLocale;
     try {
@@ -207,7 +176,8 @@ Future<String> insertVisitaAndroid() async {
     //print('Running on ${androidInfo.id}');
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/insert_visita_negocio.php?MOD=${androidInfo.model}&BOOT=${androidInfo.display},${androidInfo.bootloader},${androidInfo.fingerprint}&VERSION=${androidInfo.product}&IDIOMA=ing&ID=${widget.empresa.id_nm}&SO=Android"),
+           // "http://cabofind.com.mx/app_php/APIs/esp/insert_visita_negocio.php?ID=${widget.empresa.id_nm}"),
+            "http://cabofind.com.mx/app_php/APIs/ing/insert_visita_negocio.php?MOD=${androidInfo.model}&BOOT=${androidInfo.display},${androidInfo.bootloader},${androidInfo.fingerprint}&VERSION=${androidInfo.product}&IDIOMA=ing&ID=${widget.empresa.id_nm}&SO=Android"),
 
 
         headers: {
@@ -215,7 +185,10 @@ Future<String> insertVisitaAndroid() async {
         }
     );
 }
+
+
 /*
+//Contador visitas iOS
 Future<String> insertVisitaiOS() async {
     String currentLocale;
     try {
@@ -224,214 +197,70 @@ Future<String> insertVisitaiOS() async {
     } on PlatformException {
       print("Error obtaining current locale");
     }
+
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
     //print('Running on ${iosInfo.identifierForVendor}');
     var response = await http.get(
         Uri.encodeFull(
            // "http://cabofind.com.mx/app_php/APIs/esp/insert_visita_negocio.php?ID=${widget.empresa.id_nm}"),
-            "http://cabofind.com.mx/app_php/APIs/esp/insert_visita_negocio.php?MOD=${iosInfo.model}&BOOT=${iosInfo.utsname.nodename},${iosInfo.utsname.sysname}&VERSION=${iosInfo.systemName}&IDIOMA=esp&ID=${widget.empresa.id_nm}&SO=iOS"),
+            "http://cabofind.com.mx/app_php/APIs/ing/insert_visita_negocio.php?MOD=${iosInfo.model}&BOOT=${iosInfo.utsname.nodename},${iosInfo.utsname.sysname}&VERSION=${iosInfo.systemName}&IDIOMA=ing&ID=${widget.empresa.id_nm}&SO=iOS"),
+
+
         headers: {
           "Accept": "application/json"
         }
     );
 }
 */
-   Future<String> getCarrusel() async {
+
+  Future<String> getHorarios() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/galeria_api.php?ID=${widget.empresa.id_nm}"),
+          //"http://cabofind.com.mx/app_php/list_caracteristicas_api.php?ID=${widget.empresa.id}"),
+            "http://cabofind.com.mx/app_php/APIs/ing/list_horarios_api.php?ID=${widget.empresa.id_nm}"),
+        //"http://cabofind.com.mx/app_php/list_caracteristicas.php"),
+
+
 
         headers: {
           "Accept": "application/json"
         }
     );
-   
-    
 
     this.setState(
             () {
-          data_carrusel = json.decode(
+          data_hor = json.decode(
               response.body);
         });
-
-
-
+    print(
+        data_hor[0]["NEG_HORARIO_ING"]);
 
     return "Success!";
   }
-  
-  
-
-
 
   void initState() {
-     _dropDownMenuItems = getDropDownMenuItems();
-    _currentCity = _dropDownMenuItems[0].value;
-    super.initState();
+    super.initState(
+
+    );
     this.getCar();
     this.get_list();
     this.getSer();
     this.getCarrusel();
     this.getHorarios();
-    this.getInfo();   
     this.insertVisitaAndroid();
-    this.getResena();
-  
-   // this.insertVisitaiOS;
+
 
   }
-List<DropdownMenuItem<String>> getDropDownMenuItems() {
-    List<DropdownMenuItem<String>> items = new List();
-    for (String city in _cities) {
-      items.add(new DropdownMenuItem(
-
-          value: city,
-          child: new Text(city)
-      ));
-    }
-    return items;
-  }
-  
-void onLoginStatusChange(bool isLoggedIn){
-  setState(() {
-   this.isLoggedIn=isLoggedIn; 
-   
-  });
-}
-
-      @override
-  void dispose() {
-    // Clean up the controller when the widget is disposed.
-    controllerCode.dispose();
-    super.dispose();
-  }
-
-void initiateFacebookLogin() async{
-  var login = FacebookLogin();
-  var result = await login.logIn(['email']);
-  switch(result.status){
-    case FacebookLoginStatus.error:
-    print("Surgio un error");
-    break;
-    case FacebookLoginStatus.cancelledByUser:
-    print("Cancelado por el usuario");
-    break;
-    case FacebookLoginStatus.loggedIn:
-    onLoginStatusChange(true);
-    //getInfofb(result,_displayValue);
-
-    
-               
-    return showDialog(
-         context: context,
-         builder: (context) {
-           return AlertDialog(
-             title: Text('Review',style: TextStyle(fontSize: 25.0,),),
-             content: Container(
-                 width: MediaQuery.of(context).size.width,
-                 height: 350.0,
-                 child:  
-                Column(
-                                    children: <Widget>[  
-              Text('Rate'),  
-              DropdownButton(
-
-                value: _currentCity,
-                items: _dropDownMenuItems,
-                onChanged: changedDropDownItem,
-
-              ),                           
-              Text('Write a short opinion'),
-              TextField(
-                controller: controllerCode,
-                maxLines: 5, 
-                ),
-               
-                ],
-                 )
-                 
-             ),
-             actions: <Widget>[
-               new FlatButton(
-                 child: new Text('Cancel'),
-                 onPressed: () {
-                   Navigator.of(context).pop();
-                 },
-               ),
-               new FlatButton(
-                 child: new Text('Send'),
-                 onPressed: (){ getInfofb(result,_displayValue,_currentCity);  
-                 
-                 Navigator.of(context).pop();
-                 
-                 },
-               )
-             ],
-           );
-         });
-
-         
-    break;
-  }
- 
-}  
-
-void changedDropDownItem(String selectedCity) {
-    setState(() {
-      _currentCity = selectedCity;
-    });
-
-}
-
-void getInfofb(FacebookLoginResult result, _displayValue,_currentCity) async {
-
- //final result = await facebookSignIn.logInWithReadPermissions(['email']);
-final token = result.accessToken.token;
-final graphResponse = await http.get(
-            'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,picture,email&access_token=${token}');
-final profile = json.decode(graphResponse.body);
- print(profile[ 'email'],);
- print(profile[ 'last_name'],);
-//final pictures= profile[ 'picture']["data"]["url"];
-final id= profile['id'];
-final correofb= profile['email'];
-final nombresfb= profile['first_name'];
-final apellidosfb= profile['last_name'];
-final imagenfb = profile[ 'picture']["data"]["url"];
-final resena = controllerCode.text;
-final valor = _currentCity;
-
-//final imagenfb = profile['picture'];
-//final url =  dataneg[0]["NEG_WEB"];
-var response = await http.get(
-        Uri.encodeFull(
-            'http://cabofind.com.mx/app_php/APIs/esp/insertar_resena.php?ID_FB=${id}&CORREO=${correofb}&NOM=${nombresfb}&APE=${apellidosfb}&FOTO=${imagenfb}&IDIOMA=ING&RESENA=${resena}&VALOR=${valor}&ID_N=${widget.empresa.id_nm}'),
-
-        headers: {
-          "Accept": "application/json"
-        }
-    );   
-        }
-
-        
-
-
-
-
-
 
  Widget build(BuildContext context){
-
-
-
 
    _alertCar(BuildContext context) async {
      return showDialog(
          context: context,
          builder: (context) {
            return AlertDialog(
-             title: Text('Features',style: TextStyle(fontSize: 25.0,),),
+             title: Text('Feactures',style: TextStyle(fontSize: 25.0,),),
              content: Container(
                  width: double.maxFinite,
                  height: 300.0,
@@ -448,7 +277,7 @@ var response = await http.get(
              ),
              actions: <Widget>[
                new FlatButton(
-                 child: new Text('Close'),
+                 child: new Text('Cerrar'),
                  onPressed: () {
                    Navigator.of(context).pop();
                  },
@@ -469,43 +298,11 @@ var response = await http.get(
                  width: double.maxFinite,
                  height: 300.0,
                  child: ListView.builder(
-                     itemCount: data_serv == null ? 0 : data_serv.length,
+                     itemCount: data1 == null ? 0 : data1.length,
                      itemBuilder: (BuildContext context, int index) {
                        return Column(
                          children: <Widget>[
-                           Container(child: Text(data_serv[index]["SERV_NOMBRE_ING"],style: TextStyle(),),padding: EdgeInsets.only(bottom:15.0),) ,
-                         ],
-                       );
-                     }
-                 )
-             ),
-             actions: <Widget>[
-               new FlatButton(
-                 child: new Text('Close'),
-                 onPressed: () {
-                   Navigator.of(context).pop();
-                 },
-               )
-             ],
-           );
-         });
-   }
-
-    _alertHorario(BuildContext context) async {
-     return showDialog(
-         context: context,
-         builder: (context) {
-           return AlertDialog(
-             title: Text('Close',style: TextStyle(fontSize: 25.0,),),
-             content: Container(
-                 width: double.maxFinite,
-                 height: 300.0,
-                 child: ListView.builder(
-                     itemCount: data_hor == null ? 0 : data_hor.length,
-                     itemBuilder: (BuildContext context, int index) {
-                       return Column(
-                         children: <Widget>[
-                           Container(child: Text(data_hor[index]["NEG_HORARIO_ING"],style: TextStyle(),),padding: EdgeInsets.only(bottom:15.0),) ,
+                           Container(child: Text(data1[index]["SERV_NOMBRE_ING"],style: TextStyle(),),padding: EdgeInsets.only(bottom:15.0),) ,
                          ],
                        );
                      }
@@ -523,27 +320,29 @@ var response = await http.get(
          });
    }
 
-   _mapa() async {
-      if (Platform.isAndroid) {
-        final url =  dataneg[0]["NEG_MAP"];
-      if (await canLaunch(url)) {
-        await launch(url);
-      } else {
-        throw 'Could not launch $url';
-      }
-      } else {
-      final url =  dataneg[0]["NEG_MAP_IOS"];
-      if (await canLaunch(url)) {
-        await launch(url);
-      } else {
-        throw 'Could not launch $url';
-      }
-      }    
-    }
+   _alertHorario(BuildContext context) async {
+     return showDialog(
+         context: context,
+         builder: (context) {
+           return AlertDialog(
+             title: Text('Schedules',style: TextStyle(fontSize: 25.0,),),
+             content: Container(
 
-   
+                 child: Container(child: Text(data_hor[0]["NEG_HORARIO_ING"],style: TextStyle(),)
+                 )
+             ),
+             actions: <Widget>[
+               new FlatButton(
+                 child: new Text('Cerrar'),
+                 onPressed: () {
+                   Navigator.of(context).pop();
+                 },
+               )
+             ],
+           );
+         });
+   }
 
- 
   Widget carrusel =   Container(
      child: new ListView.builder(
 
@@ -560,7 +359,7 @@ var response = await http.get(
                  child:  FadeInImage(
 
                    image: NetworkImage(data_carrusel[index]["GAL_FOTO"]),
-                   fit: BoxFit.cover,
+                   fit: BoxFit.fill,
                    width: MediaQuery.of(context).size.width,
                    height: 400,
 
@@ -580,13 +379,12 @@ var response = await http.get(
 
     
     Widget titleSection = Container(
-     // width: MediaQuery.of(context).size.width,
-      //padding: const EdgeInsets.all(20),
-     height:  50.0,
+          width: MediaQuery.of(context).size.width,
+
+      padding: const EdgeInsets.all(20),
       child: new ListView.builder(
-        shrinkWrap: true,
-        itemCount: dataneg == null ? 0 : dataneg.length,
-       itemBuilder: (BuildContext context, int index) {    
+              itemCount: data_carrusel == null ? 0 : data_carrusel.length,
+       itemBuilder: (BuildContext context, int index) {
 
          return  new Column(
           children:[
@@ -613,7 +411,7 @@ var response = await http.get(
             
                 Text(
 
-                  dataneg[index]["CAT_NOMBRE_ING"],
+                  dataneg[index]["CAT_NOMBRE"],
                   style: TextStyle(
                     color: Colors.blue[500],
                   ),
@@ -627,25 +425,21 @@ var response = await http.get(
                 ),
               ),
               Text(
-                dataneg[index]["SUB_NOMBRE_ING"],
+                dataneg[index]["SUB_NOMBRE"],
                 style: TextStyle(
                   color: Colors.blue[500],
                 ),
               ), 
               
               
-              
 
             ],
             ),
 
-            ),
+            )
 
-         
-
-
-          ],
-
+            
+          ],       
        
         );
        },
@@ -654,58 +448,85 @@ var response = await http.get(
     
     );
 
-    Color color = Theme.of(context).primaryColor;
 
 
-    Widget textSection = Column(
-     // height:  MediaQuery.of(context).size.height,
-     
-     children: <Widget>[
-        new ListView.builder(
-        shrinkWrap: true,
-        itemCount: dataneg == null ? 0 : dataneg.length,
-       itemBuilder: (BuildContext context, int index) {
-  //padding: const EdgeInsets.only(bottom: 10,left: 20,right: 20);
-      return new Card(
+    Widget textSection = Container(
+      padding: const EdgeInsets.only(bottom: 10,left: 20,right: 20),
+      child: Card(
               child: Text(
-         dataneg[index]["NEG_DESCRIPCION_ING"],        
-          maxLines: 20,
+          dataneg[0]["NEG_DESCRIPCION"],
+          maxLines: 10,
           softWrap: true,
           textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 18.0),
         ),
-      );
-       }
-      )
-      ]
-    );
+      ),
 
-    Widget logo = Column(
-     // height:  MediaQuery.of(context).size.height,
+    );
     
-      children: <Widget>[
-         new ListView.builder(
-        shrinkWrap: true,
-        itemCount: dataneg == null ? 0 : dataneg.length,
-       itemBuilder: (BuildContext context, int index) {
+    mapa() async {
+      if (Platform.isAndroid) {
+        final url =  dataneg[0]["NEG_MAP"];
+      if (await canLaunch(url)) {
+        await launch(url);
+      } else {
+        throw 'Could not launch $url';
+      }
+      } else {
+      final url =  dataneg[0]["NEG_MAP_IOS"];
+      if (await canLaunch(url)) {
+        await launch(url);
+      } else {
+        throw 'Could not launch $url';
+      }
+      }
+      
+    }
 
-      return new FadeInImage(
+   facebook() async {
+     final url =  dataneg[0]["NEG_FACEBOOK"];
+     if (await canLaunch(url)) {
+       await launch(url);
+     } else {
+       throw 'Could not launch $url';
+     }
+   }
 
-                    image: NetworkImage(dataneg[index]["GAL_FOTO"]),
-                    fit: BoxFit.fill,
-                    width: MediaQuery.of(context).size.width,
-                    height: 300,
+   web() async {
+     final url =  dataneg[0]["NEG_WEB"];
+     if (await canLaunch(url)) {
+       await launch(url);
+     } else {
+       throw 'Could not launch $url';
+     }
+   }
 
-                    // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
-                    placeholder: AssetImage('android/assets/images/loading.gif'),
-                    fadeInDuration: Duration(milliseconds: 200),
+   instagram() async {
+     final url =  dataneg[0]["NEG_WEB"];
+     if (await canLaunch(url)) {
+       await launch(url);
+     } else {
+       throw 'Could not launch $url';
+     }
+   }
 
-                  );
-       }
-      )
-      ]
-    );
+   telefono() async {
+     final url =  "tel: dataneg[0]['NEG_TEL']";
+     if (await canLaunch(url)) {
+       await launch(url);
+     } else {
+       throw 'Could not launch $url';
+     }
+   }
 
+   correo() async {
+     final url =  "mailto:dataneg[0]['NEG_CORREO']";
+     if (await canLaunch(url)) {
+       await launch(url);
+     } else {
+       throw 'Could not launch $url';
+     }
+   }
 
    Widget buttonSection = Container(
      width: MediaQuery.of(context).size.width +30,
@@ -716,7 +537,7 @@ var response = await http.get(
          Column(
            children: <Widget>[
              FloatingActionButton(child: Icon(FontAwesomeIcons.feather), onPressed:() => _alertCar(context),backgroundColor:Color(0xff189bd3),heroTag: "bt1",),
-             Text('Features', style: TextStyle(color: Colors.black),),
+             Text('Feactures', style: TextStyle(color: Colors.black),),
            ],
          ),
 
@@ -730,13 +551,13 @@ var response = await http.get(
          Column(
            children: <Widget>[
              FloatingActionButton(child: Icon(FontAwesomeIcons.clock), onPressed:() => _alertHorario(context),backgroundColor:Color(0xff189bd3),heroTag: "bt3",),
-             Text('Schedule', style: TextStyle(color: Colors.black),),
+             Text('Schedules', style: TextStyle(color: Colors.black),),
 
            ],
          ),
          Column(
            children: <Widget>[
-             FloatingActionButton(child: Icon(FontAwesomeIcons.mapMarkedAlt), onPressed:() => _mapa(),backgroundColor:Color(0xff189bd3),heroTag: "bt4",),
+             FloatingActionButton(child: Icon(FontAwesomeIcons.mapMarkedAlt), onPressed:mapa,backgroundColor:Color(0xff189bd3),heroTag: "bt4",),
              Text('Open map', style: TextStyle(color: Colors.black),),
 
            ],
@@ -746,151 +567,12 @@ var response = await http.get(
 
    );
 
-  
-
-Widget resenasection = Column(
-         
-     // height:  MediaQuery.of(context).size.height,
-      children: <Widget>[
-    new ListView.builder(  
-         shrinkWrap: true,  
-          itemCount: data_resena == null ? 0 : data_resena.length,  
-         itemBuilder: (BuildContext context, int index) {  
-        return new Card(  
-              child: Row(  
-           mainAxisAlignment: MainAxisAlignment.spaceBetween,  
-           children: [  
-             Column(  
-               children: <Widget>[  
-                Image.network(data_resena[index]["COM_FOTO"],
-                              width: 50,
-                              height: 50,
-                              fit: BoxFit.fill ),     
-                      Row(
-                     children: <Widget>[  
-                      Text(   
-                      data_resena[index]["COM_NOMBRES"], 
-                      style: TextStyle(fontSize: 18.0),    
-                    ),  
-                    ],   
-                    ),     
-                  ],  
-                ),  
-            Container(  
-              child: Flexible(
-                     child: Text(    
-                     data_resena[index]["COM_RESENA"],  
-                    maxLines: 10,  
-                    softWrap: true,    
-                    style: TextStyle(fontSize: 18.0),  
-                    ),  
-              ),  
-            ),
-            Container(  
-              child: Flexible(    
-                     child: Text(   
-                    data_resena[index]["COM_VALOR"],    
-                    maxLines: 10,   
-                    softWrap: true,      
-                    style: TextStyle(fontSize: 18.0),    
-                    ),   
-                    ),  
-                    ),             
-                    ],  
-                    ),     
-                    );                    
-  
-         }
-  
-        ),
-      ]
-    );  
 
 
-
-
-
-
-  Widget social() { 
-    return Container (
-     // width: MediaQuery.of(context).size.width,
-      //padding: const EdgeInsets.all(20),
-
-      height:  60.0,
-      child: new ListView.builder(
-        shrinkWrap: true,
-        itemCount: dataneg == null ? 0 : dataneg.length,
-       itemBuilder: (BuildContext context, int index) {
-         
-
-         mapa() async {
-      if (Platform.isAndroid) {
-        final url =  dataneg[index]["NEG_MAP"];
-      if (await canLaunch(url)) {
-        await launch(url);
-      } else {
-        throw 'Could not launch $url';
-      }
-      } else {
-      final url =  dataneg[index]["NEG_MAP_IOS"];
-      if (await canLaunch(url)) {
-        await launch(url);
-      } else {
-        throw 'Could not launch $url';
-      }
-      }
-      
-    }
-
-   facebook() async {
-     final url =  dataneg[index]["NEG_FACEBOOK"];
-     if (await canLaunch(url)) {
-       await launch(url);
-     } else {
-       throw 'Could not launch $url';
-     }
-   }
-
-   web() async {
-     final url =  dataneg[index]["NEG_WEB"];
-     if (await canLaunch(url)) {
-       await launch(url);
-     } else {
-       throw 'Could not launch $url';
-     }
-   }
-
-   instagram() async {
-     final url =  dataneg[index]["NEG_INSTAGRAM"];
-     if (await canLaunch(url)) {
-       await launch(url);
-     } else {
-       throw 'Could not launch $url';
-     }
-   }
-
-   telefono() async {
-     final tel = dataneg[index]["NEG_TEL"];
-     final url =  "tel: $tel";
-     if (await canLaunch(url)) {
-       await launch(url);
-     } else {
-       throw 'Could not launch $url';
-     }
-   }
-
-   correo() async {
-     final mail = dataneg[index]["NEG_CORREO"];
-     final url = "mailto: $mail";
-     if (await canLaunch(url)) {
-       await launch(url);
-     } else {
-       throw 'Could not launch $url';
-     }
-   }
-         return new Row(
-         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-         children: <Widget>[
+  Widget social(){
+     return Row(
+       mainAxisAlignment: MainAxisAlignment.center,
+       children: <Widget>[
          SizedBox(width: 30),
          FloatingActionButton(child: Icon(FontAwesomeIcons.instagram), onPressed: instagram,backgroundColor:Color(0xff189bd3),heroTag: "bt1",),
          Expanded(child: SizedBox(width: 5.0,)),
@@ -900,23 +582,12 @@ Widget resenasection = Column(
          Expanded(child: SizedBox(width: 5.0,)),
          FloatingActionButton(child: Icon(FontAwesomeIcons.phone), onPressed: telefono,backgroundColor:Color(0xff189bd3),heroTag: "bt5",),
          Expanded(child: SizedBox(width: 5.0,)),
-         FloatingActionButton(child: Icon(FontAwesomeIcons.envelope), onPressed: correo,backgroundColor:Color(0xff189bd3),heroTag: "bt6",),
+         FloatingActionButton(child: Icon(FontAwesomeIcons.envelope), onPressed: correo,backgroundColor:Color(0xff189bd3),heroTag: "bt6W",),
          Expanded(child: SizedBox(width: 5.0,)),
 
-         ],
-         );
-
-
-         
-
-         
-      
-      }
-      )
-      
-    );
-  }
-    
+       ],
+     );
+   }
 
   Widget publicaciones =  ListView.builder(
       shrinkWrap: true,
@@ -1006,7 +677,6 @@ Widget resenasection = Column(
                         ),
 
 
-
                       ]),
                 ],
 
@@ -1047,26 +717,25 @@ Widget resenasection = Column(
 
       body: ListView(
         //shrinkWrap: true,
-       physics: BouncingScrollPhysics(),
-
+       // physics: BouncingScrollPhysics(),
           children: [
             Column(
 
               children: <Widget>[
-               
-
-                logo,
-                SizedBox(height: 15.0,),
+                Image.network( dataneg[0]["GAL_FOTO"],width: MediaQuery.of(context).size.width,height: 300,fit: BoxFit.fill ),
+                //Image.asset('android/assets/images/img1.jpg',width: 600,height: 240,fit: BoxFit.cover,),
+                //loading,
                 titleSection,
                 textSection,
                 buttonSection,
 
+                
 
 
               ],
             ),
 
-            Container(
+             Container(
               child: Column(
                 children: <Widget>[
                   SizedBox(
@@ -1087,8 +756,6 @@ Widget resenasection = Column(
               height: 400.0,
 
             ),
-
-            
 
             Container(
               child: Column(
@@ -1120,73 +787,41 @@ Widget resenasection = Column(
             ),
             Column(
               children: <Widget>[publicaciones],
-             // height:1000.0,
+              // height:1000.0,
 
-            ),
-
-            Container(
-              child: Column(
-                children: <Widget>[
-                  SizedBox(
-                    height: 15.0,
-                  ),
-                 Center(child: Text('Reviews',style: TextStyle(fontSize: 20.0,color: Colors.blueAccent ),)),
-                  SizedBox(
-                    height: 15.0,
-                  ),
-
-                ],
-              )
-
-            ),
-            resenasection,
-
-            SizedBox(
-                    height: 15.0,
-                  ),
-
-            Container(
-  
-                padding: const EdgeInsets.only(bottom: 10,left: 20,right: 20),
-  
-                child: RaisedButton(
-  
-  
-  
-                  //child: Text(‘Send data to the second page’),
-  
-                  onPressed: ()=>initiateFacebookLogin(),
-  
-  
-  
-                  shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
-  
-                  color: Colors.blue,
-  
-                  child: Text('Reviews using Facebook', style: TextStyle(fontSize: 20, color: Colors.white)),
-  
-  
-  
-                ),
-  
-  
-  
-              ),
-
+            )
 
 
           ],
-
         ),
 
         appBar: new AppBar(
-          title: new Text( 'Back'),
+          title: new Text( dataneg[0]["NEG_NOMBRE"]),
         ),
 
     );
   }
 
- 
+  Column _buildButtonColumn(Color color, IconData icon, String label) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Icon(icon, color: color),
+        Container(
+          margin: const EdgeInsets.only(top: 8),
+          child: Text(
+            label,
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w400,
+              color: color,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
 
  
 }

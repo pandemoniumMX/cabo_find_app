@@ -1,0 +1,28 @@
+"args": ["--enable-software-rendering"]
+
+
+https://camposha.info/course/flutter-mysql/lesson/flutter-php-mysql-fill-listview-with-images-and-text/
+https://github.com/Oclemy/flutter_listview_php_mysql;
+
+https://medium.com/@studymongolian/a-complete-guide-to-flutters-listtile-597a20a3d449
+
+
+./keytool -exportcert -alias androiddebugkey -keystore C:\Users\Pandemonium\.android\debug.keystore | C:\ssl\bin\openssl sha1 -binary | C:\ssl\bin\openssl base64  
+
+
+./keytool -exportcert -alias androidreleasekey -keystore C:\Users\Pandemonium\.android\release.keystore | C:\ssl\bin\openssl sha1 -binary | C:\ssl\bin\openssl base64
+
+./keytool -exportcert -alias androidreleasekey -keystore C:\Users\Pandemonium\Documents\Proyecto\cabo_find_app\android\release.keystore | C:\ssl\bin\openssl sha1 -binary | C:\ssl\bin\openssl base64  
+
+
+      
+./keytool -exportcert -alias application -keystore C:\key.jks| C:\ssl\bin\openssl sha1 -binary | C:\ssl\bin\openssl base64
+
+keytool -genkey -v -keystore c:/Users/Pandemonium/key.jks -keyalg RSA -keysize 2048 -validity 10000 -alias key
+
+
+flutter build appbundle --target-platform android-arm,android-arm64
+
+
+2+V3afmbWY8kYtHxF7n9amvCenQ= release
+eUH8wrH+7eeicF6dl4vs2//UmCg= test
