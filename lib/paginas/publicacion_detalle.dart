@@ -275,17 +275,16 @@ Future<String> insertPublicacioniOS() async {
     Widget publicaciones =  ListView.builder(
       shrinkWrap: true,
       physics: BouncingScrollPhysics(),
-        itemCount: data == null ? 0 : data.length,
+        itemCount: data_pub == null ? 0 : data_pub.length,
         itemBuilder: (BuildContext context, int index) {
        // final titulo =  data_pub[index]["PUB_TITULO"];
           return new ListTile(
 
-
             title: new Container(
                   padding: const EdgeInsets.only(top:5.0),
                   child: Column(
-                                      children: <Widget>[
-                                        Stack(
+                      children: <Widget>[
+                        Stack(
                         children: <Widget>[
                           Image.network(data_pub[index]["GAL_FOTO"],
                               width: MediaQuery.of(context).size.width,
@@ -300,270 +299,103 @@ Future<String> insertPublicacioniOS() async {
                                 fit: BoxFit.cover,
                                 width: 50.0,
                                 height: 50.0,
-
                               ),
                                   backgroundColor: Colors.black,
                                   onPressed: (){showShortToast();insertRecomendacion();},
-
                                 ),
-                              ),
-                                    ]
+                              ),                                    ]
                       ),
-                      SizedBox(
-  
-                                  height: 5.0,
-  
-                                ),
-    Row(
-  
-                        children: [
-  
-  
-  
+                     SizedBox(height: 5.0,),  
                           
-  
-                          Expanded(
-  
-                            /*1*/
-  
-                            child: Column(
-  
-                              crossAxisAlignment: CrossAxisAlignment.start,
-  
+                        Row(  
+                        children: [  
+                          Expanded(  
+                            child: Column(  
+                              crossAxisAlignment: CrossAxisAlignment.start,  
                               children: [
   
-                                /*2*/
-  
-                                Center(
-  
-                                  child: Text(
-  
-                                    data_pub[index]["PUB_TITULO"],
-  
-                                    style: TextStyle(
-  
-                                        fontWeight: FontWeight.bold,
-  
+                                Center(  
+                                  child: Text(  
+                                    data_pub[index]["PUB_TITULO"],  
+                                    style: TextStyle(  
+                                        fontWeight: FontWeight.bold,  
                                         fontSize: 23.0
-  
-  
-  
-                                    ),
-  
-                                  ),
-  
-  
-  
-                                ),
-  
+                                    ),  
+                                  ),  
+                                ), 
                                 
   
                                 Center(
-  
-                                  //  padding: const EdgeInsets.only(bottom: 10,left: 150.0),
-  
-                                  child: Text(
-  
-                                    data_pub[index]["CAT_NOMBRE"],
-  
-                                    style: TextStyle(
-  
-                                        fontWeight: FontWeight.bold,
-  
-                                        fontSize: 15.0,
-  
-                                        color: Color(0xff2E85DC)
-  
-  
-  
-                                    ),
-  
+                                  child: Text(  
+                                    data_pub[index]["CAT_NOMBRE"],  
+                                    style: TextStyle(  
+                                        fontWeight: FontWeight.bold,  
+                                        fontSize: 15.0,  
+                                        color: Color(0xff2E85DC) 
+                                    ),  
                                   ),
-  
-  
-  
-                                ),
-  
-                                SizedBox(
-  
-                                  height: 5.0,
-  
-                                ),
-  
-  
-  
-                                Column(
-  
+                                ),  
+                                SizedBox(height: 5.0,),     
+                                Column(  
                                   children: <Widget>[
-  
-  
-  
-                                    Container(
-  
-  
-  
-                                    padding: const EdgeInsets.only(left:20.0,bottom: 20.0,),
-  
-                                    child: Text(
-  
+                                    Container(  
+                                    padding: const EdgeInsets.only(left:20.0,bottom: 20.0,),  
+                                    child: Text(  
                                       data_pub[index]["PUB_DETALLE"],
-  
-                                      //softWrap: true,
-  
-                                      style: TextStyle(fontSize: 20.0,
-  
-  
-  
-                                      ),
-  
+                                      style: TextStyle(fontSize: 20.0,  
+                                      ),  
                                     ),
-                                    
-  
-  
-  
-                                  ),
-  
-                                    
-  
-                                      Column(
-  
-                                        children: <Widget>[
-  
-                                          SizedBox(
-  
-                                            height: 5.0,
-  
-                                          ),
-  
-                                          Center(child: Text('Video promocional',style: TextStyle(fontSize: 23.0,color: Colors.blueAccent ),)),
-  
-                                          SizedBox(
-  
-                                            height: 5.0,
-  
-                                          ),
-  
-                                          YoutubePlayer(
-  
-                                            context: context,
-  
-                                            videoId: YoutubePlayer.convertUrlToId( data_pub[0]["PUB_VIDEO"],),
-  
-                                            autoPlay: false,
-  
-                                            width: MediaQuery.of(context).size.width,
-  
-                                            showVideoProgressIndicator: true,
-  
-                                            videoProgressIndicatorColor: Colors.blue,
-  
-                                            progressColors: ProgressColors(
-  
-                                              playedColor: Colors.blue,
-  
-                                              handleColor: Colors.blueAccent,
-  
-                                            ),
-  
-                                            onPlayerInitialized: (controller) {
-  
-                                              _controller = controller;
-  
-                                              _controller.addListener(listener);
-  
-                                            },
-  
-                                          ),
-  
-                                          SizedBox(
-  
-                                            height: 5.0,
-  
-                                                    ),
-  
-                                                  ],
-  
+                                  ),  
+                                      Column(  
+                                        children: <Widget>[  
+                                         SizedBox(height: 5.0,),    
+                                          Center(child: Text('Video promocional',style: TextStyle(fontSize: 23.0,color: Colors.blueAccent ),)),  
+                                          SizedBox(height: 5.0,),  
+                                          YoutubePlayer(  
+                                            context: context,  
+                                            videoId: YoutubePlayer.convertUrlToId( data_pub[0]["PUB_VIDEO"],),  
+                                            autoPlay: false,  
+                                            width: MediaQuery.of(context).size.width,  
+                                            showVideoProgressIndicator: true,  
+                                            videoProgressIndicatorColor: Colors.blue,  
+                                            progressColors: ProgressColors(  
+                                              playedColor: Colors.blue,  
+                                              handleColor: Colors.blueAccent,  
+                                            ),  
+                                            onPlayerInitialized: (controller) {  
+                                              _controller = controller;  
+                                              _controller.addListener(listener);  
+                                            },  
+                                          ),  
+                                          SizedBox(height: 5.0,),  
+                                                  ],  
                                                 ),
-  
-  
-  
-                                              
-  
-  
-  
-              Container(
-  
-                padding: const EdgeInsets.only(bottom: 10,left: 20,right: 20),
-  
-                child: RaisedButton(
-  
-  
-  
-                  //child: Text(‘Send data to the second page’),
-  
-                  onPressed: () {
-  
-                      String id_sql = data[index]["ID_NEGOCIO"];
-  
-                      Navigator.push(context, new MaterialPageRoute
-  
-                        (builder: (context) => new Empresa_det_fin(empresa: new Empresa(id_sql))
-  
-                      )
-  
-                      );
-  
-                  },
-  
-  
-  
-                  shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
-  
-                  color: Colors.blue,
-  
-                  child: Text('Más información', style: TextStyle(fontSize: 20, color: Colors.white)),
-  
-  
-  
-                ),
-  
-  
-  
-              ),
-  
-  
-  
-                                  ],
-  
-                                ),
-  
-  
-  
-                                
-  
-  
-  
-                              ],
-  
-                            ),
-  
-                          ),
-  
-                          /*3*/
-  
-  
-  
-  
-  
-                        ],
-  
+              Container(  
+                padding: const EdgeInsets.only(bottom: 10,left: 20,right: 20),  
+                child: RaisedButton(  
+                  onPressed: () {  
+                      String id_sql = data_pub[index]["ID_NEGOCIO"];  
+                      Navigator.push(context, new MaterialPageRoute  
+                        (builder: (context) => new Empresa_det_fin(empresa: new Empresa(id_sql))  
+                      )  
+                      );  
+                  },   
+                  shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),  
+                  color: Colors.blue,  
+                  child: Text('Más información', style: TextStyle(fontSize: 20, color: Colors.white)),   
+                  ),  
+                  ),  
+                              ],  
+                              ),   
+                              ],  
+                            ), 
+                          ), 
+                          ],  
                       ),
                     ],
                   ),
-
                 ),
           );
-
         },
       );
     

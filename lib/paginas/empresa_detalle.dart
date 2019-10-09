@@ -37,9 +37,7 @@ Empresa_det_fin({Key key, @required this.empresa}) : super(
 class Detalles extends State<Empresa_det_fin> {
   TextEditingController controllerCode =  TextEditingController();
   String _displayValue = "";
-  _onSubmitted(String value) {
-    setState(() => _displayValue = value);
-  }
+  String _displayValor = "";
 
 
 
@@ -47,27 +45,12 @@ class Detalles extends State<Empresa_det_fin> {
 
    Map userProfile;
 
-  List _cities  =
-  ["⭐", "⭐⭐", "⭐⭐⭐", "⭐⭐⭐⭐", "⭐⭐⭐⭐⭐"];
-
-  Map<String, dynamic> formData;
-  List<String> cities = [
-    '⭐',
-    '⭐⭐',
-    '⭐⭐⭐',
-    '⭐⭐⭐⭐',
-    '⭐⭐⭐⭐⭐',
-  ];
-
-  Detalles() {
-    formData = {
-      'City': '👍',
-     
-    };
-  }
+ List _cities  =
+  ["","👍", "👎"];
 
   List<DropdownMenuItem<String>> _dropDownMenuItems;
   String _currentCity;
+
   bool isLoggedIn=false;
   List data;
   List data_serv;
@@ -283,6 +266,8 @@ Future<String> insertVisitaiOS() async {
 
 
   void initState() {
+     _dropDownMenuItems = getDropDownMenuItems();
+    _currentCity = _dropDownMenuItems[0].value;
     super.initState();
     this.getCar();
     this.get_list();
@@ -348,12 +333,21 @@ void initiateFacebookLogin() async{
                  height: 350.0,
                  child:  
                 Column(
-                                    children: <Widget>[    
+                                    children: <Widget>[  
+              Text('Valoración'),  
+              DropdownButton(
+
+                value: _currentCity,
+                items: _dropDownMenuItems,
+                onChanged: changedDropDownItem,
+
+              ),                           
               Text('Escribe una breve reseña'),
               TextField(
                 controller: controllerCode,
                 maxLines: 5, 
                 ),
+               
                 ],
                  )
                  
@@ -367,7 +361,7 @@ void initiateFacebookLogin() async{
                ),
                new FlatButton(
                  child: new Text('Enviar'),
-                 onPressed: (){ getInfofb(result,_displayValue);  
+                 onPressed: (){ getInfofb(result,_displayValue,_currentCity);  
                  
                  Navigator.of(context).pop();
                  
@@ -383,7 +377,14 @@ void initiateFacebookLogin() async{
  
 }  
 
-void getInfofb(FacebookLoginResult result, _displayValue) async {
+void changedDropDownItem(String selectedCity) {
+    setState(() {
+      _currentCity = selectedCity;
+    });
+
+}
+
+void getInfofb(FacebookLoginResult result, _displayValue,_currentCity) async {
 
  //final result = await facebookSignIn.logInWithReadPermissions(['email']);
 final token = result.accessToken.token;
@@ -399,7 +400,7 @@ final nombresfb= profile['first_name'];
 final apellidosfb= profile['last_name'];
 final imagenfb = profile[ 'picture']["data"]["url"];
 final resena = controllerCode.text;
-final valor = formData['City'];
+final valor = _currentCity;
 
 //final imagenfb = profile['picture'];
 //final url =  dataneg[0]["NEG_WEB"];

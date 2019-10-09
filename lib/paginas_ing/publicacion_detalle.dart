@@ -268,7 +268,7 @@ Future<String> insertPublicacioniOS() async {
     Widget publicaciones =  ListView.builder(
         shrinkWrap: true,
         physics: BouncingScrollPhysics(),
-        itemCount: data == null ? 0 : data.length,
+        itemCount: data_pub == null ? 0 : data_pub.length,
         itemBuilder: (BuildContext context, int index) {
 
           return new ListTile(
@@ -363,18 +363,14 @@ Future<String> insertPublicacioniOS() async {
                                   ),
                                 ],
                               ),
-
                             ),
 
                             Container(
                               padding: const EdgeInsets.only(bottom: 10,left: 20,right: 20),
                               child: RaisedButton(
-
                                 //child: Text(‘Send data to the second page’),
                                 onPressed: () {
-
-                                  String id_sql = data[index]["ID_NEGOCIO"];
-                                  
+                                  String id_sql = data_pub[index]["ID_NEGOCIO"];                                  
 
                                   Navigator.push(context, new MaterialPageRoute
                                     (builder: (context) => new Empresa_det_fin_ing(empresa: new Empresa(id_sql))
@@ -455,7 +451,7 @@ Future<String> insertPublicacioniOS() async {
           ],
         ),
         appBar: new AppBar(
-          title: new Text(data_pub[0]["PUB_TITULO"],
+          title: new  Text( 'Back',
             style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 20.0
