@@ -88,10 +88,10 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
   @override
   void initState() {
     super.initState();
-    
+    /*
     fcmSubscribe();    
     final pushpub = new PushNotificationPubAndroid();
-    pushpub.initNotifications();
+    pushpub.initNotifications();*/
 /*
     pushpub.mensajes.listen( (data) {
 

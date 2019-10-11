@@ -41,12 +41,12 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 
 
 FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-
+/*
 void fcmSubscribe() {
   _firebaseMessaging.unsubscribeFromTopic('All');
     _firebaseMessaging.subscribeToTopic('Todos');
   }
-  
+  */
 
 void main() => runApp(new Myapp());
 
@@ -172,10 +172,11 @@ class _MyHomePageState extends State<MyHomePages> {
  @override
   void initState() {
     super.initState();
-    
+    /*
     fcmSubscribe();    
     final pushpub = new PushNotificationPubAndroid();
     pushpub.initNotifications();
+    */
 /*
     pushpub.mensajes.listen( (data) {
 
