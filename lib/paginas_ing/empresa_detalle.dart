@@ -9,6 +9,7 @@ import 'package:devicelocale/devicelocale.dart';
 import 'package:dropdownfield/dropdownfield.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:cabofind/utilidades/classes.dart';
@@ -307,6 +308,15 @@ void onLoginStatusChange(bool isLoggedIn){
     super.dispose();
   }
 
+  void showResena() {
+      Fluttertoast.showToast(
+          msg: "Review sent successfully",
+          toastLength: Toast.LENGTH_SHORT,
+          backgroundColor: Colors.blue,
+          textColor: Colors.white,
+          timeInSecForIos: 1);
+    }
+
 void initiateFacebookLogin() async{
   var login = FacebookLogin();
   var result = await login.logIn(['email']);
@@ -361,7 +371,7 @@ void initiateFacebookLogin() async{
                ),
                new FlatButton(
                  child: new Text('Send'),
-                 onPressed: (){ getInfofb(result,_displayValue,_currentCity);  
+                 onPressed: (){ getInfofb(result,_displayValue,_currentCity);showResena();  
                  
                  Navigator.of(context).pop();
                  

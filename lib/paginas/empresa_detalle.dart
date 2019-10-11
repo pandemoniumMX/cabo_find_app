@@ -8,6 +8,7 @@ import 'package:devicelocale/devicelocale.dart';
 import 'package:dropdownfield/dropdownfield.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:cabofind/utilidades/classes.dart';
@@ -300,6 +301,15 @@ void onLoginStatusChange(bool isLoggedIn){
   });
 }
 
+void showResena() {
+      Fluttertoast.showToast(
+          msg: "Reseña enviada exitosamente",
+          toastLength: Toast.LENGTH_SHORT,
+          backgroundColor: Colors.blue,
+          textColor: Colors.white,
+          timeInSecForIos: 1);
+    }
+
       @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
@@ -361,7 +371,7 @@ void initiateFacebookLogin() async{
                ),
                new FlatButton(
                  child: new Text('Enviar'),
-                 onPressed: (){ getInfofb(result,_displayValue,_currentCity);  
+                 onPressed: (){ getInfofb(result,_displayValue,_currentCity); showResena(); 
                  
                  Navigator.of(context).pop();
                  

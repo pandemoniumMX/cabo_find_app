@@ -105,9 +105,7 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
               
     });
     */
-    //this.checkModelIos();
-    //this.checkModelAndroid();
-    ///this._getLocation();
+    
   
 
 
