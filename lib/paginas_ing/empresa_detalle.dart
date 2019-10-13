@@ -261,6 +261,32 @@ Future<String> insertVisitaiOS() async {
 
     return "Success!";
   }
+
+  Future<String> insert_reporte() async {
+    
+       String currentLocale;
+    try {
+      currentLocale = await Devicelocale.currentLocale;
+      print(currentLocale);
+    } on PlatformException {
+      print("Error obtaining current locale");
+    }
+
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+    print('Running on ${androidInfo.id}');
+        print('Running on ${androidInfo.fingerprint}');
+
+    var response = await http.get(
+        Uri.encodeFull(
+            "http://cabofind.com.mx/app_php/APIs/esp/insert_reporte.php?MOD=${androidInfo.model}&BOOT=${androidInfo.display},${androidInfo.bootloader},${androidInfo.fingerprint}&VERSION=${androidInfo.product}&IDIOMA=${currentLocale},&ID=${widget.empresa.id_nm}&SO=Android"),
+
+        headers: {
+          "Accept": "application/json"
+        }
+    );
+  
+  }
   
   
 
@@ -311,6 +337,15 @@ void onLoginStatusChange(bool isLoggedIn){
   void showResena() {
       Fluttertoast.showToast(
           msg: "Review sent successfully",
+          toastLength: Toast.LENGTH_SHORT,
+          backgroundColor: Colors.blue,
+          textColor: Colors.white,
+          timeInSecForIos: 1);
+    }
+    
+    void reporte() {
+      Fluttertoast.showToast(
+          msg: "Comment reported",
           toastLength: Toast.LENGTH_SHORT,
           backgroundColor: Colors.blue,
           textColor: Colors.white,
@@ -786,15 +821,25 @@ Widget resenasection = Column(
                     ),     
                   ],  
                 ),  
-            Container(  
-              child: Flexible(
-                     child: Text(    
-                     data_resena[index]["COM_RESENA"],  
-                    maxLines: 10,  
-                    softWrap: true,    
-                    style: TextStyle(fontSize: 18.0),  
-                    ),  
-              ),  
+            Column(  
+                     children: <Widget>[
+    Text(      
+                       data_resena[index]["COM_RESENA"],    
+                      maxLines: 10,    
+                      softWrap: true,  
+                      style: TextStyle(fontSize: 18.0),  
+  
+                      ),
+                      RaisedButton(  
+                  onPressed: () {  insert_reporte(); reporte();
+                       
+                  },   
+                  shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(60.0) ),  
+                  color: Colors.red,  
+                  child: Text('Report comment', style: TextStyle(fontSize: 10, color: Colors.white)),   
+                  ),
+],  
+               
             ),
             Container(  
               child: Flexible(    
