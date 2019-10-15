@@ -35,13 +35,13 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 
 
 
-FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-
+//FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+/*
 void fcmSubscribe() {
   _firebaseMessaging.unsubscribeFromTopic('Todos');
     _firebaseMessaging.subscribeToTopic('All');
   }
-
+*/
 void main() => runApp(new MyApp_ing());
 
 class MyApp_ing extends StatelessWidget {

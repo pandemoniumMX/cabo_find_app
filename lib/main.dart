@@ -40,7 +40,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 
 
 
-FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+//FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 /*
 void fcmSubscribe() {
   _firebaseMessaging.unsubscribeFromTopic('All');
