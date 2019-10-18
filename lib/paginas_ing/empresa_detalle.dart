@@ -8,7 +8,7 @@ import 'package:device_info/device_info.dart';
 import 'package:devicelocale/devicelocale.dart';
 import 'package:dropdownfield/dropdownfield.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+//import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:http/http.dart' as http;
@@ -351,7 +351,7 @@ void onLoginStatusChange(bool isLoggedIn){
           textColor: Colors.white,
           timeInSecForIos: 1);
     }
-
+/*
 void initiateFacebookLogin() async{
   var login = FacebookLogin();
   var result = await login.logIn(['email']);
@@ -459,7 +459,7 @@ var response = await http.get(
     );   
         }
 
-        
+        */
 
 
 
@@ -569,8 +569,8 @@ var response = await http.get(
    }
 
    _mapa() async {
-      if (Platform.isAndroid) {
-        final url =  dataneg[0]["NEG_MAP"];
+      if (Platform.isIOS) {
+        final url =  dataneg[0]["NEG_MAP_IOS"];
       if (await canLaunch(url)) {
         await launch(url);
       } else {
@@ -1210,7 +1210,7 @@ Widget resenasection = Column(
   
                   //child: Text(‘Send data to the second page’),
   
-                  onPressed: ()=>initiateFacebookLogin(),
+                  onPressed: (){},
   
   
   
