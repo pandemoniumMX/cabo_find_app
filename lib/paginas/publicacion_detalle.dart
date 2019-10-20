@@ -5,6 +5,7 @@ import 'package:cabofind/paginas_listas/list_publicaciones.dart';
 import 'package:device_info/device_info.dart';
 import 'package:devicelocale/devicelocale.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_youtube_view/flutter_youtube_view.dart';
 //import 'package:custom_chewie/custom_chewie.dart';
 import 'package:http/http.dart' as http;
 import 'package:cabofind/utilidades/classes.dart';
@@ -13,6 +14,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutube/flutube.dart';
 
 
 
@@ -255,7 +257,7 @@ Future<String> insertPublicacioniOS() async {
   }
 
   // Declare a field that holds the Person data
-
+String stateText;
 
 
 
@@ -273,6 +275,7 @@ Future<String> insertPublicacioniOS() async {
     }
 
     Widget publicaciones =  ListView.builder(
+      
       shrinkWrap: true,
       physics: BouncingScrollPhysics(),
         itemCount: data_pub == null ? 0 : data_pub.length,
@@ -351,6 +354,7 @@ Future<String> insertPublicacioniOS() async {
                                          SizedBox(height: 5.0,),    
                                           Center(child: Text('Video promocional',style: TextStyle(fontSize: 23.0,color: Colors.blueAccent ),)),  
                                           SizedBox(height: 5.0,),  
+                                          /*
                                           YoutubePlayer(  
                                             context: context,  
                                             videoId: YoutubePlayer.convertUrlToId( data_pub[index]["PUB_VIDEO"],),  
@@ -367,6 +371,38 @@ Future<String> insertPublicacioniOS() async {
                                               _controller.addListener(listener);  
                                             },  
                                           ),  
+                                          */
+                                          
+                                            FluTube(
+                                              data_pub[index]["PUB_VIDEO"],
+                                              autoPlay: false,
+                                              autoInitialize: true,                                                                                            
+                                              aspectRatio: 4 / 3,
+                                              allowMuting: false,
+                                              looping: false,
+                                              showThumb: true,
+                                              allowFullScreen: false,
+                                              deviceOrientationAfterFullscreen: [
+                                                DeviceOrientation.portraitUp,
+                                                DeviceOrientation.landscapeLeft,
+                                                DeviceOrientation.landscapeRight,
+                                              ],
+                                              systemOverlaysAfterFullscreen: SystemUiOverlay.values,
+                                              onVideoStart: () {
+                                                setState(() {
+                                                  stateText = 'Video started playing!';
+                                                  
+                                                });
+                                              },
+                                              onVideoEnd: () {
+                                                setState(() {
+                                                  stateText = 'Video ended playing!';
+                                                 
+                                                });
+                                              },
+                                              
+                                            ),
+                                        
                                           SizedBox(height: 5.0,),  
                                                   ],  
                                                 ),

@@ -467,6 +467,168 @@ var response = await http.get(
 
 
  Widget build(BuildContext context){
+      
+      
+ 
+  Widget carrusel =   Container(
+     child: new ListView.builder(
+
+       scrollDirection: Axis.horizontal,
+
+       itemCount: data_carrusel == null ? 0 : data_carrusel.length,
+       itemBuilder: (BuildContext context, int index) {
+
+         return  new Container(
+           padding: EdgeInsets.only( left: 0.0, right: 10.0),
+           child: Column(
+             children: <Widget>[
+               Padding(
+                 child:  FadeInImage(
+
+                   image: NetworkImage(data_carrusel[index]["GAL_FOTO"]),
+                   fit: BoxFit.cover,
+                   width: MediaQuery.of(context).size.width,
+                   height: 400,
+
+                   // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
+                   placeholder: AssetImage('android/assets/images/loading.gif'),
+                   fadeInDuration: Duration(milliseconds: 200),
+
+                 ),
+                 padding: EdgeInsets.all(0.0),
+               ),
+             ],
+           ),
+         );
+       },
+     ),
+   );
+
+    
+    Widget titleSection = ListView.builder(
+        shrinkWrap: true,
+        itemCount: dataneg == null ? 0 : dataneg.length,
+       itemBuilder: (BuildContext context, int index) {    
+
+         return  new Column(
+          children:[
+            Row(
+              mainAxisAlignment: 
+              MainAxisAlignment.center,            
+              children: [
+
+                   Text(
+                    dataneg[index]["NEG_NOMBRE"],
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                        fontSize: 28.0,
+                       //color: Colors.blue[500],
+                    ),
+                  ),               
+
+              ],
+            ),
+          Center(
+            child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+            
+                Text(
+
+                  dataneg[index]["CAT_NOMBRE"],
+                  style: TextStyle(
+                    color: Colors.blue[500],
+                  ),
+                ),
+                
+
+              Text(
+                " | ",
+                style: TextStyle(
+                  color: Colors.grey[500],
+                ),
+              ),
+              Text(
+                dataneg[index]["SUB_NOMBRE"],
+                style: TextStyle(
+                  color: Colors.blue[500],
+                ),
+              ), 
+              
+              
+              
+
+            ],
+            ),
+            ),
+          ],       
+        );
+       },
+      
+       
+    
+    );
+
+    Color color = Theme.of(context).primaryColor;
+
+
+    Widget textSection = Column(
+     // height:  MediaQuery.of(context).size.height,
+     
+     children: <Widget>[
+        new ListView.builder(
+        shrinkWrap: true,
+        itemCount: dataneg == null ? 0 : dataneg.length,
+       itemBuilder: (BuildContext context, int index) {
+  //padding: const EdgeInsets.only(bottom: 10,left: 20,right: 20);
+      return new Card(
+              child: Text(
+         dataneg[index]["NEG_DESCRIPCION"],        
+          maxLines: 20,
+          softWrap: true,
+          textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 18.0),
+        ),
+      );
+       }
+      )
+      ]
+    );
+
+    Widget logo = Column(
+     // height:  MediaQuery.of(context).size.height,
+    
+      children: <Widget>[
+         new ListView.builder(
+        shrinkWrap: true,
+        itemCount: dataneg == null ? 0 : dataneg.length,
+       itemBuilder: (BuildContext context, int index) {
+
+      return new FadeInImage(
+
+                    image: NetworkImage(dataneg[index]["GAL_FOTO"]),
+                    fit: BoxFit.fill,
+                    width: MediaQuery.of(context).size.width,
+                    height: 300,
+
+                    // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
+                    placeholder: AssetImage('android/assets/images/loading.gif'),
+                    fadeInDuration: Duration(milliseconds: 200),
+
+                  );
+       }
+      )
+      ]
+    );
+
+
+   Widget buttonSection = Container(
+     width: MediaQuery.of(context).size.width +30,
+
+     child: new ListView.builder(
+        shrinkWrap: true,
+        itemCount: dataneg == null ? 0 : dataneg.length,
+       itemBuilder: (BuildContext context, int index) {
 
 
 
@@ -569,193 +731,15 @@ var response = await http.get(
    }
 
    _mapa() async {
-      if (Platform.isIOS) {
-        final url =  dataneg[0]["NEG_MAP_IOS"];
-      if (await canLaunch(url)) {
-        await launch(url);
-      } else {
-        throw 'Could not launch $url';
-      }
-      } else {
-      final url =  dataneg[0]["NEG_MAP_IOS"];
-      if (await canLaunch(url)) {
-        await launch(url);
-      } else {
-        throw 'Could not launch $url';
-      }
-      }    
-    }
+      final url =  dataneg[index]["NEG_MAP"];
+     if (await canLaunch(url)) {
+       await launch(url);
+     } else {
+       throw 'Could not launch $url';
+     } 
+    }    
 
-   
-
- 
-  Widget carrusel =   Container(
-     child: new ListView.builder(
-
-       scrollDirection: Axis.horizontal,
-
-       itemCount: data_carrusel == null ? 0 : data_carrusel.length,
-       itemBuilder: (BuildContext context, int index) {
-
-         return  new Container(
-           padding: EdgeInsets.only( left: 0.0, right: 10.0),
-           child: Column(
-             children: <Widget>[
-               Padding(
-                 child:  FadeInImage(
-
-                   image: NetworkImage(data_carrusel[index]["GAL_FOTO"]),
-                   fit: BoxFit.cover,
-                   width: MediaQuery.of(context).size.width,
-                   height: 400,
-
-                   // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
-                   placeholder: AssetImage('android/assets/images/loading.gif'),
-                   fadeInDuration: Duration(milliseconds: 200),
-
-                 ),
-                 padding: EdgeInsets.all(0.0),
-               ),
-             ],
-           ),
-         );
-       },
-     ),
-   );
-
-    
-    Widget titleSection = Container(
-     // width: MediaQuery.of(context).size.width,
-      //padding: const EdgeInsets.all(20),
-     height:  50.0,
-      child: new ListView.builder(
-        shrinkWrap: true,
-        itemCount: dataneg == null ? 0 : dataneg.length,
-       itemBuilder: (BuildContext context, int index) {    
-
-         return  new Column(
-          children:[
-            Row(
-              mainAxisAlignment: 
-              MainAxisAlignment.center,            
-              children: [
-
-                   Text(
-                    dataneg[index]["NEG_NOMBRE"],
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                        fontSize: 28.0,
-                       //color: Colors.blue[500],
-                    ),
-                  ),               
-
-              ],
-            ),
-          Center(
-            child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-            
-                Text(
-
-                  dataneg[index]["CAT_NOMBRE"],
-                  style: TextStyle(
-                    color: Colors.blue[500],
-                  ),
-                ),
-                
-
-              Text(
-                " | ",
-                style: TextStyle(
-                  color: Colors.grey[500],
-                ),
-              ),
-              Text(
-                dataneg[index]["SUB_NOMBRE"],
-                style: TextStyle(
-                  color: Colors.blue[500],
-                ),
-              ), 
-              
-              
-              
-
-            ],
-            ),
-
-            ),
-
-         
-
-
-          ],
-
-       
-        );
-       },
-      ),
-       
-    
-    );
-
-    Color color = Theme.of(context).primaryColor;
-
-
-    Widget textSection = Column(
-     // height:  MediaQuery.of(context).size.height,
-     
-     children: <Widget>[
-        new ListView.builder(
-        shrinkWrap: true,
-        itemCount: dataneg == null ? 0 : dataneg.length,
-       itemBuilder: (BuildContext context, int index) {
-  //padding: const EdgeInsets.only(bottom: 10,left: 20,right: 20);
-      return new Card(
-              child: Text(
-         dataneg[index]["NEG_DESCRIPCION"],        
-          maxLines: 20,
-          softWrap: true,
-          textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 18.0),
-        ),
-      );
-       }
-      )
-      ]
-    );
-
-    Widget logo = Column(
-     // height:  MediaQuery.of(context).size.height,
-    
-      children: <Widget>[
-         new ListView.builder(
-        shrinkWrap: true,
-        itemCount: dataneg == null ? 0 : dataneg.length,
-       itemBuilder: (BuildContext context, int index) {
-
-      return new FadeInImage(
-
-                    image: NetworkImage(dataneg[index]["GAL_FOTO"]),
-                    fit: BoxFit.fill,
-                    width: MediaQuery.of(context).size.width,
-                    height: 300,
-
-                    // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
-                    placeholder: AssetImage('android/assets/images/loading.gif'),
-                    fadeInDuration: Duration(milliseconds: 200),
-
-                  );
-       }
-      )
-      ]
-    );
-
-
-   Widget buttonSection = Container(
-     width: MediaQuery.of(context).size.width +30,
-
-     child: Row(
+      return new  Row(
        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
        children: [
          Column(
@@ -774,21 +758,23 @@ var response = await http.get(
          ),
          Column(
            children: <Widget>[
-             FloatingActionButton(child: Icon(FontAwesomeIcons.clock), onPressed:() => _alertHorario(context),backgroundColor:Color(0xff189bd3),heroTag: "bt3",),
+             FloatingActionButton(child: Icon(FontAwesomeIcons.clock), onPressed:()  => _alertHorario(context),backgroundColor:Color(0xff189bd3),heroTag: "bt3",),
              Text('Horarios', style: TextStyle(color: Colors.black),),
 
            ],
          ),
          Column(
            children: <Widget>[
-             FloatingActionButton(child: Icon(FontAwesomeIcons.mapMarkedAlt), onPressed:() => _mapa(),backgroundColor:Color(0xff189bd3),heroTag: "bt4",),
+             FloatingActionButton(child: Icon(FontAwesomeIcons.mapMarkedAlt), onPressed: _mapa,backgroundColor:Color(0xff189bd3),heroTag: "bt4",),
              Text('Abrir mapa', style: TextStyle(color: Colors.black),),
 
            ],
          ),
        ],
-     ),
+     );
 
+       }
+     )
    );
 
   
@@ -880,24 +866,7 @@ Widget resenasection = Column(
        itemBuilder: (BuildContext context, int index) {
          
 
-         mapa() async {
-      if (Platform.isAndroid) {
-        final url =  dataneg[index]["NEG_MAP"];
-      if (await canLaunch(url)) {
-        await launch(url);
-      } else {
-        throw 'Could not launch $url';
-      }
-      } else {
-      final url =  dataneg[index]["NEG_MAP_IOS"];
-      if (await canLaunch(url)) {
-        await launch(url);
-      } else {
-        throw 'Could not launch $url';
-      }
-      }
-      
-    }
+    
 
    facebook() async {
      final url =  dataneg[index]["NEG_FACEBOOK"];
