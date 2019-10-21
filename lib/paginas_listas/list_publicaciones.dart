@@ -170,13 +170,13 @@ List databaja;
 
             onTap: () {
               String id_n = data[index]["ID_NEGOCIO"];
-              String id = data[index]["ID_PUBLICACION"];
+              String id_p = data[index]["ID_PUBLICACION"];
              
 
 
               Navigator.push(context, new MaterialPageRoute
                 (builder: (context) => new Publicacion_detalle_fin(
-                publicacion: new Publicacion(id_n,id),
+                publicacion: new Publicacion(id_n,id_p),
                 )
               )
               );

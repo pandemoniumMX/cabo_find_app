@@ -163,7 +163,7 @@ Future<String> insertRecomendacion() async {
     Future<String> getPub() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/ing/list_publicaciones_api.php?ID=${widget.publicacion.id_p}"),
+            "http://cabofind.com.mx/app_php/APIs/ing/list_publicaciones_api_single.php?ID=${widget.publicacion.id_n}&ID_P=${widget.publicacion.id_p}"),
         //"http://cabofind.com.mx/app_php/list_negocios.php?"),
 
 
@@ -186,8 +186,8 @@ Future<String> insertRecomendacion() async {
         super.initState(
     
         );
-        this.getData();
-        this.getNeg();
+        //this.getData();
+       // this.getNeg();
         this.getPub();
     
       }

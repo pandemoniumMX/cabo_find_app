@@ -22,6 +22,7 @@ import 'package:cabofind/utilidades/buscador_notap.dart';
 
 import 'package:cabofind/paginas/carrusel.dart';
 import 'package:cabofind/paginas_listas/list_publicaciones.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:cabofind/paginas/acercade.dart';
@@ -40,13 +41,13 @@ import 'package:devicelocale/devicelocale.dart';
 
 
 
-//FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-/*
+FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+
 void fcmSubscribe() {
   _firebaseMessaging.unsubscribeFromTopic('All');
     _firebaseMessaging.subscribeToTopic('Todos');
   }
-  */
+  
 
 void main() => runApp(new Myapp());
 
@@ -172,11 +173,11 @@ class _MyHomePageState extends State<MyHomePages> {
  @override
   void initState() {
     super.initState();
-    /*
+    
     fcmSubscribe();    
     final pushpub = new PushNotificationPubAndroid();
     pushpub.initNotifications();
-*/
+
 
 /*
     pushpub.mensajes.listen( (data) {

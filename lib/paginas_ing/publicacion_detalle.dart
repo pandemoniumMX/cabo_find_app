@@ -222,7 +222,7 @@ Future<String> insertPublicacioniOS() async {
   Future<String> getPub() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/ing/list_publicaciones_api.php?ID=${widget.publicacion.id_p}"),
+            "http://cabofind.com.mx/app_php/APIs/ing/list_publicaciones_api_single.php?ID=${widget.publicacion.id_n}&ID_P=${widget.publicacion.id_p}"),
         //"http://cabofind.com.mx/app_php/list_negocios.php?"),
 
 
@@ -371,7 +371,7 @@ Future<String> insertPublicacioniOS() async {
                   onPressed: () {  
                       String id_sql = data_pub[index]["ID_NEGOCIO"];  
                       Navigator.push(context, new MaterialPageRoute  
-                        (builder: (context) => new Publicacion_detalle_fin_estatica_ing(empresa: new Empresa(id_sql))  
+                        (builder: (context) => new Empresa_det_fin_ing(empresa: new Empresa(id_sql))  
                       )  
                       );  
                   },   

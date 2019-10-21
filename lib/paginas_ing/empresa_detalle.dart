@@ -8,7 +8,7 @@ import 'package:device_info/device_info.dart';
 import 'package:devicelocale/devicelocale.dart';
 import 'package:dropdownfield/dropdownfield.dart';
 import 'package:flutter/services.dart';
-//import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:http/http.dart' as http;
@@ -351,7 +351,7 @@ void onLoginStatusChange(bool isLoggedIn){
           textColor: Colors.white,
           timeInSecForIos: 1);
     }
-/*
+
 void initiateFacebookLogin() async{
   var login = FacebookLogin();
   var result = await login.logIn(['email']);
@@ -459,7 +459,7 @@ var response = await http.get(
     );   
         }
 
-        */
+        
 
 
 
@@ -1073,15 +1073,16 @@ Widget resenasection = Column(
 
           onTap: () {
             String id_n = data_list[index]["ID_NEGOCIO"];
-            String id = data_list[index]["ID_PUBLICACION"];
-            
+            String id_p = data_list[index]["ID_PUBLICACION"];
+             
 
-            Navigator.push(context, new MaterialPageRoute
-              (builder: (context) => new Publicacion_detalle_fin_estatica_ing(
-              publicacion: new Publicacion(id_n,id),
-            )
-            )
-            );
+
+              Navigator.push(context, new MaterialPageRoute
+                (builder: (context) => new Publicacion_detalle_fin_estatica_ing(
+                publicacion: new Publicacion(id_n,id_p),
+                )
+              )
+              );
 
 
           },
@@ -1210,7 +1211,7 @@ Widget resenasection = Column(
   
                   //child: Text(‘Send data to the second page’),
   
-                  onPressed: (){},
+                  onPressed: (){initiateFacebookLogin();},
   
   
   

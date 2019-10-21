@@ -23,6 +23,7 @@ import 'package:cabofind/paginas_listas_ing/list_visitado_grid.dart';
 import 'package:cabofind/utilidades/banderasicon_icons.dart';
 
 import 'package:cabofind/utilidades_ing/buscador_ing.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:cabofind/paginas/acercade.dart';
 import 'package:cabofind/paginas/restaurantes.dart';
@@ -35,13 +36,13 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 
 
-//FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-/*
+FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+
 void fcmSubscribe() {
   _firebaseMessaging.unsubscribeFromTopic('Todos');
     _firebaseMessaging.subscribeToTopic('All');
   }
-*/
+
 void main() => runApp(new MyApp_ing());
 
 class MyApp_ing extends StatelessWidget {
@@ -88,12 +89,12 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
   @override
   void initState() {
     super.initState();
-    /*
+    
     fcmSubscribe();    
     final pushpub = new PushNotificationPubAndroid();
     pushpub.initNotifications();
-    */
-/*
+    /*
+
     pushpub.mensajes.listen( (data) {
 
       // Navigator.pushNamed(context, 'mensaje');

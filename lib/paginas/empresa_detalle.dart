@@ -7,7 +7,7 @@ import 'package:device_info/device_info.dart';
 import 'package:devicelocale/devicelocale.dart';
 import 'package:dropdownfield/dropdownfield.dart';
 import 'package:flutter/services.dart';
-//import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:http/http.dart' as http;
@@ -351,7 +351,7 @@ void reporte() {
     controllerCode.dispose();
     super.dispose();
   }
-/*
+
 void initiateFacebookLogin() async{
   var login = FacebookLogin();
   var result = await login.logIn(['email']);
@@ -461,7 +461,7 @@ var response = await http.get(
 
         
 
-*/
+
 
 
 
@@ -505,8 +505,10 @@ var response = await http.get(
    );
 
     
-    Widget titleSection = ListView.builder(
-        shrinkWrap: true,
+    Widget titleSection = Container (
+      height: 60.0,
+      child: ListView.builder(
+        shrinkWrap: false,
         itemCount: dataneg == null ? 0 : dataneg.length,
        itemBuilder: (BuildContext context, int index) {    
 
@@ -518,7 +520,7 @@ var response = await http.get(
               children: [
 
                    Text(
-                    dataneg[index]["NEG_NOMBRE"],
+                    dataneg[0]["NEG_NOMBRE"],
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                         fontSize: 28.0,
@@ -535,7 +537,7 @@ var response = await http.get(
             
                 Text(
 
-                  dataneg[index]["CAT_NOMBRE"],
+                  dataneg[0]["CAT_NOMBRE"],
                   style: TextStyle(
                     color: Colors.blue[500],
                   ),
@@ -549,7 +551,7 @@ var response = await http.get(
                 ),
               ),
               Text(
-                dataneg[index]["SUB_NOMBRE"],
+                dataneg[0]["SUB_NOMBRE"],
                 style: TextStyle(
                   color: Colors.blue[500],
                 ),
@@ -565,7 +567,7 @@ var response = await http.get(
         );
        },
       
-       
+      )
     
     );
 
@@ -622,10 +624,11 @@ var response = await http.get(
     );
 
 
-   Widget buttonSection = Container(
-     width: MediaQuery.of(context).size.width +30,
+   Widget buttonSection = Column(
+     //width: MediaQuery.of(context).size.width +30,
 
-     child: new ListView.builder(
+     children: <Widget>[
+        new ListView.builder(
         shrinkWrap: true,
         itemCount: dataneg == null ? 0 : dataneg.length,
        itemBuilder: (BuildContext context, int index) {
@@ -775,6 +778,7 @@ var response = await http.get(
 
        }
      )
+     ]
    );
 
   
@@ -855,12 +859,12 @@ Widget resenasection = Column(
 
 
   Widget social() { 
-    return Container (
+    return Column (
      // width: MediaQuery.of(context).size.width,
       //padding: const EdgeInsets.all(20),
 
-      height:  60.0,
-      child: new ListView.builder(
+      children: <Widget>[
+         new ListView.builder(
         shrinkWrap: true,
         itemCount: dataneg == null ? 0 : dataneg.length,
        itemBuilder: (BuildContext context, int index) {
@@ -930,15 +934,10 @@ Widget resenasection = Column(
          Expanded(child: SizedBox(width: 5.0,)),
 
          ],
-         );
-
-
-         
-
-         
-      
+         );      
       }
       )
+      ]
       
     );
   }
@@ -1044,15 +1043,16 @@ Widget resenasection = Column(
 
           onTap: () {
             String id_n = data_list[index]["ID_NEGOCIO"];
-            String id = data_list[index]["ID_PUBLICACION"];
-            
+            String id_p = data_list[index]["ID_PUBLICACION"];
+             
 
-            Navigator.push(context, new MaterialPageRoute
-              (builder: (context) => new Publicacion_detalle_fin_estatica(
-              publicacion: new Publicacion(id_n,id),
-            )
-            )
-            );
+
+              Navigator.push(context, new MaterialPageRoute
+                (builder: (context) => new Publicacion_detalle_fin_estatica(
+                publicacion: new Publicacion(id_n,id_p),
+                )
+              )
+              );
 
 
           },
@@ -1181,7 +1181,7 @@ Widget resenasection = Column(
   
                   //child: Text(‘Send data to the second page’),
   
-                  onPressed: (){},
+                  onPressed: (){initiateFacebookLogin();},
   
   
   
