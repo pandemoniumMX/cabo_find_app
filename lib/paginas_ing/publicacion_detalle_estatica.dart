@@ -342,7 +342,7 @@ Future<String> insertRecomendacion() async {
               ],
             ),
             appBar: new AppBar(
-              title: new Text('Regresar',
+              title: new Text('Back',
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 20.0
