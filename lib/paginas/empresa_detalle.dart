@@ -509,6 +509,7 @@ var response = await http.get(
       height: 60.0,
       child: ListView.builder(
         shrinkWrap: false,
+        physics: BouncingScrollPhysics(),
         itemCount: dataneg == null ? 0 : dataneg.length,
        itemBuilder: (BuildContext context, int index) {    
 
@@ -580,6 +581,7 @@ var response = await http.get(
      children: <Widget>[
         new ListView.builder(
         shrinkWrap: true,
+        physics: BouncingScrollPhysics(),
         itemCount: dataneg == null ? 0 : dataneg.length,
        itemBuilder: (BuildContext context, int index) {
   //padding: const EdgeInsets.only(bottom: 10,left: 20,right: 20);
@@ -603,6 +605,7 @@ var response = await http.get(
       children: <Widget>[
          new ListView.builder(
         shrinkWrap: true,
+        physics: BouncingScrollPhysics(),
         itemCount: dataneg == null ? 0 : dataneg.length,
        itemBuilder: (BuildContext context, int index) {
 
@@ -630,6 +633,7 @@ var response = await http.get(
      children: <Widget>[
         new ListView.builder(
         shrinkWrap: true,
+        physics: BouncingScrollPhysics(),
         itemCount: dataneg == null ? 0 : dataneg.length,
        itemBuilder: (BuildContext context, int index) {
 
@@ -789,6 +793,7 @@ Widget resenasection = Column(
       children: <Widget>[
     new ListView.builder(  
          shrinkWrap: true,  
+         physics: BouncingScrollPhysics(),
           itemCount: data_resena == null ? 0 : data_resena.length,  
          itemBuilder: (BuildContext context, int index) {  
         return new Card(  
@@ -859,13 +864,14 @@ Widget resenasection = Column(
 
 
   Widget social() { 
-    return Column (
+    return Container (
      // width: MediaQuery.of(context).size.width,
       //padding: const EdgeInsets.all(20),
+      height: 65.0,
 
-      children: <Widget>[
-         new ListView.builder(
+      child: ListView.builder(
         shrinkWrap: true,
+        physics: BouncingScrollPhysics(),
         itemCount: dataneg == null ? 0 : dataneg.length,
        itemBuilder: (BuildContext context, int index) {
          
@@ -937,7 +943,7 @@ Widget resenasection = Column(
          );      
       }
       )
-      ]
+      
       
     );
   }
