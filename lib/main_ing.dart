@@ -29,19 +29,19 @@ import 'package:cabofind/paginas/restaurantes.dart';
 import 'package:cabofind/paginas/servicios.dart';
 import 'package:cabofind/paginas/compras.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
+//import 'package:firebase_messaging/firebase_messaging.dart';
 //import 'package:geocoder/geocoder.dart';
 //import 'package:geolocator/geolocator.dart';
 
 
 
-FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-
+//FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+/*
 void fcmSubscribe() {
   _firebaseMessaging.unsubscribeFromTopic('Todos');
     _firebaseMessaging.subscribeToTopic('All');
   }
-
+*/
 void main() => runApp(new MyApp_ing());
 
 class MyApp_ing extends StatelessWidget {

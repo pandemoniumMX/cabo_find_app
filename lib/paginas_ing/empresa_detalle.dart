@@ -564,7 +564,7 @@ var response = await http.get(
 
    _mapa() async {
       if (Platform.isAndroid) {
-        final url =  dataneg[0]["NEG_MAP"];
+        final url =  dataneg[0]["NEG_MAP_IOS"];
       if (await canLaunch(url)) {
         await launch(url);
       } else {

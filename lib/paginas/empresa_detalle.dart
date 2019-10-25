@@ -16,7 +16,6 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import 'reseña_insert.dart';
 
 
 
@@ -565,21 +564,14 @@ var response = await http.get(
    }
 
    _mapa() async {
-      if (Platform.isAndroid) {
-        final url =  dataneg[0]["NEG_MAP"];
-      if (await canLaunch(url)) {
-        await launch(url);
-      } else {
-        throw 'Could not launch $url';
-      }
-      } else {
+
       final url =  dataneg[0]["NEG_MAP_IOS"];
       if (await canLaunch(url)) {
         await launch(url);
       } else {
         throw 'Could not launch $url';
       }
-      }    
+
     }
 
    
@@ -875,21 +867,14 @@ Widget resenasection = Column(
          
 
          mapa() async {
-      if (Platform.isAndroid) {
-        final url =  dataneg[index]["NEG_MAP"];
-      if (await canLaunch(url)) {
-        await launch(url);
-      } else {
-        throw 'Could not launch $url';
-      }
-      } else {
+
       final url =  dataneg[index]["NEG_MAP_IOS"];
       if (await canLaunch(url)) {
         await launch(url);
       } else {
         throw 'Could not launch $url';
       }
-      }
+
       
     }
 

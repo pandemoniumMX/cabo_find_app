@@ -34,13 +34,13 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:device_info/device_info.dart';
 import 'package:devicelocale/devicelocale.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
+//import 'package:firebase_messaging/firebase_messaging.dart';
 //import 'package:geocoder/geocoder.dart';
 //import 'package:geolocator/geolocator.dart';
 
 
 
-FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+//FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 /*
 void fcmSubscribe() {
   _firebaseMessaging.unsubscribeFromTopic('All');
