@@ -80,6 +80,7 @@ class _ListaOriental extends State<ListaProfesionales_ing> {
     );
     this.getData(
     );
+    this.getDatabaja();
   }
   @override
 void dispose() {
