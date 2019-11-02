@@ -1,7 +1,10 @@
 
+import 'package:cabofind/paginas/publicacion_detalle.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'dart:io';
 import 'dart:async';
+
+import 'package:flutter/material.dart';
 
 class PushNotificationPubAndroid {
 
@@ -34,9 +37,11 @@ class PushNotificationPubAndroid {
 
         String argumento = 'no-data';
         if ( Platform.isAndroid  ) {  
-          argumento = info['data']['comida'] ?? 'no-data';
+          argumento = info['data']['id_n']['id_p'] ?? 'no-data';
+
+              
         } else {
-          argumento = info['comida'] ?? 'no-data-ios';
+          argumento = info['id_n']['id_p'] ?? 'no-data-ios';
         }
 
         _mensajesStreamController.sink.add(argumento);
@@ -44,42 +49,32 @@ class PushNotificationPubAndroid {
       },
       onLaunch: ( info ) {
 
-        print('======= On Launch ========');
+        print('======= On Message ========');
         print( info );
-
-        final noti = info['data']['id_p'];
-        print( noti );
 
         String argumento = 'no-data';
         if ( Platform.isAndroid  ) {  
-          argumento = info['data']['id_p'] ?? 'no-data';
+          argumento = info['data']['id_n']['id_p'] ?? 'no-data';
         } else {
-          argumento = info['id_p'] ?? 'no-data-ios';
+          argumento = info['id_n']['id_p'] ?? 'no-data-ios';
         }
 
-        _mensajesStreamController.sink.add(argumento); 
-
-        
-
+        _mensajesStreamController.sink.add(argumento);
       },
 
       onResume: ( info ) {
 
-        print('======= On Resume ========');
+        print('======= On Message ========');
         print( info );
-
-        final noti = info['data']['id_p'];
-        print( noti );
 
         String argumento = 'no-data';
         if ( Platform.isAndroid  ) {  
-          argumento = info['data']['id_p'] ?? 'no-data';
+          argumento = info['data']['id_n']['id_p'] ?? 'no-data';
         } else {
-          argumento = info['id_p'] ?? 'no-data-ios';
+          argumento = info['id_n']['id_p'] ?? 'no-data-ios';
         }
 
         _mensajesStreamController.sink.add(argumento);
-
 
       }
 

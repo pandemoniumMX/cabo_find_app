@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:cabofind/paginas/carrusel.dart';
 import 'package:cabofind/main.dart';
 import 'package:cabofind/paginas/publicacion_detalle.dart';
+import 'package:cabofind/paginas_ing/publicacion_detalle.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:cabofind/paginas/empresa_detalle.dart';
@@ -196,13 +197,13 @@ List databaja;
 
           onTap: () {
             String id_n = data[index]["ID_NEGOCIO"];
-            String id = data[index]["ID_PUBLICACION"];
+            String id_p = data[index]["ID_PUBLICACION"];
            
 
 
             Navigator.push(context, new MaterialPageRoute
-              (builder: (context) => new Publicacion_detalle_fin(
-              publicacion: new Publicacion(id_n,id),
+              (builder: (context) => new Publicacion_detalle_fin_ing(
+              publicacion: new Publicacion(id_n,id_p),
             )
             )
             );
