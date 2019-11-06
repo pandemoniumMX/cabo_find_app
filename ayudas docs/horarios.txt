@@ -1,16 +1,18 @@
-LUNES....................4PM-11PM
-MARTES.................4PM-11PM
-MIERCOLES...........4PM-11PM
-JUEVES..................4PM-11PM
-VIERNES................4PM-11PM
-SABADO.................4PM-11PM
-DOMINGO..............4PM-11PM
+LUNES....................11AM-8PM
+MARTES.................11AM-8PM
+MIERCOLES...........11AM-8PM
+JUEVES..................11AM-8PM
+VIERNES................11AM-8PM
+SABADO.................Cerrado
+DOMINGO..............Cerrado
 
 
-MONDAY..................4PM-11PM
-TUESDAY..................4PM-11PM
-WEDNESDAY...........4PM-11PM
-THURSDAY..............4PM-11PM
-FRIDAY....................4PM-11PM
-SATURDAY..............4PM-11PM
-SUNDAY..................4PM-11PM
+MONDAY..................11AM-8PM
+TUESDAY..................11AM-8PM
+WEDNESDAY...........11AM-8PM
+THURSDAY..............11AM-8PM
+FRIDAY....................11AM-8PM
+SATURDAY..............Closed
+SUNDAY..................Closed
+
+https://maps.apple.com/?q=22.890091,-109.9219887

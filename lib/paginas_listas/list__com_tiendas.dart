@@ -76,7 +76,6 @@ List databaja;
   void initState() {
     super.initState(
     );
-        this.getDatabaja();
 
     this.getData();
 this.getDatabaja();
