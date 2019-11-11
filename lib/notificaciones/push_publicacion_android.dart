@@ -1,4 +1,5 @@
 
+/*
 import 'package:cabofind/paginas/publicacion_detalle.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'dart:io';
@@ -30,36 +31,66 @@ class PushNotificationPubAndroid {
 
     _firebaseMessaging.configure(
 
-      onMessage: ( info ) {
+      onMessage: ( Map<String, dynamic> message ) async {
 
         print('======= On Message ========');
-        print( info );
+        print(" $message" );
 
-        String argumento = 'no-data';
-        if ( Platform.isAndroid  ) {  
-          argumento = info['data']['id_n']['id_p'] ?? 'no-data';
+       showDialog(
+         context: context,
+         builder: (context) => AlertDialog(
+           content: ListTile(
+             title: Text(message['notification']['title']),
+             subtitle: Text(message['notification']['body']),
 
-              
-        } else {
-          argumento = info['id_n']['id_p'] ?? 'no-data-ios';
-        }
+           ),
+         )
+       )
 
-        _mensajesStreamController.sink.add(argumento);
+       
 
       },
       onLaunch: ( info ) {
 
         print('======= On Message ========');
-        print( info );
-
-        String argumento = 'no-data';
-        if ( Platform.isAndroid  ) {  
-          argumento = info['data']['id_n']['id_p'] ?? 'no-data';
-        } else {
-          argumento = info['id_n']['id_p'] ?? 'no-data-ios';
-        }
-
-        _mensajesStreamController.sink.add(argumento);
+        return showDialog(
+         context: context,
+         builder: (context) {
+           return AlertDialog(
+             title: Text('Reseña',style: TextStyle(fontSize: 25.0,),),
+             content: Container(
+                 width: MediaQuery.of(context).size.width,
+                 height: 350.0,
+                 child:  
+                Column(
+                                    children: <Widget>[  
+              Text('Valoración'),  
+                                        
+              Text('Escribe una breve reseña'),
+             
+               
+                ],
+                 )
+                 
+             ),
+             actions: <Widget>[
+               new FlatButton(
+                 child: new Text('Cancelar'),
+                 onPressed: () {
+                   Navigator.of(context).pop();
+                 },
+               ),
+               new FlatButton(
+                 child: new Text('Enviar'),
+                 onPressed: (){ 
+                 
+                
+                 
+                 },
+               )
+             ],
+           );
+         });
       },
 
       onResume: ( info ) {
@@ -90,3 +121,4 @@ class PushNotificationPubAndroid {
   }
 
 }
+*/

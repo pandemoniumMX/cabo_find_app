@@ -1,10 +1,13 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'package:cabofind/main_ing.dart';
 import 'package:cabofind/main_lista.dart';
 import 'package:cabofind/notificaciones/push_publicacion_android.dart';
 //import 'package:cabofind/notificaciones/push_publicacion_android.dart';
 import 'package:cabofind/paginas/descubre.dart';
 import 'package:cabofind/paginas/educacion.dart';
+import 'package:cabofind/paginas/publicacion_detalle.dart';
 //import 'package:cabofind/paginas/publicacion_detalle_push.dart';
 import 'package:cabofind/paginas/salud.dart';
 import 'package:cabofind/paginas/youtube.dart';
@@ -22,6 +25,7 @@ import 'package:cabofind/utilidades/buscador_notap.dart';
 
 import 'package:cabofind/paginas/carrusel.dart';
 import 'package:cabofind/paginas_listas/list_publicaciones.dart';
+import 'package:cabofind/utilidades/classes.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -175,8 +179,22 @@ class _MyHomePageState extends State<MyHomePages> {
     super.initState();
     
     fcmSubscribe();    
-    final pushpub = new PushNotificationPubAndroid();
-    pushpub.initNotifications();
+
+    setupNotification();
+    
+
+
+    FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+
+  final _mensajesStreamController = StreamController<String>.broadcast();
+
+
+   
+
+
+  dispose() {
+    _mensajesStreamController?.close();
+  }
 
 
 /*
@@ -196,6 +214,137 @@ class _MyHomePageState extends State<MyHomePages> {
     this.checkModelAndroid();
     ///this._getLocation();
   
+
+
+  }
+
+
+  void setupNotification() async {
+
+    _firebaseMessaging.requestNotificationPermissions();
+
+
+    _firebaseMessaging.getToken().then( (token) {
+
+
+      print('===== FCM Token =====');
+      print( token );
+
+    });
+
+
+    _firebaseMessaging.configure(
+
+      onMessage: ( Map<String, dynamic> message ) async {
+
+        print('======= On Message ========');
+        print(" $message" );
+
+        String id_n= (message['data']['id_n']) as String;
+        String id =(message['data']['id'])as String;
+
+       
+          showDialog(
+         context: context,
+         builder: (context) {
+           return AlertDialog(
+             title: Text('Nueva publicación!',style: TextStyle(fontSize: 25.0,),),
+             content: Container(
+                 width: 300,
+                 height: 300.0,
+                 child: FadeInImage(
+
+                   image: NetworkImage("http://cabofind.com.mx/assets/img/alerta.png"),
+                   fit: BoxFit.fill,
+                   width: 300,
+                   height: 300,
+
+                   // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
+                   placeholder: AssetImage('android/assets/images/loading.gif'),
+                   fadeInDuration: Duration(milliseconds: 200),
+
+                 ),
+                 
+             ),
+             actions: <Widget>[
+               new FlatButton(
+                 child: new Text('Cerrar'),
+                 onPressed: () {
+                   Navigator.of(context).pop();
+                 },
+               ), 
+               new FlatButton(
+                 color: Colors.blueAccent,
+                 child: new Text('Descubrir',style: TextStyle(fontSize: 14.0,color: Colors.white),),
+                 onPressed: () {
+                  Navigator.push(context, new MaterialPageRoute
+              (builder: (context) => new Publicacion_detalle_fin(
+              publicacion: new Publicacion(id_n,id),
+            )
+            )
+            );
+                 },
+               )
+             ],
+           );
+         });
+            
+/*
+       showDialog(
+         context: context,
+         builder: (context) => AlertDialog(
+           content: ListTile(
+             title: Text(message['data']['id_n']),
+             subtitle: Text(message['data']['id']),
+
+           ),
+         )
+       );
+*/
+       
+
+      },
+
+      onLaunch: ( Map<String, dynamic> message ) async {
+
+        print('======= On launch ========');
+        print(" $message" );
+
+       String id_n= (message['data']['id_n']) as String;
+        String id =(message['data']['id'])as String;
+
+       Navigator.push(context, new MaterialPageRoute
+              (builder: (context) => new Publicacion_detalle_fin(
+              publicacion: new Publicacion(id_n,id),
+            )
+            )
+            );
+
+       
+
+      },
+
+      onResume: ( Map<String, dynamic> message ) async {
+
+        print('======= On resume ========');
+        print(" $message" );
+
+       String id_n= (message['data']['id_n']) as String;
+        String id =(message['data']['id'])as String;
+
+       Navigator.push(context, new MaterialPageRoute
+              (builder: (context) => new Publicacion_detalle_fin(
+              publicacion: new Publicacion(id_n,id),
+            )
+            )
+            );
+
+       
+
+      },
+
+
+    );
 
 
   }

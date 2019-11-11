@@ -1,14 +1,17 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:cabofind/main.dart';
 import 'package:cabofind/main_lista_ing.dart';
 import 'package:cabofind/notificaciones/push_publicacion_android.dart';
 import 'package:cabofind/paginas/descubre.dart';
+import 'package:cabofind/paginas/publicacion_detalle.dart';
 import 'package:cabofind/paginas/salud.dart';
 import 'package:cabofind/paginas/youtube.dart';
 import 'package:cabofind/paginas_ing/acercade.dart';
 import 'package:cabofind/paginas_ing/compras.dart';
 import 'package:cabofind/paginas_ing/descubre.dart';
 import 'package:cabofind/paginas_ing/educacion.dart';
+import 'package:cabofind/paginas_ing/publicacion_detalle.dart';
 import 'package:cabofind/paginas_ing/restaurantes.dart';
 import 'package:cabofind/paginas_ing/salud.dart';
 import 'package:cabofind/paginas_ing/servicios.dart';
@@ -21,6 +24,7 @@ import 'package:cabofind/paginas_listas_ing/list_publicaciones_ing.dart';
 import 'package:cabofind/paginas_listas_ing/list_recomendado_grid.dart';
 import 'package:cabofind/paginas_listas_ing/list_visitado_grid.dart';
 import 'package:cabofind/utilidades/banderasicon_icons.dart';
+import 'package:cabofind/utilidades/classes.dart';
 
 import 'package:cabofind/utilidades_ing/buscador_ing.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -89,26 +93,148 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
   @override
   void initState() {
     super.initState();
+
+    fcmSubscribe(); 
+    setupNotification();
     
-    fcmSubscribe();    
-    final pushpub = new PushNotificationPubAndroid();
-    pushpub.initNotifications();
-    /*
 
-    pushpub.mensajes.listen( (data) {
 
-      // Navigator.pushNamed(context, 'mensaje');
-      print('Argumento del Push');
-      print(data);
+    FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
-      //navigatorKey.currentState.pushNamed('Publicacion_detalle_fin_push', arguments: data );
-      navigatorKey.currentState.pushNamed('publicacionx', arguments: data );
-      
-              
+  final _mensajesStreamController = StreamController<String>.broadcast();
+    
+       
+
+
+  }
+
+
+  void setupNotification() async {
+
+    _firebaseMessaging.requestNotificationPermissions();
+
+
+    _firebaseMessaging.getToken().then( (token) {
+
+
+      print('===== FCM Token =====');
+      print( token );
+
     });
-    */
-    
-  
+
+
+    _firebaseMessaging.configure(
+
+      onMessage: ( Map<String, dynamic> message ) async {
+
+        print('======= On Message ========');
+        print(" $message" );
+
+        String id_n= (message['data']['id_n']) as String;
+        String id =(message['data']['id'])as String;
+
+       
+          showDialog(
+         context: context,
+         builder: (context) {
+           return AlertDialog(
+             title: Text('New post!',style: TextStyle(fontSize: 25.0,),),
+             content: Container(
+                 width: 300,
+                 height: 300.0,
+                 child: FadeInImage(
+
+                   image: NetworkImage("http://cabofind.com.mx/assets/img/alerta.png"),
+                   fit: BoxFit.fill,
+                   width: 300,
+                   height: 300,
+
+                   // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
+                   placeholder: AssetImage('android/assets/images/loading.gif'),
+                   fadeInDuration: Duration(milliseconds: 200),
+
+                 ),
+                 
+             ),
+             actions: <Widget>[
+               new FlatButton(
+                 child: new Text('Close'),
+                 onPressed: () {
+                   Navigator.of(context).pop();
+                 },
+               ), 
+               new FlatButton(
+                 color: Colors.blueAccent,
+                 child: new Text('Discover',style: TextStyle(fontSize: 14.0,color: Colors.white),),
+                 onPressed: () {
+                  Navigator.push(context, new MaterialPageRoute
+              (builder: (context) => new Publicacion_detalle_fin_ing(
+              publicacion: new Publicacion(id_n,id),
+            )
+            )
+            );
+                 },
+               )
+             ],
+           );
+         });
+            
+/*
+       showDialog(
+         context: context,
+         builder: (context) => AlertDialog(
+           content: ListTile(
+             title: Text(message['data']['id_n']),
+             subtitle: Text(message['data']['id']),
+
+           ),
+         )
+       );
+*/
+       
+
+      },
+
+      onLaunch: ( Map<String, dynamic> message ) async {
+
+        print('======= On launch ========');
+        print(" $message" );
+
+       String id_n= (message['data']['id_n']) as String;
+        String id =(message['data']['id'])as String;
+
+       Navigator.push(context, new MaterialPageRoute
+              (builder: (context) => new Publicacion_detalle_fin_ing(
+              publicacion: new Publicacion(id_n,id),
+            )
+            )
+            );
+
+       
+
+      },
+
+      onResume: ( Map<String, dynamic> message ) async {
+
+        print('======= On resume ========');
+        print(" $message" );
+
+       String id_n= (message['data']['id_n']) as String;
+        String id =(message['data']['id'])as String;
+
+       Navigator.push(context, new MaterialPageRoute
+              (builder: (context) => new Publicacion_detalle_fin_ing(
+              publicacion: new Publicacion(id_n,id),
+            )
+            )
+            );
+
+       
+
+      },
+
+
+    );
 
 
   }
@@ -173,7 +299,7 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
                 Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (BuildContext context) => new MyHomePages()
+                        builder: (BuildContext context) => new Myapp()
                         )
                         );
             },
@@ -375,7 +501,7 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
                 Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (BuildContext context) => new MyHomePages()
+                        builder: (BuildContext context) => new Myapp()
                         )
                         );
               },
