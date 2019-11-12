@@ -116,7 +116,7 @@ List databaja;
 
                     FadeInImage(
 
-                      image: NetworkImage(data[index]["GAL_FOTO"]),
+                      image: NetworkImage(data[index]["GAL_FOTO_ING"]),
                       fit: BoxFit.fill,
                       width: MediaQuery.of(context).size.width,
                       height: 350,

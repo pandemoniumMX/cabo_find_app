@@ -113,7 +113,7 @@ List databaja;
                 Expanded(
                                     child: FadeInImage(
 
-                      image: NetworkImage(data[index]["GAL_FOTO"]),
+                      image: NetworkImage(data[index]["GAL_FOTO_ING"]),
                       fit: BoxFit.cover,
                       width: MediaQuery.of(context).size.width,
                       //height: MediaQuery.of(context).size.height * 0.38,

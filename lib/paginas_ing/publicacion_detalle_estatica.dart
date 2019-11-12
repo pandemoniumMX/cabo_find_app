@@ -223,7 +223,7 @@ Future<String> insertRecomendacion() async {
                       children: <Widget>[
                         Stack(
                         children: <Widget>[
-                          Image.network(data_pub[index]["GAL_FOTO"],
+                          Image.network(data_pub[index]["GAL_FOTO_ING"],
                               width: MediaQuery.of(context).size.width,
                               height: 450,
                               fit: BoxFit.fill ),
