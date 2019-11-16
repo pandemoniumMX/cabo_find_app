@@ -509,6 +509,7 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
               leading: Icon(Icons.flag),
 
               onTap: () {
+                addStringToSF();
                 Navigator.of(context).pop();
                 Navigator.push(
                     context,

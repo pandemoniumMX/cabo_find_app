@@ -174,7 +174,6 @@ class _MyHomePageState extends State<MyHomePages> {
       }
 */
   //final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
-  final String _idioma = "";
 
  @override
   void initState() {
@@ -642,6 +641,7 @@ addStringToSF() async {
               leading: Icon(FontAwesomeIcons.flagUsa),
 
               onTap: () {
+                addStringToSF();
                 Navigator.of(context).pop();
                 Navigator.push(
                     context,
