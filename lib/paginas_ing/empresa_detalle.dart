@@ -1027,7 +1027,7 @@ Widget resenasection = Column(
 
                   FadeInImage(
 
-                    image: NetworkImage(data_list[index]["GAL_FOTO"]),
+                    image: NetworkImage(data_list[index]["GAL_FOTO_ING"]),
                     fit: BoxFit.fill,
                     width: MediaQuery.of(context).size.width,
                     height: 250,

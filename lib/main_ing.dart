@@ -34,6 +34,7 @@ import 'package:cabofind/paginas/restaurantes.dart';
 import 'package:cabofind/paginas/servicios.dart';
 import 'package:cabofind/paginas/compras.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 //import 'package:firebase_messaging/firebase_messaging.dart';
 //import 'package:geocoder/geocoder.dart';
 //import 'package:geolocator/geolocator.dart';
@@ -90,8 +91,12 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
   Widget appBarTitle = new Text("Cabofind");
   int id=0;
 
+ @override
+  final String _idioma = "espanol";
+
   @override
   void initState() {
+    //addStringToSF();
     super.initState();
 
     fcmSubscribe(); 
@@ -106,6 +111,12 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
        
 
 
+  }
+
+  addStringToSF() async {
+  	final SharedPreferences prefs = await SharedPreferences.getInstance();
+  //prefs.remove("stringValue");
+	prefs.setString('stringValue', _idioma);
   }
 
 
@@ -295,6 +306,7 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
 
               new InkResponse(
                 onTap: () {
+                 addStringToSF();
               Navigator.of(context).pop();
                 Navigator.push(
                     context,

@@ -39,6 +39,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:device_info/device_info.dart';
 import 'package:devicelocale/devicelocale.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 //import 'package:firebase_messaging/firebase_messaging.dart';
 //import 'package:geocoder/geocoder.dart';
 //import 'package:geolocator/geolocator.dart';
@@ -173,9 +174,14 @@ class _MyHomePageState extends State<MyHomePages> {
       }
 */
   //final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
+  final String _idioma = "";
 
  @override
   void initState() {
+    //addStringToSF();
+    isLogged(context);
+
+    
     super.initState();
     
     fcmSubscribe();    
@@ -216,6 +222,33 @@ class _MyHomePageState extends State<MyHomePages> {
   
 
 
+  }
+
+addStringToSF() async {
+  	final SharedPreferences prefs = await SharedPreferences.getInstance();
+  //prefs.remove("stringValue");
+	prefs.setString('stringValue', "ingles");
+  }
+
+  Future isLogged(context) async {
+ final SharedPreferences prefs = await SharedPreferences.getInstance();
+ String _token = "";
+ _token = prefs.getString("stringValue");
+ 
+  // if (prefs.getString(_idioma) ?? 'stringValue' == "espanol")
+  if (_token != "ingles") {
+      print("alreay login.");
+      //your home page is loaded
+    }
+    else
+    {
+      Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new MyHomePages_ing()
+                        )
+                        );
+    }
   }
 
 
@@ -349,6 +382,8 @@ class _MyHomePageState extends State<MyHomePages> {
 
   }
 
+  
+
   Widget build(BuildContext context) {
     /*
     return new MaterialApp(
@@ -421,6 +456,7 @@ class _MyHomePageState extends State<MyHomePages> {
                        
        new InkResponse(
                 onTap: () {
+                  addStringToSF();
               Navigator.of(context).pop();
                 Navigator.push(
                     context,
