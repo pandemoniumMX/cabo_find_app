@@ -18,6 +18,7 @@ import 'package:cabofind/paginas_listas/list_publicaciones_grid.dart';
 import 'package:cabofind/paginas_listas/list_recomendado_grid.dart';
 import 'package:cabofind/paginas_listas/list_visitado.dart';
 import 'package:cabofind/paginas_listas/list_visitado_grid.dart';
+import 'package:cabofind/paginas_listas_ing/list_publicaciones.dart' as prefix0;
 import 'package:cabofind/utilidades/banderasicon_icons.dart' as banderax;
 import 'package:cabofind/utilidades/buscador.dart';
 import 'package:cabofind/utilidades/buscador_2.dart';
@@ -542,7 +543,7 @@ routes: <String, WidgetBuilder>{
                                   data[index]["est_nombre"],
                                   style: new TextStyle(
                                     color: Colors.white,
-                                    fontSize: 35.0,
+                                    fontSize: 25.0,
                                     fontWeight: FontWeight.w900,
                                     backgroundColor: Colors.black45
                                   )
@@ -589,14 +590,92 @@ routes: <String, WidgetBuilder>{
             onTap: () {
 
 
-              Navigator ruta = data[index]["est_navegacion"];
-              
-          Navigator.push(
+              String ruta = data[index]["est_navegacion"];
+              print(ruta);
+
+               if( ruta == "Restaurantes"){
+
+                 Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (BuildContext context) => new MyHomePages_ing()
+                        builder: (BuildContext context) => new Restaurantes()
                         )
                         );
+
+               } else if (ruta == "Descubre"){
+                 Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Descubre()
+                        )
+                        );
+               } else if (ruta == "Compras"){
+                 Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Compras()
+                        )
+                        );
+               } else if (ruta == "Educacion"){
+                 Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Educacion()
+                        )
+                        );
+               } else if (ruta == "Eventos"){
+                 Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Eventos_grid()
+                        )
+                        );
+               } else if (ruta == "Acercade"){
+                 Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Acercade()
+                        )
+                        );
+              } else if (ruta == "Promociones"){
+                 Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Promociones_grid()
+                        )
+                        );
+               } else if (ruta == "Salud"){
+                 Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Salud()
+                        )
+                        );
+               } else if (ruta == "Servicios"){
+                 Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Servicios()
+                        )
+                        );
+               } else if (ruta == "Vida_nocturna"){
+                 Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Vida_nocturna()
+                        )
+                        );
+               } else if (ruta == "Publicaciones"){
+                 Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Publicaciones_grid()
+                        )
+                        );
+               }
+              
+              
+          
 
 
             },

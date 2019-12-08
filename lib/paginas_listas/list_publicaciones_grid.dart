@@ -70,7 +70,9 @@ class Publicacionesfull extends State<Publicaciones_grid> {
   Widget build(BuildContext context) {
 
 return new Scaffold(
-
+appBar: new AppBar(
+      title: new Text('Publicaciones'),
+    ),
     body: Container(
      // height: MediaQuery.of(context).size.height,
     child: new  StaggeredGridView.countBuilder(

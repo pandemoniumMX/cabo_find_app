@@ -41,8 +41,8 @@ android {
         applicationId "com.israel.cabofind"
         minSdkVersion 22
         targetSdkVersion 28
-        versionCode 40 //Ir aumentando la version
-        versionName "1.3.0" //Ir aumentando la version
+        versionCode 43 //Ir aumentando la version
+        versionName "1.3.3" //Ir aumentando la version
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 

@@ -72,7 +72,9 @@ List databaja;
 
 
       return new Scaffold(
-
+appBar: new AppBar(
+      title: new Text('Promociones'),
+    ),
     body: Container(
      // height: MediaQuery.of(context).size.height,
     child: new  StaggeredGridView.countBuilder(
