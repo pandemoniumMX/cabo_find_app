@@ -35,7 +35,6 @@ import 'package:cabofind/paginas/vida_nocturna.dart';
 import 'package:cabofind/paginas/servicios.dart';
 import 'package:cabofind/paginas/compras.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:device_info/device_info.dart';
@@ -73,11 +72,10 @@ class Myapp extends StatelessWidget {
         debugShowCheckedModeBanner:false,
         theme: ThemeData(
           primarySwatch: Colors.blue,
-          primaryColor: Color(0xff01969a),
-          //primaryColor: Colors.blue,
+          //primaryColor: Color(0xff01969a)
+          primaryColor: Colors.blue,
           accentColor: Colors.black26,
         ),
-        
         home: new Container(
             child:           new MyHomePages()
         )
@@ -108,30 +106,6 @@ class _MyHomePageState extends State<MyHomePages> {
 
   Widget appBarTitle = new Text("Cabofind");
   int id=0;
-
-  List data;
-
-
-  //final List<Todo> todos;
-  Future<String> getData() async {
-    var response = await http.get(
-        Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/consultas_negocios/esp/estructura_esp.php"),
-
-        headers: {
-          "Accept": "application/json"
-        }
-    );
-
-    this.setState(
-            () {
-          data = json.decode(
-              response.body);
-        });
-    
-
-    return "Success!";
-  }
  
 
 
@@ -212,7 +186,6 @@ class _MyHomePageState extends State<MyHomePages> {
     fcmSubscribe();    
 
     setupNotification();
-    this.getData();
     
 
 
@@ -229,6 +202,19 @@ class _MyHomePageState extends State<MyHomePages> {
   }
 
 
+/*
+    pushpub.mensajes.listen( (data) {
+
+      // Navigator.pushNamed(context, 'mensaje');
+      print('Argumento del Push');
+      print(data);
+
+      //navigatorKey.currentState.pushNamed('Publicacion_detalle_fin_push', arguments: data );
+      navigatorKey.currentState.pushNamed('publicacionx', arguments: data );
+      
+              
+    });
+    */
     //this.checkModelIos();
     this.checkModelAndroid();
     ///this._getLocation();
@@ -423,16 +409,45 @@ addStringToSF() async {
     */
    // new Publicaciones();
 
-    /*
-routes: <String, WidgetBuilder>{
-          "/inicio" : (BuildContext context) => data[index]["est_navegacion"],
-         
-        };
-*/
+    final tabpages=<Widget>[
+      //llamar classes siempre despues de un <Widget>
+      //lo que se declare aqui, sera el contenido de los botones de navigacion al fondo
+     // new ImageCarousel2(),
+      //new ImageCarousel2(),
+      new Publicaciones_grid(),
+      new Promociones_grid(),
+      new Promociones_visitado_grid(),
+      new Recomendado_grid(),
+      new Eventos_grid(),
+
+    ];
+
+    final bnbi=<BottomNavigationBarItem>[
+      BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.fire,),title: Text("Inicio")),
+      BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.percent,),title: Text("Promos")),
+      BottomNavigationBarItem(icon: Icon(Icons.visibility,),title: Text("Más vistos")),
+      BottomNavigationBarItem(icon: Icon(Icons.favorite,),title: Text("Recomendado")),
+      BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.calendarWeek,),title: Text("Eventos")),
+
+    ];
+
+    final bnb=BottomNavigationBar(
+      items: bnbi,
+      currentIndex:id ,
+      type: BottomNavigationBarType.fixed,
+      onTap: (int value){
+        setState(() {
+          id=value;
+        });
+      },
+    );
+
+
 
     return  Scaffold(
 
-      
+      body: tabpages[id],
+      bottomNavigationBar: bnb,
       appBar: new AppBar(
         
         //enterTitle: true,
@@ -474,7 +489,20 @@ routes: <String, WidgetBuilder>{
                 )
                 ),
 
+              
+
           
+
+          new IconButton(
+            icon: Icon(FontAwesomeIcons.gripLines,),
+            onPressed: () {
+              //Use`Navigator` widget to push the second screen to out stack of screens
+              Navigator.of(context)
+                  .push(MaterialPageRoute<Null>(builder: (BuildContext context) {
+                return new MyApp_lista();
+              }));
+            }, ),
+
           new IconButton(
             icon: actionIcon,
               onPressed: () {
@@ -491,127 +519,142 @@ routes: <String, WidgetBuilder>{
       ),
 
 
-      body: Container(
+      drawer: new Drawer(
 
-        
-     // height: MediaQuery.of(context).size.height,
-    child: new  StaggeredGridView.countBuilder(
-      crossAxisCount: 4,
-      itemCount:data == null ? 0 : data.length,
-      itemBuilder: (BuildContext context, int index) => new Container(
-          //color: Colors.white,
-        child: Container(
-          
-          decoration: BoxDecoration(
-                    borderRadius:BorderRadius.circular(20.0),
-                    
+        child: ListView(
+          scrollDirection: Axis.vertical,
 
-                    border: Border.all(
-                        color: Color(0xff01969a),)),
-                padding: EdgeInsets.all(
-                    5.0),
-                margin: EdgeInsets.all(
-                    10.0),
-          child: InkWell(
-                    child: Column(
+          children: <Widget>[
 
-              children: <Widget>[               
+            new UserAccountsDrawerHeader(
+              accountName: new Text('Menú categorias '),
+              //accountEmail: new Text('tu_correo@.com'),
+              currentAccountPicture: new CircleAvatar(
+                backgroundImage: AssetImage(
+                    'android/assets/images/splash.png'),
 
-                Expanded(
-                child: Stack(
-                
-                children: <Widget>[
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(20.0),
-                                  child: FadeInImage(   
-                        image: NetworkImage(data[index]["est_foto"]),  
-                        fit: BoxFit.cover,  
-                        width: MediaQuery.of(context).size.width,  
-                        //height: MediaQuery.of(context).size.height * 0.38,  
-                        height: MediaQuery.of(context).size.height,  
-                        // placeholder: AssetImage('android/assets/images/jar-loading.gif'),  
-                        placeholder: AssetImage('android/assets/images/loading.gif'),  
-                        fadeInDuration: Duration(milliseconds: 200),   
-                        
-                      ),
-                ),
-                    Positioned(
-                     
-                                child: Center(
-                                  child: new Text (
-                                  data[index]["est_nombre"],
-                                  style: new TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 35.0,
-                                    fontWeight: FontWeight.w900,
-                                    backgroundColor: Colors.black45
-                                  )
-                              ),
-                                ),
-                              
-                                
-                              ),  
-                              
-],
-                                  ),
-                ),
+              ),
+            ),
 
-/*
-                Row(
-                    children: <Widget>[
+  
+            new ListTile(
+              title: new Text('Restaurantes'),
+              leading: Icon(Icons.restaurant),
+              
 
-
-                      Padding(
-                          child: new Text(
-                            data[index]["NEG_NOMBRE"],
-                            overflow: TextOverflow.ellipsis,),
-                          padding: EdgeInsets.all(
-                              1.0)),
-                      Text(
-                          " | "),
-                      Flexible(
-                        child: new Text(
-                          data[index]["NEG_LUGAR"],
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,),
-
-
-                      ),
-
-
-
-                    ]),
-*/
-
-              ],
+              onTap: () {
+                Navigator.of(context).pop();
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Restaurantes()));
+              },
 
             ),
-            onTap: () {
+            new ListTile(
+              title: new Text('Vida nocturna'),
+              leading: Icon(FontAwesomeIcons.glassCheers),
 
+              onTap: () {
+                Navigator.of(context).pop();
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Vida_nocturna()));
+              },
+            ),
+            new ListTile(
+              title: new Text('¿Que hacer?'),
+              leading: Icon(Icons.beach_access),
 
-              Navigator ruta = data[index]["est_navegacion"];
-              
-          Navigator.push(
+              onTap: () {
+                Navigator.of(context).pop();
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Descubre()));
+              },
+            ),
+            new ListTile(
+              title: new Text('Compras'),
+              leading: Icon(FontAwesomeIcons.shoppingCart),
+
+              onTap: () {
+                Navigator.of(context).pop();
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Compras()));
+              },
+            ),
+            new ListTile(
+              title: new Text('Servicios'),
+              leading: Icon(Icons.build),
+
+              onTap: () {
+                Navigator.of(context).pop();
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Servicios()));
+              },
+            ),
+            new ListTile(
+              title: new Text('Salud'),
+              leading: Icon(FontAwesomeIcons.heartbeat),
+
+              onTap: () {
+                Navigator.of(context).pop();
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Salud()));
+              },
+            ),
+
+            new ListTile(
+              title: new Text('Educación'),
+              leading: Icon(FontAwesomeIcons.graduationCap),
+
+              onTap: () {
+                Navigator.of(context).pop();
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Educacion()));
+              },
+            ),
+
+            new ListTile(
+              title: new Text('Acerca de nosotros'),
+              leading: Icon(Icons.record_voice_over),
+
+              onTap: () {
+                Navigator.of(context).pop();
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Acercade()));
+              },
+            ),
+            new ListTile(
+              title: new Text('English'),
+              leading: Icon(FontAwesomeIcons.flagUsa),
+
+              onTap: () {
+                addStringToSF();
+                Navigator.of(context).pop();
+                Navigator.push(
                     context,
                     new MaterialPageRoute(
                         builder: (BuildContext context) => new MyHomePages_ing()
                         )
                         );
-
-
-            },
-          ),
+              },
+            ),
+          ],
         ),
-
       ),
-
-      staggeredTileBuilder: (int index) =>
-      new StaggeredTile.count(2, index.isEven ? 2 :2 ),
-      mainAxisSpacing: 4.0,
-      crossAxisSpacing: 4.0,
-    ),
-
-    ),
 
         );
   }
