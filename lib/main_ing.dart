@@ -308,7 +308,7 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
                 onTap: () {
                  addStringToSF();
               Navigator.of(context).pop();
-                Navigator.push(
+                Navigator.pushReplacement(
                     context,
                     new MaterialPageRoute(
                         builder: (BuildContext context) => new Myapp()

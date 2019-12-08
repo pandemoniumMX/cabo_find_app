@@ -241,7 +241,8 @@ addStringToSF() async {
     }
     else
     {
-      Navigator.push(
+      Navigator.of(context).pop();
+      Navigator.pushReplacement(
                     context,
                     new MaterialPageRoute(
                         builder: (BuildContext context) => new MyHomePages_ing()
