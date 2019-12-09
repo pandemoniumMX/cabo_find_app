@@ -1,28 +1,17 @@
-//  AppDelegate.m
+#include "GeneratedPluginRegistrant.h"
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
-//#include "GeneratedPluginRegistrant.h"
 #import "AppDelegate.h"
 @implementation AppDelegate
-/*
+
 - (BOOL)application:(UIApplication *)application
     didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    //FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
-    //[GeneratedPluginRegistrant registerWithRegistry:self];
-    [[FBSDKApplicationDelegate sharedInstance] application:application
-    
-     didFinishLaunchingWithOptions:launchOptions];
+  [GeneratedPluginRegistrant registerWithRegistry:self];
   // Override point for customization after application launch.
   return [super application:application didFinishLaunchingWithOptions:launchOptions];
-}
-*/
 
-- (BOOL)application:(UIApplication *)application
-    didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
   [[FBSDKApplicationDelegate sharedInstance] application:application
-  //[GeneratedPluginRegistrant registerWithRegistry:self];
     didFinishLaunchingWithOptions:launchOptions];
   // Add any custom logic here.
-
   return YES;
 }
 
@@ -54,7 +43,4 @@
   return handled;
 }
 
-
-    @end
-
-
+@end

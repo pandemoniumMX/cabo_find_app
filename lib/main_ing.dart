@@ -91,7 +91,8 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
     /*
     fcmSubscribe();    
     final pushpub = new PushNotificationPubAndroid();
-    pushpub.initNotifications();*/
+    pushpub.initNotifications();
+    */
 /*
     pushpub.mensajes.listen( (data) {
 

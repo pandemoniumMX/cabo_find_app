@@ -46,8 +46,8 @@ void fcmSubscribe() {
   _firebaseMessaging.unsubscribeFromTopic('All');
     _firebaseMessaging.subscribeToTopic('Todos');
   }
-  */
-
+  
+*/
 void main() => runApp(new Myapp());
 
 class Myapp extends StatelessWidget {
@@ -177,6 +177,7 @@ class _MyHomePageState extends State<MyHomePages> {
     final pushpub = new PushNotificationPubAndroid();
     pushpub.initNotifications();
     */
+
 /*
     pushpub.mensajes.listen( (data) {
 

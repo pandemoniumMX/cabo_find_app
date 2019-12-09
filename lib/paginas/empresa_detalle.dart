@@ -8,7 +8,6 @@ import 'package:devicelocale/devicelocale.dart';
 import 'package:dropdownfield/dropdownfield.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:cabofind/utilidades/classes.dart';
@@ -16,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import 'reseña_insert.dart';
 
 
 
@@ -238,27 +238,6 @@ Future<String> insertVisitaiOS() async {
     );
 }
 
-Future<String> insert_ReporteIOS() async {
-    String currentLocale;
-    try {
-      currentLocale = await Devicelocale.currentLocale;
-      print(currentLocale);
-    } on PlatformException {
-      print("Error obtaining current locale");
-    }
-    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-    IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
-    //print('Running on ${iosInfo.identifierForVendor}');
-    var response = await http.get(
-        Uri.encodeFull(
-           // "http://cabofind.com.mx/app_php/APIs/esp/insert_visita_negocio.php?ID=${widget.empresa.id_nm}"),
-            "http://cabofind.com.mx/app_php/APIs/esp/insert_reporte.php?MOD=${iosInfo.model}&BOOT=${iosInfo.utsname.nodename},${iosInfo.utsname.sysname}&VERSION=${iosInfo.systemName}&IDIOMA=esp&ID=${widget.empresa.id_nm}&SO=iOS"),
-        headers: {
-          "Accept": "application/json"
-        }
-    );
-}
-
    Future<String> getCarrusel() async {
     var response = await http.get(
         Uri.encodeFull(
@@ -321,24 +300,6 @@ void onLoginStatusChange(bool isLoggedIn){
    
   });
 }
-void showResena() {
-      Fluttertoast.showToast(
-          msg: "Reseña enviada exitosamente",
-          toastLength: Toast.LENGTH_SHORT,
-          backgroundColor: Colors.blue,
-          textColor: Colors.white,
-          timeInSecForIos: 1);
-    }
-
-    void reporteIOS() {
-      Fluttertoast.showToast(
-          msg: "Reporte enviado",
-          toastLength: Toast.LENGTH_SHORT,
-          backgroundColor: Colors.blue,
-          textColor: Colors.white,
-          timeInSecForIos: 1);
-    }
-    
 
       @override
   void dispose() {
@@ -401,7 +362,7 @@ void initiateFacebookLogin() async{
                ),
                new FlatButton(
                  child: new Text('Enviar'),
-                 onPressed: (){ getInfofb(result,_displayValue,_currentCity);showResena();  
+                 onPressed: (){ getInfofb(result,_displayValue,_currentCity);  
                  
                  Navigator.of(context).pop();
                  
@@ -564,14 +525,21 @@ var response = await http.get(
    }
 
    _mapa() async {
-
+      if (Platform.isAndroid) {
+        final url =  dataneg[0]["NEG_MAP"];
+      if (await canLaunch(url)) {
+        await launch(url);
+      } else {
+        throw 'Could not launch $url';
+      }
+      } else {
       final url =  dataneg[0]["NEG_MAP_IOS"];
       if (await canLaunch(url)) {
         await launch(url);
       } else {
         throw 'Could not launch $url';
       }
-
+      }    
     }
 
    
@@ -809,25 +777,15 @@ Widget resenasection = Column(
                     ),     
                   ],  
                 ),  
-            Column(  
-                     children: <Widget>[
-    Text(      
-                       data_resena[index]["COM_RESENA"],    
-                      maxLines: 10,    
-                      softWrap: true,  
-                      style: TextStyle(fontSize: 18.0),  
-  
-                      ),
-                      RaisedButton(  
-                  onPressed: () {  insert_ReporteIOS(); reporteIOS();
-                       
-                  },   
-                  shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(60.0) ),  
-                  color: Colors.red,  
-                  child: Text('Reportar comentario', style: TextStyle(fontSize: 10, color: Colors.white)),   
-                  ),
-],  
-               
+            Container(  
+              child: Flexible(
+                     child: Text(    
+                     data_resena[index]["COM_RESENA"],  
+                    maxLines: 10,  
+                    softWrap: true,    
+                    style: TextStyle(fontSize: 18.0),  
+                    ),  
+              ),  
             ),
             Container(  
               child: Flexible(    
@@ -867,14 +825,21 @@ Widget resenasection = Column(
          
 
          mapa() async {
-
+      if (Platform.isAndroid) {
+        final url =  dataneg[index]["NEG_MAP"];
+      if (await canLaunch(url)) {
+        await launch(url);
+      } else {
+        throw 'Could not launch $url';
+      }
+      } else {
       final url =  dataneg[index]["NEG_MAP_IOS"];
       if (await canLaunch(url)) {
         await launch(url);
       } else {
         throw 'Could not launch $url';
       }
-
+      }
       
     }
 
