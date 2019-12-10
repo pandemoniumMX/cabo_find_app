@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:cabofind/main_ing.dart';
 import 'package:cabofind/main_lista.dart';
 import 'package:cabofind/notificaciones/push_publicacion_android.dart';
+import 'package:cabofind/paginas/anuncios.dart';
 //import 'package:cabofind/notificaciones/push_publicacion_android.dart';
 import 'package:cabofind/paginas/descubre.dart';
 import 'package:cabofind/paginas/educacion.dart';
@@ -670,6 +671,13 @@ routes: <String, WidgetBuilder>{
                     context,
                     new MaterialPageRoute(
                         builder: (BuildContext context) => new Publicaciones_grid()
+                        )
+                        );
+               } else if (ruta == "Anuncios"){
+                 Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Anuncios()
                         )
                         );
                }

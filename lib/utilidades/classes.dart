@@ -17,3 +17,11 @@ class Publicacion {
   
 }
 
+class Anuncios_clase {
+  final String id_anun; 
+  Anuncios_clase(this.id_anun);
+
+
+
+}
+
