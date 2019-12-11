@@ -37,6 +37,8 @@ import 'package:cabofind/paginas/compras.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'paginas_ing/anuncios.dart';
 //import 'package:firebase_messaging/firebase_messaging.dart';
 //import 'package:geocoder/geocoder.dart';
 //import 'package:geolocator/geolocator.dart';
@@ -526,6 +528,13 @@ List data;
                     context,
                     new MaterialPageRoute(
                         builder: (BuildContext context) => new Publicaciones_grid()
+                        )
+                        );
+               } else if (ruta == "Anuncios"){
+                 Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Anuncios_ing()
                         )
                         );
                }

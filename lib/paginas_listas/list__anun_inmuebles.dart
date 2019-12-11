@@ -258,7 +258,7 @@ Widget listadobaja = ListView.builder(
 
                               child: Text(
 
-                                  data[index]["ANUN_LUGAR"],
+                                  databaja[index]["ANUN_LUGAR"],
                                 overflow: TextOverflow.ellipsis,),
                               padding: EdgeInsets.all(
                                   1.0)),
@@ -266,7 +266,7 @@ Widget listadobaja = ListView.builder(
                               " | "),
                           Padding(
                               child: new Text(
-                                  data[index]["ANUN_PRECIO"],
+                                  databaja[index]["ANUN_PRECIO"],
                                 overflow: TextOverflow.ellipsis,),
                               padding: EdgeInsets.all(
                                   1.0)),
@@ -274,7 +274,7 @@ Widget listadobaja = ListView.builder(
                               " | "),
                           Flexible(
                             child: new Text(
-                              data[index]["ANUN_ESTADO"],
+                              databaja[index]["ANUN_ESTADO"],
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,),
                           ),
@@ -289,7 +289,7 @@ Widget listadobaja = ListView.builder(
             ),
 
             onTap: () {
-              String id_sql = data[index]["ID_ANUNCIOS"];
+              String id_sql = databaja[index]["ID_ANUNCIOS"];
               Navigator.push(context, new MaterialPageRoute
                 (builder: (context) => new Anuncios_detalle(anuncio: new Anuncios_clase(id_sql))
               )

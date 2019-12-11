@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:cabofind/paginas/anuncios_detalle.dart';
 import 'package:cabofind/paginas/carrusel.dart';
 import 'package:cabofind/main.dart';
+import 'package:cabofind/paginas_ing/anuncios_detalle.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:cabofind/paginas/empresa_detalle.dart';
@@ -13,18 +14,18 @@ import 'package:flutter/material.dart';
 
 void main() {
   runApp(new MaterialApp(
-    home: new Lista_anun_autos(),
+    home: new Lista_anun_empleo_ing(),
 
   ));
 }
 
-class Lista_anun_autos extends StatefulWidget {
+class Lista_anun_empleo_ing extends StatefulWidget {
   @override
   _ListaAcuaticas createState() => new _ListaAcuaticas();
 
 }
 
-class _ListaAcuaticas extends State<Lista_anun_autos> {
+class _ListaAcuaticas extends State<Lista_anun_empleo_ing> {
 
   List data;
 List databaja;
@@ -34,7 +35,7 @@ List databaja;
   Future<String> getData() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/consultas_negocios/esp/anuncios/list_anuncios_autos.php"),
+            "http://cabofind.com.mx/app_php/consultas_negocios/ing/anuncios/list_anuncios_empleo.php"),
        
         headers: {
           "Accept": "application/json"
@@ -55,7 +56,7 @@ List databaja;
   Future<String> getDatabaja() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/consultas_negocios/esp/anuncios/list_anuncios_autos_baja.php"),
+            "http://cabofind.com.mx/app_php/consultas_negocios/ing/anuncios/list_anuncios_empleo_baja.php"),
        
         headers: {
           "Accept": "application/json"
@@ -171,7 +172,7 @@ void dispose() {
                               " | "),
                           Padding(
                               child: new Text(
-                                  data[index]["ANUN_PRECIO"],
+                                  data[index]["ANUN_PRECIO_USD"],
                                 overflow: TextOverflow.ellipsis,),
                               padding: EdgeInsets.all(
                                   1.0)),
@@ -179,7 +180,7 @@ void dispose() {
                               " | "),
                           Flexible(
                             child: new Text(
-                              data[index]["ANUN_ESTADO"],
+                              data[index]["ANUN_ESTADO_ING"],
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,),
                           ),
@@ -196,7 +197,7 @@ void dispose() {
             onTap: () {
               String id_sql = data[index]["ID_ANUNCIOS"];
               Navigator.push(context, new MaterialPageRoute
-                (builder: (context) => new Anuncios_detalle(anuncio: new Anuncios_clase(id_sql))
+                (builder: (context) => new Anuncios_detalle_ing(anuncio: new Anuncios_clase(id_sql))
               )
               );
 
@@ -266,7 +267,7 @@ Widget listadobaja = ListView.builder(
                               " | "),
                           Padding(
                               child: new Text(
-                                  databaja[index]["ANUN_PRECIO"],
+                                  databaja[index]["ANUN_PRECIO_USD"],
                                 overflow: TextOverflow.ellipsis,),
                               padding: EdgeInsets.all(
                                   1.0)),
@@ -274,7 +275,7 @@ Widget listadobaja = ListView.builder(
                               " | "),
                           Flexible(
                             child: new Text(
-                              databaja[index]["ANUN_ESTADO"],
+                              databaja[index]["ANUN_ESTADO_ING"],
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,),
                           ),
@@ -291,7 +292,7 @@ Widget listadobaja = ListView.builder(
             onTap: () {
               String id_sql = databaja[index]["ID_ANUNCIOS"];
               Navigator.push(context, new MaterialPageRoute
-                (builder: (context) => new Anuncios_detalle(anuncio: new Anuncios_clase(id_sql))
+                (builder: (context) => new Anuncios_detalle_ing(anuncio: new Anuncios_clase(id_sql))
               )
               );
 

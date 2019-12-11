@@ -17,18 +17,17 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import 'reseña_insert.dart';
 
 
 
 
 
 
-class Anuncios_detalle extends StatefulWidget {
+class Anuncios_detalle_ing extends StatefulWidget {
 //final Publicacion publicacion;
 final Anuncios_clase anuncio;
 
-Anuncios_detalle({Key key, @required this.anuncio}) : super(
+Anuncios_detalle_ing({Key key, @required this.anuncio}) : super(
     key: key);
 
 @override
@@ -36,7 +35,7 @@ Anuncios_detalle({Key key, @required this.anuncio}) : super(
 
 }
 
-class Detalles extends State<Anuncios_detalle> {
+class Detalles extends State<Anuncios_detalle_ing> {
   TextEditingController controllerCode =  TextEditingController();
   String _displayValue = "";
   String _displayValor = "";
@@ -91,7 +90,7 @@ Future<String> getResena() async {
   Future<String> getInfo() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/list_anuncios_api.php?ID=${widget.anuncio.id_anun}"),
+            "http://cabofind.com.mx/app_php/APIs/ing/list_anuncios_api.php?ID=${widget.anuncio.id_anun}"),
 
         headers: {
           "Accept": "application/json"
@@ -523,7 +522,7 @@ var response = await http.get(
               children: [
 
                    Text(
-                    dataneg[0]["ANUN_TITULO"],
+                    dataneg[0]["ANUN_TITULO_ING"],
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                         fontSize: 28.0,
@@ -554,7 +553,7 @@ var response = await http.get(
                 ),
               ),
               Text(
-                dataneg[0]["ANUN_ESTADO"],
+                dataneg[0]["ANUN_ESTADO_ING"],
                 style: TextStyle(
                   color: Colors.blue[500],
                 ),
@@ -589,7 +588,7 @@ var response = await http.get(
   //padding: const EdgeInsets.only(bottom: 10,left: 20,right: 20);
       return new Card(
               child: Text(
-         dataneg[index]["ANUN_DESCRIPCION"],        
+         dataneg[index]["ANUN_DESCRIPCION_ING"],        
           maxLines: 20,
           softWrap: true,
           textAlign: TextAlign.center,
@@ -613,7 +612,7 @@ var response = await http.get(
 
       return new FadeInImage(
 
-                    image: NetworkImage(dataneg[index]["GAL_FOTO"]),
+                    image: NetworkImage(dataneg[index]["GAL_FOTO_ING"]),
                     fit: BoxFit.fill,
                     width: MediaQuery.of(context).size.width,
                     height: 300,
@@ -713,7 +712,7 @@ var response = await http.get(
          context: context,
          builder: (context) {
            return AlertDialog(
-             title: Text('Precio',style: TextStyle(fontSize: 25.0,),),
+             title: Text('Price',style: TextStyle(fontSize: 25.0,),),
              content: Container(
                  width: double.maxFinite,
                  height: 50.0,
@@ -722,7 +721,7 @@ var response = await http.get(
                      itemBuilder: (BuildContext context, int index) {
                        return Column(
                          children: <Widget>[
-                           Container(child: Text(dataneg[index]["ANUN_PRECIO"],style: TextStyle(),),padding: EdgeInsets.only(bottom:15.0),) ,
+                           Container(child: Text(dataneg[index]["ANUN_PRECIO_USD"],style: TextStyle(),),padding: EdgeInsets.only(bottom:15.0),) ,
                          ],
                        );
                      }
@@ -730,7 +729,7 @@ var response = await http.get(
              ),
              actions: <Widget>[
                new FlatButton(
-                 child: new Text('Cerrar'),
+                 child: new Text('Close'),
                  onPressed: () {
                    Navigator.of(context).pop();
                  },
@@ -781,7 +780,7 @@ var response = await http.get(
              ),
              actions: <Widget>[
                new FlatButton(
-                 child: new Text('Cerrar'),
+                 child: new Text('Close'),
                  onPressed: () {
                    Navigator.of(context).pop();
                  },
@@ -807,7 +806,7 @@ var response = await http.get(
          Column(
            children: <Widget>[
              FloatingActionButton(child: Icon(FontAwesomeIcons.moneyBillWave), onPressed:()  => _alertHorario(context),backgroundColor:Color(0xff189bd3),heroTag: "bt1",),
-             Text('Precio', style: TextStyle(color: Colors.black),),
+             Text('Price', style: TextStyle(color: Colors.black),),
 
            ],
          ),
@@ -821,7 +820,7 @@ var response = await http.get(
          Column(
            children: <Widget>[
              FloatingActionButton(child: Icon(FontAwesomeIcons.mapMarkedAlt), onPressed: _mapa,backgroundColor:Color(0xff189bd3),heroTag: "bt3",),
-             Text('Abrir mapa', style: TextStyle(color: Colors.black),),
+             Text('Open map', style: TextStyle(color: Colors.black),),
 
            ],
          ),
@@ -1006,7 +1005,7 @@ Widget resenasection = Column(
                   SizedBox(
                     height: 15.0,
                   ),
-                 Center(child: Text('Galería de imagenes',style: TextStyle(fontSize: 20.0,color: Colors.blueAccent ),)),
+                 Center(child: Text('Gallery',style: TextStyle(fontSize: 20.0,color: Colors.blueAccent ),)),
                   SizedBox(
                     height: 15.0,
                   ),
@@ -1030,7 +1029,7 @@ Widget resenasection = Column(
                   SizedBox(
                     height: 15.0,
                   ),
-                 Center(child: Text('Contacto',style: TextStyle(fontSize: 20.0,color: Colors.blueAccent ),)),
+                 Center(child: Text('Contact',style: TextStyle(fontSize: 20.0,color: Colors.blueAccent ),)),
                   SizedBox(
                     height: 15.0,
                   ),
@@ -1056,7 +1055,7 @@ Widget resenasection = Column(
         ),
 
         appBar: new AppBar(
-          title: new Text( 'Regresar'),
+          title: new Text( 'Back'),
         ),
 
     );
