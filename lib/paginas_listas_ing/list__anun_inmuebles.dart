@@ -267,7 +267,7 @@ Widget listadobaja = ListView.builder(
                               " | "),
                           Padding(
                               child: new Text(
-                                  databaja[index]["ANUN_PRECIO"],
+                                  databaja[index]["ANUN_PRECIO_USD"],
                                 overflow: TextOverflow.ellipsis,),
                               padding: EdgeInsets.all(
                                   1.0)),
@@ -275,7 +275,7 @@ Widget listadobaja = ListView.builder(
                               " | "),
                           Flexible(
                             child: new Text(
-                              databaja[index]["ANUN_ESTADO"],
+                              databaja[index]["ANUN_ESTADO_ING"],
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,),
                           ),
