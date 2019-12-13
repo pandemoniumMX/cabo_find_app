@@ -37,7 +37,7 @@ Widget build(BuildContext context) {
   final bnbi=<BottomNavigationBarItem>[
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.car,),title: Text("Autos")),
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.sign,),title: Text("Inmuebles")),
-    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.laptop,),title: Text("Electronica")),
+    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.laptop,),title: Text("Tecnología")),
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.userCheck,),title: Text("Vacantes")),
 
 

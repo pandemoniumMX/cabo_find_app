@@ -236,7 +236,7 @@ Future<String> insertVisitaAndroid() async {
     //print('Running on ${androidInfo.id}');
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/insert_visita_negocio.php?MOD=${androidInfo.model}&BOOT=${androidInfo.display},${androidInfo.bootloader},${androidInfo.fingerprint}&VERSION=${androidInfo.product}&IDIOMA=esp&ID=${widget.anuncio.id_anun}&SO=Android"),
+            "http://cabofind.com.mx/app_php/APIs/esp/insert_visita_anuncios.php?MOD=${androidInfo.model}&BOOT=${androidInfo.display},${androidInfo.bootloader},${androidInfo.fingerprint}&VERSION=${androidInfo.product}&IDIOMA=esp&ID=${widget.anuncio.id_anun}&SO=Android"),
 
 
         headers: {
