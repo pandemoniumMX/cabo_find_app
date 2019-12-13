@@ -1,8 +1,9 @@
  import 'dart:async';
 import 'dart:convert';
+import 'package:cabofind/paginas/anuncios_detalle.dart';
 import 'package:cabofind/paginas/carrusel.dart';
 import 'package:cabofind/main.dart';
-import 'package:cabofind/paginas_ing/empresa_detalle.dart';
+import 'package:cabofind/paginas_ing/anuncios_detalle.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:cabofind/paginas/empresa_detalle.dart';
@@ -13,28 +14,28 @@ import 'package:flutter/material.dart';
 
 void main() {
   runApp(new MaterialApp(
-    home: new ListaProfesionales_ing(),
+    home: new Lista_anun_electronica_ing(),
 
   ));
 }
 
-class ListaProfesionales_ing extends StatefulWidget {
+class Lista_anun_electronica_ing extends StatefulWidget {
   @override
-  _ListaOriental createState() => new _ListaOriental();
+  _ListaAcuaticas createState() => new _ListaAcuaticas();
 
 }
 
-class _ListaOriental extends State<ListaProfesionales_ing> {
+class _ListaAcuaticas extends State<Lista_anun_electronica_ing> {
 
   List data;
-    List databaja;
+List databaja;
 
 
   //final List<Todo> todos;
   Future<String> getData() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/consultas_negocios/ing/servicios/list_servicios_profesionales.php"),
+            "http://cabofind.com.mx/app_php/consultas_negocios/ing/anuncios/list_anuncios_electronica.php"),
        
         headers: {
           "Accept": "application/json"
@@ -55,7 +56,7 @@ class _ListaOriental extends State<ListaProfesionales_ing> {
   Future<String> getDatabaja() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/consultas_negocios/ing/servicios/list_servicios_profesionales_baja.php"),
+            "http://cabofind.com.mx/app_php/consultas_negocios/ing/anuncios/list_anuncios_electronica_baja.php"),
        
         headers: {
           "Accept": "application/json"
@@ -67,8 +68,7 @@ class _ListaOriental extends State<ListaProfesionales_ing> {
           databaja = json.decode(
               response.body);
         });
-    print(
-        databaja[0]["NEG_NOMBRE"]);
+   
 
 
     return "Success!";
@@ -78,9 +78,9 @@ class _ListaOriental extends State<ListaProfesionales_ing> {
   void initState() {
     super.initState(
     );
-    this.getData(
-    );
+    this.getData();
     this.getDatabaja();
+
   }
   @override
 void dispose() {
@@ -95,38 +95,36 @@ void dispose() {
   Widget build(BuildContext context) {
 
     Widget listado = ListView.builder(
-      shrinkWrap: true,
+       shrinkWrap: true,
       physics: BouncingScrollPhysics(),
-      itemCount: data == null ? 0 : data.length,
-      itemBuilder: (BuildContext context, int index) {
+        itemCount: data == null ? 0 : data.length,
+        itemBuilder: (BuildContext context, int index) {
 
-        return new ListTile(
-
-
-          title: new Card(
-
-            elevation: 5.0,
-            child: new Container(
+          return new ListTile(
 
 
-              decoration: BoxDecoration(
+            title: new Card(
+
+              elevation: 5.0,
+              child: new Container(
+
+
+                decoration: BoxDecoration(
                   borderRadius:BorderRadius.circular(10.0),
-                  border: Border.all(
-                      color: Colors.lightBlueAccent)
-              ),
-              padding: EdgeInsets.all(
-                  10.0),
-              margin: EdgeInsets.all(
-                  10.0),
+                    border: Border.all(
+                        color: Colors.lightBlueAccent)
+                ),
+                padding: EdgeInsets.all(
+                    10.0),
+                margin: EdgeInsets.all(
+                    10.0),
 
-              child: Column(
+                child: Column(
 
+                  children: <Widget>[
+
+                    Stack(
                 children: <Widget>[
-
-                  Stack(
-                children: <Widget>[
-
-                   
 
                    FadeInImage(
 
@@ -159,59 +157,61 @@ void dispose() {
                       ),
                             ]
               ),
-                  Row(
-                      children: <Widget>[
+                    Row(
+                        children: <Widget>[
 
-                        Padding(
+                          Padding(
 
-                            child: Text(
+                              child: Text(
 
-                                data[index]["SUB_NOMBRE_ING"]),
-                            padding: EdgeInsets.all(
-                                1.0)),
-                        Text(
-                            " | "),
-                        Padding(
+                                  data[index]["ANUN_LUGAR"],
+                                overflow: TextOverflow.ellipsis,),
+                              padding: EdgeInsets.all(
+                                  1.0)),
+                          Text(
+                              " | "),
+                          Padding(
+                              child: new Text(
+                                  data[index]["ANUN_PRECIO_USD"],
+                                overflow: TextOverflow.ellipsis,),
+                              padding: EdgeInsets.all(
+                                  1.0)),
+                          Text(
+                              " | "),
+                          Flexible(
                             child: new Text(
-                                data[index]["NEG_NOMBRE"]),
-                            padding: EdgeInsets.all(
-                                1.0)),
-                        Text(
-                            " | "),
-                        Flexible(
-                          child: new Text(
-                            data[index]["NEG_LUGAR"],
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,),
+                              data[index]["ANUN_ESTADO_ING"],
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,),
+                          ),
 
+                        ]),
+                  ],
 
-                        ),
-
-                      ]),
-                ],
+                ),
 
               ),
 
             ),
 
-          ),
-
-          onTap: () {
-              String id_sql = data[index]["ID_NEGOCIO"]; 
+            onTap: () {
+              String id_sql = data[index]["ID_ANUNCIOS"];
               Navigator.push(context, new MaterialPageRoute
-                (builder: (context) => new Empresa_det_fin_ing(empresa: new Empresa(id_sql))));
+                (builder: (context) => new Anuncios_detalle_ing(anuncio: new Anuncios_clase(id_sql))
+              )
+              );
 
-          },
-          //A Navigator is a widget that manages a set of child widgets with
-          //stack discipline.It allows us navigate pages.
-          //Navigator.of(context).push(route);
-        );
+            },
+            //A Navigator is a widget that manages a set of child widgets with
+            //stack discipline.It allows us navigate pages.
+            //Navigator.of(context).push(route);
+          );
 
-      },
+        },
 
     );
 
-    Widget listadobaja = ListView.builder(
+Widget listadobaja = ListView.builder(
        shrinkWrap: true,
       physics: BouncingScrollPhysics(),
         itemCount: databaja == null ? 0 : databaja.length,
@@ -259,7 +259,7 @@ void dispose() {
 
                               child: Text(
 
-                                  databaja[index]["SUB_NOMBRE_ING"],
+                                  databaja[index]["ANUN_LUGAR"],
                                 overflow: TextOverflow.ellipsis,),
                               padding: EdgeInsets.all(
                                   1.0)),
@@ -267,7 +267,7 @@ void dispose() {
                               " | "),
                           Padding(
                               child: new Text(
-                                  databaja[index]["NEG_NOMBRE"],
+                                  databaja[index]["ANUN_PRECIO_USD"],
                                 overflow: TextOverflow.ellipsis,),
                               padding: EdgeInsets.all(
                                   1.0)),
@@ -275,7 +275,7 @@ void dispose() {
                               " | "),
                           Flexible(
                             child: new Text(
-                              databaja[index]["NEG_LUGAR"],
+                              databaja[index]["ANUN_ESTADO_ING"],
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,),
                           ),
@@ -290,9 +290,11 @@ void dispose() {
             ),
 
             onTap: () {
-              String id_sql = databaja[index]["ID_NEGOCIO"];
+              String id_sql = databaja[index]["ID_ANUNCIOS"];
               Navigator.push(context, new MaterialPageRoute
-                (builder: (context) => new Empresa_det_fin_ing(empresa: new Empresa(id_sql))));
+                (builder: (context) => new Anuncios_detalle_ing(anuncio: new Anuncios_clase(id_sql))
+              )
+              );
 
             },
             //A Navigator is a widget that manages a set of child widgets with
@@ -303,6 +305,9 @@ void dispose() {
         },
 
     );
+
+    
+
     return new Scaffold(
 
       body: Container(

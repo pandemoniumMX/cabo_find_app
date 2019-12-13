@@ -36,7 +36,9 @@ Widget build(BuildContext context) {
 
 
    correo() async {
-       final url =  "mailto:cabofind@cabofind.com.mx?subject=Más informacion de la plataforma Cabofind";
+       //final url =  "mailto:cabofind@cabofind.com.mx?subject=Más informacion de la plataforma Cabofind";
+     final url =  "mailto:cabofind@cabofind.com.mx?subject=Mas informacion&body=Cabofind%20informacion%20!!";
+
      if (await canLaunch(url)) {
        await launch(url);
      } else {

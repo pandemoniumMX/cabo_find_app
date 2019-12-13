@@ -1,3 +1,4 @@
+
 /*
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'dart:io';
@@ -33,10 +34,10 @@ class PushNotificationPubAndroid {
         print( info );
 
         String argumento = 'no-data';
-        if ( Platform.isAndroid  ) {  
-          argumento = info['data']['comida'] ?? 'no-data';
+        if ( Platform.isIOS  ) {
+          argumento = info['data']['id_n']['id_p'] ?? 'no-data';
         } else {
-          argumento = info['comida'] ?? 'no-data-ios';
+          argumento = info['data']['id_n']['id_p'] ?? 'no-data';
         }
 
         _mensajesStreamController.sink.add(argumento);
@@ -47,17 +48,14 @@ class PushNotificationPubAndroid {
         print('======= On Launch ========');
         print( info );
 
-        final noti = info['data']['id_p'];
-        print( noti );
-
         String argumento = 'no-data';
-        if ( Platform.isAndroid  ) {  
-          argumento = info['data']['id_p'] ?? 'no-data';
+        if ( Platform.isIOS  ) {
+          argumento = info['data']['id_n']['id_p'] ?? 'no-data';
         } else {
-          argumento = info['id_p'] ?? 'no-data-ios';
+          argumento = info['data']['id_n']['id_p'] ?? 'no-data';
         }
 
-        _mensajesStreamController.sink.add(argumento); 
+        _mensajesStreamController.sink.add(argumento);
 
         
 
@@ -68,14 +66,11 @@ class PushNotificationPubAndroid {
         print('======= On Resume ========');
         print( info );
 
-        final noti = info['data']['id_p'];
-        print( noti );
-
         String argumento = 'no-data';
-        if ( Platform.isAndroid  ) {  
-          argumento = info['data']['id_p'] ?? 'no-data';
+        if ( Platform.isIOS  ) {
+          argumento = info['data']['id_n']['id_p'] ?? 'no-data';
         } else {
-          argumento = info['id_p'] ?? 'no-data-ios';
+          argumento = info['data']['id_n']['id_p'] ?? 'no-data';
         }
 
         _mensajesStreamController.sink.add(argumento);

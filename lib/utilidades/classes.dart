@@ -9,8 +9,16 @@ class Empresa {
 }
 
 class Publicacion {
+  final String id_n;
   final String id_p; 
-  final String id_n; 
 
-  Publicacion(this.id_p, this.id_n);
+  Publicacion(this.id_n, this.id_p);
+}
+
+class Anuncios_clase {
+  final String id_anun;
+  Anuncios_clase(this.id_anun);
+
+
+
 }

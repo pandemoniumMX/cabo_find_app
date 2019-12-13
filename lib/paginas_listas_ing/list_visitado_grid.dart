@@ -113,7 +113,7 @@ List databaja;
                 Expanded(
                                     child: FadeInImage(
 
-                      image: NetworkImage(data[index]["GAL_FOTO"]),
+                      image: NetworkImage(data[index]["GAL_FOTO_ING"]),
                       fit: BoxFit.cover,
                       width: MediaQuery.of(context).size.width,
                       //height: MediaQuery.of(context).size.height * 0.38,
@@ -156,13 +156,13 @@ List databaja;
             ),
             onTap: () {
               String id_n = data[index]["ID_NEGOCIO"];
-              String id = data[index]["ID_PUBLICACION"];
+              String id_p = data[index]["ID_PUBLICACION"];
               
 
 
               Navigator.push(context, new MaterialPageRoute
                 (builder: (context) => new Publicacion_detalle_fin_ing(
-                publicacion: new Publicacion(id_n,id),
+                publicacion: new Publicacion(id_n,id_p),
               )
               )
               );

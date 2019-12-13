@@ -3,14 +3,13 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:cabofind/paginas/publicacion_detalle.dart';
 import 'package:cabofind/paginas/publicacion_detalle_estatica.dart';
-import 'package:cabofind/paginas_ing/publicacion_detalle_estatica.dart';
 import 'package:device_info/device_info.dart';
 import 'package:devicelocale/devicelocale.dart';
 import 'package:dropdownfield/dropdownfield.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
-//import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutube/flutube.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:cabofind/utilidades/classes.dart';
@@ -24,11 +23,11 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 
 
-class Empresa_det_fin_ing extends StatefulWidget {
+class Anuncios_detalle_ing extends StatefulWidget {
 //final Publicacion publicacion;
-final Empresa empresa;
+final Anuncios_clase anuncio;
 
-Empresa_det_fin_ing({Key key, @required this.empresa}) : super(
+Anuncios_detalle_ing({Key key, @required this.anuncio}) : super(
     key: key);
 
 @override
@@ -36,7 +35,7 @@ Empresa_det_fin_ing({Key key, @required this.empresa}) : super(
 
 }
 
-class Detalles extends State<Empresa_det_fin_ing> {
+class Detalles extends State<Anuncios_detalle_ing> {
   TextEditingController controllerCode =  TextEditingController();
   String _displayValue = "";
   String _displayValor = "";
@@ -63,11 +62,12 @@ class Detalles extends State<Empresa_det_fin_ing> {
   List logos;
   List descripcion;
   List data_resena;
+String stateText;
 
 Future<String> getResena() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/ing/list_resena.php?ID=${widget.empresa.id_nm}"),
+            "http://cabofind.com.mx/app_php/APIs/esp/list_resena.php?ID=${widget.anuncio.id_anun}"),
 
         headers: {
           "Accept": "application/json"
@@ -90,7 +90,7 @@ Future<String> getResena() async {
   Future<String> getInfo() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/ing/list_negocios_api.php?ID=${widget.empresa.id_nm}"),
+            "http://cabofind.com.mx/app_php/APIs/ing/list_anuncios_api.php?ID=${widget.anuncio.id_anun}"),
 
         headers: {
           "Accept": "application/json"
@@ -113,7 +113,7 @@ Future<String> getResena() async {
   Future<String> getCar() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/ing/list_caracteristicas_api.php?ID=${widget.empresa.id_nm}"),
+            "http://cabofind.com.mx/app_php/APIs/esp/list_caracteristicas_api.php?ID=${widget.anuncio.id_anun}"),
 
         headers: {
           "Accept": "application/json"
@@ -134,7 +134,7 @@ Future<String> getResena() async {
   Future<String> getSer() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/ing/list_servicios_api.php?ID=${widget.empresa.id_nm}"),
+            "http://cabofind.com.mx/app_php/APIs/esp/list_servicios_api.php?ID=${widget.anuncio.id_anun}"),
 
         headers: {
           "Accept": "application/json"
@@ -151,11 +151,37 @@ Future<String> getResena() async {
     return "Success!";
   }
 
+  Future<String> insert_reporte() async {
+    
+       String currentLocale;
+    try {
+      currentLocale = await Devicelocale.currentLocale;
+      print(currentLocale);
+    } on PlatformException {
+      print("Error obtaining current locale");
+    }
+
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+    print('Running on ${androidInfo.id}');
+        print('Running on ${androidInfo.fingerprint}');
+
+    var response = await http.get(
+        Uri.encodeFull(
+            "http://cabofind.com.mx/app_php/APIs/esp/insert_reporte.php?MOD=${androidInfo.model}&BOOT=${androidInfo.display},${androidInfo.bootloader},${androidInfo.fingerprint}&VERSION=${androidInfo.product}&IDIOMA=${currentLocale},&ID=${widget.anuncio.id_anun}&SO=Android"),
+
+        headers: {
+          "Accept": "application/json"
+        }
+    );
+  
+  }
+
 
   Future<String> getHorarios() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/ing/list_horarios_api.php?ID=${widget.empresa.id_nm}"),
+            "http://cabofind.com.mx/app_php/APIs/esp/list_horarios_api.php?ID=${widget.anuncio.id_anun}"),
 
         headers: {
           "Accept": "application/json"
@@ -176,7 +202,7 @@ Future<String> getResena() async {
   Future<String> get_list() async {
     var response = await http.get(
         Uri.encodeFull(
-         "http://cabofind.com.mx/app_php/APIs/ing/list_publicaciones_api.php?ID=${widget.empresa.id_nm}"),
+         "http://cabofind.com.mx/app_php/APIs/esp/list_publicaciones_api.php?ID=${widget.anuncio.id_anun}"),
 
 
         headers: {
@@ -209,7 +235,7 @@ Future<String> insertVisitaAndroid() async {
     //print('Running on ${androidInfo.id}');
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/insert_visita_negocio.php?MOD=${androidInfo.model}&BOOT=${androidInfo.display},${androidInfo.bootloader},${androidInfo.fingerprint}&VERSION=${androidInfo.product}&IDIOMA=ing&ID=${widget.empresa.id_nm}&SO=Android"),
+            "http://cabofind.com.mx/app_php/APIs/esp/insert_visita_anuncios.php?MOD=${androidInfo.model}&BOOT=${androidInfo.display},${androidInfo.bootloader},${androidInfo.fingerprint}&VERSION=${androidInfo.product}&IDIOMA=ing&ID=${widget.anuncio.id_anun}&SO=Android"),
 
 
         headers: {
@@ -218,6 +244,7 @@ Future<String> insertVisitaAndroid() async {
     );
 }
 */
+
 Future<String> insertVisitaiOS() async {
     String currentLocale;
     try {
@@ -232,7 +259,7 @@ Future<String> insertVisitaiOS() async {
     var response = await http.get(
         Uri.encodeFull(
            // "http://cabofind.com.mx/app_php/APIs/esp/insert_visita_negocio.php?ID=${widget.empresa.id_nm}"),
-            "http://cabofind.com.mx/app_php/APIs/esp/insert_visita_negocio.php?MOD=${iosInfo.model}&BOOT=${iosInfo.utsname.nodename},${iosInfo.identifierForVendor}&VERSION=${iosInfo.systemName}&IDIOMA=esp&ID=${widget.empresa.id_nm}&SO=iOS"),
+            "http://cabofind.com.mx/app_php/APIs/esp/insert_visita_anuncios.php?MOD=${iosInfo.model}&BOOT=${iosInfo.utsname.nodename},${iosInfo.utsname.sysname}&VERSION=${iosInfo.systemName}&IDIOMA=esp&ID=${widget.anuncio.id_anun}&SO=iOS"),
         headers: {
           "Accept": "application/json"
         }
@@ -242,7 +269,7 @@ Future<String> insertVisitaiOS() async {
    Future<String> getCarrusel() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/galeria_api.php?ID=${widget.empresa.id_nm}"),
+            "http://cabofind.com.mx/app_php/APIs/esp/galeria_api.php?ID=${widget.anuncio.id_anun}"),
 
         headers: {
           "Accept": "application/json"
@@ -261,29 +288,6 @@ Future<String> insertVisitaiOS() async {
 
 
     return "Success!";
-  }
-
-  Future<String> insert_reporte() async {
-
-    String currentLocale;
-    try {
-      currentLocale = await Devicelocale.currentLocale;
-      print(currentLocale);
-    } on PlatformException {
-      print("Error obtaining current locale");
-    }
-    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-    IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
-    //print('Running on ${iosInfo.identifierForVendor}');
-    var response = await http.get(
-        Uri.encodeFull(
-          // "http://cabofind.com.mx/app_php/APIs/esp/insert_visita_negocio.php?ID=${widget.empresa.id_nm}"),
-            "http://cabofind.com.mx/app_php/APIs/esp/insert_reporte.php?MOD=${iosInfo.model}&BOOT=${iosInfo.utsname.nodename},${iosInfo.identifierForVendor}&VERSION=${iosInfo.systemName}&IDIOMA=esp&ID=${widget.empresa.id_nm}&SO=iOS"),
-        headers: {
-          "Accept": "application/json"
-        }
-    );
-  
   }
   
   
@@ -325,30 +329,30 @@ void onLoginStatusChange(bool isLoggedIn){
   });
 }
 
+void showResena() {
+      Fluttertoast.showToast(
+          msg: "Reseña enviada exitosamente",
+          toastLength: Toast.LENGTH_SHORT,
+          backgroundColor: Colors.blue,
+          textColor: Colors.white,
+          timeInSecForIos: 1);
+    }
+
+void reporte() {
+      Fluttertoast.showToast(
+          msg: "Comentario reportado",
+          toastLength: Toast.LENGTH_SHORT,
+          backgroundColor: Colors.blue,
+          textColor: Colors.white,
+          timeInSecForIos: 1);
+    }    
+
       @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
     controllerCode.dispose();
     super.dispose();
   }
-
-  void showResena() {
-      Fluttertoast.showToast(
-          msg: "Review sent successfully",
-          toastLength: Toast.LENGTH_SHORT,
-          backgroundColor: Colors.blue,
-          textColor: Colors.white,
-          timeInSecForIos: 1);
-    }
-    
-    void reporte() {
-      Fluttertoast.showToast(
-          msg: "Comment reported",
-          toastLength: Toast.LENGTH_SHORT,
-          backgroundColor: Colors.blue,
-          textColor: Colors.white,
-          timeInSecForIos: 1);
-    }
 
 void initiateFacebookLogin() async{
   var login = FacebookLogin();
@@ -370,14 +374,14 @@ void initiateFacebookLogin() async{
          context: context,
          builder: (context) {
            return AlertDialog(
-             title: Text('Review',style: TextStyle(fontSize: 25.0,),),
+             title: Text('Reseña',style: TextStyle(fontSize: 25.0,),),
              content: Container(
                  width: MediaQuery.of(context).size.width,
                  height: 350.0,
                  child:  
                 Column(
                                     children: <Widget>[  
-              Text('Rate'),  
+              Text('Valoración'),  
               DropdownButton(
 
                 value: _currentCity,
@@ -385,7 +389,7 @@ void initiateFacebookLogin() async{
                 onChanged: changedDropDownItem,
 
               ),                           
-              Text('Write a short opinion'),
+              Text('Escribe una breve reseña'),
               TextField(
                 controller: controllerCode,
                 maxLines: 5, 
@@ -397,14 +401,14 @@ void initiateFacebookLogin() async{
              ),
              actions: <Widget>[
                new FlatButton(
-                 child: new Text('Cancel'),
+                 child: new Text('Cancelar'),
                  onPressed: () {
                    Navigator.of(context).pop();
                  },
                ),
                new FlatButton(
-                 child: new Text('Send'),
-                 onPressed: (){ getInfofb(result,_displayValue,_currentCity);showResena();  
+                 child: new Text('Enviar'),
+                 onPressed: (){ getInfofb(result,_displayValue,_currentCity); showResena(); 
                  
                  Navigator.of(context).pop();
                  
@@ -449,7 +453,7 @@ final valor = _currentCity;
 //final url =  dataneg[0]["NEG_WEB"];
 var response = await http.get(
         Uri.encodeFull(
-            'http://cabofind.com.mx/app_php/APIs/esp/insertar_resena.php?ID_FB=${id}&CORREO=${correofb}&NOM=${nombresfb}&APE=${apellidosfb}&FOTO=${imagenfb}&IDIOMA=ING&RESENA=${resena}&VALOR=${valor}&ID_N=${widget.empresa.id_nm}'),
+            'http://cabofind.com.mx/app_php/APIs/esp/insertar_resena.php?ID_FB=${id}&CORREO=${correofb}&NOM=${nombresfb}&APE=${apellidosfb}&FOTO=${imagenfb}&IDIOMA=ESP&RESENA=${resena}&VALOR=${valor}&ID_N=${widget.anuncio.id_anun}'),
 
         headers: {
           "Accept": "application/json"
@@ -457,7 +461,7 @@ var response = await http.get(
     );   
         }
 
-
+        
 
 
 
@@ -465,127 +469,8 @@ var response = await http.get(
 
 
  Widget build(BuildContext context){
-
-
-
-
-   _alertCar(BuildContext context) async {
-     return showDialog(
-         context: context,
-         builder: (context) {
-           return AlertDialog(
-             title: Text('Features',style: TextStyle(fontSize: 25.0,),),
-             content: Container(
-                 width: double.maxFinite,
-                 height: 300.0,
-                 child: ListView.builder(
-                     itemCount: data == null ? 0 : data.length,
-                     itemBuilder: (BuildContext context, int index) {
-                       return Column(
-                         children: <Widget>[
-                           Container(child: Text(data[index]["CAR_NOMBRE_ING"],style: TextStyle(),),padding: EdgeInsets.only(bottom:15.0),) ,
-                         ],
-                       );
-                     }
-                 )
-             ),
-             actions: <Widget>[
-               new FlatButton(
-                 child: new Text('Close'),
-                 onPressed: () {
-                   Navigator.of(context).pop();
-                 },
-               )
-             ],
-           );
-         });
-   }
-
-
-   _alertSer(BuildContext context) async {
-     return showDialog(
-         context: context,
-         builder: (context) {
-           return AlertDialog(
-             title: Text('Services',style: TextStyle(fontSize: 25.0,),),
-             content: Container(
-                 width: double.maxFinite,
-                 height: 300.0,
-                 child: ListView.builder(
-                     itemCount: data_serv == null ? 0 : data_serv.length,
-                     itemBuilder: (BuildContext context, int index) {
-                       return Column(
-                         children: <Widget>[
-                           Container(child: Text(data_serv[index]["SERV_NOMBRE_ING"],style: TextStyle(),),padding: EdgeInsets.only(bottom:15.0),) ,
-                         ],
-                       );
-                     }
-                 )
-             ),
-             actions: <Widget>[
-               new FlatButton(
-                 child: new Text('Close'),
-                 onPressed: () {
-                   Navigator.of(context).pop();
-                 },
-               )
-             ],
-           );
-         });
-   }
-
-    _alertHorario(BuildContext context) async {
-     return showDialog(
-         context: context,
-         builder: (context) {
-           return AlertDialog(
-             title: Text('Close',style: TextStyle(fontSize: 25.0,),),
-             content: Container(
-                 width: double.maxFinite,
-                 height: 300.0,
-                 child: ListView.builder(
-                     itemCount: data_hor == null ? 0 : data_hor.length,
-                     itemBuilder: (BuildContext context, int index) {
-                       return Column(
-                         children: <Widget>[
-                           Container(child: Text(data_hor[index]["NEG_HORARIO_ING"],style: TextStyle(),),padding: EdgeInsets.only(bottom:15.0),) ,
-                         ],
-                       );
-                     }
-                 )
-             ),
-             actions: <Widget>[
-               new FlatButton(
-                 child: new Text('Cerrar'),
-                 onPressed: () {
-                   Navigator.of(context).pop();
-                 },
-               )
-             ],
-           );
-         });
-   }
-
-   _mapa() async {
-      if (Platform.isIOS) {
-        final url =  dataneg[0]["NEG_MAP_IOS"];
-      if (await canLaunch(url)) {
-        await launch(url);
-      } else {
-        throw 'Could not launch $url';
-      }
-      } else {
-      final url =  dataneg[0]["NEG_MAP_IOS"];
-      if (await canLaunch(url)) {
-        await launch(url);
-      } else {
-        throw 'Could not launch $url';
-      }
-      }    
-    }
-
-   
-
+      
+      
  
   Widget carrusel =   Container(
      child: new ListView.builder(
@@ -622,12 +507,10 @@ var response = await http.get(
    );
 
     
-    Widget titleSection = Container(
-     // width: MediaQuery.of(context).size.width,
-      //padding: const EdgeInsets.all(20),
-     height:  50.0,
-      child: new ListView.builder(
-        shrinkWrap: true,
+    Widget titleSection = Container (
+      height: 60.0,
+      child: ListView.builder(
+        shrinkWrap: false,
         physics: BouncingScrollPhysics(),
         itemCount: dataneg == null ? 0 : dataneg.length,
        itemBuilder: (BuildContext context, int index) {    
@@ -640,7 +523,7 @@ var response = await http.get(
               children: [
 
                    Text(
-                    dataneg[index]["NEG_NOMBRE"],
+                    dataneg[0]["ANUN_TITULO_ING"],
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                         fontSize: 28.0,
@@ -657,7 +540,7 @@ var response = await http.get(
             
                 Text(
 
-                  dataneg[index]["CAT_NOMBRE_ING"],
+                  dataneg[0]["ANUN_LUGAR"],
                   style: TextStyle(
                     color: Colors.blue[500],
                   ),
@@ -671,7 +554,7 @@ var response = await http.get(
                 ),
               ),
               Text(
-                dataneg[index]["SUB_NOMBRE_ING"],
+                dataneg[0]["ANUN_ESTADO_ING"],
                 style: TextStyle(
                   color: Colors.blue[500],
                 ),
@@ -682,19 +565,12 @@ var response = await http.get(
 
             ],
             ),
-
             ),
-
-         
-
-
-          ],
-
-       
+          ],       
         );
        },
-      ),
-       
+      
+      )
     
     );
 
@@ -707,13 +583,13 @@ var response = await http.get(
      children: <Widget>[
         new ListView.builder(
         shrinkWrap: true,
-            physics: BouncingScrollPhysics(),
+        physics: BouncingScrollPhysics(),
         itemCount: dataneg == null ? 0 : dataneg.length,
        itemBuilder: (BuildContext context, int index) {
   //padding: const EdgeInsets.only(bottom: 10,left: 20,right: 20);
       return new Card(
               child: Text(
-         dataneg[index]["NEG_DESCRIPCION_ING"],        
+         dataneg[index]["ANUN_DESCRIPCION_ING"],        
           maxLines: 20,
           softWrap: true,
           textAlign: TextAlign.center,
@@ -731,13 +607,13 @@ var response = await http.get(
       children: <Widget>[
          new ListView.builder(
         shrinkWrap: true,
-             physics: BouncingScrollPhysics(),
+        physics: BouncingScrollPhysics(),
         itemCount: dataneg == null ? 0 : dataneg.length,
        itemBuilder: (BuildContext context, int index) {
 
       return new FadeInImage(
 
-                    image: NetworkImage(dataneg[index]["GAL_FOTO"]),
+                    image: NetworkImage(dataneg[index]["GAL_FOTO_ING"]),
                     fit: BoxFit.fill,
                     width: MediaQuery.of(context).size.width,
                     height: 300,
@@ -753,43 +629,208 @@ var response = await http.get(
     );
 
 
-   Widget buttonSection = Container(
-     width: MediaQuery.of(context).size.width +30,
+   Widget buttonSection = Column(
+     //width: MediaQuery.of(context).size.width +30,
 
-     child: Row(
+     children: <Widget>[
+        new ListView.builder(
+        shrinkWrap: true,
+        physics: BouncingScrollPhysics(),
+        itemCount: dataneg == null ? 0 : dataneg.length,
+       itemBuilder: (BuildContext context, int index) {
+
+/*
+
+
+   _alertCar(BuildContext context) async {
+     return showDialog(
+         context: context,
+         builder: (context) {
+           return AlertDialog(
+             title: Text('Caracteristicas',style: TextStyle(fontSize: 25.0,),),
+             content: Container(
+                 width: double.maxFinite,
+                 height: 300.0,
+                 child: ListView.builder(
+                     itemCount: data == null ? 0 : data.length,
+                     itemBuilder: (BuildContext context, int index) {
+                       return Column(
+                         children: <Widget>[
+                           Container(child: Text(data[index]["CAR_NOMBRE"],style: TextStyle(),),padding: EdgeInsets.only(bottom:15.0),) ,
+                         ],
+                       );
+                     }
+                 )
+             ),
+             actions: <Widget>[
+               new FlatButton(
+                 child: new Text('Cerrar'),
+                 onPressed: () {
+                   Navigator.of(context).pop();
+                 },
+               )
+             ],
+           );
+         });
+   }
+
+
+   _alertSer(BuildContext context) async {
+     return showDialog(
+         context: context,
+         builder: (context) {
+           return AlertDialog(
+             title: Text('Servicios',style: TextStyle(fontSize: 25.0,),),
+             content: Container(
+                 width: double.maxFinite,
+                 height: 300.0,
+                 child: ListView.builder(
+                     itemCount: data_serv == null ? 0 : data_serv.length,
+                     itemBuilder: (BuildContext context, int index) {
+                       return Column(
+                         children: <Widget>[
+                           Container(child: Text(data_serv[index]["SERV_NOMBRE"],style: TextStyle(),),padding: EdgeInsets.only(bottom:15.0),) ,
+                         ],
+                       );
+                     }
+                 )
+             ),
+             actions: <Widget>[
+               new FlatButton(
+                 child: new Text('Cerrar'),
+                 onPressed: () {
+                   Navigator.of(context).pop();
+                 },
+               )
+             ],
+           );
+         });
+   }
+*/
+
+    _alertHorario(BuildContext context) async {
+     return showDialog(
+         context: context,
+         builder: (context) {
+           return AlertDialog(
+             title: Text('Price',style: TextStyle(fontSize: 25.0,),),
+             content: Container(
+                 width: double.maxFinite,
+                 height: 50.0,
+                 child: ListView.builder(
+                     itemCount: dataneg == null ? 0 : dataneg.length,
+                     itemBuilder: (BuildContext context, int index) {
+                       return Column(
+                         children: <Widget>[
+                           Container(child: Text(dataneg[index]["ANUN_PRECIO_USD"],style: TextStyle(),),padding: EdgeInsets.only(bottom:15.0),) ,
+                         ],
+                       );
+                     }
+                 )
+             ),
+             actions: <Widget>[
+               new FlatButton(
+                 child: new Text('Close'),
+                 onPressed: () {
+                   Navigator.of(context).pop();
+                 },
+               )
+             ],
+           );
+         });
+   }
+
+   _alertVideo(BuildContext context) async {
+     return showDialog(
+         context: context,
+         builder: (context) {
+           return AlertDialog(
+             title: Text('Video',style: TextStyle(fontSize: 25.0,),),
+             content: Container(
+                width: double.maxFinite,
+                 height: 300.0,
+               child: FluTube(
+                                                dataneg[index]["ANUN_VIDEO"],
+                                                autoPlay: false,
+                                                autoInitialize: true,                                                                                            
+                                                aspectRatio: 4 / 3,
+                                                allowMuting: false,
+                                                looping: false,
+                                                showThumb: true,
+                                                allowFullScreen: false,
+                                                deviceOrientationAfterFullscreen: [
+                                                  DeviceOrientation.portraitUp,
+                                                  DeviceOrientation.landscapeLeft,
+                                                  DeviceOrientation.landscapeRight,
+                                                ],
+                                                systemOverlaysAfterFullscreen: SystemUiOverlay.values,
+                                                onVideoStart: () {
+                                                  setState(() {
+                                                    stateText = 'Video started playing!';
+                                                    
+                                                  });
+                                                },
+                                                onVideoEnd: () {
+                                                  setState(() {
+                                                    stateText = 'Video ended playing!';
+                                                   
+                                                  });
+                                                },
+                                                
+                                              ),
+             ),
+             actions: <Widget>[
+               new FlatButton(
+                 child: new Text('Close'),
+                 onPressed: () {
+                   Navigator.of(context).pop();
+                 },
+               )
+             ],
+           );
+         });
+   }
+
+   _mapa() async {
+      final url =  dataneg[index]["ANUN_MAP_GOOGLE"];
+     if (await canLaunch(url)) {
+       await launch(url);
+     } else {
+       throw 'Could not launch $url';
+     } 
+    }    
+
+      return new  Row(
        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
        children: [
+         
          Column(
            children: <Widget>[
-             FloatingActionButton(child: Icon(FontAwesomeIcons.feather), onPressed:() => _alertCar(context),backgroundColor:Color(0xff189bd3),heroTag: "bt1",),
-             Text('Features', style: TextStyle(color: Colors.black),),
-           ],
-         ),
-
-         Column(
-           children: <Widget>[
-             FloatingActionButton(child: Icon(FontAwesomeIcons.conciergeBell), onPressed:() => _alertSer(context),backgroundColor:Color(0xff189bd3),heroTag: "bt2",),
-             Text('Services', style: TextStyle(color: Colors.black),),
+             FloatingActionButton(child: Icon(FontAwesomeIcons.moneyBillWave), onPressed:()  => _alertHorario(context),backgroundColor:Color(0xff189bd3),heroTag: "bt1",),
+             Text('Price', style: TextStyle(color: Colors.black),),
 
            ],
          ),
          Column(
            children: <Widget>[
-             FloatingActionButton(child: Icon(FontAwesomeIcons.clock), onPressed:() => _alertHorario(context),backgroundColor:Color(0xff189bd3),heroTag: "bt3",),
-             Text('Schedule', style: TextStyle(color: Colors.black),),
+             FloatingActionButton(child: Icon(FontAwesomeIcons.play), onPressed:()  => _alertVideo(context),backgroundColor:Color(0xff189bd3),heroTag: "bt2",),
+             Text('Video', style: TextStyle(color: Colors.black),),
 
            ],
          ),
          Column(
            children: <Widget>[
-             FloatingActionButton(child: Icon(FontAwesomeIcons.mapMarkedAlt), onPressed:() => _mapa(),backgroundColor:Color(0xff189bd3),heroTag: "bt4",),
+             FloatingActionButton(child: Icon(FontAwesomeIcons.mapMarkedAlt), onPressed: _mapa,backgroundColor:Color(0xff189bd3),heroTag: "bt3",),
              Text('Open map', style: TextStyle(color: Colors.black),),
 
            ],
          ),
        ],
-     ),
+     );
 
+       }
+     )
+     ]
    );
 
   
@@ -799,8 +840,8 @@ Widget resenasection = Column(
      // height:  MediaQuery.of(context).size.height,
       children: <Widget>[
     new ListView.builder(  
-         shrinkWrap: true,
-        physics: BouncingScrollPhysics(),
+         shrinkWrap: true,  
+         physics: BouncingScrollPhysics(),
           itemCount: data_resena == null ? 0 : data_resena.length,  
          itemBuilder: (BuildContext context, int index) {  
         return new Card(  
@@ -838,20 +879,22 @@ Widget resenasection = Column(
                   },   
                   shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(60.0) ),  
                   color: Colors.red,  
-                  child: Text('Report comment', style: TextStyle(fontSize: 10, color: Colors.white)),   
+                  child: Text('Reportar comentario', style: TextStyle(fontSize: 10, color: Colors.white)),   
                   ),
 ],  
                
             ),
             Container(  
-              child: Flexible(    
-                     child: Text(   
-                    data_resena[index]["COM_VALOR"],    
-                    maxLines: 10,   
-                    softWrap: true,      
-                    style: TextStyle(fontSize: 18.0),    
-                    ),   
-                    ),  
+                
+                     child: 
+    Text(  
+                      data_resena[index]["COM_VALOR"],
+                      maxLines: 10,     
+                      softWrap: true,  
+                      style: TextStyle(fontSize: 18.0), 
+                      ),                       
+ 
+                      
                     ),             
                     ],  
                     ),     
@@ -872,231 +915,67 @@ Widget resenasection = Column(
     return Container (
      // width: MediaQuery.of(context).size.width,
       //padding: const EdgeInsets.all(20),
+      height: 65.0,
 
-      height:  60.0,
-      child: new ListView.builder(
+      child: ListView.builder(
         shrinkWrap: true,
-          physics: BouncingScrollPhysics(),
+        physics: BouncingScrollPhysics(),
         itemCount: dataneg == null ? 0 : dataneg.length,
        itemBuilder: (BuildContext context, int index) {
          
 
-         mapa() async {
-      if (Platform.isAndroid) {
-        final url =  dataneg[index]["NEG_MAP"];
-      if (await canLaunch(url)) {
-        await launch(url);
-      } else {
-        throw 'Could not launch $url';
-      }
-      } else {
-      final url =  dataneg[index]["NEG_MAP_IOS"];
-      if (await canLaunch(url)) {
-        await launch(url);
-      } else {
-        throw 'Could not launch $url';
-      }
-      }
-      
-    }
+    
 
-   facebook() async {
-     final url =  dataneg[index]["NEG_FACEBOOK"];
-     if (await canLaunch(url)) {
-       await launch(url);
-     } else {
-       throw 'Could not launch $url';
-     }
-   }
-
-   web() async {
-     final url =  dataneg[index]["NEG_WEB"];
-     if (await canLaunch(url)) {
-       await launch(url);
-     } else {
-       throw 'Could not launch $url';
-     }
-   }
-
-   instagram() async {
-     final url =  dataneg[index]["NEG_INSTAGRAM"];
-     if (await canLaunch(url)) {
-       await launch(url);
-     } else {
-       throw 'Could not launch $url';
-     }
-   }
 
    telefono() async {
-           final url =  "tel:${dataneg[index]["NEG_TEL"]}";
-           if (await canLaunch(url)) {
-             await launch(url);
-           } else {
-             throw 'Could not launch $url';
-           }
-         }
+     final tel = dataneg[index]["ANUN_TELEFONO"];
+     final url =  "tel: $tel";
+     if (await canLaunch(url)) {
+       await launch(url);
+     } else {
+       throw 'Could not launch $url';
+     }
+   }
 
    correo() async {
-     if (await canLaunch("mailto:${dataneg[index]["NEG_CORREO"]}")) {
-       await launch("mailto:${dataneg[index]["NEG_CORREO"]}");
+     final mail = dataneg[index]["ANUN_CORREO"];
+     final url = "mailto: $mail";
+     if (await canLaunch(url)) {
+       await launch(url);
      } else {
-       throw 'Could not launch';
+       throw 'Could not launch $url';
      }
    }
          return new Row(
          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
          children: <Widget>[
-         SizedBox(width: 30),
-         FloatingActionButton(child: Icon(FontAwesomeIcons.instagram), onPressed: instagram,backgroundColor:Color(0xff189bd3),heroTag: "bt1",),
-         Expanded(child: SizedBox(width: 5.0,)),
-         FloatingActionButton(child: Icon(FontAwesomeIcons.facebook), onPressed: facebook,backgroundColor:Color(0xff189bd3),heroTag: "bt3",),
-         Expanded(child: SizedBox(width: 5.0,)),
-         FloatingActionButton(child: Icon(FontAwesomeIcons.globeAmericas), onPressed: web,backgroundColor:Color(0xff189bd3),heroTag: "bt4",),
-         Expanded(child: SizedBox(width: 5.0,)),
-         FloatingActionButton(child: Icon(FontAwesomeIcons.phone), onPressed: telefono,backgroundColor:Color(0xff189bd3),heroTag: "bt5",),
-         Expanded(child: SizedBox(width: 5.0,)),
-         FloatingActionButton(child: Icon(FontAwesomeIcons.envelope), onPressed: correo,backgroundColor:Color(0xff189bd3),heroTag: "bt6",),
-         Expanded(child: SizedBox(width: 5.0,)),
+
+         Column(
+           children: <Widget>[
+             FloatingActionButton(child: Icon(FontAwesomeIcons.phone), onPressed: telefono,backgroundColor:Color(0xff189bd3),heroTag: "bt5",),
+
+           ],
+         ),
+
+         Column(
+           children: <Widget>[
+             FloatingActionButton(child: Icon(FontAwesomeIcons.envelope), onPressed: correo,backgroundColor:Color(0xff189bd3),heroTag: "bt6",),
+
+           ],
+         ),  
+         
 
          ],
-         );
-
-
-         
-
-         
-      
+         );      
       }
       )
+      
       
     );
   }
     
 
-  Widget publicaciones =  ListView.builder(
-      shrinkWrap: true,
-      physics: BouncingScrollPhysics(),
-      itemCount: data_list == null ? 0 : data_list.length,
-      itemBuilder: (BuildContext context, int index) {
-
-        return new ListTile(
-
-
-          title: new Card(
-
-            elevation: 5.0,
-            child: new Container(
-
-
-              decoration: BoxDecoration(
-                  borderRadius:BorderRadius.circular(10.0),
-
-                  border: Border.all(
-                      color: Colors.blue)),
-              padding: EdgeInsets.all(
-                  10.0),
-              margin: EdgeInsets.all(
-                  10.0),
-
-              child: Column(
-
-                children: <Widget>[
-
-                  Padding(
-
-                      child: Text(
-
-                        data_list[index]["PUB_TITULO_ING"],
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                          fontSize: 20.0,
-
-
-                        ),
-
-                      ),
-                      padding: EdgeInsets.all(
-                          1.0)
-                  ),
-
-                  FadeInImage(
-
-                    image: NetworkImage(data_list[index]["GAL_FOTO_ING"]),
-                    fit: BoxFit.fill,
-                    width: MediaQuery.of(context).size.width,
-                    height: 250,
-
-                    // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
-                    placeholder: AssetImage('android/assets/images/loading.gif'),
-                    fadeInDuration: Duration(milliseconds: 200),
-
-                  ),
-
-
-                  Row(
-                      children: <Widget>[
-
-                        Padding(
-
-                            child: Text(
-
-                                data_list[index]["CAT_NOMBRE_ING"]),
-                            padding: EdgeInsets.all(
-                                1.0)),
-                        Text(
-                            " | "),
-                        Padding(
-                            child: new Text(
-                                data_list[index]["NEG_NOMBRE"]),
-                            padding: EdgeInsets.all(
-                                1.0)),
-                        Text(
-                            " | "),
-                        Flexible(
-                          child: new Text(
-                            data_list[index]["NEG_LUGAR"],
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,),
-                        ),
-
-
-
-                      ]),
-                ],
-
-              ),
-
-            ),
-
-          ),
-
-          onTap: () {
-            String id_n = data_list[index]["ID_NEGOCIO"];
-            String id_p = data_list[index]["ID_PUBLICACION"];
-            
-
-            Navigator.push(context, new MaterialPageRoute
-              (builder: (context) => new Publicacion_detalle_fin_estatica_ing(
-              publicacion: new Publicacion(id_n,id_p),
-            )
-            )
-            );
-
-
-          },
-          //A Navigator is a widget that manages a set of child widgets with
-          //stack discipline.It allows us navigate pages.
-          //stack discipline.It allows us navigate pages.
-          //Navigator.of(context).push(route);
-        );
-
-      },
-
-  );
-
-
-
+  
 
     return new Scaffold(
 
@@ -1151,7 +1030,7 @@ Widget resenasection = Column(
                   SizedBox(
                     height: 15.0,
                   ),
-                 Center(child: Text('Social networks and contact',style: TextStyle(fontSize: 20.0,color: Colors.blueAccent ),)),
+                 Center(child: Text('Contact',style: TextStyle(fontSize: 20.0,color: Colors.blueAccent ),)),
                   SizedBox(
                     height: 15.0,
                   ),
@@ -1161,72 +1040,14 @@ Widget resenasection = Column(
               )
 
             ),
-            Container(
-              child: Column(
-                children: <Widget>[
-                  SizedBox(
-                    height: 20.0,
-                  ),
-                  Center(child: Text('Posts',style: TextStyle(fontSize: 20.0,color: Colors.blueAccent ),)),
-                ],
-              ),
-              height: 50.0,
-
-            ),
-            Column(
-              children: <Widget>[publicaciones],
-             // height:1000.0,
-
-            ),
-
-            Container(
-              child: Column(
-                children: <Widget>[
-                  SizedBox(
-                    height: 15.0,
-                  ),
-                 Center(child: Text('Reviews',style: TextStyle(fontSize: 20.0,color: Colors.blueAccent ),)),
-                  SizedBox(
-                    height: 15.0,
-                  ),
-
-                ],
-              )
-
-            ),
-            resenasection,
+            
+            
 
             SizedBox(
                     height: 15.0,
                   ),
 
-            Container(
-  
-                padding: const EdgeInsets.only(bottom: 10,left: 20,right: 20),
-  
-                child: RaisedButton(
-  
-  
-  
-                  //child: Text(‘Send data to the second page’),
-  
-                  onPressed: initiateFacebookLogin,
-  
-  
-  
-                  shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
-  
-                  color: Colors.blue,
-  
-                  child: Text('Reviews using Facebook', style: TextStyle(fontSize: 20, color: Colors.white)),
-  
-  
-  
-                ),
-  
-  
-  
-              ),
+            
 
 
 

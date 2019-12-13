@@ -5,6 +5,7 @@ import 'package:device_info/device_info.dart';
 import 'package:devicelocale/devicelocale.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutube/flutube.dart';
 //import 'package:custom_chewie/custom_chewie.dart';
 import 'package:http/http.dart' as http;
 import 'package:cabofind/utilidades/classes.dart';
@@ -107,7 +108,7 @@ class _Publicacion_detalle_fin_estatica extends State<Publicacion_detalle_fin_es
 
     return "Success!";
   }
-/*
+
   Future<String> insertRecomendacion() async {
     
        String currentLocale;
@@ -134,9 +135,9 @@ class _Publicacion_detalle_fin_estatica extends State<Publicacion_detalle_fin_es
   
   
   }
-*/
-   
-Future<String> insertRecomendacionIOS() async {
+
+   /*
+Future<String> insertRecomendacion() async {
     
       String currentLocale;
     try {
@@ -151,7 +152,7 @@ Future<String> insertRecomendacionIOS() async {
     //print('Running on ${iosInfo.identifierForVendor}');
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/ing/insert_recomendacion_publicacion.php?MOD=${iosInfo.model}&BOOT=${iosInfo.utsname.nodename},${iosInfo.utsname.sysname}&VERSION=${iosInfo.systemName}&IDIOMA=${currentLocale}&ID=${widget.publicacion.id_p}&SO=iOS"),
+            "http://cabofind.com.mx/app_php/APIs/ing/insert_recomendacion_publicacion.php?MOD=${iosInfo.model}&BOOT=${iosInfo.utsname.nodename},${iosInfo.utsname.sysname}&VERSION=${iosInfo.systemName}&IDIOMA=${currentLocale}&ID=${widget.publicacion.id}&SO=iOS"),
 
         headers: {
           "Accept": "application/json"
@@ -159,11 +160,12 @@ Future<String> insertRecomendacionIOS() async {
     );
   
   }
-  
+  */
     Future<String> getPub() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/ing/list_publicaciones_api.php?ID=${widget.publicacion.id_p}"),
+            "http://cabofind.com.mx/app_php/APIs/ing/list_publicaciones_api_single.php?ID=${widget.publicacion.id_n}&ID_P=${widget.publicacion.id_p}"),
+
         //"http://cabofind.com.mx/app_php/list_negocios.php?"),
 
 
@@ -223,7 +225,7 @@ Future<String> insertRecomendacionIOS() async {
                       children: <Widget>[
                         Stack(
                         children: <Widget>[
-                          Image.network(data_pub[index]["GAL_FOTO"],
+                          Image.network(data_pub[index]["GAL_FOTO_ING"],
                               width: MediaQuery.of(context).size.width,
                               height: 450,
                               fit: BoxFit.fill ),
@@ -238,7 +240,7 @@ Future<String> insertRecomendacionIOS() async {
                                 height: 50.0,
                               ),
                                   backgroundColor: Colors.black,
-                                  onPressed: (){showShortToast();insertRecomendacionIOS();},
+                                  onPressed: (){showShortToast();insertRecomendacion();},
                                 ),
                               ),                                    ]
                       ),
@@ -287,22 +289,33 @@ Future<String> insertRecomendacionIOS() async {
                                         children: <Widget>[  
                                          SizedBox(height: 5.0,),    
                                           Center(child: Text('Promotional video',style: TextStyle(fontSize: 23.0,color: Colors.blueAccent ),)),  
-                                          SizedBox(height: 5.0,),  
-                                          YoutubePlayer(  
-                                            context: context,  
-                                            videoId: YoutubePlayer.convertUrlToId( data_pub[index]["PUB_VIDEO"],),  
-                                            autoPlay: false,  
-                                            width: MediaQuery.of(context).size.width,  
-                                            showVideoProgressIndicator: true,  
-                                            videoProgressIndicatorColor: Colors.blue,  
-                                            progressColors: ProgressColors(  
-                                              playedColor: Colors.blue,  
-                                              handleColor: Colors.blueAccent,  
-                                            ),  
-                                            onPlayerInitialized: (controller) {  
-                                              _controller = controller;  
-                                              _controller.addListener(listener);  
-                                            },  
+                                          SizedBox(height: 5.0,),
+                                          FluTube(
+                                            data_pub[index]["PUB_VIDEO"],
+                                            autoPlay: false,
+                                            autoInitialize: true,
+                                            aspectRatio: 4 / 3,
+                                            allowMuting: false,
+                                            looping: false,
+                                            showThumb: true,
+                                            allowFullScreen: false,
+                                            deviceOrientationAfterFullscreen: [
+                                              DeviceOrientation.portraitUp,
+                                              DeviceOrientation.landscapeLeft,
+                                              DeviceOrientation.landscapeRight,
+                                            ],
+                                            systemOverlaysAfterFullscreen: SystemUiOverlay.values,
+                                            onVideoStart: () {
+                                              setState(() {
+
+                                              });
+                                            },
+                                            onVideoEnd: () {
+                                              setState(() {
+
+                                              });
+                                            },
+
                                           ),  
                                           SizedBox(height: 5.0,),  
                                                   ],  

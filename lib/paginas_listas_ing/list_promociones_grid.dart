@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:cabofind/paginas/carrusel.dart';
 import 'package:cabofind/main.dart';
 import 'package:cabofind/paginas/publicacion_detalle.dart';
+import 'package:cabofind/paginas_ing/publicacion_detalle.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:cabofind/paginas/empresa_detalle.dart';
@@ -72,7 +73,9 @@ List databaja;
 
 
     return new Scaffold(
-
+      appBar: new AppBar(
+        title: new Text('Promotions'),
+      ),
       body: Container(
         // height: MediaQuery.of(context).size.height,
         child: new  StaggeredGridView.countBuilder(
@@ -112,7 +115,7 @@ List databaja;
                     Expanded(
                                     child: FadeInImage(
 
-                      image: NetworkImage(data[index]["GAL_FOTO"]),
+                      image: NetworkImage(data[index]["GAL_FOTO_ING"]),
                       fit: BoxFit.cover,
                       width: MediaQuery.of(context).size.width,
                       //height: MediaQuery.of(context).size.height * 0.38,
@@ -155,13 +158,13 @@ List databaja;
                 ),
                 onTap: () {
                   String id_n = data[index]["ID_NEGOCIO"];
-                  String id = data[index]["ID_PUBLICACION"];
+                  String id_p = data[index]["ID_PUBLICACION"];
                 
 
 
               Navigator.push(context, new MaterialPageRoute
-                (builder: (context) => new Publicacion_detalle_fin(
-                publicacion: new Publicacion(id_n,id),
+                (builder: (context) => new Publicacion_detalle_fin_ing(
+                publicacion: new Publicacion(id_n,id_p),
               )
               )
               );

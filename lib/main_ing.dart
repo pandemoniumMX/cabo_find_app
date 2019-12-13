@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:cabofind/main.dart';
 import 'package:cabofind/main_lista_ing.dart';
@@ -9,6 +10,7 @@ import 'package:cabofind/paginas_ing/acercade.dart';
 import 'package:cabofind/paginas_ing/compras.dart';
 import 'package:cabofind/paginas_ing/descubre.dart';
 import 'package:cabofind/paginas_ing/educacion.dart';
+import 'package:cabofind/paginas_ing/publicacion_detalle.dart';
 import 'package:cabofind/paginas_ing/restaurantes.dart';
 import 'package:cabofind/paginas_ing/salud.dart';
 import 'package:cabofind/paginas_ing/servicios.dart';
@@ -21,6 +23,9 @@ import 'package:cabofind/paginas_listas_ing/list_publicaciones_ing.dart';
 import 'package:cabofind/paginas_listas_ing/list_recomendado_grid.dart';
 import 'package:cabofind/paginas_listas_ing/list_visitado_grid.dart';
 import 'package:cabofind/utilidades/banderasicon_icons.dart';
+import 'package:cabofind/utilidades/classes.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:http/http.dart' as http;
 
 import 'package:cabofind/utilidades_ing/buscador_ing.dart';
 import 'package:flutter/material.dart';
@@ -29,19 +34,22 @@ import 'package:cabofind/paginas/restaurantes.dart';
 import 'package:cabofind/paginas/servicios.dart';
 import 'package:cabofind/paginas/compras.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-//import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'paginas_ing/anuncios.dart';
 //import 'package:geocoder/geocoder.dart';
 //import 'package:geolocator/geolocator.dart';
 
 
 
-//FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-/*
+FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+
 void fcmSubscribe() {
   _firebaseMessaging.unsubscribeFromTopic('Todos');
     _firebaseMessaging.subscribeToTopic('All');
   }
-*/
+
 void main() => runApp(new MyApp_ing());
 
 class MyApp_ing extends StatelessWidget {
@@ -52,7 +60,7 @@ class MyApp_ing extends StatelessWidget {
         debugShowCheckedModeBanner:false,
         theme: ThemeData(
           primarySwatch: Colors.blue,
-          primaryColor: Colors.blue,
+          primaryColor: Color(0xff01969a),
           accentColor: Colors.black26,
         ),
         home: new Container(
@@ -84,32 +92,183 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
 
   Widget appBarTitle = new Text("Cabofind");
   int id=0;
+  final String _idioma = "espanol";
+
+
+  List data;
+
+
+  //final List<Todo> todos;
+  Future<String> getData() async {
+    var response = await http.get(
+        Uri.encodeFull(
+            "http://cabofind.com.mx/app_php/consultas_negocios/esp/estructura_esp.php"),
+
+        headers: {
+          "Accept": "application/json"
+        }
+    );
+
+    this.setState(
+            () {
+          data = json.decode(
+              response.body);
+        });
+
+
+    return "Success!";
+  }
 
   @override
   void initState() {
     super.initState();
-    /*
-    fcmSubscribe();    
-    final pushpub = new PushNotificationPubAndroid();
-    pushpub.initNotifications();
-    */
-/*
-    pushpub.mensajes.listen( (data) {
+    this.getData();
+    fcmSubscribe();
+    setupNotification();
 
-      // Navigator.pushNamed(context, 'mensaje');
-      print('Argumento del Push');
-      print(data);
 
-      //navigatorKey.currentState.pushNamed('Publicacion_detalle_fin_push', arguments: data );
-      navigatorKey.currentState.pushNamed('publicacionx', arguments: data );
-      
-              
+
+    FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+
+    final _mensajesStreamController = StreamController<String>.broadcast();
+
+
+
+
+  }
+
+  addStringToSF() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    //prefs.remove("stringValue");
+    prefs.setString('stringValue', _idioma);
+  }
+
+
+  void setupNotification() async {
+
+    _firebaseMessaging.requestNotificationPermissions();
+
+
+    _firebaseMessaging.getToken().then( (token) {
+
+
+      print('===== FCM Token =====');
+      print( token );
+
     });
-    */
-    //this.checkModelIos();
-    //this.checkModelAndroid();
-    ///this._getLocation();
-  
+
+
+    _firebaseMessaging.configure(
+
+      onMessage: ( Map<String, dynamic> message ) async {
+
+        print('======= On Message ========');
+        print(" $message" );
+
+        String id_n= (message['data']['id_n']) as String;
+        String id =(message['data']['id'])as String;
+
+
+        showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: Text('New post!',style: TextStyle(fontSize: 25.0,),),
+                content: Container(
+                  width: 300,
+                  height: 300.0,
+                  child: FadeInImage(
+
+                    image: NetworkImage("http://cabofind.com.mx/assets/img/alerta.png"),
+                    fit: BoxFit.fill,
+                    width: 300,
+                    height: 300,
+
+                    // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
+                    placeholder: AssetImage('android/assets/images/loading.gif'),
+                    fadeInDuration: Duration(milliseconds: 200),
+
+                  ),
+
+                ),
+                actions: <Widget>[
+                  new FlatButton(
+                    child: new Text('Close'),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                  new FlatButton(
+                    color: Colors.blueAccent,
+                    child: new Text('Discover',style: TextStyle(fontSize: 14.0,color: Colors.white),),
+                    onPressed: () {
+                      Navigator.push(context, new MaterialPageRoute
+                        (builder: (context) => new Publicacion_detalle_fin_ing(
+                        publicacion: new Publicacion(id_n,id),
+                      )
+                      )
+                      );
+                    },
+                  )
+                ],
+              );
+            });
+
+/*
+       showDialog(
+         context: context,
+         builder: (context) => AlertDialog(
+           content: ListTile(
+             title: Text(message['data']['id_n']),
+             subtitle: Text(message['data']['id']),
+           ),
+         )
+       );
+*/
+
+
+      },
+
+      onLaunch: ( Map<String, dynamic> message ) async {
+
+        print('======= On launch ========');
+        print(" $message" );
+
+        String id_n= (message['data']['id_n']) as String;
+        String id =(message['data']['id'])as String;
+
+        Navigator.push(context, new MaterialPageRoute
+          (builder: (context) => new Publicacion_detalle_fin_ing(
+          publicacion: new Publicacion(id_n,id),
+        )
+        )
+        );
+
+
+
+      },
+
+      onResume: ( Map<String, dynamic> message ) async {
+
+        print('======= On resume ========');
+        print(" $message" );
+
+        String id_n= (message['data']['id_n']) as String;
+        String id =(message['data']['id'])as String;
+
+        Navigator.push(context, new MaterialPageRoute
+          (builder: (context) => new Publicacion_detalle_fin_ing(
+          publicacion: new Publicacion(id_n,id),
+        )
+        )
+        );
+
+
+
+      },
+
+
+    );
 
 
   }
@@ -117,46 +276,14 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
   Widget build(BuildContext context) {
    // new Publicaciones();
 
-    final tabpages=<Widget>[
-      //llamar classes siempre despues de un <Widget>
-      //lo que se declare aqui, sera el contenido de los botones de navigacion al fondo
-     // new ImageCarousel2(),
-      //new ImageCarousel2(),
-      new Publicaciones_grid(),
-      new Promociones_ing_grid(),
-      new Publicaciones_vistos_grid_ing(),
-      new Recomendado__ing_grid(),
-      new Eventos_ing_grid(),
 
-
-    ];
-
-    final bnbi=<BottomNavigationBarItem>[
-      BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.fire,),title: Text("Feeds")),
-      BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.percent,),title: Text("Promotions")),
-      BottomNavigationBarItem(icon: Icon(Icons.visibility,),title: Text("Most viewed")),
-      BottomNavigationBarItem(icon: Icon(Icons.favorite,),title: Text("Recommended")),
-      BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.calendarWeek,),title: Text("Events")),
-
-    ];
-
-    final bnb=BottomNavigationBar(
-      items: bnbi,
-      currentIndex:id ,
-      type: BottomNavigationBarType.fixed,
-      onTap: (int value){
-        setState(() {
-          id=value;
-        });
-      },
-    );
 
 
 
     return  Scaffold(
 
-      body: tabpages[id],
-      bottomNavigationBar: bnb,
+
+
 
 
       appBar: new AppBar(
@@ -170,6 +297,7 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
 
               new InkResponse(
                 onTap: () {
+                  addStringToSF();
               Navigator.of(context).pop();
                 Navigator.push(
                     context,
@@ -202,15 +330,7 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
                 )
                 ),
 
-          new IconButton(
-            icon: Icon(FontAwesomeIcons.gripLines,),
-            onPressed: () {
-              //Use`Navigator` widget to push the second screen to out stack of screens
-              Navigator.of(context)
-                  .push(MaterialPageRoute<Null>(builder: (BuildContext context) {
-                return new MyApp_lista_ing();
-              }));
-            }, ),
+
 
 
           new IconButton(
@@ -229,166 +349,208 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
       ),
 
 
-      drawer: new Drawer(
+      body: Container(
 
-        child: ListView(
-          scrollDirection: Axis.vertical,
 
-          children: <Widget>[
+        // height: MediaQuery.of(context).size.height,
+        child: new  StaggeredGridView.countBuilder(
+          crossAxisCount: 4,
+          itemCount:data == null ? 0 : data.length,
+          itemBuilder: (BuildContext context, int index) => new Container(
+            //color: Colors.white,
+            child: Container(
 
-            new UserAccountsDrawerHeader(
-              accountName: new Text('Categories menu '),
-              //accountEmail: new Text('tu_correo@.com'),
-              currentAccountPicture: new CircleAvatar(
-                backgroundImage: AssetImage(
-                    'android/assets/images/splash.png'),
+              decoration: BoxDecoration(
+                  borderRadius:BorderRadius.circular(20.0),
 
+
+                  border: Border.all(
+                    color: Color(0xff01969a),)),
+              padding: EdgeInsets.all(
+                  5.0),
+              margin: EdgeInsets.all(
+                  10.0),
+              child: InkWell(
+                child: Column(
+
+                  children: <Widget>[
+
+                    Expanded(
+                      child: Stack(
+
+                        children: <Widget>[
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(20.0),
+                            child: FadeInImage(
+                              image: NetworkImage(data[index]["est_foto"]),
+                              fit: BoxFit.cover,
+                              width: MediaQuery.of(context).size.width,
+                              //height: MediaQuery.of(context).size.height * 0.38,
+                              height: MediaQuery.of(context).size.height,
+                              // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
+                              placeholder: AssetImage('android/assets/images/loading.gif'),
+                              fadeInDuration: Duration(milliseconds: 200),
+
+                            ),
+                          ),
+                          Positioned(
+
+                            child: Center(
+                              child: new Text (
+                                  data[index]["est_nombre_ing"],
+                                  style: new TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 20.0,
+                                      fontWeight: FontWeight.w900,
+                                      backgroundColor: Colors.black45
+                                  )
+                              ),
+                            ),
+
+
+                          ),
+
+                        ],
+                      ),
+                    ),
+
+/*
+                Row(
+                    children: <Widget>[
+                      Padding(
+                          child: new Text(
+                            data[index]["NEG_NOMBRE"],
+                            overflow: TextOverflow.ellipsis,),
+                          padding: EdgeInsets.all(
+                              1.0)),
+                      Text(
+                          " | "),
+                      Flexible(
+                        child: new Text(
+                          data[index]["NEG_LUGAR"],
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,),
+                      ),
+                    ]),
+*/
+
+                  ],
+
+                ),
+                onTap: () {
+
+
+                  String ruta = data[index]["est_navegacion"];
+                  print(ruta);
+
+                  if( ruta == "Restaurantes"){
+
+                    Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (BuildContext context) => new Restaurantes_ing()
+                        )
+                    );
+
+                  } else if (ruta == "Descubre"){
+                    Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (BuildContext context) => new Descubre_ing()
+                        )
+                    );
+                  } else if (ruta == "Compras"){
+                    Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (BuildContext context) => new Compras_ing()
+                        )
+                    );
+                  } else if (ruta == "Educacion"){
+                    Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (BuildContext context) => new Educacion_ing()
+                        )
+                    );
+                  } else if (ruta == "Eventos"){
+                    Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (BuildContext context) => new Eventos_ing_grid()
+                        )
+                    );
+                  } else if (ruta == "Acercade"){
+                    Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (BuildContext context) => new Acercade_ing()
+                        )
+                    );
+                  } else if (ruta == "Promociones"){
+                    Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (BuildContext context) => new Promociones_ing_grid()
+                        )
+                    );
+                  } else if (ruta == "Salud"){
+                    Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (BuildContext context) => new Salud_ing()
+                        )
+                    );
+                  } else if (ruta == "Servicios"){
+                    Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (BuildContext context) => new Servicios_ing()
+                        )
+                    );
+                  } else if (ruta == "Vida_nocturna"){
+                    Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (BuildContext context) => new Vida_nocturna_ing()
+                        )
+                    );
+                  } else if (ruta == "Publicaciones"){
+                    Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (BuildContext context) => new Publicaciones_grid()
+                        )
+                    );
+                  } else if (ruta == "Anuncios"){
+                    Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (BuildContext context) => new Anuncios_ing()
+                        )
+                    );
+                  }
+
+
+
+
+
+                },
               ),
             ),
 
-  
-            new ListTile(
-              title: new Text('Restaurants'),
-              leading: Icon(Icons.restaurant),
-              
+          ),
 
-              onTap: () {
-                Navigator.of(context).pop();
-                Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (BuildContext context) => new Restaurantes_ing()));
-              },
-/*
-                xd Column= new  Column(
-                    children: <Widget>[
-                      Center(
-                        child: new ListTile(
-              title: new Text('Restaurantes'),
-              leading: Icon(Icons.restaurant),
-              
-
-              onTap: () {
-                Navigator.of(context).pop();
-                Navigator.push(
-                          context,
-                          new MaterialPageRoute(
-                              builder: (BuildContext context) => new Restaurantes()));
-              },
-            ),
-                      ),
-                    ],
-                  ),
-*/
-            ),
-            new ListTile(
-              title: new Text('Night life'),
-              leading: Icon(FontAwesomeIcons.glassCheers),
-
-              onTap: () {
-                Navigator.of(context).pop();
-                Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (BuildContext context) => new Vida_nocturna_ing()));
-              },
-            ),
-            new ListTile(
-              title: new Text('¿What to do?'),
-              leading: Icon(Icons.beach_access),
-
-              onTap: () {
-                Navigator.of(context).pop();
-                Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (BuildContext context) => new Descubre_ing()));
-              },
-            ),
-            new ListTile(
-              title: new Text('Shopping'),
-              leading: Icon(FontAwesomeIcons.shoppingCart),
-
-              onTap: () {
-                Navigator.of(context).pop();
-                Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (BuildContext context) => new Compras_ing()));
-              },
-            ),
-            new ListTile(
-              title: new Text('Services'),
-              leading: Icon(Icons.build),
-
-              onTap: () {
-                Navigator.of(context).pop();
-                Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (BuildContext context) => new Servicios_ing()));
-              },
-            ),
-            new ListTile(
-              title: new Text('Health'),
-              leading: Icon(FontAwesomeIcons.heartbeat),
-
-              onTap: () {
-                Navigator.of(context).pop();
-                Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (BuildContext context) => new Salud_ing()));
-              },
-            ),
-
-            new ListTile(
-              title: new Text('Education'),
-              leading: Icon(FontAwesomeIcons.graduationCap),
-
-              onTap: () {
-                Navigator.of(context).pop();
-                Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (BuildContext context) => new Educacion_ing()));
-              },
-            ),
-
-            new ListTile(
-              title: new Text('About us'),
-              leading: Icon(Icons.record_voice_over),
-
-              onTap: () {
-                Navigator.of(context).pop();
-                Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (BuildContext context) => new Acercade_ing()));
-              },
-            ),
-            new ListTile(
-              title: new Text('Español'),
-              leading: Icon(Icons.flag),
-
-              onTap: () {
-                Navigator.of(context).pop();
-                Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (BuildContext context) => new MyHomePages()
-                        )
-                        );
-              },
-            ),
-          ],
+          staggeredTileBuilder: (int index) =>
+          new StaggeredTile.count(2, index.isEven ? 2 :2 ),
+          mainAxisSpacing: 4.0,
+          crossAxisSpacing: 4.0,
         ),
+
       ),
 
-        );
+    );
   }
 
 }
-
-
 
