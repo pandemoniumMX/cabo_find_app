@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:cabofind/paginas/carrusel.dart';
 import 'package:cabofind/main.dart';
 import 'package:cabofind/paginas/publicacion_detalle.dart';
+import 'package:cabofind/paginas_ing/publicacion_detalle.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:cabofind/paginas/empresa_detalle.dart';
@@ -38,7 +39,7 @@ List databaja;
   Future<String> getData() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/consultas_negocios/esp/list_promociones_salud.php"),
+            "http://cabofind.com.mx/app_php/consultas_negocios/ing/list_promociones_salud.php"),
 
         headers: {
           "Accept": "application/json"
@@ -100,7 +101,7 @@ appBar: new AppBar(
 
                 Padding(
                   child: new Text(
-                    data[index]["PUB_TITULO"],
+                    data[index]["PUB_TITULO_ING"],
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                     style: TextStyle(
@@ -162,7 +163,7 @@ appBar: new AppBar(
 
 
               Navigator.push(context, new MaterialPageRoute
-                (builder: (context) => new Publicacion_detalle_fin(
+                (builder: (context) => new Publicacion_detalle_fin_ing(
                 publicacion: new Publicacion(id_n,id),
               )
               )

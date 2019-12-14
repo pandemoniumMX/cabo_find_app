@@ -14,7 +14,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 
 
-class Promociones_ing_grid extends StatefulWidget {
+class Promociones_ingx extends StatefulWidget {
    
 
 
@@ -24,7 +24,7 @@ class Promociones_ing_grid extends StatefulWidget {
 }
 
 
-class Publicacionesfull extends State<Promociones_ing_grid> {
+class Publicacionesfull extends State<Promociones_ingx> {
   ScrollController _scrollController = new ScrollController();
   int _ultimoItem =0;
   List<int> _listaNumeros = new List();

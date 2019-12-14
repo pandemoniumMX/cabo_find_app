@@ -12,6 +12,7 @@ import 'package:cabofind/paginas/publicacion_detalle.dart';
 //import 'package:cabofind/paginas/publicacion_detalle_push.dart';
 import 'package:cabofind/paginas/salud.dart';
 import 'package:cabofind/paginas/youtube.dart';
+import 'package:cabofind/paginas_ing/promociones.dart';
 import 'package:cabofind/paginas_listas/list_eventos_grid.dart';
 import 'package:cabofind/paginas_listas/list_promociones.dart';
 import 'package:cabofind/paginas_listas/list_publicaciones_grid.dart';

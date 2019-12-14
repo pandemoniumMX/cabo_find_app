@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:cabofind/paginas/carrusel.dart';
 import 'package:cabofind/main.dart';
 import 'package:cabofind/paginas/publicacion_detalle.dart';
-import 'package:cabofind/paginas_ing/publicacion_detalle.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:cabofind/paginas/empresa_detalle.dart';
@@ -14,7 +13,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 
 
-class Promociones_bares extends StatefulWidget {
+class Promociones_servicios_ing extends StatefulWidget {
    
 
 
@@ -24,7 +23,7 @@ class Promociones_bares extends StatefulWidget {
 }
 
 
-class Publicacionesfull extends State<Promociones_bares> {
+class Publicacionesfull extends State<Promociones_servicios_ing> {
   ScrollController _scrollController = new ScrollController();
   int _ultimoItem =0;
   List<int> _listaNumeros = new List();
@@ -39,7 +38,7 @@ List databaja;
   Future<String> getData() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/consultas_negocios/ing/list_promociones_bares.php"),
+            "http://cabofind.com.mx/app_php/consultas_negocios/ing/list_promociones_servicios.php"),
 
         headers: {
           "Accept": "application/json"
@@ -101,7 +100,7 @@ appBar: new AppBar(
 
                 Padding(
                   child: new Text(
-                    data[index]["PUB_TITULO"],
+                    data[index]["PUB_TITULO_ING"],
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                     style: TextStyle(
@@ -115,7 +114,7 @@ appBar: new AppBar(
                 Expanded(
                                   child: FadeInImage(
 
-                    image: NetworkImage(data[index]["GAL_FOTO"]),
+                    image: NetworkImage(data[index]["GAL_FOTO_ING"]),
                     fit: BoxFit.cover,
                     width: MediaQuery.of(context).size.width,
                     //height: MediaQuery.of(context).size.height * 0.38,
@@ -163,7 +162,7 @@ appBar: new AppBar(
 
 
               Navigator.push(context, new MaterialPageRoute
-                (builder: (context) => new Publicacion_detalle_fin_ing(
+                (builder: (context) => new Publicacion_detalle_fin(
                 publicacion: new Publicacion(id_n,id),
               )
               )
