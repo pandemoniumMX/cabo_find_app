@@ -39,7 +39,7 @@ List databaja;
   Future<String> getData() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/consultas_negocios/ing/list_promociones_bares.php"),
+            "http://cabofind.com.mx/app_php/consultas_negocios/esp/list_promociones_bares.php"),
 
         headers: {
           "Accept": "application/json"
@@ -74,7 +74,7 @@ List databaja;
 
       return new Scaffold(
 appBar: new AppBar(
-      title: new Text('Promotions'),
+      title: new Text('Promociones'),
     ),
     body: Container(
      // height: MediaQuery.of(context).size.height,
@@ -163,7 +163,7 @@ appBar: new AppBar(
 
 
               Navigator.push(context, new MaterialPageRoute
-                (builder: (context) => new Publicacion_detalle_fin_ing(
+                (builder: (context) => new Publicacion_detalle_fin(
                 publicacion: new Publicacion(id_n,id),
               )
               )

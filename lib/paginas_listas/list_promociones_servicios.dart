@@ -39,7 +39,7 @@ List databaja;
   Future<String> getData() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/consultas_negocios/ing/list_promociones_servicios.php"),
+            "http://cabofind.com.mx/app_php/consultas_negocios/esp/list_promociones_servicios.php"),
 
         headers: {
           "Accept": "application/json"
@@ -101,7 +101,7 @@ appBar: new AppBar(
 
                 Padding(
                   child: new Text(
-                    data[index]["PUB_TITULO_ING"],
+                    data[index]["PUB_TITULO"],
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                     style: TextStyle(
@@ -163,7 +163,7 @@ appBar: new AppBar(
 
 
               Navigator.push(context, new MaterialPageRoute
-                (builder: (context) => new Publicacion_detalle_fin_ing(
+                (builder: (context) => new Publicacion_detalle_fin(
                 publicacion: new Publicacion(id_n,id),
               )
               )

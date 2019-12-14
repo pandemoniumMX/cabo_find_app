@@ -446,7 +446,7 @@ routes: <String, WidgetBuilder>{
        new InkResponse(
                 onTap: () {
                   addStringToSF();
-              Navigator.of(context).pop();
+              //Navigator.of(context).pop();
                 Navigator.push(
                     context,
                     new MaterialPageRoute(
