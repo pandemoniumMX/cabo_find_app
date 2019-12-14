@@ -9,7 +9,6 @@ import 'package:cabofind/paginas/youtube.dart';
 import 'package:cabofind/paginas_listas/list_eventos.dart';
 import 'package:cabofind/paginas_listas/list_eventos_grid.dart';
 import 'package:cabofind/paginas_listas/list_promociones.dart';
-import 'package:cabofind/paginas_listas/list_promociones_grid.dart';
 import 'package:cabofind/paginas_listas/list_publicaciones_grid.dart';
 import 'package:cabofind/paginas_listas/list_recomendado.dart';
 import 'package:cabofind/paginas_listas/list_recomendado_grid.dart';

@@ -13,7 +13,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 
 
-class Promociones_grid extends StatefulWidget {
+class Promociones_actividades extends StatefulWidget {
    
 
 
@@ -23,7 +23,7 @@ class Promociones_grid extends StatefulWidget {
 }
 
 
-class Publicacionesfull extends State<Promociones_grid> {
+class Publicacionesfull extends State<Promociones_actividades> {
   ScrollController _scrollController = new ScrollController();
   int _ultimoItem =0;
   List<int> _listaNumeros = new List();
@@ -38,7 +38,7 @@ List databaja;
   Future<String> getData() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/consultas_negocios/esp/list_promociones.php"),
+            "http://cabofind.com.mx/app_php/consultas_negocios/esp/list_promociones_actividades.php"),
 
         headers: {
           "Accept": "application/json"

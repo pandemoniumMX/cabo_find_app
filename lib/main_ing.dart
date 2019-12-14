@@ -246,14 +246,11 @@ List data;
               publicacion: new Publicacion(id_n,id),
             )
             )
-            );
-
-       
+            );      
 
       },
 
       onResume: ( Map<String, dynamic> message ) async {
-
         print('======= On resume ========');
         print(" $message" );
 

@@ -14,7 +14,6 @@ import 'package:cabofind/paginas/salud.dart';
 import 'package:cabofind/paginas/youtube.dart';
 import 'package:cabofind/paginas_listas/list_eventos_grid.dart';
 import 'package:cabofind/paginas_listas/list_promociones.dart';
-import 'package:cabofind/paginas_listas/list_promociones_grid.dart';
 import 'package:cabofind/paginas_listas/list_publicaciones_grid.dart';
 import 'package:cabofind/paginas_listas/list_recomendado_grid.dart';
 import 'package:cabofind/paginas_listas/list_visitado.dart';
@@ -43,6 +42,8 @@ import 'package:http/http.dart' as http;
 import 'package:device_info/device_info.dart';
 import 'package:devicelocale/devicelocale.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'paginas/promociones.dart';
 //import 'package:firebase_messaging/firebase_messaging.dart';
 //import 'package:geocoder/geocoder.dart';
 //import 'package:geolocator/geolocator.dart';
