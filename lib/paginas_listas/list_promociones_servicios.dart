@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:cabofind/paginas/carrusel.dart';
 import 'package:cabofind/main.dart';
 import 'package:cabofind/paginas/publicacion_detalle.dart';
+import 'package:cabofind/paginas_ing/publicacion_detalle.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:cabofind/paginas/empresa_detalle.dart';
@@ -13,7 +14,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 
 
-class Promocionesx extends StatefulWidget {
+class Promociones_servicios extends StatefulWidget {
    
 
 
@@ -23,7 +24,7 @@ class Promocionesx extends StatefulWidget {
 }
 
 
-class Publicacionesfull extends State<Promocionesx> {
+class Publicacionesfull extends State<Promociones_servicios> {
   ScrollController _scrollController = new ScrollController();
   int _ultimoItem =0;
   List<int> _listaNumeros = new List();
@@ -38,7 +39,7 @@ List databaja;
   Future<String> getData() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/consultas_negocios/esp/list_promociones.php"),
+            "http://cabofind.com.mx/app_php/consultas_negocios/esp/list_promociones_servicios.php"),
 
         headers: {
           "Accept": "application/json"
@@ -72,9 +73,9 @@ List databaja;
 
 
       return new Scaffold(
-        appBar: new AppBar(
-          title: new Text('Promociones'),
-        ),
+appBar: new AppBar(
+      title: new Text('Promociones'),
+    ),
     body: Container(
      // height: MediaQuery.of(context).size.height,
     child: new  StaggeredGridView.countBuilder(
@@ -157,13 +158,13 @@ List databaja;
             ),
             onTap: () {
               String id_n = data[index]["ID_NEGOCIO"];
-              String id_p = data[index]["ID_PUBLICACION"];
+              String id = data[index]["ID_PUBLICACION"];
              
 
 
               Navigator.push(context, new MaterialPageRoute
                 (builder: (context) => new Publicacion_detalle_fin(
-                publicacion: new Publicacion(id_n,id_p),
+                publicacion: new Publicacion(id_n,id),
               )
               )
               );

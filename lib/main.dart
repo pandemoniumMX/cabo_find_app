@@ -42,6 +42,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'paginas/anuncios.dart';
+import 'paginas/promociones.dart';
 //import 'package:geocoder/geocoder.dart';
 //import 'package:geolocator/geolocator.dart';
 
@@ -443,7 +444,7 @@ class _MyHomePageState extends State<MyHomePages> {
        new InkResponse(
                 onTap: () {
                   addStringToSF();
-              Navigator.of(context).pop();
+              //Navigator.of(context).pop();
                 Navigator.push(
                     context,
                     new MaterialPageRoute(
