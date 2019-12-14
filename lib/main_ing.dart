@@ -13,6 +13,7 @@ import 'package:cabofind/paginas_ing/descubre.dart';
 import 'package:cabofind/paginas_ing/educacion.dart';
 import 'package:cabofind/paginas_ing/promociones.dart';
 import 'package:cabofind/paginas_ing/publicacion_detalle.dart';
+import 'package:cabofind/paginas_ing/publicaciones.dart';
 import 'package:cabofind/paginas_ing/restaurantes.dart';
 import 'package:cabofind/paginas_ing/salud.dart';
 import 'package:cabofind/paginas_ing/servicios.dart';
@@ -525,7 +526,7 @@ List data;
                  Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (BuildContext context) => new Publicaciones_grid()
+                        builder: (BuildContext context) => new Publicaciones_grid_ing()
                         )
                         );
                } else if (ruta == "Anuncios"){

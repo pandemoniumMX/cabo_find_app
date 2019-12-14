@@ -15,7 +15,6 @@ import 'package:cabofind/paginas_ing/servicios.dart';
 import 'package:cabofind/paginas_ing/vida_nocturna.dart';
 import 'package:cabofind/paginas_listas_ing/list_eventos.dart';
 import 'package:cabofind/paginas_listas_ing/list_promociones_ing.dart';
-import 'package:cabofind/paginas_listas_ing/list_publicaciones_ing.dart';
 import 'package:cabofind/paginas_listas_ing/list_recomendado.dart';
 import 'package:cabofind/paginas_listas_ing/list_visitado_ing.dart';
 
@@ -81,7 +80,6 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
       //lo que se declare aqui, sera el contenido de los botones de navigacion al fondo
      // new ImageCarousel2(),
       //new ImageCarousel2(),
-      new Publicaciones_ing(),
       new Promociones_ing(),
       new Recomendado_visitado_ing(),
       new Recomendado_ing(),

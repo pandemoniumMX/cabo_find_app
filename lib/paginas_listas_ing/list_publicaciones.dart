@@ -196,15 +196,10 @@ List databaja;
 
     );
 
-    Widget estilo = Stack(children: <Widget>[Positioned(
-        child: FloatingActionButton(child: Icon(FontAwesomeIcons.thLarge), onPressed:() {
-          Navigator.of(context).pop();
-          Navigator.push(
-              context,
-              new MaterialPageRoute(
-                  builder: (BuildContext context) => new Publicaciones_grid()));
-        },
-          backgroundColor:Color(0xff189bd3),heroTag: "bt1",))]);
+    Widget estilo = Stack(children: <Widget>[
+          
+          
+          ]);
 
 
 
