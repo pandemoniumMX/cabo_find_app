@@ -27,9 +27,9 @@ import 'package:cabofind/paginas_listas_ing/list_recomendado_grid.dart';
 import 'package:cabofind/paginas_listas_ing/list_visitado_grid.dart';
 import 'package:cabofind/utilidades/banderasicon_icons.dart';
 import 'package:cabofind/utilidades/classes.dart';
+import 'package:cabofind/utilidades_ing/buscador.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:cabofind/utilidades_ing/buscador_ing.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:cabofind/paginas/acercade.dart';

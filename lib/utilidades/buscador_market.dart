@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:cabofind/paginas/anuncios_detalle.dart';
 import 'package:cabofind/paginas/empresa_detalle.dart';
 import 'package:cabofind/utilidades/classes.dart';
 import 'package:flutter/material.dart';
@@ -14,12 +15,12 @@ class App extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Buscador(),
+      home: Buscador_market(),
     );
   }
 }
 
-class Buscador extends StatefulWidget {
+class Buscador_market extends StatefulWidget {
 Publicacion publicacion;
   @override
   _Buscador createState() => _Buscador();
@@ -41,25 +42,24 @@ class Note {
   Note(this.title, this.foto,this.id_n,this.sub,this.cat,this.id, this.id_etiquetas);
 
   Note.fromJson(Map<String, dynamic> json) {
-    id_n = json['NEG_ETIQUETAS'];
-    title = json['NEG_NOMBRE'];
+    id_n = json['ANUN_ETIQUETAS'];
+    title = json['ANUN_TITULO'];
     foto = json['GAL_FOTO'];
-    sub = json['NEG_LUGAR'];
-    cat = json['SUB_NOMBRE'];
-    id = json['ID_NEGOCIO'];
-        id_etiquetas = json['NEG_ETIQUETAS_ING'];
+    sub = json['ANUN_LUGAR'];
+    cat = json['ANUN_CATEGORIA'];
+    id = json['ID_ANUNCIOS'];
 
 
   }
 }
 
-class _Buscador extends State<Buscador> {
+class _Buscador extends State<Buscador_market> {
 
   List<Note> _notes = List<Note>();
   List<Note> _notesForDisplay = List<Note>();
 
   Future<List<Note>> fetchNotes() async {
-    var url = 'http://cabofind.com.mx/app_php/consultas_negocios/esp/list_negocios_bus.php';
+    var url = 'http://cabofind.com.mx/app_php/consultas_negocios/esp/list_anuncios_bus.php';
     var response = await http.get(url);
 
     var notes = List<Note>();
@@ -74,31 +74,8 @@ class _Buscador extends State<Buscador> {
   }
 
   List data;
-  List data_neg;
 
 
-  //final List<Todo> todos;
-  
-
-  Future<String> getDataName() async {
-    var response = await http.get(
-        Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/list_negocios_api.php?ID=${widget.publicacion.id_n}"),
-
-        headers: {
-          "Accept": "application/json"
-        }
-    );
-
-    this.setState(
-            () {
-              data_neg = json.decode(
-              response.body);
-        });
-    print(
-        data_neg[0]["NEG_NOMBRE"]);
-    return "Success!";
-  }
 
 
   @override
@@ -111,7 +88,6 @@ class _Buscador extends State<Buscador> {
     });
     super.initState();
     
-    this.getDataName();
   }
 
   @override
@@ -119,7 +95,7 @@ class _Buscador extends State<Buscador> {
     return Scaffold(
 
         appBar: AppBar(
-          title: Text('Buscador Cabofind'),
+          title: Text('Buscador Marketplace'),
         ),
 
         body: ListView.builder(
@@ -148,7 +124,7 @@ class _Buscador extends State<Buscador> {
 
       child: TextField(
         decoration: InputDecoration(
-            hintText: 'Buscar...'
+            hintText: 'Buscar en marketplace...'
         ),
 
         onChanged: (text) {
@@ -214,7 +190,7 @@ class _Buscador extends State<Buscador> {
 
 
               Navigator.push(context, new MaterialPageRoute
-                (builder: (context) => new Empresa_det_fin(empresa: new Empresa(id_sql))
+                (builder: (context) => new Anuncios_detalle(anuncio: new Anuncios_clase(id_sql))
               )
               );
 

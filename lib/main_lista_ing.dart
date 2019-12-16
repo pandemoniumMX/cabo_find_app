@@ -17,8 +17,8 @@ import 'package:cabofind/paginas_listas_ing/list_eventos.dart';
 import 'package:cabofind/paginas_listas_ing/list_promociones_ing.dart';
 import 'package:cabofind/paginas_listas_ing/list_recomendado.dart';
 import 'package:cabofind/paginas_listas_ing/list_visitado_ing.dart';
+import 'package:cabofind/utilidades_ing/buscador.dart';
 
-import 'package:cabofind/utilidades_ing/buscador_ing.dart';
 import 'package:flutter/material.dart';
 import 'package:cabofind/paginas/acercade.dart';
 import 'package:cabofind/paginas/restaurantes.dart';
