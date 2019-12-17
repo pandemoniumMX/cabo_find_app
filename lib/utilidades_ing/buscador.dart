@@ -1,13 +1,13 @@
 import 'dart:convert';
 import 'package:cabofind/paginas/empresa_detalle.dart';
-import 'package:cabofind/paginas_ing/empresa_detalle.dart';
+import 'package:cabofind/paginas/empresa_detalle_buscador.dart';
 import 'package:cabofind/utilidades/classes.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-void main() => runApp(App());
+void main() => runApp(Appx());
 
-class App extends StatelessWidget {
+class Appx extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -23,30 +23,38 @@ class App extends StatelessWidget {
 class Buscador_ing extends StatefulWidget {
 Publicacion publicacion;
   @override
-  _Buscador createState() => _Buscador();
+  _Buscador_ing createState() => _Buscador_ing();
 }
 
 class Note {
   String id_n;
+    String id_etiquetas;
+
   String title;
   String foto;
   String sub;
 
   String cat;
+  String id;
 
 
-  Note(this.title, this.foto,this.id_n,this.sub,this.cat);
+
+  Note(this.title, this.foto,this.id_n,this.sub,this.cat,this.id,this.id_etiquetas);
 
   Note.fromJson(Map<String, dynamic> json) {
-    id_n = json['NEG_ETIQUETAS_ing'];
+    id_n = json['NEG_ETIQUETAS'];
     title = json['NEG_NOMBRE'];
     foto = json['GAL_FOTO'];
     sub = json['NEG_LUGAR'];
     cat = json['SUB_NOMBRE_ING'];
+    id = json['ID_NEGOCIO'];
+    id_etiquetas = json['NEG_ETIQUETAS_ING'];
+
+
   }
 }
 
-class _Buscador extends State<Buscador_ing> {
+class _Buscador_ing extends State<Buscador_ing> {
 
   List<Note> _notes = List<Note>();
   List<Note> _notesForDisplay = List<Note>();
@@ -71,27 +79,7 @@ class _Buscador extends State<Buscador_ing> {
 
 
   //final List<Todo> todos;
-  Future<String> getData() async {
-    var response = await http.get(
-        Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/consultas_negocios/esp/list_negocios_bus_ing.php"),
-           // "http://cabofind.com.mx/app_php/APIs/ing/list_negocios_api.php?ID=${widget.publicacion.id_n}"),
-
-          //"http://cabofind.com.mx/app_php/APIs/ing/list_negocios_api.php?ID=${_notesForDisplay[0].id_n}"),
-
-        headers: {
-          "Accept": "application/json"
-        }
-    );
-
-    this.setState(
-            () {
-          data = json.decode(
-              response.body);
-        });
-    
-    return "Success!";
-  }
+  
 
   Future<String> getDataName() async {
     var response = await http.get(
@@ -123,8 +111,7 @@ class _Buscador extends State<Buscador_ing> {
       });
     });
     super.initState();
-    this.getData(
-    );
+    
     this.getDataName();
   }
 
@@ -133,7 +120,7 @@ class _Buscador extends State<Buscador_ing> {
     return Scaffold(
 
         appBar: AppBar(
-          title: Text('Search CaboFind'),
+          title: Text('Search Cabofind'),
         ),
 
         body: ListView.builder(
@@ -159,7 +146,7 @@ class _Buscador extends State<Buscador_ing> {
     return Padding(
 
       padding: const EdgeInsets.all(8.0),
-/*
+
       child: TextField(
         decoration: InputDecoration(
             hintText: 'Search...'
@@ -169,16 +156,16 @@ class _Buscador extends State<Buscador_ing> {
           text = text.toLowerCase();
           setState(() {
             _notesForDisplay = _notes.where((note) {
-              var noteTitle = note.title.toLowerCase();
-              //var noteTitle2 = note.id_n.toLowerCase();
+             // var noteTitle = note.title.toLowerCase();
+              var noteTitle = note.id_n.toLowerCase();
 
               return noteTitle.contains(text);
-              // noteTitle2.contains(text);
+
             }).toList();
           });
          },
       ),
-*/
+
 
     );
     
@@ -221,14 +208,14 @@ class _Buscador extends State<Buscador_ing> {
 
       onTap: () {
 
-              String id_sql = data[index]["ID_NEGOCIO"];
+              String id_sql = _notesForDisplay[index].id;
               
 
 
 
 
               Navigator.push(context, new MaterialPageRoute
-                (builder: (context) => new Empresa_det_fin_ing(empresa: new Empresa(id_sql))
+                (builder: (context) => new Empresa_det_fin(empresa: new Empresa(id_sql))
               )
               );
 

@@ -128,7 +128,7 @@ void dispose() {
 
                    FadeInImage(
 
-                      image: NetworkImage(data[index]["GAL_FOTO"]),
+                      image: NetworkImage(data[index]["GAL_FOTO_ING"]),
                       fit: BoxFit.cover,
                       width: MediaQuery.of(context).size.width,
                       height: 220,
@@ -242,7 +242,7 @@ Widget listadobaja = ListView.builder(
 
                     FadeInImage(
 
-                      image: NetworkImage(databaja[index]["GAL_FOTO"]),
+                      image: NetworkImage(databaja[index]["GAL_FOTO_ING"]),
                       fit: BoxFit.cover,
                       width: MediaQuery.of(context).size.width,
                       height: 220,
