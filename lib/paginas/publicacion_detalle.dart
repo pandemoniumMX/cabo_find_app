@@ -438,7 +438,7 @@ Future<String> insertPublicacioniOS() async {
           ],
         ),
         appBar: new AppBar(
-          title: new Text( 'Volver',
+          title: new Text( 'Regresar',
             style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 20.0

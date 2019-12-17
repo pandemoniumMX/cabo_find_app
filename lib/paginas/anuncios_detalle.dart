@@ -269,7 +269,7 @@ Future<String> insertVisitaiOS() async {
    Future<String> getCarrusel() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/galeria__anuncios_api.php.php?ID=${widget.anuncio.id_anun}"),
+            "http://cabofind.com.mx/app_php/APIs/esp/galeria_anuncios_api.php?ID=${widget.anuncio.id_anun}"),
 
         headers: {
           "Accept": "application/json"
@@ -298,14 +298,14 @@ Future<String> insertVisitaiOS() async {
      _dropDownMenuItems = getDropDownMenuItems();
     _currentCity = _dropDownMenuItems[0].value;
     super.initState();
-    this.getCar();
-    this.get_list();
-    this.getSer();
+    //this.getCar();
+    //this.get_list();
+    //this.getSer();
     this.getCarrusel();
-    this.getHorarios();
+    //this.getHorarios();
     this.getInfo();   
     //this.insertVisitaAndroid();
-    this.getResena();
+    //this.getResena();
   
     this.insertVisitaiOS;
 

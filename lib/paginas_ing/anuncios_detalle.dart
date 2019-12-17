@@ -269,7 +269,7 @@ Future<String> insertVisitaiOS() async {
    Future<String> getCarrusel() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/galeria__anuncios_api.php.php?ID=${widget.anuncio.id_anun}"),
+            "http://cabofind.com.mx/app_php/APIs/esp/galeria_anuncios_api.php?ID=${widget.anuncio.id_anun}"),
 
         headers: {
           "Accept": "application/json"
