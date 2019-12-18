@@ -29,6 +29,7 @@ import 'package:cabofind/utilidades/buscador_notap.dart';
 import 'package:cabofind/paginas/carrusel.dart';
 import 'package:cabofind/paginas_listas/list_publicaciones.dart';
 import 'package:cabofind/utilidades/classes.dart';
+import 'package:cabofind/utilidades/maps.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -681,6 +682,13 @@ routes: <String, WidgetBuilder>{
                     context,
                     new MaterialPageRoute(
                         builder: (BuildContext context) => new Anuncios()
+                        )
+                        );
+               } else if (ruta == "Mapas"){
+                 Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Maps()
                         )
                         );
                }
