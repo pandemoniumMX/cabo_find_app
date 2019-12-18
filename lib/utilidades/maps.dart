@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:cabofind/paginas/empresa_detalle.dart';
 import 'package:cabofind/utilidades/classes.dart';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 
@@ -46,12 +45,16 @@ class _Buscador extends State<Maps> {
           title: Text('Maps Sample App'),
           backgroundColor: Colors.green[700],
         ),
-        body: GoogleMap(
-          onMapCreated: _onMapCreated,
-          initialCameraPosition: CameraPosition(
-            target: _center,
-            zoom: 11.0,
-          ),
+        body: Stack(
+          children: <Widget>[
+          GoogleMap(  
+              initialCameraPosition: CameraPosition(target: LatLng(22.8962225,-109.9680177),  
+              zoom: 12.0, 
+              ),
+              mapType: MapType.normal,
+  
+            ),
+],
         ),
       ),
     );
