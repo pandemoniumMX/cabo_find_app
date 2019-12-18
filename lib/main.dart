@@ -685,12 +685,7 @@ routes: <String, WidgetBuilder>{
                         )
                         );
                } else if (ruta == "Mapas"){
-                 Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (BuildContext context) => new Maps()
-                        )
-                        );
+                 
                }
               
               

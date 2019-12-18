@@ -1,3 +1,4 @@
+/*
 import 'dart:async';
 import 'dart:convert';
 import 'package:cabofind/paginas/empresa_detalle.dart';
@@ -6,20 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 
-void main() => runApp(App());
 
-class App extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: Maps(),
-    );
-  }
-}
 
 class Maps extends StatefulWidget {
 Publicacion publicacion;
@@ -45,16 +33,12 @@ class _Buscador extends State<Maps> {
           title: Text('Maps Sample App'),
           backgroundColor: Colors.green[700],
         ),
-        body: Stack(
-          children: <Widget>[
-          GoogleMap(  
-              initialCameraPosition: CameraPosition(target: LatLng(22.8962225,-109.9680177),  
-              zoom: 12.0, 
-              ),
-              mapType: MapType.normal,
-  
-            ),
-],
+        body: GoogleMap(
+          onMapCreated: _onMapCreated,
+          initialCameraPosition: CameraPosition(
+            target: _center,
+            zoom: 11.0,
+          ),
         ),
       ),
     );
@@ -133,4 +117,4 @@ class _Buscador extends State<Maps> {
                  });
   }
 }
-*/
+*/*/
