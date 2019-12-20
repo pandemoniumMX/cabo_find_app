@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:cabofind/paginas/empresa_detalle.dart';
 import 'package:cabofind/utilidades/classes.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 
@@ -31,31 +32,68 @@ class _Buscador extends State<Maps> {
 
   Completer<GoogleMapController> _controller = Completer();
 
-  static const LatLng _center = const LatLng(45.521563, -122.677433);
+  static final CameraPosition _kGooglePlex = CameraPosition(
+    target: LatLng(22.900890, -109.942955),
+    zoom: 13.0,
+  );
 
-  void _onMapCreated(GoogleMapController controller) {
-    _controller.complete(controller);
-  }
 
+_categorias(BuildContext context) async {
+     return showDialog(
+         context: context,
+         builder: (context) {
+           return AlertDialog(
+             title: Text('Categorias',style: TextStyle(fontSize: 25.0,),),
+             content: Container(
+                 width: double.maxFinite,
+                 height: 150.0,
+                 child: Container(
+                     
+                 )
+             ),
+             actions: <Widget>[
+               new FlatButton(
+                 child: new Text('Cerrar'),
+                 onPressed: () {
+                   Navigator.of(context).pop();
+                 },
+               )
+             ],
+           );
+         });
+   }
+  
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Maps Sample App'),
-          backgroundColor: Colors.green[700],
+    return new Scaffold(
+      appBar: new AppBar(
+          title: new Text( 'Mapas',
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20.0
+                ),
+                ),
+                actions: <Widget>[   
+
+          new IconButton(
+            icon: Icon(FontAwesomeIcons.cog),
+              onPressed: () => _categorias(context)),
+
+        ],
+
         ),
-        body:
-            GoogleMap(
-              initialCameraPosition: CameraPosition(target: LatLng(0,0),
-                zoom: 0.0,
-              ),
-
-            ),
-
+      body: GoogleMap(
+        mapType: MapType.normal,
+        initialCameraPosition: _kGooglePlex,
+        onMapCreated: (GoogleMapController controller) {
+          _controller.complete(controller);
+        },
       ),
+      
     );
   }
+
+  
 }
 /*
 class _Buscador extends State<Maps> {

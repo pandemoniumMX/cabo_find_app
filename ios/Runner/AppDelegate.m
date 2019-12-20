@@ -1,22 +1,25 @@
 #include "GeneratedPluginRegistrant.h"
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
+#import "GoogleMaps/GoogleMaps.h"
 #import "AppDelegate.h"
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application
     didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
   [GeneratedPluginRegistrant registerWithRegistry:self];
+  [GMSServices provideAPIKey:@"AIzaSyA152PLBZLFqFlUMKQhMce3Z18OMGhPY6w"];
+
   // Override point for customization after application launch.
   return [super application:application didFinishLaunchingWithOptions:launchOptions];
   [GeneratedPluginRegistrant registerWithRegistry:self];
-  [GMSServices provideAPIKey:@"AIzaSyA152PLBZLFqFlUMKQhMce3Z18OMGhPY6w"];
-
-
   [[FBSDKApplicationDelegate sharedInstance] application:application
+   
     didFinishLaunchingWithOptions:launchOptions];
   // Add any custom logic here.
   return YES;
 }
+
+
 
 
 - (BOOL)application:(UIApplication *)application
