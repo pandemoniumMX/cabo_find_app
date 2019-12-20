@@ -1,4 +1,3 @@
-/*
 import 'dart:async';
 import 'dart:convert';
 import 'package:cabofind/paginas/empresa_detalle.dart';
@@ -19,30 +18,27 @@ class _Buscador extends State<Maps> {
   
   Completer<GoogleMapController> _controller = Completer();
 
-  static const LatLng _center = const LatLng(45.521563, -122.677433);
+  static final CameraPosition _kGooglePlex = CameraPosition(
+    target: LatLng(37.43296265331129, -122.08832357078792),
+    zoom: 10.0,
+  );
 
-  void _onMapCreated(GoogleMapController controller) {
-    _controller.complete(controller);
-  }
-
+  
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Maps Sample App'),
-          backgroundColor: Colors.green[700],
-        ),
-        body: GoogleMap(
-          onMapCreated: _onMapCreated,
-          initialCameraPosition: CameraPosition(
-            target: _center,
-            zoom: 11.0,
-          ),
-        ),
+    return new Scaffold(
+      body: GoogleMap(
+        mapType: MapType.hybrid,
+        initialCameraPosition: _kGooglePlex,
+        onMapCreated: (GoogleMapController controller) {
+          _controller.complete(controller);
+        },
       ),
+      
     );
   }
+
+  
 }
 /*
 class _Buscador extends State<Maps> {
@@ -117,4 +113,4 @@ class _Buscador extends State<Maps> {
                  });
   }
 }
-*/*/
+*/
