@@ -20,8 +20,12 @@ class Publicacion {
 class Anuncios_clase {
   final String id_anun; 
   Anuncios_clase(this.id_anun);
+}
 
-
+class Lista_manejador {
+  final int id_cat;
+  final int id_sub;  
+  Lista_manejador(this.id_cat,this.id_sub);
 
 }
 
