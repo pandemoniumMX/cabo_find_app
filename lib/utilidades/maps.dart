@@ -31,41 +31,41 @@ class Maps extends StatefulWidget {
 class _Buscador extends State<Maps> {
 
   Completer<GoogleMapController> _controller = Completer();
+  
 
   static final CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(22.900890, -109.942955),
     zoom: 13.0,
   );
-
-
-_categorias(BuildContext context) async {
-     return showDialog(
-         context: context,
-         builder: (context) {
-           return AlertDialog(
-             title: Text('Categorias',style: TextStyle(fontSize: 25.0,),),
-             content: Container(
-                 width: double.maxFinite,
-                 height: 150.0,
-                 child: Container(
-                     
-                 )
-             ),
-             actions: <Widget>[
-               new FlatButton(
-                 child: new Text('Cerrar'),
-                 onPressed: () {
-                   Navigator.of(context).pop();
-                 },
-               )
-             ],
-           );
-         });
-   }
   
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  List data;
+  Future<String> getCar() async {
+    var response = await http.get(
+        Uri.encodeFull(
+            "http://cabofind.com.mx/app_php/APIs/esp/list_maps_latlng.php"),
+
+        headers: {
+          "Accept": "application/json"
+        }
+    );
+
+    this.setState(
+            () {
+          data = json.decode(
+              response.body);
+        });
+
+
+    return "Success!";
+  }
+
+  
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
+      key: _scaffoldKey,
       appBar: new AppBar(
           title: new Text( 'Mapas',
             style: TextStyle(
@@ -73,28 +73,126 @@ _categorias(BuildContext context) async {
                 fontSize: 20.0
                 ),
                 ),
-                actions: <Widget>[   
+                
+                ),
+                             
+        
+        
+        endDrawer: new Drawer(
 
-          new IconButton(
-            icon: Icon(FontAwesomeIcons.cog),
-              onPressed: () => _categorias(context)),
 
-        ],
+        child: ListView(
+          scrollDirection: Axis.vertical,
 
+          children: <Widget>[              
+            new ListTile(
+              title: new Text('Restaurantes'),
+              leading: Icon(Icons.restaurant),
+              
+              
+
+              onTap: () {
+                
+              },
+
+            ),
+            new ListTile(
+              title: new Text('Vida nocturna'),
+              leading: Icon(FontAwesomeIcons.glassCheers),
+
+              onTap: () {
+                
+              },
+            ),
+            new ListTile(
+              title: new Text('¿Que hacer?'),
+              leading: Icon(Icons.beach_access),
+
+              onTap: () {
+               
+              },
+            ),
+            new ListTile(
+              title: new Text('Compras'),
+              leading: Icon(FontAwesomeIcons.shoppingCart),
+
+              onTap: () {
+                
+              },
+            ),
+            new ListTile(
+              title: new Text('Servicios'),
+              leading: Icon(Icons.build),
+
+              onTap: () {
+                
+              },
+            ),
+            new ListTile(
+              title: new Text('Salud'),
+              leading: Icon(FontAwesomeIcons.heartbeat),
+
+              onTap: () {
+                
+              },
+            ),
+
+            new ListTile(
+              title: new Text('Educación'),
+              leading: Icon(FontAwesomeIcons.graduationCap),
+
+              onTap: () {
+                
+              },
+            ),
+
+            new ListTile(
+              title: new Text('Acerca de nosotros'),
+              leading: Icon(Icons.record_voice_over),
+
+              onTap: () {
+                Navigator.of(context).pop();
+                
+              },
+            ),
+            
+          ],
         ),
-      body: GoogleMap(
+      ),
+      
+      body: 
+        GoogleMap(
+        myLocationEnabled: true,
+        rotateGesturesEnabled: true,
+        scrollGesturesEnabled: true,
+        tiltGesturesEnabled: true,
+        zoomGesturesEnabled: true,
         mapType: MapType.normal,
         initialCameraPosition: _kGooglePlex,
         onMapCreated: (GoogleMapController controller) {
           _controller.complete(controller);
+
         },
+        myLocationButtonEnabled: true,
+
       ),
       
     );
+    _alertCar(BuildContext context) async {
+     return ListView.builder(
+                     itemCount: data == null ? 0 : data.length,
+                     itemBuilder: (BuildContext context, int index) {
+                       return Column(
+                         children: <Widget>[
+                           Container(child: Text(data[index]["CAR_NOMBRE"],style: TextStyle(),),padding: EdgeInsets.only(bottom:15.0),) ,
+                         ],
+                       );
+                     }
+                 );
   }
-
   
-}
+}}
+
 /*
 class _Buscador extends State<Maps> {
   GoogleMapController mapController;
