@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:cabofind/paginas/empresa_detalle.dart';
 import 'package:cabofind/utilidades/classes.dart';
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 
 
@@ -16,25 +16,64 @@ Publicacion publicacion;
 
 class _Buscador extends State<Maps> {
   
-  Completer<GoogleMapController> _controller = Completer();
+  
+  final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
 
-  static final CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(37.43296265331129, -122.08832357078792),
-    zoom: 10.0,
-  );
+  Position _currentPosition;
+  String _currentAddress;
+  
+_getCurrentLocation() {
+    geolocator
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
+        .then((Position position) {
+      setState(() {
+        _currentPosition = position;
+      });
 
+      _getAddressFromLatLng();
+    }).catchError((e) {
+      print(e);
+    });
+  }
+
+  _getAddressFromLatLng() async {
+    try {
+      List<Placemark> p = await geolocator.placemarkFromCoordinates(
+          _currentPosition.latitude, _currentPosition.longitude);
+
+      Placemark place = p[0];
+
+      setState(() {
+        _currentAddress =
+            "${place.locality}, ${place.postalCode}, ${place.country}";
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+
+  
   
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      body: GoogleMap(
-        mapType: MapType.hybrid,
-        initialCameraPosition: _kGooglePlex,
-        onMapCreated: (GoogleMapController controller) {
-          _controller.complete(controller);
-        },
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            if (_currentPosition != null) Text(_currentAddress),
+              
+            FlatButton(
+              child: Text("Get location"),
+              onPressed: () {
+                _getCurrentLocation();
+              },
+            ),
+          ],
+        ),
       ),
-      
+    
     );
   }
 
