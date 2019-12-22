@@ -5,6 +5,7 @@ import 'package:cabofind/paginas_listas/list_publicaciones.dart';
 import 'package:device_info/device_info.dart';
 import 'package:devicelocale/devicelocale.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_youtube_view/flutter_youtube_view.dart';
 //import 'package:custom_chewie/custom_chewie.dart';
 import 'package:http/http.dart' as http;
 import 'package:cabofind/utilidades/classes.dart';
