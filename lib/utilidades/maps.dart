@@ -6,7 +6,20 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 
+void main() => runApp(App());
 
+class App extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: Maps(),
+    );
+  }
+}
 
 class Maps extends StatefulWidget {
 Publicacion publicacion;
@@ -57,6 +70,7 @@ _getCurrentLocation() {
   
   @override
   Widget build(BuildContext context) {
+<<<<<<< HEAD
     return new Scaffold(
       body: Center(
         child: Column(
@@ -71,6 +85,24 @@ _getCurrentLocation() {
               },
             ),
           ],
+=======
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Maps Sample App'),
+          backgroundColor: Colors.green[700],
+        ),
+        body: Stack(
+          children: <Widget>[
+          GoogleMap(  
+              initialCameraPosition: CameraPosition(target: LatLng(22.8962225,-109.9680177),  
+              zoom: 12.0, 
+              ),
+              mapType: MapType.normal,
+  
+            ),
+],
+>>>>>>> parent of 7c89907... Fix app funcionando sin mapas
         ),
       ),
     

@@ -685,14 +685,20 @@ routes: <String, WidgetBuilder>{
                         )
                         );
                } else if (ruta == "Mapas"){
+<<<<<<< HEAD
                  
+=======
+>>>>>>> parent of 7c89907... Fix app funcionando sin mapas
                  Navigator.push(
                     context,
                     new MaterialPageRoute(
                         builder: (BuildContext context) => new Maps()
                         )
                         );
+<<<<<<< HEAD
                  
+=======
+>>>>>>> parent of 7c89907... Fix app funcionando sin mapas
                }
               
               
