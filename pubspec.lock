@@ -150,12 +150,15 @@ packages:
     source: sdk
     version: "0.0.0"
 <<<<<<< HEAD
+<<<<<<< HEAD
   flutter_web_plugins:
     dependency: transitive
     description: flutter
     source: sdk
     version: "0.0.0"
 =======
+=======
+>>>>>>> parent of 7c89907... Fix app funcionando sin mapas
   flutter_youtube_view:
     dependency: "direct main"
     description:
@@ -186,6 +189,7 @@ packages:
     source: hosted
     version: "8.5.0"
 <<<<<<< HEAD
+<<<<<<< HEAD
   geolocator:
     dependency: "direct main"
     description:
@@ -201,6 +205,8 @@ packages:
     source: hosted
     version: "2.0.1"
 =======
+=======
+>>>>>>> parent of 7c89907... Fix app funcionando sin mapas
   google_maps_flutter:
     dependency: "direct main"
     description:
@@ -208,6 +214,9 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.5.21"
+<<<<<<< HEAD
+>>>>>>> parent of 7c89907... Fix app funcionando sin mapas
+=======
 >>>>>>> parent of 7c89907... Fix app funcionando sin mapas
   http:
     dependency: "direct main"

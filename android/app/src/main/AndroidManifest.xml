@@ -17,8 +17,14 @@
         android:label="Cabofind"
         android:icon="@mipmap/launcher_icon">
 <<<<<<< HEAD
+<<<<<<< HEAD
         <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyA152PLBZLFqFlUMKQhMce3Z18OMGhPY6w"/>
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>                        
+=======
+        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/> 
+        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyA152PLBZLFqFlUMKQhMce3Z18OMGhPY6w"/>
+                
+>>>>>>> parent of 7c89907... Fix app funcionando sin mapas
 =======
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/> 
         <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyA152PLBZLFqFlUMKQhMce3Z18OMGhPY6w"/>

@@ -43,9 +43,15 @@ dependencies:
   youtube_player_flutter: ^1.1.0
   video_player: any
 <<<<<<< HEAD
+<<<<<<< HEAD
   #flutter_youtube_view: ^1.1.6
   shared_preferences: ^0.5.6
   #google_maps_flutter: ^0.5.21
+=======
+  flutter_youtube_view: ^1.1.6
+  shared_preferences: 0.5.4
+  google_maps_flutter: '0.5.21'
+>>>>>>> parent of 7c89907... Fix app funcionando sin mapas
 =======
   flutter_youtube_view: ^1.1.6
   shared_preferences: 0.5.4

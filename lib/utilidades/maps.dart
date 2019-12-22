@@ -102,6 +102,9 @@ _getCurrentLocation() {
   
             ),
 ],
+<<<<<<< HEAD
+>>>>>>> parent of 7c89907... Fix app funcionando sin mapas
+=======
 >>>>>>> parent of 7c89907... Fix app funcionando sin mapas
         ),
       ),
