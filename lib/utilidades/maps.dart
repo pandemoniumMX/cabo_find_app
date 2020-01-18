@@ -1,25 +1,13 @@
+/*
 import 'dart:async';
 import 'dart:convert';
 import 'package:cabofind/paginas/empresa_detalle.dart';
 import 'package:cabofind/utilidades/classes.dart';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 
-void main() => runApp(App());
 
-class App extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: Maps(),
-    );
-  }
-}
 
 class Maps extends StatefulWidget {
 Publicacion publicacion;
@@ -29,90 +17,32 @@ Publicacion publicacion;
 
 class _Buscador extends State<Maps> {
   
-  
-  final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
+  Completer<GoogleMapController> _controller = Completer();
 
-  Position _currentPosition;
-  String _currentAddress;
-  
-_getCurrentLocation() {
-    geolocator
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
-        .then((Position position) {
-      setState(() {
-        _currentPosition = position;
-      });
+  static const LatLng _center = const LatLng(45.521563, -122.677433);
 
-      _getAddressFromLatLng();
-    }).catchError((e) {
-      print(e);
-    });
+  void _onMapCreated(GoogleMapController controller) {
+    _controller.complete(controller);
   }
 
-  _getAddressFromLatLng() async {
-    try {
-      List<Placemark> p = await geolocator.placemarkFromCoordinates(
-          _currentPosition.latitude, _currentPosition.longitude);
-
-      Placemark place = p[0];
-
-      setState(() {
-        _currentAddress =
-            "${place.locality}, ${place.postalCode}, ${place.country}";
-      });
-    } catch (e) {
-      print(e);
-    }
-  }
-
-
-  
-  
   @override
   Widget build(BuildContext context) {
-<<<<<<< HEAD
-    return new Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            if (_currentPosition != null) Text(_currentAddress),
-              
-            FlatButton(
-              child: Text("Get location"),
-              onPressed: () {
-                _getCurrentLocation();
-              },
-            ),
-          ],
-=======
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
           title: Text('Maps Sample App'),
           backgroundColor: Colors.green[700],
         ),
-        body: Stack(
-          children: <Widget>[
-          GoogleMap(  
-              initialCameraPosition: CameraPosition(target: LatLng(22.8962225,-109.9680177),  
-              zoom: 12.0, 
-              ),
-              mapType: MapType.normal,
-  
-            ),
-],
-<<<<<<< HEAD
->>>>>>> parent of 7c89907... Fix app funcionando sin mapas
-=======
->>>>>>> parent of 7c89907... Fix app funcionando sin mapas
+        body: GoogleMap(
+          onMapCreated: _onMapCreated,
+          initialCameraPosition: CameraPosition(
+            target: _center,
+            zoom: 11.0,
+          ),
         ),
       ),
-    
     );
   }
-
-  
 }
 /*
 class _Buscador extends State<Maps> {
@@ -187,4 +117,4 @@ class _Buscador extends State<Maps> {
                  });
   }
 }
-*/
+*/*/

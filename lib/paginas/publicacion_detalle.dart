@@ -5,7 +5,6 @@ import 'package:cabofind/paginas_listas/list_publicaciones.dart';
 import 'package:device_info/device_info.dart';
 import 'package:devicelocale/devicelocale.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_youtube_view/flutter_youtube_view.dart';
 //import 'package:custom_chewie/custom_chewie.dart';
 import 'package:http/http.dart' as http;
 import 'package:cabofind/utilidades/classes.dart';
@@ -373,35 +372,22 @@ String stateText;
                                           ),  
                                           */
                                           
-                                            FluTube(
-                                              data_pub[index]["PUB_VIDEO"],
-                                              autoPlay: false,
-                                              autoInitialize: true,                                                                                            
-                                              aspectRatio: 4 / 3,
-                                              allowMuting: false,
-                                              looping: false,
-                                              showThumb: true,
-                                              allowFullScreen: false,
-                                              deviceOrientationAfterFullscreen: [
-                                                DeviceOrientation.portraitUp,
-                                                DeviceOrientation.landscapeLeft,
-                                                DeviceOrientation.landscapeRight,
-                                              ],
-                                              systemOverlaysAfterFullscreen: SystemUiOverlay.values,
-                                              onVideoStart: () {
-                                                setState(() {
-                                                  stateText = 'Video started playing!';
-                                                  
-                                                });
-                                              },
-                                              onVideoEnd: () {
-                                                setState(() {
-                                                  stateText = 'Video ended playing!';
-                                                 
-                                                });
-                                              },
-                                              
-                                            ),
+                                            YoutubePlayer(  
+                                            context: context,  
+                                            videoId: YoutubePlayer.convertUrlToId( data_pub[index]["PUB_VIDEO"],),  
+                                            autoPlay: false,  
+                                            width: MediaQuery.of(context).size.width,  
+                                            showVideoProgressIndicator: true,  
+                                            videoProgressIndicatorColor: Colors.blue,  
+                                            progressColors: ProgressColors(  
+                                              playedColor: Colors.blue,  
+                                              handleColor: Colors.blueAccent,  
+                                            ),  
+                                            onPlayerInitialized: (controller) {  
+                                              _controller = controller;  
+                                              _controller.addListener(listener);  
+                                            },  
+                                          ), 
                                         
                                           SizedBox(height: 5.0,),  
                                                   ],  
@@ -414,11 +400,11 @@ String stateText;
                       Navigator.push(context, new MaterialPageRoute  
                         (builder: (context) => new Empresa_det_fin(empresa: new Empresa(id_sql))  
                       )  
-                      );  
+                      );  //Color(0xff01969a),
                   },   
                   shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),  
                   color: Colors.blue,  
-                  child: Text('Más información', style: TextStyle(fontSize: 20, color: Colors.white)),   
+                  child: Text('Más información', style: TextStyle(fontSize: 20, color:Color(0xff01969a))),   
                   ),  
                   ),  
                               ],  
