@@ -4,6 +4,7 @@ import 'package:device_info/device_info.dart';
 import 'package:device_info/device_info.dart';
 import 'package:devicelocale/devicelocale.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_youtube/flutter_youtube.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutube/flutube.dart';
 //import 'package:custom_chewie/custom_chewie.dart';
@@ -12,7 +13,6 @@ import 'package:cabofind/utilidades/classes.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 
 
@@ -37,31 +37,7 @@ class _Publicacion_detalle_fin_estatica extends State<Publicacion_detalle_fin_es
   List data_pub;
 
 
-  YoutubePlayerController _controller = YoutubePlayerController();
-  var _idController = TextEditingController();
-  var _seekToController = TextEditingController();
-  double _volume = 100;
-  bool _muted = false;
-  String _playerStatus = "";
-  String _errorCode = '0';
-
-  // String _videoId = widget.publicacion.det;
-
-  void listener() {
-
-    setState(() {
-      _playerStatus = _controller.value.playerState.toString();
-      _errorCode = _controller.value.errorCode.toString();
-      print(_controller.value.toString());
-    });
-  }
-
-  @override
-  void deactivate() {
-    // This pauses video while navigating to next page.
-    //_controller.pause();
-    super.deactivate();
-  }
+  
   Future<String> getData() async {
     var response = await http.get(
         Uri.encodeFull(
@@ -290,32 +266,11 @@ Future<String> insertRecomendacion() async {
                                          SizedBox(height: 5.0,),    
                                           Center(child: Text('Promotional video',style: TextStyle(fontSize: 23.0,color: Colors.blueAccent ),)),  
                                           SizedBox(height: 5.0,),
-                                          FluTube(
-                                            data_pub[index]["PUB_VIDEO"],
-                                            autoPlay: false,
-                                            autoInitialize: true,
-                                            aspectRatio: 4 / 3,
-                                            allowMuting: false,
-                                            looping: false,
-                                            showThumb: true,
-                                            allowFullScreen: false,
-                                            deviceOrientationAfterFullscreen: [
-                                              DeviceOrientation.portraitUp,
-                                              DeviceOrientation.landscapeLeft,
-                                              DeviceOrientation.landscapeRight,
-                                            ],
-                                            systemOverlaysAfterFullscreen: SystemUiOverlay.values,
-                                            onVideoStart: () {
-                                              setState(() {
-
-                                              });
-                                            },
-                                            onVideoEnd: () {
-                                              setState(() {
-
-                                              });
-                                            },
-
+                                          FlutterYoutube.playYoutubeVideoByUrl(
+                                            apiKey: "AIzaSyAmNDqJm2s5Fpualsl_VF6LhG733knN0BY",
+                                            videoUrl: data_pub[index]["PUB_VIDEO"],
+                                            autoPlay: false, //default falase
+                                            fullScreen: false //default false
                                           ),  
                                           SizedBox(height: 5.0,),  
                                                   ],  
@@ -369,12 +324,6 @@ Future<String> insertRecomendacion() async {
       }
     
     
-    
-      @override
-      void dispose() {
-        super.dispose();
-        _controller.dispose();
-      }
       State<StatefulWidget> createState() {
         // TODO: implement createState
         return null;

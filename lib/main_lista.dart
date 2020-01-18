@@ -5,7 +5,6 @@ import 'package:cabofind/main_lista_ing.dart';
 import 'package:cabofind/paginas/descubre.dart';
 import 'package:cabofind/paginas/educacion.dart';
 import 'package:cabofind/paginas/salud.dart';
-import 'package:cabofind/paginas/youtube.dart';
 import 'package:cabofind/paginas_listas/list_eventos.dart';
 import 'package:cabofind/paginas_listas/list_eventos_grid.dart';
 import 'package:cabofind/paginas_listas/list_promociones.dart';

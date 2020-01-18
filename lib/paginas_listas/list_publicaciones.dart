@@ -199,7 +199,7 @@ List databaja;
           Navigator.push(
               context,
               new MaterialPageRoute(
-                  builder: (BuildContext context) => new Publicaciones_grid()));
+                  builder: (BuildContext context) => new Publicacionesx()));
         },
           backgroundColor:Color(0xff189bd3),heroTag: "bt1",))]);
 

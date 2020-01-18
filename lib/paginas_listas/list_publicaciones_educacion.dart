@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:cabofind/paginas/carrusel.dart';
 import 'package:cabofind/main.dart';
 import 'package:cabofind/paginas/publicacion_detalle.dart';
+import 'package:cabofind/paginas_ing/publicacion_detalle.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:cabofind/paginas/empresa_detalle.dart';
@@ -13,7 +14,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 
 
-class Publicacionesx extends StatefulWidget {
+class Publicaciones_educacion extends StatefulWidget {
    
 
 
@@ -23,12 +24,13 @@ class Publicacionesx extends StatefulWidget {
 }
 
 
-class Publicacionesfull extends State<Publicacionesx> {
+class Publicacionesfull extends State<Publicaciones_educacion> {
   ScrollController _scrollController = new ScrollController();
   int _ultimoItem =0;
   List<int> _listaNumeros = new List();
 
   List data;
+List databaja;
   List data_n;
   List data_c;
 
@@ -37,7 +39,7 @@ class Publicacionesfull extends State<Publicacionesx> {
   Future<String> getData() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/consultas_negocios/esp/list_publicaciones.php"),
+            "http://cabofind.com.mx/app_php/consultas_negocios/esp/list_publicaciones_educacion.php"),
 
         headers: {
           "Accept": "application/json"
@@ -69,7 +71,8 @@ class Publicacionesfull extends State<Publicacionesx> {
 
   Widget build(BuildContext context) {
 
-return new Scaffold(
+
+      return new Scaffold(
 appBar: new AppBar(
       title: new Text('Publicaciones'),
     ),
@@ -81,7 +84,6 @@ appBar: new AppBar(
       itemBuilder: (BuildContext context, int index) => new Container(
           //color: Colors.white,
         child: Container(
-
           decoration: BoxDecoration(
                     borderRadius:BorderRadius.circular(10.0),
 
@@ -93,7 +95,7 @@ appBar: new AppBar(
                     1.0),
           child: InkWell(
                     child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start ,
+
               children: <Widget>[
 
 
@@ -156,12 +158,13 @@ appBar: new AppBar(
             ),
             onTap: () {
               String id_n = data[index]["ID_NEGOCIO"];
-              String id_p = data[index]["ID_PUBLICACION"];            
+              String id = data[index]["ID_PUBLICACION"];
+             
 
 
               Navigator.push(context, new MaterialPageRoute
                 (builder: (context) => new Publicacion_detalle_fin(
-                publicacion: new Publicacion(id_n,id_p),
+                publicacion: new Publicacion(id_n,id),
               )
               )
               );

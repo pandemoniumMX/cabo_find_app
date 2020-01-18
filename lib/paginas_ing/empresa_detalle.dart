@@ -761,28 +761,28 @@ var response = await http.get(
        children: [
          Column(
            children: <Widget>[
-             FloatingActionButton(child: Icon(FontAwesomeIcons.feather), onPressed:() => _alertCar(context),backgroundColor:Color(0xff189bd3),heroTag: "bt1",),
+             FloatingActionButton(child: Icon(FontAwesomeIcons.feather), onPressed:() => _alertCar(context),backgroundColor:Color(0xff01969a),heroTag: "bt1",elevation: 0.0,),
              Text('Features', style: TextStyle(color: Colors.black),),
            ],
          ),
 
          Column(
            children: <Widget>[
-             FloatingActionButton(child: Icon(FontAwesomeIcons.conciergeBell), onPressed:() => _alertSer(context),backgroundColor:Color(0xff189bd3),heroTag: "bt2",),
+             FloatingActionButton(child: Icon(FontAwesomeIcons.conciergeBell), onPressed:() => _alertSer(context),backgroundColor:Color(0xff01969a),heroTag: "bt2",elevation: 0.0,),
              Text('Services', style: TextStyle(color: Colors.black),),
 
            ],
          ),
          Column(
            children: <Widget>[
-             FloatingActionButton(child: Icon(FontAwesomeIcons.clock), onPressed:() => _alertHorario(context),backgroundColor:Color(0xff189bd3),heroTag: "bt3",),
+             FloatingActionButton(child: Icon(FontAwesomeIcons.clock), onPressed:() => _alertHorario(context),backgroundColor:Color(0xff01969a),heroTag: "bt3",elevation: 0.0,),
              Text('Schedule', style: TextStyle(color: Colors.black),),
 
            ],
          ),
          Column(
            children: <Widget>[
-             FloatingActionButton(child: Icon(FontAwesomeIcons.mapMarkedAlt), onPressed:() => _mapa(),backgroundColor:Color(0xff189bd3),heroTag: "bt4",),
+             FloatingActionButton(child: Icon(FontAwesomeIcons.mapMarkedAlt), onPressed:() => _mapa(),backgroundColor:Color(0xff01969a),heroTag: "bt4",elevation: 0.0,),
              Text('Open map', style: TextStyle(color: Colors.black),),
 
            ],
@@ -947,15 +947,15 @@ Widget resenasection = Column(
          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
          children: <Widget>[
          SizedBox(width: 30),
-         FloatingActionButton(child: Icon(FontAwesomeIcons.instagram), onPressed: instagram,backgroundColor:Color(0xff189bd3),heroTag: "bt1",),
+         FloatingActionButton(child: Icon(FontAwesomeIcons.instagram), onPressed: instagram,backgroundColor:Color(0xff01969a),heroTag: "bt1",elevation: 0.0,),
          Expanded(child: SizedBox(width: 5.0,)),
-         FloatingActionButton(child: Icon(FontAwesomeIcons.facebook), onPressed: facebook,backgroundColor:Color(0xff189bd3),heroTag: "bt3",),
+         FloatingActionButton(child: Icon(FontAwesomeIcons.facebook), onPressed: facebook,backgroundColor:Color(0xff01969a),heroTag: "bt2",elevation: 0.0,),
          Expanded(child: SizedBox(width: 5.0,)),
-         FloatingActionButton(child: Icon(FontAwesomeIcons.globeAmericas), onPressed: web,backgroundColor:Color(0xff189bd3),heroTag: "bt4",),
+         FloatingActionButton(child: Icon(FontAwesomeIcons.globeAmericas), onPressed: web,backgroundColor:Color(0xff01969a),heroTag: "bt3",elevation: 0.0,),
          Expanded(child: SizedBox(width: 5.0,)),
-         FloatingActionButton(child: Icon(FontAwesomeIcons.phone), onPressed: telefono,backgroundColor:Color(0xff189bd3),heroTag: "bt5",),
+         FloatingActionButton(child: Icon(FontAwesomeIcons.phone), onPressed: telefono,backgroundColor:Color(0xff01969a),heroTag: "bt4",elevation: 0.0,),
          Expanded(child: SizedBox(width: 5.0,)),
-         FloatingActionButton(child: Icon(FontAwesomeIcons.envelope), onPressed: correo,backgroundColor:Color(0xff189bd3),heroTag: "bt6",),
+         FloatingActionButton(child: Icon(FontAwesomeIcons.envelope), onPressed: correo,backgroundColor:Color(0xff01969a),heroTag: "bt5",elevation: 0.0,),
          Expanded(child: SizedBox(width: 5.0,)),
 
          ],

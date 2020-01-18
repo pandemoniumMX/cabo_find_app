@@ -48,7 +48,7 @@ class Detalles extends State<Empresa_det_fin> {
    Map userProfile;
 
  List _cities  =
-  ["","👍", "👎"];
+  ["👍", "👎"];
 
   List<DropdownMenuItem<String>> _dropDownMenuItems;
   String _currentCity;
@@ -784,28 +784,28 @@ var response = await http.get(
        children: [
          Column(
            children: <Widget>[
-             FloatingActionButton(child: Icon(FontAwesomeIcons.feather), onPressed:() => _alertCar(context),backgroundColor:Color(0xff189bd3),heroTag: "bt1",),
+             FloatingActionButton(child: Icon(FontAwesomeIcons.feather), onPressed:() => _alertCar(context),backgroundColor:Color(0xff01969a),heroTag: "bt1",elevation: 0.0,),
              Text('Caracteristicas', style: TextStyle(color: Colors.black),),
            ],
          ),
 
          Column(
            children: <Widget>[
-             FloatingActionButton(child: Icon(FontAwesomeIcons.conciergeBell), onPressed:() => _alertSer(context),backgroundColor:Color(0xff189bd3),heroTag: "bt2",),
+             FloatingActionButton(child: Icon(FontAwesomeIcons.conciergeBell), onPressed:() => _alertSer(context),backgroundColor:Color(0xff01969a),heroTag: "bt2",elevation: 0.0,),
              Text('Servicios', style: TextStyle(color: Colors.black),),
 
            ],
          ),
          Column(
            children: <Widget>[
-             FloatingActionButton(child: Icon(FontAwesomeIcons.clock), onPressed:() => _alertHorario(context),backgroundColor:Color(0xff189bd3),heroTag: "bt3",),
+             FloatingActionButton(child: Icon(FontAwesomeIcons.clock), onPressed:() => _alertHorario(context),backgroundColor:Color(0xff01969a),heroTag: "bt3",elevation: 0.0,),
              Text('Horarios', style: TextStyle(color: Colors.black),),
 
            ],
          ),
          Column(
            children: <Widget>[
-             FloatingActionButton(child: Icon(FontAwesomeIcons.mapMarkedAlt), onPressed: _mapa,backgroundColor:Color(0xff189bd3),heroTag: "bt4",),
+             FloatingActionButton(child: Icon(FontAwesomeIcons.mapMarkedAlt), onPressed: _mapa,backgroundColor:Color(0xff01969a),heroTag: "bt4",elevation: 0.0,),
              Text('Abrir mapa', style: TextStyle(color: Colors.black),),
 
            ],
@@ -815,7 +815,62 @@ var response = await http.get(
 
    );
 
-  
+Widget ubersection = Column(
+     //width: MediaQuery.of(context).size.width +30,
+
+     children: <Widget>[
+        new ListView.builder(
+        shrinkWrap: true,
+        physics: BouncingScrollPhysics(),
+        itemCount: dataneg == null ? 0 : dataneg.length,
+       itemBuilder: (BuildContext context, int index) {
+
+ 
+    _uber() async {
+      final lat = dataneg[index]["NEG_MAP_LAT"];
+      final long = dataneg[index]["NEG_MAP_LONG"];
+      final url = "https://m.uber.com/ul/?action=setPickup&client_id=5qCx0VeV1YF9ME3qt2kllkbLbp0hfIdq&pickup=my_location&dropoff[formatted_address]=Cabo%20San%20Lucas%2C%20B.C.S.%2C%20M%C3%A9xico&dropoff[latitude]=$lat&dropoff[longitude]=$long";
+     if (await canLaunch(url)) {
+       await launch(url);
+     } else {
+       throw 'Could not launch $url';
+     } 
+    } 
+
+String latc = dataneg[index]["NEG_MAP_LAT"];
+if (latc != null){
+  return new  Row(
+       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+       children: [         
+                     
+         
+         RaisedButton(
+
+                  onPressed: (){_uber();},  
+
+                  shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
+                  color: Colors.black,  
+                  
+                  child: new Row (
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+
+                    children: <Widget>[
+                      new Text('Solicitar Uber', style: TextStyle(fontSize: 20, color: Colors.white)), 
+                      new Icon(FontAwesomeIcons.uber, color: Colors.white,)
+                    ],
+                  )
+                  
+                ),
+       ],
+     );
+}
+      
+
+       }
+     ),
+     ]
+   );    
 
 Widget resenasection = Column(
          
@@ -971,15 +1026,15 @@ Widget resenasection = Column(
          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
          children: <Widget>[
          SizedBox(width: 30),
-         FloatingActionButton(child: Icon(FontAwesomeIcons.instagram), onPressed: instagram,backgroundColor:Color(0xff189bd3),heroTag: "bt1",),
+         FloatingActionButton(child: Icon(FontAwesomeIcons.instagram), onPressed: instagram,backgroundColor:Color(0xff01969a),heroTag: "bt1",elevation: 0.0,),
          Expanded(child: SizedBox(width: 5.0,)),
-         FloatingActionButton(child: Icon(FontAwesomeIcons.facebook), onPressed: facebook,backgroundColor:Color(0xff189bd3),heroTag: "bt3",),
+         FloatingActionButton(child: Icon(FontAwesomeIcons.facebook), onPressed: facebook,backgroundColor:Color(0xff01969a),heroTag: "bt2",elevation: 0.0,),
          Expanded(child: SizedBox(width: 5.0,)),
-         FloatingActionButton(child: Icon(FontAwesomeIcons.globeAmericas), onPressed: web,backgroundColor:Color(0xff189bd3),heroTag: "bt4",),
+         FloatingActionButton(child: Icon(FontAwesomeIcons.globeAmericas), onPressed: web,backgroundColor:Color(0xff01969a),heroTag: "bt3",elevation: 0.0,),
          Expanded(child: SizedBox(width: 5.0,)),
-         FloatingActionButton(child: Icon(FontAwesomeIcons.phone), onPressed: telefono,backgroundColor:Color(0xff189bd3),heroTag: "bt5",),
+         FloatingActionButton(child: Icon(FontAwesomeIcons.phone), onPressed: telefono,backgroundColor:Color(0xff01969a),heroTag: "bt4",elevation: 0.0,),
          Expanded(child: SizedBox(width: 5.0,)),
-         FloatingActionButton(child: Icon(FontAwesomeIcons.envelope), onPressed: correo,backgroundColor:Color(0xff189bd3),heroTag: "bt6",),
+         FloatingActionButton(child: Icon(FontAwesomeIcons.envelope), onPressed: correo,backgroundColor:Color(0xff01969a),heroTag: "bt5",elevation: 0.0,),
          Expanded(child: SizedBox(width: 5.0,)),
 
          ],
@@ -1139,6 +1194,7 @@ Widget resenasection = Column(
                 titleSection,
                 textSection,
                 buttonSection,
+                ubersection
 
 
 
@@ -1237,10 +1293,10 @@ Widget resenasection = Column(
                   onPressed: initiateFacebookLogin,
   
   
-  
+  //Color(0xff01969a),heroTag: "bt1",elevation: 0.0,),
                   shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
   
-                  color: Colors.blue,
+                  color: Color(0xff01969a),
   
                   child: Text('Reseña usando Facebook', style: TextStyle(fontSize: 20, color: Colors.white)),
   
