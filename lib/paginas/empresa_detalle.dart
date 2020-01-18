@@ -746,6 +746,7 @@ var response = await http.get(
      } 
     }    
 
+      String mapac =  dataneg[index]["NEG_MAP"];
 
       return new  Row(
        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -771,6 +772,7 @@ var response = await http.get(
 
            ],
          ),
+         
          Column(
            children: <Widget>[
              FloatingActionButton(child: Icon(FontAwesomeIcons.mapMarkedAlt), onPressed: _mapa,backgroundColor:Color(0xff01969a),heroTag: "bt4",elevation: 0.0,),             

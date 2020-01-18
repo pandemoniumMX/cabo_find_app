@@ -376,8 +376,8 @@ Future<String> insertPublicacioniOS() async {
                       );  
                   },   
                   shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),  
-                  color: Colors.blue,  
-                  child: Text('More information', style: TextStyle(fontSize: 20, color: Colors.white)),   
+                  color: Color(0xff01969a), 
+                  child: Text('VENDOR INFO', style: TextStyle(fontSize: 20, color: Colors.white)),   
                   ),  
                   ),  
                               ],  
