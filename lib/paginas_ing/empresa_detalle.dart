@@ -835,7 +835,7 @@ if (latc != null){
                     mainAxisSize: MainAxisSize.min,
 
                     children: <Widget>[
-                      new Text('Uber request', style: TextStyle(fontSize: 20, color: Colors.white)), 
+                      new Text('Uber request ', style: TextStyle(fontSize: 20, color: Colors.white)), 
                       new Icon(FontAwesomeIcons.uber, color: Colors.white,)
                     ],
                   )
@@ -900,15 +900,17 @@ Widget resenasection = Column(
 ],  
                
             ),
-            Container(  
-              child: Flexible(    
-                     child: Text(   
-                    data_resena[index]["COM_VALOR"],    
-                    maxLines: 10,   
-                    softWrap: true,      
-                    style: TextStyle(fontSize: 18.0),    
-                    ),   
-                    ),  
+            Column(  
+              children: <Widget>[
+                      Flexible(    
+                       child: Text(   
+                      data_resena[index]["COM_VALOR"],    
+                      maxLines: 10,   
+                      softWrap: true,      
+                      style: TextStyle(fontSize: 18.0),    
+                      ),   
+                      ),
+                    ],  
                     ),             
                     ],  
                     ),     
@@ -1278,9 +1280,17 @@ Widget resenasection = Column(
   
                   shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
   
-                  color: Color(0xff01969a),
+                  color: Color(0xff4267b2),
   
-                  child: Text('Reviews using Facebook', style: TextStyle(fontSize: 20, color: Colors.white)),
+                  child: new Row (
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          mainAxisSize: MainAxisSize.min,
+
+                                          children: <Widget>[
+                                            new Text('REVIEW USING FACEBOOK ', style: TextStyle(fontSize: 20, color: Colors.white)), 
+                                            new Icon(FontAwesomeIcons.facebookSquare, color: Colors.white,)
+                                          ],
+                                        )
   
   
   

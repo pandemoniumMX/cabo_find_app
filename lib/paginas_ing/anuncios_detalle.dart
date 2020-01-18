@@ -8,6 +8,7 @@ import 'package:devicelocale/devicelocale.dart';
 import 'package:dropdownfield/dropdownfield.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:flutter_youtube/flutter_youtube.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutube/flutube.dart';
 
@@ -812,7 +813,14 @@ var response = await http.get(
          ),
          Column(
            children: <Widget>[
-             FloatingActionButton(child: Icon(FontAwesomeIcons.play), onPressed:()  => _alertVideo(context),backgroundColor:Color(0xff189bd3),heroTag: "bt2",),
+             FloatingActionButton(child: Icon(FontAwesomeIcons.play), onPressed:() 
+             {FlutterYoutube.playYoutubeVideoByUrl(
+                                         apiKey: "AIzaSyAmNDqJm2s5Fpualsl_VF6LhG733knN0BY",
+                                         videoUrl: dataneg[index]["ANUN_VIDEO"],
+                                         autoPlay: false, //default falase
+                                         fullScreen: false //default false
+                                       );},
+             backgroundColor:Color(0xff189bd3),heroTag: "bt2",),
              Text('Video', style: TextStyle(color: Colors.black),),
 
            ],

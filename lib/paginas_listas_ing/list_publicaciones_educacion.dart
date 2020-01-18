@@ -74,7 +74,7 @@ List databaja;
 
       return new Scaffold(
 appBar: new AppBar(
-      title: new Text('Promotions'),
+      title: new Text('Posts'),
     ),
     body: Container(
      // height: MediaQuery.of(context).size.height,

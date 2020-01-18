@@ -831,7 +831,7 @@ if (latc != null){
                     mainAxisSize: MainAxisSize.min,
 
                     children: <Widget>[
-                      new Text('Solicitar Uber', style: TextStyle(fontSize: 20, color: Colors.white)), 
+                      new Text('Solicitar Uber ', style: TextStyle(fontSize: 20, color: Colors.white)), 
                       new Icon(FontAwesomeIcons.uber, color: Colors.white,)
                     ],
                   )
@@ -896,15 +896,18 @@ Widget resenasection = Column(
 ],  
                  
             ),
-            Container(  
+            Column(  
                   
-                       child: 
-    Text(  
-                        data_resena[index]["COM_VALOR"],
-                        maxLines: 10,     
-                        softWrap: true,  
-                        style: TextStyle(fontSize: 18.0), 
-                        ),                       
+                       children: <Widget>[ 
+                        Flexible(    
+                       child: Text(   
+                      data_resena[index]["COM_VALOR"],    
+                      maxLines: 10,   
+                      softWrap: true,      
+                      style: TextStyle(fontSize: 18.0),    
+                      ),   
+                      ),
+                        ],                       
  
                         
                       ),             
@@ -1246,8 +1249,16 @@ Widget resenasection = Column(
                 child: RaisedButton(
                   onPressed: (){initiateFacebookLogin();},  
                   shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
-                  color: Color(0xff01969a),  
-                  child: Text('Reseña usando Facebook', style: TextStyle(fontSize: 20, color: Colors.white)), 
+                  color: Color(0xff4267b2),  
+                  child: new Row (
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          mainAxisSize: MainAxisSize.min,
+
+                                          children: <Widget>[
+                                            new Text('RESEÑA USANDO FACEBOOK ', style: TextStyle(fontSize: 20, color: Colors.white)), 
+                                            new Icon(FontAwesomeIcons.facebookSquare, color: Colors.white,)
+                                          ],
+                                        )
                 ),
               ),
 
