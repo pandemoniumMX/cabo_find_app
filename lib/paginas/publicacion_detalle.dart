@@ -10,6 +10,7 @@ import 'package:http/http.dart' as http;
 import 'package:cabofind/utilidades/classes.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 
 
@@ -243,6 +244,39 @@ Future<String> insertPublicacioniOS() async {
           timeInSecForIos: 1);
     }
 
+Widget videosection = Container(
+  width: 250.00,
+     child: new ListView.builder(
+     shrinkWrap: true,
+     physics: BouncingScrollPhysics(),
+     itemCount: data_pub == null ? 0 : data_pub.length,
+       itemBuilder: (BuildContext context, int index) {
+
+  return new  RaisedButton(  
+                                       onPressed: () {  
+                                         FlutterYoutube.playYoutubeVideoByUrl(
+                                         apiKey: "AIzaSyAmNDqJm2s5Fpualsl_VF6LhG733knN0BY",
+                                         videoUrl: data_pub[index]["PUB_VIDEO"],
+                                         autoPlay: false, //default falase
+                                         fullScreen: false //default false
+                                       ); 
+                                       },   
+                                       shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),  
+                                       color: Colors.red, 
+                                       child: new Row (
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          mainAxisSize: MainAxisSize.min,
+
+                                          children: <Widget>[
+                                            new Text('VER VIDEO ', style: TextStyle(fontSize: 20, color: Colors.white)), 
+                                            new Icon(FontAwesomeIcons.youtube, color: Colors.white,)
+                                          ],
+                                        )
+                                       );
+       }
+     )
+   );
+
     Widget publicaciones =  ListView.builder(
       shrinkWrap: true,
       physics: BouncingScrollPhysics(),
@@ -309,8 +343,8 @@ Future<String> insertPublicacioniOS() async {
                                 SizedBox(height: 5.0,),     
                                 Column(  
                                   children: <Widget>[
-                                    Container(  
-                                    padding: const EdgeInsets.only(left:20.0,bottom: 20.0,),  
+                                    Center(  
+                                    //padding: const EdgeInsets.only(left:20.0,bottom: 20.0,),  
                                     child: Text(  
                                       data_pub[index]["PUB_DETALLE"],
                                       style: TextStyle(fontSize: 20.0,  
@@ -320,33 +354,33 @@ Future<String> insertPublicacioniOS() async {
                                   //YoutubePlayer.convertUrlToId( data_pub[index]["PUB_VIDEO"],), 
                                       Column(  
                                         children: <Widget>[  
-                                         SizedBox(height: 5.0,),    
-                                          Center(child: Text('Video promocional',style: TextStyle(fontSize: 23.0,color: Colors.blueAccent ),)),  
-                                          SizedBox(height: 5.0,),
-                                          FlutterYoutube.playYoutubeVideoByUrl(
-                                            apiKey: "AIzaSyAmNDqJm2s5Fpualsl_VF6LhG733knN0BY",
-                                            videoUrl: data_pub[index]["PUB_VIDEO"],
-                                            autoPlay: false, //default falase
-                                            fullScreen: false //default false
-                                          ),
+                                         videosection,
+
+                                          RaisedButton(  
+                                          onPressed: () {  
+                                              String id_sql = data_pub[index]["ID_NEGOCIO"];  
+                                              Navigator.push(context, new MaterialPageRoute  
+                                                (builder: (context) => new Empresa_det_fin(empresa: new Empresa(id_sql))  
+                                              )  
+                                              );  //Color(0xff01969a),
+                                          },   
+                                          shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),  
+                                          color: Color(0xff01969a), 
+                                          child: new Row (
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          mainAxisSize: MainAxisSize.min,
+
+                                          children: <Widget>[
+                                            new Text('INFO DEL VENDEDOR ', style: TextStyle(fontSize: 20, color: Colors.white)), 
+                                            new Icon(FontAwesomeIcons.infoCircle, color: Colors.white,)
+                                          ],
+                                        )
+                    
+                                          ), 
                                           SizedBox(height: 5.0,),  
                                                   ],  
                                                 ),
-              Container(  
-                padding: const EdgeInsets.only(bottom: 10,left: 20,right: 20),  
-                child: RaisedButton(  
-                  onPressed: () {  
-                      String id_sql = data_pub[index]["ID_NEGOCIO"];  
-                      Navigator.push(context, new MaterialPageRoute  
-                        (builder: (context) => new Empresa_det_fin(empresa: new Empresa(id_sql))  
-                      )  
-                      );  
-                  },   
-                  shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),  
-                  color: Color(0xff01969a),  
-                  child: Text('INFO DEL VENDEDOR', style: TextStyle(fontSize: 20, color: Colors.white)),   
-                  ),  
-                  ),  
+               
                               ],  
                               ),   
                               ],  

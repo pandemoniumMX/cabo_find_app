@@ -7,13 +7,12 @@ import 'package:devicelocale/devicelocale.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_youtube/flutter_youtube.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:flutube/flutube.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 //import 'package:custom_chewie/custom_chewie.dart';
 import 'package:http/http.dart' as http;
 import 'package:cabofind/utilidades/classes.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:video_player/video_player.dart';
 
 
 
@@ -207,6 +206,39 @@ void showShortToast() {
           timeInSecForIos: 1);
     }
 
+Widget videosection = Container(
+     width: 250.00,
+     child: new ListView.builder(
+     shrinkWrap: true,
+     physics: BouncingScrollPhysics(),
+     itemCount: data_pub == null ? 0 : data_pub.length,
+       itemBuilder: (BuildContext context, int index) {
+
+  return new  RaisedButton(  
+                                       onPressed: () {  
+                                           FlutterYoutube.playYoutubeVideoByUrl(
+                                         apiKey: "AIzaSyAmNDqJm2s5Fpualsl_VF6LhG733knN0BY",
+                                         videoUrl: data_pub[index]["PUB_VIDEO"],
+                                         autoPlay: false, //default falase
+                                         fullScreen: false //default false
+                                       ); 
+                                       },   
+                                       shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),  
+                                       color: Colors.red, 
+                                       child: new Row (
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          mainAxisSize: MainAxisSize.min,
+
+                                          children: <Widget>[
+                                            new Text('VER VIDEO ', style: TextStyle(fontSize: 20, color: Colors.white)), 
+                                            new Icon(FontAwesomeIcons.youtube, color: Colors.white,)
+                                          ],
+                                        )
+                                       );
+       }
+     )
+   );
+
     Widget publicaciones =  ListView.builder(
       shrinkWrap: true,
       physics: BouncingScrollPhysics(),
@@ -273,8 +305,8 @@ void showShortToast() {
                                 SizedBox(height: 5.0,),     
                                 Column(  
                                   children: <Widget>[
-                                    Container(  
-                                    padding: const EdgeInsets.only(left:20.0,bottom: 20.0,),  
+                                    Center(  
+                                    //padding: const EdgeInsets.only(left:20.0,bottom: 20.0,),  
                                     child: Text(  
                                       data_pub[index]["PUB_DETALLE"],
                                       style: TextStyle(fontSize: 20.0,  
@@ -283,15 +315,8 @@ void showShortToast() {
                                   ),  
                                       Column(  
                                         children: <Widget>[  
-                                         SizedBox(height: 5.0,),    
-                                          Center(child: Text('Video promocional',style: TextStyle(fontSize: 23.0,color: Colors.blueAccent ),)),  
-                                          SizedBox(height: 5.0,),
-                                          FlutterYoutube.playYoutubeVideoByUrl(
-                                            apiKey: "AIzaSyAmNDqJm2s5Fpualsl_VF6LhG733knN0BY",
-                                            videoUrl: data_pub[index]["PUB_VIDEO"],
-                                            autoPlay: false, //default falase
-                                            fullScreen: false //default false
-                                          ),
+                                          videosection,
+
                                           SizedBox(height: 5.0,),  
                                                   ],  
                                                 ),

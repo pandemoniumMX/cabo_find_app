@@ -36,7 +36,7 @@ Widget build(BuildContext context) {
 
 
    correo() async {
-       final url =  "mailto:cabofind@cabofind.com.mx?subject=More information about Cabofind";
+       final url =  "mailto:cabofind@cabofind.com.mx";
      if (await canLaunch(url)) {
        await launch(url);
      } else {

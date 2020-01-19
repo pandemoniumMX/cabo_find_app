@@ -11,6 +11,7 @@ import 'package:cabofind/paginas_ing/descubre.dart';
 import 'package:cabofind/paginas_ing/educacion.dart';
 import 'package:cabofind/paginas_ing/promociones.dart';
 import 'package:cabofind/paginas_ing/publicacion_detalle.dart';
+import 'package:cabofind/paginas_ing/publicaciones.dart';
 import 'package:cabofind/paginas_ing/restaurantes.dart';
 import 'package:cabofind/paginas_ing/salud.dart';
 import 'package:cabofind/paginas_ing/servicios.dart';
@@ -18,7 +19,6 @@ import 'package:cabofind/paginas_ing/vida_nocturna.dart';
 import 'package:cabofind/paginas_listas_ing/list_eventos_grid.dart';
 import 'package:cabofind/paginas_listas_ing/list_promociones_grid.dart';
 import 'package:cabofind/paginas_listas_ing/list_promociones_ing.dart';
-import 'package:cabofind/paginas_listas_ing/list_publicaciones_grid.dart';
 import 'package:cabofind/paginas_listas_ing/list_publicaciones_ing.dart';
 import 'package:cabofind/paginas_listas_ing/list_recomendado_grid.dart';
 import 'package:cabofind/paginas_listas_ing/list_visitado_grid.dart';
@@ -519,7 +519,7 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
                     Navigator.push(
                         context,
                         new MaterialPageRoute(
-                            builder: (BuildContext context) => new Publicaciones_grid()
+                            builder: (BuildContext context) => new Publicaciones_grid_ing()
                         )
                     );
                   } else if (ruta == "Anuncios"){

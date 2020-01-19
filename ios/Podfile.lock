@@ -70,10 +70,6 @@ PODS:
     - XCDYouTubeKit
   - fluttertoast (0.0.2):
     - Flutter
-  - geolocator (5.1.5):
-    - Flutter
-  - google_api_availability (2.0.1):
-    - Flutter
   - google_maps_flutter (0.0.1):
     - Flutter
     - GoogleMaps
@@ -110,8 +106,6 @@ PODS:
     - GoogleUtilities/Logger
   - GoogleUtilities/UserDefaults (6.3.1):
     - GoogleUtilities/Logger
-  - location_permissions (2.0.3):
-    - Flutter
   - nanopb (0.3.901):
     - nanopb/decode (= 0.3.901)
     - nanopb/encode (= 0.3.901)
@@ -120,8 +114,6 @@ PODS:
   - path_provider (0.0.1):
     - Flutter
   - Protobuf (3.10.0)
-  - screen (0.0.1):
-    - Flutter
   - shared_preferences (0.0.1):
     - Flutter
   - url_launcher (0.0.1):
@@ -129,10 +121,6 @@ PODS:
   - url_launcher_macos (0.0.1):
     - Flutter
   - url_launcher_web (0.0.1):
-    - Flutter
-  - video_player (0.0.1):
-    - Flutter
-  - video_player_web (0.0.1):
     - Flutter
   - XCDYouTubeKit (2.8.2)
 
@@ -144,18 +132,12 @@ DEPENDENCIES:
   - flutter_facebook_login (from `.symlinks/plugins/flutter_facebook_login/ios`)
   - flutter_youtube (from `.symlinks/plugins/flutter_youtube/ios`)
   - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
-  - geolocator (from `.symlinks/plugins/geolocator/ios`)
-  - google_api_availability (from `.symlinks/plugins/google_api_availability/ios`)
   - google_maps_flutter (from `.symlinks/plugins/google_maps_flutter/ios`)
-  - location_permissions (from `.symlinks/plugins/location_permissions/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
-  - screen (from `.symlinks/plugins/screen/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
   - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
   - url_launcher_macos (from `.symlinks/plugins/url_launcher_macos/ios`)
   - url_launcher_web (from `.symlinks/plugins/url_launcher_web/ios`)
-  - video_player (from `.symlinks/plugins/video_player/ios`)
-  - video_player_web (from `.symlinks/plugins/video_player_web/ios`)
 
 SPEC REPOS:
   trunk:
@@ -193,18 +175,10 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_youtube/ios"
   fluttertoast:
     :path: ".symlinks/plugins/fluttertoast/ios"
-  geolocator:
-    :path: ".symlinks/plugins/geolocator/ios"
-  google_api_availability:
-    :path: ".symlinks/plugins/google_api_availability/ios"
   google_maps_flutter:
     :path: ".symlinks/plugins/google_maps_flutter/ios"
-  location_permissions:
-    :path: ".symlinks/plugins/location_permissions/ios"
   path_provider:
     :path: ".symlinks/plugins/path_provider/ios"
-  screen:
-    :path: ".symlinks/plugins/screen/ios"
   shared_preferences:
     :path: ".symlinks/plugins/shared_preferences/ios"
   url_launcher:
@@ -213,10 +187,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/url_launcher_macos/ios"
   url_launcher_web:
     :path: ".symlinks/plugins/url_launcher_web/ios"
-  video_player:
-    :path: ".symlinks/plugins/video_player/ios"
-  video_player_web:
-    :path: ".symlinks/plugins/video_player_web/ios"
 
 SPEC CHECKSUMS:
   device_info: cbf09d2ec12aa7110e0b09fabe54b5bd6c8efe74
@@ -236,27 +206,21 @@ SPEC CHECKSUMS:
   flutter_facebook_login: cfb5659f686b1c575ef205c6b6fd20db9679d3c4
   flutter_youtube: 142f8d5af0a11963bdc73e13bcae6eb78db746c2
   fluttertoast: b644586ef3b16f67fae9a1f8754cef6b2d6b634b
-  geolocator: 80aba2bb48f8c7dfc5a8b70b9d13fc3edc8399c4
-  google_api_availability: 163b30f802e6148c67f092aa4501c90ddd8eec8d
   google_maps_flutter: 78a52114c898b42ea647919679a4c58b70abe876
   GoogleAppMeasurement: 434cc7be25e71dc04b8d0e3079125127b330e84a
   GoogleDataTransport: 166f9b9f82cbf60a204e8fe2daa9db3e3ec1fb15
   GoogleDataTransportCCTSupport: f6ab1962e9dc05ab1fb938b795e5b310209edeec
   GoogleMaps: 55da829c68aa931f3ae982b9e341cc2f3d89c587
   GoogleUtilities: f895fde57977df4e0233edda0dbeac490e3703b6
-  location_permissions: 195ff2a1182fa9029ef3f2653156961ee5a1e40b
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   path_provider: f96fff6166a8867510d2c25fdcc346327cc4b259
   Protobuf: a4dc852ad69c027ca2166ed287b856697814375b
-  screen: abd91ca7bf3426e1cc3646d27e9b2358d6bf07b0
   shared_preferences: 430726339841afefe5142b9c1f50cb6bd7793e01
   url_launcher: a1c0cc845906122c4784c542523d8cacbded5626
   url_launcher_macos: fd7894421cd39320dce5f292fc99ea9270b2a313
   url_launcher_web: e5527357f037c87560776e36436bf2b0288b965c
-  video_player: 69c5f029fac4ffe4fc8a85ea7f7b793709661549
-  video_player_web: da8cadb8274ed4f8dbee8d7171b420dedd437ce7
   XCDYouTubeKit: 79baadb0560673a67c771eba45f83e353fd12c1f
 
-PODFILE CHECKSUM: 3dbe063e9c90a5d7c9e4e76e70a821b9e2c1d271
+PODFILE CHECKSUM: 78b14672016bc22bdb0bc60d3e8dca9f63afb6cb
 
 COCOAPODS: 1.8.3

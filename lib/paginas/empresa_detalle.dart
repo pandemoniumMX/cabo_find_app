@@ -883,56 +883,53 @@ Widget resenasection = Column(
          itemBuilder: (BuildContext context, int index) {  
         return new Card(  
               child: Row(  
-           mainAxisAlignment: MainAxisAlignment.spaceBetween,  
+           //mainAxisAlignment: MainAxisAlignment.start,  
            children: [  
              Column(  
                children: <Widget>[  
-                Image.network(data_resena[index]["COM_FOTO"],
+                      Image.network(data_resena[index]["COM_FOTO"],
                               width: 50,
                               height: 50,
                               fit: BoxFit.fill ),     
-                      Row(
-                     children: <Widget>[  
                       Text(   
                       data_resena[index]["COM_NOMBRES"], 
-                      style: TextStyle(fontSize: 18.0),    
-                    ),  
-                    ],   
+                      style: TextStyle(fontSize: 12.0,),  
+                      overflow: TextOverflow.ellipsis,  
                     ),     
                   ],  
                 ),  
-            Column(  
-                     children: <Widget>[
-    Text(      
-                       data_resena[index]["COM_RESENA"],    
-                      maxLines: 10,    
-                      softWrap: true,  
-                      style: TextStyle(fontSize: 18.0),  
-  
-                      ),
-                      RaisedButton(  
-                  onPressed: () {  insert_reporte(); reporte();
-                       
-                  },   
-                  shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(60.0) ),  
-                  color: Colors.red,  
-                  child: Text('Reportar comentario', style: TextStyle(fontSize: 10, color: Colors.white)),   
-                  ),
-],  
-               
+            Flexible(  
+                     child: Text(      
+                     data_resena[index]["COM_RESENA"],   
+                     overflow: TextOverflow.ellipsis, 
+                     maxLines: 10,    
+                     softWrap: true,  
+                     style: TextStyle(fontSize: 18.0),  
+                     ), 
             ),
-            Container(  
+            
+            Column(
+                          children: <Widget>[
+                Text(   
+                data_resena[index]["COM_VALOR"], 
+                overflow: TextOverflow.ellipsis,    
+                maxLines: 1,   
+                softWrap: true,      
+                style: TextStyle(fontSize: 30.0),    
+                ),
+
+                Container(
+                  width: 30.0,
+                  child: FloatingActionButton(child: Icon(FontAwesomeIcons.timesCircle), 
+                  onPressed:() {  insert_reporte(); reporte();}, 
+                  backgroundColor:Colors.red, heroTag: "bt1",),
+                )
+                ,
+
+
                 
-                     child: 
-    Text(  
-                      data_resena[index]["COM_VALOR"],
-                      maxLines: 10,     
-                      softWrap: true,  
-                      style: TextStyle(fontSize: 18.0), 
-                      ),                       
- 
-                      
-                    ),             
+              ],
+            ),             
                     ],  
                     ),     
                     );                    
@@ -1296,13 +1293,17 @@ Widget resenasection = Column(
   //Color(0xff01969a),heroTag: "bt1",elevation: 0.0,),
                   shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
   
-                  color: Color(0xff01969a),
-  
-                  child: Text('Reseña usando Facebook', style: TextStyle(fontSize: 20, color: Colors.white)),
-  
-  
-  
-                ),
+                  color: Color(0xff4267b2),  
+                  child: new Row (
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          mainAxisSize: MainAxisSize.min,
+
+                                          children: <Widget>[
+                                            new Text('RESEÑA USANDO FACEBOOK ', style: TextStyle(fontSize: 20, color: Colors.white)), 
+                                            new Icon(FontAwesomeIcons.facebookSquare, color: Colors.white,)
+                                          ],
+                                        )
+                                ),
   
   
   

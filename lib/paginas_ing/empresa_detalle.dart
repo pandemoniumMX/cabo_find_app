@@ -567,21 +567,14 @@ var response = await http.get(
    }
 
    _mapa() async {
-      if (Platform.isIOS) {
-        final url =  dataneg[0]["NEG_MAP_IOS"];
+      
+final url =  dataneg[0]["NEG_MAP_IOS"];
       if (await canLaunch(url)) {
         await launch(url);
       } else {
         throw 'Could not launch $url';
       }
-      } else {
-      final url =  dataneg[0]["NEG_MAP_IOS"];
-      if (await canLaunch(url)) {
-        await launch(url);
-      } else {
-        throw 'Could not launch $url';
-      }
-      }    
+        
     }
 
    
@@ -792,7 +785,62 @@ var response = await http.get(
 
    );
 
-  
+  Widget ubersection = Column(
+     //width: MediaQuery.of(context).size.width +30,
+
+     children: <Widget>[
+        new ListView.builder(
+        shrinkWrap: true,
+        physics: BouncingScrollPhysics(),
+        itemCount: dataneg == null ? 0 : dataneg.length,
+       itemBuilder: (BuildContext context, int index) {
+
+ 
+    _uber() async {
+      final lat = dataneg[index]["NEG_MAP_LAT"];
+      final long = dataneg[index]["NEG_MAP_LONG"];
+      final url = "https://m.uber.com/ul/?action=setPickup&client_id=5qCx0VeV1YF9ME3qt2kllkbLbp0hfIdq&pickup=my_location&dropoff[formatted_address]=Cabo%20San%20Lucas%2C%20B.C.S.%2C%20M%C3%A9xico&dropoff[latitude]=$lat&dropoff[longitude]=$long";
+     if (await canLaunch(url)) {
+       await launch(url);
+     } else {
+       throw 'Could not launch $url';
+     } 
+    } 
+
+String latc = dataneg[index]["NEG_MAP_LAT"];
+if (latc != null){
+  return new  Row(
+       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+       children: [         
+                     
+         
+         RaisedButton(
+
+                  onPressed: (){_uber();},  
+
+                  shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
+                  color: Colors.black,  
+                  
+                  child: new Row (
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+
+                    children: <Widget>[
+                      new Text('Uber request', style: TextStyle(fontSize: 20, color: Colors.white)), 
+                      new Icon(FontAwesomeIcons.uber, color: Colors.white,)
+                    ],
+                  )
+                  
+                ),
+       ],
+     );
+}
+      
+
+       }
+     ),
+     ]
+   );  
 
 Widget resenasection = Column(
          
@@ -805,56 +853,55 @@ Widget resenasection = Column(
          itemBuilder: (BuildContext context, int index) {  
         return new Card(  
               child: Row(  
-           mainAxisAlignment: MainAxisAlignment.spaceBetween,  
+           //mainAxisAlignment: MainAxisAlignment.start,  
            children: [  
              Column(  
                children: <Widget>[  
-                Image.network(data_resena[index]["COM_FOTO"],
+                      Image.network(data_resena[index]["COM_FOTO"],
                               width: 50,
                               height: 50,
                               fit: BoxFit.fill ),     
-                      Row(
-                     children: <Widget>[  
                       Text(   
                       data_resena[index]["COM_NOMBRES"], 
-                      style: TextStyle(fontSize: 18.0),    
-                    ),  
-                    ],   
+                      style: TextStyle(fontSize: 12.0,),  
+                      overflow: TextOverflow.ellipsis,  
                     ),     
                   ],  
                 ),  
-            Column(  
-                     children: <Widget>[
-    Text(      
-                       data_resena[index]["COM_RESENA"],    
-                      maxLines: 10,    
-                      softWrap: true,  
-                      style: TextStyle(fontSize: 18.0),  
-  
-                      ),
-                      RaisedButton(  
-                  onPressed: () {  insert_reporte(); reporte();
-                       
-                  },   
-                  shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(60.0) ),  
-                  color: Colors.red,  
-                  child: Text('Report comment', style: TextStyle(fontSize: 10, color: Colors.white)),   
-                  ),
-],  
-               
+            Flexible(  
+                     child: Text(      
+                     data_resena[index]["COM_RESENA"],   
+                     overflow: TextOverflow.ellipsis, 
+                     maxLines: 10,    
+                     softWrap: true,  
+                     style: TextStyle(fontSize: 18.0),  
+                     ), 
             ),
-            Container(  
-              child: Flexible(    
-                     child: Text(   
-                    data_resena[index]["COM_VALOR"],    
-                    maxLines: 10,   
-                    softWrap: true,      
-                    style: TextStyle(fontSize: 18.0),    
-                    ),   
-                    ),  
-                    ),             
+            
+            Column(
+                          children: <Widget>[
+                Text(   
+                data_resena[index]["COM_VALOR"], 
+                overflow: TextOverflow.ellipsis,    
+                maxLines: 1,   
+                softWrap: true,      
+                style: TextStyle(fontSize: 30.0),    
+                ),
+
+                Container(
+                  width: 30.0,
+                  child: FloatingActionButton(child: Icon(FontAwesomeIcons.timesCircle), 
+                  onPressed:() {  insert_reporte(); reporte();}, 
+                  backgroundColor:Colors.red, heroTag: "bt1",),
+                )
+                ,
+
+
+                
+              ],
+            ),             
                     ],  
-                    ),     
+                    ),    
                     );                    
   
          }
@@ -880,26 +927,15 @@ Widget resenasection = Column(
         itemCount: dataneg == null ? 0 : dataneg.length,
        itemBuilder: (BuildContext context, int index) {
          
-
-         mapa() async {
-      if (Platform.isAndroid) {
-        final url =  dataneg[index]["NEG_MAP"];
-      if (await canLaunch(url)) {
-        await launch(url);
-      } else {
-        throw 'Could not launch $url';
-      }
-      } else {
-      final url =  dataneg[index]["NEG_MAP_IOS"];
-      if (await canLaunch(url)) {
-        await launch(url);
-      } else {
-        throw 'Could not launch $url';
-      }
-      }
-      
-    }
-
+    mapa() async {
+     final url =  dataneg[index]["NEG_MAP_IOS"];
+     if (await canLaunch(url)) {
+       await launch(url);
+     } else {
+       throw 'Could not launch $url';
+     }
+   }
+    
    facebook() async {
      final url =  dataneg[index]["NEG_FACEBOOK"];
      if (await canLaunch(url)) {
@@ -928,7 +964,9 @@ Widget resenasection = Column(
    }
 
    telefono() async {
-           final url =  "tel:${dataneg[index]["NEG_TEL"]}";
+          final tel =  dataneg[index]["NEG_TEL"];
+
+           final url =  "tel:$tel";
            if (await canLaunch(url)) {
              await launch(url);
            } else {
@@ -937,8 +975,12 @@ Widget resenasection = Column(
          }
 
    correo() async {
-     if (await canLaunch("mailto:${dataneg[index]["NEG_CORREO"]}")) {
-       await launch("mailto:${dataneg[index]["NEG_CORREO"]}");
+    final correo =  dataneg[index]["NEG_CORREO"];
+
+     final url ='mailto:$correo';
+     
+     if (await canLaunch(url)) {
+       await launch(url);
      } else {
        throw 'Could not launch';
      }
@@ -1115,6 +1157,7 @@ Widget resenasection = Column(
                 titleSection,
                 textSection,
                 buttonSection,
+                ubersection
 
 
 
@@ -1216,9 +1259,17 @@ Widget resenasection = Column(
   
                   shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
   
-                  color: Colors.blue,
-  
-                  child: Text('Reviews using Facebook', style: TextStyle(fontSize: 20, color: Colors.white)),
+                  color: Color(0xff4267b2),  
+                  child: new Row (
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          mainAxisSize: MainAxisSize.min,
+
+                                          children: <Widget>[
+                                            new Text('REVIEW USING FACEBOOK ', style: TextStyle(fontSize: 20, color: Colors.white)), 
+                                            new Icon(FontAwesomeIcons.facebookSquare, color: Colors.white,)
+                                          ],
+                                        )
+                                
   
   
   
