@@ -852,68 +852,61 @@ Widget resenasection = Column(
      // height:  MediaQuery.of(context).size.height,
       children: <Widget>[
     new ListView.builder(  
-         shrinkWrap: true,  
-         physics: BouncingScrollPhysics(),
+         shrinkWrap: true,
+        physics: BouncingScrollPhysics(),
           itemCount: data_resena == null ? 0 : data_resena.length,  
          itemBuilder: (BuildContext context, int index) {  
         return new Card(  
-                              child: Row(  
-           mainAxisAlignment: MainAxisAlignment.spaceBetween,  
+              child: Row(  
+           //mainAxisAlignment: MainAxisAlignment.start,  
            children: [  
              Column(  
-                 children: <Widget>[  
-                  Image.network(data_resena[index]["COM_FOTO"],
-                                width: 50,
-                                height: 50,
-                                fit: BoxFit.fill ),     
-                        Row(
-                       children: <Widget>[  
-                        Text(   
-                        data_resena[index]["COM_NOMBRES"], 
-                        style: TextStyle(fontSize: 18.0),    
-                      ),  
-                      ],   
-                      ),     
-                    ],  
-                  ),  
-            Column(  
-                       children: <Widget>[
-    Text(      
-                         data_resena[index]["COM_RESENA"],    
-                        maxLines: 10,    
-                        softWrap: true,  
-                        style: TextStyle(fontSize: 18.0),  
-  
-                        ),
-                        RaisedButton(  
-                    onPressed: () {  insert_reporte(); reporte();
-                         
-                    },   
-                    shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(60.0) ),  
-                    color: Colors.red,  
-                    child: Text('Reportar comentario', style: TextStyle(fontSize: 10, color: Colors.white)),   
-                    ),
-],  
-                 
+               children: <Widget>[  
+                      Image.network(data_resena[index]["COM_FOTO"],
+                              width: 50,
+                              height: 50,
+                              fit: BoxFit.fill ),     
+                      Text(   
+                      data_resena[index]["COM_NOMBRES"], 
+                      style: TextStyle(fontSize: 12.0,),  
+                      overflow: TextOverflow.ellipsis,  
+                    ),     
+                  ],  
+                ),  
+            Flexible(  
+                     child: Text(      
+                     data_resena[index]["COM_RESENA"],   
+                     overflow: TextOverflow.ellipsis, 
+                     maxLines: 10,    
+                     softWrap: true,  
+                     style: TextStyle(fontSize: 18.0),  
+                     ), 
             ),
-            Column(  
-                  
-                       children: <Widget>[ 
-                        Flexible(    
-                       child: Text(   
-                      data_resena[index]["COM_VALOR"],    
-                      maxLines: 10,   
-                      softWrap: true,      
-                      style: TextStyle(fontSize: 18.0),    
-                      ),   
-                      ),
-                        ],                       
- 
-                        
-                      ),             
-                      ],  
-                      ),
-                   
+            
+            Column(
+                          children: <Widget>[
+                Text(   
+                data_resena[index]["COM_VALOR"], 
+                overflow: TextOverflow.ellipsis,    
+                maxLines: 1,   
+                softWrap: true,      
+                style: TextStyle(fontSize: 30.0),    
+                ),
+
+                Container(
+                  width: 30.0,
+                  child: FloatingActionButton(child: Icon(FontAwesomeIcons.timesCircle), 
+                  onPressed:() {  insert_reporte(); reporte();}, 
+                  backgroundColor:Colors.red, heroTag: "bt1",),
+                )
+                ,
+
+
+                
+              ],
+            ),             
+                    ],  
+                    ),     
                     );                    
   
          }
@@ -921,11 +914,6 @@ Widget resenasection = Column(
         ),
       ]
     );  
-
-
-
-
-
 
   Widget social() { 
     return Container (

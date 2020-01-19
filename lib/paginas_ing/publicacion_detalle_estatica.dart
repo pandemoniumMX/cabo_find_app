@@ -312,8 +312,8 @@ Future<String> insertRecomendacion() async {
                                 SizedBox(height: 5.0,),     
                                 Column(  
                                   children: <Widget>[
-                                    Container(  
-                                    padding: const EdgeInsets.only(left:20.0,bottom: 20.0,),  
+                                    Center(  
+                                    //padding: const EdgeInsets.only(left:20.0,bottom: 20.0,),  
                                     child: Text(  
                                       data_pub[index]["PUB_DETALLE_ING"],
                                       style: TextStyle(fontSize: 20.0,  
