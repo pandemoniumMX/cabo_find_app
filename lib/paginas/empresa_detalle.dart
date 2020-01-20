@@ -469,26 +469,17 @@ var response = await http.get(
 
  Widget build(BuildContext context){
 
-
-   _mapa() async {
-
-     if (Platform.isIOS) {
-       final url =  dataneg[0]["NEG_MAP_IOS"];
-       if (await canLaunch(url)) {
-         await launch(url);
-       } else {
-         throw 'Could not launch $url';
-       }
-     } else {
-       final url =  dataneg[0]["NEG_MAP"];
-       if (await canLaunch(url)) {
-         await launch(url);
-       } else {
-         throw 'Could not launch $url';
-       }
-     }
-
-   }
+/*
+_mapa() async {
+      
+final url =  dataneg[index]["NEG_MAP_IOS"];
+      if (await canLaunch(url)) {
+        await launch(url,forceSafariVC: false);
+      } else {
+        throw 'Could not launch $url';
+      }
+        
+    }*/
 
    _alertCar(BuildContext context) async {
      return showDialog(
@@ -589,7 +580,7 @@ var response = await http.get(
 /*
    _mapa() async {
       if (Platform.isIOS) {
-        final url =  dataneg[0]["NEG_MAP_IOS"];
+        final url =  dataneg[1]["NEG_MAP_IOS"];
       if (await canLaunch(url)) {
         await launch(url);
       } else {
@@ -652,6 +643,9 @@ var response = await http.get(
         physics: BouncingScrollPhysics(),
         itemCount: dataneg == null ? 0 : dataneg.length,
        itemBuilder: (BuildContext context, int index) {    
+
+
+       
 
          return  new Column(
           children:[
@@ -774,46 +768,63 @@ var response = await http.get(
     );
 
 
-   Widget buttonSection = Container(
-     width: MediaQuery.of(context).size.width +30,
+   Widget buttonSection() { 
+    return new ListView.builder(
+      shrinkWrap: true,
+        physics: BouncingScrollPhysics(),
+      itemCount: dataneg == null ? 0 : dataneg.length,
+     itemBuilder: (BuildContext context, int index) {
+       
+    mapa() async {
+     final url =  dataneg[index]["NEG_MAP_IOS"];
+     
+     if (await canLaunch(url)) {
+     await launch(url);
+     } else {
+     throw 'Could not launch $url';
+     }
+   }
 
+     return new Row(
+     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+     children: [
 
+       
+       Column(
+         children: <Widget>[
+           FloatingActionButton(child: Icon(FontAwesomeIcons.feather), onPressed:() => _alertCar(context),backgroundColor:Color(0xff01969a),heroTag: "bt1",elevation: 0.0,),
+           Text('Caracteristicas', style: TextStyle(color: Colors.black),),
+         ],
+       ),
 
-     child: Row(
-       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-       children: [
-         Column(
-           children: <Widget>[
-             FloatingActionButton(child: Icon(FontAwesomeIcons.feather), onPressed:() => _alertCar(context),backgroundColor:Color(0xff01969a),heroTag: "bt1",elevation: 0.0,),
-             Text('Caracteristicas', style: TextStyle(color: Colors.black),),
-           ],
-         ),
+       Column(
+         children: <Widget>[
+           FloatingActionButton(child: Icon(FontAwesomeIcons.conciergeBell), onPressed:() => _alertSer(context),backgroundColor:Color(0xff01969a),heroTag: "bt2",elevation: 0.0,),
+           Text('Servicios', style: TextStyle(color: Colors.black),),
 
-         Column(
-           children: <Widget>[
-             FloatingActionButton(child: Icon(FontAwesomeIcons.conciergeBell), onPressed:() => _alertSer(context),backgroundColor:Color(0xff01969a),heroTag: "bt2",elevation: 0.0,),
-             Text('Servicios', style: TextStyle(color: Colors.black),),
+         ],
+       ),
+       Column(
+         children: <Widget>[
+           FloatingActionButton(child: Icon(FontAwesomeIcons.clock), onPressed:() => _alertHorario(context),backgroundColor:Color(0xff01969a),heroTag: "bt3",elevation: 0.0,),
+           Text('Horarios', style: TextStyle(color: Colors.black),),
 
-           ],
-         ),
-         Column(
-           children: <Widget>[
-             FloatingActionButton(child: Icon(FontAwesomeIcons.clock), onPressed:() => _alertHorario(context),backgroundColor:Color(0xff01969a),heroTag: "bt3",elevation: 0.0,),
-             Text('Horarios', style: TextStyle(color: Colors.black),),
+         ],
+       ),
+       Column(
+         children: <Widget>[
+           FloatingActionButton(child: Icon(FontAwesomeIcons.mapMarkedAlt), onPressed: mapa,backgroundColor:Color(0xff01969a),heroTag: "bt4",elevation: 0.0,),
+           Text('Abrir mapa', style: TextStyle(color: Colors.black),),
 
-           ],
-         ),
-         Column(
-           children: <Widget>[
-             FloatingActionButton(child: Icon(FontAwesomeIcons.mapMarkedAlt), onPressed: _mapa,backgroundColor:Color(0xff01969a),heroTag: "bt4",elevation: 0.0,),
-             Text('Abrir mapa', style: TextStyle(color: Colors.black),),
-
-           ],
-         ),
-       ],
-     ),
-
-   );
+         ],
+       ),
+     ],
+     );
+    
+    }
+    );
+  }
+   
 
 Widget ubersection = Column(
      //width: MediaQuery.of(context).size.width +30,
@@ -824,12 +835,16 @@ Widget ubersection = Column(
         physics: BouncingScrollPhysics(),
         itemCount: dataneg == null ? 0 : dataneg.length,
        itemBuilder: (BuildContext context, int index) {
+//uber://?action=setPickup&client_id=5qCx0VeV1YF9ME3qt2kllkbLbp0hfIdq&pickup=my_location&dropoff[formatted_address]=Cabo%20San%20Lucas%2C%20Baja%20California%20Sur%2C%20M%C3%A9xico&dropoff[latitude]=22.890533&dropoff[longitude]=-109.916737
 
  
     _uber() async {
       final lat = dataneg[index]["NEG_MAP_LAT"];
       final long = dataneg[index]["NEG_MAP_LONG"];
-      final url = "https://m.uber.com/ul/?action=setPickup&client_id=5qCx0VeV1YF9ME3qt2kllkbLbp0hfIdq&pickup=my_location&dropoff[formatted_address]=Cabo%20San%20Lucas%2C%20B.C.S.%2C%20M%C3%A9xico&dropoff[latitude]=$lat&dropoff[longitude]=$long";
+      final String url1 = "uber://?action=setPickup&client_id=5qCx0VeV1YF9ME3qt2kllkbLbp0hfIdq&pickup=my_location&dropoff[formatted_address]=Cabo%20San%20Lucas%2C%20Baja%20California%20Sur%2C%20M%C3%A9xico&dropoff[latitude]=$lat&dropoff[longitude]=$long";
+
+
+      final url = url1;
      if (await canLaunch(url)) {
        await launch(url);
      } else {
@@ -958,23 +973,7 @@ Widget resenasection = Column(
        itemBuilder: (BuildContext context, int index) {
          
 
-         mapa() async {
-      if (Platform.isAndroid) {
-        final url =  dataneg[index]["NEG_MAP"];
-      if (await canLaunch(url)) {
-        await launch(url);
-      } else {
-        throw 'Could not launch $url';
-      }
-      } else {
-      final url =  dataneg[index]["NEG_MAP_IOS"];
-      if (await canLaunch(url)) {
-        await launch(url);
-      } else {
-        throw 'Could not launch $url';
-      }
-      }
-         }
+         
 
    facebook() async {
      final url =  dataneg[index]["NEG_FACEBOOK"];
@@ -1019,6 +1018,8 @@ Widget resenasection = Column(
        throw 'Could not launch';
      }
    }
+
+   
          return new Row(
          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
          children: <Widget>[
@@ -1190,7 +1191,7 @@ Widget resenasection = Column(
                 SizedBox(height: 15.0,),
                 titleSection,
                 textSection,
-                buttonSection,
+                buttonSection(),
                 ubersection
 
 

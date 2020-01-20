@@ -47,7 +47,7 @@
 		<string>mail</string>
 		<string>fb</string>
 		<string>googlechromes</string>
-        <string>comgooglemaps</string>
+		<string>comgooglemaps</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>

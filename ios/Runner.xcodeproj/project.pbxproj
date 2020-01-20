@@ -404,7 +404,7 @@
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1.2.4;
+				CURRENT_PROJECT_VERSION = 1.2.7;
 				DEVELOPMENT_TEAM = 6US36L8DNZ;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -417,7 +417,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
 				);
-				MARKETING_VERSION = 25;
+				MARKETING_VERSION = 28;
 				PRODUCT_BUNDLE_IDENTIFIER = com.israel.cabofind;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "Israel Mtz";
@@ -536,7 +536,7 @@
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1.2.4;
+				CURRENT_PROJECT_VERSION = 1.2.7;
 				DEVELOPMENT_TEAM = 6US36L8DNZ;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -549,7 +549,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
 				);
-				MARKETING_VERSION = 25;
+				MARKETING_VERSION = 28;
 				PRODUCT_BUNDLE_IDENTIFIER = com.israel.cabofind;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "Israel Mtz";
@@ -566,7 +566,7 @@
 				CODE_SIGN_ENTITLEMENTS = Runner/RunnerRelease.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1.2.4;
+				CURRENT_PROJECT_VERSION = 1.2.7;
 				DEVELOPMENT_TEAM = 6US36L8DNZ;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -579,7 +579,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
 				);
-				MARKETING_VERSION = 25;
+				MARKETING_VERSION = 28;
 				PRODUCT_BUNDLE_IDENTIFIER = com.israel.cabofind;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "Israel Mtz";

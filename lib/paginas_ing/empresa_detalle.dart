@@ -566,17 +566,7 @@ var response = await http.get(
          });
    }
 
-   _mapa() async {
-      
-final url =  dataneg[0]["NEG_MAP_IOS"];
-      if (await canLaunch(url)) {
-        await launch(url);
-      } else {
-        throw 'Could not launch $url';
-      }
-        
-    }
-
+   
    
 
  
@@ -746,44 +736,62 @@ final url =  dataneg[0]["NEG_MAP_IOS"];
     );
 
 
-   Widget buttonSection = Container(
-     width: MediaQuery.of(context).size.width +30,
+   
+   Widget buttonSection() { 
+    return new ListView.builder(
+      shrinkWrap: true,
+        physics: BouncingScrollPhysics(),
+      itemCount: dataneg == null ? 0 : dataneg.length,
+     itemBuilder: (BuildContext context, int index) {
+       
+    mapa() async {
+     final url =  dataneg[index]["NEG_MAP_IOS"];
+     if (await canLaunch(url)) {
+     await launch(url);
+     } else {
+     throw 'Could not launch $url';
+     }
+   }
 
-     child: Row(
-       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-       children: [
-         Column(
-           children: <Widget>[
-             FloatingActionButton(child: Icon(FontAwesomeIcons.feather), onPressed:() => _alertCar(context),backgroundColor:Color(0xff01969a),heroTag: "bt1",elevation: 0.0,),
-             Text('Features', style: TextStyle(color: Colors.black),),
-           ],
-         ),
+     return new Row(
+     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+     children: [
 
-         Column(
-           children: <Widget>[
-             FloatingActionButton(child: Icon(FontAwesomeIcons.conciergeBell), onPressed:() => _alertSer(context),backgroundColor:Color(0xff01969a),heroTag: "bt2",elevation: 0.0,),
-             Text('Services', style: TextStyle(color: Colors.black),),
+       
+       Column(
+         children: <Widget>[
+           FloatingActionButton(child: Icon(FontAwesomeIcons.feather), onPressed:() => _alertCar(context),backgroundColor:Color(0xff01969a),heroTag: "bt1",elevation: 0.0,),
+           Text('Features', style: TextStyle(color: Colors.black),),
+         ],
+       ),
 
-           ],
-         ),
-         Column(
-           children: <Widget>[
-             FloatingActionButton(child: Icon(FontAwesomeIcons.clock), onPressed:() => _alertHorario(context),backgroundColor:Color(0xff01969a),heroTag: "bt3",elevation: 0.0,),
-             Text('Schedule', style: TextStyle(color: Colors.black),),
+       Column(
+         children: <Widget>[
+           FloatingActionButton(child: Icon(FontAwesomeIcons.conciergeBell), onPressed:() => _alertSer(context),backgroundColor:Color(0xff01969a),heroTag: "bt2",elevation: 0.0,),
+           Text('Services', style: TextStyle(color: Colors.black),),
 
-           ],
-         ),
-         Column(
-           children: <Widget>[
-             FloatingActionButton(child: Icon(FontAwesomeIcons.mapMarkedAlt), onPressed:() => _mapa(),backgroundColor:Color(0xff01969a),heroTag: "bt4",elevation: 0.0,),
-             Text('Open map', style: TextStyle(color: Colors.black),),
+         ],
+       ),
+       Column(
+         children: <Widget>[
+           FloatingActionButton(child: Icon(FontAwesomeIcons.clock), onPressed:() => _alertHorario(context),backgroundColor:Color(0xff01969a),heroTag: "bt3",elevation: 0.0,),
+           Text('Schedule', style: TextStyle(color: Colors.black),),
 
-           ],
-         ),
-       ],
-     ),
+         ],
+       ),
+       Column(
+         children: <Widget>[
+           FloatingActionButton(child: Icon(FontAwesomeIcons.mapMarkedAlt), onPressed: mapa,backgroundColor:Color(0xff01969a),heroTag: "bt4",elevation: 0.0,),
+           Text('Open map', style: TextStyle(color: Colors.black),),
 
-   );
+         ],
+       ),
+     ],
+     );
+    
+    }
+    );
+  }
 
   Widget ubersection = Column(
      //width: MediaQuery.of(context).size.width +30,
@@ -799,7 +807,10 @@ final url =  dataneg[0]["NEG_MAP_IOS"];
     _uber() async {
       final lat = dataneg[index]["NEG_MAP_LAT"];
       final long = dataneg[index]["NEG_MAP_LONG"];
-      final url = "https://m.uber.com/ul/?action=setPickup&client_id=5qCx0VeV1YF9ME3qt2kllkbLbp0hfIdq&pickup=my_location&dropoff[formatted_address]=Cabo%20San%20Lucas%2C%20B.C.S.%2C%20M%C3%A9xico&dropoff[latitude]=$lat&dropoff[longitude]=$long";
+      final String url1 = "uber://?action=setPickup&client_id=5qCx0VeV1YF9ME3qt2kllkbLbp0hfIdq&pickup=my_location&dropoff[formatted_address]=Cabo%20San%20Lucas%2C%20Baja%20California%20Sur%2C%20M%C3%A9xico&dropoff[latitude]=$lat&dropoff[longitude]=$long";
+
+
+      final url = url1;
      if (await canLaunch(url)) {
        await launch(url);
      } else {
@@ -975,12 +986,8 @@ Widget resenasection = Column(
          }
 
    correo() async {
-    final correo =  dataneg[index]["NEG_CORREO"];
-
-     final url ='mailto:$correo';
-     
-     if (await canLaunch(url)) {
-       await launch(url);
+    if (await canLaunch("mailto:${dataneg[index]["NEG_CORREO"]}")) {
+       await launch("mailto:${dataneg[index]["NEG_CORREO"]}");
      } else {
        throw 'Could not launch';
      }
@@ -1156,7 +1163,7 @@ Widget resenasection = Column(
                 SizedBox(height: 15.0,),
                 titleSection,
                 textSection,
-                buttonSection,
+                buttonSection(),
                 ubersection
 
 

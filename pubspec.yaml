@@ -50,6 +50,7 @@ dependencies:
   shared_preferences: 0.5.4
   flutter_youtube: "^2.0.0"
   #map_launcher: "^0.4.1"
+  #map_launcher: ^0.4.1
 
   #geocoder: ^0.1.1
   #geolocator: ^5.1.3
