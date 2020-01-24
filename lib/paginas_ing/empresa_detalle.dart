@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:cabofind/paginas/publicacion_detalle.dart';
 import 'package:cabofind/paginas/publicacion_detalle_estatica.dart';
 import 'package:cabofind/paginas_ing/publicacion_detalle_estatica.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:device_info/device_info.dart';
 import 'package:devicelocale/devicelocale.dart';
 import 'package:dropdownfield/dropdownfield.dart';
@@ -590,20 +591,18 @@ var response = await http.get(
 
  
   Widget carrusel =   Container(
-     child: new ListView.builder(
-
-       scrollDirection: Axis.horizontal,
-
-       itemCount: data_carrusel == null ? 0 : data_carrusel.length,
-       itemBuilder: (BuildContext context, int index) {
-
-         return  new Container(
-           padding: EdgeInsets.only( left: 0.0, right: 10.0),
-           child: Column(
-             children: <Widget>[
-               Padding(
-                 child:  FadeInImage(
-
+      child: new CarouselSlider.builder(      
+      autoPlay: true,
+      height: 500.0,
+      aspectRatio: 16/9,
+      viewportFraction: 0.9,
+      autoPlayInterval: Duration(seconds: 3),
+      autoPlayCurve: Curves.fastOutSlowIn,
+      itemCount: data_carrusel == null ? 0 : data_carrusel.length,
+      itemBuilder: (BuildContext context, int index)  =>
+        Container(
+            child:FadeInImage(
+ 
                    image: NetworkImage(data_carrusel[index]["GAL_FOTO"]),
                    fit: BoxFit.cover,
                    width: MediaQuery.of(context).size.width,
@@ -614,12 +613,7 @@ var response = await http.get(
                    fadeInDuration: Duration(milliseconds: 200),
 
                  ),
-                 padding: EdgeInsets.all(0.0),
-               ),
-             ],
-           ),
-         );
-       },
+        ),
      ),
    );
 

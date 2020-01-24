@@ -35,7 +35,14 @@ packages:
       name: carousel_pro
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.0.13"
+    version: "1.0.0"
+  carousel_slider:
+    dependency: "direct main"
+    description:
+      name: carousel_slider
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.4.1"
   charcode:
     dependency: transitive
     description:

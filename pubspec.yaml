@@ -21,7 +21,8 @@ dependencies:
     sdk: flutter
   flutter_localizations:
         sdk: flutter  
-  carousel_pro: ^0.0.13
+  carousel_pro: ^1.0.0
+  carousel_slider: ^1.4.1
   firebase_messaging: ^5.1.5
   http: any
   path_provider: ^1.5.1
