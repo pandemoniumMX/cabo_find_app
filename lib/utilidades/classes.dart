@@ -25,6 +25,13 @@ class Anuncios_clase {
 
 }
 
+class Lista_manejador {
+  final String id_cat;
+  final String id_sub;  
+  Lista_manejador(this.id_cat,this.id_sub);
+
+}
+
 class Note {
   String id_n;
   String title;

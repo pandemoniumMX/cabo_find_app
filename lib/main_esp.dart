@@ -1,47 +1,52 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:cabofind/main.dart';
-import 'package:cabofind/main_lista_ing.dart';
+import 'dart:io';
+import 'package:cabofind/main_ing.dart';
+import 'package:cabofind/main_lista.dart';
 import 'package:cabofind/notificaciones/push_publicacion_android.dart';
+import 'package:cabofind/paginas/anuncios.dart';
+//import 'package:cabofind/notificaciones/push_publicacion_android.dart';
 import 'package:cabofind/paginas/descubre.dart';
+import 'package:cabofind/paginas/educacion.dart';
 import 'package:cabofind/paginas/publicacion_detalle.dart';
+import 'package:cabofind/paginas/publicaciones.dart';
+//import 'package:cabofind/paginas/publicacion_detalle_push.dart';
 import 'package:cabofind/paginas/salud.dart';
 import 'package:cabofind/paginas/youtube.dart';
-import 'package:cabofind/paginas_ing/acercade.dart';
-import 'package:cabofind/paginas_ing/compras.dart';
-import 'package:cabofind/paginas_ing/descubre.dart';
-import 'package:cabofind/paginas_ing/educacion.dart';
 import 'package:cabofind/paginas_ing/promociones.dart';
-import 'package:cabofind/paginas_ing/publicacion_detalle.dart';
-import 'package:cabofind/paginas_ing/publicaciones.dart';
-import 'package:cabofind/paginas_ing/restaurantes.dart';
-import 'package:cabofind/paginas_ing/salud.dart';
-import 'package:cabofind/paginas_ing/servicios.dart';
-import 'package:cabofind/paginas_ing/vida_nocturna.dart';
-import 'package:cabofind/paginas_listas_ing/list_eventos_grid.dart';
-import 'package:cabofind/paginas_listas_ing/list_promociones_grid.dart';
-import 'package:cabofind/paginas_listas_ing/list_promociones_ing.dart';
-import 'package:cabofind/paginas_listas_ing/list_publicaciones_grid.dart';
-import 'package:cabofind/paginas_listas_ing/list_publicaciones_ing.dart';
-import 'package:cabofind/paginas_listas_ing/list_recomendado_grid.dart';
-import 'package:cabofind/paginas_listas_ing/list_visitado_grid.dart';
-import 'package:cabofind/utilidades/banderasicon_icons.dart';
-import 'package:cabofind/utilidades/classes.dart';
-import 'package:cabofind/utilidades_ing/buscador.dart';
-import 'package:http/http.dart' as http;
+import 'package:cabofind/paginas_listas/list_eventos_grid.dart';
+import 'package:cabofind/paginas_listas/list_promociones.dart';
+import 'package:cabofind/paginas_listas/list_publicaciones_grid.dart';
+import 'package:cabofind/paginas_listas/list_recomendado_grid.dart';
+import 'package:cabofind/paginas_listas/list_visitado.dart';
+import 'package:cabofind/paginas_listas/list_visitado_grid.dart';
+import 'package:cabofind/paginas_listas_ing/list_publicaciones.dart' as prefix0;
+import 'package:cabofind/utilidades/banderasicon_icons.dart' as banderax;
+import 'package:cabofind/utilidades/buscador.dart';
+import 'package:cabofind/utilidades/buscador_2.dart';
+import 'package:cabofind/utilidades/buscador_notap.dart';
 
+import 'package:cabofind/paginas/carrusel.dart';
+import 'package:cabofind/paginas_listas/list_publicaciones.dart';
+import 'package:cabofind/utilidades/classes.dart';
+import 'package:cabofind/utilidades/maps.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:cabofind/paginas/acercade.dart';
 import 'package:cabofind/paginas/restaurantes.dart';
+import 'package:cabofind/paginas/vida_nocturna.dart';
 import 'package:cabofind/paginas/servicios.dart';
 import 'package:cabofind/paginas/compras.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:http/http.dart' as http;
+import 'package:device_info/device_info.dart';
+import 'package:devicelocale/devicelocale.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'main_esp.dart';
-import 'paginas_ing/anuncios.dart';
+import 'paginas/promociones.dart';
 //import 'package:firebase_messaging/firebase_messaging.dart';
 //import 'package:geocoder/geocoder.dart';
 //import 'package:geolocator/geolocator.dart';
@@ -51,25 +56,36 @@ import 'paginas_ing/anuncios.dart';
 FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
 void fcmSubscribe() {
-  _firebaseMessaging.unsubscribeFromTopic('Todos');
-    _firebaseMessaging.subscribeToTopic('All');
+  _firebaseMessaging.unsubscribeFromTopic('All');
+    _firebaseMessaging.subscribeToTopic('Todos');
   }
+  
 
-void main() => runApp(new MyApp_ing());
+//void main() => runApp(new Myapp());
 
-class MyApp_ing extends StatelessWidget {
+class Myapp extends StatelessWidget {
   // This widget is the root of your application.
+  // final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
+
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
+   return new MaterialApp(
+     // navigatorKey: navigatorKey,
+/*
+      routes: {
+        'publicacionx' : (BuildContext context) => Publicacion_detalle_fin_push(),
+      },
+*/
         debugShowCheckedModeBanner:false,
         theme: ThemeData(
           primarySwatch: Colors.blue,
           primaryColor: Color(0xff01969a),
+          //primaryColor: Colors.blue,
           accentColor: Colors.black26,
         ),
+        
         home: new Container(
-            child:           new MyHomePages_ing()
+            child:           new MyHomePages()
         )
 
 
@@ -80,30 +96,29 @@ class MyApp_ing extends StatelessWidget {
 
 
 
-
-class MyHomePages_ing extends StatefulWidget {
+class MyHomePages extends StatefulWidget {
   @override
-  _MyHomePages_ing createState() => new _MyHomePages_ing();
+  _MyHomePageState createState() => new _MyHomePageState();
+
 
 }
 
 
 
+class _MyHomePageState extends State<MyHomePages> {
 
 
-class _MyHomePages_ing extends State<MyHomePages_ing> {
-  Icon idioma_ing = new Icon(Icons.flag);
+
+
   Icon actionIcon = new Icon(Icons.search);
 
   Widget appBarTitle = new Text("Cabofind");
+  int id=0;
 
- @override
-  final String _idioma = "espanol";
-
-List data;
+  List data;
 
 
-   //final List<Todo> todos;
+  //final List<Todo> todos;
   Future<String> getData() async {
     var response = await http.get(
         Uri.encodeFull(
@@ -123,30 +138,137 @@ List data;
 
     return "Success!";
   }
+ 
 
+
+    @override//Registro descarga en Android
+    Future<String> checkModelAndroid() async {
+       String currentLocale;
+    try {
+      currentLocale = await Devicelocale.currentLocale;
+      print(currentLocale);
+    } on PlatformException {
+      print("Error obtaining current locale");
+    }
+
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+    print('Running on ${androidInfo.id}');
+        print('Running on ${androidInfo.fingerprint}');
+
+    var response = await http.get(
+        Uri.encodeFull(
+            "http://cabofind.com.mx/app_php/APIs/esp/insertInfo.php?MOD=${androidInfo.model}&BOOT=${androidInfo.display},${androidInfo.bootloader},${androidInfo.fingerprint}&VERSION=${androidInfo.product}&IDIOMA=${currentLocale}"),
+
+        headers: {
+          "Accept": "application/json"
+        }
+    );
+  
+  }
+  
+  /*
+  //Registro descarga en iOS
   @override
+    Future<String> checkModelIos() async {
+    String currentLocale;
+    try {
+      currentLocale = await Devicelocale.currentLocale;
+      print(currentLocale);
+    } on PlatformException {
+      print("Error obtaining current locale");
+    }
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
+    //print('Running on ${iosInfo.identifierForVendor}');
+    var response = await http.get(
+        Uri.encodeFull(
+            "http://cabofind.com.mx/app_php/APIs/esp/insertInfoiOS.php?MOD=${iosInfo.model}&BOOT=${iosInfo.utsname.nodename}&VERSION=${iosInfo.systemName}&IDIOMA=${currentLocale}"),
+
+        headers: {
+          "Accept": "application/json"
+        }
+    );
+
+  }
+*/
+
+
+/*
+    _getLocation() async
+      {
+        Position position = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+        debugPrint('location: ${position.latitude}');
+        final coordinates = new Coordinates(position.latitude, position.longitude);
+        var addresses = await Geocoder.local.findAddressesFromCoordinates(coordinates);
+        var first = addresses.first;
+        print("${first.featureName} : ${first.addressLine}");
+      }
+*/
+  //final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
+
+ @override
   void initState() {
     //addStringToSF();
-    super.initState();
+    isLogged(context);
 
-    fcmSubscribe(); 
+    
+    super.initState();
+    
+    fcmSubscribe();    
+
     setupNotification();
     this.getData();
+    
 
 
     FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
   final _mensajesStreamController = StreamController<String>.broadcast();
-    
-       
+
+
+   
+
+
+  dispose() {
+    _mensajesStreamController?.close();
+  }
+
+
+    //this.checkModelIos();
+    this.checkModelAndroid();
+    ///this._getLocation();
+  
 
 
   }
 
-  addStringToSF() async {
+addStringToSF() async {
   	final SharedPreferences prefs = await SharedPreferences.getInstance();
   //prefs.remove("stringValue");
-	prefs.setString('stringValue', _idioma);
+	prefs.setString('stringValue', "ingles");
+  }
+
+  Future isLogged(context) async {
+ final SharedPreferences prefs = await SharedPreferences.getInstance();
+ String _token = "";
+ _token = prefs.getString("stringValue");
+ 
+  // if (prefs.getString(_idioma) ?? 'stringValue' == "espanol")
+  if (_token != "ingles") {
+      print("alreay login.");
+      //your home page is loaded
+    }
+    else
+    {
+      Navigator.of(context).pop();
+      Navigator.pushReplacement(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new MyHomePages_ing()
+                        )
+                        );
+    }
   }
 
 
@@ -179,7 +301,7 @@ List data;
          context: context,
          builder: (context) {
            return AlertDialog(
-             title: Text('New post!',style: TextStyle(fontSize: 25.0,),),
+             title: Text('Nueva publicación!',style: TextStyle(fontSize: 25.0,),),
              content: Container(
                  width: 300,
                  height: 300.0,
@@ -199,17 +321,17 @@ List data;
              ),
              actions: <Widget>[
                new FlatButton(
-                 child: new Text('Close'),
+                 child: new Text('Cerrar'),
                  onPressed: () {
                    Navigator.of(context).pop();
                  },
                ), 
                new FlatButton(
                  color: Colors.blueAccent,
-                 child: new Text('Discover',style: TextStyle(fontSize: 14.0,color: Colors.white),),
+                 child: new Text('Descubrir',style: TextStyle(fontSize: 14.0,color: Colors.white),),
                  onPressed: () {
                   Navigator.push(context, new MaterialPageRoute
-              (builder: (context) => new Publicacion_detalle_fin_ing(
+              (builder: (context) => new Publicacion_detalle_fin(
               publicacion: new Publicacion(id_n,id),
             )
             )
@@ -245,15 +367,18 @@ List data;
         String id =(message['data']['id'])as String;
 
        Navigator.push(context, new MaterialPageRoute
-              (builder: (context) => new Publicacion_detalle_fin_ing(
+              (builder: (context) => new Publicacion_detalle_fin(
               publicacion: new Publicacion(id_n,id),
             )
             )
-            );      
+            );
+
+       
 
       },
 
       onResume: ( Map<String, dynamic> message ) async {
+
         print('======= On resume ========');
         print(" $message" );
 
@@ -261,7 +386,7 @@ List data;
         String id =(message['data']['id'])as String;
 
        Navigator.push(context, new MaterialPageRoute
-              (builder: (context) => new Publicacion_detalle_fin_ing(
+              (builder: (context) => new Publicacion_detalle_fin(
               publicacion: new Publicacion(id_n,id),
             )
             )
@@ -277,33 +402,57 @@ List data;
 
   }
 
+  
+
   Widget build(BuildContext context) {
+    /*
+    return new MaterialApp(
+      navigatorKey: navigatorKey,
+
+      routes: {
+        'publicacionx' : (BuildContext context) => Publicacion_detalle_fin_push(),
+      },
+        debugShowCheckedModeBanner:false,
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          //primaryColor: Color(0xff01969a)
+          primaryColor: Colors.blue,
+          accentColor: Colors.black26,
+        ),
+        home: new Container(
+            child:           new MyHomePages()
+        )
+
+
+
+    );
+    */
    // new Publicaciones();
 
-    
-    
-
-
+    /*
+routes: <String, WidgetBuilder>{
+          "/inicio" : (BuildContext context) => data[index]["est_navegacion"],
+         
+        };
+*/
 
     return  Scaffold(
 
-        appBar: new AppBar(
-
+      
+      appBar: new AppBar(
+        
         //enterTitle: true,
         title:appBarTitle,
-        actions: <Widget>[
-
-
-        
+        actions: <Widget>[    
 
               new InkResponse(
                 onTap: () {
-                 addStringToSF();
-              Navigator.of(context).pop();
-                Navigator.pushReplacement(
+                  addStringToSF();
+              //Navigator.of(context).pop();
+                Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (BuildContext context) => new Myapp()
+                        builder: (BuildContext context) => new MyHomePages_ing()
                         )
                         );
             },
@@ -314,7 +463,7 @@ List data;
                    decoration: BoxDecoration(
                   borderRadius:BorderRadius.circular(8.0),
                   image: DecorationImage(
-                      image: ExactAssetImage('assets/mexflag.png'),
+                      image: ExactAssetImage('assets/usaflag.png'),
                       fit: BoxFit.fill,
                     ),
                   
@@ -332,15 +481,13 @@ List data;
                 ),
 
           
-
-
           new IconButton(
             icon: actionIcon,
               onPressed: () {
                 //Use`Navigator` widget to push the second screen to out stack of screens
                 Navigator.of(context)
                     .push(MaterialPageRoute<Null>(builder: (BuildContext context) {
-                  return new Buscador_ing();
+                  return new Buscador();
                 }));
               }, ),
 
@@ -398,7 +545,7 @@ List data;
                      
                                 child: Center(
                                   child: new Text (
-                                  data[index]["est_nombre_ing"],
+                                  data[index]["est_nombre"],
                                   style: new TextStyle(
                                     color: Colors.white,
                                     fontSize: 25.0,
@@ -456,7 +603,7 @@ List data;
                  Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (BuildContext context) => new Restaurantes_ing()
+                        builder: (BuildContext context) => new Restaurantes()
                         )
                         );
 
@@ -464,79 +611,81 @@ List data;
                  Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (BuildContext context) => new Descubre_ing()
+                        builder: (BuildContext context) => new Descubre()
                         )
                         );
                } else if (ruta == "Compras"){
                  Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (BuildContext context) => new Compras_ing()
+                        builder: (BuildContext context) => new Compras()
                         )
                         );
                } else if (ruta == "Educacion"){
                  Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (BuildContext context) => new Educacion_ing()
+                        builder: (BuildContext context) => new Educacion()
                         )
                         );
                } else if (ruta == "Eventos"){
                  Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (BuildContext context) => new Eventos_ing_grid()
+                        builder: (BuildContext context) => new Eventos_grid()
                         )
                         );
                } else if (ruta == "Acercade"){
                  Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (BuildContext context) => new Acercade_ing()
+                        builder: (BuildContext context) => new Acercade()
                         )
                         );
               } else if (ruta == "Promociones"){
                  Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (BuildContext context) => new Promociones_grid_ing()
+                        builder: (BuildContext context) => new Promociones_grid()
                         )
                         );
                } else if (ruta == "Salud"){
                  Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (BuildContext context) => new Salud_ing()
+                        builder: (BuildContext context) => new Salud()
                         )
                         );
                } else if (ruta == "Servicios"){
                  Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (BuildContext context) => new Servicios_ing()
+                        builder: (BuildContext context) => new Servicios()
                         )
                         );
                } else if (ruta == "Vida_nocturna"){
                  Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (BuildContext context) => new Vida_nocturna_ing()
+                        builder: (BuildContext context) => new Vida_nocturna()
                         )
                         );
-                } else if (ruta == "Publicaciones"){
+               } else if (ruta == "Publicaciones"){
                  Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (BuildContext context) => new Publicaciones_grid_ing()
+                        builder: (BuildContext context) => new Publicaciones_grid()
                         )
                         );
                } else if (ruta == "Anuncios"){
                  Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (BuildContext context) => new Anuncios_ing()
+                        builder: (BuildContext context) => new Anuncios()
                         )
                         );
+               } else if (ruta == "Mapas"){
+                 
                }
               
               
@@ -559,7 +708,10 @@ List data;
 
         );
   }
-
+  @override
+  void dispose() {
+    super.dispose();
+  }
 }
 
 

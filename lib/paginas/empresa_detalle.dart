@@ -579,8 +579,9 @@ var response = await http.get(
        itemBuilder: (BuildContext context, int index) {
   //padding: const EdgeInsets.only(bottom: 10,left: 20,right: 20);
       return new Card(
-              child: Text(
-         dataneg[index]["NEG_DESCRIPCION"],        
+        shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(30.0) ),
+          child: Text(
+          dataneg[index]["NEG_DESCRIPCION"],        
           maxLines: 20,
           softWrap: true,
           textAlign: TextAlign.center,
@@ -851,7 +852,8 @@ Widget resenasection = Column(
          itemBuilder: (BuildContext context, int index) {  
         return new Card(  
               child: Row(  
-           //mainAxisAlignment: MainAxisAlignment.start,  
+           //mainAxisAlignment: MainAxisAlignment.spaceBetween, 
+            
            children: [  
              Column(  
                children: <Widget>[  
@@ -867,12 +869,15 @@ Widget resenasection = Column(
                   ],  
                 ),  
             Flexible(  
-                     child: Text(      
-                     data_resena[index]["COM_RESENA"],   
-                     overflow: TextOverflow.ellipsis, 
-                     maxLines: 10,    
-                     softWrap: true,  
-                     style: TextStyle(fontSize: 18.0),  
+              fit: FlexFit.tight,
+                     child: Center(
+                       child: Text(      
+                       data_resena[index]["COM_RESENA"],   
+                       overflow: TextOverflow.ellipsis, 
+                       maxLines: 10,    
+                       softWrap: true,  
+                       style: TextStyle(fontSize: 18.0),  
+                       ),
                      ), 
             ),
             
@@ -1136,7 +1141,10 @@ Widget resenasection = Column(
                 SizedBox(height: 15.0,),
                 titleSection,
                 textSection,
+                SizedBox(height: 10.0,),
+
                 buttonSection,
+                SizedBox(height: 10.0,),
                 ubersection,
 
 
