@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:cabofind/paginas/publicacion_detalle.dart';
 import 'package:cabofind/paginas/publicacion_detalle_estatica.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:device_info/device_info.dart';
 import 'package:devicelocale/devicelocale.dart';
 import 'package:dropdownfield/dropdownfield.dart';
@@ -600,20 +601,18 @@ final url =  dataneg[index]["NEG_MAP_IOS"];
 
  
   Widget carrusel =   Container(
-     child: new ListView.builder(
-
-       scrollDirection: Axis.horizontal,
-
-       itemCount: data_carrusel == null ? 0 : data_carrusel.length,
-       itemBuilder: (BuildContext context, int index) {
-
-         return  new Container(
-           padding: EdgeInsets.only( left: 0.0, right: 10.0),
-           child: Column(
-             children: <Widget>[
-               Padding(
-                 child:  FadeInImage(
-
+      child: new CarouselSlider.builder(      
+      autoPlay: true,
+      height: 500.0,
+      aspectRatio: 16/9,
+      viewportFraction: 0.9,
+      autoPlayInterval: Duration(seconds: 3),
+      autoPlayCurve: Curves.fastOutSlowIn,
+      itemCount: data_carrusel == null ? 0 : data_carrusel.length,
+      itemBuilder: (BuildContext context, int index)  =>
+        Container(
+            child:FadeInImage(
+ 
                    image: NetworkImage(data_carrusel[index]["GAL_FOTO"]),
                    fit: BoxFit.cover,
                    width: MediaQuery.of(context).size.width,
@@ -624,12 +623,7 @@ final url =  dataneg[index]["NEG_MAP_IOS"];
                    fadeInDuration: Duration(milliseconds: 200),
 
                  ),
-                 padding: EdgeInsets.all(0.0),
-               ),
-             ],
-           ),
-         );
-       },
+        ),
      ),
    );
 
@@ -722,13 +716,14 @@ final url =  dataneg[index]["NEG_MAP_IOS"];
      children: <Widget>[
         new ListView.builder(
         shrinkWrap: true,
-            physics: BouncingScrollPhysics(),
+        physics: BouncingScrollPhysics(),
         itemCount: dataneg == null ? 0 : dataneg.length,
        itemBuilder: (BuildContext context, int index) {
   //padding: const EdgeInsets.only(bottom: 10,left: 20,right: 20);
       return new Card(
-              child: Text(
-         dataneg[index]["NEG_DESCRIPCION"],        
+        shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(30.0) ),
+          child: Text(
+          dataneg[index]["NEG_DESCRIPCION"],        
           maxLines: 20,
           softWrap: true,
           textAlign: TextAlign.center,
@@ -898,7 +893,8 @@ Widget resenasection = Column(
          itemBuilder: (BuildContext context, int index) {  
         return new Card(  
               child: Row(  
-           //mainAxisAlignment: MainAxisAlignment.start,  
+           //mainAxisAlignment: MainAxisAlignment.spaceBetween, 
+            
            children: [  
              Column(  
                children: <Widget>[  
@@ -914,12 +910,15 @@ Widget resenasection = Column(
                   ],  
                 ),  
             Flexible(  
-                     child: Text(      
-                     data_resena[index]["COM_RESENA"],   
-                     overflow: TextOverflow.ellipsis, 
-                     maxLines: 10,    
-                     softWrap: true,  
-                     style: TextStyle(fontSize: 18.0),  
+              fit: FlexFit.tight,
+                     child: Center(
+                       child: Text(      
+                       data_resena[index]["COM_RESENA"],   
+                       overflow: TextOverflow.ellipsis, 
+                       maxLines: 10,    
+                       softWrap: true,  
+                       style: TextStyle(fontSize: 18.0),  
+                       ),
                      ), 
             ),
             
@@ -1191,8 +1190,11 @@ Widget resenasection = Column(
                 SizedBox(height: 15.0,),
                 titleSection,
                 textSection,
+                SizedBox(height: 10.0,),
+
                 buttonSection(),
-                ubersection
+                SizedBox(height: 10.0,),
+                ubersection,
 
 
 

@@ -180,6 +180,8 @@ void dispose() {
                               data[index]["NEG_LUGAR"],
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,),
+
+
                           ),
 
                         ]),
@@ -274,6 +276,8 @@ Widget listadobaja = ListView.builder(
                               databaja[index]["NEG_LUGAR"],
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,),
+
+
                           ),
 
                         ]),
