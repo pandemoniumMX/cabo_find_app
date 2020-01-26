@@ -79,7 +79,7 @@ class _Buscador_ing extends State<Buscador_ing> {
   List data_neg;
 
 
-  //final List<Todo> todos;
+  
   
 
   Future<String> getDataName() async {

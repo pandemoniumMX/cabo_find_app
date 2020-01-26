@@ -25,7 +25,7 @@ class _ListaAntros_ing extends State<ListaAntros_ing> {
   List data;
 List databaja;
 
-  //final List<Todo> todos;
+  
   Future<String> getData() async {
     var response = await http.get(
         Uri.encodeFull(

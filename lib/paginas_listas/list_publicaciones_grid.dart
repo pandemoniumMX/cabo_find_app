@@ -33,7 +33,7 @@ class Publicacionesfull extends State<Publicacionesx> {
   List data_c;
 
 
-  //final List<Todo> todos;
+  
   Future<String> getData() async {
     var response = await http.get(
         Uri.encodeFull(

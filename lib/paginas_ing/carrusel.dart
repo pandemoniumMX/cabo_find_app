@@ -19,7 +19,7 @@ class _Lista extends State<Carrusel> {
 
   List data;
 
-  //final List<Todo> todos;
+  
   Future<String> getData() async {
     var response = await http.get(
         Uri.encodeFull(

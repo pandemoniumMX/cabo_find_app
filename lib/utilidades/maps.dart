@@ -1,49 +1,114 @@
-import 'dart:async';
-import 'dart:convert';
-import 'package:cabofind/paginas/empresa_detalle.dart';
-import 'package:cabofind/utilidades/classes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'dart:async';
+import 'package:location/location.dart' as LocationManager;
+import 'package:location/location.dart';
+//void main() => runApp(MyApp());
 
-void main() => runApp(App());
-
-class App extends StatelessWidget {
+class Maps extends StatelessWidget {
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: Maps(),
+      //title: 'Flutter Demo',
+      debugShowCheckedModeBanner:false,
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          primaryColor: Color(0xff01969a),
+
+          accentColor: Colors.black26,
+        ),
+      home: MyHomePage(title: 'Mapas'),
     );
   }
 }
 
-class Maps extends StatefulWidget {
-  Publicacion publicacion;
+class MyHomePage extends StatefulWidget {
+  MyHomePage({Key key, this.title}) : super(key: key);
+
+  final String title;
+
   @override
-  _Buscador createState() => _Buscador();
+  _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _Buscador extends State<Maps> {
-
-  Completer<GoogleMapController> _controller = Completer();
-  
-
+class _MyHomePageState extends State<MyHomePage> {
   static final CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(22.900890, -109.942955),
     zoom: 13.0,
   );
-  
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   List data;
+  String _mapStyle;
+
+  Iterable markers = [];
+ Completer<GoogleMapController> _controller = Completer();
+  GoogleMapController _mapController;
+
+  _onMapCreated(GoogleMapController controller) {_controller.complete(controller);
+    if (mounted)
+      setState(() {
+        _mapController = controller;
+        controller.setMapStyle(_mapStyle);     
+        
+      });
+      
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    rootBundle.loadString('assets/map_style1.txt').then((string) {
+      _mapStyle = string;
+    });
+    getData();
+    this.getCar();
+  }
+
+  getData() async {
+    try {
+      final response =
+          await http.get('http://cabofind.com.mx/app_php/consultas_negocios/esp/list_negocios1.php');
+          //await http.get('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=22.900890,%20-109.942955&radius=500&key=AIzaSyA152PLBZLFqFlUMKQhMce3Z18OMGhPY6w');
+
+      final int statusCode = response.statusCode;
+
+      if (statusCode == 201 || statusCode == 200) {
+        List responseBody = json.decode(response.body);
+        //List results = responseBody["results"];
+        
+        Iterable _markers = Iterable.generate(130, (index) {
+
+          String lat = responseBody[index]["NEG_MAP_LAT"];
+          String long = responseBody[index]["NEG_MAP_LONG"];
+          var lat1 = double.parse(lat);
+          var long1 = double.parse(long);
+          //Map result = results[index];
+          //Map location = result["geometry"]["location"];
+          //LatLng latLngMarker = LatLng(result["lat"], result["lng"]);
+          LatLng latLngMarker = LatLng(lat1, long1);
+          print(lat);
+          return Marker(markerId: MarkerId("marker$index"),position: latLngMarker);
+        });
+
+        setState(() {
+          markers = _markers;
+        });
+      } else {
+        throw Exception('Error');
+      }
+    } catch(e) {
+      print(e.toString());
+    }
+  }
+
   Future<String> getCar() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/list_maps_latlng.php"),
+            "http://cabofind.com.mx/app_php/consultas_negocios/esp/list_negocios1.php"),
 
         headers: {
           "Accept": "application/json"
@@ -60,203 +125,253 @@ class _Buscador extends State<Maps> {
     return "Success!";
   }
 
-  
+  void _currentLocation() async {
+   final GoogleMapController controller = await _controller.future;
+   LocationData currentLocation;
+   var location = new Location();
+   try {
+     currentLocation = await location.getLocation();
+     print(currentLocation);
+     } on Exception {
+       currentLocation = null;
+       }
+
+    controller.animateCamera(CameraUpdate.newCameraPosition(
+      CameraPosition(
+        bearing: 0,
+        target: LatLng(currentLocation.latitude, currentLocation.longitude),
+        zoom: 17.0,
+      ),
+    ));
+  }
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      key: _scaffoldKey,
-      appBar: new AppBar(
-          title: new Text( 'Mapas',
-            style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20.0
-                ),
-                ),
-                
-                ),
-                             
-        
-        
-        endDrawer: new Drawer(
 
-
-        child: ListView(
-          scrollDirection: Axis.vertical,
-
-          children: <Widget>[              
-            new ListTile(
-              title: new Text('Restaurantes'),
-              leading: Icon(Icons.restaurant),
-              
-              
-
-              onTap: () {
-                
-              },
-
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+            icon: Icon(FontAwesomeIcons.arrowLeft),
+            onPressed: () {
+              Navigator.of(context).pop();
+            }),
+        title: Text("Mapas"),
+        actions: <Widget>[
+          
+        ],
+      ),
+      body: Stack(
+              children: <Widget>[
+          GoogleMap(
+            myLocationEnabled: true,
+            myLocationButtonEnabled: true,
+            compassEnabled: false,
+            markers: Set.from(
+              markers,
             ),
-            new ListTile(
-              title: new Text('Vida nocturna'),
-              leading: Icon(FontAwesomeIcons.glassCheers),
+            initialCameraPosition: _kGooglePlex,
+            mapType: MapType.normal,
+            onMapCreated: _onMapCreated,
+          ),
 
-              onTap: () {
-                
-              },
-            ),
-            new ListTile(
-              title: new Text('¿Que hacer?'),
-              leading: Icon(Icons.beach_access),
+          Positioned(
+                                right: 5.0,
+                                bottom: 530.0,
+                                child: new FloatingActionButton(
+                                  child: new Icon(FontAwesomeIcons.mapMarkerAlt),
+                                  backgroundColor: Colors.black,
+                                  onPressed: _currentLocation,
+                    
+                                ),
+                              ),  
+          
+          
+          _buildContainer(),
+        ],
+      ),
+    );
 
-              onTap: () {
-               
-              },
-            ),
-            new ListTile(
-              title: new Text('Compras'),
-              leading: Icon(FontAwesomeIcons.shoppingCart),
+    
 
-              onTap: () {
-                
-              },
-            ),
-            new ListTile(
-              title: new Text('Servicios'),
-              leading: Icon(Icons.build),
+  }
 
-              onTap: () {
-                
-              },
-            ),
-            new ListTile(
-              title: new Text('Salud'),
-              leading: Icon(FontAwesomeIcons.heartbeat),
+  Future<void> _gotoLocation(String lat,String long) async {
+    var lat1 = double.parse(lat);
+    var long1 = double.parse(long);
 
-              onTap: () {
-                
-              },
-            ),
+    final GoogleMapController controller = await _controller.future;
+    controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(lat1, long1), zoom: 30,tilt: 40.0,
+      bearing: 45.0,)));
+  }
 
-            new ListTile(
-              title: new Text('Educación'),
-              leading: Icon(FontAwesomeIcons.graduationCap),
-
-              onTap: () {
-                
-              },
-            ),
-
-            new ListTile(
-              title: new Text('Acerca de nosotros'),
-              leading: Icon(Icons.record_voice_over),
-
-              onTap: () {
-                Navigator.of(context).pop();
-                
-              },
+  Widget _buildContainer() {
+    return Align(
+      alignment: Alignment.bottomLeft,
+      child: Container(
+        margin: EdgeInsets.symmetric(vertical: 15.0),
+        height: 160.0,
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: data == null ? 0 : data.length,
+          itemBuilder: (BuildContext context, int index) {
+          return Column (
+            children: <Widget>[
+            SizedBox(width: 15.0),
+            Padding(
+              padding: const EdgeInsets.all(1.0),
+              child: _boxes(
+                  data[index]["GAL_FOTO"], 
+                  
+                  data[index]["NEG_MAP_LAT"],data[index]["NEG_MAP_LONG"],data[index]["NEG_NOMBRE"], ),
             ),
             
           ],
+          );
+          }
+          
         ),
       ),
-      
-      body: 
-        GoogleMap(
-        myLocationEnabled: true,
-        rotateGesturesEnabled: true,
-        scrollGesturesEnabled: true,
-        tiltGesturesEnabled: true,
-        zoomGesturesEnabled: true,
-        mapType: MapType.normal,
-        initialCameraPosition: _kGooglePlex,
-        onMapCreated: (GoogleMapController controller) {
-          _controller.complete(controller);
-
-        },
-        myLocationButtonEnabled: true,
-
-      ),
-      
     );
-    _alertCar(BuildContext context) async {
-     return ListView.builder(
-                     itemCount: data == null ? 0 : data.length,
-                     itemBuilder: (BuildContext context, int index) {
-                       return Column(
-                         children: <Widget>[
-                           Container(child: Text(data[index]["CAR_NOMBRE"],style: TextStyle(),),padding: EdgeInsets.only(bottom:15.0),) ,
-                         ],
-                       );
-                     }
-                 );
   }
-  
-}}
 
-/*
-class _Buscador extends State<Maps> {
-  GoogleMapController mapController;
-  String buscarDireccion;
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-       body: Stack(
-         children: <Widget>[
-           GoogleMap(
-             onMapCreated: onMapCreated,
+  Widget _boxes(String _image, String lat,String long,String restaurantName) {
+    //var lat1 = double.parse(lat);
+    //var long1 = double.parse(long);
+    return  GestureDetector(
+        onTap: () {
+          var lat1 = double.parse(lat);
+          var long1 = double.parse(long);
+          _gotoLocation(lat,long);
 
-                           initialCameraPosition:CameraPosition(target: LatLng(26.8206, 30.8025)),
-                        ),
-                        Positioned(
-                          top: 30.0,
-                          right: 15.0,
-                          left: 15.0,
-                          child: Container(
-                            height: 50.0,
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10.0),
-                              color: Colors.white
+          
+        },
+        child:Container(
+              child: new FittedBox(
+                child: Material(
+                    color: Colors.white,
+                    elevation: 14.0,
+                    borderRadius: BorderRadius.circular(24.0),
+                    shadowColor: Color(0x802196F3),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Container(
+                          width: 150,
+                          height: 150,
+                          child: ClipRRect(
+                            borderRadius: new BorderRadius.circular(24.0),
+                            child: Image(
+                              fit: BoxFit.fill,
+                              image: NetworkImage(_image),
                             ),
-                            child: TextField(
-                              decoration: InputDecoration(
-                                hintText: 'Ingrese Direccion a Buscar',
-                                border: InputBorder.none,
-                                contentPadding: EdgeInsets.only(left: 15.0, top: 15.0),
-                                suffixIcon: IconButton(
-                                  icon: IconButton(
-                                    icon: Icon(Icons.search),
-                                    onPressed: barraBusqueda,
-                                    iconSize: 30.0,
-                                  )
-                                ),
-                              ),
-                              onChanged: (val) {
-                                setState(() {
-                                 buscarDireccion = val;
-                                });
-                              }
-                            ),
+                          ),),
+                          Container(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: myDetailsContainer1(restaurantName),
                           ),
-                        )
-                      ],
-                    ),
-                 );
-               }
-          //Funcion que creamos para busqueda por direccion
-          barraBusqueda() {
-            Geolocator().placemarkFromAddress(buscarDireccion).then((result) {
-              mapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
-                  target:
-                      LatLng(result[0].position.latitude, result[0].position.longitude),
-                  zoom: 10.0)));
-            });
-          }
+                        ),
 
-               void onMapCreated(controller) {
-                 setState(() {
-                  mapController = controller;
-                 });
+                      ],)
+                ),
+              ),
+            ),
+    );
   }
+
+  Widget myDetailsContainer1(String restaurantName) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.only(left: 8.0),
+          child: Container(
+              child: Text(restaurantName,
+            style: TextStyle(
+                color: Color(0xff6200ee),
+                fontSize: 24.0,
+                fontWeight: FontWeight.bold),
+          )),
+        ),
+        SizedBox(height:5.0),
+        Container(
+              child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              Container(
+                  child: Text(
+                "4.1",
+                style: TextStyle(
+                  color: Colors.black54,
+                  fontSize: 18.0,
+                ),
+              )),
+              Container(
+                child: Icon(
+                  FontAwesomeIcons.solidStar,
+                  color: Colors.amber,
+                  size: 15.0,
+                ),
+              ),
+              Container(
+                child: Icon(
+                  FontAwesomeIcons.solidStar,
+                  color: Colors.amber,
+                  size: 15.0,
+                ),
+              ),
+              Container(
+                child: Icon(
+                  FontAwesomeIcons.solidStar,
+                  color: Colors.amber,
+                  size: 15.0,
+                ),
+              ),
+              Container(
+                child: Icon(
+                  FontAwesomeIcons.solidStar,
+                  color: Colors.amber,
+                  size: 15.0,
+                ),
+              ),
+              Container(
+                child: Icon(
+                  FontAwesomeIcons.solidStarHalf,
+                  color: Colors.amber,
+                  size: 15.0,
+                ),
+              ),
+               Container(
+                  child: Text(
+                "(946)",
+                style: TextStyle(
+                  color: Colors.black54,
+                  fontSize: 18.0,
+                ),
+              )),
+            ],
+          )),
+          SizedBox(height:5.0),
+        Container(
+                  child: Text(
+                "American \u00B7 \u0024\u0024 \u00B7 1.6 mi",
+                style: TextStyle(
+                  color: Colors.black54,
+                  fontSize: 18.0,
+                ),
+              )),
+              SizedBox(height:5.0),
+        Container(
+            child: Text(
+          "Closed \u00B7 Opens 17:00 Thu",
+          style: TextStyle(
+              color: Colors.black54,
+              fontSize: 18.0,
+              fontWeight: FontWeight.bold),
+        )),
+      ],
+    );
+  }
+
+
 }
-*/

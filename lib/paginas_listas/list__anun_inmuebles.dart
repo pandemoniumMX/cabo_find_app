@@ -30,7 +30,7 @@ class _ListaAcuaticas extends State<Lista_anun_inmueble> {
 List databaja;
 
 
-  //final List<Todo> todos;
+  
   Future<String> getData() async {
     var response = await http.get(
         Uri.encodeFull(

@@ -29,7 +29,7 @@ class _ListaMexicanos_ing extends State<ListaMexicanos_ing> {
   List data;
 List databaja;
 
-  //final List<Todo> todos;
+  
   Future<String> getData() async {
     var response = await http.get(
         Uri.encodeFull(

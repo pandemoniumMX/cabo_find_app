@@ -29,7 +29,7 @@ class _ListaMariscos extends State<ListaMariscos_ing> {
   List data;
 List databaja;
 
-  //final List<Todo> todos;
+  
   Future<String> getData() async {
     var response = await http.get(
         Uri.encodeFull(

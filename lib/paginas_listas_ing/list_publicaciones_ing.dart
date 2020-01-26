@@ -34,7 +34,7 @@ List databaja;
   List data_c;
 
 
-  //final List<Todo> todos;
+  
   Future<String> getDatas() async {
     var response = await http.get(
         Uri.encodeFull(

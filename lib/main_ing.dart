@@ -99,7 +99,7 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
   List data;
 
 
-  //final List<Todo> todos;
+  
   Future<String> getData() async {
     var response = await http.get(
         Uri.encodeFull(
