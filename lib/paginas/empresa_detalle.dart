@@ -469,32 +469,30 @@ var response = await http.get(
 
  Widget build(BuildContext context){
       
- Widget carrusel =   Container(
-      child: new CarouselSlider.builder(      
-      autoPlay: true,
-      height: 500.0,
-      aspectRatio: 16/9,
-      viewportFraction: 0.9,
-      autoPlayInterval: Duration(seconds: 3),
-      autoPlayCurve: Curves.fastOutSlowIn,
-      itemCount: data_carrusel == null ? 0 : data_carrusel.length,
-      itemBuilder: (BuildContext context, int index)  =>
-        Container(
-            child:FadeInImage(
+ Widget carrusel =   new CarouselSlider.builder(      
+ autoPlay: true,
+ height: 500.0,
+ aspectRatio: 16/9,
+ viewportFraction: 0.9,
+ autoPlayInterval: Duration(seconds: 3),
+ autoPlayCurve: Curves.fastOutSlowIn,
+ itemCount: data_carrusel == null ? 0 : data_carrusel.length,
+ itemBuilder: (BuildContext context, int index)  =>
+   Container(
+       child:FadeInImage(
  
-                   image: NetworkImage(data_carrusel[index]["GAL_FOTO"]),
-                   fit: BoxFit.cover,
-                   width: MediaQuery.of(context).size.width,
-                   height: 400,
+              image: NetworkImage(data_carrusel[index]["GAL_FOTO"]),
+              fit: BoxFit.cover,
+              width: MediaQuery.of(context).size.width,
+              height: 400,
 
-                   // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
-                   placeholder: AssetImage('android/assets/images/loading.gif'),
-                   fadeInDuration: Duration(milliseconds: 200),
+              // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
+              placeholder: AssetImage('android/assets/images/loading.gif'),
+              fadeInDuration: Duration(milliseconds: 200),
 
-                 ),
-        ),
-     ),
-   );
+            ),
+   ),
+     );
  
 
     

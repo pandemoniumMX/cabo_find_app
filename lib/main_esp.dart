@@ -812,10 +812,12 @@ Widget _buildDropDownButton(String currencyCategory) {
                         );
                } else if (ruta == "Mapa")
                {
-                 Navigator.of(context)
-                    .push(MaterialPageRoute<Null>(builder: (BuildContext context) {
-                  return new Maps();
-                }));
+                 Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Maps()
+                        )
+                        );
                  
                }
               

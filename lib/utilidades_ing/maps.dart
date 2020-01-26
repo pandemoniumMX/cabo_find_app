@@ -1,4 +1,6 @@
 import 'package:cabofind/paginas/empresa_detalle.dart';
+import 'package:cabofind/paginas_ing/empresa_detalle.dart';
+import 'package:cabofind/utilidades/classes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -10,14 +12,13 @@ import 'package:location/location.dart' as LocationManager;
 import 'package:location/location.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'classes.dart';
 
 //void main() => runApp(Maps());
 
 
 
-class Maps extends StatefulWidget {
-  Maps({Key key, this.title}) : super(key: key);
+class Maps_ing extends StatefulWidget {
+  Maps_ing({Key key, this.title}) : super(key: key);
 
   final String title;
 
@@ -25,7 +26,7 @@ class Maps extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<Maps> {
+class _MyHomePageState extends State<Maps_ing> {
   static final CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(22.900890, -109.942955),
     zoom: 13.0,
@@ -56,13 +57,12 @@ class _MyHomePageState extends State<Maps> {
     getData();
     this.getCar();
     _currentLocation();
-     
   }
 
   getData() async {
     try {
       final response =
-          await http.get('http://cabofind.com.mx/app_php/consultas_negocios/esp/list_negocios1.php');
+          await http.get('http://cabofind.com.mx/app_php/consultas_negocios/esp/list_negocios_ing.php');
           //await http.get('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=22.900890,%20-109.942955&radius=500&key=AIzaSyA152PLBZLFqFlUMKQhMce3Z18OMGhPY6w');
 
       final int statusCode = response.statusCode;
@@ -70,13 +70,13 @@ class _MyHomePageState extends State<Maps> {
       if (statusCode == 201 || statusCode == 200) {
         List responseBody = json.decode(response.body);
         //List results = responseBody["results"];
-
+        
         Iterable _markers = Iterable.generate(responseBody == null ? 0 : responseBody.length, (index) {
 
           String lat = responseBody[index]["NEG_MAP_LAT"];
           String long = responseBody[index]["NEG_MAP_LONG"];
           String nom = responseBody[index]["NEG_NOMBRE"];
-          String sub = responseBody[index]["SUB_NOMBRE"];
+          String sub = responseBody[index]["SUB_NOMBRE_ING"];
           String id_sql = responseBody[index]["ID_NEGOCIO"];
 
 
@@ -87,9 +87,9 @@ class _MyHomePageState extends State<Maps> {
           //LatLng latLngMarker = LatLng(result["lat"], result["lng"]);
           LatLng latLngMarker = LatLng(lat1, long1);
          // print(lat);
-          return Marker(markerId: MarkerId("marker$index"),position: latLngMarker,infoWindow: InfoWindow(title: nom, snippet:sub, onTap: (){
+          return Marker(markerId: MarkerId("marker$index"),position: latLngMarker,infoWindow: InfoWindow(title: nom, snippet:sub,onTap: (){
               Navigator.push(context, new MaterialPageRoute
-                (builder: (context) => new Empresa_det_fin(empresa: new Empresa(id_sql))));
+                (builder: (context) => new Empresa_det_fin_ing(empresa: new Empresa(id_sql))));
 
             }),
           onTap:(){}
@@ -99,7 +99,6 @@ class _MyHomePageState extends State<Maps> {
 
         setState(() {
           markers = _markers;
-          
         });
       } else {
         throw Exception('Error');
@@ -112,7 +111,7 @@ class _MyHomePageState extends State<Maps> {
   Future<String> getCar() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/consultas_negocios/esp/list_negocios1.php"),
+            "http://cabofind.com.mx/app_php/consultas_negocios/esp/list_negocios_ing.php"),
 
         headers: {
           "Accept": "application/json"
@@ -156,7 +155,7 @@ class _MyHomePageState extends State<Maps> {
       
       appBar: new AppBar(
         
-        title: new Text('Mapas'),
+        title: new Text('Maps'),
         
         
       
@@ -295,8 +294,8 @@ class _MyHomePageState extends State<Maps> {
                   data[index]["NEG_MAP_LAT"],
                   data[index]["NEG_MAP_LONG"],
                   data[index]["NEG_NOMBRE"], 
-                  data[index]["CAT_NOMBRE"], 
-                  data[index]["SUB_NOMBRE"], 
+                  data[index]["CAT_NOMBRE_ING"], 
+                  data[index]["SUB_NOMBRE_ING"], 
                   ),
             ),
             
@@ -419,7 +418,7 @@ class _MyHomePageState extends State<Maps> {
                     mainAxisSize: MainAxisSize.min,
 
                     children: <Widget>[
-                      new Text('Solicitar Uber ', style: TextStyle(fontSize: 20, color: Colors.white)), 
+                      new Text('Uber request ', style: TextStyle(fontSize: 20, color: Colors.white)), 
                       new Icon(FontAwesomeIcons.uber, color: Colors.white,)
                     ],
                   )

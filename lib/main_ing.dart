@@ -28,6 +28,7 @@ import 'package:cabofind/paginas_listas_ing/list_visitado_grid.dart';
 import 'package:cabofind/utilidades/banderasicon_icons.dart';
 import 'package:cabofind/utilidades/classes.dart';
 import 'package:cabofind/utilidades_ing/buscador.dart';
+import 'package:cabofind/utilidades_ing/maps.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -662,6 +663,15 @@ List data;
                         builder: (BuildContext context) => new Anuncios_ing()
                         )
                         );
+               } else if (ruta == "Mapa")
+               {
+                 Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Maps_ing()
+                        )
+                        );
+                 
                }
               
               
