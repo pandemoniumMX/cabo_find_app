@@ -26,6 +26,7 @@ import 'package:cabofind/paginas_listas_ing/list_visitado_grid.dart';
 import 'package:cabofind/utilidades/banderasicon_icons.dart';
 import 'package:cabofind/utilidades/classes.dart';
 import 'package:cabofind/utilidades_ing/buscador.dart';
+import 'package:cabofind/utilidades_ing/maps.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:http/http.dart' as http;
 
@@ -95,6 +96,11 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
   int id=0;
   final String _idioma = "espanol";
 
+  final fromTextController = TextEditingController();
+  List<String> currencies;
+  String fromCurrency = "USD";
+  String toCurrency = "MXN";
+  String result;
 
   List data;
 
@@ -126,17 +132,48 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
     this.getData();
     fcmSubscribe();
     setupNotification();
-
-
-
+    _loadCurrencies();
     FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-
     final _mensajesStreamController = StreamController<String>.broadcast();
-
-
-
-
   }
+
+  Future<String> _loadCurrencies() async {
+    String uri = "http://api.openrates.io/latest";
+    var response = await http
+        .get(Uri.encodeFull(uri), headers: {"Accept": "application/json"});
+    var responseBody = json.decode(response.body);
+    Map curMap = responseBody['rates'];
+    currencies = curMap.keys.toList();
+    setState(() {});
+    print(currencies);
+    return "Success";
+  }
+
+  Future<String> _doConversion() async {
+    String uri = "http://api.openrates.io/latest?base=$fromCurrency&symbols=$toCurrency";
+    var response = await http
+        .get(Uri.encodeFull(uri), headers: {"Accept": "application/json"});
+    var responseBody = json.decode(response.body);
+    setState(() {
+      result = (double.parse(fromTextController.text) * (responseBody["rates"][toCurrency])).toString();
+    });
+    print(result);
+    return "Success";
+  }
+
+  _onFromChanged(String value) {
+    setState(() {
+      fromCurrency = value;
+    });
+  }
+
+  _onToChanged(String value) {
+    setState(() {
+      toCurrency = value;
+    });
+  }
+ 
+  
 
   addStringToSF() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -275,26 +312,100 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
   }
 
   Widget build(BuildContext context) {
-   // new Publicaciones();
 
-
-
-
+  Widget _buildDropDownButton(String currencyCategory) {
+    return DropdownButton(
+      value: currencyCategory,
+      items: currencies
+          .map((String value) => DropdownMenuItem(
+                value: value,
+                child: Row(
+                  children: <Widget>[
+                    Text(value),
+                  ],
+                ),
+              ))
+          .toList(),
+      onChanged: (String value) {
+        if(currencyCategory == fromCurrency){
+          _onFromChanged(value);
+        }else {
+          _onToChanged(value);
+        }
+      },
+    );
+  }
 
     return  Scaffold(
-
-
-
-
 
       appBar: new AppBar(
 
         //enterTitle: true,
         title:appBarTitle,
         actions: <Widget>[
+        new IconButton(
+            icon: Icon(FontAwesomeIcons.coins),
+              onPressed: () {
 
-
-        
+                return showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: Text('Money exchange',style: TextStyle(fontSize: 25.0,),),
+                    content: currencies == null
+                      ? Center(child: CircularProgressIndicator())
+                      : Container(
+                          height: MediaQuery.of(context).size.height,
+                          width: MediaQuery.of(context).size.width,
+                          child: Padding(
+                            padding: const EdgeInsets.all(0.0),
+                            child: Card(
+                              elevation: 3.0,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: <Widget>[
+                                  ListTile(
+                                    title: TextField(
+                                      controller: fromTextController,
+                                      style: TextStyle(fontSize: 20.0, color: Colors.black),
+                                      keyboardType:
+                                          TextInputType.numberWithOptions(decimal: true),
+                                    ),
+                                    trailing: _buildDropDownButton(fromCurrency),
+                                  ),
+                                  IconButton(
+                                    icon: Icon(Icons.arrow_downward),
+                                    onPressed: _doConversion,
+                                    
+                                    
+                                  ),
+                                  ListTile(
+                                    title: Chip(
+                                      label: result != null ?
+                                      Text(
+                                        result,
+                                        style: Theme.of(context).textTheme.display1,
+                                      ) : Text(""),
+                                    ),
+                                    trailing: _buildDropDownButton(toCurrency),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                    actions: <Widget>[
+                      new FlatButton(
+                        child: new Text('Cerrar'),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      )
+                    ],
+                  );
+                });
+                
+              }, ),        
 
               new InkResponse(
                 onTap: () {
@@ -528,6 +639,13 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
                         context,
                         new MaterialPageRoute(
                             builder: (BuildContext context) => new Anuncios_ing()
+                        )
+                    );
+                  } else if (ruta == "Mapa"){
+                    Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (BuildContext context) => new Maps_ing()
                         )
                     );
                   }

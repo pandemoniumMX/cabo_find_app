@@ -21,10 +21,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 
 
-
-
-
-
 class Empresa_det_fin_ing extends StatefulWidget {
 //final Publicacion publicacion;
 final Empresa empresa;
@@ -678,30 +674,30 @@ var response = await http.get(
     Color color = Theme.of(context).primaryColor;
 
 
-    Widget textSection = Column(
+   Widget textSection = Column(
      // height:  MediaQuery.of(context).size.height,
-     
-     children: <Widget>[
-        new ListView.builder(
-        shrinkWrap: true,
-        physics: BouncingScrollPhysics(),
-        itemCount: dataneg == null ? 0 : dataneg.length,
-       itemBuilder: (BuildContext context, int index) {
-  //padding: const EdgeInsets.only(bottom: 10,left: 20,right: 20);
-      return new Card(
-        shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(30.0) ),
-          child: Text(
-          dataneg[index]["NEG_DESCRIPCION"],        
-          maxLines: 20,
-          softWrap: true,
-          textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 18.0),
-        ),
-      );
-       }
-      )
-      ]
-    );
+
+       children: <Widget>[
+         new ListView.builder(
+             shrinkWrap: true,
+             physics: BouncingScrollPhysics(),
+             itemCount: dataneg == null ? 0 : dataneg.length,
+             itemBuilder: (BuildContext context, int index) {
+               //padding: const EdgeInsets.only(bottom: 10,left: 20,right: 20);
+               return new Card(
+                 shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(30.0) ),
+                 child: Text(
+                   dataneg[index]["NEG_DESCRIPCION_ING"],
+                   maxLines: 20,
+                   softWrap: true,
+                   textAlign: TextAlign.center,
+                   style: TextStyle(fontSize: 18.0),
+                 ),
+               );
+             }
+         )
+       ]
+   );
 
     Widget logo = Column(
      // height:  MediaQuery.of(context).size.height,
@@ -919,10 +915,6 @@ Widget resenasection = Column(
         ),
       ]
     );  
-
-
-
-
 
 
   Widget social() { 
