@@ -11,6 +11,7 @@ import 'package:cabofind/paginas_ing/acercade.dart';
 import 'package:cabofind/paginas_ing/compras.dart';
 import 'package:cabofind/paginas_ing/descubre.dart';
 import 'package:cabofind/paginas_ing/educacion.dart';
+import 'package:cabofind/paginas_ing/maps.dart';
 import 'package:cabofind/paginas_ing/promociones.dart';
 import 'package:cabofind/paginas_ing/publicacion_detalle.dart';
 import 'package:cabofind/paginas_ing/publicaciones.dart';
@@ -28,7 +29,6 @@ import 'package:cabofind/paginas_listas_ing/list_visitado_grid.dart';
 import 'package:cabofind/utilidades/banderasicon_icons.dart';
 import 'package:cabofind/utilidades/classes.dart';
 import 'package:cabofind/utilidades_ing/buscador.dart';
-import 'package:cabofind/utilidades_ing/maps.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -387,10 +387,7 @@ List data;
                                     ),
                                     trailing: _buildDropDownButton(fromCurrency),
                                   ),
-                                  IconButton(
-                                    icon: Icon(Icons.arrow_downward),
-                                    onPressed: _doConversion
-                                  ),
+                                  
                                   ListTile(
                                     title: Chip(
                                       label: result != null ?
@@ -401,6 +398,24 @@ List data;
                                     ),
                                     trailing: _buildDropDownButton(toCurrency),
                                   ),
+                                  RaisedButton(
+
+                                  onPressed: (){_doConversion();},  
+
+                                  shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
+                                  color: Colors.black,  
+                                  
+                                  child: new Row (
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    mainAxisSize: MainAxisSize.min,
+
+                                    children: <Widget>[
+                                      new Text('Convert ', style: TextStyle(fontSize: 20, color: Colors.white)), 
+                                      new Icon(FontAwesomeIcons.exchangeAlt, color: Colors.white,)
+                                    ],
+                                  )
+                                  
+                                ),
                                 ],
                               ),
                             ),

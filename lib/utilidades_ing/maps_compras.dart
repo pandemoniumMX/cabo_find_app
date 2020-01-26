@@ -17,8 +17,8 @@ import 'package:url_launcher/url_launcher.dart';
 
 
 
-class Maps_ing extends StatefulWidget {
-  Maps_ing({Key key, this.title}) : super(key: key);
+class Maps_compras_ing extends StatefulWidget {
+  Maps_compras_ing({Key key, this.title}) : super(key: key);
 
   final String title;
 
@@ -26,7 +26,7 @@ class Maps_ing extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<Maps_ing> {
+class _MyHomePageState extends State<Maps_compras_ing> {
   static final CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(22.900890, -109.942955),
     zoom: 13.0,
@@ -57,12 +57,13 @@ class _MyHomePageState extends State<Maps_ing> {
     getData();
     this.getCar();
     _currentLocation();
+     
   }
 
   getData() async {
     try {
       final response =
-          await http.get('http://cabofind.com.mx/app_php/consultas_negocios/esp/list_negocios_ing.php');
+          await http.get('http://cabofind.com.mx/app_php/consultas_negocios/ing/mapas/compras.php');
           //await http.get('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=22.900890,%20-109.942955&radius=500&key=AIzaSyA152PLBZLFqFlUMKQhMce3Z18OMGhPY6w');
 
       final int statusCode = response.statusCode;
@@ -70,7 +71,7 @@ class _MyHomePageState extends State<Maps_ing> {
       if (statusCode == 201 || statusCode == 200) {
         List responseBody = json.decode(response.body);
         //List results = responseBody["results"];
-        
+
         Iterable _markers = Iterable.generate(responseBody == null ? 0 : responseBody.length, (index) {
 
           String lat = responseBody[index]["NEG_MAP_LAT"];
@@ -87,7 +88,7 @@ class _MyHomePageState extends State<Maps_ing> {
           //LatLng latLngMarker = LatLng(result["lat"], result["lng"]);
           LatLng latLngMarker = LatLng(lat1, long1);
          // print(lat);
-          return Marker(markerId: MarkerId("marker$index"),position: latLngMarker,infoWindow: InfoWindow(title: nom, snippet:sub,onTap: (){
+          return Marker(markerId: MarkerId("marker$index"),position: latLngMarker,infoWindow: InfoWindow(title: nom, snippet:sub, onTap: (){
               Navigator.push(context, new MaterialPageRoute
                 (builder: (context) => new Empresa_det_fin_ing(empresa: new Empresa(id_sql))));
 
@@ -99,6 +100,7 @@ class _MyHomePageState extends State<Maps_ing> {
 
         setState(() {
           markers = _markers;
+          
         });
       } else {
         throw Exception('Error');
@@ -111,7 +113,7 @@ class _MyHomePageState extends State<Maps_ing> {
   Future<String> getCar() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/consultas_negocios/esp/list_negocios_ing.php"),
+            "http://cabofind.com.mx/app_php/consultas_negocios/ing/mapas/compras.php"),
 
         headers: {
           "Accept": "application/json"
@@ -153,83 +155,7 @@ class _MyHomePageState extends State<Maps_ing> {
 
     return new Scaffold(
       
-      appBar: new AppBar(
-        
-        title: new Text('Maps'),
-        
-        
       
-      ),/*
-      endDrawer: new Drawer(
-
-
-        child: ListView(
-          scrollDirection: Axis.vertical,
-
-          children: <Widget>[              
-            new ListTile(
-              title: new Text('Restaurantes'),
-              leading: Icon(Icons.restaurant),
-              
-              
-
-              onTap: () {
-                
-              },
-
-            ),
-            new ListTile(
-              title: new Text('Vida nocturna'),
-              leading: Icon(FontAwesomeIcons.glassCheers),
-
-              onTap: () {
-                
-              },
-            ),
-            new ListTile(
-              title: new Text('¿Que hacer?'),
-              leading: Icon(Icons.beach_access),
-
-              onTap: () {
-               
-              },
-            ),
-            new ListTile(
-              title: new Text('Compras'),
-              leading: Icon(FontAwesomeIcons.shoppingCart),
-
-              onTap: () {
-                
-              },
-            ),
-            new ListTile(
-              title: new Text('Servicios'),
-              leading: Icon(Icons.build),
-
-              onTap: () {
-                
-              },
-            ),
-            new ListTile(
-              title: new Text('Salud'),
-              leading: Icon(FontAwesomeIcons.heartbeat),
-
-              onTap: () {
-                
-              },
-            ),
-
-            new ListTile(
-              title: new Text('Educación'),
-              leading: Icon(FontAwesomeIcons.graduationCap),
-
-              onTap: () {
-                
-              },
-            ),
-          ],
-        ),
-      ),*/
       body: Stack(
               children: <Widget>[
           GoogleMap(

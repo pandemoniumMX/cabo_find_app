@@ -8,6 +8,7 @@ import 'package:cabofind/paginas/anuncios.dart';
 //import 'package:cabofind/notificaciones/push_publicacion_android.dart';
 import 'package:cabofind/paginas/descubre.dart';
 import 'package:cabofind/paginas/educacion.dart';
+import 'package:cabofind/paginas/maps.dart';
 import 'package:cabofind/paginas/publicacion_detalle.dart';
 import 'package:cabofind/paginas/publicaciones.dart';
 //import 'package:cabofind/paginas/publicacion_detalle_push.dart';
@@ -29,7 +30,6 @@ import 'package:cabofind/utilidades/buscador_notap.dart';
 import 'package:cabofind/paginas/carrusel.dart';
 import 'package:cabofind/paginas_listas/list_publicaciones.dart';
 import 'package:cabofind/utilidades/classes.dart';
-import 'package:cabofind/utilidades/maps.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -537,12 +537,7 @@ Widget _buildDropDownButton(String currencyCategory) {
                                     ),
                                     trailing: _buildDropDownButton(fromCurrency),
                                   ),
-                                  IconButton(
-                                    icon: Icon(Icons.arrow_downward),
-                                    onPressed: _doConversion,
-                                    
-                                    
-                                  ),
+                                  
                                   ListTile(
                                     title: Chip(
                                       label: result != null ?
@@ -553,6 +548,24 @@ Widget _buildDropDownButton(String currencyCategory) {
                                     ),
                                     trailing: _buildDropDownButton(toCurrency),
                                   ),
+                                  RaisedButton(
+
+                                  onPressed: (){_doConversion();},  
+
+                                  shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
+                                  color: Colors.black,  
+                                  
+                                  child: new Row (
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    mainAxisSize: MainAxisSize.min,
+
+                                    children: <Widget>[
+                                      new Text('Convertir ', style: TextStyle(fontSize: 20, color: Colors.white)), 
+                                      new Icon(FontAwesomeIcons.exchangeAlt, color: Colors.white,)
+                                    ],
+                                  )
+                                  
+                                ),
                                 ],
                               ),
                             ),
