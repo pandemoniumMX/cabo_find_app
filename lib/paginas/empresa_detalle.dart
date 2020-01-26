@@ -504,7 +504,7 @@ var response = await http.get(
         shrinkWrap: false,
         physics: BouncingScrollPhysics(),
         itemCount: dataneg == null ? 0 : dataneg.length,
-       itemBuilder: (BuildContext context, int index) {    
+        itemBuilder: (BuildContext context, int index) {    
 
          return  new Column(
           children:[

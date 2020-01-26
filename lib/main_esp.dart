@@ -107,7 +107,11 @@ class MyHomePages extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePages> {
 
-
+  final fromTextController = TextEditingController();
+  List<String> currencies;
+  String fromCurrency = "USD";
+  String toCurrency = "MXN";
+  String result;
 
 
   Icon actionIcon = new Icon(Icons.search);
@@ -212,7 +216,7 @@ class _MyHomePageState extends State<MyHomePages> {
     //addStringToSF();
     isLogged(context);
 
-    
+    _loadCurrencies();
     super.initState();
     
     fcmSubscribe();    
@@ -241,6 +245,42 @@ class _MyHomePageState extends State<MyHomePages> {
   
 
 
+  }
+
+  Future<String> _loadCurrencies() async {
+    String uri = "http://api.openrates.io/latest";
+    var response = await http
+        .get(Uri.encodeFull(uri), headers: {"Accept": "application/json"});
+    var responseBody = json.decode(response.body);
+    Map curMap = responseBody['rates'];
+    currencies = curMap.keys.toList();
+    setState(() {});
+    print(currencies);
+    return "Success";
+  }
+
+  Future<String> _doConversion() async {
+    String uri = "http://api.openrates.io/latest?base=$fromCurrency&symbols=$toCurrency";
+    var response = await http
+        .get(Uri.encodeFull(uri), headers: {"Accept": "application/json"});
+    var responseBody = json.decode(response.body);
+    setState(() {
+      result = (double.parse(fromTextController.text) * (responseBody["rates"][toCurrency])).toString();
+    });
+    print(result);
+    return "Success";
+  }
+
+  _onFromChanged(String value) {
+    setState(() {
+      fromCurrency = value;
+    });
+  }
+
+  _onToChanged(String value) {
+    setState(() {
+      toCurrency = value;
+    });
   }
 
 addStringToSF() async {
@@ -402,9 +442,9 @@ addStringToSF() async {
 
   }
 
-  
 
   Widget build(BuildContext context) {
+    
     /*
     return new MaterialApp(
       navigatorKey: navigatorKey,
@@ -435,6 +475,28 @@ routes: <String, WidgetBuilder>{
          
         };
 */
+Widget _buildDropDownButton(String currencyCategory) {
+    return DropdownButton(
+      value: currencyCategory,
+      items: currencies
+          .map((String value) => DropdownMenuItem(
+                value: value,
+                child: Row(
+                  children: <Widget>[
+                    Text(value),
+                  ],
+                ),
+              ))
+          .toList(),
+      onChanged: (String value) {
+        if(currencyCategory == fromCurrency){
+          _onFromChanged(value);
+        }else {
+          _onToChanged(value);
+        }
+      },
+    );
+  }
 
     return  Scaffold(
 
@@ -444,6 +506,70 @@ routes: <String, WidgetBuilder>{
         //enterTitle: true,
         title:appBarTitle,
         actions: <Widget>[    
+
+          new IconButton(
+            icon: Icon(FontAwesomeIcons.coins),
+              onPressed: () {
+
+                return showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: Text('Tipo de cambio',style: TextStyle(fontSize: 25.0,),),
+                    content: currencies == null
+                      ? Center(child: CircularProgressIndicator())
+                      : Container(
+                          height: MediaQuery.of(context).size.height,
+                          width: MediaQuery.of(context).size.width,
+                          child: Padding(
+                            padding: const EdgeInsets.all(0.0),
+                            child: Card(
+                              elevation: 3.0,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: <Widget>[
+                                  ListTile(
+                                    title: TextField(
+                                      controller: fromTextController,
+                                      style: TextStyle(fontSize: 20.0, color: Colors.black),
+                                      keyboardType:
+                                          TextInputType.numberWithOptions(decimal: true),
+                                    ),
+                                    trailing: _buildDropDownButton(fromCurrency),
+                                  ),
+                                  IconButton(
+                                    icon: Icon(Icons.arrow_downward),
+                                    onPressed: _doConversion,
+                                    
+                                    
+                                  ),
+                                  ListTile(
+                                    title: Chip(
+                                      label: result != null ?
+                                      Text(
+                                        result,
+                                        style: Theme.of(context).textTheme.display1,
+                                      ) : Text(""),
+                                    ),
+                                    trailing: _buildDropDownButton(toCurrency),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                    actions: <Widget>[
+                      new FlatButton(
+                        child: new Text('Cerrar'),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      )
+                    ],
+                  );
+                });
+                
+              }, ),
 
               new InkResponse(
                 onTap: () {
@@ -684,7 +810,12 @@ routes: <String, WidgetBuilder>{
                         builder: (BuildContext context) => new Anuncios()
                         )
                         );
-               } else if (ruta == "Mapas"){
+               } else if (ruta == "Mapa")
+               {
+                 Navigator.of(context)
+                    .push(MaterialPageRoute<Null>(builder: (BuildContext context) {
+                  return new Maps();
+                }));
                  
                }
               
