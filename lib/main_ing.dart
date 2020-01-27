@@ -29,6 +29,8 @@ import 'package:cabofind/paginas_listas_ing/list_visitado_grid.dart';
 import 'package:cabofind/utilidades/banderasicon_icons.dart';
 import 'package:cabofind/utilidades/classes.dart';
 import 'package:cabofind/utilidades_ing/buscador.dart';
+import 'package:cabofind/utilidades_ing/calculadora.dart';
+import 'package:cabofind/weather/weather/weather_builder.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -358,79 +360,28 @@ List data;
         actions: <Widget>[
 
           new IconButton(
-            icon: Icon(FontAwesomeIcons.coins),
+            icon: Icon(FontAwesomeIcons.cloudSun),
               onPressed: () {
 
-                return showDialog(
-                context: context,
-                builder: (context) {
-                  return AlertDialog(
-                    title: Text('Money exchange',style: TextStyle(fontSize: 25.0,),),
-                    content: currencies == null
-                      ? Center(child: CircularProgressIndicator())
-                      : Container(
-                          height: MediaQuery.of(context).size.height,
-                          width: MediaQuery.of(context).size.width,
-                          child: Padding(
-                            padding: const EdgeInsets.all(0.0),
-                            child: Card(
-                              elevation: 3.0,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                children: <Widget>[
-                                  ListTile(
-                                    title: TextField(
-                                      controller: fromTextController,
-                                      style: TextStyle(fontSize: 20.0, color: Colors.black),
-                                      keyboardType:
-                                          TextInputType.numberWithOptions(decimal: true),
-                                    ),
-                                    trailing: _buildDropDownButton(fromCurrency),
-                                  ),
-                                  
-                                  ListTile(
-                                    title: Chip(
-                                      label: result != null ?
-                                      Text(
-                                        result,
-                                        style: Theme.of(context).textTheme.display1,
-                                      ) : Text(""),
-                                    ),
-                                    trailing: _buildDropDownButton(toCurrency),
-                                  ),
-                                  RaisedButton(
+              Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new WeatherBuilder().build()
+                        )
+                        );
+                
+              }, ),
 
-                                  onPressed: (){_doConversion();},  
+          new IconButton(
+            icon: Icon(FontAwesomeIcons.moneyBillAlt),
+              onPressed: () {
 
-                                  shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
-                                  color: Colors.black,  
-                                  
-                                  child: new Row (
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    mainAxisSize: MainAxisSize.min,
-
-                                    children: <Widget>[
-                                      new Text('Convert ', style: TextStyle(fontSize: 20, color: Colors.white)), 
-                                      new Icon(FontAwesomeIcons.exchangeAlt, color: Colors.white,)
-                                    ],
-                                  )
-                                  
-                                ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                    actions: <Widget>[
-                      new FlatButton(
-                        child: new Text('Close'),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                      )
-                    ],
-                  );
-                });
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Calculadora_ing()
+                        )
+                        );
                 
               }, ),
 

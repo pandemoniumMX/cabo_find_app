@@ -29,7 +29,9 @@ import 'package:cabofind/utilidades/buscador_notap.dart';
 
 import 'package:cabofind/paginas/carrusel.dart';
 import 'package:cabofind/paginas_listas/list_publicaciones.dart';
+import 'package:cabofind/utilidades/calculadora.dart';
 import 'package:cabofind/utilidades/classes.dart';
+import 'package:cabofind/weather/weather/weather_builder.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -111,6 +113,7 @@ class _MyHomePageState extends State<MyHomePages> {
   List<String> currencies;
   String fromCurrency = "USD";
   String toCurrency = "MXN";
+  String multi;
   String result;
 
 
@@ -265,7 +268,9 @@ class _MyHomePageState extends State<MyHomePages> {
         .get(Uri.encodeFull(uri), headers: {"Accept": "application/json"});
     var responseBody = json.decode(response.body);
     setState(() {
-      result = (double.parse(fromTextController.text) * (responseBody["rates"][toCurrency])).toString();
+      multi = (double.parse(fromTextController.text) * (responseBody["rates"][toCurrency])).toString();
+      result = multi;
+
     });
     print(result);
     return "Success";
@@ -360,6 +365,7 @@ addStringToSF() async {
                  
              ),
              actions: <Widget>[
+               
                new FlatButton(
                  child: new Text('Cerrar'),
                  onPressed: () {
@@ -476,6 +482,7 @@ routes: <String, WidgetBuilder>{
         };
 */
 Widget _buildDropDownButton(String currencyCategory) {
+  
     return DropdownButton(
       value: currencyCategory,
       items: currencies
@@ -487,14 +494,21 @@ Widget _buildDropDownButton(String currencyCategory) {
                   ],
                 ),
               ))
-          .toList(),
+          .toList(), 
       onChanged: (String value) {
+        _doConversion();
         if(currencyCategory == fromCurrency){
           _onFromChanged(value);
+          _doConversion();
+          
         }else {
           _onToChanged(value);
+          _doConversion();
+          
         }
+        
       },
+      
     );
   }
 
@@ -505,82 +519,30 @@ Widget _buildDropDownButton(String currencyCategory) {
         
         //enterTitle: true,
         title:appBarTitle,
-        actions: <Widget>[    
+        actions: <Widget>[  
 
           new IconButton(
-            icon: Icon(FontAwesomeIcons.coins),
+            icon: Icon(FontAwesomeIcons.cloudSun),
               onPressed: () {
 
-                return showDialog(
-                context: context,
-                builder: (context) {
-                  return AlertDialog(
-                    title: Text('Tipo de cambio',style: TextStyle(fontSize: 25.0,),),
-                    content: currencies == null
-                      ? Center(child: CircularProgressIndicator())
-                      : Container(
-                          height: MediaQuery.of(context).size.height,
-                          width: MediaQuery.of(context).size.width,
-                          child: Padding(
-                            padding: const EdgeInsets.all(0.0),
-                            child: Card(
-                              elevation: 3.0,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                children: <Widget>[
-                                  ListTile(
-                                    title: TextField(
-                                      controller: fromTextController,
-                                      style: TextStyle(fontSize: 20.0, color: Colors.black),
-                                      keyboardType:
-                                          TextInputType.numberWithOptions(decimal: true),
-                                    ),
-                                    trailing: _buildDropDownButton(fromCurrency),
-                                  ),
-                                  
-                                  ListTile(
-                                    title: Chip(
-                                      label: result != null ?
-                                      Text(
-                                        result,
-                                        style: Theme.of(context).textTheme.display1,
-                                      ) : Text(""),
-                                    ),
-                                    trailing: _buildDropDownButton(toCurrency),
-                                  ),
-                                  RaisedButton(
+              Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new WeatherBuilder().build()
+                        )
+                        );
+                
+              }, ),
 
-                                  onPressed: (){_doConversion();},  
-
-                                  shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
-                                  color: Colors.black,  
-                                  
-                                  child: new Row (
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    mainAxisSize: MainAxisSize.min,
-
-                                    children: <Widget>[
-                                      new Text('Convertir ', style: TextStyle(fontSize: 20, color: Colors.white)), 
-                                      new Icon(FontAwesomeIcons.exchangeAlt, color: Colors.white,)
-                                    ],
-                                  )
-                                  
-                                ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                    actions: <Widget>[
-                      new FlatButton(
-                        child: new Text('Cerrar'),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                      )
-                    ],
-                  );
-                });
+          new IconButton(
+            icon: Icon(FontAwesomeIcons.moneyBillAlt),
+              onPressed: () {
+              Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Calculadora()
+                        )
+                        );
                 
               }, ),
 
@@ -630,6 +592,8 @@ Widget _buildDropDownButton(String currencyCategory) {
                 }));
               }, ),
 
+              
+
         ],
 
 
@@ -648,24 +612,26 @@ Widget _buildDropDownButton(String currencyCategory) {
         child: Container(
           
           decoration: BoxDecoration(
-                    borderRadius:BorderRadius.circular(20.0),
-                    
-
+                    borderRadius:BorderRadius.circular(20.0),   
                     border: Border.all(
-                        color: Color(0xff01969a),)),
-                padding: EdgeInsets.all(
-                    5.0),
-                margin: EdgeInsets.all(
-                    10.0),
+                    color: Color(0xff01969a),)),
+                    padding: EdgeInsets.all(5.0),
+                    margin: EdgeInsets.all(10.0),
+                    
           child: InkWell(
                     child: Column(
 
-              children: <Widget>[               
 
+              children: <Widget>[              
+
+                
                 Expanded(
                 child: Stack(
+                  
                 
                 children: <Widget>[
+
+                  
                 ClipRRect(
                   borderRadius: BorderRadius.circular(20.0),
                                   child: FadeInImage(   
@@ -680,6 +646,9 @@ Widget _buildDropDownButton(String currencyCategory) {
                         
                       ),
                 ),
+
+                
+                
                     Positioned(
                      
                                 child: Center(
@@ -849,6 +818,7 @@ Widget _buildDropDownButton(String currencyCategory) {
       mainAxisSpacing: 4.0,
       crossAxisSpacing: 4.0,
     ),
+    
 
     ),
 
