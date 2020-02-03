@@ -15,7 +15,6 @@ import 'package:cabofind/paginas_listas/list_recomendado_grid.dart';
 import 'package:cabofind/paginas_listas/list_visitado.dart';
 import 'package:cabofind/utilidades/buscador.dart';
 import 'package:cabofind/utilidades/buscador_2.dart';
-import 'package:cabofind/utilidades/buscador_notap.dart';
 
 import 'package:cabofind/paginas/carrusel.dart';
 import 'package:cabofind/paginas_listas/list_publicaciones.dart';

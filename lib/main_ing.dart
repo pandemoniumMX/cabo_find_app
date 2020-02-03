@@ -30,6 +30,7 @@ import 'package:cabofind/utilidades/banderasicon_icons.dart';
 import 'package:cabofind/utilidades/classes.dart';
 import 'package:cabofind/utilidades_ing/buscador.dart';
 import 'package:cabofind/utilidades_ing/calculadora.dart';
+import 'package:cabofind/utilidades_ing/notificaciones.dart';
 import 'package:cabofind/utilidades_ing/rutas.dart';
 import 'package:cabofind/weather/weather/weather_builder.dart';
 import 'package:http/http.dart' as http;
@@ -360,35 +361,91 @@ List data;
         title:appBarTitle,
         actions: <Widget>[
 
-          new IconButton(
-            icon: Icon(FontAwesomeIcons.cloudSun),
-              onPressed: () {
+              new InkResponse( 
+                onTap: () {
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Notificaciones_ing()
+                        )
+                        );
+               },
+                child: Stack(
+                    children: <Widget>[
+                    /*Positioned(
+                      
+                                right: 2.0,
+                                bottom: 30,
+                                child: new Text('22',
+                                style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15.0, color: Colors.redAccent)),
+                              ),*/ 
+                    Positioned(
+                                height: 20,
+                                width: 20,
+                                right: 3.0,
+                                bottom: 28,
+                                child: new FloatingActionButton(
+                                  
+                                  child: new Text('1',
+                                 style: TextStyle(fontWeight: FontWeight.bold,fontSize: 10.0, color: Colors.white)),
+                                  backgroundColor: Colors.red,
+                                  
+                                 
+                                ),
+                              ),             
+                    new Center(
+                      child: new Row(                   
+                        children: <Widget>[new Icon(FontAwesomeIcons.bell),
+                        Text("  ",                    
+                        style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25.0),
+                        ),
+                        ]
+                      ),
+                    ),
+                  ],
+                )
+                ),
 
-              Navigator.push(
+          
+              new InkResponse( 
+                onTap: () {
+                Navigator.push(
                     context,
                     new MaterialPageRoute(
                         builder: (BuildContext context) => new WeatherBuilder().build()
                         )
                         );
-                
-              }, ),
-
-          new IconButton(
-            icon: Icon(FontAwesomeIcons.moneyBillAlt),
-              onPressed: () {
-
+               },
+                child: new Center(
+                  child: new Row(                   
+                    children: <Widget>[new Icon(FontAwesomeIcons.cloudSun),
+                    Text("   ",                    
+                    style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25.0),
+                    ),
+                    ]
+                  ),
+                )
+                ),
+          
+              new InkResponse( 
+                onTap: () {
                 Navigator.push(
                     context,
                     new MaterialPageRoute(
                         builder: (BuildContext context) => new Calculadora_ing()
                         )
                         );
-                
-              }, ),
-
-
-        
-
+               },
+                child: new Center(
+                  child: new Row(                   
+                    children: <Widget>[new Icon(FontAwesomeIcons.moneyBillAlt),
+                    Text("   ",                    
+                    style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25.0),
+                    ),
+                    ]
+                  ),
+                )
+                ),
               new InkResponse(
                 onTap: () {
                  addStringToSF();
@@ -424,18 +481,20 @@ List data;
                 )
                 ),
 
+                new IconButton(
+                icon: actionIcon,
+                onPressed: () {
+                  //Use`Navigator` widget to push the second screen to out stack of screens
+                  Navigator.of(context)
+                      .push(MaterialPageRoute<Null>(builder: (BuildContext context) {
+                    return new Buscador_ing();
+                  }));
+                }, ),  
+
           
 
 
-          new IconButton(
-            icon: actionIcon,
-              onPressed: () {
-                //Use`Navigator` widget to push the second screen to out stack of screens
-                Navigator.of(context)
-                    .push(MaterialPageRoute<Null>(builder: (BuildContext context) {
-                  return new Buscador_ing();
-                }));
-              }, ),
+          
 
         ],
 

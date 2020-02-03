@@ -24,8 +24,6 @@ import 'package:cabofind/paginas_listas_ing/list_publicaciones.dart' as prefix0;
 import 'package:cabofind/utilidades/banderasicon_icons.dart' as banderax;
 import 'package:cabofind/utilidades/buscador.dart';
 import 'package:cabofind/utilidades/buscador_2.dart';
-import 'package:cabofind/utilidades/buscador_notap.dart';
-
 import 'package:cabofind/paginas/carrusel.dart';
 import 'package:cabofind/paginas_listas/list_publicaciones.dart';
 import 'package:cabofind/utilidades/classes.dart';

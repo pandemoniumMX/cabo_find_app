@@ -25,12 +25,12 @@ import 'package:cabofind/paginas_listas_ing/list_publicaciones.dart' as prefix0;
 import 'package:cabofind/utilidades/banderasicon_icons.dart' as banderax;
 import 'package:cabofind/utilidades/buscador.dart';
 import 'package:cabofind/utilidades/buscador_2.dart';
-import 'package:cabofind/utilidades/buscador_notap.dart';
 
 import 'package:cabofind/paginas/carrusel.dart';
 import 'package:cabofind/paginas_listas/list_publicaciones.dart';
 import 'package:cabofind/utilidades/calculadora.dart';
 import 'package:cabofind/utilidades/classes.dart';
+import 'package:cabofind/utilidades/notificaciones.dart';
 import 'package:cabofind/utilidades/rutas.dart';
 import 'package:cabofind/weather/weather/weather_builder.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -520,31 +520,92 @@ Widget _buildDropDownButton(String currencyCategory) {
         //enterTitle: true,
         title:appBarTitle,
         actions: <Widget>[  
+         
+              new InkResponse( 
+                onTap: () {
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Notificaciones()
+                        )
+                        );
+               },
+                child: Stack(
+                    children: <Widget>[
+                    /*Positioned(
+                      
+                                right: 2.0,
+                                bottom: 30,
+                                child: new Text('22',
+                                style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15.0, color: Colors.redAccent)),
+                              ),*/ 
+                    Positioned(
+                                height: 20,
+                                width: 20,
+                                right: 3.0,
+                                bottom: 28,
+                                child: new FloatingActionButton(
+                                  
+                                  child: new Text('1',
+                                 style: TextStyle(fontWeight: FontWeight.bold,fontSize: 10.0, color: Colors.white)),
+                                  backgroundColor: Colors.red,
+                                  
+                                 
+                                ),
+                              ),             
+                    new Center(
+                      child: new Row(                   
+                        children: <Widget>[new Icon(FontAwesomeIcons.bell),
+                        Text("  ",                    
+                        style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25.0),
+                        ),
+                        ]
+                      ),
+                    ),
+                  ],
+                )
+                ),
 
-          new IconButton(
-            icon: Icon(FontAwesomeIcons.cloudSun),
-              onPressed: () {
-
-              Navigator.push(
+          
+              new InkResponse( 
+                onTap: () {
+                Navigator.push(
                     context,
                     new MaterialPageRoute(
                         builder: (BuildContext context) => new WeatherBuilder().build()
                         )
                         );
-                
-              }, ),
-
-          new IconButton(
-            icon: Icon(FontAwesomeIcons.moneyBillAlt),
-              onPressed: () {
-              Navigator.push(
+               },
+                child: new Center(
+                  child: new Row(                   
+                    children: <Widget>[new Icon(FontAwesomeIcons.cloudSun),
+                    Text("   ",                    
+                    style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25.0),
+                    ),
+                    ]
+                  ),
+                )
+                ),
+          
+              new InkResponse( 
+                onTap: () {
+                Navigator.push(
                     context,
                     new MaterialPageRoute(
                         builder: (BuildContext context) => new Calculadora()
                         )
                         );
-                
-              }, ),
+               },
+                child: new Center(
+                  child: new Row(                   
+                    children: <Widget>[new Icon(FontAwesomeIcons.moneyBillAlt),
+                    Text("   ",                    
+                    style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25.0),
+                    ),
+                    ]
+                  ),
+                )
+                ),
 
               new InkResponse(
                 onTap: () {
@@ -556,7 +617,7 @@ Widget _buildDropDownButton(String currencyCategory) {
                         builder: (BuildContext context) => new MyHomePages_ing()
                         )
                         );
-            },
+               },
                 child: new Center(
                   //padding: const EdgeInsets.all(13.0),
                   
@@ -580,17 +641,16 @@ Widget _buildDropDownButton(String currencyCategory) {
                   ),
                 )
                 ),
-
+                new IconButton(
+                icon: actionIcon,
+                onPressed: () {
+                  //Use`Navigator` widget to push the second screen to out stack of screens
+                  Navigator.of(context)
+                      .push(MaterialPageRoute<Null>(builder: (BuildContext context) {
+                    return new Buscador();
+                  }));
+                }, ),        
           
-          new IconButton(
-            icon: actionIcon,
-              onPressed: () {
-                //Use`Navigator` widget to push the second screen to out stack of screens
-                Navigator.of(context)
-                    .push(MaterialPageRoute<Null>(builder: (BuildContext context) {
-                  return new Buscador();
-                }));
-              }, ),
 
               
 
