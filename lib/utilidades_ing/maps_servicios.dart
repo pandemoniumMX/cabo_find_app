@@ -79,7 +79,7 @@ class _MyHomePageState extends State<Maps_servicios_ing> {
           String nom = responseBody[index]["NEG_NOMBRE"];
           String sub = responseBody[index]["SUB_NOMBRE_ING"];
           String id_sql = responseBody[index]["ID_NEGOCIO"];
-
+          String icon = responseBody[index]["SUB_ICONO"];
 
           var lat1 = double.parse(lat);
           var long1 = double.parse(long);
@@ -88,7 +88,7 @@ class _MyHomePageState extends State<Maps_servicios_ing> {
           //LatLng latLngMarker = LatLng(result["lat"], result["lng"]);
           LatLng latLngMarker = LatLng(lat1, long1);
          // print(lat);
-          return Marker(markerId: MarkerId("marker$index"),position: latLngMarker,infoWindow: InfoWindow(title: nom, snippet:sub, onTap: (){
+          return Marker(markerId: MarkerId("marker$index"),icon:BitmapDescriptor.fromAsset(icon),position: latLngMarker,infoWindow: InfoWindow(title: nom, snippet:sub, onTap: (){
               Navigator.push(context, new MaterialPageRoute
                 (builder: (context) => new Empresa_det_fin_ing(empresa: new Empresa(id_sql))));
 
@@ -169,19 +169,98 @@ class _MyHomePageState extends State<Maps_servicios_ing> {
             mapType: MapType.normal,
             onMapCreated: _onMapCreated,
           ),
-/*
-          Positioned(
-                                right: 5.0,
-                                bottom: 530.0,
-                                child: new FloatingActionButton(
-                                  child: new Icon(FontAwesomeIcons.mapMarkerAlt),
-                                  backgroundColor: Colors.black,
-                                  onPressed: _currentLocation,
-                    
-                                ),
-                              ),  */
-          
-          
+          Container(          
+            height: 180,
+            width: 150,
+            child: Card(
+            color: const Color(0xFFFFFF).withOpacity(0.8),
+              child: Column(
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      FadeInImage(   
+                        image: ExactAssetImage('assets/car.png'),
+                        fit: BoxFit.cover,  
+                        width: 25,                          
+                        height: 25,  
+                        // placeholder: AssetImage('android/assets/images/jar-loading.gif'),  
+                        placeholder: AssetImage('android/assets/images/loading.gif'),  
+                        fadeInDuration: Duration(milliseconds: 200),   
+                        
+                      ),
+                      Text('  Cars')
+                    ],
+                  ),
+                  SizedBox(height: 10.0,),
+                  Row(
+                    children: <Widget>[
+                      FadeInImage(   
+                        image: ExactAssetImage('assets/money.png'),
+                        fit: BoxFit.cover,  
+                        width: 25,                          
+                        height: 25,  
+                        // placeholder: AssetImage('android/assets/images/jar-loading.gif'),  
+                        placeholder: AssetImage('android/assets/images/loading.gif'),  
+                        fadeInDuration: Duration(milliseconds: 200),   
+                        
+                      ),
+                      Text('  Banks')
+                    ],
+                  ),
+                  SizedBox(height: 10.0,),
+                  Row(
+                    children: <Widget>[
+                      FadeInImage(   
+                        image: ExactAssetImage('assets/mechanic.png'),
+                        fit: BoxFit.cover,  
+                        width: 25,                          
+                        height: 25, 
+                        // placeholder: AssetImage('android/assets/images/jar-loading.gif'),  
+                        placeholder: AssetImage('android/assets/images/loading.gif'),  
+                        fadeInDuration: Duration(milliseconds: 200),   
+                        
+                      ),
+                      Text('  Professionals')
+                    ],
+                  ),
+                  SizedBox(height: 10.0,),
+                  Row(
+                    children: <Widget>[
+                      FadeInImage(   
+                        image: ExactAssetImage('assets/taxi.png'),
+                        fit: BoxFit.cover,  
+                        width: 25,                          
+                        height: 25,
+                        // placeholder: AssetImage('android/assets/images/jar-loading.gif'),  
+                        placeholder: AssetImage('android/assets/images/loading.gif'),  
+                        fadeInDuration: Duration(milliseconds: 200),   
+                        
+                      ),
+                      Text('  Transport')
+                    ],
+                  ),
+                  SizedBox(height: 10.0,),
+                  Row(
+                    children: <Widget>[
+                      FadeInImage(   
+                        image: ExactAssetImage('assets/dog.png'),
+                        fit: BoxFit.cover,  
+                        width: 25,                          
+                        height: 25,  
+                        // placeholder: AssetImage('android/assets/images/jar-loading.gif'),  
+                        placeholder: AssetImage('android/assets/images/loading.gif'),  
+                        fadeInDuration: Duration(milliseconds: 200),   
+                        
+                      ),
+                      Text('  Pets')
+                    ],
+                  ),
+                  
+                  
+                ],
+              ) ,
+            ),
+          ), 
           _buildContainer(),
         ],
       ),

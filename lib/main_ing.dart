@@ -30,6 +30,7 @@ import 'package:cabofind/utilidades/banderasicon_icons.dart';
 import 'package:cabofind/utilidades/classes.dart';
 import 'package:cabofind/utilidades_ing/buscador.dart';
 import 'package:cabofind/utilidades_ing/calculadora.dart';
+import 'package:cabofind/utilidades_ing/rutas.dart';
 import 'package:cabofind/weather/weather/weather_builder.dart';
 import 'package:http/http.dart' as http;
 
@@ -629,12 +630,19 @@ List data;
                         builder: (BuildContext context) => new Anuncios_ing()
                         )
                         );
-               } else if (ruta == "Mapa")
-               {
+               } else if (ruta == "Mapa"){
                  Navigator.push(
                     context,
                     new MaterialPageRoute(
                         builder: (BuildContext context) => new Maps_ing()
+                        )
+                        );
+                 
+                } else if (ruta == "Rutas"){
+                 Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Rutas_ing()
                         )
                         );
                  

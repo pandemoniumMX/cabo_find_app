@@ -191,13 +191,12 @@ class _MyHomePageState extends State<Start> {
     
     super.initState();
     
-    fcmSubscribe();    
+    //fcmSubscribe();    
 
     setupNotification();
     
 
 
-    FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
   final _mensajesStreamController = StreamController<String>.broadcast();
 

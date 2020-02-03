@@ -31,6 +31,7 @@ import 'package:cabofind/paginas/carrusel.dart';
 import 'package:cabofind/paginas_listas/list_publicaciones.dart';
 import 'package:cabofind/utilidades/calculadora.dart';
 import 'package:cabofind/utilidades/classes.dart';
+import 'package:cabofind/utilidades/rutas.dart';
 import 'package:cabofind/weather/weather/weather_builder.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
@@ -229,7 +230,6 @@ class _MyHomePageState extends State<MyHomePages> {
     
 
 
-    FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
   final _mensajesStreamController = StreamController<String>.broadcast();
 
@@ -353,7 +353,7 @@ addStringToSF() async {
                  child: FadeInImage(
 
                    image: NetworkImage("http://cabofind.com.mx/assets/img/alerta.png"),
-                   fit: BoxFit.fill,
+                   fit: BoxFit.cover,
                    width: 300,
                    height: 300,
 
@@ -798,6 +798,15 @@ Widget _buildDropDownButton(String currencyCategory) {
                     context,
                     new MaterialPageRoute(
                         builder: (BuildContext context) => new Maps()
+                        )
+                        );
+                 
+                } else if (ruta == "Rutas")
+               {
+                 Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Rutas()
                         )
                         );
                  
