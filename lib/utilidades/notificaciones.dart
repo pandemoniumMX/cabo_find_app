@@ -111,7 +111,7 @@ class _MyHomePageState extends State<Notificaciones> {
                                   data[index]["PUB_DETALLE"],
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(fontSize:15.0,),
-                                  maxLines: 10, 
+                                  maxLines: 5, 
                                   ),
                                 ),
 

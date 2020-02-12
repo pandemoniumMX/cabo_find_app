@@ -365,7 +365,6 @@ void initiateFacebookLogin() async{
     break;
     case FacebookLoginStatus.loggedIn:
     onLoginStatusChange(true);
-    //getInfofb(result,_displayValue);
 
     
                
@@ -484,7 +483,7 @@ var response = await http.get(
               image: NetworkImage(data_carrusel[index]["GAL_FOTO"]),
               fit: BoxFit.cover,
               width: MediaQuery.of(context).size.width,
-              height: 400,
+              height: MediaQuery.of(context).size.height / 1.5,
 
               // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
               placeholder: AssetImage('android/assets/images/loading.gif'),
@@ -606,7 +605,7 @@ var response = await http.get(
                     image: NetworkImage(dataneg[index]["GAL_FOTO"]),
                     fit: BoxFit.fill,
                     width: MediaQuery.of(context).size.width,
-                    height: 300,
+                    height: MediaQuery.of(context).size.height / 2.5,
 
                     // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
                     placeholder: AssetImage('android/assets/images/loading.gif'),
@@ -705,7 +704,7 @@ var response = await http.get(
              title: Text('Horario',style: TextStyle(fontSize: 25.0,),),
              content: Container(
                  width: double.maxFinite,
-                 height: 300.0,
+                 height: 150.0,
                  child: ListView.builder(
                      itemCount: data_hor == null ? 0 : data_hor.length,
                      itemBuilder: (BuildContext context, int index) {
@@ -1049,7 +1048,7 @@ Widget resenasection = Column(
                     image: NetworkImage(data_list[index]["GAL_FOTO"]),
                     fit: BoxFit.fill,
                     width: MediaQuery.of(context).size.width,
-                    height: 250,
+                    height: MediaQuery.of(context).size.height / 2,
 
                     // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
                     placeholder: AssetImage('android/assets/images/loading.gif'),
@@ -1168,7 +1167,7 @@ Widget resenasection = Column(
 
             Container(
               child: carrusel,
-              height: 400.0,
+              height: MediaQuery.of(context).size.height / 1.8,
 
             ),
 

@@ -386,7 +386,7 @@ List data;
                                 bottom: 28,
                                 child: new FloatingActionButton(
                                   
-                                  child: new Text('1',
+                                  child: new Text('',
                                  style: TextStyle(fontWeight: FontWeight.bold,fontSize: 10.0, color: Colors.white)),
                                   backgroundColor: Colors.red,
                                   

@@ -7,6 +7,7 @@ import 'package:cabofind/notificaciones/push_publicacion_android.dart';
 import 'package:cabofind/paginas/anuncios.dart';
 //import 'package:cabofind/notificaciones/push_publicacion_android.dart';
 import 'package:cabofind/paginas/descubre.dart';
+import 'package:cabofind/paginas/domicilio.dart';
 import 'package:cabofind/paginas/educacion.dart';
 import 'package:cabofind/paginas/maps.dart';
 import 'package:cabofind/paginas/publicacion_detalle.dart';
@@ -481,6 +482,71 @@ routes: <String, WidgetBuilder>{
          
         };
 */
+
+alertCar(context) async {  
+     return showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              // return object of type AlertDialog
+              return AlertDialog(
+                //. Disponible únicamente en Cabo San Lucas
+                title: new Text("¡Ahí voy Cabo! ¿Como funciona?"),
+                content: Container(
+                  height: 300,
+                  child: new Column(
+
+                    children: <Widget>[
+                      Text("Cabofind te ayudará a generar tu pedido, posteriormente, se envía un whatsapp desde tu celular al mensajero,"+
+                  "este se pondrá en contacto con usted para validar el pedido.",
+                  maxLines: 15,
+                  style: TextStyle(fontSize: 15.0,)),
+                  Text("El mensajero llegará con tu producto y con su ticket de compra.",
+                  maxLines: 15,
+                  style: TextStyle(fontSize: 15.0,)),
+                  Text("Disponible únicamente en Cabo San Lucas.",
+                  maxLines: 15,
+                  style: TextStyle(fontSize: 15.0,)),
+
+                  Text("Los precios pueden variar dependiendo la hora.",
+                  maxLines: 15,
+                  style: TextStyle(fontSize: 15.0,)),
+                  Text("El servicio es totalmente ajeno a Cabofind. ",
+                  maxLines: 15,
+                  style: TextStyle(fontSize: 15.0,)),
+                    ],
+                  ),
+                ),
+
+                
+                actions: <Widget>[
+                 
+                 new FlatButton(
+                   child: new Text('Cerrar'),
+                   onPressed: () {
+                     Navigator.of(context).pop();
+                     
+                   },
+                 ), 
+                 new FlatButton(
+                   color: Colors.blueAccent,
+                   child: new Text('Acepto los terminos',style: TextStyle(fontSize: 14.0,color: Colors.white),),
+                   onPressed: () { 
+                    Navigator.of(context).pop(); 
+                    Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Domicilio()
+                        )
+                        );
+                                    },
+                 )
+               ],
+              );
+            },
+          );
+   }
+
+   
 Widget _buildDropDownButton(String currencyCategory) {
   
     return DropdownButton(
@@ -546,7 +612,7 @@ Widget _buildDropDownButton(String currencyCategory) {
                                 bottom: 28,
                                 child: new FloatingActionButton(
                                   
-                                  child: new Text('1',
+                                  child: new Text('',
                                  style: TextStyle(fontWeight: FontWeight.bold,fontSize: 10.0, color: Colors.white)),
                                   backgroundColor: Colors.red,
                                   
@@ -870,7 +936,13 @@ Widget _buildDropDownButton(String currencyCategory) {
                         )
                         );
                  
+               } else if (ruta == "domicilio")
+               {
+                 alertCar(context);
+                 
+                 
                }
+
               
               
           

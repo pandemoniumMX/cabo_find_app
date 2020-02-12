@@ -265,11 +265,11 @@ Widget videosection = Container(
                         children: <Widget>[
                           Image.network(data_pub[index]["GAL_FOTO"],
                               width: MediaQuery.of(context).size.width,
-                              height: 450,
+                              height: MediaQuery.of(context).size.height / 1.5,
                               fit: BoxFit.fill ),
                         Positioned(
                                 right: 0.0,
-                                bottom: 390.0,
+                                top: 0.0,
                                 child: new FloatingActionButton(
                                   child: new Image.asset(
                                     "assets/recomend.png",

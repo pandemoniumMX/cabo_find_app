@@ -148,6 +148,7 @@ class _MyHomePageState extends State<Maps_restaurantes> {
         zoom: 17.0,
       ),
     ));
+    print(currentLocation);
   }
 
   @override
