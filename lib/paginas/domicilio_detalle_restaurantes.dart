@@ -178,6 +178,7 @@ final _pedido = pedido.text;
 final _nombre = nombre.text;
 final _numero = numero.text;
 final _servicio = dataneg[0]["NEG_ETIQUETAS"];
+final _celular = dataneg[0]["NEG_TEL"];
 
 var response = await http.get(
         Uri.encodeFull(
@@ -188,7 +189,8 @@ var response = await http.get(
         }
     ); 
 
-await FlutterOpenWhatsapp.sendSingleMessage("526242353535","Servicio 'Ahí Voy Cabo' con Cabofind, tipo de servicio 'Comida' a nombre de: $_nombre, detalle del pedido: $_pedido. enviar a la siguiente ubicación: $_ubicacion  ");
+var whatsappUrl ="whatsapp://send?phone=$_celular&text=Servicio 'Ahí Voy Cabo' con Cabofind, tipo de servicio 'Comida' a nombre de: $_nombre, detalle del pedido: $_pedido. enviar a la siguiente ubicación: $_ubicacion";
+await canLaunch(whatsappUrl)? launch(whatsappUrl):print("open whatsapp app link or do a snackbar with notification that there is no whatsapp installed");
 
 
   
