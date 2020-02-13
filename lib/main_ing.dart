@@ -117,7 +117,7 @@ List data;
   Future<String> getData() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/consultas_negocios/esp/estructura_esp.php"),
+            "http://cabofind.com.mx/app_php/consultas_negocios/esp/estructura_ing.php"),
 
         headers: {
           "Accept": "application/json"

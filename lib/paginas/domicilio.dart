@@ -7,6 +7,7 @@ import 'package:cabofind/notificaciones/push_publicacion_android.dart';
 import 'package:cabofind/paginas/anuncios.dart';
 //import 'package:cabofind/notificaciones/push_publicacion_android.dart';
 import 'package:cabofind/paginas/descubre.dart';
+import 'package:cabofind/paginas/domicilio_detalle_restaurantes.dart';
 import 'package:cabofind/paginas/educacion.dart';
 import 'package:cabofind/paginas/maps.dart';
 import 'package:cabofind/paginas/publicacion_detalle.dart';
@@ -49,7 +50,8 @@ import 'package:device_info/device_info.dart';
 import 'package:devicelocale/devicelocale.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'domicilio_detalle.dart';
+import 'domicilio_detalle_general.dart';
+
 
 //import 'package:firebase_messaging/firebase_messaging.dart';
 //import 'package:geocoder/geocoder.dart';
@@ -431,13 +433,24 @@ routes: <String, WidgetBuilder>{
                 String id = data[index]["EST_DOM_ID"];
                 print(ruta);
                 
+                 if( ruta == "comida"){
 
                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (BuildContext context) => new Domicilio_validar(empresa: new Empresa(id))
+                    context,
+                    new MaterialPageRoute(
+                          builder: (BuildContext context) => new Domicilio_comida(empresa: new Empresa(id))
                           )
-                          );
+                        );
+
+               } else {
+                 Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                          builder: (BuildContext context) => new Domicilio_general(empresa: new Empresa(id))
+                          )
+                        );
+               } 
+                 
 
 
               },

@@ -95,7 +95,7 @@ class Myapp extends StatelessWidget {
         ),
         
         home: new Container(
-            child:           new Domicilio_validar()
+            child:           new Domicilio_comida()
         )
 
 
@@ -106,11 +106,11 @@ class Myapp extends StatelessWidget {
 
 
 
-class Domicilio_validar extends StatefulWidget {
+class Domicilio_comida extends StatefulWidget {
   final Empresa empresa;
   @override
 
-  Domicilio_validar({Key key, @required this.empresa}) : super(
+  Domicilio_comida({Key key, @required this.empresa}) : super(
     key: key);
   _MyHomePageState createState() => new _MyHomePageState();
 
@@ -119,11 +119,12 @@ class Domicilio_validar extends StatefulWidget {
 
 
 
-class _MyHomePageState extends State<Domicilio_validar> {
+class _MyHomePageState extends State<Domicilio_comida> {
   Completer<GoogleMapController> _controller = Completer();
 
   TextEditingController pedido =  TextEditingController();
   TextEditingController nombre =  TextEditingController();
+  TextEditingController numero =  TextEditingController();
 
   String _displayValue = "";
 
@@ -150,13 +151,9 @@ class _MyHomePageState extends State<Domicilio_validar> {
   List descripcion;
   List data_resena;
 
-void getLocation(ubicacion) async {
-   
- 
-        }
 
-
-void getPedido(nombre, pedido) async {
+@override
+Future<String> getPedido(pedido, nombre, numero) async {
   LocationData currentLocation;
    var location = new Location();
    try {
@@ -179,19 +176,22 @@ final _ubicacion = "https://maps.apple.com/?q=$_latitud,$_longitud";
   
 final _pedido = pedido.text;
 final _nombre = nombre.text;
+final _numero = numero.text;
+final _servicio = dataneg[0]["NEG_ETIQUETAS"];
 
-await FlutterOpenWhatsapp.sendSingleMessage("526241560569","Servicio 'Ahí Voy Cabo' con Cabofind, tipo de servicio 'Comida' a nombre de: $_pedido, detalle del pedido: $_nombre enviar a la siguiente ubicación: $_ubicacion  ");
-
-//final imagenfb = profile['picture'];
-//final url =  dataneg[0]["NEG_WEB"];
 var response = await http.get(
         Uri.encodeFull(
-           // 'http://cabofind.com.mx/app_php/APIs/esp/insertar_resena.php?ID_FB=${id}&CORREO=${correofb}&NOM=${nombresfb}&APE=${apellidosfb}&FOTO=${imagenfb}&IDIOMA=ESP&RESENA=${resena}&VALOR=${valor}&ID_N=${widget.empresa.id_nm}'),
-'xasd'),
+        'http://cabofind.com.mx/app_php/APIs/esp/insert_pedido.php?NOM=${_nombre}&NUM=${_numero}&PEDIDO=${_pedido}&TIPO=${_servicio}'),
+
         headers: {
           "Accept": "application/json"
         }
-    );   
+    ); 
+
+await FlutterOpenWhatsapp.sendSingleMessage("526242353535","Servicio 'Ahí Voy Cabo' con Cabofind, tipo de servicio 'Comida' a nombre de: $_nombre, detalle del pedido: $_pedido. enviar a la siguiente ubicación: $_ubicacion  ");
+
+
+  
     }
         }
 
@@ -376,97 +376,130 @@ void showResena() {
     super.dispose();
   }
 
+void hacerpedido() async{
+      bool _hasInputError = false;
+      final _formKey = GlobalKey<FormState>();
 
-
-
-
-  void hacerpedido() async{
     return showDialog(
          context: context,
          builder: (context) {
-           return AlertDialog(
-             title: Text('HACER PEDIDO',style: TextStyle(fontSize: 25.0,),),
-             content: Container(
-                 width: MediaQuery.of(context).size.width,
-                 height: 400.0,
-                 child:  
-                Column(
-              children: <Widget>[ 
-              //Text('TU NOMBRE'),
-              TextFormField(
-                decoration: new InputDecoration(
-                        labelText: "TU NOMBRE",
-                        fillColor: Colors.white,
-                        border: new OutlineInputBorder(
-                          borderRadius: new BorderRadius.circular(25.0),
-                          borderSide: new BorderSide(
+           return Form(
+             key:_formKey ,
+              child: AlertDialog(
+               title: Text('HACER PEDIDO',style: TextStyle(fontSize: 25.0,),),
+               content: Container(
+                   width: MediaQuery.of(context).size.width,
+                   height:MediaQuery.of(context).size.height / 2,
+                   child:Column(
+                children: <Widget>[ 
+                //Text('TU NOMBRE'),
+                TextFormField(    
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Este campo no puede estar vacío';
+                    } else if (value.length <=3) {
+                      return 'Requiere minimi 4 letras';
+
+                    }
+                    return null;
+                  },           
+                  decoration: new InputDecoration(
+                          labelText: "TU NOMBRE",
+                          fillColor: Colors.white,
+                          border: new OutlineInputBorder(
+                            borderRadius: new BorderRadius.circular(25.0),
+                            borderSide: new BorderSide(
+                            ),
                           ),
-                        ),
-                        //fillColor: Colors.green
-                      ),
-                      validator: (val) {
-                        if(val.length==0) {
-                          return "Este campo no puede estar vacío";
-                        }else{
-                          return null;
-                        }
-                      },
-                controller: nombre,
-                maxLines: 1, 
-                ),   
-              SizedBox(height:15.0),
-              TextFormField(
-                controller: pedido,
-                maxLines: 10, 
-                decoration: new InputDecoration(
-                        labelText: "DESCRIBIR TU PEDIDO",
-                        fillColor: Colors.white,
-                        border: new OutlineInputBorder(
-                          borderRadius: new BorderRadius.circular(25.0),
-                          borderSide: new BorderSide(
+                          //fillColor: Colors.green
+                        ),           
+                  keyboardType: TextInputType.text, 
+                  controller: nombre,
+                  maxLines: 1, 
+                  ),
+                  SizedBox(height:10.0), 
+                  TextFormField(    
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Este campo no puede estar vacío';
+                    } else if (value.length <=9) {
+                      return 'Requiere 10 dígitos';
+
+                    }
+                    return null;
+                  },            
+                  decoration: new InputDecoration(
+                          labelText: "TU CELULAR",
+                          fillColor: Colors.white,
+                          border: new OutlineInputBorder(
+                            borderRadius: new BorderRadius.circular(25.0),
+                            borderSide: new BorderSide(
+                            ),
                           ),
-                        ),
-                        //fillColor: Colors.green
-                      ),
-                      validator: (val) {
-                        if(val.length==0) {
-                          return "Este campo no puede estar vacío";
-                        }else{
-                          return null;
-                        }
-                      },
+                          //fillColor: Colors.green
+                        ),   
+                  keyboardType: TextInputType.phone,    
+                  inputFormatters: <TextInputFormatter>[
+                  WhitelistingTextInputFormatter.digitsOnly], 
+                     
+                  controller: numero,
+                  maxLines: 1, 
+                  ),   
+                SizedBox(height:10.0),
+                Expanded(
+                    child: TextFormField(   
+                    validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Este campo no puede estar vacío';
+                    } else if (value.length <=14) {
+                      return 'Requiere minimo 15 letras';
+
+                    }
+                    return null;
+                  },             
+                    controller: pedido,
+                    maxLines: 10, 
+                    decoration: new InputDecoration(
+                            labelText: "DESCRIBIR TU PEDIDO",
+                            fillColor: Colors.white,
+                            border: new OutlineInputBorder(
+                              borderRadius: new BorderRadius.circular(25.0),
+                              borderSide: new BorderSide(
+                              ),
+                            ),
+                            //fillColor: Colors.green
+                          ),
+                         
+                    ),
                 ),
-               
-                ],
-                 )
                  
-             ),
-             actions: <Widget>[
-               new FlatButton(
-                 child: new Text('Cancelar'),
-                 onPressed: () {
-                   Navigator.of(context).pop();
-                 },
-               ),
-               new FlatButton(
-                 child: new Text('Enviar'),
-                 onPressed: (){ 
-                   getPedido(pedido,nombre); 
+                  ],
+                   )
                    
-                   showResena(); 
-                 
-                 Navigator.of(context).pop();
-                 
-                 },
-               )
-             ],
+               ),
+               actions: <Widget>[
+                 new FlatButton(
+                   child: new Text('Cancelar'),
+                   onPressed: () {
+                     Navigator.of(context).pop();
+                   },
+                 ),
+                 new FlatButton(
+                   child: new Text('Enviar'),
+                   onPressed: (){ 
+                     if (_formKey.currentState.validate()) {
+
+                     getPedido(pedido,nombre, numero);                      
+                     showResena();                    
+                     Navigator.of(context).pop();                    
+                  }
+                   
+                   },
+                 )
+               ],
+             ),
            );
          });}
-
-
-
-
-
 
  Widget build(BuildContext context){
 
@@ -526,39 +559,7 @@ void showResena() {
 
               ],
             ),
-          Center(
-            child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-            
-                Text(
-
-                  dataneg[0]["CAT_NOMBRE"],
-                  style: TextStyle(
-                    color: Colors.blue[500],
-                  ),
-                ),
-                
-
-              Text(
-                " | ",
-                style: TextStyle(
-                  color: Colors.grey[500],
-                ),
-              ),
-              Text(
-                dataneg[0]["SUB_NOMBRE"],
-                style: TextStyle(
-                  color: Colors.blue[500],
-                ),
-              ), 
-              
-              
-              
-
-            ],
-            ),
-            ),
+          
           ],       
         );
        },
@@ -733,6 +734,36 @@ void showResena() {
          });
    }
 
+   _alertCobertura(BuildContext context) async {
+     return showDialog(
+         context: context,
+         builder: (context) {
+           return AlertDialog(             
+             title: Text('Costo de cobertura nocturna',style: TextStyle(fontSize: 25.0,),),
+             content: FadeInImage(
+
+                    image: NetworkImage("http://cabofind.com.mx/assets/galeria/cobertura.png"),
+                    fit: BoxFit.fill,
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height / 2,
+
+                    // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
+                    placeholder: AssetImage('android/assets/images/loading.gif'),
+                    fadeInDuration: Duration(milliseconds: 200),
+
+                  ),
+             actions: <Widget>[
+               new FlatButton(
+                 child: new Text('Cerrar'),
+                 onPressed: () {
+                   Navigator.of(context).pop();
+                 },
+               )
+             ],
+           );
+         });
+   }
+
    _mapa() async {
       final url =  dataneg[index]["NEG_MAP"];
      if (await canLaunch(url)) {
@@ -771,7 +802,7 @@ void showResena() {
          
          Column(
            children: <Widget>[
-             FloatingActionButton(child: Icon(FontAwesomeIcons.mapMarkerAlt), onPressed: _mapa,backgroundColor:Color(0xff01969a),heroTag: "bt4",elevation: 0.0,),             
+             FloatingActionButton(child: Icon(FontAwesomeIcons.mapMarkerAlt), onPressed:() =>_alertCobertura(context) ,backgroundColor:Color(0xff01969a),heroTag: "bt4",elevation: 0.0,),             
              Text('Ver cobertura', style: TextStyle(color: Colors.black),),
 
            ],
@@ -1001,132 +1032,6 @@ Widget resenasection = Column(
   }
     
 
-  Widget publicaciones =  ListView.builder(
-      shrinkWrap: true,
-      physics: BouncingScrollPhysics(),
-      itemCount: data_list == null ? 0 : data_list.length,
-      itemBuilder: (BuildContext context, int index) {
-
-        return new ListTile(
-
-
-          title: new Card(
-
-            elevation: 5.0,
-            child: new Container(
-
-
-              decoration: BoxDecoration(
-                  borderRadius:BorderRadius.circular(10.0),
-
-                  border: Border.all(
-                      color: Colors.blue)),
-              padding: EdgeInsets.all(
-                  10.0),
-              margin: EdgeInsets.all(
-                  10.0),
-
-              child: Column(
-
-                children: <Widget>[
-
-                  Padding(
-
-                      child: Text(
-
-                        data_list[index]["PUB_TITULO"],
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                          fontSize: 20.0,
-
-
-                        ),
-
-                      ),
-                      padding: EdgeInsets.all(
-                          1.0)
-                  ),
-
-                  FadeInImage(
-
-                    image: NetworkImage(data_list[index]["GAL_FOTO"]),
-                    fit: BoxFit.fill,
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height / 2,
-
-                    // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
-                    placeholder: AssetImage('android/assets/images/loading.gif'),
-                    fadeInDuration: Duration(milliseconds: 200),
-
-                  ),
-
-
-                  Row(
-                      children: <Widget>[
-
-                        Padding(
-
-                            child: Text(
-
-                                data_list[index]["CAT_NOMBRE"]),
-                            padding: EdgeInsets.all(
-                                1.0)),
-                        Text(
-                            " | "),
-                        Padding(
-                            child: new Text(
-                                data_list[index]["NEG_NOMBRE"]),
-                            padding: EdgeInsets.all(
-                                1.0)),
-                        Text(
-                            " | "),
-                        Flexible(
-                          child: new Text(
-                            data_list[index]["NEG_LUGAR"],
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,),
-                        ),
-
-
-
-                      ]),
-                ], 
-
-              ),
-
-            ),
-
-          ),
-
-          onTap: () {
-            String id_n = data_list[index]["ID_NEGOCIO"];
-            String id_p = data_list[index]["ID_PUBLICACION"];
-             
-
-
-              Navigator.push(context, new MaterialPageRoute
-                (builder: (context) => new Publicacion_detalle_fin_estatica(
-                publicacion: new Publicacion(id_n,id_p),
-                )
-              )
-              );
-
-
-          },
-          //A Navigator is a widget that manages a set of child widgets with
-          //stack discipline.It allows us navigate pages.
-          //stack discipline.It allows us navigate pages.
-          //Navigator.of(context).push(route);
-        );
-
-      },
-
-  );
-
-
-
-
     return new Scaffold(
 
       body: ListView(
@@ -1206,11 +1111,7 @@ Widget resenasection = Column(
               height: 50.0,
 
             ),
-            Column(
-              children: <Widget>[publicaciones],
-             // height:1000.0,
-
-            ),
+            
 
             Container(
               child: Column(
