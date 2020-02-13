@@ -25,7 +25,7 @@ import 'package:cabofind/utilidades/buscador_notap.dart';
 import 'package:cabofind/paginas/carrusel.dart';
 import 'package:cabofind/paginas_listas/list_publicaciones.dart';
 import 'package:cabofind/utilidades/classes.dart';
-import 'package:cabofind/utilidades/maps.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:cabofind/paginas/acercade.dart';
@@ -39,7 +39,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:device_info/device_info.dart';
 import 'package:devicelocale/devicelocale.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'main_esp.dart';
@@ -50,12 +49,7 @@ import 'paginas/promociones.dart';
 
 
 
-FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
-void fcmSubscribe() {
-  _firebaseMessaging.unsubscribeFromTopic('All');
-    _firebaseMessaging.subscribeToTopic('Todos');
-  }
 
 
 void main() => runApp(new Myapp1());
@@ -105,7 +99,12 @@ class _MyHomePageState extends State<Start> {
 
 
 
+FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
+void fcmSubscribe() {
+  _firebaseMessaging.unsubscribeFromTopic('All');
+    _firebaseMessaging.subscribeToTopic('Todos');
+  }
   Icon actionIcon = new Icon(Icons.search);
 
   Widget appBarTitle = new Text("Cabofind");
@@ -153,7 +152,7 @@ class _MyHomePageState extends State<Start> {
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
     print('Running on ${iosInfo.identifierForVendor}');
-    print('Running on ${iosInfo.utsname.nodename}');
+    //print('Running on ${iosInfo.utsname.nodename}');
     print('Running on ${iosInfo.utsname.sysname}');
 
 
@@ -217,7 +216,6 @@ class _MyHomePageState extends State<Start> {
     this.getData();
 
 
-    FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
     final _mensajesStreamController = StreamController<String>.broadcast();
 
@@ -241,7 +239,7 @@ class _MyHomePageState extends State<Start> {
 
     });
     */
-    this.checkModelIos();
+    //this.checkModelIos();
    // this.checkModelAndroid();
     ///this._getLocation();
 
@@ -312,52 +310,52 @@ class _MyHomePageState extends State<Start> {
         String id_n= (message['data']['id_n']) as String;
         String id =(message['data']['id'])as String;
 
+       
+          showDialog(
+         context: context,
+         builder: (context) {
+           return AlertDialog(
+             title: Text('Nueva publicación!',style: TextStyle(fontSize: 25.0,),),
+             content: Container(
+                 width: 300,
+                 height: 300.0,
+                 child: FadeInImage(
 
-        showDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                title: Text('Nueva publicación!',style: TextStyle(fontSize: 25.0,),),
-                content: Container(
-                  width: 300,
-                  height: 300.0,
-                  child: FadeInImage(
+                   image: NetworkImage("http://cabofind.com.mx/assets/img/alerta.png"),
+                   fit: BoxFit.fill,
+                   width: 300,
+                   height: 300,
 
-                    image: NetworkImage("http://cabofind.com.mx/assets/img/alerta.png"),
-                    fit: BoxFit.fill,
-                    width: 300,
-                    height: 300,
+                   // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
+                   placeholder: AssetImage('android/assets/images/loading.gif'),
+                   fadeInDuration: Duration(milliseconds: 200),
 
-                    // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
-                    placeholder: AssetImage('android/assets/images/loading.gif'),
-                    fadeInDuration: Duration(milliseconds: 200),
-
-                  ),
-
-                ),
-                actions: <Widget>[
-                  new FlatButton(
-                    child: new Text('Cerrar'),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                  new FlatButton(
-                    color: Colors.blueAccent,
-                    child: new Text('Descubrir',style: TextStyle(fontSize: 14.0,color: Colors.white),),
-                    onPressed: () {
-                      Navigator.push(context, new MaterialPageRoute
-                        (builder: (context) => new Publicacion_detalle_fin(
-                        publicacion: new Publicacion(id_n,id),
-                      )
-                      )
-                      );
-                    },
-                  )
-                ],
-              );
-            });
-
+                 ),
+                 
+             ),
+             actions: <Widget>[
+               new FlatButton(
+                 child: new Text('Cerrar'),
+                 onPressed: () {
+                   Navigator.of(context).pop();
+                 },
+               ), 
+               new FlatButton(
+                 color: Colors.blueAccent,
+                 child: new Text('Descubrir',style: TextStyle(fontSize: 14.0,color: Colors.white),),
+                 onPressed: () {
+                  Navigator.push(context, new MaterialPageRoute
+              (builder: (context) => new Publicacion_detalle_fin(
+              publicacion: new Publicacion(id_n,id),
+            )
+            )
+            );
+                 },
+               )
+             ],
+           );
+         });
+            
 /*
        showDialog(
          context: context,
@@ -369,7 +367,7 @@ class _MyHomePageState extends State<Start> {
          )
        );
 */
-
+       
 
       },
 
@@ -378,17 +376,17 @@ class _MyHomePageState extends State<Start> {
         print('======= On launch ========');
         print(" $message" );
 
-        String id_n= (message['data']['id_n']) as String;
+       String id_n= (message['data']['id_n']) as String;
         String id =(message['data']['id'])as String;
 
-        Navigator.push(context, new MaterialPageRoute
-          (builder: (context) => new Publicacion_detalle_fin(
-          publicacion: new Publicacion(id_n,id),
-        )
-        )
-        );
+       Navigator.push(context, new MaterialPageRoute
+              (builder: (context) => new Publicacion_detalle_fin(
+              publicacion: new Publicacion(id_n,id),
+            )
+            )
+            );
 
-
+       
 
       },
 
@@ -397,17 +395,17 @@ class _MyHomePageState extends State<Start> {
         print('======= On resume ========');
         print(" $message" );
 
-        String id_n= (message['data']['id_n']) as String;
+       String id_n= (message['data']['id_n']) as String;
         String id =(message['data']['id'])as String;
 
-        Navigator.push(context, new MaterialPageRoute
-          (builder: (context) => new Publicacion_detalle_fin(
-          publicacion: new Publicacion(id_n,id),
-        )
-        )
-        );
+       Navigator.push(context, new MaterialPageRoute
+              (builder: (context) => new Publicacion_detalle_fin(
+              publicacion: new Publicacion(id_n,id),
+            )
+            )
+            );
 
-
+       
 
       },
 
@@ -416,6 +414,7 @@ class _MyHomePageState extends State<Start> {
 
 
   }
+
 
   Widget build(BuildContext context) {
     /*

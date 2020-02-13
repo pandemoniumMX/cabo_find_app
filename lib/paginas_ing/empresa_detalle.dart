@@ -360,54 +360,66 @@ void initiateFacebookLogin() async{
     case FacebookLoginStatus.loggedIn:
     onLoginStatusChange(true);
     //getInfofb(result,_displayValue);
-
+final _formKey = GlobalKey<FormState>();
     
                
     return showDialog(
          context: context,
          builder: (context) {
-           return AlertDialog(
-             title: Text('Review',style: TextStyle(fontSize: 25.0,),),
-             content: Container(
-                 width: MediaQuery.of(context).size.width,
-                 height: 350.0,
-                 child:  
-                Column(
-                                    children: <Widget>[  
-              Text('Rate'),  
-              DropdownButton(
+           return Form(
+             key:_formKey ,
+               child: AlertDialog(
+               title: Text('Review',style: TextStyle(fontSize: 25.0,),),
+               content: Container(
+                   width: MediaQuery.of(context).size.width,
+                   height: 350.0,
+                   child:  
+                  Column(
+                                      children: <Widget>[  
+                Text('Rate'),  
+                DropdownButton(
 
-                value: _currentCity,
-                items: _dropDownMenuItems,
-                onChanged: changedDropDownItem,
+                  value: _currentCity,
+                  items: _dropDownMenuItems,
+                  onChanged: changedDropDownItem,
 
-              ),                           
-              Text('Write a short opinion'),
-              TextField(
-                controller: controllerCode,
-                maxLines: 5, 
-                ),
-               
-                ],
-                 )
+                ),                           
+                Text('Write a short opinion'),
+                TextFormField(
+                  controller: controllerCode,
+                  maxLines: 5, 
+                  validator: (value) {
+                      if (value.isEmpty) {
+                        return 'This field cant be empty.';
+                      } else if (value.length <=3) {
+                        return 'Minimum 5 letters required';
+
+                      }
+                      return null;
+                    },
+                  ),
                  
-             ),
-             actions: <Widget>[
-               new FlatButton(
-                 child: new Text('Cancel'),
-                 onPressed: () {
-                   Navigator.of(context).pop();
-                 },
+                  ],
+                   )
+                   
                ),
-               new FlatButton(
-                 child: new Text('Send'),
-                 onPressed: (){ getInfofb(result,_displayValue,_currentCity);showResena();  
-                 
-                 Navigator.of(context).pop();
-                 
-                 },
-               )
-             ],
+               actions: <Widget>[
+                 new FlatButton(
+                   child: new Text('Cancel'),
+                   onPressed: () {
+                     Navigator.of(context).pop();
+                   },
+                 ),
+                 new FlatButton(
+                   child: new Text('Send'),
+                   onPressed: (){ getInfofb(result,_displayValue,_currentCity);showResena();  
+                   
+                   Navigator.of(context).pop();
+                   
+                   },
+                 )
+               ],
+             ),
            );
          });
 
@@ -583,7 +595,7 @@ var response = await http.get(
                    image: NetworkImage(data_carrusel[index]["GAL_FOTO"]),
                    fit: BoxFit.cover,
                    width: MediaQuery.of(context).size.width,
-                   height: 400,
+                   height: MediaQuery.of(context).size.height / 1.5,
 
                    // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
                    placeholder: AssetImage('android/assets/images/loading.gif'),
@@ -596,7 +608,6 @@ var response = await http.get(
 
     
     Widget titleSection = Container(
-     // width: MediaQuery.of(context).size.width,
       //padding: const EdgeInsets.all(20),
      height:  50.0,
       child: new ListView.builder(
@@ -675,7 +686,6 @@ var response = await http.get(
 
 
    Widget textSection = Column(
-     // height:  MediaQuery.of(context).size.height,
 
        children: <Widget>[
          new ListView.builder(
@@ -700,7 +710,6 @@ var response = await http.get(
    );
 
     Widget logo = Column(
-     // height:  MediaQuery.of(context).size.height,
     
       children: <Widget>[
          new ListView.builder(
@@ -714,7 +723,7 @@ var response = await http.get(
                     image: NetworkImage(dataneg[index]["GAL_FOTO"]),
                     fit: BoxFit.fill,
                     width: MediaQuery.of(context).size.width,
-                    height: 300,
+                    height: MediaQuery.of(context).size.height / 2.5,
 
                     // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
                     placeholder: AssetImage('android/assets/images/loading.gif'),
@@ -785,7 +794,6 @@ var response = await http.get(
   }
 
   Widget ubersection = Column(
-     //width: MediaQuery.of(context).size.width +30,
 
      children: <Widget>[
         new ListView.builder(
@@ -846,7 +854,6 @@ if (latc != null){
 
 Widget resenasection = Column(
          
-     // height:  MediaQuery.of(context).size.height,
       children: <Widget>[
     new ListView.builder(  
          shrinkWrap: true,
@@ -919,7 +926,6 @@ Widget resenasection = Column(
 
   Widget social() { 
     return Container (
-     // width: MediaQuery.of(context).size.width,
       //padding: const EdgeInsets.all(20),
 
       height:  60.0,
@@ -1065,7 +1071,7 @@ Widget resenasection = Column(
                     image: NetworkImage(data_list[index]["GAL_FOTO_ING"]),
                     fit: BoxFit.fill,
                     width: MediaQuery.of(context).size.width,
-                    height: 250,
+                    height: MediaQuery.of(context).size.height / 2,
 
                     // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
                     placeholder: AssetImage('android/assets/images/loading.gif'),

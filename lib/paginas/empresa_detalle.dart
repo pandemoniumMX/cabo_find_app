@@ -616,7 +616,7 @@ final url =  dataneg[index]["NEG_MAP_IOS"];
                    image: NetworkImage(data_carrusel[index]["GAL_FOTO"]),
                    fit: BoxFit.cover,
                    width: MediaQuery.of(context).size.width,
-                   height: 400,
+                   height: MediaQuery.of(context).size.height / 1.5,
 
                    // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
                    placeholder: AssetImage('android/assets/images/loading.gif'),
@@ -629,7 +629,6 @@ final url =  dataneg[index]["NEG_MAP_IOS"];
 
     
     Widget titleSection = Container(
-     // width: MediaQuery.of(context).size.width,
       //padding: const EdgeInsets.all(20),
      height:  50.0,
       child: new ListView.builder(
@@ -711,7 +710,6 @@ final url =  dataneg[index]["NEG_MAP_IOS"];
 
 
     Widget textSection = Column(
-     // height:  MediaQuery.of(context).size.height,
      
      children: <Widget>[
         new ListView.builder(
@@ -736,7 +734,6 @@ final url =  dataneg[index]["NEG_MAP_IOS"];
     );
 
     Widget logo = Column(
-     // height:  MediaQuery.of(context).size.height,
     
       children: <Widget>[
          new ListView.builder(
@@ -750,7 +747,7 @@ final url =  dataneg[index]["NEG_MAP_IOS"];
                     image: NetworkImage(dataneg[index]["GAL_FOTO"]),
                     fit: BoxFit.fill,
                     width: MediaQuery.of(context).size.width,
-                    height: 300,
+                    height: MediaQuery.of(context).size.height / 2.5,
 
                     // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
                     placeholder: AssetImage('android/assets/images/loading.gif'),
@@ -822,7 +819,6 @@ final url =  dataneg[index]["NEG_MAP_IOS"];
    
 
 Widget ubersection = Column(
-     //width: MediaQuery.of(context).size.width +30,
 
      children: <Widget>[
         new ListView.builder(
@@ -884,7 +880,6 @@ if (latc != null){
 
 Widget resenasection = Column(
          
-     // height:  MediaQuery.of(context).size.height,
       children: <Widget>[
     new ListView.builder(  
          shrinkWrap: true,
@@ -961,7 +956,6 @@ Widget resenasection = Column(
 
   Widget social() { 
     return Container (
-     // width: MediaQuery.of(context).size.width,
       //padding: const EdgeInsets.all(20),
 
       height:  60.0,
@@ -1101,7 +1095,7 @@ Widget resenasection = Column(
                     image: NetworkImage(data_list[index]["GAL_FOTO"]),
                     fit: BoxFit.fill,
                     width: MediaQuery.of(context).size.width,
-                    height: 250,
+                    height: MediaQuery.of(context).size.height / 2,
 
                     // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
                     placeholder: AssetImage('android/assets/images/loading.gif'),

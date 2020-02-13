@@ -1,11 +1,14 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io' show Platform;
 import 'package:cabofind/main_ing.dart';
 import 'package:cabofind/main_lista.dart';
 import 'package:cabofind/notificaciones/push_publicacion_android.dart';
 //import 'package:cabofind/notificaciones/push_publicacion_android.dart';
 import 'package:cabofind/paginas/descubre.dart';
+import 'package:cabofind/paginas/domicilio.dart';
 import 'package:cabofind/paginas/educacion.dart';
+import 'package:cabofind/paginas/maps.dart';
 import 'package:cabofind/paginas/publicacion_detalle.dart';
 import 'package:cabofind/paginas/publicaciones.dart';
 //import 'package:cabofind/paginas/publicacion_detalle_push.dart';
@@ -24,8 +27,12 @@ import 'package:cabofind/utilidades/buscador_notap.dart';
 
 import 'package:cabofind/paginas/carrusel.dart';
 import 'package:cabofind/paginas_listas/list_publicaciones.dart';
+import 'package:cabofind/utilidades/calculadora.dart';
 import 'package:cabofind/utilidades/classes.dart';
-import 'package:cabofind/utilidades/maps.dart';
+import 'package:cabofind/utilidades/notificaciones.dart';
+import 'package:cabofind/utilidades/rutas.dart';
+import 'package:cabofind/weather/weather/weather_builder.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:cabofind/paginas/acercade.dart';
@@ -39,7 +46,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:device_info/device_info.dart';
 import 'package:devicelocale/devicelocale.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'paginas/anuncios.dart';
@@ -49,12 +55,7 @@ import 'paginas/promociones.dart';
 
 
 
-FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
-void fcmSubscribe() {
-  _firebaseMessaging.unsubscribeFromTopic('All');
-    _firebaseMessaging.subscribeToTopic('Todos');
-  }
 
 
 void main() => runApp(new Myapp());
@@ -101,6 +102,13 @@ class MyHomePages extends StatefulWidget {
 
 
 class _MyHomePageState extends State<MyHomePages> {
+
+  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+
+void fcmSubscribe() {
+  _firebaseMessaging.unsubscribeFromTopic('All');
+    _firebaseMessaging.subscribeToTopic('Todos');
+  }
 
   final fromTextController = TextEditingController();
   List<String> currencies;
@@ -155,9 +163,9 @@ class _MyHomePageState extends State<MyHomePages> {
     }
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
-    print('Running on ${iosInfo.identifierForVendor}');
-    print('Running on ${iosInfo.utsname.nodename}');
-    print('Running on ${iosInfo.utsname.sysname}');
+    //print('Running on ${iosInfo.identifierForVendor}');
+    //print('Running on ${iosInfo.utsname.nodename}');
+    //print('Running on ${iosInfo.utsname.sysname}');
 
 
     var response = await http.get(
@@ -214,18 +222,15 @@ class _MyHomePageState extends State<MyHomePages> {
     isLogged(context);
     super.initState();
 
-    fcmSubscribe();
 
-    setupNotification();
     this.getData();
     _loadCurrencies();
 
 
-    FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
     final _mensajesStreamController = StreamController<String>.broadcast();
-
-
+fcmSubscribe();
+setupNotification();
 
 
 
@@ -301,7 +306,7 @@ class _MyHomePageState extends State<MyHomePages> {
 
     // if (prefs.getString(_idioma) ?? 'stringValue' == "espanol")
     if (_token != "ingles") {
-      print("alreay login.");
+      print("alreay login español.");
       //your home page is loaded
     }
     else
@@ -315,8 +320,7 @@ class _MyHomePageState extends State<MyHomePages> {
     }
   }
 
-
-  void setupNotification() async {
+void setupNotification() async {
 
     _firebaseMessaging.requestNotificationPermissions();
 
@@ -326,6 +330,7 @@ class _MyHomePageState extends State<MyHomePages> {
 
       print('===== FCM Token =====');
       print( token );
+      
 
     });
 
@@ -334,58 +339,60 @@ class _MyHomePageState extends State<MyHomePages> {
 
       onMessage: ( Map<String, dynamic> message ) async {
 
+
         print('======= On Message ========');
         print(" $message" );
 
         String id_n= (message['data']['id_n']) as String;
         String id =(message['data']['id'])as String;
 
+       
+         showDialog(
+         context: context,
+         builder: (context) {
+           return AlertDialog(
+             title: Text('Nueva publicación!',style: TextStyle(fontSize: 25.0,),),
+             content: Container(
+                 width: 300,
+                 height: 300.0,
+                 child: FadeInImage(
 
-        showDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                title: Text('Nueva publicación!',style: TextStyle(fontSize: 25.0,),),
-                content: Container(
-                  width: 300,
-                  height: 300.0,
-                  child: FadeInImage(
+                   image: NetworkImage("http://cabofind.com.mx/assets/img/alerta.png"),
+                   fit: BoxFit.fill,
+                   width: 300,
+                   height: 300,
 
-                    image: NetworkImage("http://cabofind.com.mx/assets/img/alerta.png"),
-                    fit: BoxFit.fill,
-                    width: 300,
-                    height: 300,
+                   // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
+                   placeholder: AssetImage('android/assets/images/loading.gif'),
+                   fadeInDuration: Duration(milliseconds: 200),
 
-                    // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
-                    placeholder: AssetImage('android/assets/images/loading.gif'),
-                    fadeInDuration: Duration(milliseconds: 200),
-
-                  ),
-
-                ),
-                actions: <Widget>[
-                  new FlatButton(
-                    child: new Text('Cerrar'),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                  new FlatButton(
-                    color: Colors.blueAccent,
-                    child: new Text('Descubrir',style: TextStyle(fontSize: 14.0,color: Colors.white),),
-                    onPressed: () {
-                      Navigator.push(context, new MaterialPageRoute
-                        (builder: (context) => new Publicacion_detalle_fin(
-                        publicacion: new Publicacion(id_n,id),
-                      )
-                      )
-                      );
-                    },
-                  )
-                ],
-              );
-            });
-
+                 ),
+                 
+             ),
+             actions: <Widget>[
+               
+               new FlatButton(
+                 child: new Text('Cerrar'),
+                 onPressed: () {
+                   Navigator.of(context).pop();
+                 },
+               ), 
+               new FlatButton(
+                 color: Colors.blueAccent,
+                 child: new Text('Descubrir',style: TextStyle(fontSize: 14.0,color: Colors.white),),
+                 onPressed: () {
+                  Navigator.push(context, new MaterialPageRoute
+              (builder: (context) => new Publicacion_detalle_fin(
+              publicacion: new Publicacion(id_n,id),
+            )
+            )
+            );
+                 },
+               )
+             ],
+           );
+         });
+            
 /*
        showDialog(
          context: context,
@@ -397,8 +404,7 @@ class _MyHomePageState extends State<MyHomePages> {
          )
        );
 */
-
-
+       
       },
 
       onLaunch: ( Map<String, dynamic> message ) async {
@@ -406,17 +412,17 @@ class _MyHomePageState extends State<MyHomePages> {
         print('======= On launch ========');
         print(" $message" );
 
-        String id_n= (message['data']['id_n']) as String;
+       String id_n= (message['data']['id_n']) as String;
         String id =(message['data']['id'])as String;
 
         Navigator.push(context, new MaterialPageRoute
-          (builder: (context) => new Publicacion_detalle_fin(
-          publicacion: new Publicacion(id_n,id),
-        )
-        )
-        );
+              (builder: (context) => new Publicacion_detalle_fin(
+              publicacion: new Publicacion(id_n,id),
+            )
+            )
+            );
 
-
+       
 
       },
 
@@ -425,25 +431,33 @@ class _MyHomePageState extends State<MyHomePages> {
         print('======= On resume ========');
         print(" $message" );
 
-        String id_n= (message['data']['id_n']) as String;
+       String id_n= (message['data']['id_n']) as String;
         String id =(message['data']['id'])as String;
 
-        Navigator.push(context, new MaterialPageRoute
-          (builder: (context) => new Publicacion_detalle_fin(
+        Navigator.push(
+          context,
+          new MaterialPageRoute(
+          builder: (BuildContext context) => Publicacion_detalle_fin(
           publicacion: new Publicacion(id_n,id),
-        )
-        )
-        );
-
-
+          )                        )
+          );
 
       },
 
 
     );
+        
 
+    _firebaseMessaging.requestNotificationPermissions(
+      const IosNotificationSettings(sound: true, badge: true, alert: true));
+      _firebaseMessaging.onIosSettingsRegistered
+      .listen((IosNotificationSettings settings){
+        print("settings registred: $settings");
+        });
 
   }
+
+  
 
   Widget build(BuildContext context) {
     /*
@@ -470,7 +484,68 @@ class _MyHomePageState extends State<MyHomePages> {
     */
    // new Publicaciones();
 
+alertCar(context) async {  
+     return showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              // return object of type AlertDialog
+              return AlertDialog(
+                //. Disponible únicamente en Cabo San Lucas
+                title: new Text("¡Ahí voy Cabo! ¿Como funciona?"),
+                content: Container(
+                  height: 300,
+                  child: new Column(
 
+                    children: <Widget>[
+                      Text("Cabofind te ayudará a generar tu pedido, posteriormente, se envía un whatsapp desde tu celular al mensajero,"+
+                  "este se pondrá en contacto con usted para validar el pedido.",
+                  maxLines: 15,
+                  style: TextStyle(fontSize: 15.0,)),
+                  Text("El mensajero llegará con tu producto y con su ticket de compra.",
+                  maxLines: 15,
+                  style: TextStyle(fontSize: 15.0,)),
+                  Text("Disponible únicamente en Cabo San Lucas.",
+                  maxLines: 15,
+                  style: TextStyle(fontSize: 15.0,)),
+
+                  Text("Los precios pueden variar dependiendo la hora.",
+                  maxLines: 15,
+                  style: TextStyle(fontSize: 15.0,)),
+                  Text("El servicio es totalmente ajeno a Cabofind. ",
+                  maxLines: 15,
+                  style: TextStyle(fontSize: 15.0,)),
+                    ],
+                  ),
+                ),
+
+                
+                actions: <Widget>[
+                 
+                 new FlatButton(
+                   child: new Text('Cerrar'),
+                   onPressed: () {
+                     Navigator.of(context).pop();
+                     
+                   },
+                 ), 
+                 new FlatButton(
+                   color: Colors.blueAccent,
+                   child: new Text('Acepto los terminos',style: TextStyle(fontSize: 14.0,color: Colors.white),),
+                   onPressed: () { 
+                    Navigator.of(context).pop(); 
+                    Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Domicilio()
+                        )
+                        );
+                                    },
+                 )
+               ],
+              );
+            },
+          );
+   }
   Widget _buildDropDownButton(String currencyCategory) {
     return DropdownButton(
       value: currencyCategory,
@@ -503,71 +578,93 @@ class _MyHomePageState extends State<MyHomePages> {
         title:appBarTitle,
         actions: <Widget>[  
 
-          new IconButton(
-            icon: Icon(FontAwesomeIcons.coins),
-              onPressed: () {
-
-                return showDialog(
-                context: context,
-                builder: (context) {
-                  return AlertDialog(
-                    title: Text('Tipo de cambio',style: TextStyle(fontSize: 25.0,),),
-                    content: currencies == null
-                      ? Center(child: CircularProgressIndicator())
-                      : Container(
-                          height: MediaQuery.of(context).size.height,
-                          width: MediaQuery.of(context).size.width,
-                          child: Padding(
-                            padding: const EdgeInsets.all(0.0),
-                            child: Card(
-                              elevation: 3.0,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                children: <Widget>[
-                                  ListTile(
-                                    title: TextField(
-                                      controller: fromTextController,
-                                      style: TextStyle(fontSize: 20.0, color: Colors.black),
-                                      keyboardType:
-                                          TextInputType.numberWithOptions(decimal: true),
-                                    ),
-                                    trailing: _buildDropDownButton(fromCurrency),
-                                  ),
-                                  IconButton(
-                                    icon: Icon(Icons.arrow_downward),
-                                    onPressed: _doConversion,
-                                    
-                                    
-                                  ),
-                                  ListTile(
-                                    title: Chip(
-                                      label: result != null ?
-                                      Text(
-                                        result,
-                                        style: Theme.of(context).textTheme.display1,
-                                      ) : Text(""),
-                                    ),
-                                    trailing: _buildDropDownButton(toCurrency),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
+        new InkResponse( 
+                onTap: () {
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Notificaciones()
+                        )
+                        );
+               },
+                child: Stack(
+                    children: <Widget>[
+                    /*Positioned(
+                      
+                                right: 2.0,
+                                bottom: 30,
+                                child: new Text('22',
+                                style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15.0, color: Colors.redAccent)),
+                              ),*/ 
+                    Positioned(
+                                height: 20,
+                                width: 20,
+                                right: 3.0,
+                                bottom: 28,
+                                child: new FloatingActionButton(
+                                  
+                                  child: new Text('',
+                                 style: TextStyle(fontWeight: FontWeight.bold,fontSize: 10.0, color: Colors.white)),
+                                  backgroundColor: Colors.red,
+                                  
+                                 
+                                ),
+                              ),             
+                    new Center(
+                      child: new Row(                   
+                        children: <Widget>[new Icon(FontAwesomeIcons.bell),
+                        Text("  ",                    
+                        style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25.0),
                         ),
-                    actions: <Widget>[
-                      new FlatButton(
-                        child: new Text('Cerrar'),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                      )
-                    ],
-                  );
-                });
-                
-              }, ),        
-                       
-       new InkResponse(
+                        ]
+                      ),
+                    ),
+                  ],
+                )
+                ),
+
+          
+              new InkResponse( 
+                onTap: () {
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new WeatherBuilder().build()
+                        )
+                        );
+               },
+                child: new Center(
+                  child: new Row(                   
+                    children: <Widget>[new Icon(FontAwesomeIcons.cloudSun),
+                    Text("   ",                    
+                    style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25.0),
+                    ),
+                    ]
+                  ),
+                )
+                ),
+          
+              new InkResponse( 
+                onTap: () {
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Calculadora()
+                        )
+                        );
+               },
+                child: new Center(
+                  child: new Row(                   
+                    children: <Widget>[new Icon(FontAwesomeIcons.moneyBillAlt),
+                    Text("   ",                    
+                    style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25.0),
+                    ),
+                    ]
+                  ),
+                )
+                ),
+
+              new InkResponse(
                 onTap: () {
                   addStringToSF();
               //Navigator.of(context).pop();
@@ -577,7 +674,7 @@ class _MyHomePageState extends State<MyHomePages> {
                         builder: (BuildContext context) => new MyHomePages_ing()
                         )
                         );
-            },
+               },
                 child: new Center(
                   //padding: const EdgeInsets.all(13.0),
                   
@@ -601,27 +698,24 @@ class _MyHomePageState extends State<MyHomePages> {
                   ),
                 )
                 ),
-
-              
-
+                new IconButton(
+                icon: actionIcon,
+                onPressed: () {
+                  //Use`Navigator` widget to push the second screen to out stack of screens
+                  Navigator.of(context)
+                      .push(MaterialPageRoute<Null>(builder: (BuildContext context) {
+                    return new Buscador();
+                  }));
+                }, ),        
           
 
-
-
-          new IconButton(
-            icon: actionIcon,
-              onPressed: () {
-                //Use`Navigator` widget to push the second screen to out stack of screens
-                Navigator.of(context)
-                    .push(MaterialPageRoute<Null>(builder: (BuildContext context) {
-                  return new Buscador();
-                }));
-              }, ),
+              
 
         ],
 
 
       ),
+
 
 
       body: Container(
@@ -812,7 +906,19 @@ class _MyHomePageState extends State<MyHomePages> {
                             builder: (BuildContext context) => new Maps()
                         )
                     );
-                  }
+                  } else if (ruta == "Rutas"){
+                    Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (BuildContext context) => new Rutas()
+                        )
+                    );
+                  } else if (ruta == "domicilio")
+               {
+                 alertCar(context);
+                 
+                 
+               }
 
 
 

@@ -10,6 +10,7 @@ import 'package:cabofind/paginas_ing/acercade.dart';
 import 'package:cabofind/paginas_ing/compras.dart';
 import 'package:cabofind/paginas_ing/descubre.dart';
 import 'package:cabofind/paginas_ing/educacion.dart';
+import 'package:cabofind/paginas_ing/maps.dart';
 import 'package:cabofind/paginas_ing/promociones.dart';
 import 'package:cabofind/paginas_ing/publicacion_detalle.dart';
 import 'package:cabofind/paginas_ing/publicaciones.dart';
@@ -26,7 +27,11 @@ import 'package:cabofind/paginas_listas_ing/list_visitado_grid.dart';
 import 'package:cabofind/utilidades/banderasicon_icons.dart';
 import 'package:cabofind/utilidades/classes.dart';
 import 'package:cabofind/utilidades_ing/buscador.dart';
-import 'package:cabofind/utilidades_ing/maps.dart';
+import 'package:cabofind/utilidades_ing/calculadora.dart';
+import 'package:cabofind/utilidades_ing/notificaciones.dart';
+import 'package:cabofind/utilidades_ing/rutas.dart';
+import 'package:cabofind/weather/weather/weather_builder.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:http/http.dart' as http;
 
@@ -36,7 +41,6 @@ import 'package:cabofind/paginas/restaurantes.dart';
 import 'package:cabofind/paginas/servicios.dart';
 import 'package:cabofind/paginas/compras.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'paginas_ing/anuncios.dart';
@@ -109,7 +113,7 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
   Future<String> getData() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/consultas_negocios/esp/estructura_esp.php"),
+            "http://cabofind.com.mx/app_php/consultas_negocios/esp/estructura_ing.php"),
 
         headers: {
           "Accept": "application/json"
@@ -300,13 +304,15 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
         )
         )
         );
-
-
-
       },
-
-
     );
+
+    _firebaseMessaging.requestNotificationPermissions(
+      const IosNotificationSettings(sound: true, badge: true, alert: true));
+      _firebaseMessaging.onIosSettingsRegistered
+      .listen((IosNotificationSettings settings){
+        print("settings registred: $settings");
+        });
 
 
   }
@@ -343,75 +349,97 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
         //enterTitle: true,
         title:appBarTitle,
         actions: <Widget>[
-        new IconButton(
-            icon: Icon(FontAwesomeIcons.coins),
-              onPressed: () {
-
-                return showDialog(
-                context: context,
-                builder: (context) {
-                  return AlertDialog(
-                    title: Text('Money exchange',style: TextStyle(fontSize: 25.0,),),
-                    content: currencies == null
-                      ? Center(child: CircularProgressIndicator())
-                      : Container(
-                          height: MediaQuery.of(context).size.height,
-                          width: MediaQuery.of(context).size.width,
-                          child: Padding(
-                            padding: const EdgeInsets.all(0.0),
-                            child: Card(
-                              elevation: 3.0,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                children: <Widget>[
-                                  ListTile(
-                                    title: TextField(
-                                      controller: fromTextController,
-                                      style: TextStyle(fontSize: 20.0, color: Colors.black),
-                                      keyboardType:
-                                          TextInputType.numberWithOptions(decimal: true),
-                                    ),
-                                    trailing: _buildDropDownButton(fromCurrency),
-                                  ),
-                                  IconButton(
-                                    icon: Icon(Icons.arrow_downward),
-                                    onPressed: _doConversion,
-                                    
-                                    
-                                  ),
-                                  ListTile(
-                                    title: Chip(
-                                      label: result != null ?
-                                      Text(
-                                        result,
-                                        style: Theme.of(context).textTheme.display1,
-                                      ) : Text(""),
-                                    ),
-                                    trailing: _buildDropDownButton(toCurrency),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
+        
+        new InkResponse( 
+                onTap: () {
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Notificaciones_ing()
+                        )
+                        );
+               },
+                child: Stack(
+                    children: <Widget>[
+                    /*Positioned(
+                      
+                                right: 2.0,
+                                bottom: 30,
+                                child: new Text('22',
+                                style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15.0, color: Colors.redAccent)),
+                              ),*/ 
+                    Positioned(
+                                height: 20,
+                                width: 20,
+                                right: 3.0,
+                                bottom: 28,
+                                child: new FloatingActionButton(
+                                  
+                                  child: new Text('',
+                                 style: TextStyle(fontWeight: FontWeight.bold,fontSize: 10.0, color: Colors.white)),
+                                  backgroundColor: Colors.red,
+                                  
+                                 
+                                ),
+                              ),             
+                    new Center(
+                      child: new Row(                   
+                        children: <Widget>[new Icon(FontAwesomeIcons.bell),
+                        Text("  ",                    
+                        style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25.0),
                         ),
-                    actions: <Widget>[
-                      new FlatButton(
-                        child: new Text('Cerrar'),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                      )
-                    ],
-                  );
-                });
-                
-              }, ),        
+                        ]
+                      ),
+                    ),
+                  ],
+                )
+                ),
 
+          
+              new InkResponse( 
+                onTap: () {
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new WeatherBuilder().build()
+                        )
+                        );
+               },
+                child: new Center(
+                  child: new Row(                   
+                    children: <Widget>[new Icon(FontAwesomeIcons.cloudSun),
+                    Text("   ",                    
+                    style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25.0),
+                    ),
+                    ]
+                  ),
+                )
+                ),
+          
+              new InkResponse( 
+                onTap: () {
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Calculadora_ing()
+                        )
+                        );
+               },
+                child: new Center(
+                  child: new Row(                   
+                    children: <Widget>[new Icon(FontAwesomeIcons.moneyBillAlt),
+                    Text("   ",                    
+                    style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25.0),
+                    ),
+                    ]
+                  ),
+                )
+                ),
               new InkResponse(
                 onTap: () {
-                  addStringToSF();
+                 addStringToSF();
               Navigator.of(context).pop();
-                Navigator.push(
+                Navigator.pushReplacement(
                     context,
                     new MaterialPageRoute(
                         builder: (BuildContext context) => new Myapp()
@@ -442,18 +470,20 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
                 )
                 ),
 
+                new IconButton(
+                icon: actionIcon,
+                onPressed: () {
+                  //Use`Navigator` widget to push the second screen to out stack of screens
+                  Navigator.of(context)
+                      .push(MaterialPageRoute<Null>(builder: (BuildContext context) {
+                    return new Buscador_ing();
+                  }));
+                }, ),  
+
+          
 
 
-
-          new IconButton(
-            icon: actionIcon,
-              onPressed: () {
-                //Use`Navigator` widget to push the second screen to out stack of screens
-                Navigator.of(context)
-                    .push(MaterialPageRoute<Null>(builder: (BuildContext context) {
-                  return new Buscador_ing();
-                }));
-              }, ),
+          
 
         ],
 
@@ -646,6 +676,13 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
                         context,
                         new MaterialPageRoute(
                             builder: (BuildContext context) => new Maps_ing()
+                        )
+                    );
+                  } else if (ruta == "Rutas"){
+                    Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (BuildContext context) => new Rutas_ing()
                         )
                     );
                   }
