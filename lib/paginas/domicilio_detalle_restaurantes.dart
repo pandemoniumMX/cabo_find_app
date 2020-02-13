@@ -182,7 +182,7 @@ final _celular = dataneg[0]["NEG_TEL"];
 
 var response = await http.get(
         Uri.encodeFull(
-        'http://cabofind.com.mx/app_php/APIs/esp/insert_pedido.php?NOM=${_nombre}&NUM=${_numero}&PEDIDO=${_pedido}&TIPO=${_servicio}'),
+        'http://cabofind.com.mx/app_php/APIs/esp/insert_pedido.php?NOM=${_nombre}&NUM=${_numero}&PEDIDO=${_pedido}&TIPO=${_servicio}&PLATAFORMA=ANDROID'),
 
         headers: {
           "Accept": "application/json"
