@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 
+class Costos {
+  final String paquete; 
+  final String costo; 
+
+  Costos(this.paquete,this.costo);
+}
+
 class Empresa {
   final String id_nm; 
   Empresa(this.id_nm);
-
-
-
 }
 
 class Publicacion {

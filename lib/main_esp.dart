@@ -12,6 +12,7 @@ import 'package:cabofind/paginas/educacion.dart';
 import 'package:cabofind/paginas/maps.dart';
 import 'package:cabofind/paginas/publicacion_detalle.dart';
 import 'package:cabofind/paginas/publicaciones.dart';
+import 'package:cabofind/paginas/ricky.dart';
 //import 'package:cabofind/paginas/publicacion_detalle_push.dart';
 import 'package:cabofind/paginas/salud.dart';
 import 'package:cabofind/paginas/youtube.dart';
@@ -43,13 +44,15 @@ import 'package:cabofind/paginas/vida_nocturna.dart';
 import 'package:cabofind/paginas/servicios.dart';
 import 'package:cabofind/paginas/compras.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_google_pay/flutter_google_pay.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:device_info/device_info.dart';
 import 'package:devicelocale/devicelocale.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'carrito/carrito.dart';
 import 'paginas/promociones.dart';
 //import 'package:firebase_messaging/firebase_messaging.dart';
 //import 'package:geocoder/geocoder.dart';
@@ -126,12 +129,13 @@ class _MyHomePageState extends State<MyHomePages> {
 
   List data;
 
+  //var mp = MP("CLIENT_ID", "CLIENT_SECRET");
 
   //final List<Todo> todos;
   Future<String> getData() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/consultas_negocios/esp/estructura_esp.php"),
+            "http://cabofind.com.mx/app_php/consultas_negocios/esp/estructura_esp_test.php"),
 
         headers: {
           "Accept": "application/json"
@@ -151,6 +155,9 @@ class _MyHomePageState extends State<MyHomePages> {
 
 
     @override//Registro descarga en Android
+
+    
+
     Future<String> checkModelAndroid() async {
        String currentLocale;
     try {
@@ -219,6 +226,7 @@ class _MyHomePageState extends State<MyHomePages> {
  @override
   void initState() {
     //addStringToSF();
+    
     isLogged(context);
 
     _loadCurrencies();
@@ -546,6 +554,92 @@ alertCar(context) async {
           );
    }
 
+
+   _makeStripePayment() async {
+      var environment = 'rest'; // or 'production'
+
+      if (!(await FlutterGooglePay.isAvailable(environment))) {
+        Fluttertoast.showToast(
+          msg: "Google pay no disponible",
+          toastLength: Toast.LENGTH_SHORT,
+          backgroundColor: Colors.blue,
+          textColor: Colors.white,
+          timeInSecForIos: 1);
+      } else {
+        PaymentItem pm = PaymentItem(
+            stripeToken: 'pk_test_qRcqwUowOCDhl2bEuXPPCKDw00LMVoJpLi',
+            stripeVersion: "2018-11-08",
+            currencyCode: "mex",
+            amount: "10.0",
+            gateway: 'stripe');
+
+        FlutterGooglePay.makePayment(pm).then((Result result) {
+          if (result.status == ResultStatus.SUCCESS) {
+          Fluttertoast.showToast(
+          msg: "SUCESS",
+          toastLength: Toast.LENGTH_SHORT,
+          backgroundColor: Colors.blue,
+          textColor: Colors.white,
+          timeInSecForIos: 1);
+    
+          }
+        }).catchError((dynamic error) {
+          Fluttertoast.showToast(
+          msg: error.toString(),
+          toastLength: Toast.LENGTH_SHORT,
+          backgroundColor: Colors.blue,
+          textColor: Colors.white,
+          timeInSecForIos: 1);
+        });
+      }
+    }
+
+    _makeCustomPayment() async {
+      var environment = 'rest'; // or 'production'
+
+      if (!(await FlutterGooglePay.isAvailable(environment))) {
+        Fluttertoast.showToast(
+          msg:"Google pay no disponible",
+          toastLength: Toast.LENGTH_SHORT,
+          backgroundColor: Colors.blue,
+          textColor: Colors.white,
+          timeInSecForIos: 1);
+      } else {
+        ///docs https://developers.google.com/pay/api/android/guides/tutorial
+        PaymentBuilder pb = PaymentBuilder()
+          ..addGateway("example")
+          ..addTransactionInfo("1.0", "USD")
+          ..addAllowedCardAuthMethods(["PAN_ONLY", "CRYPTOGRAM_3DS"])
+          ..addAllowedCardNetworks(
+              ["AMEX", "DISCOVER", "JCB", "MASTERCARD", "VISA"])
+          ..addBillingAddressRequired(true)
+          ..addPhoneNumberRequired(true)
+          ..addShippingAddressRequired(true)
+          ..addShippingSupportedCountries(["US", "GB"])
+          ..addMerchantInfo("Example");
+
+        FlutterGooglePay.makeCustomPayment(pb.build()).then((Result result) {
+          if (result.status == ResultStatus.SUCCESS) {
+            Fluttertoast.showToast(
+          msg:"Success",
+          toastLength: Toast.LENGTH_SHORT,
+          backgroundColor: Colors.blue,
+          textColor: Colors.white,
+          timeInSecForIos: 1);
+          } else if (result.error != null) {
+            Fluttertoast.showToast(
+          msg:result.error,
+          toastLength: Toast.LENGTH_SHORT,
+          backgroundColor: Colors.blue,
+          textColor: Colors.white,
+          timeInSecForIos: 1);
+          }
+        }).catchError((error) {
+          //TODO
+        });
+      }
+    }
+
    
 Widget _buildDropDownButton(String currencyCategory) {
   
@@ -588,11 +682,12 @@ Widget _buildDropDownButton(String currencyCategory) {
         actions: <Widget>[  
          
               new InkResponse( 
-                onTap: () {
+                onTap: () {//_makeStripePayment();
+                
                 Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (BuildContext context) => new Notificaciones()
+                        builder: (BuildContext context) => new Carrito()
                         )
                         );
                },
@@ -939,6 +1034,16 @@ Widget _buildDropDownButton(String currencyCategory) {
                } else if (ruta == "domicilio")
                {
                  alertCar(context);
+                 
+                 
+               } else if (ruta == "rickys")
+               {
+                 Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Rickys()
+                        )
+                        );
                  
                  
                }

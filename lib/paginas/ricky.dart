@@ -12,6 +12,7 @@ import 'package:cabofind/paginas/educacion.dart';
 import 'package:cabofind/paginas/maps.dart';
 import 'package:cabofind/paginas/publicacion_detalle.dart';
 import 'package:cabofind/paginas/publicaciones.dart';
+import 'package:cabofind/paginas/ricky_detalle_general.dart';
 //import 'package:cabofind/paginas/publicacion_detalle_push.dart';
 import 'package:cabofind/paginas/salud.dart';
 import 'package:cabofind/paginas/youtube.dart';
@@ -61,11 +62,7 @@ import 'domicilio_detalle_general.dart';
 
 FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
-void fcmSubscribe() {
-  _firebaseMessaging.unsubscribeFromTopic('All');
-    _firebaseMessaging.subscribeToTopic('Todos');
-  }
-  
+
 
 //void main() => runApp(new Myapp());
 
@@ -91,7 +88,7 @@ class Myapp extends StatelessWidget {
         ),
         
         home: new Container(
-            child:           new Domicilio()
+            child:           new Rickys()
         )
 
 
@@ -102,7 +99,7 @@ class Myapp extends StatelessWidget {
 
 
 
-class Domicilio extends StatefulWidget {
+class Rickys extends StatefulWidget {
   @override
   _MyHomePageState createState() => new _MyHomePageState();
 
@@ -111,7 +108,7 @@ class Domicilio extends StatefulWidget {
 
 
 
-class _MyHomePageState extends State<Domicilio> {
+class _MyHomePageState extends State<Rickys> {
 
   final fromTextController = TextEditingController();
   List<String> currencies;
@@ -133,7 +130,7 @@ class _MyHomePageState extends State<Domicilio> {
   Future<String> getData() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/consultas_negocios/esp/estructura_domicilio.php"),
+            "http://cabofind.com.mx/app_php/consultas_negocios/esp/estructura_ricky.php"),
 
         headers: {
           "Accept": "application/json"
@@ -152,8 +149,7 @@ class _MyHomePageState extends State<Domicilio> {
  
 
 
-    @override//Registro descarga en Android
-    
+ 
   
   /*
   //Registro descarga en iOS
@@ -291,7 +287,7 @@ routes: <String, WidgetBuilder>{
 
       
       appBar: AppBar(
-        title: Text("Servicio a domicilio"),
+        title: Text("RICKYS CORNER"),
         
         centerTitle: true,
       ),
@@ -338,7 +334,7 @@ routes: <String, WidgetBuilder>{
                   ClipRRect(
                     borderRadius: BorderRadius.circular(20.0),
                                     child: FadeInImage(   
-                          image: NetworkImage(data[index]["EST_DOM_FOTO"]),  
+                          image: NetworkImage(data[index]["EST_RICKY_FOTO"]),  
                           fit: BoxFit.cover,  
                           width: MediaQuery.of(context).size.width,  
                           //height: MediaQuery.of(context).size.height * 0.38,  
@@ -356,7 +352,7 @@ routes: <String, WidgetBuilder>{
                        
                                   child: Center(
                                     child: new Text (
-                                    data[index]["EST_DOM_NOMBRE"],
+                                    data[index]["EST_RICKY_NOMBRE"],
                                     style: new TextStyle(
                                       color: Colors.white,
                                       fontSize: 25.0,
@@ -406,16 +402,16 @@ routes: <String, WidgetBuilder>{
               onTap: () {
 
 
-                String ruta = data[index]["EST_DOM_NAVEGACION"];
-                String id = data[index]["EST_DOM_ID"];
+                String ruta = data[index]["EST_RICKY_NAVEGACION"];
+                String id = data[index]["EST_RICKY_ID"];
                 print(ruta);
                 
-                 if( ruta == "comida"){
+                 if( ruta == "paquete1"){
 
                  Navigator.push(
                     context,
                     new MaterialPageRoute(
-                          builder: (BuildContext context) => new Domicilio_comida(empresa: new Empresa(id))
+                          builder: (BuildContext context) => new Ricky_general(empresa: new Empresa(id))
                           )
                         );
 
