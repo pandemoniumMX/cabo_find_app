@@ -135,7 +135,7 @@ class _MyHomePageState extends State<MyHomePages> {
   Future<String> getData() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/consultas_negocios/esp/estructura_esp_test.php"),
+            "http://cabofind.com.mx/app_php/consultas_negocios/esp/estructura_esp_test2.php"),
 
         headers: {
           "Accept": "application/json"
@@ -687,7 +687,7 @@ Widget _buildDropDownButton(String currencyCategory) {
                 Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (BuildContext context) => new Carrito()
+                        builder: (BuildContext context) => new Notificaciones()
                         )
                         );
                },

@@ -283,26 +283,14 @@ routes: <String, WidgetBuilder>{
         };
 */
 
-    return  Scaffold(
-
-      
+    return  Scaffold(      
       appBar: AppBar(
-        title: Text("RICKYS CORNER"),
-        
+        title: Text("RICKYS CORNER"),        
         centerTitle: true,
-      ),
-         
-              
-
-
-      
-
+      ),        
 
       body: Stack(
-
-        
-     // height: MediaQuery.of(context).size.height,
-    children: <Widget>[
+      children: <Widget>[
       new  StaggeredGridView.countBuilder(
         crossAxisCount: 4,
         itemCount:data == null ? 0 : data.length,
@@ -404,28 +392,14 @@ routes: <String, WidgetBuilder>{
 
                 String ruta = data[index]["EST_RICKY_NAVEGACION"];
                 String id = data[index]["EST_RICKY_ID"];
-                print(ruta);
                 
-                 if( ruta == "paquete1"){
-
-                 Navigator.push(
+                Navigator.push(
                     context,
                     new MaterialPageRoute(
                           builder: (BuildContext context) => new Ricky_general(empresa: new Empresa(id))
                           )
                         );
-
-               } else {
-                 Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                          builder: (BuildContext context) => new Domicilio_general(empresa: new Empresa(id))
-                          )
-                        );
-               } 
                  
-
-
               },
             ),
           ),
