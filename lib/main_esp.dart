@@ -135,7 +135,7 @@ class _MyHomePageState extends State<MyHomePages> {
   Future<String> getData() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/consultas_negocios/esp/estructura_esp_test2.php"),
+            "http://cabofind.com.mx/app_php/consultas_negocios/esp/estructura_esp.php"),
 
         headers: {
           "Accept": "application/json"
@@ -500,7 +500,7 @@ alertCar(context) async {
                 //. Disponible únicamente en Cabo San Lucas
                 title: new Text("¡Ahí voy Cabo! ¿Como funciona?"),
                 content: Container(
-                  height: 300,
+                  height: MediaQuery.of(context).size.height,
                   child: new Column(
 
                     children: <Widget>[
@@ -786,7 +786,7 @@ Widget _buildDropDownButton(String currencyCategory) {
                    decoration: BoxDecoration(
                   borderRadius:BorderRadius.circular(8.0),
                   image: DecorationImage(
-                      image: ExactAssetImage('assets/usaflag.png'),
+                      image: ExactAssetImage('assets/mexflag.png'),
                       fit: BoxFit.fill,
                     ),
                   

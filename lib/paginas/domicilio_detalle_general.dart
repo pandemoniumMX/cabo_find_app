@@ -399,7 +399,7 @@ void hacerpedido() async{
                title: Text('HACER PEDIDO',style: TextStyle(fontSize: 25.0,),),
                content: Container(
                    width: MediaQuery.of(context).size.width,
-                   height:MediaQuery.of(context).size.height / 2,
+                   height: MediaQuery.of(context).size.height,
                    child:Column(
                 children: <Widget>[ 
                 //Text('TU NOMBRE'),

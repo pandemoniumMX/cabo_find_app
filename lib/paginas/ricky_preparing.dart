@@ -279,7 +279,6 @@ var response = await http.get(
                     child: new Text("Aceptar"),
                     onPressed: (){
                        sendMail(total,cts1,nombre1,numero1,_mySelection, pago);
-                       insertRickys(total,cts1,nombre1,numero1,_mySelection, pago);
                        showResena();
                        Navigator.of(context).pop();
                       _urlMercado250();
@@ -310,7 +309,6 @@ var response = await http.get(
                     child: new Text("Aceptar"),
                     onPressed: (){
                        sendMail(total,cts1,nombre1,numero1,_mySelection, pago);
-                       insertRickys(total,cts1,nombre1,numero1,_mySelection, pago);
                        showResena();
                        Navigator.of(context).pop();
                       _urlMercado350();
@@ -341,7 +339,6 @@ var response = await http.get(
                     child: new Text("Aceptar"),
                     onPressed: (){
                        sendMail(total,cts1,nombre1,numero1,_mySelection, pago);
-                       insertRickys(total,cts1,nombre1,numero1,_mySelection, pago);
                        showResena();
                        Navigator.of(context).pop();
                       _urlMercado500();
@@ -372,7 +369,6 @@ var response = await http.get(
                     child: new Text("Aceptar"),
                     onPressed: (){
                        sendMail(total,cts1,nombre1,numero1,_mySelection, pago);
-                       insertRickys(total,cts1,nombre1,numero1,_mySelection, pago);
                        showResena();
                        Navigator.of(context).pop();
                       _urlMercado600();
@@ -403,7 +399,6 @@ var response = await http.get(
                     child: new Text("Aceptar"),
                     onPressed: (){
                        sendMail(total,cts1,nombre1,numero1,_mySelection, pago);
-                       insertRickys(total,cts1,nombre1,numero1,_mySelection, pago);
                        showResena();
                        Navigator.of(context).pop();
                       _urlMercado800();
@@ -434,7 +429,6 @@ var response = await http.get(
                     child: new Text("Aceptar"),
                     onPressed: (){
                        sendMail(total,cts1,nombre1,numero1,_mySelection, pago);
-                       insertRickys(total,cts1,nombre1,numero1,_mySelection, pago);
                        showResena();
                        Navigator.of(context).pop();
                       _urlMercado900();
@@ -473,7 +467,6 @@ var response = await http.get(
                     child: new Text("Aceptar"),
                     onPressed: (){
                        sendMail(total,cts1,nombre1,numero1,_mySelection, pago);
-                       insertRickys(total,cts1,nombre1,numero1,_mySelection, pago);
                        showResena();
                        Navigator.of(context).pop();
                       _urlPaypal();
@@ -511,7 +504,6 @@ var response = await http.get(
                       
 
                        sendMail(total,cts1,nombre1,numero1,_mySelection, pago);
-                       //insertRickys(total,cts1,nombre1,numero1,_mySelection, pago);
                        showResena();
                        Navigator.of(context).pop();     
                                           
@@ -536,8 +528,7 @@ var response = await http.get(
              key:_formKey ,
               child: Container(
                 padding: const EdgeInsets.all(15),
-                 width: MediaQuery.of(context).size.width,
-                 height:MediaQuery.of(context).size.height,
+                 width: MediaQuery.of(context).size.width,                 
                  child:Column(
               children: <Widget>[ 
               Row(

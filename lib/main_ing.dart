@@ -464,7 +464,7 @@ List data;
                    decoration: BoxDecoration(
                   borderRadius:BorderRadius.circular(8.0),
                   image: DecorationImage(
-                      image: ExactAssetImage('assets/mexflag.png'),
+                      image: ExactAssetImage('assets/usaflag.png'),
                       fit: BoxFit.fill,
                     ),
                   
