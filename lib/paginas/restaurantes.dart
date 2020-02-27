@@ -18,6 +18,14 @@ _Restaurantes createState() => new _Restaurantes();
 
 class _Restaurantes extends State<Restaurantes> {
   int id=0;
+  int cat =60;//restaurantes
+  int sub1 =26;//ita
+  int sub2 =27;//mex
+  int sub3 =28;//mariscos
+  int sub4 =29;//fast
+  int sub5 =30;//oriental
+  int sub6 =31;//otros
+  int sub7 =32;//snacks
 @override
 Widget build(BuildContext context) {
   final tabpages=<Widget>[
@@ -29,6 +37,13 @@ Widget build(BuildContext context) {
     new ListaRapida(),
     new ListaCafe(),
     new ListaSnacks(),
+    /*new Lista_Manejador_esp(manejador: new Lista_manejador(cat,27)),
+    new Lista_Manejador_esp(manejador: new Lista_manejador(cat,26)),
+    new Lista_Manejador_esp(manejador: new Lista_manejador(cat,30)),
+    new Lista_Manejador_esp(manejador: new Lista_manejador(cat,28)),
+    new Lista_Manejador_esp(manejador: new Lista_manejador(cat,29)),
+    new Lista_Manejador_esp(manejador: new Lista_manejador(cat,31)),
+    new Lista_Manejador_esp(manejador: new Lista_manejador(cat,32)),*/
 
 
 

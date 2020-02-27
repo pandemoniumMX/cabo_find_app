@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:cabofind/paginas/publicacion_detalle.dart';
 import 'package:cabofind/paginas/publicacion_detalle_estatica.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:device_info/device_info.dart';
 import 'package:devicelocale/devicelocale.dart';
 import 'package:dropdownfield/dropdownfield.dart';
@@ -66,26 +67,7 @@ class Detalles extends State<Anuncios_detalle> {
   List data_resena;
 String stateText;
 
-Future<String> getResena() async {
-    var response = await http.get(
-        Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/list_resena.php?ID=${widget.anuncio.id_anun}"),
 
-        headers: {
-          "Accept": "application/json"
-        }
-    );
-
-    this.setState(
-            () {
-          data_resena = json.decode(
-              response.body);
-        });
-
-
-    return "Success!";
-  }
-  
 
 
 
@@ -109,118 +91,6 @@ Future<String> getResena() async {
     return "Success!";
   }
 
-  
- 
-
-  Future<String> getCar() async {
-    var response = await http.get(
-        Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/list_caracteristicas_api.php?ID=${widget.anuncio.id_anun}"),
-
-        headers: {
-          "Accept": "application/json"
-        }
-    );
-
-    this.setState(
-            () {
-          data = json.decode(
-              response.body);
-        });
-
-
-    return "Success!";
-  }
-
-
-  Future<String> getSer() async {
-    var response = await http.get(
-        Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/list_servicios_api.php?ID=${widget.anuncio.id_anun}"),
-
-        headers: {
-          "Accept": "application/json"
-        }
-    );
-
-    this.setState(
-            () {
-              data_serv = json.decode(
-              response.body);
-        });
-
-
-    return "Success!";
-  }
-
-  Future<String> insert_reporte() async {
-    
-       String currentLocale;
-    try {
-      currentLocale = await Devicelocale.currentLocale;
-      print(currentLocale);
-    } on PlatformException {
-      print("Error obtaining current locale");
-    }
-
-    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-    AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-    print('Running on ${androidInfo.id}');
-        print('Running on ${androidInfo.fingerprint}');
-
-    var response = await http.get(
-        Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/insert_reporte.php?MOD=${androidInfo.model}&BOOT=${androidInfo.display},${androidInfo.bootloader},${androidInfo.fingerprint}&VERSION=${androidInfo.product}&IDIOMA=${currentLocale},&ID=${widget.anuncio.id_anun}&SO=Android"),
-
-        headers: {
-          "Accept": "application/json"
-        }
-    );
-  
-  }
-
-
-  Future<String> getHorarios() async {
-    var response = await http.get(
-        Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/list_horarios_api.php?ID=${widget.anuncio.id_anun}"),
-
-        headers: {
-          "Accept": "application/json"
-        }
-    );
-
-    this.setState(
-            () {
-              data_hor = json.decode(
-              response.body);
-        });
-
-
-    return "Success!";
-  }
-
-
-  Future<String> get_list() async {
-    var response = await http.get(
-        Uri.encodeFull(
-         "http://cabofind.com.mx/app_php/APIs/esp/list_publicaciones_api.php?ID=${widget.anuncio.id_anun}"),
-
-
-        headers: {
-          "Accept": "application/json"
-        }
-    );
-
-    this.setState(
-            () {
-          data_list = json.decode(
-              response.body);
-        });
-
-
-    return "Success!";
-  }
 //contador de visitas android
 
 Future<String> insertVisitaAndroid() async {
@@ -299,14 +169,9 @@ Future<String> insertVisitaiOS() async {
      _dropDownMenuItems = getDropDownMenuItems();
     _currentCity = _dropDownMenuItems[0].value;
     super.initState();
-    this.getCar();
-    this.get_list();
-    this.getSer();
     this.getCarrusel();
-    this.getHorarios();
     this.getInfo();   
     this.insertVisitaAndroid();
-    this.getResena();
   
    // this.insertVisitaiOS;
 
@@ -330,23 +195,7 @@ void onLoginStatusChange(bool isLoggedIn){
   });
 }
 
-void showResena() {
-      Fluttertoast.showToast(
-          msg: "Reseña enviada exitosamente",
-          toastLength: Toast.LENGTH_SHORT,
-          backgroundColor: Colors.blue,
-          textColor: Colors.white,
-          timeInSecForIos: 1);
-    }
-
-void reporte() {
-      Fluttertoast.showToast(
-          msg: "Comentario reportado",
-          toastLength: Toast.LENGTH_SHORT,
-          backgroundColor: Colors.blue,
-          textColor: Colors.white,
-          timeInSecForIos: 1);
-    }    
+ 
 
       @override
   void dispose() {
@@ -354,115 +203,6 @@ void reporte() {
     controllerCode.dispose();
     super.dispose();
   }
-
-void initiateFacebookLogin() async{
-  var login = FacebookLogin();
-  var result = await login.logIn(['email']);
-  switch(result.status){
-    case FacebookLoginStatus.error:
-    print("Surgio un error");
-    break;
-    case FacebookLoginStatus.cancelledByUser:
-    print("Cancelado por el usuario");
-    break;
-    case FacebookLoginStatus.loggedIn:
-    onLoginStatusChange(true);
-    //getInfofb(result,_displayValue);
-
-    
-               
-    return showDialog(
-         context: context,
-         builder: (context) {
-           return AlertDialog(
-             title: Text('Reseña',style: TextStyle(fontSize: 25.0,),),
-             content: Container(
-                 width: MediaQuery.of(context).size.width,
-                 height: 350.0,
-                 child:  
-                Column(
-                                    children: <Widget>[  
-              Text('Valoración'),  
-              DropdownButton(
-
-                value: _currentCity,
-                items: _dropDownMenuItems,
-                onChanged: changedDropDownItem,
-
-              ),                           
-              Text('Escribe una breve reseña'),
-              TextField(
-                controller: controllerCode,
-                maxLines: 5, 
-                ),
-               
-                ],
-                 )
-                 
-             ),
-             actions: <Widget>[
-               new FlatButton(
-                 child: new Text('Cancelar'),
-                 onPressed: () {
-                   Navigator.of(context).pop();
-                 },
-               ),
-               new FlatButton(
-                 child: new Text('Enviar'),
-                 onPressed: (){ getInfofb(result,_displayValue,_currentCity); showResena(); 
-                 
-                 Navigator.of(context).pop();
-                 
-                 },
-               )
-             ],
-           );
-         });
-
-         
-    break;
-  }
- 
-}  
-
-void changedDropDownItem(String selectedCity) {
-    setState(() {
-      _currentCity = selectedCity;
-    });
-
-}
-
-void getInfofb(FacebookLoginResult result, _displayValue,_currentCity) async {
-
- //final result = await facebookSignIn.logInWithReadPermissions(['email']);
-final token = result.accessToken.token;
-final graphResponse = await http.get(
-            'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,picture,email&access_token=${token}');
-final profile = json.decode(graphResponse.body);
- print(profile[ 'email'],);
- print(profile[ 'last_name'],);
-//final pictures= profile[ 'picture']["data"]["url"];
-final id= profile['id'];
-final correofb= profile['email'];
-final nombresfb= profile['first_name'];
-final apellidosfb= profile['last_name'];
-final imagenfb = profile[ 'picture']["data"]["url"];
-final resena = controllerCode.text;
-final valor = _currentCity;
-
-//final imagenfb = profile['picture'];
-//final url =  dataneg[0]["NEG_WEB"];
-var response = await http.get(
-        Uri.encodeFull(
-            'http://cabofind.com.mx/app_php/APIs/esp/insertar_resena.php?ID_FB=${id}&CORREO=${correofb}&NOM=${nombresfb}&APE=${apellidosfb}&FOTO=${imagenfb}&IDIOMA=ESP&RESENA=${resena}&VALOR=${valor}&ID_N=${widget.anuncio.id_anun}'),
-
-        headers: {
-          "Accept": "application/json"
-        }
-    );   
-        }
-
-        
 
 
 
@@ -473,39 +213,30 @@ var response = await http.get(
       
       
  
-  Widget carrusel =   Container(
-     child: new ListView.builder(
+  Widget carrusel =   new CarouselSlider.builder(      
+ autoPlay: true,
+ height: 500.0,
+ aspectRatio: 16/9,
+ viewportFraction: 0.9,
+ autoPlayInterval: Duration(seconds: 3),
+ autoPlayCurve: Curves.fastOutSlowIn,
+ itemCount: data_carrusel == null ? 0 : data_carrusel.length,
+ itemBuilder: (BuildContext context, int index)  =>
+   Container(
+       child:FadeInImage(
+ 
+              image: NetworkImage(data_carrusel[index]["GAL_FOTO"]),
+              fit: BoxFit.cover,
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height / 1.5,
 
-       scrollDirection: Axis.horizontal,
+              // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
+              placeholder: AssetImage('android/assets/images/loading.gif'),
+              fadeInDuration: Duration(milliseconds: 200),
 
-       itemCount: data_carrusel == null ? 0 : data_carrusel.length,
-       itemBuilder: (BuildContext context, int index) {
-
-         return  new Container(
-           padding: EdgeInsets.only( left: 0.0, right: 10.0),
-           child: Column(
-             children: <Widget>[
-               Padding(
-                 child:  FadeInImage(
-
-                   image: NetworkImage(data_carrusel[index]["GAL_FOTO"]),
-                   fit: BoxFit.cover,
-                   width: MediaQuery.of(context).size.width,
-                   height: 400,
-
-                   // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
-                   placeholder: AssetImage('android/assets/images/loading.gif'),
-                   fadeInDuration: Duration(milliseconds: 200),
-
-                 ),
-                 padding: EdgeInsets.all(0.0),
-               ),
-             ],
-           ),
-         );
-       },
-     ),
-   );
+            ),
+   ),
+     );
 
     
     Widget titleSection = Container (
@@ -769,7 +500,7 @@ var response = await http.get(
          
          Column(
            children: <Widget>[
-             FloatingActionButton(child: Icon(FontAwesomeIcons.moneyBillWave), onPressed:()  => _alertHorario(context),backgroundColor:Color(0xff189bd3),heroTag: "bt1",),
+             FloatingActionButton(child: Icon(FontAwesomeIcons.moneyBillWave), onPressed:()  => _alertHorario(context),backgroundColor:Color(0xff01969a),heroTag: "bt1",elevation: 0.0,),
              Text('Precio', style: TextStyle(color: Colors.black),),
 
            ],
@@ -783,14 +514,14 @@ var response = await http.get(
                                          autoPlay: false, //default falase
                                          fullScreen: false //default false
                                        );},
-             backgroundColor:Color(0xff189bd3),heroTag: "bt2",),
+             backgroundColor:Color(0xff01969a),heroTag: "bt2",elevation: 0.0,),
              Text('Video', style: TextStyle(color: Colors.black),),
 
            ],
          ),
          Column(
            children: <Widget>[
-             FloatingActionButton(child: Icon(FontAwesomeIcons.mapMarkedAlt), onPressed: _mapa,backgroundColor:Color(0xff189bd3),heroTag: "bt3",),
+             FloatingActionButton(child: Icon(FontAwesomeIcons.mapMarkerAlt), onPressed: _mapa,backgroundColor:Color(0xff01969a),heroTag: "bt3",elevation: 0.0,),
              Text('Abrir mapa', style: TextStyle(color: Colors.black),),
 
            ],
@@ -804,83 +535,6 @@ var response = await http.get(
    );
 
   
-
-Widget resenasection = Column(
-         
-     // height:  MediaQuery.of(context).size.height,
-      children: <Widget>[
-    new ListView.builder(  
-         shrinkWrap: true,  
-         physics: BouncingScrollPhysics(),
-          itemCount: data_resena == null ? 0 : data_resena.length,  
-         itemBuilder: (BuildContext context, int index) {  
-        return new Card(  
-              child: Row(  
-           mainAxisAlignment: MainAxisAlignment.spaceBetween,  
-           children: [  
-             Column(  
-               children: <Widget>[  
-                Image.network(data_resena[index]["COM_FOTO"],
-                              width: 50,
-                              height: 50,
-                              fit: BoxFit.fill ),     
-                      Row(
-                     children: <Widget>[  
-                      Text(   
-                      data_resena[index]["COM_NOMBRES"], 
-                      style: TextStyle(fontSize: 18.0),    
-                    ),  
-                    ],   
-                    ),     
-                  ],  
-                ),  
-            Column(  
-                     children: <Widget>[
-    Text(      
-                       data_resena[index]["COM_RESENA"],    
-                      maxLines: 10,    
-                      softWrap: true,  
-                      style: TextStyle(fontSize: 18.0),  
-  
-                      ),
-                      RaisedButton(  
-                  onPressed: () {  insert_reporte(); reporte();
-                       
-                  },   
-                  shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(60.0) ),  
-                  color: Colors.red,  
-                  child: Text('Reportar comentario', style: TextStyle(fontSize: 10, color: Colors.white)),   
-                  ),
-],  
-               
-            ),
-            Container(  
-                
-                     child: 
-    Text(  
-                      data_resena[index]["COM_VALOR"],
-                      maxLines: 10,     
-                      softWrap: true,  
-                      style: TextStyle(fontSize: 18.0), 
-                      ),                       
- 
-                      
-                    ),             
-                    ],  
-                    ),     
-                    );                    
-  
-         }
-  
-        ),
-      ]
-    );  
-
-
-
-
-
-
   Widget social() { 
     return Container (
      // width: MediaQuery.of(context).size.width,
@@ -922,14 +576,14 @@ Widget resenasection = Column(
 
          Column(
            children: <Widget>[
-             FloatingActionButton(child: Icon(FontAwesomeIcons.phone), onPressed: telefono,backgroundColor:Color(0xff189bd3),heroTag: "bt5",),
+             FloatingActionButton(child: Icon(FontAwesomeIcons.phone), onPressed: telefono,backgroundColor:Color(0xff01969a),heroTag: "bt5",elevation: 0.0,),
 
            ],
          ),
 
          Column(
            children: <Widget>[
-             FloatingActionButton(child: Icon(FontAwesomeIcons.envelope), onPressed: correo,backgroundColor:Color(0xff189bd3),heroTag: "bt6",),
+             FloatingActionButton(child: Icon(FontAwesomeIcons.envelope), onPressed: correo,backgroundColor:Color(0xff01969a),heroTag: "bt6",elevation: 0.0,),
 
            ],
          ),  
@@ -976,7 +630,7 @@ Widget resenasection = Column(
                   SizedBox(
                     height: 15.0,
                   ),
-                 Center(child: Text('Galería de imagenes',style: TextStyle(fontSize: 20.0,color: Colors.blueAccent ),)),
+                 Center(child: Text('Galería de imagenes',style: TextStyle(fontSize: 20.0,color: Color(0xff01969a) ),)),
                   SizedBox(
                     height: 15.0,
                   ),
@@ -1000,7 +654,7 @@ Widget resenasection = Column(
                   SizedBox(
                     height: 15.0,
                   ),
-                 Center(child: Text('Contacto',style: TextStyle(fontSize: 20.0,color: Colors.blueAccent ),)),
+                 Center(child: Text('Contacto',style: TextStyle(fontSize: 20.0,color: Color(0xff01969a) ),)),
                   SizedBox(
                     height: 15.0,
                   ),

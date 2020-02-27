@@ -342,7 +342,45 @@ void showResena() {
 
  Widget build(BuildContext context){
 
+alertCar(context) async {  
+     return showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              // return object of type AlertDialog
+              return AlertDialog(
+                //. Disponible únicamente en Cabo San Lucas
+                title: new Text("Terminos Ricky's Corner"),
+                content: Text("En caso de dañar el equipo de playa, se deberá cubrir el 50% "+
+                  "del valor del equipo dañado."),
+                actions: <Widget>[
+                 new FlatButton(
+                   child: new Text('Cerrar'),
+                   onPressed: () {
+                     Navigator.of(context).pop();                     
+                   },
+                 ), 
+                 new FlatButton(
+                   color: Colors.blueAccent,
+                   child: new Text('Acepto los terminos',style: TextStyle(fontSize: 14.0,color: Colors.white),),
+                   onPressed: () { 
+                   Navigator.of(context).pop(); 
+                   String paquete = dataneg[0]["NEG_NOMBRE"];
+                   String costo = dataneg[0]["NEG_WEB"];
 
+                    Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                          builder: (BuildContext context) => new Rick_preparing(costos: new Costos(paquete,costo))
+                          )
+                        );
+                  
+                                    },
+                 )
+               ],
+              );
+            },
+          );
+   }
    
       
  Widget carrusel =   new CarouselSlider.builder(      
@@ -763,15 +801,9 @@ _alertCobertura(BuildContext context) async {
                 padding: const EdgeInsets.only(bottom: 10,left: 20,right: 20),
                 child: RaisedButton(
                   onPressed: (){
-                String paquete = dataneg[0]["NEG_NOMBRE"];
-                String costo = dataneg[0]["NEG_WEB"];
 
-                    Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                          builder: (BuildContext context) => new Rick_preparing(costos: new Costos(paquete,costo))
-                          )
-                        );
+                    alertCar(context);
+                
                   },  
                   shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
                   color: Color(0xff4267b2),  

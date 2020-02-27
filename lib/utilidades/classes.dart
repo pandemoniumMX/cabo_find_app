@@ -30,8 +30,8 @@ class Anuncios_clase {
 }
 
 class Lista_manejador {
-  final String id_cat;
-  final String id_sub;  
+  final int id_cat;
+  final int id_sub;  
   Lista_manejador(this.id_cat,this.id_sub);
 
 }

@@ -779,7 +779,7 @@ var response = await http.get(
          ),
          Column(
            children: <Widget>[
-             FloatingActionButton(child: Icon(FontAwesomeIcons.mapMarkedAlt), onPressed:() => _mapa(),backgroundColor:Color(0xff01969a),heroTag: "bt4",elevation: 0.0,),
+             FloatingActionButton(child: Icon(FontAwesomeIcons.mapMarkerAlt), onPressed:() => _mapa(),backgroundColor:Color(0xff01969a),heroTag: "bt4",elevation: 0.0,),
              Text('Open map', style: TextStyle(color: Colors.black),),
 
            ],
