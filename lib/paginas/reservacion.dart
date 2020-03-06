@@ -171,7 +171,7 @@ class Detalles extends State<Reservacion> {
               SizedBox(height:15.0),
               Center(
                 child: Text(
-                                        "Llena todo los campos por favor",
+                                        "Llena todo los campos por favor, verificar que el horario seleccionado este disponible en el negocio",
                                         style: TextStyle(
                                             color: Colors.blueAccent,
                                             fontWeight: FontWeight.bold,
@@ -185,7 +185,7 @@ class Detalles extends State<Reservacion> {
                   if (value.isEmpty) {
                     return 'Este campo no puede estar vacío';
                   } else if (value.length <=3) {
-                    return 'Requiere minimi 4 letras';
+                    return 'Requiere minimo 4 letras';
 
                   }
                   return null;

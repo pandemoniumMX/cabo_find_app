@@ -831,7 +831,7 @@ String resv = dataneg[0]["NEG_RESERVA"];
                     mainAxisSize: MainAxisSize.min,
 
                     children: <Widget>[
-                      new Text('Uber request ', style: TextStyle(fontSize: 20, color: Colors.white)), 
+                      new Text('Get a ride ', style: TextStyle(fontSize: 20, color: Colors.white)), 
                       new Icon(FontAwesomeIcons.uber, color: Colors.white,)
                     ],
                   )

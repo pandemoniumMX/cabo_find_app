@@ -171,7 +171,7 @@ class Detalles extends State<Reservacion_ing> {
               SizedBox(height:15.0),
               Center(
                 child: Text(
-                                        "Fill in all fields please",
+                                        "Fill in all fields please, verify that the selected schedule is available in this business",
                                         style: TextStyle(
                                             color: Colors.blueAccent,
                                             fontWeight: FontWeight.bold,
@@ -308,7 +308,7 @@ class Detalles extends State<Reservacion_ing> {
                                       print('confirm $date');
                                       _date = '${date.year} - ${date.month} - ${date.day}';
                                       setState(() {});
-                                    }, currentTime: DateTime.now(), locale: LocaleType.es);
+                                    }, currentTime: DateTime.now(), locale: LocaleType.en);
                 } ,
                   child: InputDecorator(                
                     decoration:  new InputDecoration(
@@ -340,7 +340,7 @@ class Detalles extends State<Reservacion_ing> {
                   print('confirm $time');
                     _time = '${time.hour} : ${time.minute} : ${time.second}';
                     setState(() {});
-                  }, currentTime: DateTime.now(), locale: LocaleType.es);
+                  }, currentTime: DateTime.now(), locale: LocaleType.en);
                   setState(() {});
                 } ,
                   child: InputDecorator(                
