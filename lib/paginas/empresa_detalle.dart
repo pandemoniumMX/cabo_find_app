@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:cabofind/paginas/publicacion_detalle.dart';
 import 'package:cabofind/paginas/publicacion_detalle_estatica.dart';
+import 'package:cabofind/paginas/reservacion.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:device_info/device_info.dart';
 import 'package:devicelocale/devicelocale.dart';
@@ -790,7 +791,8 @@ Widget ubersection = Column(
         physics: BouncingScrollPhysics(),
         itemCount: dataneg == null ? 0 : dataneg.length,
        itemBuilder: (BuildContext context, int index) {
-
+String latc = dataneg[0]["NEG_MAP_LAT"];
+String resv = dataneg[0]["NEG_RESERVA"];
  
     _uber() async {
       final lat = dataneg[index]["NEG_MAP_LAT"];
@@ -803,73 +805,44 @@ Widget ubersection = Column(
      } 
     } 
 
-String latc = dataneg[index]["NEG_MAP_LAT"];
-if (latc != null){
-  return new  Row(
+
+return  Row(
        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-       children: [         
-                     
-         
-         RaisedButton(
-
+       
+       children: [  
+      //   if(latc != null )
+           if ( latc != null) RaisedButton(
                   onPressed: (){_uber();},  
-
                   shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
-                  color: Colors.black,  
-                  
+                  color: Colors.black,                    
                   child: new Row (
                     mainAxisAlignment: MainAxisAlignment.center,
                     mainAxisSize: MainAxisSize.min,
-
                     children: <Widget>[
                       new Text('Solicitar Uber ', style: TextStyle(fontSize: 20, color: Colors.white)), 
                       new Icon(FontAwesomeIcons.uber, color: Colors.white,)
                     ],
                   )
-                  
                 ),
-       ],
-     );
-}
-      
-
-       }
-     ),
-     ]
-   );  
-Widget reservacion = Column(
-     //width: MediaQuery.of(context).size.width +30,
-
-     children: <Widget>[
-        new ListView.builder(
-        shrinkWrap: true,
-        physics: BouncingScrollPhysics(),
-        itemCount: dataneg == null ? 0 : dataneg.length,
-       itemBuilder: (BuildContext context, int index) {
-
- 
-    _uber() async {
-      
-    } 
-
-String latc = dataneg[index]["NEG_MAP_LAT"];
-if (latc != null){
-  return new  Row(
-       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-       children: [         
-                     
-         
-         RaisedButton(
-
-                  onPressed: (){_uber();},  
-
+        if ( resv =='TRUE') RaisedButton(
+                  onPressed: (){
+                    String tipo_r = dataneg[0]["CAT_NOMBRE"];
+                    String tipo_n = dataneg[0]["SUB_NOMBRE"];
+                    String nombre = dataneg[0]["NEG_NOMBRE"];
+                    String id_negocio = dataneg[0]["ID_NEGOCIO"];
+                    String correo = dataneg[0]["NEG_CORREO"];
+                    Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Reservacion(reserva: new Reserva(tipo_r,tipo_n, nombre, id_negocio,correo))
+                        )
+                        );
+                  },  
                   shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
-                  color: Colors.black,  
-                  
+                  color: Colors.black, 
                   child: new Row (
                     mainAxisAlignment: MainAxisAlignment.center,
                     mainAxisSize: MainAxisSize.min,
-
                     children: <Widget>[
                       new Text('Reservar ', style: TextStyle(fontSize: 20, color: Colors.white)), 
                       new Icon(FontAwesomeIcons.calendarAlt, color: Colors.white,)
@@ -877,15 +850,18 @@ if (latc != null){
                   )
                   
                 ),
-       ],
-     );
-}
-      
+                   
 
-       }
+       ],
+     ); 
+  
+
+    
+
+               }
      ),
      ]
-   );    
+   );  
 
 Widget resenasection = Column(
          
@@ -901,8 +877,7 @@ Widget resenasection = Column(
            //mainAxisAlignment: MainAxisAlignment.spaceBetween, 
             
            children: [  
-             Column(  
-               children: <Widget>[  
+             Column(children : <Widget>[  
                       Image.network(data_resena[index]["COM_FOTO"],
                               width: 50,
                               height: 50,
@@ -913,19 +888,14 @@ Widget resenasection = Column(
                       overflow: TextOverflow.ellipsis,  
                     ),     
                   ],  
-                ),  
-            Flexible(  
-              fit: FlexFit.tight,
-                     child: Center(
-                       child: Text(      
-                       data_resena[index]["COM_RESENA"],   
-                       overflow: TextOverflow.ellipsis, 
-                       maxLines: 10,    
-                       softWrap: true,  
-                       style: TextStyle(fontSize: 18.0),  
-                       ),
-                     ), 
-            ),
+                ), 
+            Flexible(fit : FlexFit.tight, child : Center(child : Text(
+    data_resena[index]["COM_RESENA"],
+    overflow : TextOverflow.ellipsis,
+    maxLines : 10,
+    softWrap : true,
+    style : TextStyle(fontSize : 18.0),
+),),),
             
             Column(
                           children: <Widget>[
@@ -959,70 +929,62 @@ Widget resenasection = Column(
       ]
     );  
 
-  Widget social() { 
-    return Container (
-     // width: MediaQuery.of(context).size.width,
-      //padding: const EdgeInsets.all(20),
-      height: 65.0,
+  Widget social() {
+    return Container(
+    // width: MediaQuery.of(context).size.width, padding: const EdgeInsets.all(20),
+    height : 65.0, child : ListView.builder(
+        shrinkWrap : true, physics : BouncingScrollPhysics(), itemCount : dataneg == null
+        ? 0
+        : dataneg.length,
+    itemBuilder : (BuildContext context, int index) {
 
-      child: ListView.builder(
-        shrinkWrap: true,
-        physics: BouncingScrollPhysics(),
-        itemCount: dataneg == null ? 0 : dataneg.length,
-       itemBuilder: (BuildContext context, int index) {
-         
+        facebook()async {
+            final url = dataneg[index]["NEG_FACEBOOK"];
+            if (await canLaunch(url)) {
+                await launch(url);
+            } else {
+                throw 'Could not launch $url';
+            }
+        }
 
-    
+        web()async {
+            final url = dataneg[index]["NEG_WEB"];
+            if (await canLaunch(url)) {
+                await launch(url);
+            } else {
+                throw 'Could not launch $url';
+            }
+        }
 
-   facebook() async {
-     final url =  dataneg[index]["NEG_FACEBOOK"];
-     if (await canLaunch(url)) {
-       await launch(url);
-     } else {
-       throw 'Could not launch $url';
-     }
-   }
+        instagram()async {
+            final url = dataneg[index]["NEG_INSTAGRAM"];
+            if (await canLaunch(url)) {
+                await launch(url);
+            } else {
+                throw 'Could not launch $url';
+            }
+        }
 
-   web() async {
-     final url =  dataneg[index]["NEG_WEB"];
-     if (await canLaunch(url)) {
-       await launch(url);
-     } else {
-       throw 'Could not launch $url';
-     }
-   }
+        telefono()async {
+            final tel = dataneg[index]["NEG_TEL"];
+            final url = "tel: $tel";
+            if (await canLaunch(url)) {
+                await launch(url);
+            } else {
+                throw 'Could not launch $url';
+            }
+        }
 
-   instagram() async {
-     final url =  dataneg[index]["NEG_INSTAGRAM"];
-     if (await canLaunch(url)) {
-       await launch(url);
-     } else {
-       throw 'Could not launch $url';
-     }
-   }
-
-   telefono() async {
-     final tel = dataneg[index]["NEG_TEL"];
-     final url =  "tel: $tel";
-     if (await canLaunch(url)) {
-       await launch(url);
-     } else {
-       throw 'Could not launch $url';
-     }
-   }
-
-   correo() async {
-     final mail = dataneg[index]["NEG_CORREO"];
-     final url = "mailto: $mail";
-     if (await canLaunch(url)) {
-       await launch(url);
-     } else {
-       throw 'Could not launch $url';
-     }
-   }
-         return new Row(
-         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-         children: <Widget>[
+        correo()async {
+            final mail = dataneg[index]["NEG_CORREO"];
+            final url = "mailto: $mail";
+            if (await canLaunch(url)) {
+                await launch(url);
+            } else {
+                throw 'Could not launch $url';
+            }
+        }
+        return new Row(mainAxisAlignment : MainAxisAlignment.spaceEvenly, children : <Widget>[
          SizedBox(width: 30),
          FloatingActionButton(child: Icon(FontAwesomeIcons.instagram), onPressed: instagram,backgroundColor:Color(0xff01969a),heroTag: "bt1",elevation: 0.0,),
          Expanded(child: SizedBox(width: 5.0,)),
@@ -1158,10 +1120,6 @@ Widget resenasection = Column(
 
 
           },
-          //A Navigator is a widget that manages a set of child widgets with
-          //stack discipline.It allows us navigate pages.
-          //stack discipline.It allows us navigate pages.
-          //Navigator.of(context).push(route);
         );
 
       },
@@ -1170,7 +1128,9 @@ Widget resenasection = Column(
 
 
 
-
+String latc = dataneg[0]["NEG_MAP_LAT"];
+String resv = dataneg[0]["NEG_RESERVA"];
+ 
     return new Scaffold(
 
       body: ListView(
@@ -1190,8 +1150,10 @@ Widget resenasection = Column(
                 SizedBox(height: 10.0,),
 
                 buttonSection,
-                SizedBox(height: 10.0,),
-                ubersection,
+                SizedBox(height: 10.0,),                
+                ubersection
+                
+                
                 
 
 
@@ -1234,7 +1196,6 @@ Widget resenasection = Column(
                     height: 15.0,
                   ),
                  social(),
-                 reservacion,
 
                 ],
               )

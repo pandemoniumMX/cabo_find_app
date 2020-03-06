@@ -7,6 +7,16 @@ class Costos {
   Costos(this.paquete,this.costo);
 }
 
+class Reserva {
+  final String tipo_r; 
+  final String tipo_n; 
+  final String nombre; 
+  final String id; 
+  final String correo; 
+
+  Reserva(this.tipo_r,this.tipo_n,this.nombre,this.id,this.correo);
+}
+
 class Empresa {
   final String id_nm; 
   Empresa(this.id_nm);
