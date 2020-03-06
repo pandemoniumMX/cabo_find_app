@@ -837,6 +837,55 @@ if (latc != null){
      ),
      ]
    );  
+Widget reservacion = Column(
+     //width: MediaQuery.of(context).size.width +30,
+
+     children: <Widget>[
+        new ListView.builder(
+        shrinkWrap: true,
+        physics: BouncingScrollPhysics(),
+        itemCount: dataneg == null ? 0 : dataneg.length,
+       itemBuilder: (BuildContext context, int index) {
+
+ 
+    _uber() async {
+      
+    } 
+
+String latc = dataneg[index]["NEG_MAP_LAT"];
+if (latc != null){
+  return new  Row(
+       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+       children: [         
+                     
+         
+         RaisedButton(
+
+                  onPressed: (){_uber();},  
+
+                  shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
+                  color: Colors.black,  
+                  
+                  child: new Row (
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+
+                    children: <Widget>[
+                      new Text('Reservar ', style: TextStyle(fontSize: 20, color: Colors.white)), 
+                      new Icon(FontAwesomeIcons.calendarAlt, color: Colors.white,)
+                    ],
+                  )
+                  
+                ),
+       ],
+     );
+}
+      
+
+       }
+     ),
+     ]
+   );    
 
 Widget resenasection = Column(
          
@@ -1143,6 +1192,7 @@ Widget resenasection = Column(
                 buttonSection,
                 SizedBox(height: 10.0,),
                 ubersection,
+                
 
 
 
@@ -1184,6 +1234,7 @@ Widget resenasection = Column(
                     height: 15.0,
                   ),
                  social(),
+                 reservacion,
 
                 ],
               )

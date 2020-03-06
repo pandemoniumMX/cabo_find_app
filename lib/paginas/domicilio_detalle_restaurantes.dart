@@ -179,6 +179,14 @@ final _numero = numero.text;
 final _servicio = dataneg[0]["NEG_ETIQUETAS"];
 final _celular = dataneg[0]["NEG_TEL"];
 
+var response1 = await http.get(
+        Uri.encodeFull(
+       'http://cabofind.com.mx/app_php/sendmails/sendmail_pedidos.php?NOM=${_nombre}&NUM=${_numero}&PEDIDO=${_pedido}&TIPO=${_servicio}&LATITUD=${_latitud}&LONGITUD=${_longitud}'),
+       //'http://cabofind.com.mx/app_php/sendmails/sendmail_pedidos.php'),
+        headers: {
+          "Accept": "application/json"
+        }
+    ); 
 var response = await http.get(
         Uri.encodeFull(
         'http://cabofind.com.mx/app_php/APIs/esp/insert_pedido.php?NOM=${_nombre}&NUM=${_numero}&PEDIDO=${_pedido}&TIPO=${_servicio}&PLATAFORMA=ANDROID'),
@@ -187,10 +195,6 @@ var response = await http.get(
           "Accept": "application/json"
         }
     ); 
-
-var whatsappUrl ="whatsapp://send?phone=$_celular&text=Servicio 'Ahí Voy Cabo' con Cabofind, tipo de servicio 'Comida' a nombre de: $_nombre, detalle del pedido: $_pedido. enviar a la siguiente ubicación: $_ubicacion";
-await canLaunch(whatsappUrl)? launch(whatsappUrl):print("open whatsapp app link or do a snackbar with notification that there is no whatsapp installed");
-
 
   
     }

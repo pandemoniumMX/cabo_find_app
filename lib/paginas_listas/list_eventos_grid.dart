@@ -9,9 +9,7 @@ import 'package:cabofind/paginas/empresa_detalle.dart';
 import 'package:cabofind/utilidades/classes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-
-
-
+import 'package:intl/intl.dart';
 
 class Eventos_grid extends StatefulWidget {
    
@@ -32,6 +30,8 @@ class Publicacionesfull extends State<Eventos_grid> {
 List databaja;
   List data_n;
   List data_c;
+  DateFormat dateFormat;
+  
 
 
   //final List<Todo> todos;
@@ -63,42 +63,34 @@ List databaja;
 
     );
     this.getData();
-
-
+    dateFormat = new DateFormat.MMMMd('es');
+    
+    
   }
 
 
   Widget build(BuildContext context) {
-
-
-      return new Scaffold(
+    return new Scaffold(
     appBar: new AppBar(
-      title: new Text('Eventos'),
+    title: new Text('Eventos'),
     ),
     body: Container(
      // height: MediaQuery.of(context).size.height,
     child: new  StaggeredGridView.countBuilder(
+      
       crossAxisCount: 4,
       itemCount:data == null ? 0 : data.length,
       itemBuilder: (BuildContext context, int index) => new Container(
-          //color: Colors.white,
-        child: Container(
+        
           decoration: BoxDecoration(
-                    borderRadius:BorderRadius.circular(10.0),
-
-                    border: Border.all(
-                        color: Colors.blue)),
-                padding: EdgeInsets.all(
-                    5.0),
-                margin: EdgeInsets.all(
-                    5.0),
-                    
+                borderRadius:BorderRadius.circular(10.0),
+                border: Border.all(color: Colors.blue)),
+                padding: EdgeInsets.all(5.0),
+                margin: EdgeInsets.all(5.0),
+        child: Container(
           child: InkWell(
-                    child: Column(
-
+              child: Column(
               children: <Widget>[
-
-
                 Padding(
                   child: new Text(
                     data[index]["PUB_TITULO"],
@@ -113,26 +105,35 @@ List databaja;
                 ),
 
                 Expanded(
-                                  child: FadeInImage(
+                    child: Stack(
+                    children: <Widget>[
+                    FadeInImage(
+                      image: NetworkImage(data[index]["GAL_FOTO"]),
+                      fit: BoxFit.cover,
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height,
+                      placeholder: AssetImage('android/assets/images/loading.gif'),
+                      fadeInDuration: Duration(milliseconds: 200),
 
-                    image: NetworkImage(data[index]["GAL_FOTO"]),
-                    fit: BoxFit.cover,
-                    width: MediaQuery.of(context).size.width,
-                    //height: MediaQuery.of(context).size.height * 0.38,
-                    height: MediaQuery.of(context).size.height,
-
-                    // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
-                    placeholder: AssetImage('android/assets/images/loading.gif'),
-                    fadeInDuration: Duration(milliseconds: 200),
-
-                  ),
+                    ),
+                    
+                    Align(
+                                    alignment: Alignment.bottomCenter,
+                                    child: new Text (dateFormat.format(DateTime.parse(data[index]["PUB_FECHA_LIMITE"])),
+                                    style: new TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 25.0,
+                                      fontWeight: FontWeight.w900,
+                                      backgroundColor: const Color(0x000000).withOpacity(0.5),
+                                    )
+                                    ),
+                                    ),
+                  ],
+                                  ),
+                  
                 ),
-
-
                 Row(
                     children: <Widget>[
-
-
                       Padding(
                           child: new Text(
                             data[index]["NEG_NOMBRE"],
@@ -156,7 +157,9 @@ List databaja;
               ],
 
             ),
+            
             onTap: () {
+              
               String id_n = data[index]["ID_NEGOCIO"];
               String id = data[index]["ID_PUBLICACION"];
              
@@ -170,7 +173,9 @@ List databaja;
 
 
             },
+            
           ),
+          
         ),
 
       ),

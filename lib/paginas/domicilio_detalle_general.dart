@@ -156,8 +156,8 @@ void getLocation(ubicacion) async {
         }
 
 
-Future<String> getPedido(pedido, nombre, numero) async {
-  LocationData currentLocation;
+Future<String> getPedido(pedido, nombre, numero) async { 
+LocationData currentLocation;
    var location = new Location();
    try {
      currentLocation = await location.getLocation();
@@ -165,48 +165,53 @@ Future<String> getPedido(pedido, nombre, numero) async {
      } on Exception {
        currentLocation = null;
        }
-      
-
-    print(currentLocation.latitude);
-    print(currentLocation.longitude);
     if (currentLocation != null){
 
 final _latitud = currentLocation.latitude;
 final _longitud = currentLocation.longitude;
 
 
-final _ubicacion = "https://maps.apple.com/?q=$_latitud,$_longitud";
-  
+final _ubicacion = "https://maps.apple.com/?q=$_latitud,$_longitud";  
 final _pedido = pedido.text;
 final _nombre = nombre.text;
 final _numero = numero.text;
 final _servicio = dataneg[0]["NEG_ETIQUETAS"];
 final _celular = dataneg[0]["NEG_TEL"];
 
-var response = await http.get(
+var response1 = await http.get(
         Uri.encodeFull(
-        'http://cabofind.com.mx/app_php/APIs/esp/insert_pedido.php?NOM=${_nombre}&NUM=${_numero}&PEDIDO=${_pedido}&TIPO=${_servicio}&PLATAFORMA=ANDROID'),
-
+       'http://cabofind.com.mx/app_php/sendmails/sendmail_pedidos.php?NOM=${_nombre}&NUM=${_numero}&PEDIDO=${_pedido}&TIPO=${_servicio}&LATITUD=${_latitud}&LONGITUD=${_longitud}'),
+       //'http://cabofind.com.mx/app_php/sendmails/sendmail_pedidos.php'),
         headers: {
           "Accept": "application/json"
         }
     ); 
+
+var response = await http.get(
+        Uri.encodeFull(
+        'http://cabofind.com.mx/app_php/APIs/esp/insert_pedido.php?NOM=${_nombre}&NUM=${_numero}&PEDIDO=${_pedido}&TIPO=${_servicio}&PLATAFORMA=ANDROID'),
+        headers: {
+          "Accept": "application/json"
+        }
+    ); 
+   
+    
+   
          // _launchURL('sms:$number${separator}body=${Uri.encodeFull(content)}&subject=${Uri.encodeFull(subject)}');
-var whatsappUrl ="whatsapp://send?phone=$_celular&text=Servicio 'Ahí Voy Cabo' con Cabofind, tipo de servicio 'Comida' a nombre de: $_nombre, detalle del pedido: $_pedido. enviar a la siguiente ubicación: $_ubicacion";
+//var whatsappUrl ="whatsapp://send?phone=$_celular&text=Servicio 'Ahí Voy Cabo' con Cabofind, tipo de servicio 'Comida' a nombre de: $_nombre, detalle del pedido: $_pedido. enviar a la siguiente ubicación: $_ubicacion";
 //var whatsappUrl ="whatsapp://send?phone=526242353535,send?text=1235";
 //var whatsappUrl ="https://wa.me/526242353535?text=Servicio 'Ahí Voy Cabo' con Cabofind, tipo de servicio 'Comida' a nombre de: $_nombre, detalle del pedido: $_pedido. enviar a la siguiente ubicación: $_ubicacion";
 
 
-await canLaunch(whatsappUrl)? launch(whatsappUrl):print("open whatsapp app link or do a snackbar with notification that there is no whatsapp installed");
+//await canLaunch(whatsappUrl)? launch(whatsappUrl):print("open whatsapp app link or do a snackbar with notification that there is no whatsapp installed");
 //
 //await FlutterOpenWhatsapp.sendSingleMessage("526242353535","Servicio 'Ahí Voy Cabo' con Cabofind, tipo de servicio 'Comida' a nombre de: $_nombre, detalle del pedido: $_pedido. enviar a la siguiente ubicación: $_ubicacion  ");
-
+}
  
-    }
+    
         }
 
-
-
+        
   Future<String> getInfo() async {
     var response = await http.get(
         Uri.encodeFull(
@@ -369,16 +374,14 @@ void onLoginStatusChange(bool isLoggedIn){
 
 void showResena() {
       Fluttertoast.showToast(
-          msg: "Pedido enviado exitosamente",
-          toastLength: Toast.LENGTH_SHORT,
+          msg: "Pedido enviado exitosamente, nos comunicaremos en los próximos minutos al teléfono proporcionado, gracias!",
+          toastLength: Toast.LENGTH_LONG,
           backgroundColor: Colors.blue,
           textColor: Colors.white,
-          timeInSecForIos: 1);
+          timeInSecForIos: 5);
     }
 
- 
-
-      @override
+  @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
     pedido.dispose();
@@ -499,7 +502,8 @@ void hacerpedido() async{
                    onPressed: (){ 
                      if (_formKey.currentState.validate()) {
 
-                     getPedido(pedido,nombre, numero);                      
+                     getPedido(pedido,nombre, numero);     
+                    // sendMail(pedido,nombre,numero);                 
                      showResena();                    
                      Navigator.of(context).pop();                    
                   }

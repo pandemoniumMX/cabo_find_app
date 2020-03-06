@@ -20,7 +20,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_localizations:
-        sdk: flutter  
+        sdk: flutter    
   carousel_pro: ^1.0.0
   carousel_slider: ^1.4.1
   firebase_messaging: ^5.1.5
@@ -63,7 +63,11 @@ dependencies:
   provider: ^3.0.0
   flutter_google_pay: ^0.1.4
   flutter_datetime_picker: ^1.3.4
-
+  intl: ^0.16.0
+  
+  #flutter_localizations: 
+dependency_overrides:
+  
 
 dev_dependencies:
   flutter_test:
@@ -71,10 +75,10 @@ dev_dependencies:
   flutter_launcher_icons: "^0.7.0"
 
 flutter_icons:
- android: "splash"
+ android: "launcher_icon"
  ios: true
- image_path: "assets/icon/cabofind.jpeg"
- adaptive_icon_background: "assets/cabofind.jpeg"
+ image_path: "assets/icon/cabofind.png"
+ adaptive_icon_background: "assets/cabofind.png"
 
 
  

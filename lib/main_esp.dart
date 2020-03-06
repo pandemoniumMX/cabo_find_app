@@ -51,6 +51,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:device_info/device_info.dart';
 import 'package:devicelocale/devicelocale.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'carrito/carrito.dart';
 import 'paginas/promociones.dart';
@@ -120,7 +122,7 @@ class _MyHomePageState extends State<MyHomePages> {
   String toCurrency = "MXN";
   String multi;
   String result;
-
+ 
 
   Icon actionIcon = new Icon(Icons.search);
 
@@ -135,7 +137,7 @@ class _MyHomePageState extends State<MyHomePages> {
   Future<String> getData() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/consultas_negocios/esp/estructura_esp.php"),
+            "http://cabofind.com.mx/app_php/consultas_negocios/esp/estructura_esp_test.php"),
 
         headers: {
           "Accept": "application/json"
@@ -159,9 +161,11 @@ class _MyHomePageState extends State<MyHomePages> {
     
 
     Future<String> checkModelAndroid() async {
+      
        String currentLocale;
     try {
       currentLocale = await Devicelocale.currentLocale;
+      
       print(currentLocale);
     } on PlatformException {
       print("Error obtaining current locale");
@@ -237,6 +241,7 @@ class _MyHomePageState extends State<MyHomePages> {
     setupNotification();
     this.getData();
     
+    
 
 
 
@@ -254,6 +259,7 @@ class _MyHomePageState extends State<MyHomePages> {
     //this.checkModelIos();
     this.checkModelAndroid();
     ///this._getLocation();
+    initializeDateFormatting();
   
 
 
