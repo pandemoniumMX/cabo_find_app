@@ -212,8 +212,9 @@ void fcmSubscribe() {
 
     fcmSubscribe();
 
-    setupNotification();
+   // setupNotification();
     this.getData();
+    
 
 
 
@@ -288,7 +289,13 @@ void fcmSubscribe() {
 
   void setupNotification() async {
 
-    _firebaseMessaging.requestNotificationPermissions();
+    _firebaseMessaging.requestNotificationPermissions(
+      const IosNotificationSettings(sound: true, badge: true, alert: true, provisional: true));
+      _firebaseMessaging.onIosSettingsRegistered
+      .listen((IosNotificationSettings settings){
+        print("settings registred main: $settings");
+        });
+
 
 
     _firebaseMessaging.getToken().then( (token) {

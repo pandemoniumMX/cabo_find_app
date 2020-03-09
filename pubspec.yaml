@@ -14,7 +14,7 @@ description: A new Flutter application.
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.2.2 <3.0.0"
+  sdk: ">=2.1.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -24,8 +24,7 @@ dependencies:
   carousel_pro: ^1.0.0
   carousel_slider: ^1.4.1
   #firebase_cloud_messaging: ^4.0.4+1
-  #firebase_messaging: ^6.0.9
-  firebase_messaging: ^6.0.12
+  firebase_messaging: ^6.0.9
   http: any
   path_provider: ^1.5.1
   dio: ^3.0.8

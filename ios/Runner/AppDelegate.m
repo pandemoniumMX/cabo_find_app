@@ -13,8 +13,8 @@
   
   // Override point for customization after application launch.
   //
-  [UNUserNotificationCenter currentNotificationCenter].delegate = (id<UNUserNotificationCenterDelegate>) self;
-  [GMSServices provideAPIKey:@"AIzaSyA152PLBZLFqFlUMKQhMce3Z18OMGhPY6w"];
+  if (@available(iOS 10.0, *))[UNUserNotificationCenter currentNotificationCenter].delegate = (id<UNUserNotificationCenterDelegate>) self;
+  [GMSServices provideAPIKey:@"AIzaSyDJhdbCYd1IWnHdnLf3bmUY8DA2m0Kr9mQ"];
   [[FBSDKApplicationDelegate sharedInstance] application:application
     didFinishLaunchingWithOptions:launchOptions];
   return YES;

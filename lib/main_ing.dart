@@ -136,7 +136,7 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
     super.initState();
     this.getData();
     fcmSubscribe();
-    setupNotification();
+    //setupNotification();
     _loadCurrencies();
     initializeDateFormatting();
     FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
@@ -313,7 +313,7 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
       const IosNotificationSettings(sound: true, badge: true, alert: true));
       _firebaseMessaging.onIosSettingsRegistered
       .listen((IosNotificationSettings settings){
-        print("settings registred: $settings");
+        print("settings registred ing: $settings");
         });
 
 

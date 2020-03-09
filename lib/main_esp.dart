@@ -231,101 +231,15 @@ void fcmSubscribe() {
 
 
     final _mensajesStreamController = StreamController<String>.broadcast();
-fcmSubscribe();
-setupNotification();
+    fcmSubscribe();
 
-
-
-    dispose() {
-      _mensajesStreamController?.close();
-    }
-
-
-/*
-    pushpub.mensajes.listen( (data) {
-      // Navigator.pushNamed(context, 'mensaje');
-      print('Argumento del Push');
-      print(data);
-      //navigatorKey.currentState.pushNamed('Publicacion_detalle_fin_push', arguments: data );
-      navigatorKey.currentState.pushNamed('publicacionx', arguments: data );
-
-
-    });
-    */
-    this.checkModelIos();
-    initializeDateFormatting();
-   // this.checkModelAndroid();
-    ///this._getLocation();
-
-
-
-  }
-  Future<String> _loadCurrencies() async {
-    String uri = "http://api.openrates.io/latest";
-    var response = await http
-        .get(Uri.encodeFull(uri), headers: {"Accept": "application/json"});
-    var responseBody = json.decode(response.body);
-    Map curMap = responseBody['rates'];
-    currencies = curMap.keys.toList();
-    setState(() {});
-    print(currencies);
-    return "Success";
-  }
-
-  Future<String> _doConversion() async {
-    String uri = "http://api.openrates.io/latest?base=$fromCurrency&symbols=$toCurrency";
-    var response = await http
-        .get(Uri.encodeFull(uri), headers: {"Accept": "application/json"});
-    var responseBody = json.decode(response.body);
-    setState(() {
-      result = (double.parse(fromTextController.text) * (responseBody["rates"][toCurrency])).toString();
-    });
-    print(result);
-    return "Success";
-  }
-
-  _onFromChanged(String value) {
-    setState(() {
-      fromCurrency = value;
-    });
-  }
-
-  _onToChanged(String value) {
-    setState(() {
-      toCurrency = value;
-    });
-  }
-
-  addStringToSF() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    //prefs.remove("stringValue");
-    prefs.setString('stringValue', "ingles");
-  }
-
-  Future isLogged(context) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    String _token = "";
-    _token = prefs.getString("stringValue");
-
-    // if (prefs.getString(_idioma) ?? 'stringValue' == "espanol")
-    if (_token != "ingles") {
-      print("alreay login español.");
-      //your home page is loaded
-    }
-    else
-    {
-      Navigator.push(
-          context,
-          new MaterialPageRoute(
-              builder: (BuildContext context) => new MyHomePages_ing()
-          )
-      );
-    }
-  }
-
-void setupNotification() async {
-
-    _firebaseMessaging.requestNotificationPermissions();
+if (Platform.isIOS) {
+    _firebaseMessaging.requestNotificationPermissions(
+      const IosNotificationSettings(sound: true, badge: true, alert: true,provisional: true));
+      _firebaseMessaging.onIosSettingsRegistered
+      .listen((IosNotificationSettings settings){
+        print("settings registred esp: $settings");
+        });
 
 
     _firebaseMessaging.getToken().then( (token) {
@@ -350,7 +264,7 @@ void setupNotification() async {
         String id =(message['data']['id'])as String;
 
        
-         showDialog(
+         return showDialog(
          context: context,
          builder: (context) {
            return AlertDialog(
@@ -448,16 +362,95 @@ void setupNotification() async {
       },
 
 
-    );
-        
+    ); 
+};
 
-    _firebaseMessaging.requestNotificationPermissions(
-      const IosNotificationSettings(sound: true, badge: true, alert: true));
-      _firebaseMessaging.onIosSettingsRegistered
-      .listen((IosNotificationSettings settings){
-        print("settings registred: $settings");
-        });
 
+    dispose() {
+      _mensajesStreamController?.close();
+    }
+
+
+/*
+    pushpub.mensajes.listen( (data) {
+      // Navigator.pushNamed(context, 'mensaje');
+      print('Argumento del Push');
+      print(data);
+      //navigatorKey.currentState.pushNamed('Publicacion_detalle_fin_push', arguments: data );
+      navigatorKey.currentState.pushNamed('publicacionx', arguments: data );
+
+
+    });
+    */
+    this.checkModelIos();
+    initializeDateFormatting();
+   // this.checkModelAndroid();
+    ///this._getLocation();
+
+
+
+  }
+  Future<String> _loadCurrencies() async {
+    String uri = "http://api.openrates.io/latest";
+    var response = await http
+        .get(Uri.encodeFull(uri), headers: {"Accept": "application/json"});
+    var responseBody = json.decode(response.body);
+    Map curMap = responseBody['rates'];
+    currencies = curMap.keys.toList();
+    setState(() {});
+    print(currencies);
+    return "Success";
+  }
+
+  Future<String> _doConversion() async {
+    String uri = "http://api.openrates.io/latest?base=$fromCurrency&symbols=$toCurrency";
+    var response = await http
+        .get(Uri.encodeFull(uri), headers: {"Accept": "application/json"});
+    var responseBody = json.decode(response.body);
+    setState(() {
+      result = (double.parse(fromTextController.text) * (responseBody["rates"][toCurrency])).toString();
+    });
+    print(result);
+    return "Success";
+  }
+
+  _onFromChanged(String value) {
+    setState(() {
+      fromCurrency = value;
+    });
+  }
+
+  _onToChanged(String value) {
+    setState(() {
+      toCurrency = value;
+    });
+  }
+
+  addStringToSF() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    //prefs.remove("stringValue");
+    prefs.setString('stringValue', "ingles");
+  }
+
+  Future isLogged(context) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String _token = "";
+    _token = prefs.getString("stringValue");
+
+    // if (prefs.getString(_idioma) ?? 'stringValue' == "espanol")
+    if (_token != "ingles") {
+      print("alreay login español.");
+      //your home page is loaded
+    }
+    else
+    {
+      Navigator.push(
+          context,
+          new MaterialPageRoute(
+              builder: (BuildContext context) => new MyHomePages_ing()
+          )
+      );
+    }
   }
 
   
