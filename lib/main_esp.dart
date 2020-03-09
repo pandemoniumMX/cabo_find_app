@@ -105,6 +105,9 @@ class MyHomePages extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePages> {
 
+  
+
+
   FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
 void fcmSubscribe() {
@@ -117,6 +120,8 @@ void fcmSubscribe() {
   String fromCurrency = "USD";
   String toCurrency = "MXN";
   String result;
+
+  String _messageText = "Waiting for message...";
 
 
   Icon actionIcon = new Icon(Icons.search);
@@ -219,27 +224,18 @@ void fcmSubscribe() {
 
     return "Success!";
   }
-  @override
-  void initState() {
-    isLogged(context);
-    super.initState();
-
-
-    this.getData();
-    _loadCurrencies();
 
 
 
-    final _mensajesStreamController = StreamController<String>.broadcast();
-    fcmSubscribe();
-
-if (Platform.isIOS) {
+void setupNotification() async {
+ 
     _firebaseMessaging.requestNotificationPermissions(
-      const IosNotificationSettings(sound: true, badge: true, alert: true,provisional: true));
+      const IosNotificationSettings(sound: true, badge: true, alert: true));
       _firebaseMessaging.onIosSettingsRegistered
       .listen((IosNotificationSettings settings){
         print("settings registred esp: $settings");
         });
+
 
 
     _firebaseMessaging.getToken().then( (token) {
@@ -247,24 +243,27 @@ if (Platform.isIOS) {
 
       print('===== FCM Token =====');
       print( token );
-      
 
     });
 
 
     _firebaseMessaging.configure(
-
+      
       onMessage: ( Map<String, dynamic> message ) async {
-
 
         print('======= On Message ========');
         print(" $message" );
 
-        String id_n= (message['data']['id_n']) as String;
-        String id =(message['data']['id'])as String;
+        String id_n= (message['id_n']) as String;
+        String id =(message['id'])as String;
 
-       
-         return showDialog(
+        Navigator.push(context, new MaterialPageRoute
+              (builder: (context) => new Publicacion_detalle_fin(
+              publicacion: new Publicacion(id_n,id),
+            )
+            )
+            );         
+          /*showDialog(
          context: context,
          builder: (context) {
            return AlertDialog(
@@ -287,7 +286,6 @@ if (Platform.isIOS) {
                  
              ),
              actions: <Widget>[
-               
                new FlatButton(
                  child: new Text('Cerrar'),
                  onPressed: () {
@@ -308,7 +306,7 @@ if (Platform.isIOS) {
                )
              ],
            );
-         });
+         });*/
             
 /*
        showDialog(
@@ -322,17 +320,18 @@ if (Platform.isIOS) {
        );
 */
        
-      },
 
+      },
+      //onBackgroundMessage: myBackgroundMessageHandler,
       onLaunch: ( Map<String, dynamic> message ) async {
 
         print('======= On launch ========');
         print(" $message" );
 
-       String id_n= (message['data']['id_n']) as String;
-        String id =(message['data']['id'])as String;
+       String id_n= (message['id_n']) as String;
+        String id =(message['id'])as String;
 
-        Navigator.push(context, new MaterialPageRoute
+       Navigator.push(context, new MaterialPageRoute
               (builder: (context) => new Publicacion_detalle_fin(
               publicacion: new Publicacion(id_n,id),
             )
@@ -348,48 +347,172 @@ if (Platform.isIOS) {
         print('======= On resume ========');
         print(" $message" );
 
-       String id_n= (message['data']['id_n']) as String;
-        String id =(message['data']['id'])as String;
+       String id_n= (message['id_n']) as String;
+        String id =(message['id'])as String;
 
-        Navigator.push(
-          context,
-          new MaterialPageRoute(
-          builder: (BuildContext context) => Publicacion_detalle_fin(
-          publicacion: new Publicacion(id_n,id),
-          )                        )
-          );
+       Navigator.push(context, new MaterialPageRoute
+              (builder: (context) => new Publicacion_detalle_fin(
+              publicacion: new Publicacion(id_n,id),
+            )
+            )
+            );
+
+       
 
       },
 
 
-    ); 
-};
+    );
 
 
-    dispose() {
-      _mensajesStreamController?.close();
-    }
+  }
+
+Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) async {
+
+  if (message.containsKey('data')) {
+    // Handle data message
+    final dynamic data = message['data']['id_n'];
+    print('metedo nuevo $data');
+  }
+  }
+  @override
+  void initState() {
+    isLogged(context);
+    
 
 
-/*
-    pushpub.mensajes.listen( (data) {
-      // Navigator.pushNamed(context, 'mensaje');
-      print('Argumento del Push');
-      print(data);
-      //navigatorKey.currentState.pushNamed('Publicacion_detalle_fin_push', arguments: data );
-      navigatorKey.currentState.pushNamed('publicacionx', arguments: data );
+    this.getData();
+    _loadCurrencies();
 
 
-    });
-    */
+
+    //final _mensajesStreamController = StreamController<String>.broadcast();
+    fcmSubscribe();
     this.checkModelIos();
     initializeDateFormatting();
    // this.checkModelAndroid();
     ///this._getLocation();
+    ///
+    //setupNotification();
+    super.initState();
+    _firebaseMessaging.configure(
+      
+      onMessage: (Map<String, dynamic> message) async {
+        
+        
+        print("onMessage: $message");
+
+        String id_n= (message['id_n']) as String;
+        String id =(message['id'])as String;
+        setState(() {
+          _messageText = "Push Resume: $message";
+        });
+        return showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: Text('Nueva Publicación!',style: TextStyle(fontSize: 25.0,),),
+                content: Container(
+                  width: 300,
+                  height: 300.0,
+                  child: FadeInImage(
+
+                    image: NetworkImage("http://cabofind.com.mx/assets/img/alerta.png"),
+                    fit: BoxFit.cover,
+                    width: 300,
+                    height: 300,
+
+                    // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
+                    placeholder: AssetImage('android/assets/images/loading.gif'),
+                    fadeInDuration: Duration(milliseconds: 200),
+
+                  ),
+
+                ),
+                actions: <Widget>[
+                  new FlatButton(
+                    child: new Text('Close'),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                  new FlatButton(
+                    color: Colors.blueAccent,
+                    child: new Text('Descubrir',style: TextStyle(fontSize: 14.0,color: Colors.white),),
+                    onPressed: () {
+                      Navigator.push(context, new MaterialPageRoute
+                        (builder: (context) => new Publicacion_detalle_fin(
+                        publicacion: new Publicacion(id_n,id),
+                      )
+                      )
+                      );
+                    },
+                  )
+                ],
+              );
+            });
+              },
+      //onBackgroundMessage: myBackgroundMessageHandler,
+      onLaunch: ( Map<String, dynamic> message ) async {
+
+        print('======= On launch ========');
+        print(" $message" );
+
+       String id_n= (message['id_n']) as String;
+        String id =(message['id'])as String;
+
+       Navigator.push(context, new MaterialPageRoute
+              (builder: (context) => new Publicacion_detalle_fin(
+              publicacion: new Publicacion(id_n,id),
+            )
+            )
+            );
+
+       
+
+      },
+
+      onResume: ( Map<String, dynamic> message ) async {
+
+        print('======= On resume ========');
+        print(" $message" );
+
+       String id_n= (message['id_n']) as String;
+        String id =(message['id'])as String;
+
+       Navigator.push(context, new MaterialPageRoute
+              (builder: (context) => new Publicacion_detalle_fin(
+              publicacion: new Publicacion(id_n,id),
+            )
+            )
+            );
+
+       
+
+      },
+    );
+    _firebaseMessaging.requestNotificationPermissions(
+        const IosNotificationSettings(
+            sound: true, badge: true, alert: true));
+    _firebaseMessaging.onIosSettingsRegistered
+        .listen((IosNotificationSettings settings) {
+      print("Settings registered esp2: $settings");
+    });
+    _firebaseMessaging.getToken().then((String token) {
+      assert(token != null);
+      setState(() {
+      });
+    });
 
 
 
   }
+
+
+
+
+  
+
   Future<String> _loadCurrencies() async {
     String uri = "http://api.openrates.io/latest";
     var response = await http
@@ -737,6 +860,7 @@ alertCar(context) async {
                   10.0),
               child: InkWell(
                 child: Column(
+                  
 
                   children: <Widget>[
 
@@ -949,6 +1073,4 @@ alertCar(context) async {
     super.dispose();
   }
 }
-
-
 

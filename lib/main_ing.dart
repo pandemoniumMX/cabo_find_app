@@ -136,11 +136,10 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
     super.initState();
     this.getData();
     fcmSubscribe();
-    //setupNotification();
+    setupNotification();
     _loadCurrencies();
     initializeDateFormatting();
-    FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-    final _mensajesStreamController = StreamController<String>.broadcast();
+ 
   }
 
   Future<String> _loadCurrencies() async {
@@ -209,8 +208,8 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
         print('======= On Message ========');
         print(" $message" );
 
-        String id_n= (message['data']['id_n']) as String;
-        String id =(message['data']['id'])as String;
+        String id_n= (message['id_n']) as String;
+        String id =(message['id'])as String;
 
 
         showDialog(
@@ -224,7 +223,7 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
                   child: FadeInImage(
 
                     image: NetworkImage("http://cabofind.com.mx/assets/img/alerta.png"),
-                    fit: BoxFit.fill,
+                    fit: BoxFit.cover,
                     width: 300,
                     height: 300,
 
@@ -278,8 +277,8 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
         print('======= On launch ========');
         print(" $message" );
 
-        String id_n= (message['data']['id_n']) as String;
-        String id =(message['data']['id'])as String;
+        String id_n= (message['id_n']) as String;
+        String id =(message['id'])as String;
 
         Navigator.push(context, new MaterialPageRoute
           (builder: (context) => new Publicacion_detalle_fin_ing(
@@ -297,8 +296,8 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
         print('======= On resume ========');
         print(" $message" );
 
-        String id_n= (message['data']['id_n']) as String;
-        String id =(message['data']['id'])as String;
+        String id_n= (message['id_n']) as String;
+        String id =(message['id'])as String;
 
         Navigator.push(context, new MaterialPageRoute
           (builder: (context) => new Publicacion_detalle_fin_ing(

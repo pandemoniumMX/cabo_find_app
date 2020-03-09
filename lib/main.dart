@@ -208,11 +208,11 @@ void fcmSubscribe() {
   @override
   void initState() {
     isLogged(context);
-    super.initState();
+    
 
     fcmSubscribe();
 
-   // setupNotification();
+    //setupNotification();
     this.getData();
     
 
@@ -221,7 +221,7 @@ void fcmSubscribe() {
     final _mensajesStreamController = StreamController<String>.broadcast();
 
 
-
+   super.initState();
 
 
     dispose() {
@@ -286,11 +286,23 @@ void fcmSubscribe() {
     }
   }
 
+Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) {
+  if (message.containsKey('data')) {
+    // Handle data message
+    final dynamic data = message['data'];
+  }
 
+  if (message.containsKey('notification')) {
+    // Handle notification message
+    final dynamic notification = message['notification'];
+  }
+
+  // Or do other work.
+}
   void setupNotification() async {
 
     _firebaseMessaging.requestNotificationPermissions(
-      const IosNotificationSettings(sound: true, badge: true, alert: true, provisional: true));
+      const IosNotificationSettings(sound: true, badge: true, alert: true));
       _firebaseMessaging.onIosSettingsRegistered
       .listen((IosNotificationSettings settings){
         print("settings registred main: $settings");
@@ -377,7 +389,7 @@ void fcmSubscribe() {
        
 
       },
-
+      onBackgroundMessage: myBackgroundMessageHandler,
       onLaunch: ( Map<String, dynamic> message ) async {
 
         print('======= On launch ========');
