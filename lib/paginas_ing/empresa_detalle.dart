@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:cabofind/paginas/publicacion_detalle.dart';
 import 'package:cabofind/paginas/publicacion_detalle_estatica.dart';
 import 'package:cabofind/paginas_ing/publicacion_detalle_estatica.dart';
+import 'package:cabofind/paginas_ing/reservacion.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:device_info/device_info.dart';
 import 'package:devicelocale/devicelocale.dart';
@@ -781,7 +782,7 @@ var response = await http.get(
        ),
        Column(
          children: <Widget>[
-           FloatingActionButton(child: Icon(FontAwesomeIcons.mapMarkedAlt), onPressed: mapa,backgroundColor:Color(0xff01969a),heroTag: "bt4",elevation: 0.0,),
+           FloatingActionButton(child: Icon(FontAwesomeIcons.mapMarkerAlt), onPressed: mapa,backgroundColor:Color(0xff01969a),heroTag: "bt4",elevation: 0.0,),
            Text('Open map', style: TextStyle(color: Colors.black),),
 
          ],
@@ -818,13 +819,14 @@ var response = await http.get(
     } 
 
 String latc = dataneg[index]["NEG_MAP_LAT"];
-if (latc != null){
+String resv = dataneg[0]["NEG_RESERVA"];
+
   return new  Row(
        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
        children: [         
                      
          
-         RaisedButton(
+         if ( latc != null) RaisedButton(
 
                   onPressed: (){_uber();},  
 
@@ -836,15 +838,41 @@ if (latc != null){
                     mainAxisSize: MainAxisSize.min,
 
                     children: <Widget>[
-                      new Text('Uber request', style: TextStyle(fontSize: 20, color: Colors.white)), 
+                      new Text('Get a ride ', style: TextStyle(fontSize: 20, color: Colors.white)), 
                       new Icon(FontAwesomeIcons.uber, color: Colors.white,)
                     ],
                   )
                   
                 ),
+                if ( resv =='TRUE') RaisedButton(
+                  onPressed: (){
+                    String tipo_r = dataneg[0]["CAT_NOMBRE_ING"];
+                    String tipo_n = dataneg[0]["SUB_NOMBRE_ING"];
+                    String nombre = dataneg[0]["NEG_NOMBRE"];
+                    String id_negocio = dataneg[0]["ID_NEGOCIO"];
+                    String correo = dataneg[0]["NEG_CORREO"];
+                    Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Reservacion_ing(reserva: new Reserva(tipo_r,tipo_n, nombre, id_negocio,correo))
+                        )
+                        );
+                  },  
+                  shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
+                  color: Colors.black, 
+                  child: new Row (
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      new Text('Book ', style: TextStyle(fontSize: 20, color: Colors.white)), 
+                      new Icon(FontAwesomeIcons.calendarAlt, color: Colors.white,)
+                    ],
+                  )
+                  
+                ),   
        ],
      );
-}
+
       
 
        }
@@ -1271,7 +1299,7 @@ Widget resenasection = Column(
                                           mainAxisSize: MainAxisSize.min,
 
                                           children: <Widget>[
-                                            new Text('REVIEW USING FACEBOOK ', style: TextStyle(fontSize: 20, color: Colors.white)), 
+                                            new Text('REVIEW USING FACEBOOK ', style: TextStyle(fontSize: 18, color: Colors.white)), 
                                             new Icon(FontAwesomeIcons.facebookSquare, color: Colors.white,)
                                           ],
                                         )

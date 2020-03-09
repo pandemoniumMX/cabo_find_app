@@ -10,6 +10,7 @@ import 'package:cabofind/paginas/empresa_detalle.dart';
 import 'package:cabofind/utilidades/classes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:intl/intl.dart';
 
 
 
@@ -30,9 +31,10 @@ class Publicacionesfull extends State<Eventos_ing_grid> {
   List<int> _listaNumeros = new List();
 
   List data;
-List databaja;
+  List databaja;
   List data_n;
   List data_c;
+  DateFormat dateFormat;
 
 
   
@@ -64,6 +66,8 @@ List databaja;
 
     );
     this.getData();
+    dateFormat = new DateFormat.MMMd('en');
+    //initializeDateFormatting();
 
 
   }
@@ -113,20 +117,33 @@ List databaja;
                     ),
 
                     Expanded(
-                                    child: FadeInImage(
-
+                    child: Stack(
+                    children: <Widget>[
+                    FadeInImage(
                       image: NetworkImage(data[index]["GAL_FOTO_ING"]),
                       fit: BoxFit.cover,
                       width: MediaQuery.of(context).size.width,
-                      //height: MediaQuery.of(context).size.height * 0.38,
                       height: MediaQuery.of(context).size.height,
-
-                      // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
                       placeholder: AssetImage('android/assets/images/loading.gif'),
                       fadeInDuration: Duration(milliseconds: 200),
 
                     ),
-                  ),
+                    
+                    Align(
+                                    alignment: Alignment.bottomCenter,
+                                    child: new Text (dateFormat.format(DateTime.parse(data[index]["PUB_FECHA_LIMITE"])),
+                                    style: new TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 25.0,
+                                      fontWeight: FontWeight.w900,
+                                      backgroundColor: const Color(0x000000).withOpacity(0.5),
+                                    )
+                                    ),
+                                    ),
+                  ],
+                                  ),
+                  
+                ),
 
 
                     Row(

@@ -41,6 +41,7 @@ import 'package:cabofind/paginas/restaurantes.dart';
 import 'package:cabofind/paginas/servicios.dart';
 import 'package:cabofind/paginas/compras.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'paginas_ing/anuncios.dart';
@@ -137,6 +138,7 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
     fcmSubscribe();
     setupNotification();
     _loadCurrencies();
+    initializeDateFormatting();
     FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
     final _mensajesStreamController = StreamController<String>.broadcast();
   }
@@ -453,7 +455,7 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
                    decoration: BoxDecoration(
                   borderRadius:BorderRadius.circular(8.0),
                   image: DecorationImage(
-                      image: ExactAssetImage('assets/mexflag.png'),
+                      image: ExactAssetImage('assets/usaflag.png'),
                       fit: BoxFit.fill,
                     ),
                   

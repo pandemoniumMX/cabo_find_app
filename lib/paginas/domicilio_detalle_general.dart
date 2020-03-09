@@ -181,20 +181,25 @@ final _pedido = pedido.text;
 final _nombre = nombre.text;
 final _numero = numero.text;
 final _servicio = dataneg[0]["NEG_ETIQUETAS"];
+final _celular = dataneg[0]["NEG_TEL"];
 
+var response1 = await http.get(
+        Uri.encodeFull(
+       'http://cabofind.com.mx/app_php/sendmails/sendmail_pedidos.php?NOM=${_nombre}&NUM=${_numero}&PEDIDO=${_pedido}&TIPO=${_servicio}&LATITUD=${_latitud}&LONGITUD=${_longitud}'),
+       //'http://cabofind.com.mx/app_php/sendmails/sendmail_pedidos.php'),
+        headers: {
+          "Accept": "application/json"
+        }
+    ); 
 var response = await http.get(
         Uri.encodeFull(
-        'http://cabofind.com.mx/app_php/APIs/esp/insert_pedido.php?NOM=${_nombre}&NUM=${_numero}&PEDIDO=${_pedido}&TIPO=${_servicio}'),
+        'http://cabofind.com.mx/app_php/APIs/esp/insert_pedido.php?NOM=${_nombre}&NUM=${_numero}&PEDIDO=${_pedido}&TIPO=${_servicio}&PLATAFORMA=IPHONE'),
 
         headers: {
           "Accept": "application/json"
         }
     ); 
-var whatsappUrl ="whatsapp://send?phone=526242353535,text=Servicio 'Ahí Voy Cabo' con Cabofind, tipo de servicio 'Comida' a nombre de: $_nombre, detalle del pedido: $_pedido. enviar a la siguiente ubicación: $_ubicacion  ";
-await canLaunch(whatsappUrl)? launch(whatsappUrl):print("open whatsapp app link or do a snackbar with notification that there is no whatsapp installed");
-//
-//await FlutterOpenWhatsapp.sendSingleMessage("526242353535","Servicio 'Ahí Voy Cabo' con Cabofind, tipo de servicio 'Comida' a nombre de: $_nombre, detalle del pedido: $_pedido. enviar a la siguiente ubicación: $_ubicacion  ");
-
+   
  
     }
         }
@@ -363,11 +368,11 @@ void onLoginStatusChange(bool isLoggedIn){
 
 void showResena() {
       Fluttertoast.showToast(
-          msg: "Pedido enviado exitosamente",
-          toastLength: Toast.LENGTH_SHORT,
+          msg: "Pedido enviado exitosamente, nos comunicaremos contigo en los próximos minutos.",
+          toastLength: Toast.LENGTH_LONG,
           backgroundColor: Colors.blue,
           textColor: Colors.white,
-          timeInSecForIos: 1);
+          timeInSecForIos: 5);
     }
 
  
@@ -393,7 +398,7 @@ void hacerpedido() async{
                title: Text('HACER PEDIDO',style: TextStyle(fontSize: 25.0,),),
                content: Container(
                    width: MediaQuery.of(context).size.width,
-                   height:MediaQuery.of(context).size.height / 2,
+                   height: MediaQuery.of(context).size.height,
                    child:Column(
                 children: <Widget>[ 
                 //Text('TU NOMBRE'),
@@ -960,36 +965,7 @@ Widget resenasection = Column(
         physics: BouncingScrollPhysics(),
         itemCount: dataneg == null ? 0 : dataneg.length,
        itemBuilder: (BuildContext context, int index) {
-         
-
-    
-
-   facebook() async {
-     final url =  dataneg[index]["NEG_FACEBOOK"];
-     if (await canLaunch(url)) {
-       await launch(url);
-     } else {
-       throw 'Could not launch $url';
-     }
-   }
-
-   web() async {
-     final url =  dataneg[index]["NEG_WEB"];
-     if (await canLaunch(url)) {
-       await launch(url);
-     } else {
-       throw 'Could not launch $url';
-     }
-   }
-
-   instagram() async {
-     final url =  dataneg[index]["NEG_INSTAGRAM"];
-     if (await canLaunch(url)) {
-       await launch(url);
-     } else {
-       throw 'Could not launch $url';
-     }
-   }
+ 
 
    telefono() async {
      final tel = dataneg[index]["NEG_TEL"];
@@ -1013,13 +989,7 @@ Widget resenasection = Column(
          return new Row(
          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
          children: <Widget>[
-         SizedBox(width: 30),
-         FloatingActionButton(child: Icon(FontAwesomeIcons.instagram), onPressed: instagram,backgroundColor:Color(0xff01969a),heroTag: "bt1",elevation: 0.0,),
-         Expanded(child: SizedBox(width: 5.0,)),
-         FloatingActionButton(child: Icon(FontAwesomeIcons.facebook), onPressed: facebook,backgroundColor:Color(0xff01969a),heroTag: "bt3",elevation: 0.0,),
-         Expanded(child: SizedBox(width: 5.0,)),
-         FloatingActionButton(child: Icon(FontAwesomeIcons.globeAmericas), onPressed: web,backgroundColor:Color(0xff01969a),heroTag: "bt4",elevation: 0.0,),
-         Expanded(child: SizedBox(width: 5.0,)),
+         SizedBox(width: 30),         
          FloatingActionButton(child: Icon(FontAwesomeIcons.phone), onPressed: telefono,backgroundColor:Color(0xff01969a),heroTag: "bt5",elevation: 0.0,),
          Expanded(child: SizedBox(width: 5.0,)),
          FloatingActionButton(child: Icon(FontAwesomeIcons.envelope), onPressed: correo,backgroundColor:Color(0xff01969a),heroTag: "bt6",elevation: 0.0,),
@@ -1091,10 +1061,8 @@ Widget resenasection = Column(
                   SizedBox(
                     height: 0.0,
                   ),
-                 //Center(child: Text('Redes sociales y contacto',style: TextStyle(fontSize: 20.0,color: Colors.blueAccent ),)),
-                  SizedBox(
-                    height: 0.0,
-                  ),
+                 //Center(child: Text('Contacto',style: TextStyle(fontSize: 20.0,color: Colors.blueAccent ),)),
+                  
                  //social(),
 
                 ],

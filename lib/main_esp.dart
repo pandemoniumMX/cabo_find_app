@@ -11,6 +11,7 @@ import 'package:cabofind/paginas/educacion.dart';
 import 'package:cabofind/paginas/maps.dart';
 import 'package:cabofind/paginas/publicacion_detalle.dart';
 import 'package:cabofind/paginas/publicaciones.dart';
+import 'package:cabofind/paginas/ricky.dart';
 //import 'package:cabofind/paginas/publicacion_detalle_push.dart';
 import 'package:cabofind/paginas/salud.dart';
 import 'package:cabofind/paginas_listas/list_eventos_grid.dart';
@@ -46,6 +47,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:device_info/device_info.dart';
 import 'package:devicelocale/devicelocale.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'paginas/anuncios.dart';
@@ -201,7 +203,7 @@ void fcmSubscribe() {
   Future<String> getData() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/consultas_negocios/esp/estructura_esp.php"),
+            "http://cabofind.com.mx/app_php/consultas_negocios/esp/estructura_esp_test.php"),
 
         headers: {
           "Accept": "application/json"
@@ -251,6 +253,7 @@ setupNotification();
     });
     */
     this.checkModelIos();
+    initializeDateFormatting();
    // this.checkModelAndroid();
     ///this._getLocation();
 
@@ -493,7 +496,7 @@ alertCar(context) async {
                 //. Disponible únicamente en Cabo San Lucas
                 title: new Text("¡Ahí voy Cabo! ¿Como funciona?"),
                 content: Container(
-                  height: 300,
+                  height: MediaQuery.of(context).size.height,
                   child: new Column(
 
                     children: <Widget>[
@@ -682,7 +685,7 @@ alertCar(context) async {
                    decoration: BoxDecoration(
                   borderRadius:BorderRadius.circular(8.0),
                   image: DecorationImage(
-                      image: ExactAssetImage('assets/usaflag.png'),
+                      image: ExactAssetImage('assets/mexflag.png'),
                       fit: BoxFit.fill,
                     ),
                   
@@ -916,6 +919,14 @@ alertCar(context) async {
                   } else if (ruta == "domicilio")
                {
                  alertCar(context);
+                } else if (ruta == "rickys")
+               {
+                 Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Rickys()
+                        )
+                        );
                  
                  
                }

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:cabofind/paginas/publicacion_detalle.dart';
 import 'package:cabofind/paginas/publicacion_detalle_estatica.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:device_info/device_info.dart';
 import 'package:devicelocale/devicelocale.dart';
 import 'package:dropdownfield/dropdownfield.dart';
@@ -472,39 +473,30 @@ var response = await http.get(
       
       
  
-  Widget carrusel =   Container(
-     child: new ListView.builder(
+Widget carrusel =   new CarouselSlider.builder(      
+ autoPlay: true,
+ height: 500.0,
+ aspectRatio: 16/9,
+ viewportFraction: 0.9,
+ autoPlayInterval: Duration(seconds: 3),
+ autoPlayCurve: Curves.fastOutSlowIn,
+ itemCount: data_carrusel == null ? 0 : data_carrusel.length,
+ itemBuilder: (BuildContext context, int index)  =>
+   Container(
+       child:FadeInImage(
+ 
+              image: NetworkImage(data_carrusel[index]["GAL_FOTO"]),
+              fit: BoxFit.cover,
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height / 1.5,
 
-       scrollDirection: Axis.horizontal,
+              // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
+              placeholder: AssetImage('android/assets/images/loading.gif'),
+              fadeInDuration: Duration(milliseconds: 200),
 
-       itemCount: data_carrusel == null ? 0 : data_carrusel.length,
-       itemBuilder: (BuildContext context, int index) {
-
-         return  new Container(
-           padding: EdgeInsets.only( left: 0.0, right: 10.0),
-           child: Column(
-             children: <Widget>[
-               Padding(
-                 child:  FadeInImage(
-
-                   image: NetworkImage(data_carrusel[index]["GAL_FOTO"]),
-                   fit: BoxFit.cover,
-                   width: MediaQuery.of(context).size.width,
-                   height: 400,
-
-                   // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
-                   placeholder: AssetImage('android/assets/images/loading.gif'),
-                   fadeInDuration: Duration(milliseconds: 200),
-
-                 ),
-                 padding: EdgeInsets.all(0.0),
-               ),
-             ],
-           ),
-         );
-       },
-     ),
-   );
+            ),
+   ),
+     );
 
     
     Widget titleSection = Container (
@@ -757,7 +749,7 @@ var response = await http.get(
          
          Column(
            children: <Widget>[
-             FloatingActionButton(child: Icon(FontAwesomeIcons.moneyBillWave), onPressed:()  => _alertHorario(context),backgroundColor:Color(0xff189bd3),heroTag: "bt1",),
+             FloatingActionButton(child: Icon(FontAwesomeIcons.moneyBillWave), onPressed:()  => _alertHorario(context),backgroundColor:Color(0xff01969a),heroTag: "bt1",elevation: 0.0,),
              Text('Price', style: TextStyle(color: Colors.black),),
 
            ],
@@ -771,14 +763,14 @@ var response = await http.get(
                                          autoPlay: false, //default falase
                                          fullScreen: false //default false
                                        );},
-             backgroundColor:Color(0xff189bd3),heroTag: "bt2",),
+             backgroundColor:Color(0xff01969a),heroTag: "bt2",),
              Text('Video', style: TextStyle(color: Colors.black),),
 
            ],
          ),
          Column(
            children: <Widget>[
-             FloatingActionButton(child: Icon(FontAwesomeIcons.mapMarkedAlt), onPressed: _mapa,backgroundColor:Color(0xff189bd3),heroTag: "bt3",),
+             FloatingActionButton(child: Icon(FontAwesomeIcons.mapMarkedAlt), onPressed: _mapa,backgroundColor:Color(0xff01969a),heroTag: "bt3",elevation: 0.0,),
              Text('Open map', style: TextStyle(color: Colors.black),),
 
            ],
@@ -910,14 +902,14 @@ Widget resenasection = Column(
 
          Column(
            children: <Widget>[
-             FloatingActionButton(child: Icon(FontAwesomeIcons.phone), onPressed: telefono,backgroundColor:Color(0xff189bd3),heroTag: "bt5",),
+             FloatingActionButton(child: Icon(FontAwesomeIcons.phone), onPressed: telefono,backgroundColor:Color(0xff01969a),heroTag: "bt5",elevation: 0.0,),
 
            ],
          ),
 
          Column(
            children: <Widget>[
-             FloatingActionButton(child: Icon(FontAwesomeIcons.envelope), onPressed: correo,backgroundColor:Color(0xff189bd3),heroTag: "bt6",),
+             FloatingActionButton(child: Icon(FontAwesomeIcons.envelope), onPressed: correo,backgroundColor:Color(0xff01969a),heroTag: "bt6",elevation: 0.0,),
 
            ],
          ),  

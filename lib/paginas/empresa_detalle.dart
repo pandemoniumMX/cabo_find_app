@@ -7,7 +7,10 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:device_info/device_info.dart';
 import 'package:devicelocale/devicelocale.dart';
 import 'package:dropdownfield/dropdownfield.dart';
+import 'package:cabofind/paginas/reservacion.dart';
 import 'package:flutter/services.dart';
+//import 'package:flutter/Reservacion.dart';
+
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 //import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -367,54 +370,68 @@ void initiateFacebookLogin() async{
     case FacebookLoginStatus.loggedIn:
     onLoginStatusChange(true);
     //getInfofb(result,_displayValue);
-
+final _formKey = GlobalKey<FormState>();
     
                
     return showDialog(
          context: context,
          builder: (context) {
-           return AlertDialog(
-             title: Text('Reseña',style: TextStyle(fontSize: 25.0,),),
-             content: Container(
-                 width: MediaQuery.of(context).size.width,
-                 height: 350.0,
-                 child:  
-                Column(
-                                    children: <Widget>[  
-              Text('Valoración'),  
-              DropdownButton(
+           return Form(
+             key:_formKey ,
+               child: AlertDialog(
+               title: Text('Reseña',style: TextStyle(fontSize: 25.0,),),
+               content: Container(
+                   width: MediaQuery.of(context).size.width,
+                   height: 350.0,
+                   child:  
+                  Column(
+                                      children: <Widget>[  
+                Text('Valoración'),  
+                DropdownButton(
 
-                value: _currentCity,
-                items: _dropDownMenuItems,
-                onChanged: changedDropDownItem,
+                  value: _currentCity,
+                  items: _dropDownMenuItems,
+                  onChanged: changedDropDownItem,
+                   
 
-              ),                           
-              Text('Escribe una breve reseña'),
-              TextField(
-                controller: controllerCode,
-                maxLines: 5, 
-                ),
-               
-                ],
-                 )
+
+                ),                           
+                Text('Escribe una breve reseña'),
+                TextFormField(
+                  controller: controllerCode,
+                  maxLines: 5, 
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Este campo no puede estar vacío';
+                    } else if (value.length <=3) {
+                      return 'Requiere minimi 5 letras';
+
+                    }
+                    return null;
+                  },  
+                  ),
                  
-             ),
-             actions: <Widget>[
-               new FlatButton(
-                 child: new Text('Cancelar'),
-                 onPressed: () {
-                   Navigator.of(context).pop();
-                 },
+                  ],
+                   )
+                   
                ),
-               new FlatButton(
-                 child: new Text('Enviar'),
-                 onPressed: (){ getInfofb(result,_displayValue,_currentCity); showResena(); 
-                 
-                 Navigator.of(context).pop();
-                 
-                 },
-               )
-             ],
+               actions: <Widget>[
+                 new FlatButton(
+                   child: new Text('Cancelar'),
+                   onPressed: () {
+                     Navigator.of(context).pop();
+                   },
+                 ),
+                 new FlatButton(
+                   child: new Text('Enviar'),
+                   onPressed: (){ getInfofb(result,_displayValue,_currentCity); showResena(); 
+                   
+                   Navigator.of(context).pop();
+                   
+                   },
+                 )
+               ],
+             ),
            );
          });
 
@@ -805,7 +822,7 @@ final url =  dataneg[index]["NEG_MAP_IOS"];
        ),
        Column(
          children: <Widget>[
-           FloatingActionButton(child: Icon(FontAwesomeIcons.mapMarkedAlt), onPressed: mapa,backgroundColor:Color(0xff01969a),heroTag: "bt4",elevation: 0.0,),
+           FloatingActionButton(child: Icon(FontAwesomeIcons.mapMarkerAlt), onPressed: mapa,backgroundColor:Color(0xff01969a),heroTag: "bt4",elevation: 0.0,),
            Text('Abrir mapa', style: TextStyle(color: Colors.black),),
 
          ],
@@ -828,7 +845,6 @@ Widget ubersection = Column(
        itemBuilder: (BuildContext context, int index) {
 //uber://?action=setPickup&client_id=5qCx0VeV1YF9ME3qt2kllkbLbp0hfIdq&pickup=my_location&dropoff[formatted_address]=Cabo%20San%20Lucas%2C%20Baja%20California%20Sur%2C%20M%C3%A9xico&dropoff[latitude]=22.890533&dropoff[longitude]=-109.916737
 
- 
     _uber() async {
       final lat = dataneg[index]["NEG_MAP_LAT"];
       final long = dataneg[index]["NEG_MAP_LONG"];
@@ -843,14 +859,15 @@ Widget ubersection = Column(
      } 
     } 
 
-String latc = dataneg[index]["NEG_MAP_LAT"];
-if (latc != null){
+
+String latc = dataneg[0]["NEG_MAP_LAT"];
+String resv = dataneg[0]["NEG_RESERVA"];
   return new  Row(
        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
        children: [         
                      
          
-         RaisedButton(
+         if ( latc != null) RaisedButton(
 
                   onPressed: (){_uber();},  
 
@@ -868,9 +885,35 @@ if (latc != null){
                   )
                   
                 ),
+        if ( resv =='TRUE') RaisedButton(
+                  onPressed: (){
+                    String tipo_r = dataneg[0]["CAT_NOMBRE"];
+                    String tipo_n = dataneg[0]["SUB_NOMBRE"];
+                    String nombre = dataneg[0]["NEG_NOMBRE"];
+                    String id_negocio = dataneg[0]["ID_NEGOCIO"];
+                    String correo = dataneg[0]["NEG_CORREO"];
+                    Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Reservacion(reserva: new Reserva(tipo_r,tipo_n, nombre, id_negocio,correo))
+                        )
+                        );
+                  },  
+                  shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
+                  color: Colors.black, 
+                  child: new Row (
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      new Text('Reservar ', style: TextStyle(fontSize: 20, color: Colors.white)), 
+                      new Icon(FontAwesomeIcons.calendarAlt, color: Colors.white,)
+                    ],
+                  )
+                  
+                ),        
        ],
      );
-}
+
       
 
        }
@@ -1296,7 +1339,7 @@ Widget resenasection = Column(
                                           mainAxisSize: MainAxisSize.min,
 
                                           children: <Widget>[
-                                            new Text('RESEÑA USANDO FACEBOOK ', style: TextStyle(fontSize: 20, color: Colors.white)), 
+                                            new Text('RESEÑA USANDO FACEBOOK ', style: TextStyle(fontSize: 18, color: Colors.white)), 
                                             new Icon(FontAwesomeIcons.facebookSquare, color: Colors.white,)
                                           ],
                                         )

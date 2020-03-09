@@ -36,8 +36,6 @@
 	<string>1152541078280409</string>
 	<key>FacebookDisplayName</key>
 	<string>Cabofind</string>
-	<key>LSApplicationCategoryType</key>
-    <string></string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>fbapi</string>

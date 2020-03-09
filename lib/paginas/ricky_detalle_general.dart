@@ -12,6 +12,7 @@ import 'package:cabofind/paginas/maps.dart';
 import 'package:cabofind/paginas/publicacion_detalle.dart';
 import 'package:cabofind/paginas/publicacion_detalle_estatica.dart';
 import 'package:cabofind/paginas/publicaciones.dart';
+import 'package:cabofind/paginas/ricky_preparing.dart';
 //import 'package:cabofind/paginas/publicacion_detalle_push.dart';
 import 'package:cabofind/paginas/salud.dart';
 import 'package:cabofind/paginas_ing/promociones.dart';
@@ -43,9 +44,10 @@ import 'package:cabofind/paginas/vida_nocturna.dart';
 import 'package:cabofind/paginas/servicios.dart';
 import 'package:cabofind/paginas/compras.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
-//import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:flutter_youtube/flutter_youtube.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -64,27 +66,16 @@ import 'package:url_launcher/url_launcher.dart';
 
 FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
-void fcmSubscribe() {
-  _firebaseMessaging.unsubscribeFromTopic('All');
-    _firebaseMessaging.subscribeToTopic('Todos');
-  }
+
   
 
-//void main() => runApp(new Myapp());
 
 class Myapp extends StatelessWidget {
-  // This widget is the root of your application.
-  // final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
-
+ 
   @override
   Widget build(BuildContext context) {
    return new MaterialApp(
-     // navigatorKey: navigatorKey,
-/*
-      routes: {
-        'publicacionx' : (BuildContext context) => Publicacion_detalle_fin_push(),
-      },
-*/
+   
         debugShowCheckedModeBanner:false,
         theme: ThemeData(
           primarySwatch: Colors.blue,
@@ -92,24 +83,20 @@ class Myapp extends StatelessWidget {
           //primaryColor: Colors.blue,
           accentColor: Colors.black26,
         ),
-        
         home: new Container(
-            child:           new Domicilio_comida()
+            child:           new Ricky_general()
         )
-
-
-
     );
   }
 }
 
 
 
-class Domicilio_comida extends StatefulWidget {
+class Ricky_general extends StatefulWidget {
   final Empresa empresa;
   @override
 
-  Domicilio_comida({Key key, @required this.empresa}) : super(
+  Ricky_general({Key key, @required this.empresa}) : super(
     key: key);
   _MyHomePageState createState() => new _MyHomePageState();
 
@@ -118,7 +105,7 @@ class Domicilio_comida extends StatefulWidget {
 
 
 
-class _MyHomePageState extends State<Domicilio_comida> {
+class _MyHomePageState extends State<Ricky_general> {
   Completer<GoogleMapController> _controller = Completer();
 
   TextEditingController pedido =  TextEditingController();
@@ -138,10 +125,14 @@ class _MyHomePageState extends State<Domicilio_comida> {
 
   List<DropdownMenuItem<String>> _dropDownMenuItems;
   String _currentCity;
+  String _mySelection;
+  String _mispagos;
 
   bool isLoggedIn=false;
   List data;
   List data_serv;
+  List playas;
+  List pagos;
   List dataneg;
   List data_list;
   List data_carrusel;
@@ -151,56 +142,45 @@ class _MyHomePageState extends State<Domicilio_comida> {
   List data_resena;
 
 
-@override
-Future<String> getPedido(pedido, nombre, numero) async {
-  LocationData currentLocation;
-   var location = new Location();
-   try {
-     currentLocation = await location.getLocation();
-     print(currentLocation);
-     } on Exception {
-       currentLocation = null;
-       }
-      
-
-    print(currentLocation.latitude);
-    print(currentLocation.longitude);
-    if (currentLocation != null){
-
-final _latitud = currentLocation.latitude;
-final _longitud = currentLocation.longitude;
-
-
-final _ubicacion = "https://maps.apple.com/?q=$_latitud,$_longitud";
-  
-final _pedido = pedido.text;
-final _nombre = nombre.text;
-final _numero = numero.text;
-final _servicio = dataneg[0]["NEG_ETIQUETAS"];
-final _celular = dataneg[0]["NEG_TEL"];
-
-var response1 = await http.get(
+Future<String> getPlaya() async {
+    var response = await http.get(
         Uri.encodeFull(
-       'http://cabofind.com.mx/app_php/sendmails/sendmail_pedidos.php?NOM=${_nombre}&NUM=${_numero}&PEDIDO=${_pedido}&TIPO=${_servicio}&LATITUD=${_latitud}&LONGITUD=${_longitud}'),
-       //'http://cabofind.com.mx/app_php/sendmails/sendmail_pedidos.php'),
-        headers: {
-          "Accept": "application/json"
-        }
-    ); 
-var response = await http.get(
-        Uri.encodeFull(
-        'http://cabofind.com.mx/app_php/APIs/esp/insert_pedido.php?NOM=${_nombre}&NUM=${_numero}&PEDIDO=${_pedido}&TIPO=${_servicio}&PLATAFORMA=IPHONE'),
+            "http://cabofind.com.mx/app_php/APIs/esp/list_playas.php"),
 
         headers: {
           "Accept": "application/json"
         }
-    ); 
-  
-    }
+    );
+
+    this.setState(
+            () {
+          playas = json.decode(
+              response.body);
+        });
+
+
+    return "Success!";
+  }
+
+  Future<String> getPagos() async {
+    var response = await http.get(
+        Uri.encodeFull(
+            "http://cabofind.com.mx/app_php/APIs/esp/list_pagos.php"),
+
+        headers: {
+          "Accept": "application/json"
         }
+    );
+
+    this.setState(
+            () {
+          pagos = json.decode(
+              response.body);
+        });
 
 
-
+    return "Success!";
+  }
   Future<String> getInfo() async {
     var response = await http.get(
         Uri.encodeFull(
@@ -289,31 +269,6 @@ var response = await http.get(
 
 
   
-//contador de visitas android
-
-
-/*
-Future<String> insertVisitaiOS() async {
-    String currentLocale;
-    try {
-      currentLocale = await Devicelocale.currentLocale;
-      print(currentLocale);
-    } on PlatformException {
-      print("Error obtaining current locale");
-    }
-    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-    IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
-    //print('Running on ${iosInfo.identifierForVendor}');
-    var response = await http.get(
-        Uri.encodeFull(
-           // "http://cabofind.com.mx/app_php/APIs/esp/insert_visita_negocio.php?ID=${widget.empresa.id_nm}"),
-            "http://cabofind.com.mx/app_php/APIs/esp/insert_visita_negocio.php?MOD=${iosInfo.model}&BOOT=${iosInfo.utsname.nodename},${iosInfo.utsname.sysname}&VERSION=${iosInfo.systemName}&IDIOMA=esp&ID=${widget.empresa.id_nm}&SO=iOS"),
-        headers: {
-          "Accept": "application/json"
-        }
-    );
-}
-*/
    Future<String> getCarrusel() async {
     var response = await http.get(
         Uri.encodeFull(
@@ -344,6 +299,8 @@ Future<String> insertVisitaiOS() async {
     this.getCarrusel();
     this.getHorarios();
     this.getInfo();   
+    this.getPlaya();
+    this.getPagos();
     //this.getLocation(context);
     //this._currentLocation();
    
@@ -363,11 +320,11 @@ void onLoginStatusChange(bool isLoggedIn){
 
 void showResena() {
       Fluttertoast.showToast(
-          msg: "Pedido enviado exitosamente, nos comunicaremos contigo en los próximos minutos.",
-          toastLength: Toast.LENGTH_LONG,
+          msg: "Pedido enviado exitosamente",
+          toastLength: Toast.LENGTH_SHORT,
           backgroundColor: Colors.blue,
           textColor: Colors.white,
-          timeInSecForIos: 5);
+          timeInSecForIos: 1);
     }
 
  
@@ -380,134 +337,49 @@ void showResena() {
     super.dispose();
   }
 
-void hacerpedido() async{
-      bool _hasInputError = false;
-      final _formKey = GlobalKey<FormState>();
 
-    return showDialog(
-         context: context,
-         builder: (context) {
-           return Form(
-             key:_formKey ,
-              child: AlertDialog(
-               title: Text('HACER PEDIDO',style: TextStyle(fontSize: 25.0,),),
-               content: Container(
-                   width: MediaQuery.of(context).size.width,
-                   height:MediaQuery.of(context).size.height / 2,
-                   child:Column(
-                children: <Widget>[ 
-                //Text('TU NOMBRE'),
-                TextFormField(    
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return 'Este campo no puede estar vacío';
-                    } else if (value.length <=3) {
-                      return 'Requiere minimi 4 letras';
-
-                    }
-                    return null;
-                  },           
-                  decoration: new InputDecoration(
-                          labelText: "TU NOMBRE",
-                          fillColor: Colors.white,
-                          border: new OutlineInputBorder(
-                            borderRadius: new BorderRadius.circular(25.0),
-                            borderSide: new BorderSide(
-                            ),
-                          ),
-                          //fillColor: Colors.green
-                        ),           
-                  keyboardType: TextInputType.text, 
-                  controller: nombre,
-                  maxLines: 1, 
-                  ),
-                  SizedBox(height:10.0), 
-                  TextFormField(    
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return 'Este campo no puede estar vacío';
-                    } else if (value.length <=9) {
-                      return 'Requiere 10 dígitos';
-
-                    }
-                    return null;
-                  },            
-                  decoration: new InputDecoration(
-                          labelText: "TU CELULAR",
-                          fillColor: Colors.white,
-                          border: new OutlineInputBorder(
-                            borderRadius: new BorderRadius.circular(25.0),
-                            borderSide: new BorderSide(
-                            ),
-                          ),
-                          //fillColor: Colors.green
-                        ),   
-                  keyboardType: TextInputType.phone,    
-                  inputFormatters: <TextInputFormatter>[
-                  WhitelistingTextInputFormatter.digitsOnly], 
-                     
-                  controller: numero,
-                  maxLines: 1, 
-                  ),   
-                SizedBox(height:10.0),
-                Expanded(
-                    child: TextFormField(   
-                    validator: (value) {
-                    if (value.isEmpty) {
-                      return 'Este campo no puede estar vacío';
-                    } else if (value.length <=14) {
-                      return 'Requiere minimo 15 letras';
-
-                    }
-                    return null;
-                  },             
-                    controller: pedido,
-                    maxLines: 10, 
-                    decoration: new InputDecoration(
-                            labelText: "DESCRIBIR TU PEDIDO",
-                            fillColor: Colors.white,
-                            border: new OutlineInputBorder(
-                              borderRadius: new BorderRadius.circular(25.0),
-                              borderSide: new BorderSide(
-                              ),
-                            ),
-                            //fillColor: Colors.green
-                          ),
-                         
-                    ),
-                ),
-                 
-                  ],
-                   )
-                   
-               ),
-               actions: <Widget>[
-                 new FlatButton(
-                   child: new Text('Cancelar'),
-                   onPressed: () {
-                     Navigator.of(context).pop();
-                   },
-                 ),
-                 new FlatButton(
-                   child: new Text('Enviar'),
-                   onPressed: (){ 
-                     if (_formKey.currentState.validate()) {
-
-                     getPedido(pedido,nombre, numero);                      
-                     showResena();                    
-                     Navigator.of(context).pop();                    
-                  }
-                   
-                   },
-                 )
-               ],
-             ),
-           );
-         });}
 
  Widget build(BuildContext context){
 
+alertCar(context) async {  
+     return showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              // return object of type AlertDialog
+              return AlertDialog(
+                //. Disponible únicamente en Cabo San Lucas
+                title: new Text("Terminos Ricky's Corner"),
+                content: Text("En caso de dañar el equipo de playa, se deberá cubrir el 50% "+
+                  "del valor del equipo dañado."),
+                actions: <Widget>[
+                 new FlatButton(
+                   child: new Text('Cerrar'),
+                   onPressed: () {
+                     Navigator.of(context).pop();                     
+                   },
+                 ), 
+                 new FlatButton(
+                   color: Colors.blueAccent,
+                   child: new Text('Acepto los terminos',style: TextStyle(fontSize: 14.0,color: Colors.white),),
+                   onPressed: () { 
+                   Navigator.of(context).pop(); 
+                   String paquete = dataneg[0]["NEG_NOMBRE"];
+                   String costo = dataneg[0]["NEG_WEB"];
 
+                    Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                          builder: (BuildContext context) => new Rick_preparing(costos: new Costos(paquete,costo))
+                          )
+                        );
+                  
+                                    },
+                 )
+               ],
+              );
+            },
+          );
+   }
    
       
  Widget carrusel =   new CarouselSlider.builder(      
@@ -563,7 +435,7 @@ void hacerpedido() async{
 
               ],
             ),
-          
+         
           ],       
         );
        },
@@ -575,9 +447,7 @@ void hacerpedido() async{
    // Color color = Theme.of(context).primaryColor;
 
 
-    Widget textSection = Column(
-     // height:  MediaQuery.of(context).size.height,
-     
+    Widget textSection = Column(     
      children: <Widget>[
         new ListView.builder(
         shrinkWrap: true,
@@ -638,7 +508,35 @@ void hacerpedido() async{
         itemCount: dataneg == null ? 0 : dataneg.length,
        itemBuilder: (BuildContext context, int index) {
 
+_alertCobertura(BuildContext context) async {
+     return showDialog(
+         context: context,
+         builder: (context) {
+           return AlertDialog(             
+             title: Text('Costo de cobertura nocturna',style: TextStyle(fontSize: 25.0,),),
+             content: FadeInImage(
 
+                    image: NetworkImage("http://cabofind.com.mx/assets/galeria/cobertura.png"),
+                    fit: BoxFit.fill,
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height / 2,
+
+                    // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
+                    placeholder: AssetImage('android/assets/images/loading.gif'),
+                    fadeInDuration: Duration(milliseconds: 200),
+
+                  ),
+             actions: <Widget>[
+               new FlatButton(
+                 child: new Text('Cerrar'),
+                 onPressed: () {
+                   Navigator.of(context).pop();
+                 },
+               )
+             ],
+           );
+         });
+   }
 
 
    _alertCar(BuildContext context) async {
@@ -646,7 +544,7 @@ void hacerpedido() async{
          context: context,
          builder: (context) {
            return AlertDialog(
-             title: Text('Menú',style: TextStyle(fontSize: 25.0,),),
+             title: Text('Contenido',style: TextStyle(fontSize: 25.0,),),
              content: Container(
                  width: double.maxFinite,
                  height: 300.0,
@@ -679,7 +577,7 @@ void hacerpedido() async{
          context: context,
          builder: (context) {
            return AlertDialog(
-             title: Text('Restaurantes',style: TextStyle(fontSize: 25.0,),),
+             title: Text('Playas',style: TextStyle(fontSize: 25.0,),),
              content: Container(
                  width: double.maxFinite,
                  height: 300.0,
@@ -738,36 +636,6 @@ void hacerpedido() async{
          });
    }
 
-   _alertCobertura(BuildContext context) async {
-     return showDialog(
-         context: context,
-         builder: (context) {
-           return AlertDialog(             
-             title: Text('Costo de cobertura nocturna',style: TextStyle(fontSize: 25.0,),),
-             content: FadeInImage(
-
-                    image: NetworkImage("http://cabofind.com.mx/assets/galeria/cobertura.png"),
-                    fit: BoxFit.fill,
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height / 2,
-
-                    // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
-                    placeholder: AssetImage('android/assets/images/loading.gif'),
-                    fadeInDuration: Duration(milliseconds: 200),
-
-                  ),
-             actions: <Widget>[
-               new FlatButton(
-                 child: new Text('Cerrar'),
-                 onPressed: () {
-                   Navigator.of(context).pop();
-                 },
-               )
-             ],
-           );
-         });
-   }
-
    _mapa() async {
       final url =  dataneg[index]["NEG_MAP"];
      if (await canLaunch(url)) {
@@ -785,14 +653,14 @@ void hacerpedido() async{
          Column(
            children: <Widget>[
              FloatingActionButton(child: Icon(FontAwesomeIcons.listUl), onPressed:() => _alertCar(context),backgroundColor:Color(0xff01969a),heroTag: "bt1",elevation: 0.0,),
-             Text('Menú', style: TextStyle(color: Colors.black),),
+             Text('Contenido', style: TextStyle(color: Colors.black),),
            ],
          ),
 
          Column(
            children: <Widget>[
-             FloatingActionButton(child: Icon(FontAwesomeIcons.utensils), onPressed:() => _alertSer(context),backgroundColor:Color(0xff01969a),heroTag: "bt2",elevation: 0.0,),
-             Text('Restaurantes', style: TextStyle(color: Colors.black),),
+             FloatingActionButton(child: Icon(FontAwesomeIcons.umbrellaBeach), onPressed:() => _alertSer(context),backgroundColor:Color(0xff01969a),heroTag: "bt2",elevation: 0.0,),
+             Text('Playas', style: TextStyle(color: Colors.black),),
 
            ],
          ),
@@ -806,8 +674,14 @@ void hacerpedido() async{
          
          Column(
            children: <Widget>[
-             FloatingActionButton(child: Icon(FontAwesomeIcons.mapMarkerAlt), onPressed:() =>_alertCobertura(context) ,backgroundColor:Color(0xff01969a),heroTag: "bt4",elevation: 0.0,),             
-             Text('Ver cobertura', style: TextStyle(color: Colors.black),),
+             FloatingActionButton(child: Icon(FontAwesomeIcons.youtube), onPressed: () => FlutterYoutube.playYoutubeVideoByUrl(
+                                         apiKey: "AIzaSyAmNDqJm2s5Fpualsl_VF6LhG733knN0BY",
+                                         videoUrl: dataneg[index]["NEG_TEL_RESP"],
+                                         autoPlay: false, //default falase
+                                         fullScreen: false //default false
+                                        ),backgroundColor:Colors.red,heroTag: "bt4",elevation: 0.0,
+                                        ),             
+             Text('Ver video', style: TextStyle(color: Colors.black),),
 
            ],
          ),
@@ -820,222 +694,8 @@ void hacerpedido() async{
      
      ]
    );
-
-Widget ubersection = Column(
-     //width: MediaQuery.of(context).size.width +30,
-
-     children: <Widget>[
-        new ListView.builder(
-        shrinkWrap: true,
-        physics: BouncingScrollPhysics(),
-        itemCount: dataneg == null ? 0 : dataneg.length,
-       itemBuilder: (BuildContext context, int index) {
-
+  
  
-    _uber() async {
-      final lat = dataneg[index]["NEG_MAP_LAT"];
-      final long = dataneg[index]["NEG_MAP_LONG"];
-      final url = "https://m.uber.com/ul/?action=setPickup&client_id=5qCx0VeV1YF9ME3qt2kllkbLbp0hfIdq&pickup=my_location&dropoff[formatted_address]=Cabo%20San%20Lucas%2C%20B.C.S.%2C%20M%C3%A9xico&dropoff[latitude]=$lat&dropoff[longitude]=$long";
-     if (await canLaunch(url)) {
-       await launch(url);
-     } else {
-       throw 'Could not launch $url';
-     } 
-    } 
-
-String latc = dataneg[index]["NEG_MAP_LAT"];
-if (latc != null){
-  return new  Row(
-       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-       children: [         
-                     
-         
-         RaisedButton(
-
-                  onPressed: (){_uber();},  
-
-                  shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
-                  color: Colors.black,  
-                  
-                  child: new Row (
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-
-                    children: <Widget>[
-                      new Text('Solicitar Uber ', style: TextStyle(fontSize: 20, color: Colors.white)), 
-                      new Icon(FontAwesomeIcons.uber, color: Colors.white,)
-                    ],
-                  )
-                  
-                ),
-       ],
-     );
-}
-      
-
-       }
-     ),
-     ]
-   );  
-
-Widget resenasection = Column(
-         
-     // height:  MediaQuery.of(context).size.height,
-      children: <Widget>[
-    new ListView.builder(  
-         shrinkWrap: true,
-        physics: BouncingScrollPhysics(),
-          itemCount: data_resena == null ? 0 : data_resena.length,  
-         itemBuilder: (BuildContext context, int index) {  
-        return new Card(  
-              child: Row(  
-           //mainAxisAlignment: MainAxisAlignment.spaceBetween, 
-            
-           children: [  
-             Column(  
-               children: <Widget>[  
-                      Image.network(data_resena[index]["COM_FOTO"],
-                              width: 50,
-                              height: 50,
-                              fit: BoxFit.fill ),     
-                      Text(   
-                      data_resena[index]["COM_NOMBRES"], 
-                      style: TextStyle(fontSize: 12.0,),  
-                      overflow: TextOverflow.ellipsis,  
-                    ),     
-                  ],  
-                ),  
-            Flexible(  
-              fit: FlexFit.tight,
-                     child: Center(
-                       child: Text(      
-                       data_resena[index]["COM_RESENA"],   
-                       overflow: TextOverflow.ellipsis, 
-                       maxLines: 10,    
-                       softWrap: true,  
-                       style: TextStyle(fontSize: 18.0),  
-                       ),
-                     ), 
-            ),
-            
-            Column(
-                          children: <Widget>[
-                Text(   
-                data_resena[index]["COM_VALOR"], 
-                overflow: TextOverflow.ellipsis,    
-                maxLines: 1,   
-                softWrap: true,      
-                style: TextStyle(fontSize: 30.0),    
-                ),
-
-                Container(
-                  width: 30.0,
-                  child: FloatingActionButton(child: Icon(FontAwesomeIcons.timesCircle), 
-                  onPressed:() { }, 
-                  backgroundColor:Colors.red, heroTag: "bt1",),
-                )
-                ,
-
-
-                
-              ],
-            ),             
-                    ],  
-                    ),     
-                    );                    
-  
-         }
-  
-        ),
-      ]
-    );  
-
-  Widget social() { 
-    return Container (
-     // width: MediaQuery.of(context).size.width,
-      //padding: const EdgeInsets.all(20),
-      height: 65.0,
-
-      child: ListView.builder(
-        shrinkWrap: true,
-        physics: BouncingScrollPhysics(),
-        itemCount: dataneg == null ? 0 : dataneg.length,
-       itemBuilder: (BuildContext context, int index) {
-         
-
-    
-
-   facebook() async {
-     final url =  dataneg[index]["NEG_FACEBOOK"];
-     if (await canLaunch(url)) {
-       await launch(url);
-     } else {
-       throw 'Could not launch $url';
-     }
-   }
-
-   web() async {
-     final url =  dataneg[index]["NEG_WEB"];
-     if (await canLaunch(url)) {
-       await launch(url);
-     } else {
-       throw 'Could not launch $url';
-     }
-   }
-
-   instagram() async {
-     final url =  dataneg[index]["NEG_INSTAGRAM"];
-     if (await canLaunch(url)) {
-       await launch(url);
-     } else {
-       throw 'Could not launch $url';
-     }
-   }
-
-   telefono() async {
-     final tel = dataneg[index]["NEG_TEL"];
-     final url =  "tel: $tel";
-     if (await canLaunch(url)) {
-       await launch(url);
-     } else {
-       throw 'Could not launch $url';
-     }
-   }
-
-   correo() async {
-     final mail = dataneg[index]["NEG_CORREO"];
-     final url = "mailto: $mail";
-     if (await canLaunch(url)) {
-       await launch(url);
-     } else {
-       throw 'Could not launch $url';
-     }
-   }
-         return new Row(
-         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-         children: <Widget>[
-         SizedBox(width: 30),
-         FloatingActionButton(child: Icon(FontAwesomeIcons.instagram), onPressed: instagram,backgroundColor:Color(0xff01969a),heroTag: "bt1",elevation: 0.0,),
-         Expanded(child: SizedBox(width: 5.0,)),
-         FloatingActionButton(child: Icon(FontAwesomeIcons.facebook), onPressed: facebook,backgroundColor:Color(0xff01969a),heroTag: "bt3",elevation: 0.0,),
-         Expanded(child: SizedBox(width: 5.0,)),
-         FloatingActionButton(child: Icon(FontAwesomeIcons.globeAmericas), onPressed: web,backgroundColor:Color(0xff01969a),heroTag: "bt4",elevation: 0.0,),
-         Expanded(child: SizedBox(width: 5.0,)),
-         FloatingActionButton(child: Icon(FontAwesomeIcons.phone), onPressed: telefono,backgroundColor:Color(0xff01969a),heroTag: "bt5",elevation: 0.0,),
-         Expanded(child: SizedBox(width: 5.0,)),
-         FloatingActionButton(child: Icon(FontAwesomeIcons.envelope), onPressed: correo,backgroundColor:Color(0xff01969a),heroTag: "bt6",elevation: 0.0,),
-         Expanded(child: SizedBox(width: 5.0,)),
-
-         ],
-         );      
-      }
-      )
-      
-      
-    );
-  }
-    
-
     return new Scaffold(
 
       body: ListView(
@@ -1056,7 +716,6 @@ Widget resenasection = Column(
 
                 buttonSection,
                 SizedBox(height: 10.0,),
-                ubersection,
 
 
 
@@ -1093,11 +752,9 @@ Widget resenasection = Column(
                   SizedBox(
                     height: 0.0,
                   ),
-                 //Center(child: Text('Redes sociales y contacto',style: TextStyle(fontSize: 20.0,color: Colors.blueAccent ),)),
                   SizedBox(
                     height: 0.0,
                   ),
-                 //social(),
 
                 ],
               )
@@ -1141,9 +798,10 @@ Widget resenasection = Column(
             Container(
   
                 padding: const EdgeInsets.only(bottom: 10,left: 20,right: 20),
-  
                 child: RaisedButton(
-                  onPressed: (){hacerpedido();},  
+                  onPressed: (){
+                  alertCar(context);
+                  },  
                   shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
                   color: Color(0xff4267b2),  
                   child: new Row (
@@ -1151,8 +809,8 @@ Widget resenasection = Column(
                                           mainAxisSize: MainAxisSize.min,
 
                                           children: <Widget>[
-                                            new Text('HACER PEDIDO ', style: TextStyle(fontSize: 20, color: Colors.white)), 
-                                            new Icon(FontAwesomeIcons.motorcycle, color: Colors.white,)
+                                            new Text('Agendar y pagar ', style: TextStyle(fontSize: 20, color: Colors.white)), 
+                                            new Icon(FontAwesomeIcons.calendarAlt, color: Colors.white,)
                                           ],
                                         )
                 ),

@@ -282,6 +282,7 @@ class _MyHomePageState extends State<Rutas> {
             height: 100,
             width: 200,
             child: Card(
+              color: const Color(0xFFFFFF).withOpacity(0.8),
               child: Column(
                 children: <Widget>[
                   Row(
