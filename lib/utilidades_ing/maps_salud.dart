@@ -440,7 +440,7 @@ class _MyHomePageState extends State<Maps_salud_ing> {
                     mainAxisSize: MainAxisSize.min,
 
                     children: <Widget>[
-                      new Text('Get a ride ', style: TextStyle(fontSize: 20, color: Colors.white)), 
+                      new Text('Uber request ', style: TextStyle(fontSize: 20, color: Colors.white)), 
                       new Icon(FontAwesomeIcons.uber, color: Colors.white,)
                     ],
                   )
