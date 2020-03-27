@@ -2,9 +2,12 @@ import 'dart:convert';
 
 import 'package:cabofind/paginas/ricky.dart';
 import 'package:cabofind/utilidades/classes.dart';
+import 'package:cabofind/utilidades/paypalweb.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:flutter_google_pay/flutter_google_pay.dart';
+import 'package:flutter_web_browser/flutter_web_browser.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
@@ -56,6 +59,46 @@ class Detalles extends State<Rick_preparing> {
   final _formKey = GlobalKey<FormState>();
   String _date = "No seleccionada";
   String _time = "No seleccionada";
+
+  _makeStripePayment() async {
+      var environment = 'rest'; // or 'production'
+
+      if (!(await FlutterGooglePay.isAvailable(environment))) {
+        Fluttertoast.showToast(
+          msg:"Google pay no disponible",
+          toastLength: Toast.LENGTH_SHORT,
+          backgroundColor: Colors.blue,
+          textColor: Colors.white,
+          timeInSecForIos: 1);
+      } else {
+        PaymentItem pm = PaymentItem(
+            stripeToken: 'pk_test_qRcqwUowOCDhl2bEuXPPCKDw00LMVoJpLi',
+            stripeVersion: "2018-11-08",
+            currencyCode: "mxn",
+            amount: "10.00",
+            gateway: 'stripe');
+
+        FlutterGooglePay.makePayment(pm).then((Result result) {
+          if (result.status == ResultStatus.SUCCESS) {
+          Fluttertoast.showToast(
+          msg:"Pagado con Exito",
+          toastLength: Toast.LENGTH_SHORT,
+          backgroundColor: Colors.blue,
+          textColor: Colors.white,
+          timeInSecForIos: 1);
+          }
+        }).catchError((dynamic error) {
+          Fluttertoast.showToast(
+          msg: error.toString(),
+          toastLength: Toast.LENGTH_SHORT,
+          backgroundColor: Colors.blue,
+          textColor: Colors.white,
+          timeInSecForIos: 1);
+          
+        });
+      }
+    }
+
 
   Future<String> sendMail(total,cts1, nombre1, numero1, _mySelection, pago) async {
     var response = await http.get(
@@ -805,31 +848,10 @@ var response = await http.get(
          ),
          Column(
            children: <Widget>[
-             FloatingActionButton(child: Icon(FontAwesomeIcons.dollarSign),
+             FloatingActionButton(child: Icon(FontAwesomeIcons.creditCard),
               onPressed: (){
-                final numero1 = numero.text;
-                final nombre1 = nombre.text;
-                if (_formKey.currentState.validate()) {
-                if (_mySelection=='1'){
-                 final String cts1 ='100';
-                 alertCash(context, cts1, nombre1, numero1, _mySelection);
-                 
-               }else if (_mySelection=='2'){
-                 print("santacash");
-                 final String cts1 ='100';
-                 alertCash(context, cts1, nombre1, numero1, _mySelection);
-               }else if (_mySelection=='3'){
-                 final String cts1 ='0';
-                 print("cascadascash");
-                 alertCash(context, cts1, nombre1, numero1, _mySelection);
-               }else if (_mySelection=='4'){
-                final String cts1 ='0';
-                print("medanocash");
-                alertCash(context, cts1, nombre1, numero1, _mySelection);
-               }
+                _makeStripePayment();
 
-                }
-                
                 },
               backgroundColor:Color(0xff01969a),heroTag: "bt3",elevation: 0.0,),
              Text('Efectivo', style: TextStyle(color: Colors.black),),
@@ -856,3 +878,4 @@ var response = await http.get(
     );
   }
 }
+

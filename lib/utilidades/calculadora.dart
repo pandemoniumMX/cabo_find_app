@@ -116,7 +116,6 @@ class _HomeState extends State<Calculadora> {
       ),
       body: FutureBuilder(
           future: getData1(),
-          //snapshot of the context/getData
           builder: (context, snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.none:
