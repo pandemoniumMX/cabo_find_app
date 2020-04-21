@@ -9,6 +9,7 @@ import 'package:cabofind/paginas/anuncios.dart';
 import 'package:cabofind/paginas/descubre.dart';
 import 'package:cabofind/paginas/domicilio.dart';
 import 'package:cabofind/paginas/educacion.dart';
+import 'package:cabofind/paginas/login.dart';
 import 'package:cabofind/paginas/maps.dart';
 import 'package:cabofind/paginas/publicacion_detalle.dart';
 import 'package:cabofind/paginas/publicaciones.dart';
@@ -64,9 +65,17 @@ import 'paginas/promociones.dart';
 
 FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
-void fcmSubscribe() {
+void fcmSubscribe() async {
+  final SharedPreferences login = await SharedPreferences.getInstance();
+ String _status = "";
+ String _mail ="";
+ _status = login.getString("stringLogin");
+ _mail = login.getString("stringMail");
+ if (_status != "True") {}
+
   _firebaseMessaging.unsubscribeFromTopic('All');
-    _firebaseMessaging.subscribeToTopic('Todos');
+  _firebaseMessaging.subscribeToTopic('Todos');
+  
   }
   
 
@@ -465,7 +474,23 @@ addStringToSF() async {
 
 
   Widget build(BuildContext context) {
-    
+  
+
+  final bnbi=<BottomNavigationBarItem>[
+    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.home,),title: Text("Inicio")),
+    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.userAlt,),title: Text("Cuenta")),
+  ];
+
+  final bnb=BottomNavigationBar(
+    items: bnbi,
+    currentIndex:id ,
+    type: BottomNavigationBarType.fixed,
+    onTap: (int value){
+      setState(() {
+        id=value;
+      });
+    },
+  );
     /*
     return new MaterialApp(
       navigatorKey: navigatorKey,
@@ -678,156 +703,7 @@ Widget _buildDropDownButton(String currencyCategory) {
     );
   }
 
-    return  Scaffold(
-
-      
-      appBar: new AppBar(
-        
-        //enterTitle: true,
-        title:appBarTitle,
-        actions: <Widget>[  
-         
-              new InkResponse( 
-                onTap: () {//_makeStripePayment();
-                
-                Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (BuildContext context) => new Notificaciones()
-                        )
-                        );
-               },
-                child: Stack(
-                    children: <Widget>[
-                    /*Positioned(
-                      
-                                right: 2.0,
-                                bottom: 30,
-                                child: new Text('22',
-                                style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15.0, color: Colors.redAccent)),
-                              ),*/ 
-                    Positioned(
-                                height: 20,
-                                width: 20,
-                                right: 3.0,
-                                bottom: 28,
-                                child: new FloatingActionButton(
-                                  
-                                  child: new Text('',
-                                 style: TextStyle(fontWeight: FontWeight.bold,fontSize: 10.0, color: Colors.white)),
-                                  backgroundColor: Colors.red,
-                                  
-                                 
-                                ),
-                              ),             
-                    new Center(
-                      child: new Row(                   
-                        children: <Widget>[new Icon(FontAwesomeIcons.bell),
-                        Text("  ",                    
-                        style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25.0),
-                        ),
-                        ]
-                      ),
-                    ),
-                  ],
-                )
-                ),
-
-          
-              new InkResponse( 
-                onTap: () {
-                Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (BuildContext context) => new WeatherBuilder().build()
-                        )
-                        );
-               },
-                child: new Center(
-                  child: new Row(                   
-                    children: <Widget>[new Icon(FontAwesomeIcons.cloudSun),
-                    Text("   ",                    
-                    style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25.0),
-                    ),
-                    ]
-                  ),
-                )
-                ),
-          
-              new InkResponse( 
-                onTap: () {
-                Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (BuildContext context) => new Calculadora()
-                        )
-                        );
-               },
-                child: new Center(
-                  child: new Row(                   
-                    children: <Widget>[new Icon(FontAwesomeIcons.moneyBillAlt),
-                    Text("   ",                    
-                    style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25.0),
-                    ),
-                    ]
-                  ),
-                )
-                ),
-
-              new InkResponse(
-                onTap: () {
-                  addStringToSF();
-              //Navigator.of(context).pop();
-                Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (BuildContext context) => new MyHomePages_ing()
-                        )
-                        );
-               },
-                child: new Center(
-                  //padding: const EdgeInsets.all(13.0),
-                  
-                  child: new Container(
-                   decoration: BoxDecoration(
-                  borderRadius:BorderRadius.circular(8.0),
-                  image: DecorationImage(
-                      image: ExactAssetImage('assets/mexflag.png'),
-                      fit: BoxFit.fill,
-                    ),
-                  
-                      
-                      ),
-                      child: new Text("     ",
-                    
-                    style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25.0),
-                    ),
-                    
-                    
-
-                  ),
-                )
-                ),
-                new IconButton(
-                icon: actionIcon,
-                onPressed: () {
-                  //Use`Navigator` widget to push the second screen to out stack of screens
-                  Navigator.of(context)
-                      .push(MaterialPageRoute<Null>(builder: (BuildContext context) {
-                    return new Buscador();
-                  }));
-                }, ),        
-          
-
-              
-
-        ],
-
-
-      ),
-
-
-      body: Container(
+  Widget cuerpo = Container(
 
         
      // height: MediaQuery.of(context).size.height,
@@ -1072,7 +948,164 @@ Widget _buildDropDownButton(String currencyCategory) {
     ),
     
 
-    ),
+    );
+final tabpages=<Widget>[
+    cuerpo,  
+    new Login(),    
+
+
+  ];
+    return  Scaffold(
+
+      
+      appBar: new AppBar(
+        
+        //enterTitle: true,
+        title:appBarTitle,
+        actions: <Widget>[  
+         
+              new InkResponse( 
+                onTap: () {//_makeStripePayment();
+                
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Notificaciones()
+                        )
+                        );
+               },
+                child: Stack(
+                    children: <Widget>[
+                    /*Positioned(
+                      
+                                right: 2.0,
+                                bottom: 30,
+                                child: new Text('22',
+                                style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15.0, color: Colors.redAccent)),
+                              ),*/ 
+                    Positioned(
+                                height: 20,
+                                width: 20,
+                                right: 3.0,
+                                bottom: 28,
+                                child: new FloatingActionButton(
+                                  
+                                  child: new Text('',
+                                 style: TextStyle(fontWeight: FontWeight.bold,fontSize: 10.0, color: Colors.white)),
+                                  backgroundColor: Colors.red,
+                                  
+                                 
+                                ),
+                              ),             
+                    new Center(
+                      child: new Row(                   
+                        children: <Widget>[new Icon(FontAwesomeIcons.bell),
+                        Text("  ",                    
+                        style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25.0),
+                        ),
+                        ]
+                      ),
+                    ),
+                  ],
+                )
+                ),
+
+          
+              new InkResponse( 
+                onTap: () {
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new WeatherBuilder().build()
+                        )
+                        );
+               },
+                child: new Center(
+                  child: new Row(                   
+                    children: <Widget>[new Icon(FontAwesomeIcons.cloudSun),
+                    Text("   ",                    
+                    style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25.0),
+                    ),
+                    ]
+                  ),
+                )
+                ),
+          
+              new InkResponse( 
+                onTap: () {
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Calculadora()
+                        )
+                        );
+               },
+                child: new Center(
+                  child: new Row(                   
+                    children: <Widget>[new Icon(FontAwesomeIcons.moneyBillAlt),
+                    Text("   ",                    
+                    style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25.0),
+                    ),
+                    ]
+                  ),
+                )
+                ),
+
+              new InkResponse(
+                onTap: () {
+                  addStringToSF();
+              //Navigator.of(context).pop();
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new MyHomePages_ing()
+                        )
+                        );
+               },
+                child: new Center(
+                  //padding: const EdgeInsets.all(13.0),
+                  
+                  child: new Container(
+                   decoration: BoxDecoration(
+                  borderRadius:BorderRadius.circular(8.0),
+                  image: DecorationImage(
+                      image: ExactAssetImage('assets/mexflag.png'),
+                      fit: BoxFit.fill,
+                    ),
+                  
+                      
+                      ),
+                      child: new Text("     ",
+                    
+                    style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25.0),
+                    ),
+                    
+                    
+
+                  ),
+                )
+                ),
+                new IconButton(
+                icon: actionIcon,
+                onPressed: () {
+                  //Use`Navigator` widget to push the second screen to out stack of screens
+                  Navigator.of(context)
+                      .push(MaterialPageRoute<Null>(builder: (BuildContext context) {
+                    return new Buscador();
+                  }));
+                }, ),        
+          
+
+              
+
+        ],
+
+
+      ),
+      bottomNavigationBar: bnb,  
+
+
+      body: tabpages[id],
 
         );
   }

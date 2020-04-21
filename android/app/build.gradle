@@ -41,8 +41,8 @@ android {
         applicationId "com.israel.cabofind"
         minSdkVersion 22
         targetSdkVersion 28
-        versionCode 58 //Ir aumentando la version
-        versionName "1.4.8" //Ir aumentando la version
+        versionCode 62 //Ir aumentando la version
+        versionName "1.5.2" //Ir aumentando la version
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
@@ -53,11 +53,21 @@ android {
             storeFile file(keystoreProperties['storeFile'])
             storePassword keystoreProperties['storePassword']
         }
+        debug {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+        }
     }
     buildTypes {
         release {
             signingConfig signingConfigs.release
         }
+        debug {
+            signingConfig signingConfigs.debug
+        }
+
     }
 }
 

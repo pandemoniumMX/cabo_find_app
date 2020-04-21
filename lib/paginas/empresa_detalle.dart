@@ -844,7 +844,7 @@ return  Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      new Text('Reservar ', style: TextStyle(fontSize: 20, color: Colors.white)), 
+                      new Text('Agendar ', style: TextStyle(fontSize: 20, color: Colors.white)), 
                       new Icon(FontAwesomeIcons.calendarAlt, color: Colors.white,)
                     ],
                   )
@@ -1225,7 +1225,7 @@ String resv = dataneg[0]["NEG_RESERVA"];
                   SizedBox(
                     height: 15.0,
                   ),
-                 Center(child: Text('Reseñas',style: TextStyle(fontSize: 20.0,color: Colors.blueAccent ),)),
+                 Center(child: Text('Comentarios',style: TextStyle(fontSize: 20.0,color: Colors.blueAccent ),)),
                   SizedBox(
                     height: 15.0,
                   ),
@@ -1253,7 +1253,7 @@ String resv = dataneg[0]["NEG_RESERVA"];
                                           mainAxisSize: MainAxisSize.min,
 
                                           children: <Widget>[
-                                            new Text('RESEÑA USANDO FACEBOOK ', style: TextStyle(fontSize: 20, color: Colors.white)), 
+                                            new Text('COMENTARIO CON FACEBOOK ', style: TextStyle(fontSize: 20, color: Colors.white)), 
                                             new Icon(FontAwesomeIcons.facebookSquare, color: Colors.white,)
                                           ],
                                         )

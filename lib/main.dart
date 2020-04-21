@@ -167,20 +167,6 @@ class _MyHomePageState extends State<Start> {
   }
 */
 
-
-/*
-    _getLocation() async
-      {
-        Position position = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-        debugPrint('location: ${position.latitude}');
-        final coordinates = new Coordinates(position.latitude, position.longitude);
-        var addresses = await Geocoder.local.findAddressesFromCoordinates(coordinates);
-        var first = addresses.first;
-        print("${first.featureName} : ${first.addressLine}");
-      }
-*/
-  //final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
-
  @override
   void initState() {
     //addStringToSF();
@@ -188,46 +174,30 @@ class _MyHomePageState extends State<Start> {
 
     
     super.initState();
-    
-    //fcmSubscribe();    
-
     setupNotification();
     
 
-
-
   final _mensajesStreamController = StreamController<String>.broadcast();
-
-
-   
-
-
   dispose() {
     _mensajesStreamController?.close();
   }
-
-
-    //this.checkModelIos();
     this.checkModelAndroid();
-    ///this._getLocation();
-  
-
-
+    
   }
 
-addStringToSF() async {
+  addStringToSF() async {
   	final SharedPreferences prefs = await SharedPreferences.getInstance();
   //prefs.remove("stringValue");
 	prefs.setString('stringValue', "ingles");
   }
 
-addStringToSFESP() async {
+  addStringToSFESP() async {
   	final SharedPreferences prefs = await SharedPreferences.getInstance();
   //prefs.remove("stringValue");
 	prefs.setString('stringValue', "espanol");
   }  
 
-  Future isLogged(context) async {
+Future isLogged(context) async {
  final SharedPreferences prefs = await SharedPreferences.getInstance();
  String _token = "";
  _token = prefs.getString("stringValue");

@@ -143,7 +143,7 @@ class Detalles extends State<Reservacion> {
                     onPressed: (){                      
                        showResena();
                        insertRickys(nombre1,numero1,correo1, _mySelection);
-                       Navigator.of(context).pop();
+                       Navigator.pushReplacement(context,new MaterialPageRoute(builder: (BuildContext context) => new Myapp1()));
                       }
                   ),
                 ],

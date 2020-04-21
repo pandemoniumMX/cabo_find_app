@@ -116,17 +116,13 @@ class _HomeState extends State<Calculadora> {
       ),
       body: FutureBuilder(
           future: getData1(),
-          //snapshot of the context/getData
           builder: (context, snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.none:
               case ConnectionState.waiting:
                 return Center(
-                    child: Text(
-                  "Cargando...",
-                  style: TextStyle(color: Color(0xff01969a), fontSize: 25.0),
-                  textAlign: TextAlign.center,
-                ));
+                    child: CircularProgressIndicator()
+                );
               default:
                 if (snapshot.hasError) {
                   return Center(

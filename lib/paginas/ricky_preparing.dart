@@ -280,8 +280,8 @@ var response = await http.get(
                     onPressed: (){
                        sendMail(total,cts1,nombre1,numero1,_mySelection, pago);
                        showResena();
-                       Navigator.of(context).pop();
                       _urlMercado250();
+                      Navigator.pushReplacement(context,new MaterialPageRoute(builder: (BuildContext context) => new Myapp1()));
                         }
                   ),
                 ],
@@ -310,8 +310,8 @@ var response = await http.get(
                     onPressed: (){
                        sendMail(total,cts1,nombre1,numero1,_mySelection, pago);
                        showResena();
-                       Navigator.of(context).pop();
                       _urlMercado350();
+                      Navigator.pushReplacement(context,new MaterialPageRoute(builder: (BuildContext context) => new Myapp1()));
                       }
                   ),
                 ],
@@ -340,8 +340,8 @@ var response = await http.get(
                     onPressed: (){
                        sendMail(total,cts1,nombre1,numero1,_mySelection, pago);
                        showResena();
-                       Navigator.of(context).pop();
                       _urlMercado500();
+                      Navigator.pushReplacement(context,new MaterialPageRoute(builder: (BuildContext context) => new Myapp1()));
                       }
                   ),
                 ],
@@ -370,8 +370,8 @@ var response = await http.get(
                     onPressed: (){
                        sendMail(total,cts1,nombre1,numero1,_mySelection, pago);
                        showResena();
-                       Navigator.of(context).pop();
                       _urlMercado600();
+                      Navigator.pushReplacement(context,new MaterialPageRoute(builder: (BuildContext context) => new Myapp1()));
                       }
                   ),
                 ],
@@ -400,8 +400,8 @@ var response = await http.get(
                     onPressed: (){
                        sendMail(total,cts1,nombre1,numero1,_mySelection, pago);
                        showResena();
-                       Navigator.of(context).pop();
                       _urlMercado800();
+                      Navigator.pushReplacement(context,new MaterialPageRoute(builder: (BuildContext context) => new Myapp1()));
                       }
                   ),
                 ],
@@ -430,8 +430,8 @@ var response = await http.get(
                     onPressed: (){
                        sendMail(total,cts1,nombre1,numero1,_mySelection, pago);
                        showResena();
-                       Navigator.of(context).pop();
                       _urlMercado900();
+                      Navigator.pushReplacement(context,new MaterialPageRoute(builder: (BuildContext context) => new Myapp1()));
                       }
                   ),
                 ],
@@ -467,9 +467,9 @@ var response = await http.get(
                     child: new Text("Aceptar"),
                     onPressed: (){
                        sendMail(total,cts1,nombre1,numero1,_mySelection, pago);
-                       showResena();
-                       Navigator.of(context).pop();
+                       showResena();                       
                       _urlPaypal();
+                      Navigator.pushReplacement(context,new MaterialPageRoute(builder: (BuildContext context) => new Myapp1()));
                       }
                   ),
                 ],
@@ -501,11 +501,11 @@ var response = await http.get(
                   new FlatButton(
                     child: new Text("Aceptar"),
                     onPressed: (){
-                      
+                       
 
                        sendMail(total,cts1,nombre1,numero1,_mySelection, pago);
                        showResena();
-                       Navigator.of(context).pop();     
+                       Navigator.pushReplacement(context,new MaterialPageRoute(builder: (BuildContext context) => new Myapp1()));
                                           
                      
                               
