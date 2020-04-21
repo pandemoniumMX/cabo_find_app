@@ -1,62 +1,75 @@
 
-import 'package:cabofind/paginas_listas_ing/list_sal_belleza.dart';
-import 'package:cabofind/paginas_listas_ing/list_sal_emergencia.dart';
-import 'package:cabofind/paginas_listas_ing/list_sal_especialidades.dart';
-import 'package:cabofind/paginas_listas_ing/list_sal_farmacias.dart';
-import 'package:cabofind/paginas_listas_ing/list_sal_gimnasios.dart';
-import 'package:cabofind/paginas_listas_ing/list_sal_hospitales.dart';
+import 'package:cabofind/utilidades/classes.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class Salud_ing extends StatefulWidget {
-@override
-_Salud_ing createState() => new _Salud_ing();
-}
+import 'list_manejador.dart';
 
-class _Salud_ing extends State<Salud_ing> {
-  int id=0;
+class Salud_ing extends StatefulWidget {
+
 
   @override
-Widget build(BuildContext context) {
-  final tabpages=<Widget>[
-    new ListaHospitales_ing(),
-    new ListaEspecialidades_ing(),
-    new ListaFarmacias_ing(),
-    new ListaBelleza_ing(),
-    new ListaGimnasios_ing(),
-    new ListaEmergencia_ing(),
-  ];
+_Restaurantes createState() => new _Restaurantes();
+}
 
-  final bnbi=<BottomNavigationBarItem>[
+class _Restaurantes extends State<Salud_ing> {
+  int id=0;
+  int cat =69;//educacion
+ 
+@override
+int _page = 0;
+  PageController _c;
+  @override
+  void initState(){
+    _c =  new PageController(
+      initialPage: _page,
+    );
+    super.initState();
+  }
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+      appBar: new AppBar(
+      title: new Text('Health'),
+    ),
+      bottomNavigationBar: new BottomNavigationBar(
+        currentIndex: _page,
+        backgroundColor: Colors.black,
+        fixedColor: Color(0xff01969a),
+        unselectedItemColor: Colors.black54,
+        showUnselectedLabels: true,
+        //unselectedIconTheme: Colors.grey,
+
+        onTap: (index){
+          this._c.animateToPage(index,duration: const Duration(milliseconds: 500),curve: Curves.easeInOut);
+        },
+        items: <BottomNavigationBarItem>[
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.hospital,),title: Text("Hospitals")),
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.hospitalSymbol,),title: Text("Doctor's Offices")),
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.pills,),title: Text("Pharmacy")),
-        BottomNavigationBarItem(icon: Icon(Icons.face,),title: Text("Beauty")),
+    BottomNavigationBarItem(icon: Icon(Icons.face,),title: Text("Beauty")),
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.dumbbell,),title: Text("Gym")),
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.ambulance,),title: Text("Emergency")),
 
+      ],
 
-  ];
-
-
-  final bnb=BottomNavigationBar(
-
-    items: bnbi,
-    currentIndex:id ,
-    type: BottomNavigationBarType.fixed,
-    onTap: (int value){
-      setState(() {
-        id=value;
-      });
-    },
-  );
-
-  return new Scaffold(
-    body: tabpages[id],
-    bottomNavigationBar: bnb,
-    appBar: new AppBar(
-      title: new Text('Health'),
-    ),
-  );
-}
+      ),
+      body: new PageView(
+        controller: _c,
+        onPageChanged: (newPage){
+          setState((){
+            this._page=newPage;
+          });
+        },
+        children: <Widget>[
+          new Lista_Manejador_ing(manejador: new Lista_manejador(cat,53)),
+          new Lista_Manejador_ing(manejador: new Lista_manejador(cat,55)),
+          new Lista_Manejador_ing(manejador: new Lista_manejador(cat,56)),
+          new Lista_Manejador_ing(manejador: new Lista_manejador(cat,59)),
+          new Lista_Manejador_ing(manejador: new Lista_manejador(cat,58)),
+          new Lista_Manejador_ing(manejador: new Lista_manejador(cat,57)),
+        ],
+      ),
+    );
+  }
 }

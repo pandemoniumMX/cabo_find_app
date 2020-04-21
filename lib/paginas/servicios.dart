@@ -1,66 +1,73 @@
 
-import 'package:cabofind/paginas_listas/list_serv_auto.dart';
-import 'package:cabofind/paginas_listas/list_serv_bancos.dart';
-import 'package:cabofind/paginas_listas/list_serv_mascotas.dart';
-import 'package:cabofind/paginas_listas/list_serv_prof.dart';
-import 'package:cabofind/paginas_listas/list_serv_prov.dart';
-import 'package:cabofind/paginas_listas/list_serv_trans.dart';
+import 'package:cabofind/utilidades/classes.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import 'list_manejador.dart';
 
 class Servicios extends StatefulWidget {
-@override
-_Servicios createState() => new _Servicios();
-}
 
-class _Servicios extends State<Servicios> {
-  int id=0;
 
   @override
-Widget build(BuildContext context) {
-  final tabpages=<Widget>[
+_Restaurantes createState() => new _Restaurantes();
+}
 
-    new ListaAutomotriz(),
-    new ListaBancos(),
-    new ListaProfesionales(),
-    new ListaTransporte(),
-    new ListaMascotas(),
-
-
-  ];
-
-  final bnbi=<BottomNavigationBarItem>[
-    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.car,),title: Text("Autos")),
-    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.piggyBank,),title: Text("Bancos")),
-    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.userTie,),title: Text("Profesionales")),
-    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.taxi,),title: Text("Transporte")),
-    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.dog,),title: Text("Mascotas")),
-
-
-
-
-  ];
-
-
-  final bnb=BottomNavigationBar(
-
-    items: bnbi,
-    currentIndex:id ,
-    type: BottomNavigationBarType.fixed,
-    onTap: (int value){
-      setState(() {
-        id=value;
-      });
-    },
-  );
-
-  return new Scaffold(
-    body: tabpages[id],
-    bottomNavigationBar: bnb,
-    appBar: new AppBar(
+class _Restaurantes extends State<Servicios> {
+  int id=0;
+  int cat =59;//Servicios
+ 
+@override
+int _page = 0;
+  PageController _c;
+  @override
+  void initState(){
+    _c =  new PageController(
+      initialPage: _page,
+    );
+    super.initState();
+  }
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+      appBar: new AppBar(
       title: new Text('Servicios'),
     ),
-  );
-}
+      bottomNavigationBar: new BottomNavigationBar(
+        currentIndex: _page,
+        backgroundColor: Colors.black,
+        fixedColor: Color(0xff01969a),
+        unselectedItemColor: Colors.black54,
+        showUnselectedLabels: true,
+        //unselectedIconTheme: Colors.grey,
+
+        onTap: (index){
+          this._c.animateToPage(index,duration: const Duration(milliseconds: 500),curve: Curves.easeInOut);
+        },
+        items: <BottomNavigationBarItem>[
+        BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.car,),title: Text("Autos")),
+        BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.piggyBank,),title: Text("Bancos")),
+        BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.userTie,),title: Text("Profesionales")),
+        BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.taxi,),title: Text("Transporte")),
+        BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.dog,),title: Text("Mascotas")),
+
+      ],
+
+      ),
+      body: new PageView(
+        controller: _c,
+        onPageChanged: (newPage){
+          setState((){
+            this._page=newPage;
+          });
+        },
+        children: <Widget>[
+          new Lista_Manejador_esp(manejador: new Lista_manejador(cat,38)),
+          new Lista_Manejador_esp(manejador: new Lista_manejador(cat,50)),
+          new Lista_Manejador_esp(manejador: new Lista_manejador(cat,39)),
+          new Lista_Manejador_esp(manejador: new Lista_manejador(cat,25)),
+          new Lista_Manejador_esp(manejador: new Lista_manejador(cat,51)),
+        ],
+      ),
+    );
+  }
 }

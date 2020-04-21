@@ -1,64 +1,72 @@
-
-import 'package:cabofind/paginas_listas_ing/list__com_joyerias.dart';
-import 'package:cabofind/paginas_listas_ing/list__com_moda.dart';
-import 'package:cabofind/paginas_listas_ing/list__com_regalos.dart';
-import 'package:cabofind/paginas_listas_ing/list__com_tiendas.dart';
-import 'package:cabofind/paginas_listas_ing/list_serv_prov.dart';
+import 'package:cabofind/utilidades/classes.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class Compras_ing extends StatefulWidget {
-@override
-_Compras_ing createState() => new _Compras_ing();
-}
+import 'list_manejador.dart';
 
-class _Compras_ing extends State<Compras_ing> {
-  int id=0;
+class Compras_ing extends StatefulWidget {
+
 
   @override
-Widget build(BuildContext context) {
-  final tabpages=<Widget>[
-    //llamar classes siempre despues de un <Widget>
-    //lo que se declare aqui, sera el contenido de los botones de navigacion al fondo
-    new ListaModa_ing(),
-    new ListaRegalos_ing(),
-    new ListaJoyerias_ing(),
-    new ListaTiendas_ing(),
-    new ListaProveedores_ing(),
+_Restaurantes createState() => new _Restaurantes();
+}
 
+class _Restaurantes extends State<Compras_ing> {
+  int id=0;
+  int cat =61;//educacion
+ 
+@override
+int _page = 0;
+  PageController _c;
+  @override
+  void initState(){
+    _c =  new PageController(
+      initialPage: _page,
+    );
+    super.initState();
+  }
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+      appBar: new AppBar(
+      title: new Text('Shopping'),
+    ),
+      bottomNavigationBar: new BottomNavigationBar(
+        currentIndex: _page,
+        backgroundColor: Colors.black,
+        fixedColor: Color(0xff01969a),
+        unselectedItemColor: Colors.black54,
+        showUnselectedLabels: true,
+        //unselectedIconTheme: Colors.grey,
 
-
-  ];
-
-  final bnbi=<BottomNavigationBarItem>[
+        onTap: (index){
+          this._c.animateToPage(index,duration: const Duration(milliseconds: 500),curve: Curves.easeInOut);
+        },
+        items: <BottomNavigationBarItem>[
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.tshirt,),title: Text("Fashion")),
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.gift,),title: Text("Souvenirs")),
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.gem,),title: Text("Jewelry")),
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.store,),title: Text("Stores")),
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.boxOpen,),title: Text("Suppliers")),
 
+      ],
 
-  ];
-
-
-  final bnb=BottomNavigationBar(
-
-    items: bnbi,
-    currentIndex:id ,
-    type: BottomNavigationBarType.fixed,
-    onTap: (int value){
-      setState(() {
-        id=value;
-      });
-    },
-  );
-
-  return new Scaffold(
-    body: tabpages[id],
-    bottomNavigationBar: bnb,
-    appBar: new AppBar(
-      title: new Text('Shopping'),
-    ),
-  );
-}
+      ),
+      body: new PageView(
+        controller: _c,
+        onPageChanged: (newPage){
+          setState((){
+            this._page=newPage;
+          });
+        },
+        children: <Widget>[
+          new Lista_Manejador_ing(manejador: new Lista_manejador(cat,33)),
+          new Lista_Manejador_ing(manejador: new Lista_manejador(cat,34)),
+          new Lista_Manejador_ing(manejador: new Lista_manejador(cat,36)),
+          new Lista_Manejador_ing(manejador: new Lista_manejador(cat,35)),
+          new Lista_Manejador_ing(manejador: new Lista_manejador(cat,65)),
+        ],
+      ),
+    );
+  }
 }

@@ -34,7 +34,7 @@ List databaja;
   Future<String> getData() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/consultas_negocios/esp/compras/list_compras_regalos_baja.php"),
+            "http://cabofind.com.mx/app_php/consultas_negocios/esp/list_manejador_baja.php?CAT=${widget.manejador.id_cat}&SUB=${widget.manejador.id_sub}"),  
        
         headers: {
           "Accept": "application/json"

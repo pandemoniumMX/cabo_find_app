@@ -16,8 +16,8 @@ import 'classes.dart';
 
 
 
-class Maps_fiesta extends StatefulWidget {
-  Maps_fiesta({Key key, this.title}) : super(key: key);
+class Maps_educacion extends StatefulWidget {
+  Maps_educacion({Key key, this.title}) : super(key: key);
 
   final String title;
 
@@ -25,7 +25,7 @@ class Maps_fiesta extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<Maps_fiesta> {
+class _MyHomePageState extends State<Maps_educacion> {
   static final CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(22.900890, -109.942955),
     zoom: 13.0,
@@ -62,7 +62,7 @@ class _MyHomePageState extends State<Maps_fiesta> {
   getData() async {
     try {
       final response =
-          await http.get('http://cabofind.com.mx/app_php/consultas_negocios/esp/mapas/fiesta.php');
+          await http.get('http://cabofind.com.mx/app_php/consultas_negocios/esp/mapas/educacion.php');
           //await http.get('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=22.900890,%20-109.942955&radius=500&key=AIzaSyA152PLBZLFqFlUMKQhMce3Z18OMGhPY6w');
 
       final int statusCode = response.statusCode;
@@ -113,7 +113,7 @@ class _MyHomePageState extends State<Maps_fiesta> {
   Future<String> getCar() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/consultas_negocios/esp/mapas/fiesta.php"),
+            "http://cabofind.com.mx/app_php/consultas_negocios/esp/mapas/educacion.php"),
 
         headers: {
           "Accept": "application/json"
@@ -179,7 +179,7 @@ class _MyHomePageState extends State<Maps_fiesta> {
                   Row(
                     children: <Widget>[
                       FadeInImage(   
-                        image: ExactAssetImage('assets/cocktail.png'),
+                        image: ExactAssetImage('assets/family.png'),
                         fit: BoxFit.cover,  
                         width: 25,                          
                         height: 25,  
@@ -188,14 +188,14 @@ class _MyHomePageState extends State<Maps_fiesta> {
                         fadeInDuration: Duration(milliseconds: 200),   
                         
                       ),
-                      Text('  Antros')
+                      Text('  Guarderías')
                     ],
                   ),
                   SizedBox(height: 10.0,),
                   Row(
                     children: <Widget>[
                       FadeInImage(   
-                        image: ExactAssetImage('assets/beer.png'),
+                        image: ExactAssetImage('assets/toy.png'),
                         fit: BoxFit.cover,  
                         width: 25,                          
                         height: 25,  
@@ -204,30 +204,14 @@ class _MyHomePageState extends State<Maps_fiesta> {
                         fadeInDuration: Duration(milliseconds: 200),   
                         
                       ),
-                      Text('  Bares')
+                      Text('  Infantil')
                     ],
                   ),
                   SizedBox(height: 10.0,),
                   Row(
                     children: <Widget>[
                       FadeInImage(   
-                        image: ExactAssetImage('assets/football.png'),
-                        fit: BoxFit.cover,  
-                        width: 25,                          
-                        height: 25,  
-                        // placeholder: AssetImage('android/assets/images/jar-loading.gif'),  
-                        placeholder: AssetImage('android/assets/images/loading.gif'),  
-                        fadeInDuration: Duration(milliseconds: 200),   
-                        
-                      ),
-                      Text('  Sportbar')
-                    ],
-                  ),
-                  SizedBox(height: 10.0,),
-                  Row(
-                    children: <Widget>[
-                      FadeInImage(   
-                        image: ExactAssetImage('assets/electricguitar.png'),
+                        image: ExactAssetImage('assets/student.png'),
                         fit: BoxFit.cover,  
                         width: 25,                          
                         height: 25, 
@@ -236,14 +220,14 @@ class _MyHomePageState extends State<Maps_fiesta> {
                         fadeInDuration: Duration(milliseconds: 200),   
                         
                       ),
-                      Text('  Rockbars')
+                      Text('  Universidades')
                     ],
                   ),
                   SizedBox(height: 10.0,),
                   Row(
                     children: <Widget>[
                       FadeInImage(   
-                        image: ExactAssetImage('assets/plus.png'),
+                        image: ExactAssetImage('assets/backpack.png'),
                         fit: BoxFit.cover,  
                         width: 25,                          
                         height: 25,
@@ -252,7 +236,23 @@ class _MyHomePageState extends State<Maps_fiesta> {
                         fadeInDuration: Duration(milliseconds: 200),   
                         
                       ),
-                      Text('  Otros')
+                      Text('  Cursos')
+                    ],
+                  ),
+                  SizedBox(height: 10.0,),
+                  Row(
+                    children: <Widget>[
+                      FadeInImage(   
+                        image: ExactAssetImage('assets/school.png'),
+                        fit: BoxFit.cover,  
+                        width: 25,                          
+                        height: 25,  
+                        // placeholder: AssetImage('android/assets/images/jar-loading.gif'),  
+                        placeholder: AssetImage('android/assets/images/loading.gif'),  
+                        fadeInDuration: Duration(milliseconds: 200),   
+                        
+                      ),
+                      Text('  Abierta')
                     ],
                   ),
                   

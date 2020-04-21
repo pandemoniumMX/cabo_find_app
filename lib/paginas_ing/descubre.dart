@@ -1,36 +1,48 @@
-
-import 'package:cabofind/paginas_listas_ing/list__des_acuaticas.dart';
-import 'package:cabofind/paginas_listas_ing/list__des_aereas.dart';
-import 'package:cabofind/paginas_listas_ing/list__des_cultura.dart';
-import 'package:cabofind/paginas_listas_ing/list__des_eventos.dart';
-import 'package:cabofind/paginas_listas_ing/list__des_playas.dart';
-import 'package:cabofind/paginas_listas_ing/list__des_terrestres.dart';
+import 'package:cabofind/utilidades/classes.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import 'list_manejador.dart';
+
 class Descubre_ing extends StatefulWidget {
 
-@override
-_Descubre_ing createState() => new _Descubre_ing();
-}
-
-class _Descubre_ing extends State<Descubre_ing> {
-  int id=0;
 
   @override
-Widget build(BuildContext context) {
-  final tabpages=<Widget>[
+_Restaurantes createState() => new _Restaurantes();
+}
 
-    new ListaAcuaticas_ing(),
-    new ListaTerrestres_ing(),
-    new ListaAereas_ing(),
-    //new ListaEventos_ing(),
-    new ListaCultura_ing(),
-    new ListaPlayas_ing(),
+class _Restaurantes extends State<Descubre_ing> {
+  int id=0;
+  int cat =63;//educacion
+ 
+@override
+int _page = 0;
+  PageController _c;
+  @override
+  void initState(){
+    _c =  new PageController(
+      initialPage: _page,
+    );
+    super.initState();
+  }
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+      appBar: new AppBar(
+      title: new Text('Activities'),
+    ),
+      bottomNavigationBar: new BottomNavigationBar(
+        currentIndex: _page,
+        backgroundColor: Colors.black,
+        fixedColor: Color(0xff01969a),
+        unselectedItemColor: Colors.black54,
+        showUnselectedLabels: true,
+        //unselectedIconTheme: Colors.grey,
 
-  ];
-
-  final bnbi=<BottomNavigationBarItem>[
+        onTap: (index){
+          this._c.animateToPage(index,duration: const Duration(milliseconds: 500),curve: Curves.easeInOut);
+        },
+        items: <BottomNavigationBarItem>[
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.swimmer,),title: Text("Water")),
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.bicycle,),title: Text("Land")),
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.telegramPlane,),title: Text("Air")),
@@ -38,29 +50,24 @@ Widget build(BuildContext context) {
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.bookmark,),title: Text("Culture")),
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.umbrellaBeach,),title: Text("Beaches")),
 
+      ],
 
-
-  ];
-
-
-  final bnb=BottomNavigationBar(
-
-    items: bnbi,
-    currentIndex:id ,
-    type: BottomNavigationBarType.fixed,
-    onTap: (int value){
-      setState(() {
-        id=value;
-      });
-    },
-  );
-
-  return new Scaffold(
-    body: tabpages[id],
-    bottomNavigationBar: bnb,
-    appBar: new AppBar(
-      title: new Text('¿What to do?'),
-    ),
-  );
-}
+      ),
+      body: new PageView(
+        controller: _c,
+        onPageChanged: (newPage){
+          setState((){
+            this._page=newPage;
+          });
+        },
+        children: <Widget>[
+          new Lista_Manejador_ing(manejador: new Lista_manejador(cat,45)),
+          new Lista_Manejador_ing(manejador: new Lista_manejador(cat,46)),
+          new Lista_Manejador_ing(manejador: new Lista_manejador(cat,47)),
+          new Lista_Manejador_ing(manejador: new Lista_manejador(cat,48)),
+          new Lista_Manejador_ing(manejador: new Lista_manejador(cat,52)),
+        ],
+      ),
+    );
+  }
 }

@@ -857,7 +857,7 @@ Widget _buildDropDownButton(String currencyCategory) {
                  Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (BuildContext context) => new Promociones_grid()
+                        builder: (BuildContext context) => new Promociones_list()
                         )
                         );
                } else if (ruta == "Salud"){

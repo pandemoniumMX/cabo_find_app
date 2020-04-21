@@ -1,7 +1,8 @@
- import 'dart:async';
+import 'dart:async';
 import 'dart:convert';
 import 'package:cabofind/paginas/carrusel.dart';
 import 'package:cabofind/main.dart';
+import 'package:cabofind/paginas_ing/empresa_detalle.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:cabofind/paginas/empresa_detalle.dart';
@@ -10,29 +11,31 @@ import 'package:flutter/material.dart';
 
 
 
-void main() {
-  runApp(new MaterialApp(
-    home: new ListaEmergencia(),
 
-  ));
-}
+class Lista_Manejador_ing extends StatefulWidget {
 
-class ListaEmergencia extends StatefulWidget {
+  final Lista_manejador manejador;
+
+  Lista_Manejador_ing({Key key, @required this.manejador}) : super(
+    key: key);
+
   @override
   _ListaAcuaticas createState() => new _ListaAcuaticas();
 
 }
 
-class _ListaAcuaticas extends State<ListaEmergencia> {
+class _ListaAcuaticas extends State<Lista_Manejador_ing> {
 
-  List data;
+List data;
 List databaja;
+
+
 
   //final List<Todo> todos;
   Future<String> getData() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/consultas_negocios/esp/salud/list_salud_emergencia.php"),
+            "http://cabofind.com.mx/app_php/consultas_negocios/ing/list_manejador_baja.php?CAT=${widget.manejador.id_cat}&SUB=${widget.manejador.id_sub}"),  
        
         headers: {
           "Accept": "application/json"
@@ -49,12 +52,12 @@ List databaja;
 
     return "Success!";
   }
+    //"http://cabofind.com.mx/app_php/consultas_negocios/esp/list_manejador.php?CAT=${widget.manejador.id_cat}&SUB=${widget.manejador.id_sub}"),
 
   Future<String> getDatabaja() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/consultas_negocios/esp/salud/list_salud_emergencia_baja.php"),
-       
+            "http://cabofind.com.mx/app_php/consultas_negocios/ing/list_manejador.php?CAT=${widget.manejador.id_cat}&SUB=${widget.manejador.id_sub}"),       
         headers: {
           "Accept": "application/json"
         }
@@ -65,17 +68,16 @@ List databaja;
           databaja = json.decode(
               response.body);
         });
-    print(
-        databaja[0]["NEG_NOMBRE"]);
-
-
+    
     return "Success!";
   }
+
 
   @override
   void initState() {
     super.initState(
     );
+
     this.getData();
 this.getDatabaja();
   }
@@ -161,7 +163,7 @@ void dispose() {
 
                               child: Text(
 
-                                  data[index]["SUB_NOMBRE"],
+                                  data[index]["SUB_NOMBRE_ING"],
                                 overflow: TextOverflow.ellipsis,),
                               padding: EdgeInsets.all(
                                   1.0)),
@@ -180,6 +182,8 @@ void dispose() {
                               data[index]["NEG_LUGAR"],
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,),
+
+
                           ),
 
                         ]),
@@ -195,7 +199,7 @@ void dispose() {
               String id_sql = data[index]["ID_NEGOCIO"];
 
               Navigator.push(context, new MaterialPageRoute
-                (builder: (context) => new Empresa_det_fin(empresa: new Empresa(id_sql))));
+                (builder: (context) => new Empresa_det_fin_ing(empresa: new Empresa(id_sql))));
 
             },
             //A Navigator is a widget that manages a set of child widgets with
@@ -207,7 +211,7 @@ void dispose() {
 
     );
 
-Widget listadobaja = ListView.builder(
+    Widget listadobaja = ListView.builder(
        shrinkWrap: true,
       physics: BouncingScrollPhysics(),
         itemCount: databaja == null ? 0 : databaja.length,
@@ -255,7 +259,7 @@ Widget listadobaja = ListView.builder(
 
                               child: Text(
 
-                                  databaja[index]["SUB_NOMBRE"],
+                                  databaja[index]["SUB_NOMBRE_ING"],
                                 overflow: TextOverflow.ellipsis,),
                               padding: EdgeInsets.all(
                                   1.0)),
@@ -288,7 +292,7 @@ Widget listadobaja = ListView.builder(
             onTap: () {
               String id_sql = databaja[index]["ID_NEGOCIO"];
               Navigator.push(context, new MaterialPageRoute
-                (builder: (context) => new Empresa_det_fin(empresa: new Empresa(id_sql))));
+                (builder: (context) => new Empresa_det_fin_ing(empresa: new Empresa(id_sql))));
 
             },
             //A Navigator is a widget that manages a set of child widgets with

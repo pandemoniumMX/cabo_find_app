@@ -3,11 +3,7 @@ import 'dart:convert';
 
 import 'package:cabofind/main_esp.dart';
 import 'package:cabofind/paginas/usuario.dart';
-import 'package:cabofind/paginas_listas/list__com_joyerias.dart';
-import 'package:cabofind/paginas_listas/list__com_moda.dart';
-import 'package:cabofind/paginas_listas/list__com_regalos.dart';
-import 'package:cabofind/paginas_listas/list__com_tiendas.dart';
-import 'package:cabofind/paginas_listas/list_serv_prov.dart';
+
 import 'package:cabofind/utilidades/classes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

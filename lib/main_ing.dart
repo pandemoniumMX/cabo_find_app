@@ -651,7 +651,7 @@ List data;
                  Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (BuildContext context) => new Promociones_grid_ing()
+                        builder: (BuildContext context) => new Promociones_list_ing()
                         )
                         );
                } else if (ruta == "Salud"){

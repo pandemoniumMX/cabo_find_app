@@ -15,12 +15,7 @@ import 'package:cabofind/paginas_listas/list_publicaciones_compras.dart';
 import 'package:cabofind/paginas_listas/list_publicaciones_educacion.dart';
 import 'package:cabofind/paginas_listas/list_publicaciones_restaurantes.dart';
 import 'package:cabofind/paginas_listas/list_publicaciones_servicios.dart';
-import 'package:cabofind/paginas_listas/list_serv_auto.dart';
-import 'package:cabofind/paginas_listas/list_serv_bancos.dart';
-import 'package:cabofind/paginas_listas/list_serv_mascotas.dart';
-import 'package:cabofind/paginas_listas/list_serv_prof.dart';
-import 'package:cabofind/paginas_listas/list_serv_prov.dart';
-import 'package:cabofind/paginas_listas/list_serv_trans.dart';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 

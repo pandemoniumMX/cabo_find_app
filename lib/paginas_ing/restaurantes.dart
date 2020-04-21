@@ -1,38 +1,48 @@
-
-import 'package:cabofind/paginas_listas_ing/list__rest_cafe.dart';
-import 'package:cabofind/paginas_listas_ing/list__rest_ita.dart';
-import 'package:cabofind/paginas_listas_ing/list__rest_mariscos.dart';
-import 'package:cabofind/paginas_listas_ing/list__rest_mex.dart';
-import 'package:cabofind/paginas_listas_ing/list__rest_oriental.dart';
-import 'package:cabofind/paginas_listas_ing/list__rest_rapida.dart';
-import 'package:cabofind/paginas_listas_ing/list__rest_snacks.dart';
+import 'package:cabofind/utilidades/classes.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import 'list_manejador.dart';
+
 class Restaurantes_ing extends StatefulWidget {
-  int id=0;
+
 
   @override
-  _Restaurantes_ing createState() => new _Restaurantes_ing();
+_Restaurantes createState() => new _Restaurantes();
 }
 
-class _Restaurantes_ing extends State<Restaurantes_ing> {
+class _Restaurantes extends State<Restaurantes_ing> {
   int id=0;
-
+  int cat =60;//educacion
+ 
+@override
+int _page = 0;
+  PageController _c;
   @override
-Widget build(BuildContext context) {
-  final tabpages=<Widget>[
+  void initState(){
+    _c =  new PageController(
+      initialPage: _page,
+    );
+    super.initState();
+  }
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+      appBar: new AppBar(
+      title: new Text('Restaurants'),
+    ),
+      bottomNavigationBar: new BottomNavigationBar(
+        currentIndex: _page,
+        backgroundColor: Colors.black,
+        fixedColor: Color(0xff01969a),
+        unselectedItemColor: Colors.black54,
+        showUnselectedLabels: true,
+        //unselectedIconTheme: Colors.grey,
 
-    new ListaMexicanos_ing(),
-    new ListaItalianos_ing(),
-    new ListaOriental_ing(),
-    new ListaMariscos_ing(),
-    new ListaRapida_ing(),
-    new ListaCafe_ing(),
-    new ListaSnacks_ing(),
-  ];
-
-  final bnbi=<BottomNavigationBarItem>[
+        onTap: (index){
+          this._c.animateToPage(index,duration: const Duration(milliseconds: 500),curve: Curves.easeInOut);
+        },
+        items: <BottomNavigationBarItem>[
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.pepperHot,),title: Text("Mexican")),
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.pizzaSlice,),title: Text("Italian")),
     BottomNavigationBarItem(icon: Icon(Icons.favorite,),title: Text("Oriental")),
@@ -41,28 +51,26 @@ Widget build(BuildContext context) {
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.utensils,),title: Text("Others")),
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.iceCream,),title: Text("Snack")),
 
+      ],
 
-  ];
-
-
-  final bnb=BottomNavigationBar(
-
-    items: bnbi,
-    currentIndex:id ,
-    type: BottomNavigationBarType.fixed,
-    onTap: (int value){
-      setState(() {
-        id=value;
-      });
-    },
-  );
-
-return new Scaffold(
-  body: tabpages[id],
-  bottomNavigationBar: bnb,
-appBar: new AppBar(
-title: new Text('Restaurants'),
-),
-);
-}
+      ),
+      body: new PageView(
+        controller: _c,
+        onPageChanged: (newPage){
+          setState((){
+            this._page=newPage;
+          });
+        },
+        children: <Widget>[
+          new Lista_Manejador_ing(manejador: new Lista_manejador(cat,27)),
+          new Lista_Manejador_ing(manejador: new Lista_manejador(cat,26)),
+          new Lista_Manejador_ing(manejador: new Lista_manejador(cat,30)),
+          new Lista_Manejador_ing(manejador: new Lista_manejador(cat,28)),
+          new Lista_Manejador_ing(manejador: new Lista_manejador(cat,29)),
+          new Lista_Manejador_ing(manejador: new Lista_manejador(cat,31)),
+          new Lista_Manejador_ing(manejador: new Lista_manejador(cat,32)),
+        ],
+      ),
+    );
+  }
 }
