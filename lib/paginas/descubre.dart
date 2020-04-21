@@ -47,7 +47,7 @@ int _page = 0;
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.swimmer,),title: Text("Acuáticas")),
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.bicycle,),title: Text("Terrestres")),
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.telegramPlane,),title: Text("Aéreas")),
-    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.bookmark,),title: Text("Cultura")),
+    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.bookmark,),title: Text("Sitios")),
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.umbrellaBeach,),title: Text("Playas")),
 
 

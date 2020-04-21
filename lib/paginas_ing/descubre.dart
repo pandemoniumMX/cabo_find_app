@@ -47,7 +47,7 @@ int _page = 0;
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.bicycle,),title: Text("Land")),
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.telegramPlane,),title: Text("Air")),
     //BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.theaterMasks,),title: Text("Events")),
-    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.bookmark,),title: Text("Culture")),
+    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.bookmark,),title: Text("Places")),
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.umbrellaBeach,),title: Text("Beaches")),
 
       ],

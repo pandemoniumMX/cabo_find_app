@@ -154,6 +154,35 @@ void dispose() {
 
                         ),
                       ),
+                      Positioned(
+                        right: 0.0,
+                        bottom: 0.0,
+                        child: new FloatingActionButton(
+                          child: new Image.asset(
+                        "assets/heart.png",
+                        fit: BoxFit.cover,
+                        width: 50.0,
+                        height: 50.0,
+
+                      ),
+                          backgroundColor: Colors.transparent,
+                           onPressed: (){},
+
+                        ),
+                      ),
+                Positioned(
+                                
+                                right: 0,
+                                bottom: 0,
+                                child: new FloatingActionButton(
+                                  
+                                 child: new Text('200',
+                                 style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15.0, color: Colors.white)),
+                                 elevation: 0.0,
+                                 backgroundColor: Colors.transparent,
+                                 onPressed: (){},
+                                ),
+                              ), 
                             ]
               ),
                     Row(
@@ -240,7 +269,10 @@ void dispose() {
 
                   children: <Widget>[
 
-                    FadeInImage(
+                    Stack(
+                children: <Widget>[
+
+                   FadeInImage(
 
                       image: NetworkImage(databaja[index]["GAL_FOTO"]),
                       fit: BoxFit.cover,
@@ -252,6 +284,39 @@ void dispose() {
                       fadeInDuration: Duration(milliseconds: 200),
 
                     ),
+
+                Positioned(
+                        right: 0.0,
+                        bottom: 0.0,
+                        child: new FloatingActionButton(
+                          child: new Image.asset(
+                        "assets/heart.png",
+                        fit: BoxFit.cover,
+                        width: 50.0,
+                        height: 50.0,
+
+                      ),
+                          backgroundColor: Colors.transparent,
+                          elevation: 0.0,
+                           //onPressed: (){},
+
+                        ),
+                      ),
+                Positioned(
+                                
+                                right: 0,
+                                bottom: 0,
+                                child: new FloatingActionButton(
+                                  
+                                 child: new Text('200',
+                                 style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15.0, color: Colors.white)),
+                                 elevation: 0.0,
+                                 backgroundColor: Colors.transparent,
+                                 onPressed: (){},
+                                ),
+                              ),              
+                            ]
+              ),
                     Row(
                         children: <Widget>[
 

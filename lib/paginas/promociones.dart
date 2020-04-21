@@ -69,7 +69,7 @@ int _page = 0;
           });
         },
         children: <Widget>[
-         new Promociones_restaurantes(),
+          new Promociones_restaurantes(),
           new Promociones_bares(),
           new Promociones_actividades(),
           new Promociones_compras(),

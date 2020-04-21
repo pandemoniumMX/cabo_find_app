@@ -236,7 +236,7 @@ class _MyHomePageState extends State<Maps_actividades> {
                         fadeInDuration: Duration(milliseconds: 200),   
                         
                       ),
-                      Text('  Cultura')
+                      Text('  Sitios')
                     ],
                   ),
                   SizedBox(height: 10.0,),   
