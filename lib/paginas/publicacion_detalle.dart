@@ -268,7 +268,7 @@ String stateText;
 
     void showShortToast() {
       Fluttertoast.showToast(
-          msg: "Has recomendado esta publicación",
+          msg: "Promoción guardada",
           toastLength: Toast.LENGTH_SHORT,
           backgroundColor: Color(0xff01969a),
           textColor: Colors.white,
@@ -327,20 +327,7 @@ Widget videosection = Container(
                               width: MediaQuery.of(context).size.width,
                               height: MediaQuery.of(context).size.height / 1.5,
                               fit: BoxFit.fill ),
-                        Positioned(
-                                right: 0.0,
-                                top: 0,
-                                child: new FloatingActionButton(
-                                  child: new Image.asset(
-                                    "assets/recomend.png",
-                                fit: BoxFit.cover,
-                                width: 50.0,
-                                height: 50.0,
-                              ),
-                                  backgroundColor: Colors.black,
-                                  onPressed: (){showShortToast();insertRecomendacion();},
-                                ),
-                              ),                                    ]
+                                                           ]
                       ),
                      SizedBox(height: 5.0,),  
                           
@@ -476,8 +463,7 @@ Widget videosection = Container(
         ),
         appBar: new AppBar(
           title: new Text( 'Regresar',
-            style: TextStyle(
-                fontWeight: FontWeight.bold,
+            style: TextStyle(                
                 fontSize: 20.0
                 ),
                 ),

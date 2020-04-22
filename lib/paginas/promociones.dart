@@ -1,16 +1,9 @@
-
-import 'package:cabofind/paginas_listas/list_promociones_actividades.dart';
-import 'package:cabofind/paginas_listas/list_promociones_bares.dart';
-import 'package:cabofind/paginas_listas/list_promociones_compras.dart';
-import 'package:cabofind/paginas_listas/list_promociones_educacion.dart';
-import 'package:cabofind/paginas_listas/list_promociones_restaurantes.dart';
-import 'package:cabofind/paginas_listas/list_promociones_salud.dart';
-import 'package:cabofind/paginas_listas/list_promociones_servicios.dart';
 import 'package:cabofind/utilidades/classes.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'list_manejador.dart';
+import 'list_manejador_promociones.dart';
 
 class Promociones_list extends StatefulWidget {
 
@@ -46,7 +39,7 @@ int _page = 0;
         //unselectedIconTheme: Colors.grey,
 
         onTap: (index){
-          this._c.animateToPage(index,duration: const Duration(milliseconds: 500),curve: Curves.easeInOut);
+          this._c.animateToPage(index,duration: const Duration(milliseconds: 10),curve: Curves.easeInOut);
         },
         items: <BottomNavigationBarItem>[
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.utensils,),title: Text("Restaurantes")),
@@ -69,13 +62,13 @@ int _page = 0;
           });
         },
         children: <Widget>[
-          new Promociones_restaurantes(),
-          new Promociones_bares(),
-          new Promociones_actividades(),
-          new Promociones_compras(),
-          new Promociones_salud(),
-          new Promociones_servicios(),
-          new Promociones_educacion(),
+          new Manejador_promociones(cat: new Categoria(60)),
+          new Manejador_promociones(cat: new Categoria(62)),
+          new Manejador_promociones(cat: new Categoria(63)),
+          new Manejador_promociones(cat: new Categoria(61)),
+          new Manejador_promociones(cat: new Categoria(69)),
+          new Manejador_promociones(cat: new Categoria(59)),
+          new Manejador_promociones(cat: new Categoria(70)),
         ],
       ),
     );

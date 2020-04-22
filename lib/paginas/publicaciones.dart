@@ -3,12 +3,7 @@ import 'package:cabofind/paginas_listas/list__anun_autos.dart';
 import 'package:cabofind/paginas_listas/list__anun_electronica.dart';
 import 'package:cabofind/paginas_listas/list__anun_empleo.dart';
 import 'package:cabofind/paginas_listas/list__anun_inmuebles.dart';
-import 'package:cabofind/paginas_listas/list_promociones_actividades.dart';
-import 'package:cabofind/paginas_listas/list_promociones_bares.dart';
-import 'package:cabofind/paginas_listas/list_promociones_compras.dart';
-import 'package:cabofind/paginas_listas/list_promociones_restaurantes.dart';
-import 'package:cabofind/paginas_listas/list_promociones_salud.dart';
-import 'package:cabofind/paginas_listas/list_promociones_servicios.dart';
+
 import 'package:cabofind/paginas_listas/list_publicaciones_actividades%20.dart';
 import 'package:cabofind/paginas_listas/list_publicaciones_bares.dart';
 import 'package:cabofind/paginas_listas/list_publicaciones_compras.dart';
@@ -36,7 +31,6 @@ Widget build(BuildContext context) {
     new Publicaciones_bares(),
     new Publicaciones_actividades(),
     new Publicaciones_compras(),
-    new Promociones_salud(),
     new Publicaciones_servicios(),
     new Publicaciones_educacion(),
 

@@ -40,7 +40,7 @@ int _page = 0;
         //unselectedIconTheme: Colors.grey,
 
         onTap: (index){
-          this._c.animateToPage(index,duration: const Duration(milliseconds: 500),curve: Curves.easeInOut);
+          this._c.animateToPage(index,duration: const Duration(milliseconds: 10),curve: Curves.easeInOut);
         },
         items: <BottomNavigationBarItem>[
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.pepperHot,),title: Text("Mexican")),

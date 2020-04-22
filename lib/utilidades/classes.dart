@@ -6,6 +6,12 @@ class Users {
   Users(this.correo);
 }
 
+class Categoria {
+  final int cat; 
+
+  Categoria(this.cat);
+}
+
 class Costos {
   final String paquete; 
   final String costo; 

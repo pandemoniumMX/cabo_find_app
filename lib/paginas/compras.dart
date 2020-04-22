@@ -16,9 +16,9 @@ class _Restaurantes extends State<Compras> {
   int id=0;
   int cat =61;//educacion
  
-@override
-int _page = 0;
-  PageController _c;
+@override 
+ int _page = 0;
+ PageController _c;
   @override
   void initState(){
     _c =  new PageController(
@@ -41,7 +41,7 @@ int _page = 0;
         //unselectedIconTheme: Colors.grey,
 
         onTap: (index){
-          this._c.animateToPage(index,duration: const Duration(milliseconds: 500),curve: Curves.easeInOut);
+          this._c.animateToPage(index,duration: const Duration(milliseconds: 10),curve: Curves.easeInOut);
         },
         items: <BottomNavigationBarItem>[
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.tshirt,),title: Text("Moda")),

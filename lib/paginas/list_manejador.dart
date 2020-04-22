@@ -34,7 +34,7 @@ class _ListaAcuaticas extends State<Lista_Manejador_esp> {
 
 List data;
 List databaja;
-
+GlobalKey _toolTipKey = GlobalKey();
 
 
   //final List<Todo> todos;
@@ -58,7 +58,6 @@ List databaja;
 
     return "Success!";
   }
-    //"http://cabofind.com.mx/app_php/consultas_negocios/esp/list_manejador.php?CAT=${widget.manejador.id_cat}&SUB=${widget.manejador.id_sub}"),
 
   Future<String> getDatabaja() async {
     var response = await http.get(
@@ -136,7 +135,7 @@ List databaja;
       Fluttertoast.showToast(
           msg: "Agregado a favoritos!",
           toastLength: Toast.LENGTH_SHORT,
-          backgroundColor: Color(0xff01969a),
+          backgroundColor: Color(0xffED393A),
           textColor: Colors.white,
           timeInSecForIos: 1);
     }
@@ -205,7 +204,7 @@ String id_n = data[index]["ID_NEGOCIO"];
                       fadeInDuration: Duration(milliseconds: 200),
 
                     ),
-
+                  
                 Positioned(
                         right: 0.0,
                         bottom: 165.0,
@@ -218,41 +217,52 @@ String id_n = data[index]["ID_NEGOCIO"];
 
                       ),
                           backgroundColor: Colors.transparent,
-                          onPressed: (){},
+                          elevation: 0.0,
+                          onPressed: (){
+                          final dynamic tooltip = _toolTipKey.currentState;
+                          tooltip.ensureTooltipVisible();},
 
                         ),
                       ),
+                      Tooltip(
+                                key: _toolTipKey,
+                                message: 'Establecimiento destacado',
+                                verticalOffset: -10,
+                                preferBelow: true,
+                                
+                                
+                              ),
 
                 Positioned(
-                        right: 0.0,
-                        bottom: 0.0,
+                        right: -5.0,
+                        bottom: -5.0,
                         child: new FloatingActionButton(
                           child: new Image.asset(
-                        "assets/heart.png",
+                        "assets/corazon2.png",
                         fit: BoxFit.cover,
-                        width: 50.0,
-                        height: 50.0,
+                        width: 45.0,
+                        height: 45.0,
                         
 
                       ),
                           backgroundColor: Colors.transparent,
+                          elevation: 0.0,
                            
 
                         ),
                       ), 
                 Positioned(
-                                
-                                right: 0,
-                                bottom: 0,
-                                child: new FloatingActionButton(
-                                
+                                right: -5,
+                                bottom: -5,
+                                child: new FloatingActionButton(                                
                                  child: new Text( data[index]["NEG_RECOMENDACIONES"],
-                                 style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15.0, color: Colors.white)),
+                                 style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15.0, color: Colors.black)),
                                  elevation: 0.0,
                                 backgroundColor: Colors.transparent,
                                  onPressed: (){insertFavorite(id_n);},
                                 ),
-                              ),          
+                              ),  
+
                             ]
               ),
                     Row(
@@ -356,14 +366,14 @@ String id_n = databaja[index]["ID_NEGOCIO"];
                     ),
 
                 Positioned(
-                        right: 0.0,
-                        bottom: 0.0,
+                        right: -5.0,
+                        bottom: -5.0,
                         child: new FloatingActionButton(
                           child: new Image.asset(
-                        "assets/heart.png",
+                        "assets/corazon2.png",
                         fit: BoxFit.cover,
-                        width: 50.0,
-                        height: 50.0,
+                        width: 45.0,
+                        height: 45.0,
 
                       ),
                           elevation: 0.0,
@@ -374,12 +384,12 @@ String id_n = databaja[index]["ID_NEGOCIO"];
                       ),
                 Positioned(
                                 
-                                right: 0,
-                                bottom: 0,
+                                right: -5,
+                                bottom: -5,
                                 child: new FloatingActionButton(
                                   
                                  child: new Text(databaja[index]["NEG_RECOMENDACIONES"],
-                                 style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15.0, color: Colors.white)),
+                                 style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15.0, color: Colors.black)),
                                  elevation: 0.0,
                                  backgroundColor: Colors.transparent,
                                  onPressed: (){insertFavorite(id_n);},

@@ -11,6 +11,8 @@ import 'package:cabofind/paginas/domicilio.dart';
 import 'package:cabofind/paginas/educacion.dart';
 import 'package:cabofind/paginas/login.dart';
 import 'package:cabofind/paginas/maps.dart';
+import 'package:cabofind/paginas/misfavoritos.dart';
+import 'package:cabofind/paginas/mispromos.dart';
 import 'package:cabofind/paginas/publicacion_detalle.dart';
 import 'package:cabofind/paginas/publicaciones.dart';
 import 'package:cabofind/paginas/ricky.dart';
@@ -234,11 +236,14 @@ class _MyHomePageState extends State<MyHomePages> {
         print("${first.featureName} : ${first.addressLine}");
       }
 */
-  //final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
-
+  //final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>(); 
+  int _page = 0;
+ PageController _c;
  @override
   void initState() {
-    //addStringToSF();
+    _c =  new PageController(
+      initialPage: _page,
+    );
     
     isLogged(context);
 
@@ -476,21 +481,7 @@ addStringToSF() async {
   Widget build(BuildContext context) {
   
 
-  final bnbi=<BottomNavigationBarItem>[
-    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.home,),title: Text("Inicio")),
-    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.userAlt,),title: Text("Cuenta")),
-  ];
-
-  final bnb=BottomNavigationBar(
-    items: bnbi,
-    currentIndex:id ,
-    type: BottomNavigationBarType.fixed,
-    onTap: (int value){
-      setState(() {
-        id=value;
-      });
-    },
-  );
+  
     /*
     return new MaterialApp(
       navigatorKey: navigatorKey,
@@ -1102,10 +1093,43 @@ final tabpages=<Widget>[
 
 
       ),
-      bottomNavigationBar: bnb,  
+      bottomNavigationBar: new BottomNavigationBar(
+        currentIndex: _page,
+        backgroundColor: Colors.black,
+        fixedColor: Color(0xff01969a),
+        unselectedItemColor: Colors.black54,
+        showUnselectedLabels: true,
+        //unselectedIconTheme: Colors.grey,
+
+        onTap: (index){
+          this._c.animateToPage(index,duration: const Duration(milliseconds: 10),curve: Curves.easeInOut);
+        },
+        items: <BottomNavigationBarItem>[
+    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.home,),title: Text("Inicio")),
+    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.fire,),title: Text("Promos")),
+    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.heart,),title: Text("Favoritos")),
+    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.userAlt,),title: Text("Cuenta")),
 
 
-      body: tabpages[id],
+      ],
+
+      ),
+
+
+      body: new PageView(
+        controller: _c,
+        onPageChanged: (newPage){
+          setState((){
+            this._page=newPage;
+          });
+        },
+        children: <Widget>[
+          cuerpo,
+          new Mis_promos(),
+          new Mis_favoritos(),
+          new Login()
+        ],
+      ),
 
         );
   }

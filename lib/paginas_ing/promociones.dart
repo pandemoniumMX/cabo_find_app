@@ -1,10 +1,3 @@
-
-import 'package:cabofind/paginas_listas/list_promociones_actividades.dart';
-import 'package:cabofind/paginas_listas/list_promociones_bares.dart';
-import 'package:cabofind/paginas_listas/list_promociones_compras.dart';
-import 'package:cabofind/paginas_listas/list_promociones_restaurantes.dart';
-import 'package:cabofind/paginas_listas/list_promociones_salud.dart';
-import 'package:cabofind/paginas_listas/list_promociones_servicios.dart';
 import 'package:cabofind/paginas_listas_ing/list_promociones_actividades.dart';
 import 'package:cabofind/paginas_listas_ing/list_promociones_bares.dart';
 import 'package:cabofind/paginas_listas_ing/list_promociones_compras.dart';
@@ -51,7 +44,7 @@ int _page = 0;
         //unselectedIconTheme: Colors.grey,
 
         onTap: (index){
-          this._c.animateToPage(index,duration: const Duration(milliseconds: 500),curve: Curves.easeInOut);
+          this._c.animateToPage(index,duration: const Duration(milliseconds: 10),curve: Curves.easeInOut);
         },
         items: <BottomNavigationBarItem>[
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.utensils,),title: Text("Restaurants")),
