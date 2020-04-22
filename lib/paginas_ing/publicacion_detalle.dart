@@ -263,7 +263,7 @@ Future<String> insertPublicacioniOS() async {
       Fluttertoast.showToast(
           msg: "You have recommended this publication",
           toastLength: Toast.LENGTH_SHORT,
-          backgroundColor: Colors.blue,
+          backgroundColor: Color(0xff01969a),
           textColor: Colors.white,
           timeInSecForIos: 1);
     }

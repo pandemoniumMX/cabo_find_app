@@ -6,6 +6,7 @@ import 'package:cabofind/paginas/login.dart';
 import 'package:cabofind/paginas/usuario.dart';
 import 'package:device_info/device_info.dart';
 import 'package:devicelocale/devicelocale.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/services.dart';
@@ -77,7 +78,7 @@ List databaja;
     return "Success!";
   }
 
-  Future<String> insertFavorite() async {
+  Future<String> insertFavorite(id_n) async {
 
     String currentLocale;
     try {
@@ -99,42 +100,46 @@ List databaja;
  _mail = login.getString("stringMail")?? '';
  print(_status);
  print(_mail);
- String id = data[0]["ID_NEGOCIO"];
- print(id);
+ //String id = data[0]["ID_NEGOCIO"];
+ print(id_n);
   // if (prefs.getString(_idioma) ?? 'stringValue' == "espanol")
   if (_status == "True") {
-      print("Sesión ya iniciada");
+      showFavorites();
 
       var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/insert_recomendacion_negocio.php?MOD=${androidInfo.model}&BOOT=${androidInfo.display},${androidInfo.bootloader},${androidInfo.fingerprint}&VERSION=${androidInfo.product}&IDIOMA=${currentLocale}&ID=${15}&SO=Android&CORREO=${_mail}"),
+            "http://cabofind.com.mx/app_php/APIs/esp/insert_recomendacion_negocio.php?MOD=${androidInfo.model}&BOOT=${androidInfo.display},${androidInfo.bootloader},${androidInfo.fingerprint}&VERSION=${androidInfo.product}&IDIOMA=${currentLocale}&ID=${id_n}&SO=Android&CORREO=${_mail}"),
 
         headers: {
           "Accept": "application/json"
         }
     );
 
-      CircularProgressIndicator(value: 5.0,);
+      //CircularProgressIndicator(value: 5.0,);
       
     }
     else
     {
      //CircularProgressIndicator(value: 5.0,);
-     /*
+     
       Navigator.pushReplacement(
                     context,
                     new MaterialPageRoute(
                         builder: (BuildContext context) => Login()
                         )
-                        );*/
-    Navigator.push(context, new MaterialPageRoute
-                (builder: (context) => new Login()));                    
+                        );            
      
-  }  
-
-    
-  
+  }    
   }
+
+  void showFavorites() {
+      Fluttertoast.showToast(
+          msg: "Agregado a favoritos!",
+          toastLength: Toast.LENGTH_SHORT,
+          backgroundColor: Color(0xff01969a),
+          textColor: Colors.white,
+          timeInSecForIos: 1);
+    }
 
 
   @override
@@ -162,7 +167,7 @@ void dispose() {
       physics: BouncingScrollPhysics(),
         itemCount: data == null ? 0 : data.length,
         itemBuilder: (BuildContext context, int index) {
-
+String id_n = data[index]["ID_NEGOCIO"];
           return new ListTile(
 
 
@@ -183,7 +188,6 @@ void dispose() {
                     10.0),
 
                 child: Column(
-
                   children: <Widget>[
 
                     Stack(
@@ -241,12 +245,12 @@ void dispose() {
                                 right: 0,
                                 bottom: 0,
                                 child: new FloatingActionButton(
-                                  
-                                 child: new Text('200',
+                                
+                                 child: new Text( data[index]["NEG_RECOMENDACIONES"],
                                  style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15.0, color: Colors.white)),
                                  elevation: 0.0,
                                 backgroundColor: Colors.transparent,
-                                 onPressed: (){insertFavorite();},
+                                 onPressed: (){insertFavorite(id_n);},
                                 ),
                               ),          
                             ]
@@ -311,7 +315,7 @@ void dispose() {
       physics: BouncingScrollPhysics(),
         itemCount: databaja == null ? 0 : databaja.length,
         itemBuilder: (BuildContext context, int index) {
-
+String id_n = databaja[index]["ID_NEGOCIO"];
           return new ListTile(
 
 
@@ -374,11 +378,11 @@ void dispose() {
                                 bottom: 0,
                                 child: new FloatingActionButton(
                                   
-                                 child: new Text('200',
+                                 child: new Text(databaja[index]["NEG_RECOMENDACIONES"],
                                  style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15.0, color: Colors.white)),
                                  elevation: 0.0,
                                  backgroundColor: Colors.transparent,
-                                 onPressed: (){insertFavorite();},
+                                 onPressed: (){insertFavorite(id_n);},
                                  
                                 ),
                               ),              

@@ -263,7 +263,7 @@ Widget build(BuildContext context) {
                                             new Icon(FontAwesomeIcons.facebookSquare, color: Colors.white,)
                                           ],
                                         )
-                ),
+                ),/*
             RaisedButton(
                   onPressed: (){signInWithGoogle();},  
                   shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
@@ -277,7 +277,7 @@ Widget build(BuildContext context) {
                                             new Icon(FontAwesomeIcons.google, color: Colors.red,)
                                           ],
                                         )
-                ),   
+                ), */  
 
                 RaisedButton(
                   onPressed: (){addlogin();},  

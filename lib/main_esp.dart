@@ -593,7 +593,7 @@ alertCar(context) async {
         Fluttertoast.showToast(
           msg: "Google pay no disponible",
           toastLength: Toast.LENGTH_SHORT,
-          backgroundColor: Colors.blue,
+          backgroundColor: Color(0xff01969a),
           textColor: Colors.white,
           timeInSecForIos: 1);
       } else {
@@ -609,7 +609,7 @@ alertCar(context) async {
           Fluttertoast.showToast(
           msg: "SUCESS",
           toastLength: Toast.LENGTH_SHORT,
-          backgroundColor: Colors.blue,
+          backgroundColor: Color(0xff01969a),
           textColor: Colors.white,
           timeInSecForIos: 1);
     
@@ -618,7 +618,7 @@ alertCar(context) async {
           Fluttertoast.showToast(
           msg: error.toString(),
           toastLength: Toast.LENGTH_SHORT,
-          backgroundColor: Colors.blue,
+          backgroundColor: Color(0xff01969a),
           textColor: Colors.white,
           timeInSecForIos: 1);
         });
@@ -632,7 +632,7 @@ alertCar(context) async {
         Fluttertoast.showToast(
           msg:"Google pay no disponible",
           toastLength: Toast.LENGTH_SHORT,
-          backgroundColor: Colors.blue,
+          backgroundColor: Color(0xff01969a),
           textColor: Colors.white,
           timeInSecForIos: 1);
       } else {
@@ -654,14 +654,14 @@ alertCar(context) async {
             Fluttertoast.showToast(
           msg:"Success",
           toastLength: Toast.LENGTH_SHORT,
-          backgroundColor: Colors.blue,
+          backgroundColor: Color(0xff01969a),
           textColor: Colors.white,
           timeInSecForIos: 1);
           } else if (result.error != null) {
             Fluttertoast.showToast(
           msg:result.error,
           toastLength: Toast.LENGTH_SHORT,
-          backgroundColor: Colors.blue,
+          backgroundColor: Color(0xff01969a),
           textColor: Colors.white,
           timeInSecForIos: 1);
           }

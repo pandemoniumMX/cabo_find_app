@@ -340,7 +340,7 @@ void onLoginStatusChange(bool isLoggedIn){
       Fluttertoast.showToast(
           msg: "Review sent successfully",
           toastLength: Toast.LENGTH_SHORT,
-          backgroundColor: Colors.blue,
+          backgroundColor: Color(0xff01969a),
           textColor: Colors.white,
           timeInSecForIos: 1);
     }
@@ -349,7 +349,7 @@ void onLoginStatusChange(bool isLoggedIn){
       Fluttertoast.showToast(
           msg: "Comment reported",
           toastLength: Toast.LENGTH_SHORT,
-          backgroundColor: Colors.blue,
+          backgroundColor: Color(0xff01969a),
           textColor: Colors.white,
           timeInSecForIos: 1);
     }

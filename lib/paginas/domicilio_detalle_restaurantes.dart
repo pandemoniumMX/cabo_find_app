@@ -366,7 +366,7 @@ void showResena() {
       Fluttertoast.showToast(
           msg: "Pedido enviado exitosamente",
           toastLength: Toast.LENGTH_SHORT,
-          backgroundColor: Colors.blue,
+          backgroundColor: Color(0xff01969a),
           textColor: Colors.white,
           timeInSecForIos: 1);
     }

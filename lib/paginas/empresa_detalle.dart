@@ -333,7 +333,7 @@ void showResena() {
       Fluttertoast.showToast(
           msg: "Reseña enviada exitosamente",
           toastLength: Toast.LENGTH_SHORT,
-          backgroundColor: Colors.blue,
+          backgroundColor: Color(0xff01969a),
           textColor: Colors.white,
           timeInSecForIos: 1);
     }
@@ -342,7 +342,7 @@ void reporte() {
       Fluttertoast.showToast(
           msg: "Comentario reportado",
           toastLength: Toast.LENGTH_SHORT,
-          backgroundColor: Colors.blue,
+          backgroundColor: Color(0xff01969a),
           textColor: Colors.white,
           timeInSecForIos: 1);
     }    
