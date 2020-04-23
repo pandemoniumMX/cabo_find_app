@@ -258,8 +258,9 @@ String id_n = data[index]["ID_NEGOCIO"];
                                  child: new Text( data[index]["NEG_RECOMENDACIONES"],
                                  style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15.0, color: Colors.black)),
                                  elevation: 0.0,
-                                backgroundColor: Colors.transparent,
-                                 onPressed: (){insertFavorite(id_n);},
+                                 backgroundColor: Colors.transparent,
+                                 onPressed: (){insertFavorite(id_n);
+                                 },
                                 ),
                               ),  
 

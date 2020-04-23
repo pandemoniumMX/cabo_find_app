@@ -13,6 +13,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
+import '../main.dart';
+
 class Login extends StatefulWidget {
 @override
 _Compras createState() => new _Compras();}
@@ -22,7 +24,258 @@ bool isLoggedIn=false;
 final GlobalKey<State> _keyLoader = new GlobalKey<State>();
 void initState() {
 
-  sesionLog(context);
+  //sesionLog();
+  super.initState();
+}
+
+Future<bool>  sesionLog() async {
+  
+ final SharedPreferences login = await SharedPreferences.getInstance();
+ String _status = "";
+ String _mail ="";
+ _status = login.getString("stringLogin")?? '';
+ _mail = login.getString("stringMail")?? '';
+ bool checkValue = login.containsKey('value');
+ return checkValue = login.containsKey('stringLogin');
+ print(checkValue);
+ print(_status);
+ print(_mail);
+ 
+  // if (prefs.getString(_idioma) ?? 'stringValue' == "espanol")
+  if (_status == "True") {
+      print("Sesión ya iniciada");
+    
+    }
+    else
+    {
+     print("Sesión no iniciada");
+     
+  }
+  http.Response response = await http.get("http://api.openrates.io/latest");
+  return json.decode(response.body);
+}
+  
+
+@override
+Widget build(BuildContext context) {
+  return new Scaffold(    
+    body: FutureBuilder(
+         future: sesionLog(),
+         builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+           if (snapshot.hasData) {
+             return snapshot.data ?  Usuario(usuarios: new Users("testing@gmail.com")) : Login2();
+           }
+           return Login2(); // noop, this builder is called again when the future completes
+         },
+       )
+    );
+    }
+}
+
+
+
+class Usuario extends StatefulWidget {
+  final Users usuarios;
+  
+  Usuario({Key key, @required this.usuarios}) : super(
+    key: key);
+  @override
+  _UsuarioState createState() => _UsuarioState();
+}
+
+
+
+class _UsuarioState extends State<Usuario> {
+
+  void initState(){
+    super.initState();
+
+    
+
+  }
+
+  Future<Map> _loadUser() async {
+final SharedPreferences login = await SharedPreferences.getInstance();
+ String _status = "";
+ String _mail ="";
+ String _mail2 ="";
+ _status = login.getString("stringLogin");
+ _mail2 = login.getString("stringMail"); 
+ 
+ //_mail = "testing@gmail.com";
+ print(_mail2) ;
+  http.Response response = await http.get("http://cabofind.com.mx/app_php/APIs/esp/list_usuarios_api.php?CORREO=$_mail2");
+  //http.Response response = await http.get("http://cabofind.com.mx/app_php/APIs/esp/list_usuarios_api.php");
+  return json.decode(response.body);
+}
+
+Future<Map> _cerrarsesion() async {
+final SharedPreferences login = await SharedPreferences.getInstance();
+//login.setString('stringLogin', "False");
+login.clear();
+//login.setString('stringLogin', "True");
+Navigator.pushReplacement(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Myapp1()
+                        )
+                        );
+ 
+}
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(/*
+      appBar: AppBar(
+
+        automaticallyImplyLeading: true,
+        centerTitle: false,
+        elevation: 0.0,
+        backgroundColor: Color(0xff01969a),
+        
+
+        //`true` if you want Flutter to automatically add Back Button when needed,
+        //or `false` if you want to force your own back button every where
+        title:  Text("Perfil",style: TextStyle(fontSize:40, color: Colors.white,fontWeight: FontWeight.bold ),)
+        
+      ),*/
+      body: Container(
+        decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topRight,
+          end: Alignment.bottomLeft,
+          
+        colors: [
+          Color(0xff01969a),
+          Colors.white,
+          
+        ])),
+        child: FutureBuilder(
+          future: _loadUser(),
+          builder: (context, snapshot) {
+            String boolAsString =snapshot.data["USU_NOTIFICACIONES"];
+            bool isSwitched = boolAsString == 'true';
+            // bool isSwitched = snapshot.data["USU_NOTIFICACIONES"];
+              switch (snapshot.connectionState) {
+                
+                case ConnectionState.none:
+                case ConnectionState.waiting:
+                return Center(
+                      child: CircularProgressIndicator()
+                  );
+                default:
+                  if (snapshot.hasError) {
+                    return Center(
+                        child: Text(
+                      "Error :(",
+                      style: TextStyle(color: Color(0xff01969a),  fontSize: 25.0),
+                      textAlign: TextAlign.center,
+                    ));
+                  } else {
+                    return ListView(
+                      children: <Widget>[
+                        Center(child: Column(
+
+                          children: <Widget>[
+
+                              Row(
+                                
+                              children: <Widget>[
+                                Text("Configuración",style: TextStyle(fontSize:40, color: Colors.white,fontWeight: FontWeight.bold ),),]),
+
+                              Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                
+                              Text("Nombre:",style: TextStyle(fontSize:25, color: Colors.white ),),
+                              Text(snapshot.data["USU_NOMBRE"],style: TextStyle(fontSize:25, color: Colors.white, ),)
+                             
+                              
+                              ]),
+                              SizedBox(height:15.0),
+
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                              
+                              Text("Correo:",style: TextStyle(fontSize:25, color: Colors.white ),),
+                              Text(snapshot.data["USU_CORREO"],style: TextStyle(fontSize:25, color: Colors.white ),),
+                              
+                              ]),
+                               SizedBox(height:15.0), 
+                                    ///config
+                              Row(
+                                
+                              children: <Widget>[
+                                Text("Configuración",style: TextStyle(fontSize:40, color: Colors.white,fontWeight: FontWeight.bold ),),]),
+
+                                Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                              Text("Notificaciones:",style: TextStyle(fontSize:25, color: Colors.white ),),
+                              Switch(
+                                value: isSwitched,
+                                onChanged: (value) {
+                                  setState(() {
+                                    isSwitched = value;
+                                    print(isSwitched);
+                                  });
+                                },
+                                activeTrackColor: Colors.lightGreenAccent,
+                                activeColor: Colors.green,
+                              ),
+                              
+                              ]),
+
+                              Center(
+                                child: RaisedButton(
+                                onPressed: (){
+                                _cerrarsesion();
+                                },  
+                                shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
+                                color: Colors.red,  
+                                child: new Row (
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          mainAxisSize: MainAxisSize.min,
+
+                                          children: <Widget>[
+                                            new Text('Cerrar sesión', style: TextStyle(fontSize: 20, color: Colors.white)), 
+                                            new Icon(FontAwesomeIcons.signOutAlt, color: Colors.white,)
+                                          ],
+                                        )
+                ),
+                              )
+
+                                
+                              
+                              
+                            ]),
+                            
+                            
+                            ),
+                        
+                        
+                      ],
+                    );
+                  }  
+                
+              }
+          }),
+      )
+    );
+  }
+}
+
+
+class Login2 extends StatefulWidget {
+@override
+_Compras2 createState() => new _Compras2();}
+
+class _Compras2 extends State<Login2> {
+bool isLoggedIn=false;
+final GlobalKey<State> _keyLoader = new GlobalKey<State>();
+void initState() {
+
+  //sesionLog(context);
   super.initState();
 }
 
@@ -53,10 +306,10 @@ var response = await http.get(
         }
     );   
 
-  Navigator.push(
+  Navigator.pushReplacement(
                     context,
                     new MaterialPageRoute(
-                        builder: (BuildContext context) => new Usuario(usuarios: new Users(correofb))
+                        builder: (BuildContext context) => new Myapp()
                         )
                         );
   }  
@@ -85,7 +338,7 @@ var response = await http.get(
         }
     );  
 
-  Navigator.push(
+  Navigator.pushReplacement(
                     context,
                     new MaterialPageRoute(
                         builder: (BuildContext context) => new Usuario(usuarios: new Users(correofb))
@@ -102,10 +355,10 @@ var response = await http.get(
 	login.setString('stringLogin', "True");
   login.setString('stringMail', "testing@gmail.com");
   
-  Navigator.push(
+  Navigator.pushReplacement(
                     context,
                     new MaterialPageRoute(
-                        builder: (BuildContext context) => new Usuario(usuarios: new Users(correog))
+                        builder: (BuildContext context) => new Myapp()
                         )
                         );
 
@@ -119,37 +372,6 @@ var response = await http.get(
   login.clear();
 
   } 
-
-Future sesionLog(context) async {
-  
- final SharedPreferences login = await SharedPreferences.getInstance();
- String _status = "";
- String _mail ="";
- _status = login.getString("stringLogin")?? '';
- _mail = login.getString("stringMail")?? '';
- bool checkValue = login.containsKey('value');
- print(checkValue);
- print(_status);
- print(_mail);
- 
-  // if (prefs.getString(_idioma) ?? 'stringValue' == "espanol")
-  if (_status == "True") {
-      print("Sesión ya iniciada");
-      CircularProgressIndicator(value: 5.0,);
-      Navigator.pushReplacement(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (BuildContext context) => Usuario(usuarios: new Users(_mail))
-                        )
-                        );
-    }
-    else
-    {
-     print("Sesión no iniciada");
-     
-  }
-}
-  
 void signInWithFacebook() async{
   var login = FacebookLogin();
   var result = await login.logIn(['email']);
@@ -229,6 +451,7 @@ Widget build(BuildContext context) {
   
 
   return new Scaffold(    
+    
     body: Container(
       decoration: BoxDecoration(
   gradient: LinearGradient(
@@ -271,13 +494,12 @@ Widget build(BuildContext context) {
                   child: new Row (
                                           mainAxisAlignment: MainAxisAlignment.center,
                                           mainAxisSize: MainAxisSize.min,
-
                                           children: <Widget>[
                                             new Text('Sesión con Google   ', style: TextStyle(fontSize: 20, color: Colors.red)), 
                                             new Icon(FontAwesomeIcons.google, color: Colors.red,)
                                           ],
                                         )
-                ), */  
+                ), 
 
                 RaisedButton(
                   onPressed: (){addlogin();},  
@@ -292,7 +514,7 @@ Widget build(BuildContext context) {
                                             new Icon(FontAwesomeIcons.google, color: Colors.red,)
                                           ],
                                         )
-                ),
+                ),*/
 
           ],
         ),

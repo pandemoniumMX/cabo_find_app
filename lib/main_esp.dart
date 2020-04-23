@@ -1107,7 +1107,7 @@ final tabpages=<Widget>[
         items: <BottomNavigationBarItem>[
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.home,),title: Text("Inicio")),
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.fire,),title: Text("Promos")),
-    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.heart,),title: Text("Favoritos")),
+    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.solidHeart,),title: Text("Favoritos")),
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.userAlt,),title: Text("Cuenta")),
 
 
@@ -1118,6 +1118,7 @@ final tabpages=<Widget>[
 
       body: new PageView(
         controller: _c,
+        
         onPageChanged: (newPage){
           setState((){
             this._page=newPage;
