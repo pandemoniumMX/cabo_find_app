@@ -40,7 +40,7 @@ int _page = 0;
         backgroundColor: Colors.black,
         fixedColor: Color(0xff01969a),
         unselectedItemColor: Colors.black54,
-        showUnselectedLabels: true,
+        showUnselectedLabels: false,
         //unselectedIconTheme: Colors.grey,
 
         onTap: (index){

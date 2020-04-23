@@ -44,7 +44,8 @@ int _page = 0;
         backgroundColor: Colors.black,
         fixedColor: Color(0xff01969a),
         unselectedItemColor: Colors.black54,
-        showUnselectedLabels: true,
+        showUnselectedLabels: false,
+        
         //unselectedIconTheme: Colors.grey,
 
         onTap: (index){
@@ -53,7 +54,7 @@ int _page = 0;
         items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.pepperHot,),title: Text("Mexicano")),
         BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.pizzaSlice,),title: Text("Italiano")),
-        BottomNavigationBarItem(icon: Icon(Icons.favorite,),title: Text("Oriental")),
+        BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.userNinja,),title: Text("Oriental")),
         BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.fish,),title: Text("Mariscos")),
         BottomNavigationBarItem(icon: Icon(Icons.fastfood,),title: Text("Rápida")),
         BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.utensils,),title: Text("Otros")),

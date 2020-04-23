@@ -37,7 +37,7 @@ int _page = 0;
         backgroundColor: Colors.black,
         fixedColor: Color(0xff01969a),
         unselectedItemColor: Colors.black54,
-        showUnselectedLabels: true,
+        showUnselectedLabels: false,
         //unselectedIconTheme: Colors.grey,
 
         onTap: (index){
@@ -46,8 +46,8 @@ int _page = 0;
         items: <BottomNavigationBarItem>[
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.swimmer,),title: Text("Acuáticas")),
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.bicycle,),title: Text("Terrestres")),
-    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.telegramPlane,),title: Text("Aéreas")),
-    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.bookmark,),title: Text("Sitios")),
+    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.plane,),title: Text("Aéreas")),
+    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.placeOfWorship,),title: Text("Sitios")),
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.umbrellaBeach,),title: Text("Playas")),
 
 
