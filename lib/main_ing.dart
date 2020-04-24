@@ -115,7 +115,28 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
   final String _idioma = "espanol";
 
 List data;
+List portada;
 
+
+Future<String> getPortada() async {
+    var response = await http.get(
+        Uri.encodeFull(
+            "http://cabofind.com.mx/app_php/consultas_negocios/esp/list_portada.php"),
+
+        headers: {
+          "Accept": "application/json"
+        }
+    );
+
+    this.setState(
+            () {
+          portada = json.decode(
+              response.body);
+        });
+    
+
+    return "Success!";
+  }
 
    //final List<Todo> todos;
   Future<String> getData() async {
@@ -141,6 +162,7 @@ List data;
   @override
   void initState() {
     //addStringToSF();
+    this.getPortada();
     super.initState();
  _c =  new PageController(
       initialPage: _page,
@@ -585,13 +607,76 @@ List data;
 
     return  Scaffold(
 
-        appBar: new AppBar(
+        
+      bottomNavigationBar: FFNavigationBar(
+        
+        theme: FFNavigationBarTheme(
+          barBackgroundColor: Colors.white,
+          selectedItemBorderColor: Colors.white,
+          selectedItemBackgroundColor: Color(0xff01969a),
+          selectedItemIconColor: Colors.white,
+          selectedItemLabelColor: Colors.black,
+        ),
+        
+      
+        items: [
+          FFNavigationBarItem(
+            iconData: FontAwesomeIcons.home,
+            label: 'Home',
+          ),
+          FFNavigationBarItem(
+            iconData: FontAwesomeIcons.fire,
+            label: 'Deals',
+          ),
+          FFNavigationBarItem(
+            iconData: FontAwesomeIcons.solidHeart,
+            label: 'Favorites',
+          ),
+          FFNavigationBarItem(
+            iconData: FontAwesomeIcons.userAlt,
+            label: 'Profile',
+           ),
+          
+        ],
 
-        //enterTitle: true,
-        title:appBarTitle,
-        actions: <Widget>[
+        selectedIndex: selectedIndex,
+        onSelectTab: (index){
+          this._c.animateToPage(index,duration: const Duration(milliseconds: 10),curve: Curves.easeInOut);
+        },
+      ),
 
-              new InkResponse( 
+
+      body: NestedScrollView(
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return <Widget>[
+            SliverAppBar(
+              
+              expandedHeight: 250.0,
+              floating: true,
+              pinned: true,
+              automaticallyImplyLeading: true,
+              flexibleSpace: FlexibleSpaceBar(
+                titlePadding: EdgeInsets.all(10.0),
+                background:  GestureDetector(
+                  onTap: () {
+                  
+                  },
+                child: Image.network(
+                      portada[0]["POR_FOTO_ING"],
+                      fit: BoxFit.cover,
+                    ),
+                ),
+                  centerTitle: false,
+
+                  title: Text("Cabofind",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 28.0,
+                      )),
+                  ),
+              actions: <Widget>[
+
+                new InkResponse( 
                 onTap: () {
                 Navigator.push(
                     context,
@@ -719,56 +804,14 @@ List data;
                       .push(MaterialPageRoute<Null>(builder: (BuildContext context) {
                     return new Buscador_ing();
                   }));
-                }, ),  
+                }, ),        
+              ],    
+            ),
 
-          
-
-
-          
-
-        ],
-
-
-      ),
-      bottomNavigationBar: FFNavigationBar(
-        
-        theme: FFNavigationBarTheme(
-          barBackgroundColor: Colors.white,
-          selectedItemBorderColor: Colors.white,
-          selectedItemBackgroundColor: Color(0xff01969a),
-          selectedItemIconColor: Colors.white,
-          selectedItemLabelColor: Colors.black,
-        ),
-        
-      
-        items: [
-          FFNavigationBarItem(
-            iconData: FontAwesomeIcons.home,
-            label: 'Home',
-          ),
-          FFNavigationBarItem(
-            iconData: FontAwesomeIcons.fire,
-            label: 'Deals',
-          ),
-          FFNavigationBarItem(
-            iconData: FontAwesomeIcons.solidHeart,
-            label: 'Favorites',
-          ),
-          FFNavigationBarItem(
-            iconData: FontAwesomeIcons.userAlt,
-            label: 'Profile',
-           ),
-          
-        ],
-
-        selectedIndex: selectedIndex,
-        onSelectTab: (index){
-          this._c.animateToPage(index,duration: const Duration(milliseconds: 10),curve: Curves.easeInOut);
+            
+          ];
         },
-      ),
-
-
-      body: new PageView(
+        body: new PageView(
         controller: _c,
         
         onPageChanged: (newPage){
@@ -778,12 +821,15 @@ List data;
           });
         },
         children: <Widget>[
+          
           cuerpo,
           new Mis_promos_ing(),
           new Mis_favoritos_ing(),
           new Login_ing()
         ],
       ),
+      ),
+     
       
       
 

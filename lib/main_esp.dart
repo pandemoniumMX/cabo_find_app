@@ -134,7 +134,9 @@ class _MyHomePageState extends State<MyHomePages> {
   String toCurrency = "MXN";
   String multi;
   String result;
+  List portada;
  
+
 
   Icon actionIcon = new Icon(Icons.search);
 
@@ -159,6 +161,26 @@ class _MyHomePageState extends State<MyHomePages> {
     this.setState(
             () {
           data = json.decode(
+              response.body);
+        });
+    
+
+    return "Success!";
+  }
+
+  Future<String> getPortada() async {
+    var response = await http.get(
+        Uri.encodeFull(
+            "http://cabofind.com.mx/app_php/consultas_negocios/esp/list_portada.php"),
+
+        headers: {
+          "Accept": "application/json"
+        }
+    );
+
+    this.setState(
+            () {
+          portada = json.decode(
               response.body);
         });
     
@@ -256,6 +278,7 @@ class _MyHomePageState extends State<MyHomePages> {
 
     setupNotification();
     this.getData();
+    this.getPortada();
     
     
 
@@ -945,151 +968,7 @@ Widget _buildDropDownButton(String currencyCategory) {
 
     return  Scaffold(
 
-      /*
-      appBar: new AppBar(
-        
-        //enterTitle: true,
-        title:appBarTitle,
-        actions: <Widget>[  
-         
-              new InkResponse( 
-                onTap: () {//_makeStripePayment();
-                
-                Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (BuildContext context) => new Notificaciones()
-                        )
-                        );
-               },
-                child: Stack(
-                    children: <Widget>[
-                    /*Positioned(
-                      
-                                right: 2.0,
-                                bottom: 30,
-                                child: new Text('22',
-                                style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15.0, color: Colors.redAccent)),
-                              ),*/ 
-                    Positioned(
-                                height: 20,
-                                width: 20,
-                                right: 3.0,
-                                bottom: 28,
-                                child: new FloatingActionButton(
-                                  
-                                 child: new Text('',
-                                 style: TextStyle(fontWeight: FontWeight.bold,fontSize: 10.0, color: Colors.white)),
-                                 backgroundColor: Colors.red,
-                                  
-                                 
-                                ),
-                              ),             
-                    new Center(
-                      child: new Row(                   
-                        children: <Widget>[new Icon(FontAwesomeIcons.bell),
-                        Text("  ",                    
-                        style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25.0),
-                        ),
-                        ]
-                      ),
-                    ),
-                  ],
-                )
-                ),
-
-          
-              new InkResponse( 
-                onTap: () {
-                Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (BuildContext context) => new WeatherBuilder().build()
-                        )
-                        );
-               },
-                child: new Center(
-                  child: new Row(                   
-                    children: <Widget>[new Icon(FontAwesomeIcons.cloudSun),
-                    Text("   ",                    
-                    style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25.0),
-                    ),
-                    ]
-                  ),
-                )
-                ),
-          
-              new InkResponse( 
-                onTap: () {
-                Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (BuildContext context) => new Calculadora()
-                        )
-                        );
-               },
-                child: new Center(
-                  child: new Row(                   
-                    children: <Widget>[new Icon(FontAwesomeIcons.moneyBillAlt),
-                    Text("   ",                    
-                    style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25.0),
-                    ),
-                    ]
-                  ),
-                )
-                ),
-
-              new InkResponse(
-                onTap: () {
-                  addStringToSF();
-              //Navigator.of(context).pop();
-                Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (BuildContext context) => new MyHomePages_ing()
-                        )
-                        );
-               },
-                child: new Center(
-                  //padding: const EdgeInsets.all(13.0),
-                  
-                  child: new Container(
-                   decoration: BoxDecoration(
-                  borderRadius:BorderRadius.circular(8.0),
-                  image: DecorationImage(
-                      image: ExactAssetImage('assets/mexflag.png'),
-                      fit: BoxFit.fill,
-                    ),
-                  
-                      
-                      ),
-                      child: new Text("     ",
-                    
-                    style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25.0),
-                    ),
-                    
-                    
-
-                  ),
-                )
-                ),
-                new IconButton(
-                icon: actionIcon,
-                onPressed: () {
-                  //Use`Navigator` widget to push the second screen to out stack of screens
-                  Navigator.of(context)
-                      .push(MaterialPageRoute<Null>(builder: (BuildContext context) {
-                    return new Buscador();
-                  }));
-                }, ),        
-          
-
-              
-
-        ],
-
-
-      ),*/
+     
       bottomNavigationBar: FFNavigationBar(
         
         theme: FFNavigationBarTheme(
@@ -1128,32 +1007,6 @@ Widget _buildDropDownButton(String currencyCategory) {
         },
       ),
     
-      /*
-      bottomNavigationBar: new BottomNavigationBar(
-        currentIndex: _page,
-        backgroundColor: Colors.black,
-        fixedColor: Color(0xff01969a),
-        unselectedItemColor: Colors.black54,
-        showUnselectedLabels: false,
-        //unselectedIconTheme: Colors.grey,
-
-        onTap: (index){
-          this._c.animateToPage(index,duration: const Duration(milliseconds: 10),curve: Curves.easeInOut);
-        },
-        items: <BottomNavigationBarItem>[
-    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.home,),title: Text("Inicio")),
-    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.fire,),title: Text("Promos")),
-    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.solidHeart,),title: Text("Favoritos")),
-    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.userAlt,),title: Text("Cuenta")),
-
-
-      ],
-
-      )*/
-
-
-
-
       body: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
@@ -1167,12 +1020,10 @@ Widget _buildDropDownButton(String currencyCategory) {
                 titlePadding: EdgeInsets.all(10.0),
                 background:  GestureDetector(
                   onTap: () {
-                  final snackBar = SnackBar(content: Text("Tap"));
-
-                  Scaffold.of(context).showSnackBar(snackBar);
+                  
                   },
                 child: Image.network(
-                      "http://cabofind.com.mx/assets/img/Mensajes/QuedateEnCasa.jpg",
+                      portada[0]["POR_FOTO"],
                       fit: BoxFit.cover,
                     ),
                 ),

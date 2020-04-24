@@ -474,9 +474,13 @@ Widget build(BuildContext context) {
     
   ])),
       child: Center(
-        child: Column(
+        child: ListView(
+          shrinkWrap: false,
+          physics: BouncingScrollPhysics(),
           children: <Widget>[
-            SizedBox(height: 100.0,),
+            Column(children: <Widget>[
+
+              SizedBox(height: 100.0,),
             ClipRRect(borderRadius: BorderRadius.circular(8.0),child: Image.asset("assets/splash.png",fit: BoxFit.fill,width: 150.0,height: 150.0,)),
             SizedBox(height: 50.0,),
             Text("Creat your account",style: TextStyle(fontSize:25, color: Colors.white,fontWeight: FontWeight.bold ),),
@@ -540,6 +544,9 @@ Widget build(BuildContext context) {
                                           ],
                                         )
                 ),
+
+            ],)
+            
 
           ],
         ),

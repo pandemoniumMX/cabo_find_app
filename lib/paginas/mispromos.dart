@@ -277,7 +277,8 @@ Navigator.pushReplacement(
     return Scaffold(
      
       body: ListView(
-       
+    //shrinkWrap: true,
+    physics: BouncingScrollPhysics(),   
     children: <Widget>[                  
     Container(
       decoration: BoxDecoration(

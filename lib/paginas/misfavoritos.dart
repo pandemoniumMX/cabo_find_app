@@ -275,7 +275,8 @@ Navigator.pushReplacement(
     return Scaffold(
      
       body: ListView(
-       
+    //shrinkWrap: true,
+    physics: BouncingScrollPhysics(),   
     children: <Widget>[                  
     Container(
       decoration: BoxDecoration(
@@ -317,6 +318,7 @@ class _States extends State<Login3> {
   ])),
       child: Center(
         child: Column(
+         
           children: <Widget>[
             SizedBox(height: 100.0,),
             ClipRRect(borderRadius: BorderRadius.circular(8.0),child: Image.asset("assets/splash.png",fit: BoxFit.fill,width: 150.0,height: 150.0,)),

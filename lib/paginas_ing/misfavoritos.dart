@@ -328,11 +328,11 @@ class _States extends State<Login3> {
           children: <Widget>[
             SizedBox(height: 100.0,),
             ClipRRect(borderRadius: BorderRadius.circular(8.0),child: Image.asset("assets/splash.png",fit: BoxFit.fill,width: 150.0,height: 150.0,)),
-            SizedBox(height: 50.0,),
+            SizedBox(height: 25.0,),
             Text("Creat your account",style: TextStyle(fontSize:25, color: Colors.white,fontWeight: FontWeight.bold ),),
             Text("To add favorites!",style: TextStyle(fontSize:25, color: Colors.white,fontWeight: FontWeight.bold ),),
-            SizedBox(height: 50.0,),
-            ClipRRect(borderRadius: BorderRadius.circular(8.0),child: Image.asset("assets/corazon2.png",fit: BoxFit.fill,width: 80.0,height: 80.0,)),
+            SizedBox(height: 25.0,),
+            Flexible(child: ClipRRect(borderRadius: BorderRadius.circular(8.0),child: Image.asset("assets/corazon2.png",fit: BoxFit.fill,width: 80.0,height: 80.0,))),
             
             
 

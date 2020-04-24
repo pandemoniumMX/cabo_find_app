@@ -868,7 +868,7 @@ Widget resenasection = Column(
      // height:  MediaQuery.of(context).size.height,
       children: <Widget>[
     new ListView.builder(  
-         shrinkWrap: true,
+         //shrinkWrap: true,
         physics: BouncingScrollPhysics(),
           itemCount: data_resena == null ? 0 : data_resena.length,  
          itemBuilder: (BuildContext context, int index) {  
