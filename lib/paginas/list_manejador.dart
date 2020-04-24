@@ -206,14 +206,14 @@ String id_n = data[index]["ID_NEGOCIO"];
                     ),
                   
                 Positioned(
-                        right: 0.0,
-                        bottom: 165.0,
+                        right: -8.0,
+                        bottom: 170.0,
                         child: new FloatingActionButton(
                           child: new Image.asset(
                         "assets/premium1.png",
                         fit: BoxFit.cover,
-                        width: 50.0,
-                        height: 50.0,
+                        width: 35.0,
+                        height: 35.0,
 
                       ),
                           backgroundColor: Colors.transparent,
@@ -234,14 +234,14 @@ String id_n = data[index]["ID_NEGOCIO"];
                               ),
 
                 Positioned(
-                        right: -5.0,
-                        bottom: -5.0,
+                        right: -8.0,
+                        bottom: -8.0,
                         child: new FloatingActionButton(
                           child: new Image.asset(
                         "assets/corazon2.png",
                         fit: BoxFit.cover,
-                        width: 45.0,
-                        height: 45.0,
+                        width: 35.0,
+                        height: 35.0,
                         
 
                       ),
@@ -252,11 +252,11 @@ String id_n = data[index]["ID_NEGOCIO"];
                         ),
                       ), 
                 Positioned(
-                                right: -5,
-                                bottom: -5,
+                                right: -8,
+                                bottom: -8,
                                 child: new FloatingActionButton(                                
                                  child: new Text( data[index]["NEG_RECOMENDACIONES"],
-                                 style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15.0, color: Colors.black)),
+                                 style: TextStyle(fontWeight: FontWeight.bold,fontSize: 10.0, color: Colors.black)),
                                  elevation: 0.0,
                                  backgroundColor: Colors.transparent,
                                  onPressed: (){insertFavorite(id_n);
@@ -369,14 +369,14 @@ String id_n = databaja[index]["ID_NEGOCIO"];
                     ),
 
                 Positioned(
-                        right: -5.0,
-                        bottom: -5.0,
+                        right: -8.0,
+                        bottom: -8.0,
                         child: new FloatingActionButton(
                           child: new Image.asset(
                         "assets/corazon2.png",
                         fit: BoxFit.cover,
-                        width: 45.0,
-                        height: 45.0,
+                        width: 35.0,
+                        height: 35.0,
 
                       ),
                           elevation: 0.0,
@@ -387,12 +387,12 @@ String id_n = databaja[index]["ID_NEGOCIO"];
                       ),
                 Positioned(
                                 
-                                right: -5,
-                                bottom: -5,
+                                right: -8,
+                                bottom: -8,
                                 child: new FloatingActionButton(
                                   
                                  child: new Text(databaja[index]["NEG_RECOMENDACIONES"],
-                                 style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15.0, color: Colors.black)),
+                                 style: TextStyle(fontWeight: FontWeight.bold,fontSize: 10.0, color: Colors.black)),
                                  elevation: 0.0,
                                  backgroundColor: Colors.transparent,
                                  onPressed: (){insertFavorite(id_n);
