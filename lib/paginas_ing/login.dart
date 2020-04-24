@@ -302,7 +302,7 @@ final imagenfb = profile[ 'picture']["data"]["url"];
 
 var response = await http.get(
         Uri.encodeFull(
-            'http://cabofind.com.mx/app_php/APIs/esp/insert_usuarios.php?NOMBRE=${nombresfb},${apellidosfb}&CORREO=${correofb}&FOTO=${imagenfb}&NOT=true&IDIOMA=ESP'),
+            'http://cabofind.com.mx/app_php/APIs/esp/insert_usuarios.php?NOMBRE=${nombresfb },${apellidosfb}&CORREO=${correofb}&FOTO=${imagenfb}&NOT=true&IDIOMA=ESP'),
 
         headers: {
           "Accept": "application/json"
@@ -510,7 +510,7 @@ Widget build(BuildContext context) {
                                           ],
                                         )
                 ), 
-*/
+
                 RaisedButton(
                   onPressed: (){addlogin();},  
                   shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
@@ -525,7 +525,7 @@ Widget build(BuildContext context) {
                                           ],
                                         )
                 ),
-
+*/
                 RaisedButton(
                   onPressed: (){_launchURL();},  
                   shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),

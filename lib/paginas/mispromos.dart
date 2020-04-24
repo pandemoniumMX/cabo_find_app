@@ -237,7 +237,7 @@ Navigator.pushReplacement(
                       ),
                           elevation: 0.0,
                           backgroundColor: Colors.transparent,
-                           onPressed: (){deletefav(id_n);},
+                           onPressed: (){deletefav(id_n);_loadUser();},
 
                         ),
                         

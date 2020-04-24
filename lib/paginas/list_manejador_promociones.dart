@@ -239,7 +239,9 @@ appBar: new AppBar(
                                style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15.0, color: Colors.black)),
                                elevation: 0.0,
                               backgroundColor: Colors.transparent,
-                               onPressed: (){insertRecomendacion(id_c);},
+                               onPressed: (){insertRecomendacion(id_c);
+                               getData();
+                               },
                               ),
                             ), 
 ],

@@ -394,7 +394,10 @@ String id_n = databaja[index]["ID_NEGOCIO"];
                                  style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15.0, color: Colors.black)),
                                  elevation: 0.0,
                                  backgroundColor: Colors.transparent,
-                                 onPressed: (){insertFavorite(id_n);},
+                                 onPressed: (){insertFavorite(id_n);
+                                 getData();
+                                 getDatabaja();
+                                 },
                                  
                                 ),
                               ),              
