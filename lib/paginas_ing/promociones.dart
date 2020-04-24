@@ -1,3 +1,4 @@
+import 'package:cabofind/paginas_ing/list_manejador_promociones.dart';
 import 'package:cabofind/paginas_listas_ing/list_promociones_actividades.dart';
 import 'package:cabofind/paginas_listas_ing/list_promociones_bares.dart';
 import 'package:cabofind/paginas_listas_ing/list_promociones_compras.dart';
@@ -66,12 +67,13 @@ int _page = 0;
           });
         },
         children: <Widget>[
-          new Promociones_restaurantes_ing(),
-          new Promociones_bares_ing(),
-          new Promociones_actividades_ing(),
-          new Promociones_compras_ing(),
-          new Promociones_salud_ing(),
-          new Promociones_servicios_ing(),
+          new Manejador_promociones_ing(cat: new Categoria(60)),
+          new Manejador_promociones_ing(cat: new Categoria(62)),
+          new Manejador_promociones_ing(cat: new Categoria(63)),
+          new Manejador_promociones_ing(cat: new Categoria(61)),
+          new Manejador_promociones_ing(cat: new Categoria(69)),
+          new Manejador_promociones_ing(cat: new Categoria(59)),
+          new Manejador_promociones_ing(cat: new Categoria(70)),
         ],
       ),
     );

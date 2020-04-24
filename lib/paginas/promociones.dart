@@ -68,7 +68,6 @@ int _page = 0;
           new Manejador_promociones(cat: new Categoria(61)),
           new Manejador_promociones(cat: new Categoria(69)),
           new Manejador_promociones(cat: new Categoria(59)),
-          new Manejador_promociones(cat: new Categoria(70)),
         ],
       ),
     );

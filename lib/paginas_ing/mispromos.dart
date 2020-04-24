@@ -5,8 +5,6 @@ import 'package:cabofind/paginas/publicacion_detalle.dart';
 import 'package:cabofind/paginas/usuario.dart';
 
 import 'package:cabofind/utilidades/classes.dart';
-import 'package:device_info/device_info.dart';
-import 'package:devicelocale/devicelocale.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
@@ -18,11 +16,11 @@ import 'package:http/http.dart' as http;
 
 import '../main.dart';
 
-class Mis_promos extends StatefulWidget {
+class Mis_promos_ing extends StatefulWidget {
 @override
 _Compras createState() => new _Compras();}
 
-class _Compras extends State<Mis_promos> {
+class _Compras extends State<Mis_promos_ing> {
 bool isLoggedIn=false;
 final GlobalKey<State> _keyLoader = new GlobalKey<State>();
 void initState() {
@@ -170,12 +168,12 @@ Future<String> deletefav(id_n) async {
 
   void showFavorites() {
       Fluttertoast.showToast(
-          msg: "Borrado correctamente!",
+          msg: "Deleted!",
           toastLength: Toast.LENGTH_SHORT,
           backgroundColor: Color(0xffED393A),
           textColor: Colors.white,
           timeInSecForIos: 1);
-    }  
+    }    
 
 Future<Map> _cerrarsesion() async {
 final SharedPreferences login = await SharedPreferences.getInstance();
@@ -215,7 +213,7 @@ Navigator.pushReplacement(
                       children: <Widget>[
                         
                       FadeInImage(
-                      image: NetworkImage(data[index]["GAL_FOTO"]),
+                      image: NetworkImage(data[index]["GAL_FOTO_ING"]),
                       fit: BoxFit.fill,
                       width:  MediaQuery.of(context).size.width * .20,
                       height: MediaQuery.of(context).size.height * .10,
@@ -223,7 +221,7 @@ Navigator.pushReplacement(
                       fadeInDuration: Duration(milliseconds: 200),
                       ),  
                         Flexible(
-                                  child: Text(data[index]["PUB_TITULO"],overflow: TextOverflow.ellipsis,softWrap: true,   
+                                  child: Text(data[index]["PUB_TITULO_ING"],overflow: TextOverflow.ellipsis,softWrap: true,   
                                   style:TextStyle(fontWeight: FontWeight.bold,fontSize: 20.0, color: Colors.black,)),
                               ),
 
@@ -286,7 +284,7 @@ Navigator.pushReplacement(
           Color(0xff01969a),
           Colors.white,          
         ])),
-      child: Text("Mis Promos",style: TextStyle(fontSize:40, color: Colors.white,fontWeight: FontWeight.bold ),)),
+      child: Text("My Deals",style: TextStyle(fontSize:40, color: Colors.white,fontWeight: FontWeight.bold ),)),
   
       estructura,
 
@@ -323,8 +321,8 @@ class _State extends State<Login2> {
             SizedBox(height: 100.0,),
             ClipRRect(borderRadius: BorderRadius.circular(8.0),child: Image.asset("assets/splash.png",fit: BoxFit.fill,width: 150.0,height: 150.0,)),
             SizedBox(height: 50.0,),
-            Text("Crea tu cuenta",style: TextStyle(fontSize:25, color: Colors.white,fontWeight: FontWeight.bold ),),
-            Text("Para agregar tus promos!",style: TextStyle(fontSize:25, color: Colors.white,fontWeight: FontWeight.bold ),),
+            Text("Creat your account",style: TextStyle(fontSize:25, color: Colors.white,fontWeight: FontWeight.bold ),),
+            Text("To add deals!",style: TextStyle(fontSize:25, color: Colors.white,fontWeight: FontWeight.bold ),),
             SizedBox(height: 50.0,),
             ClipRRect(borderRadius: BorderRadius.circular(8.0),child: Image.asset("assets/fire2.png",fit: BoxFit.fill,width: 80.0,height: 80.0,)),
             

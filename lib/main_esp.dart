@@ -940,12 +940,7 @@ Widget _buildDropDownButton(String currencyCategory) {
     
 
     );
-final tabpages=<Widget>[
-    cuerpo,  
-    new Login(),    
 
-
-  ];
     return  Scaffold(
 
       

@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:cabofind/main_esp.dart';
 import 'package:cabofind/paginas/usuario.dart';
+import 'package:cabofind/paginas_ing/usuario.dart';
 
 import 'package:cabofind/utilidades/classes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -15,12 +16,13 @@ import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
 
 import '../main.dart';
+import '../main_ing.dart';
 
-class Login extends StatefulWidget {
+class Login_ing extends StatefulWidget {
 @override
 _Compras createState() => new _Compras();}
 
-class _Compras extends State<Login> {
+class _Compras extends State<Login_ing> {
 bool isLoggedIn=false;
 final GlobalKey<State> _keyLoader = new GlobalKey<State>();
 void initState() {
@@ -64,7 +66,7 @@ Widget build(BuildContext context) {
          future: sesionLog(),
          builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
            if (snapshot.hasData) {
-             return snapshot.data ?  Usuario(usuarios: new Users("testing@gmail.com")) : Login2();
+             return snapshot.data ?  Usuario_ing(usuarios: new Users("testing@gmail.com")) : Login2();
            }
            return Login2(); // noop, this builder is called again when the future completes
          },
@@ -118,7 +120,7 @@ login.clear();
 Navigator.pushReplacement(
                     context,
                     new MaterialPageRoute(
-                        builder: (BuildContext context) => new Myapp1()
+                        builder: (BuildContext context) => new MyApp_ing()
                         )
                         );
  
@@ -310,7 +312,7 @@ var response = await http.get(
   Navigator.pushReplacement(
                     context,
                     new MaterialPageRoute(
-                        builder: (BuildContext context) => new Myapp()
+                        builder: (BuildContext context) => new MyApp_ing()
                         )
                         );
   }  
@@ -332,7 +334,7 @@ var response = await http.get(
 
   var response = await http.get(
         Uri.encodeFull(
-            'http://cabofind.com.mx/app_php/APIs/esp/insert_usuarios.php?NOMBRE=${names}&CORREO=${correo}&FOTO=${picture}&NOT=true&IDIOMA=ESP'),
+            'http://cabofind.com.mx/app_php/APIs/esp/insert_usuarios.php?NOMBRE=${names}&CORREO=${correo}&FOTO=${picture}&NOT=true&IDIOMA=ING'),
 
         headers: {
           "Accept": "application/json"
@@ -342,7 +344,7 @@ var response = await http.get(
   Navigator.pushReplacement(
                     context,
                     new MaterialPageRoute(
-                        builder: (BuildContext context) => new Usuario(usuarios: new Users(correofb))
+                        builder: (BuildContext context) => new Usuario_ing(usuarios: new Users(correofb))
                         )
                         );
 
@@ -359,7 +361,7 @@ var response = await http.get(
   Navigator.pushReplacement(
                     context,
                     new MaterialPageRoute(
-                        builder: (BuildContext context) => new Myapp()
+                        builder: (BuildContext context) => new MyApp_ing()
                         )
                         );
 
@@ -477,8 +479,8 @@ Widget build(BuildContext context) {
             SizedBox(height: 100.0,),
             ClipRRect(borderRadius: BorderRadius.circular(8.0),child: Image.asset("assets/splash.png",fit: BoxFit.fill,width: 150.0,height: 150.0,)),
             SizedBox(height: 50.0,),
-            Text("Crea tu cuenta",style: TextStyle(fontSize:25, color: Colors.white,fontWeight: FontWeight.bold ),),
-            Text("Para más beneficios",style: TextStyle(fontSize:25, color: Colors.white,fontWeight: FontWeight.bold ),),
+            Text("Creat your account",style: TextStyle(fontSize:25, color: Colors.white,fontWeight: FontWeight.bold ),),
+            Text("To get more benefits",style: TextStyle(fontSize:25, color: Colors.white,fontWeight: FontWeight.bold ),),
             RaisedButton(
                   onPressed: (){
                   signInWithFacebook();
@@ -490,7 +492,7 @@ Widget build(BuildContext context) {
                                           mainAxisSize: MainAxisSize.min,
 
                                           children: <Widget>[
-                                            new Text('Sesión con Facebook', style: TextStyle(fontSize: 20, color: Colors.white)), 
+                                            new Text('Login with Facebook', style: TextStyle(fontSize: 20, color: Colors.white)), 
                                             new Icon(FontAwesomeIcons.facebookSquare, color: Colors.white,)
                                           ],
                                         )
@@ -508,7 +510,7 @@ Widget build(BuildContext context) {
                                           ],
                                         )
                 ), 
-
+*/
                 RaisedButton(
                   onPressed: (){addlogin();},  
                   shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
@@ -522,7 +524,8 @@ Widget build(BuildContext context) {
                                             new Icon(FontAwesomeIcons.google, color: Colors.red,)
                                           ],
                                         )
-                ),*/
+                ),
+
                 RaisedButton(
                   onPressed: (){_launchURL();},  
                   shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
@@ -532,7 +535,7 @@ Widget build(BuildContext context) {
                                           mainAxisSize: MainAxisSize.min,
 
                                           children: <Widget>[
-                                            new Text('Políticas de privacidad   ', style: TextStyle(fontSize: 20, color: Colors.black)), 
+                                            new Text('Cabofind privacy policies   ', style: TextStyle(fontSize: 20, color: Colors.black)), 
                                             new Icon(FontAwesomeIcons.userSecret, color: Colors.black,)
                                           ],
                                         )

@@ -11,7 +11,10 @@ import 'package:cabofind/paginas_ing/acercade.dart';
 import 'package:cabofind/paginas_ing/compras.dart';
 import 'package:cabofind/paginas_ing/descubre.dart';
 import 'package:cabofind/paginas_ing/educacion.dart';
+import 'package:cabofind/paginas_ing/login.dart';
 import 'package:cabofind/paginas_ing/maps.dart';
+import 'package:cabofind/paginas_ing/misfavoritos.dart';
+import 'package:cabofind/paginas_ing/mispromos.dart';
 import 'package:cabofind/paginas_ing/promociones.dart';
 import 'package:cabofind/paginas_ing/publicacion_detalle.dart';
 import 'package:cabofind/paginas_ing/publicaciones.dart';
@@ -138,7 +141,9 @@ List data;
   void initState() {
     //addStringToSF();
     super.initState();
-
+ _c =  new PageController(
+      initialPage: _page,
+    );
     fcmSubscribe(); 
     setupNotification();
     this.getData();
@@ -323,7 +328,8 @@ List data;
 
 
   }
-
+  int _page = 0;
+ PageController _c;
   Widget build(BuildContext context) {
    Widget _buildDropDownButton(String currencyCategory) {
     return DropdownButton(
@@ -348,161 +354,7 @@ List data;
     );
   }
 
-    
-    
-
-
-
-    return  Scaffold(
-
-        appBar: new AppBar(
-
-        //enterTitle: true,
-        title:appBarTitle,
-        actions: <Widget>[
-
-              new InkResponse( 
-                onTap: () {
-                Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (BuildContext context) => new Notificaciones_ing()
-                        )
-                        );
-               },
-                child: Stack(
-                    children: <Widget>[
-                    /*Positioned(
-                      
-                                right: 2.0,
-                                bottom: 30,
-                                child: new Text('22',
-                                style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15.0, color: Colors.redAccent)),
-                              ),*/ 
-                    Positioned(
-                                height: 20,
-                                width: 20,
-                                right: 3.0,
-                                bottom: 28,
-                                child: new FloatingActionButton(
-                                  
-                                  child: new Text('',
-                                 style: TextStyle(fontWeight: FontWeight.bold,fontSize: 10.0, color: Colors.white)),
-                                  backgroundColor: Colors.red,
-                                  
-                                 
-                                ),
-                              ),             
-                    new Center(
-                      child: new Row(                   
-                        children: <Widget>[new Icon(FontAwesomeIcons.bell),
-                        Text("  ",                    
-                        style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25.0),
-                        ),
-                        ]
-                      ),
-                    ),
-                  ],
-                )
-                ),
-
-          
-              new InkResponse( 
-                onTap: () {
-                Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (BuildContext context) => new WeatherBuilder().build()
-                        )
-                        );
-               },
-                child: new Center(
-                  child: new Row(                   
-                    children: <Widget>[new Icon(FontAwesomeIcons.cloudSun),
-                    Text("   ",                    
-                    style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25.0),
-                    ),
-                    ]
-                  ),
-                )
-                ),
-          
-              new InkResponse( 
-                onTap: () {
-                Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (BuildContext context) => new Calculadora_ing()
-                        )
-                        );
-               },
-                child: new Center(
-                  child: new Row(                   
-                    children: <Widget>[new Icon(FontAwesomeIcons.moneyBillAlt),
-                    Text("   ",                    
-                    style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25.0),
-                    ),
-                    ]
-                  ),
-                )
-                ),
-              new InkResponse(
-                onTap: () {
-                 addStringToSF();
-              Navigator.of(context).pop();
-                Navigator.pushReplacement(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (BuildContext context) => new Myapp()
-                        )
-                        );
-            },
-                child: new Center(
-                  //padding: const EdgeInsets.all(13.0),
-                  
-                  child: new Container(
-                   decoration: BoxDecoration(
-                  borderRadius:BorderRadius.circular(8.0),
-                  image: DecorationImage(
-                      image: ExactAssetImage('assets/usaflag.png'),
-                      fit: BoxFit.fill,
-                    ),
-                  
-                      
-                      ),
-                      child: new Text("     ",
-                    
-                    style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25.0),
-                    ),
-                    
-                    
-
-                  ),
-                )
-                ),
-
-                new IconButton(
-                icon: actionIcon,
-                onPressed: () {
-                  //Use`Navigator` widget to push the second screen to out stack of screens
-                  Navigator.of(context)
-                      .push(MaterialPageRoute<Null>(builder: (BuildContext context) {
-                    return new Buscador_ing();
-                  }));
-                }, ),  
-
-          
-
-
-          
-
-        ],
-
-
-      ),
-
-
-      body: Container(
+    Widget cuerpo = Container(
 
         
      // height: MediaQuery.of(context).size.height,
@@ -723,7 +575,198 @@ List data;
       crossAxisSpacing: 4.0,
     ),
 
-    ),
+    );
+    
+
+
+
+    return  Scaffold(
+
+        appBar: new AppBar(
+
+        //enterTitle: true,
+        title:appBarTitle,
+        actions: <Widget>[
+
+              new InkResponse( 
+                onTap: () {
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Notificaciones_ing()
+                        )
+                        );
+               },
+                child: Stack(
+                    children: <Widget>[
+                    /*Positioned(
+                      
+                                right: 2.0,
+                                bottom: 30,
+                                child: new Text('22',
+                                style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15.0, color: Colors.redAccent)),
+                              ),*/ 
+                    Positioned(
+                                height: 20,
+                                width: 20,
+                                right: 3.0,
+                                bottom: 28,
+                                child: new FloatingActionButton(
+                                  
+                                  child: new Text('',
+                                 style: TextStyle(fontWeight: FontWeight.bold,fontSize: 10.0, color: Colors.white)),
+                                  backgroundColor: Colors.red,
+                                  
+                                 
+                                ),
+                              ),             
+                    new Center(
+                      child: new Row(                   
+                        children: <Widget>[new Icon(FontAwesomeIcons.bell),
+                        Text("  ",                    
+                        style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25.0),
+                        ),
+                        ]
+                      ),
+                    ),
+                  ],
+                )
+                ),
+
+          
+              new InkResponse( 
+                onTap: () {
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new WeatherBuilder().build()
+                        )
+                        );
+               },
+                child: new Center(
+                  child: new Row(                   
+                    children: <Widget>[new Icon(FontAwesomeIcons.cloudSun),
+                    Text("   ",                    
+                    style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25.0),
+                    ),
+                    ]
+                  ),
+                )
+                ),
+          
+              new InkResponse( 
+                onTap: () {
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Calculadora_ing()
+                        )
+                        );
+               },
+                child: new Center(
+                  child: new Row(                   
+                    children: <Widget>[new Icon(FontAwesomeIcons.moneyBillAlt),
+                    Text("   ",                    
+                    style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25.0),
+                    ),
+                    ]
+                  ),
+                )
+                ),
+              new InkResponse(
+                onTap: () {
+                 addStringToSF();
+              Navigator.of(context).pop();
+                Navigator.pushReplacement(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Myapp()
+                        )
+                        );
+            },
+                child: new Center(
+                  //padding: const EdgeInsets.all(13.0),
+                  
+                  child: new Container(
+                   decoration: BoxDecoration(
+                  borderRadius:BorderRadius.circular(8.0),
+                  image: DecorationImage(
+                      image: ExactAssetImage('assets/usaflag.png'),
+                      fit: BoxFit.fill,
+                    ),
+                  
+                      
+                      ),
+                      child: new Text("     ",
+                    
+                    style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25.0),
+                    ),
+                    
+                    
+
+                  ),
+                )
+                ),
+
+                new IconButton(
+                icon: actionIcon,
+                onPressed: () {
+                  //Use`Navigator` widget to push the second screen to out stack of screens
+                  Navigator.of(context)
+                      .push(MaterialPageRoute<Null>(builder: (BuildContext context) {
+                    return new Buscador_ing();
+                  }));
+                }, ),  
+
+          
+
+
+          
+
+        ],
+
+
+      ),
+      bottomNavigationBar: new BottomNavigationBar(
+        currentIndex: _page,
+        backgroundColor: Colors.black,
+        fixedColor: Color(0xff01969a),
+        unselectedItemColor: Colors.black54,
+        showUnselectedLabels: false,
+        //unselectedIconTheme: Colors.grey,
+
+        onTap: (index){
+          this._c.animateToPage(index,duration: const Duration(milliseconds: 10),curve: Curves.easeInOut);
+        },
+        items: <BottomNavigationBarItem>[
+    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.home,),title: Text("Home")),
+    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.fire,),title: Text("Deals")),
+    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.solidHeart,),title: Text("Favorites")),
+    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.userAlt,),title: Text("Profile")),
+
+
+      ],
+
+      ),
+
+
+      body: new PageView(
+        controller: _c,
+        
+        onPageChanged: (newPage){
+          setState((){
+            this._page=newPage;
+          });
+        },
+        children: <Widget>[
+          cuerpo,
+          new Mis_promos_ing(),
+          new Mis_favoritos_ing(),
+          new Login_ing()
+        ],
+      ),
+      
+      
 
         );
   }

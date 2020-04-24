@@ -1,9 +1,10 @@
 import 'dart:convert';
 
 import 'package:cabofind/main_esp.dart';
+import 'package:cabofind/main_ing.dart';
 import 'package:cabofind/paginas/publicacion_detalle.dart';
 import 'package:cabofind/paginas/usuario.dart';
-
+import 'package:flutter/services.dart';
 import 'package:cabofind/utilidades/classes.dart';
 import 'package:device_info/device_info.dart';
 import 'package:devicelocale/devicelocale.dart';
@@ -17,12 +18,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 import '../main.dart';
+import 'empresa_detalle.dart';
+import 'login.dart';
+class Mis_favoritos_ing extends StatefulWidget {
+  @override
+  _State createState() => _State();
+}
 
-class Mis_promos extends StatefulWidget {
-@override
-_Compras createState() => new _Compras();}
-
-class _Compras extends State<Mis_promos> {
+class _State extends State<Mis_favoritos_ing> {
 bool isLoggedIn=false;
 final GlobalKey<State> _keyLoader = new GlobalKey<State>();
 void initState() {
@@ -66,9 +69,9 @@ Widget build(BuildContext context) {
          future: sesionLog(),
          builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
            if (snapshot.hasData) {
-             return snapshot.data ?  Usuario(usuarios: new Users("testing@gmail.com")) : Login2();
+             return snapshot.data ?  Usuario2(usuarios: new Users("testing@gmail.com")) : Login3();
            }
-           return Login2(); // noop, this builder is called again when the future completes
+           return Login3(); // noop, this builder is called again when the future completes
          },
        )
     );
@@ -77,10 +80,10 @@ Widget build(BuildContext context) {
 
 
 
-class Usuario extends StatefulWidget {
+class Usuario2 extends StatefulWidget {
   final Users usuarios;
   
-  Usuario({Key key, @required this.usuarios}) : super(
+  Usuario2({Key key, @required this.usuarios}) : super(
     key: key);
   @override
   _UsuarioState createState() => _UsuarioState();
@@ -88,7 +91,7 @@ class Usuario extends StatefulWidget {
 
 
 
-class _UsuarioState extends State<Usuario> {
+class _UsuarioState extends State<Usuario2> {
 
   List data;
 
@@ -98,37 +101,22 @@ class _UsuarioState extends State<Usuario> {
 
   }
 
-  Future<Map> _loadUser() async {
-final SharedPreferences login = await SharedPreferences.getInstance();
- String _status = "";
- String _mail ="";
- String _mail2 ="";
- _status = login.getString("stringLogin");
- _mail2 = login.getString("stringMail"); 
- 
- print(_mail2) ;
-  
-
-  var response = await http.get(
-        Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/list_promos_api.php?CORREO=$_mail2"),  
-       
-        headers: {
-          "Accept": "application/json"
-        }
-    );
-
-    this.setState(
-            () {
-          data = json.decode(
-              response.body);
-        });            
-  
-}
   
 Future<String> deletefav(id_n) async {
 
-   
+    String currentLocale;
+    try {
+      currentLocale = await Devicelocale.currentLocale;
+      print(currentLocale);
+    } on PlatformException {
+      print("Error obtaining current locale");
+    }
+
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+    print('Running on ${androidInfo.id}');
+        print('Running on ${androidInfo.fingerprint}');
+             
  final SharedPreferences login = await SharedPreferences.getInstance();
  String _status = "";
  String _mail ="";
@@ -144,7 +132,7 @@ Future<String> deletefav(id_n) async {
 
       var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/delete_recomendacion_publicacion.php?ID=${id_n}&CORREO=${_mail}"),
+            "http://cabofind.com.mx/app_php/APIs/esp/delete_recomendacion_negocio.php?ID=${id_n}&CORREO=${_mail}"),
 
         headers: {
           "Accept": "application/json"
@@ -161,7 +149,7 @@ Future<String> deletefav(id_n) async {
       Navigator.pushReplacement(
                     context,
                     new MaterialPageRoute(
-                        builder: (BuildContext context) => Myapp1()
+                        builder: (BuildContext context) => MyApp_ing()
                         )
                         );            
      
@@ -170,12 +158,39 @@ Future<String> deletefav(id_n) async {
 
   void showFavorites() {
       Fluttertoast.showToast(
-          msg: "Borrado correctamente!",
+          msg: "Deleted!",
           toastLength: Toast.LENGTH_SHORT,
           backgroundColor: Color(0xffED393A),
           textColor: Colors.white,
           timeInSecForIos: 1);
-    }  
+    }
+
+  Future<Map> _loadUser() async {
+final SharedPreferences login = await SharedPreferences.getInstance();
+ String _status = "";
+ String _mail ="";
+ String _mail2 ="";
+ _status = login.getString("stringLogin");
+ _mail2 = login.getString("stringMail"); 
+ 
+ print(_mail2) ;
+  
+
+  var response = await http.get(
+        Uri.encodeFull(
+            "http://cabofind.com.mx/app_php/APIs/esp/list_favoritos_api.php?CORREO=$_mail2"),  
+       
+        headers: {
+          "Accept": "application/json"
+        }
+    );
+    this.setState(
+            () {
+          data = json.decode(
+              response.body);
+        });            
+  }
+
 
 Future<Map> _cerrarsesion() async {
 final SharedPreferences login = await SharedPreferences.getInstance();
@@ -190,6 +205,8 @@ Navigator.pushReplacement(
                         );
  
 }
+
+  
   @override
   Widget build(BuildContext context) {
 
@@ -198,7 +215,7 @@ Navigator.pushReplacement(
       physics: BouncingScrollPhysics(),
         itemCount: data == null ? 0 : data.length,
         itemBuilder: (BuildContext context, int index) {
-      String id_n = data[index]["ID_PUBLICACION"];
+      String id_n = data[index]["ID_NEGOCIO"];
           return new ListTile(
 
 
@@ -223,7 +240,7 @@ Navigator.pushReplacement(
                       fadeInDuration: Duration(milliseconds: 200),
                       ),  
                         Flexible(
-                                  child: Text(data[index]["PUB_TITULO"],overflow: TextOverflow.ellipsis,softWrap: true,   
+                                  child: Text(data[index]["NEG_NOMBRE"],overflow: TextOverflow.ellipsis,softWrap: true,   
                                   style:TextStyle(fontWeight: FontWeight.bold,fontSize: 20.0, color: Colors.black,)),
                               ),
 
@@ -240,15 +257,7 @@ Navigator.pushReplacement(
                            onPressed: (){deletefav(id_n);},
 
                         ),
-                        
-                  
-
-                       
-
-
                       ],
-                        
-
 
                     ),
                   ],
@@ -260,12 +269,9 @@ Navigator.pushReplacement(
             ),
 
             onTap: () {
-            String id_n = data[index]["ID_NEGOCIO"];
-            String id = data[index]["ID_PUBLICACION"];
+            String id_sql = data[index]["ID_NEGOCIO"];
               Navigator.push(context, new MaterialPageRoute
-                (builder: (context) => new Publicacion_detalle_fin(
-              publicacion: new Publicacion(id_n,id),
-            )));
+                (builder: (context) => new Empresa_det_fin_ing(empresa: new Empresa(id_sql))));
 
             },
             
@@ -286,7 +292,7 @@ Navigator.pushReplacement(
           Color(0xff01969a),
           Colors.white,          
         ])),
-      child: Text("Mis Promos",style: TextStyle(fontSize:40, color: Colors.white,fontWeight: FontWeight.bold ),)),
+      child: Text("My Favorites",style: TextStyle(fontSize:40, color: Colors.white,fontWeight: FontWeight.bold ),)),
   
       estructura,
 
@@ -298,12 +304,12 @@ Navigator.pushReplacement(
   
 }
 
-class Login2 extends StatefulWidget {
+class Login3 extends StatefulWidget {
   @override
-  _State createState() => _State();
+  _States createState() => _States();
 }
 
-class _State extends State<Login2> {
+class _States extends State<Login3> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -323,10 +329,10 @@ class _State extends State<Login2> {
             SizedBox(height: 100.0,),
             ClipRRect(borderRadius: BorderRadius.circular(8.0),child: Image.asset("assets/splash.png",fit: BoxFit.fill,width: 150.0,height: 150.0,)),
             SizedBox(height: 50.0,),
-            Text("Crea tu cuenta",style: TextStyle(fontSize:25, color: Colors.white,fontWeight: FontWeight.bold ),),
-            Text("Para agregar tus promos!",style: TextStyle(fontSize:25, color: Colors.white,fontWeight: FontWeight.bold ),),
+            Text("Creat your account",style: TextStyle(fontSize:25, color: Colors.white,fontWeight: FontWeight.bold ),),
+            Text("To add favorites!",style: TextStyle(fontSize:25, color: Colors.white,fontWeight: FontWeight.bold ),),
             SizedBox(height: 50.0,),
-            ClipRRect(borderRadius: BorderRadius.circular(8.0),child: Image.asset("assets/fire2.png",fit: BoxFit.fill,width: 80.0,height: 80.0,)),
+            ClipRRect(borderRadius: BorderRadius.circular(8.0),child: Image.asset("assets/corazon2.png",fit: BoxFit.fill,width: 80.0,height: 80.0,)),
             
             
 

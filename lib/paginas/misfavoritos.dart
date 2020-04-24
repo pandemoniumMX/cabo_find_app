@@ -3,11 +3,14 @@ import 'dart:convert';
 import 'package:cabofind/main_esp.dart';
 import 'package:cabofind/paginas/publicacion_detalle.dart';
 import 'package:cabofind/paginas/usuario.dart';
-
+import 'package:flutter/services.dart';
 import 'package:cabofind/utilidades/classes.dart';
+import 'package:device_info/device_info.dart';
+import 'package:devicelocale/devicelocale.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -95,7 +98,56 @@ class _UsuarioState extends State<Usuario2> {
   this._loadUser();
 
   }
+Future<String> deletefav(id_n) async {
 
+                
+ final SharedPreferences login = await SharedPreferences.getInstance();
+ String _status = "";
+ String _mail ="";
+ _status = login.getString("stringLogin")?? '';
+ _mail = login.getString("stringMail")?? '';
+ print(_status);
+ print(_mail);
+ //String id = data[0]["ID_NEGOCIO"];
+ print(id_n);
+  // if (prefs.getString(_idioma) ?? 'stringValue' == "espanol")
+  if (_status == "True") {
+      showFavorites();
+
+      var response = await http.get(
+        Uri.encodeFull(
+            "http://cabofind.com.mx/app_php/APIs/esp/delete_recomendacion_negocio.php?ID=${id_n}&CORREO=${_mail}"),
+
+        headers: {
+          "Accept": "application/json"
+        }
+    );
+
+      //CircularProgressIndicator(value: 5.0,);
+      
+    }
+    else
+    {
+     //CircularProgressIndicator(value: 5.0,);
+     
+      Navigator.pushReplacement(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => Myapp1()
+                        )
+                        );            
+     
+  }    
+  }
+
+  void showFavorites() {
+      Fluttertoast.showToast(
+          msg: "Borrado correctamente!",
+          toastLength: Toast.LENGTH_SHORT,
+          backgroundColor: Color(0xffED393A),
+          textColor: Colors.white,
+          timeInSecForIos: 1);
+    }
   Future<Map> _loadUser() async {
 final SharedPreferences login = await SharedPreferences.getInstance();
  String _status = "";
@@ -147,7 +199,7 @@ Navigator.pushReplacement(
       physics: BouncingScrollPhysics(),
         itemCount: data == null ? 0 : data.length,
         itemBuilder: (BuildContext context, int index) {
-      
+      String id_n = data[index]["ID_NEGOCIO"];
           return new ListTile(
 
 
@@ -167,7 +219,7 @@ Navigator.pushReplacement(
                       image: NetworkImage(data[index]["GAL_FOTO"]),
                       fit: BoxFit.fill,
                       width:  MediaQuery.of(context).size.width * .20,
-                      height: MediaQuery.of(context).size.height * .15,
+                      height: MediaQuery.of(context).size.height * .10,
                       placeholder: AssetImage('android/assets/images/loading.gif'),
                       fadeInDuration: Duration(milliseconds: 200),
                       ),  
@@ -186,7 +238,7 @@ Navigator.pushReplacement(
                       ),
                           elevation: 0.0,
                           backgroundColor: Colors.transparent,
-                           onPressed: (){},
+                           onPressed: (){deletefav(id_n);},
 
                         ),
                         
