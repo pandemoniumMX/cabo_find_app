@@ -119,7 +119,7 @@ class Publicacionesfull extends State<Manejador_promociones_ing> {
 
 void showPromo() {
       Fluttertoast.showToast(
-          msg: "Added to your deals!",
+          msg: "Added to deals!",
           toastLength: Toast.LENGTH_SHORT,
           backgroundColor: Color(0xffF4A32C),
           textColor: Colors.white,

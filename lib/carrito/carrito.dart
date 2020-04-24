@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'cart_bloc.dart';
 import 'package:provider/provider.dart';
+import 'cart_bloc.dart';
 
 import 'cart_page.dart';
 
@@ -10,7 +10,7 @@ class Carrito extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<CartBloc>(
-        builder: (context) => CartBloc(),
+        create: (context) => CartBloc(),
         child: MaterialApp(
           title: 'Flutter Shopping Cart Demo',
           theme: ThemeData(

@@ -181,7 +181,7 @@ Navigator.pushReplacement(
                               Row(
                                 
                               children: <Widget>[
-                                Text("Configuración",style: TextStyle(fontSize:40, color: Colors.white,fontWeight: FontWeight.bold ),),]),
+                                Text("Perfil",style: TextStyle(fontSize:40, color: Colors.white,fontWeight: FontWeight.bold ),),]),
 
                               Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -507,7 +507,7 @@ Widget build(BuildContext context) {
                                             new Icon(FontAwesomeIcons.google, color: Colors.red,)
                                           ],
                                         )
-                ), 
+                ), */
 
                 RaisedButton(
                   onPressed: (){addlogin();},  
@@ -522,7 +522,7 @@ Widget build(BuildContext context) {
                                             new Icon(FontAwesomeIcons.google, color: Colors.red,)
                                           ],
                                         )
-                ),*/
+                ),
                 RaisedButton(
                   onPressed: (){_launchURL();},  
                   shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),

@@ -38,6 +38,7 @@ import 'package:cabofind/utilidades/classes.dart';
 import 'package:cabofind/utilidades/notificaciones.dart';
 import 'package:cabofind/utilidades/rutas.dart';
 import 'package:cabofind/weather/weather/weather_builder.dart';
+import 'package:ff_navigation_bar/ff_navigation_bar.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -238,6 +239,7 @@ class _MyHomePageState extends State<MyHomePages> {
 */
   //final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>(); 
   int _page = 0;
+  int selectedIndex = 0;
  PageController _c;
  @override
   void initState() {
@@ -943,7 +945,7 @@ Widget _buildDropDownButton(String currencyCategory) {
 
     return  Scaffold(
 
-      
+      /*
       appBar: new AppBar(
         
         //enterTitle: true,
@@ -1087,7 +1089,46 @@ Widget _buildDropDownButton(String currencyCategory) {
         ],
 
 
+      ),*/
+      bottomNavigationBar: FFNavigationBar(
+        
+        theme: FFNavigationBarTheme(
+          barBackgroundColor: Colors.white,
+          selectedItemBorderColor: Colors.white,
+          selectedItemBackgroundColor: Color(0xff01969a),
+          selectedItemIconColor: Colors.white,
+          selectedItemLabelColor: Colors.black,
+        ),
+        
+      
+        items: [
+          FFNavigationBarItem(
+            iconData: FontAwesomeIcons.home,
+            label: 'Inicio',
+          ),
+          FFNavigationBarItem(
+            iconData: FontAwesomeIcons.fire,
+            label: 'Promos',
+          ),
+          FFNavigationBarItem(
+            iconData: FontAwesomeIcons.solidHeart,
+            label: 'Favoritos',
+          ),
+          FFNavigationBarItem(
+            iconData: FontAwesomeIcons.userAlt,
+            label: 'Cuenta',
+           ),
+          
+        ],
+
+        selectedIndex: selectedIndex,
+
+        onSelectTab: (index){
+          this._c.animateToPage(index,duration: const Duration(milliseconds: 10),curve: Curves.easeInOut);
+        },
       ),
+    
+      /*
       bottomNavigationBar: new BottomNavigationBar(
         currentIndex: _page,
         backgroundColor: Colors.black,
@@ -1108,24 +1149,197 @@ Widget _buildDropDownButton(String currencyCategory) {
 
       ],
 
-      ),
+      )*/
 
 
-      body: new PageView(
+
+
+      body: NestedScrollView(
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return <Widget>[
+            SliverAppBar(
+              
+              expandedHeight: 250.0,
+              floating: true,
+              pinned: true,
+              automaticallyImplyLeading: true,
+              flexibleSpace: FlexibleSpaceBar(
+                titlePadding: EdgeInsets.all(10.0),
+                background:  GestureDetector(
+                  onTap: () {
+                  final snackBar = SnackBar(content: Text("Tap"));
+
+                  Scaffold.of(context).showSnackBar(snackBar);
+                  },
+                child: Image.network(
+                      "http://cabofind.com.mx/assets/img/Mensajes/QuedateEnCasa.jpg",
+                      fit: BoxFit.cover,
+                    ),
+                ),
+                  centerTitle: false,
+
+                  title: Text("Cabofind",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 28.0,
+                      )),
+                  ),
+              actions: <Widget>[
+                new InkResponse( 
+                onTap: () {//_makeStripePayment();
+                
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Notificaciones()
+                        )
+                        );
+               },
+                child: Stack(
+                    children: <Widget>[
+                    /*Positioned(
+                      
+                                right: 2.0,
+                                bottom: 30,
+                                child: new Text('22',
+                                style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15.0, color: Colors.redAccent)),
+                              ),*/ 
+                    Positioned(
+                                height: 20,
+                                width: 20,
+                                right: 3.0,
+                                bottom: 28,
+                                child: new FloatingActionButton(
+                                  
+                                 child: new Text('',
+                                 style: TextStyle(fontWeight: FontWeight.bold,fontSize: 10.0, color: Colors.white)),
+                                 backgroundColor: Colors.red,
+                                  
+                                 
+                                ),
+                              ),             
+                    new Center(
+                      child: new Row(                   
+                        children: <Widget>[new Icon(FontAwesomeIcons.bell),
+                        Text("  ",                    
+                        style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25.0),
+                        ),
+                        ]
+                      ),
+                    ),
+                  ],
+                )
+                ),
+
+          
+              new InkResponse( 
+                onTap: () {
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new WeatherBuilder().build()
+                        )
+                        );
+               },
+                child: new Center(
+                  child: new Row(                   
+                    children: <Widget>[new Icon(FontAwesomeIcons.cloudSun),
+                    Text("   ",                    
+                    style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25.0),
+                    ),
+                    ]
+                  ),
+                )
+                ),
+          
+              new InkResponse( 
+                onTap: () {
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Calculadora()
+                        )
+                        );
+               },
+                child: new Center(
+                  child: new Row(                   
+                    children: <Widget>[new Icon(FontAwesomeIcons.moneyBillAlt),
+                    Text("   ",                    
+                    style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25.0),
+                    ),
+                    ]
+                  ),
+                )
+                ),
+
+              new InkResponse(
+                onTap: () {
+                  addStringToSF();
+              //Navigator.of(context).pop();
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new MyHomePages_ing()
+                        )
+                        );
+               },
+                child: new Center(
+                  //padding: const EdgeInsets.all(13.0),
+                  
+                  child: new Container(
+                   decoration: BoxDecoration(
+                  borderRadius:BorderRadius.circular(8.0),
+                  image: DecorationImage(
+                      image: ExactAssetImage('assets/mexflag.png'),
+                      fit: BoxFit.fill,
+                    ),
+                  
+                      
+                      ),
+                      child: new Text("     ",
+                    
+                    style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25.0),
+                    ),
+                    
+                    
+
+                  ),
+                )
+                ),
+                new IconButton(
+                icon: actionIcon,
+                onPressed: () {
+                  //Use`Navigator` widget to push the second screen to out stack of screens
+                  Navigator.of(context)
+                      .push(MaterialPageRoute<Null>(builder: (BuildContext context) {
+                    return new Buscador();
+                  }));
+                }, ),        
+              ],    
+            ),
+
+            
+          ];
+        },
+        body: new PageView(
         controller: _c,
         
         onPageChanged: (newPage){
           setState((){
             this._page=newPage;
+            selectedIndex=newPage;
           });
         },
         children: <Widget>[
+          
           cuerpo,
           new Mis_promos(),
           new Mis_favoritos(),
           new Login()
         ],
       ),
+      ),
+      
 
         );
   }

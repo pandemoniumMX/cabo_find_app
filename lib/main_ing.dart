@@ -36,6 +36,7 @@ import 'package:cabofind/utilidades_ing/calculadora.dart';
 import 'package:cabofind/utilidades_ing/notificaciones.dart';
 import 'package:cabofind/utilidades_ing/rutas.dart';
 import 'package:cabofind/weather/weather/weather_builder.dart';
+import 'package:ff_navigation_bar/ff_navigation_bar.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -143,6 +144,7 @@ List data;
     super.initState();
  _c =  new PageController(
       initialPage: _page,
+      
     );
     fcmSubscribe(); 
     setupNotification();
@@ -329,6 +331,7 @@ List data;
 
   }
   int _page = 0;
+  int selectedIndex = 0;
  PageController _c;
   Widget build(BuildContext context) {
    Widget _buildDropDownButton(String currencyCategory) {
@@ -727,26 +730,41 @@ List data;
 
 
       ),
-      bottomNavigationBar: new BottomNavigationBar(
-        currentIndex: _page,
-        backgroundColor: Colors.black,
-        fixedColor: Color(0xff01969a),
-        unselectedItemColor: Colors.black54,
-        showUnselectedLabels: false,
-        //unselectedIconTheme: Colors.grey,
+      bottomNavigationBar: FFNavigationBar(
+        
+        theme: FFNavigationBarTheme(
+          barBackgroundColor: Colors.white,
+          selectedItemBorderColor: Colors.white,
+          selectedItemBackgroundColor: Color(0xff01969a),
+          selectedItemIconColor: Colors.white,
+          selectedItemLabelColor: Colors.black,
+        ),
+        
+      
+        items: [
+          FFNavigationBarItem(
+            iconData: FontAwesomeIcons.home,
+            label: 'Home',
+          ),
+          FFNavigationBarItem(
+            iconData: FontAwesomeIcons.fire,
+            label: 'Deals',
+          ),
+          FFNavigationBarItem(
+            iconData: FontAwesomeIcons.solidHeart,
+            label: 'Favorites',
+          ),
+          FFNavigationBarItem(
+            iconData: FontAwesomeIcons.userAlt,
+            label: 'Profile',
+           ),
+          
+        ],
 
-        onTap: (index){
+        selectedIndex: selectedIndex,
+        onSelectTab: (index){
           this._c.animateToPage(index,duration: const Duration(milliseconds: 10),curve: Curves.easeInOut);
         },
-        items: <BottomNavigationBarItem>[
-    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.home,),title: Text("Home")),
-    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.fire,),title: Text("Deals")),
-    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.solidHeart,),title: Text("Favorites")),
-    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.userAlt,),title: Text("Profile")),
-
-
-      ],
-
       ),
 
 
@@ -756,6 +774,7 @@ List data;
         onPageChanged: (newPage){
           setState((){
             this._page=newPage;
+            selectedIndex=newPage;
           });
         },
         children: <Widget>[
