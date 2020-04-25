@@ -238,7 +238,7 @@ var response = await http.get(
           toastLength: Toast.LENGTH_LONG,
           backgroundColor: Colors.blue,
           textColor: Colors.white,
-          timeInSecForIos:5);
+          timeInSecForIosWeb:5);
     }
     alertMercado(context,cts1,nombre1,numero1, _mySelection) async { 
       var total = int.parse(widget.costos.costo)+int.parse(cts1);

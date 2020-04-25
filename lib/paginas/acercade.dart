@@ -77,17 +77,7 @@ body: Center(
       Center(
         child: Padding(
           padding: const EdgeInsets.only(top:150.0),
-          child: FadeInImage(
-
-                       image: AssetImage('android/assets/images/cabofind.jpeg'),
-                       fit: BoxFit.cover,
-                       width: 150,
-                       height: 150,
-
-                       placeholder: AssetImage('android/assets/images/jar-loading.gif'),
-                       fadeInDuration: Duration(milliseconds: 200), 
-
-                     ),
+          child: ClipRRect(borderRadius: BorderRadius.circular(8.0),child: Image.asset("assets/splash.png",fit: BoxFit.cover,width: 150.0,height: 150.0,)),
         ),
       ),
       Text('Contacto',style: 

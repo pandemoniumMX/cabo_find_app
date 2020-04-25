@@ -336,7 +336,7 @@ void onLoginStatusChange(bool isLoggedIn){
           toastLength: Toast.LENGTH_SHORT,
           backgroundColor: Colors.blue,
           textColor: Colors.white,
-          timeInSecForIos: 1);
+          timeInSecForIosWeb: 1);
     }
     
     void reporte() {
@@ -345,7 +345,7 @@ void onLoginStatusChange(bool isLoggedIn){
           toastLength: Toast.LENGTH_SHORT,
           backgroundColor: Colors.blue,
           textColor: Colors.white,
-          timeInSecForIos: 1);
+          timeInSecForIosWeb: 1);
     }
 
 void initiateFacebookLogin() async{

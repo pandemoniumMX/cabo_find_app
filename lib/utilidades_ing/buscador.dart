@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'package:cabofind/paginas/empresa_detalle.dart';
-import 'package:cabofind/paginas/empresa_detalle_buscador.dart';
 import 'package:cabofind/paginas_ing/empresa_detalle.dart';
 import 'package:cabofind/utilidades/classes.dart';
 import 'package:flutter/material.dart';

@@ -1,4 +1,25 @@
 import 'package:flutter/material.dart';
+
+
+class Users {
+  final String correo; 
+
+  Users(this.correo);
+}
+
+class Categoria {
+  final int cat; 
+
+  Categoria(this.cat);
+}
+
+class Lista_manejador {
+  final int id_cat;
+  final int id_sub;  
+  Lista_manejador(this.id_cat,this.id_sub);
+
+}
+
 class Costos {
   final String paquete; 
   final String costo; 

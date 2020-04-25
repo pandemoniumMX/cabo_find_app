@@ -241,7 +241,7 @@ Future<String> insertPublicacioniOS() async {
           toastLength: Toast.LENGTH_SHORT,
           backgroundColor: Colors.blue,
           textColor: Colors.white,
-          timeInSecForIos: 1);
+          timeInSecForIosWeb: 1);
     }
 
 Widget videosection = Container(

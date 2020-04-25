@@ -114,7 +114,7 @@ class Detalles extends State<Reservacion_ing> {
           toastLength: Toast.LENGTH_LONG,
           backgroundColor: Colors.blue,
           textColor: Colors.white,
-          timeInSecForIos:5);
+          timeInSecForIosWeb:5);
     }
    
     alertPaypal(context,nombre1,numero1,correo1, _mySelection) async {  

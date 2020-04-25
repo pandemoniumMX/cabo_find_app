@@ -1,62 +1,75 @@
 
-import 'package:cabofind/paginas_listas/list_sal_belleza.dart';
-import 'package:cabofind/paginas_listas/list_sal_emergencia.dart';
-import 'package:cabofind/paginas_listas/list_sal_especialidades.dart';
-import 'package:cabofind/paginas_listas/list_sal_farmacias.dart';
-import 'package:cabofind/paginas_listas/list_sal_gimnasios.dart';
-import 'package:cabofind/paginas_listas/list_sal_hospitales.dart';
+import 'package:cabofind/utilidades/classes.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import 'list_manejador.dart';
+
 class Salud extends StatefulWidget {
-@override
-_Salud createState() => new _Salud();
+
+
+  @override
+_Restaurantes createState() => new _Restaurantes();
 }
 
-class _Salud extends State<Salud> {
+class _Restaurantes extends State<Salud> {
   int id=0;
+  int cat =69;//salud
+ 
 @override
-Widget build(BuildContext context) {
-  final tabpages=<Widget>[
-    new ListaHospitales(),
-    new ListaEspecialidades(),
-    new ListaFarmacias(),
-    new ListaBelleza(),
-    new ListaGimnasios(),
-    new ListaEmergencia(),
-  ];
-
-  final bnbi=<BottomNavigationBarItem>[
-    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.hospital,),title: Text("Hospitales")),    
-    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.hospitalSymbol,),title: Text("Consultorios")),
-    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.pills,),title: Text("Farmacias")),
-    BottomNavigationBarItem(icon: Icon(Icons.face,),title: Text("Belleza")),
-    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.dumbbell,),title: Text("Gimnasios")),
-    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.ambulance,),title: Text("Emergencia")),
-
-
-  ];
-
-
-
-  final bnb=BottomNavigationBar(
-
-    items: bnbi,
-    currentIndex:id ,
-    type: BottomNavigationBarType.fixed,
-    onTap: (int value){
-      setState(() {
-        id=value;
-      });
-    },
-  );
-
-  return new Scaffold(
-    body: tabpages[id],
-    bottomNavigationBar: bnb,
-    appBar: new AppBar(
+int _page = 0;
+  PageController _c;
+  @override
+  void initState(){
+    _c =  new PageController(
+      initialPage: _page,
+    );
+    super.initState();
+  }
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+      appBar: new AppBar(
       title: new Text('Salud'),
     ),
-  );
-}
+      bottomNavigationBar: new BottomNavigationBar(
+        currentIndex: _page,
+        backgroundColor: Colors.black,
+        fixedColor: Color(0xff01969a),
+        unselectedItemColor: Colors.black54,
+        showUnselectedLabels: false,
+        //unselectedIconTheme: Colors.grey,
+
+        onTap: (index){
+          this._c.animateToPage(index,duration: const Duration(milliseconds: 10),curve: Curves.easeInOut);
+        },
+        items: <BottomNavigationBarItem>[
+        BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.hospital,),title: Text("Hospitales")),    
+        BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.hospitalSymbol,),title: Text("Consultorios")),
+        BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.pills,),title: Text("Farmacias")),
+        BottomNavigationBarItem(icon: Icon(Icons.face,),title: Text("Belleza")),
+        BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.dumbbell,),title: Text("Gimnasios")),
+        BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.ambulance,),title: Text("Emergencia")),
+
+      ],
+
+      ),
+      body: new PageView(
+        controller: _c,
+        onPageChanged: (newPage){
+          setState((){
+            this._page=newPage;
+          });
+        },
+        children: <Widget>[
+          new Lista_Manejador_esp(manejador: new Lista_manejador(cat,53)),
+          new Lista_Manejador_esp(manejador: new Lista_manejador(cat,55)),
+          new Lista_Manejador_esp(manejador: new Lista_manejador(cat,56)),
+          new Lista_Manejador_esp(manejador: new Lista_manejador(cat,59)),
+          new Lista_Manejador_esp(manejador: new Lista_manejador(cat,58)),
+          new Lista_Manejador_esp(manejador: new Lista_manejador(cat,57)),
+        ],
+      ),
+    );
+  }
 }

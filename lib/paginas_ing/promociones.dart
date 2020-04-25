@@ -1,55 +1,47 @@
-
-import 'package:cabofind/paginas_listas/list__anun_autos.dart';
-import 'package:cabofind/paginas_listas/list__anun_electronica.dart';
-import 'package:cabofind/paginas_listas/list__anun_empleo.dart';
-import 'package:cabofind/paginas_listas/list__anun_inmuebles.dart';
-import 'package:cabofind/paginas_listas/list_promociones_actividades.dart';
-import 'package:cabofind/paginas_listas/list_promociones_bares.dart';
-import 'package:cabofind/paginas_listas/list_promociones_compras.dart';
-import 'package:cabofind/paginas_listas/list_promociones_restaurantes.dart';
-import 'package:cabofind/paginas_listas/list_promociones_salud.dart';
-import 'package:cabofind/paginas_listas/list_promociones_servicios.dart';
-import 'package:cabofind/paginas_listas/list_serv_auto.dart';
-import 'package:cabofind/paginas_listas/list_serv_bancos.dart';
-import 'package:cabofind/paginas_listas/list_serv_mascotas.dart';
-import 'package:cabofind/paginas_listas/list_serv_prof.dart';
-import 'package:cabofind/paginas_listas/list_serv_prov.dart';
-import 'package:cabofind/paginas_listas/list_serv_trans.dart';
-import 'package:cabofind/paginas_listas_ing/list_promociones_actividades.dart';
-import 'package:cabofind/paginas_listas_ing/list_promociones_bares.dart';
-import 'package:cabofind/paginas_listas_ing/list_promociones_compras.dart';
-import 'package:cabofind/paginas_listas_ing/list_promociones_restaurantes.dart';
-import 'package:cabofind/paginas_listas_ing/list_promociones_salud.dart';
-import 'package:cabofind/paginas_listas_ing/list_promociones_servicios.dart';
+import 'package:cabofind/paginas_ing/list_manejador_promociones.dart';
+import 'package:cabofind/utilidades/classes.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import 'list_manejador.dart';
 
-class Promociones_grid_ing extends StatefulWidget {
-@override
-_Servicios createState() => new _Servicios();
-}
+class Promociones_list_ing extends StatefulWidget {
 
-class _Servicios extends State<Promociones_grid_ing> {
-  int id=0;
 
   @override
-Widget build(BuildContext context) {
-  final tabpages=<Widget>[
+_Restaurantes createState() => new _Restaurantes();
+}
 
-    new Promociones_restaurantes_ing(),
-    new Promociones_bares_ing(),
-    new Promociones_actividades_ing(),
-    new Promociones_compras_ing(),
-    new Promociones_salud_ing(),
-    new Promociones_servicios_ing(),
+class _Restaurantes extends State<Promociones_list_ing> {
+  int id=0;
+  int cat =61;//educacion
+ 
+@override
+int _page = 0;
+  PageController _c;
+  @override
+  void initState(){
+    _c =  new PageController(
+      initialPage: _page,
+    );
+    super.initState();
+  }
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+      
+      bottomNavigationBar: new BottomNavigationBar(
+        currentIndex: _page,
+        backgroundColor: Colors.black,
+        fixedColor: Color(0xff01969a),
+        unselectedItemColor: Colors.black54,
+        showUnselectedLabels: false,
+        //unselectedIconTheme: Colors.grey,
 
-    
-
-
-  ];
-
-  final bnbi=<BottomNavigationBarItem>[
+        onTap: (index){
+          this._c.animateToPage(index,duration: const Duration(milliseconds: 10),curve: Curves.easeInOut);
+        },
+        items: <BottomNavigationBarItem>[
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.utensils,),title: Text("Restaurants")),
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.beer,),title: Text("Bars")),
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.bicycle,),title: Text("Activities")),
@@ -58,30 +50,26 @@ Widget build(BuildContext context) {
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.userTie,),title: Text("Services")),
 
 
+      ],
 
-
-
-
-
-  ];
-
-
-  final bnb=BottomNavigationBar(
-
-    items: bnbi,
-    currentIndex:id ,
-    type: BottomNavigationBarType.fixed,
-    onTap: (int value){
-      setState(() {
-        id=value;
-      });
-    },
-  );
-
-  return new Scaffold(
-    body: tabpages[id],
-    bottomNavigationBar: bnb,
-    
-  );
-}
+      ),
+      body: new PageView(
+        controller: _c,
+        onPageChanged: (newPage){
+          setState((){
+            this._page=newPage;
+          });
+        },
+        children: <Widget>[
+          new Manejador_promociones_ing(cat: new Categoria(60)),
+          new Manejador_promociones_ing(cat: new Categoria(62)),
+          new Manejador_promociones_ing(cat: new Categoria(63)),
+          new Manejador_promociones_ing(cat: new Categoria(61)),
+          new Manejador_promociones_ing(cat: new Categoria(69)),
+          new Manejador_promociones_ing(cat: new Categoria(59)),
+          new Manejador_promociones_ing(cat: new Categoria(70)),
+        ],
+      ),
+    );
+  }
 }

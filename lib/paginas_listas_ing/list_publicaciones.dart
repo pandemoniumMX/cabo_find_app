@@ -1,14 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:cabofind/paginas/carrusel.dart';
-import 'package:cabofind/main.dart';
-import 'package:cabofind/paginas/publicacion_detalle.dart';
+
 import 'package:cabofind/paginas_ing/publicacion_detalle.dart';
-import 'package:cabofind/paginas_listas/list_publicaciones_grid.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:cabofind/paginas/empresa_detalle.dart';
 import 'package:cabofind/utilidades/classes.dart';
 import 'package:flutter/material.dart';
 

@@ -1,9 +1,5 @@
 
-import 'package:cabofind/paginas_listas/list__com_joyerias.dart';
-import 'package:cabofind/paginas_listas/list__com_moda.dart';
-import 'package:cabofind/paginas_listas/list__com_regalos.dart';
-import 'package:cabofind/paginas_listas/list__com_tiendas.dart';
-import 'package:cabofind/paginas_listas/list_serv_prov.dart';
+
 import 'package:cabofind/utilidades/maps_actividades.dart';
 import 'package:cabofind/utilidades/maps_compras.dart';
 import 'package:cabofind/utilidades/maps_fiesta.dart';

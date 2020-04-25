@@ -170,7 +170,7 @@ class _MyHomePageState extends State<Maps_fiesta> {
             onMapCreated: _onMapCreated,
           ),
           Container(          
-            height: 150,
+            height: 180,
             width: 150,
             child: Card(
             color: const Color(0xFFFFFF).withOpacity(0.8),
@@ -205,6 +205,22 @@ class _MyHomePageState extends State<Maps_fiesta> {
                         
                       ),
                       Text('  Bares')
+                    ],
+                  ),
+                  SizedBox(height: 10.0,),
+                  Row(
+                    children: <Widget>[
+                      FadeInImage(   
+                        image: ExactAssetImage('assets/football.png'),
+                        fit: BoxFit.cover,  
+                        width: 25,                          
+                        height: 25,  
+                        // placeholder: AssetImage('android/assets/images/jar-loading.gif'),  
+                        placeholder: AssetImage('android/assets/images/loading.gif'),  
+                        fadeInDuration: Duration(milliseconds: 200),   
+                        
+                      ),
+                      Text('  Sportbar')
                     ],
                   ),
                   SizedBox(height: 10.0,),

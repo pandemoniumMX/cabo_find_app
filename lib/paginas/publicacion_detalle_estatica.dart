@@ -1,18 +1,14 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:cabofind/paginas/empresa_detalle.dart';
-import 'package:cabofind/paginas_listas/list_publicaciones.dart';
 import 'package:device_info/device_info.dart';
 import 'package:devicelocale/devicelocale.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_youtube/flutter_youtube.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-//import 'package:custom_chewie/custom_chewie.dart';
 import 'package:http/http.dart' as http;
 import 'package:cabofind/utilidades/classes.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 
 
@@ -203,7 +199,7 @@ void showShortToast() {
           toastLength: Toast.LENGTH_SHORT,
           backgroundColor: Colors.blue,
           textColor: Colors.white,
-          timeInSecForIos: 1);
+          timeInSecForIosWeb: 1);
     }
 
 Widget videosection = Container(

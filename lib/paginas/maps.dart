@@ -1,11 +1,8 @@
 
-import 'package:cabofind/paginas_listas/list__com_joyerias.dart';
-import 'package:cabofind/paginas_listas/list__com_moda.dart';
-import 'package:cabofind/paginas_listas/list__com_regalos.dart';
-import 'package:cabofind/paginas_listas/list__com_tiendas.dart';
-import 'package:cabofind/paginas_listas/list_serv_prov.dart';
+
 import 'package:cabofind/utilidades/maps_actividades.dart';
 import 'package:cabofind/utilidades/maps_compras.dart';
+import 'package:cabofind/utilidades/maps_educacion.dart';
 import 'package:cabofind/utilidades/maps_fiesta.dart';
 import 'package:cabofind/utilidades/maps_restaurantes.dart';
 import 'package:cabofind/utilidades/maps_salud.dart';
@@ -29,6 +26,7 @@ Widget build(BuildContext context) {
     new Maps_compras(),
     new Maps_servicios(),
     new Maps_salud(),
+    new Maps_educacion()
 
   ];
 
@@ -39,6 +37,7 @@ Widget build(BuildContext context) {
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.shoppingBag,),title: Text("Compras")),
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.conciergeBell,),title: Text("Servicios")),
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.heartbeat,),title: Text("Salud")),
+    BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.school,),title: Text("Educación")),
 
 
   ];

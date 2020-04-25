@@ -1,71 +1,71 @@
-import 'package:cabofind/paginas_listas/list_vida_antros.dart';
-import 'package:cabofind/paginas/carrusel.dart';
-import 'package:cabofind/paginas_listas_ing/list__vida_bares.dart';
-import 'package:cabofind/paginas_listas_ing/list_vida_antros.dart';
-import 'package:cabofind/paginas_listas_ing/list_vida_mas.dart';
-import 'package:cabofind/paginas_listas_ing/list_vida_rockbar.dart';
+import 'package:cabofind/utilidades/classes.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-
-
+import 'list_manejador.dart';
 
 class Vida_nocturna_ing extends StatefulWidget {
-@override
-_Vida_nocturna_ing createState() => new _Vida_nocturna_ing();
-}
 
-class _Vida_nocturna_ing extends State<Vida_nocturna_ing> {
-  int id=0;
 
   @override
-Widget build(BuildContext context) {
-    final tabpages=<Widget>[
-      //llamar classes siempre despues de un <Widget>
-      //lo que se declare aqui, sera el contenido de los botones de navigacion al fondo
-      // new ImageCarousel2(),
-    //  new Carrusel(),
-      new ListaAntros_ing(),
-      new ListaBares_ing(),
-      new Listarockbar_ing(),
-      new ListaMas_ing(),
+_Restaurantes createState() => new _Restaurantes();
+}
 
-
-
-
-      //new ImageCarousel2(),
-
-      Center(child: Icon(Icons.map,size: 60.0,color: Colors.red,),),
-      Center(child: Icon(Icons.mic,size: 60.0,color: Colors.red,),),
-      Center(child: Icon(Icons.radio,size: 60.0,color: Colors.red,),),
-      Center(child: Icon(Icons.music_video,size: 60.0,color: Colors.red,),),
-
-    ];
-
-    final bnbi=<BottomNavigationBarItem>[
-      BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.cocktail,),title: Text("Clubs")),
-      BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.beer,),title: Text("Bars")),
-      BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.guitar,),title: Text("Rockbar")),
-      BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.searchPlus,),title: Text("More")),
-    ];
-
-    final bnb=BottomNavigationBar(
-      items: bnbi,
-      currentIndex:id ,
-      type: BottomNavigationBarType.fixed,
-      onTap: (int value){
-        setState(() {
-          id=value;
-        });
-      },
+class _Restaurantes extends State<Vida_nocturna_ing> {
+  int id=0;
+  int cat =62;//educacion
+ 
+@override
+int _page = 0;
+  PageController _c;
+  @override
+  void initState(){
+    _c =  new PageController(
+      initialPage: _page,
     );
-
-  return new Scaffold(
-    body: tabpages[id],
-    bottomNavigationBar: bnb,
-    appBar: new AppBar(
+    super.initState();
+  }
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+      appBar: new AppBar(
       title: new Text('Nightlife'),
     ),
-  );
-}
+      bottomNavigationBar: new BottomNavigationBar(
+        currentIndex: _page,
+        backgroundColor: Colors.black,
+        fixedColor: Color(0xff01969a),
+        unselectedItemColor: Colors.black54,
+        showUnselectedLabels: false,
+        //unselectedIconTheme: Colors.grey,
+
+        onTap: (index){
+          this._c.animateToPage(index,duration: const Duration(milliseconds: 10),curve: Curves.easeInOut);
+        },
+        items: <BottomNavigationBarItem>[
+      BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.cocktail,),title: Text("Clubs")),
+      BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.beer,),title: Text("Bars")),
+      BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.footballBall,),title: Text("Sportbar")),
+      BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.guitar,),title: Text("Rockbar")),
+      BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.searchPlus,),title: Text("More")),
+      ],
+
+      ),
+      body: new PageView(
+        controller: _c,
+        onPageChanged: (newPage){
+          setState((){
+            this._page=newPage;
+          });
+        },
+        children: <Widget>[
+          new Lista_Manejador_ing(manejador: new Lista_manejador(cat,41)),
+          new Lista_Manejador_ing(manejador: new Lista_manejador(cat,40)),
+          new Lista_Manejador_ing(manejador: new Lista_manejador(cat,66)),
+          new Lista_Manejador_ing(manejador: new Lista_manejador(cat,43)),
+          new Lista_Manejador_ing(manejador: new Lista_manejador(cat,44)),
+        ],
+      ),
+    );
+  }
 }

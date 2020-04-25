@@ -1,38 +1,26 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io' show Platform;
 import 'package:cabofind/main_ing.dart';
-import 'package:cabofind/main_lista.dart';
-import 'package:cabofind/notificaciones/push_publicacion_android.dart';
-//import 'package:cabofind/notificaciones/push_publicacion_android.dart';
 import 'package:cabofind/paginas/descubre.dart';
 import 'package:cabofind/paginas/domicilio.dart';
 import 'package:cabofind/paginas/educacion.dart';
+import 'package:cabofind/paginas/login.dart';
 import 'package:cabofind/paginas/maps.dart';
+import 'package:cabofind/paginas/misfavoritos.dart';
+import 'package:cabofind/paginas/mispromos.dart';
 import 'package:cabofind/paginas/publicacion_detalle.dart';
-import 'package:cabofind/paginas/publicaciones.dart';
 import 'package:cabofind/paginas/ricky.dart';
-//import 'package:cabofind/paginas/publicacion_detalle_push.dart';
 import 'package:cabofind/paginas/salud.dart';
 import 'package:cabofind/paginas_listas/list_eventos_grid.dart';
-import 'package:cabofind/paginas_listas/list_promociones.dart';
-import 'package:cabofind/paginas_listas/list_promociones_grid.dart';
-import 'package:cabofind/paginas_listas/list_publicaciones_grid.dart';
-import 'package:cabofind/paginas_listas/list_recomendado_grid.dart';
-import 'package:cabofind/paginas_listas/list_visitado.dart';
-import 'package:cabofind/paginas_listas/list_visitado_grid.dart';
-import 'package:cabofind/utilidades/banderasicon_icons.dart' as banderax;
-import 'package:cabofind/utilidades/buscador.dart';
-import 'package:cabofind/utilidades/buscador_2.dart';
-import 'package:cabofind/utilidades/buscador_notap.dart';
 
-import 'package:cabofind/paginas/carrusel.dart';
-import 'package:cabofind/paginas_listas/list_publicaciones.dart';
+import 'package:cabofind/utilidades/buscador.dart';
+
 import 'package:cabofind/utilidades/calculadora.dart';
 import 'package:cabofind/utilidades/classes.dart';
 import 'package:cabofind/utilidades/notificaciones.dart';
 import 'package:cabofind/utilidades/rutas.dart';
 import 'package:cabofind/weather/weather/weather_builder.dart';
+import 'package:ff_navigation_bar/ff_navigation_bar.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -128,6 +116,10 @@ void fcmSubscribe() {
 
   Widget appBarTitle = new Text("Cabofind");
   int id=0;
+  int _page = 0;
+  int selectedIndex = 0;
+  PageController _c;
+ 
  
 /*
 
@@ -202,7 +194,7 @@ void fcmSubscribe() {
  // final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
 
   List data;
-
+  List portada;
 
   
   Future<String> getData() async {
@@ -221,6 +213,26 @@ void fcmSubscribe() {
               response.body);
         });
 
+
+    return "Success!";
+  }
+
+  Future<String> getPortada() async {
+    var response = await http.get(
+        Uri.encodeFull(
+            "http://cabofind.com.mx/app_php/consultas_negocios/esp/list_portada.php"),
+
+        headers: {
+          "Accept": "application/json"
+        }
+    );
+
+    this.setState(
+            () {
+          portada = json.decode(
+              response.body);
+        });
+    
 
     return "Success!";
   }
@@ -378,7 +390,10 @@ Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) async {
   @override
   void initState() {
     isLogged(context);
-    
+    _c =  new PageController(
+      initialPage: _page,
+    );
+    this.getPortada();
 
 
     this.getData();
@@ -688,17 +703,328 @@ alertCar(context) async {
     );
   }
 
+  Widget cuerpo = Container(
+
+        
+     // height: MediaQuery.of(context).size.height,
+    child: new  StaggeredGridView.countBuilder(
+      crossAxisCount: 4,
+      itemCount:data == null ? 0 : data.length,
+      itemBuilder: (BuildContext context, int index) => new Container(
+          //color: Colors.white,
+        child: Container(
+          
+          decoration: BoxDecoration(
+                    borderRadius:BorderRadius.circular(20.0),   
+                    border: Border.all(
+                    color: Color(0xff01969a),)),
+                    padding: EdgeInsets.all(5.0),
+                    margin: EdgeInsets.all(10.0),
+                    
+          child: InkWell(
+                    child: Column(
+
+
+              children: <Widget>[              
+
+                
+                Expanded(
+                child: Stack(
+                  
+                
+                children: <Widget>[
+
+                  
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(20.0),
+                                  child: FadeInImage(   
+                        image: NetworkImage(data[index]["est_foto"]),  
+                        fit: BoxFit.cover,  
+                        width: MediaQuery.of(context).size.width,  
+                        //height: MediaQuery.of(context).size.height * 0.38,  
+                        height: MediaQuery.of(context).size.height,  
+                        // placeholder: AssetImage('android/assets/images/jar-loading.gif'),  
+                        placeholder: AssetImage('android/assets/images/loading.gif'),  
+                        fadeInDuration: Duration(milliseconds: 200),   
+                        
+                      ),
+                ),
+
+                
+                
+                    Positioned(
+                     
+                                child: Center(
+                                  child: FittedBox(
+                                    fit: BoxFit.fitWidth,
+                                    child: new Text (
+                                    data[index]["est_nombre"],
+                                    style: new TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 25.0,
+                                      fontWeight: FontWeight.w900,
+                                      backgroundColor: Colors.black45
+                                    )
+                              ),
+                                  ),
+                                ),
+                              
+                                
+                              ),  
+                              
+],
+                                  ),
+                ),
+
+/*
+                Row(
+                    children: <Widget>[
+
+
+                      Padding(
+                          child: new Text(
+                            data[index]["NEG_NOMBRE"],
+                            overflow: TextOverflow.ellipsis,),
+                          padding: EdgeInsets.all(
+                              1.0)),
+                      Text(
+                          " | "),
+                      Flexible(
+                        child: new Text(
+                          data[index]["NEG_LUGAR"],
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,),
+
+
+                      ),
+
+
+
+                    ]),
+*/
+
+              ],
+
+            ),
+            onTap: () {
+
+
+              String ruta = data[index]["est_navegacion"];
+              print(ruta);
+
+               if( ruta == "Restaurantes"){
+
+                 Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Restaurantes()
+                        )
+                        );
+
+               } else if (ruta == "Descubre"){
+                 Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Descubre()
+                        )
+                        );
+               } else if (ruta == "Compras"){
+                 Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Compras()
+                        )
+                        );
+               } else if (ruta == "Educacion"){
+                 Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Educacion()
+                        )
+                        );
+               } else if (ruta == "Eventos"){
+                 Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Eventos_grid()
+                        )
+                        );
+               } else if (ruta == "Acercade"){
+                 Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Acercade()
+                        )
+                        );
+              } else if (ruta == "Promociones"){
+                 Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Promociones_list()
+                        )
+                        );
+               } else if (ruta == "Salud"){
+                 Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Salud()
+                        )
+                        );
+               } else if (ruta == "Servicios"){
+                 Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Servicios()
+                        )
+                        );
+               } else if (ruta == "Vida_nocturna"){
+                 Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Vida_nocturna()
+                        )
+                        );
+                
+               } else if (ruta == "Anuncios"){
+                 Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Anuncios()
+                        )
+                        );
+               } else if (ruta == "Mapa")
+               {
+                 Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Maps()
+                        )
+                        );
+                 
+                } else if (ruta == "Rutas")
+               {
+                 Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Rutas()
+                        )
+                        );
+                 
+               } else if (ruta == "domicilio")
+               {
+                 alertCar(context);
+                 
+                 
+               } else if (ruta == "rickys")
+               {
+                 Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Rickys()
+                        )
+                        );
+                 
+                 
+               }
+
+              
+              
+          
+
+
+            },
+          ),
+        ),
+
+      ),
+
+      staggeredTileBuilder: (int index) =>
+      new StaggeredTile.count(2, index.isEven ? 2 :2 ),
+      mainAxisSpacing: 4.0,
+      crossAxisSpacing: 4.0,
+    ),
+    
+
+    );
 
     return  Scaffold(
 
-      appBar: new AppBar(
+      bottomNavigationBar: FFNavigationBar(
         
-        //enterTitle: true,
-        title:appBarTitle,
-        actions: <Widget>[  
+        theme: FFNavigationBarTheme(
+          barBackgroundColor: Colors.white,
+          selectedItemBorderColor: Colors.white,
+          selectedItemBackgroundColor: Color(0xff01969a),
+          selectedItemIconColor: Colors.white,
+          selectedItemLabelColor: Colors.black,
+        ),
+        
+      
+        items: [
+          FFNavigationBarItem(
+            iconData: FontAwesomeIcons.home,
+            label: 'Inicio',
+          ),
+          FFNavigationBarItem(
+            iconData: FontAwesomeIcons.fire,
+            label: 'Promos',
+          ),
+          FFNavigationBarItem(
+            iconData: FontAwesomeIcons.solidHeart,
+            label: 'Favoritos',
+          ),
+          FFNavigationBarItem(
+            iconData: FontAwesomeIcons.userAlt,
+            label: 'Cuenta',
+           ),
+          
+        ],
 
-        new InkResponse( 
-                onTap: () {
+        selectedIndex: selectedIndex,
+
+        onSelectTab: (index){
+          this._c.animateToPage(index,duration: const Duration(milliseconds: 10),curve: Curves.easeInOut);
+        },
+      ),
+      body: NestedScrollView(
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return <Widget>[
+            SliverAppBar(
+              
+              expandedHeight: 250.0,
+              floating: true,
+              pinned: true,
+              automaticallyImplyLeading: true,
+              flexibleSpace: FlexibleSpaceBar(
+                titlePadding: EdgeInsets.all(10.0),
+                background:  GestureDetector(
+                  onTap: () {
+                  
+                  },
+                child: FadeInImage(
+
+                   image: NetworkImage(portada[0]["POR_FOTO"]),
+                   fit: BoxFit.cover,
+                   
+
+                   // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
+                   placeholder: AssetImage('android/assets/images/loading.gif'),
+                   fadeInDuration: Duration(milliseconds: 200),
+
+                 ),
+                ),
+                  centerTitle: false,
+
+                  title: Text("Cabofind",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 28.0,
+                      )),
+                  ),
+              actions: <Widget>[
+                new InkResponse( 
+                onTap: () {//_makeStripePayment();
+                
                 Navigator.push(
                     context,
                     new MaterialPageRoute(
@@ -722,9 +1048,9 @@ alertCar(context) async {
                                 bottom: 28,
                                 child: new FloatingActionButton(
                                   
-                                  child: new Text('',
+                                 child: new Text('',
                                  style: TextStyle(fontWeight: FontWeight.bold,fontSize: 10.0, color: Colors.white)),
-                                  backgroundColor: Colors.red,
+                                 backgroundColor: Colors.red,
                                   
                                  
                                 ),
@@ -826,244 +1152,29 @@ alertCar(context) async {
                     return new Buscador();
                   }));
                 }, ),        
-          
-
-              
-
-        ],
-
-
-      ),
-
-
-
-      body: Container(
-
-
-        // height: MediaQuery.of(context).size.height,
-        child: new  StaggeredGridView.countBuilder(
-          crossAxisCount: 4,
-          itemCount:data == null ? 0 : data.length,
-          itemBuilder: (BuildContext context, int index) => new Container(
-            //color: Colors.white,
-            child: Container(
-
-              decoration: BoxDecoration(
-                  borderRadius:BorderRadius.circular(20.0),
-
-
-                  border: Border.all(
-                    color: Color(0xff01969a),)),
-              padding: EdgeInsets.all(
-                  5.0),
-              margin: EdgeInsets.all(
-                  10.0),
-              child: InkWell(
-                child: Column(
-                  
-
-                  children: <Widget>[
-
-                    Expanded(
-                      child: Stack(
-
-                        children: <Widget>[
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(20.0),
-                            child: FadeInImage(
-                              image: NetworkImage(data[index]["est_foto"]),
-                              fit: BoxFit.cover,
-                              width: MediaQuery.of(context).size.width,
-                              //height: MediaQuery.of(context).size.height * 0.38,
-                              height: MediaQuery.of(context).size.height,
-                              // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
-                              placeholder: AssetImage('android/assets/images/loading.gif'),
-                              fadeInDuration: Duration(milliseconds: 200),
-
-                            ),
-                          ),
-                          Positioned(
-
-                            child: Center(
-                              child: new Text (
-                                  data[index]["est_nombre"],
-                                  style: new TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 20.0,
-                                      fontWeight: FontWeight.w900,
-                                      backgroundColor: Colors.black45
-                                  )
-                              ),
-                            ),
-
-
-                          ),
-
-                        ],
-                      ),
-                    ),
-
-/*
-                Row(
-                    children: <Widget>[
-                      Padding(
-                          child: new Text(
-                            data[index]["NEG_NOMBRE"],
-                            overflow: TextOverflow.ellipsis,),
-                          padding: EdgeInsets.all(
-                              1.0)),
-                      Text(
-                          " | "),
-                      Flexible(
-                        child: new Text(
-                          data[index]["NEG_LUGAR"],
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,),
-                      ),
-                    ]),
-*/
-
-                  ],
-
-                ),
-                onTap: () {
-
-
-                  String ruta = data[index]["est_navegacion"];
-                  print(ruta);
-
-                  if( ruta == "Restaurantes"){
-
-                    Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                            builder: (BuildContext context) => new Restaurantes()
-                        )
-                    );
-
-                  } else if (ruta == "Descubre"){
-                    Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                            builder: (BuildContext context) => new Descubre()
-                        )
-                    );
-                  } else if (ruta == "Compras"){
-                    Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                            builder: (BuildContext context) => new Compras()
-                        )
-                    );
-                  } else if (ruta == "Educacion"){
-                    Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                            builder: (BuildContext context) => new Educacion()
-                        )
-                    );
-                  } else if (ruta == "Eventos"){
-                    Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                            builder: (BuildContext context) => new Eventos_grid()
-                        )
-                    );
-                  } else if (ruta == "Acercade"){
-                    Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                            builder: (BuildContext context) => new Acercade()
-                        )
-                    );
-                  } else if (ruta == "Promociones"){
-                    Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                            builder: (BuildContext context) => new Promociones_grid()
-                        )
-                    );
-                  } else if (ruta == "Salud"){
-                    Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                            builder: (BuildContext context) => new Salud()
-                        )
-                    );
-                  } else if (ruta == "Servicios"){
-                    Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                            builder: (BuildContext context) => new Servicios()
-                        )
-                    );
-                  } else if (ruta == "Vida_nocturna"){
-                    Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                            builder: (BuildContext context) => new Vida_nocturna()
-                        )
-                    );
-                  } else if (ruta == "Publicaciones"){
-                    Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                            builder: (BuildContext context) => new Publicaciones_grid()
-                        )
-                    );
-
-                  } else if (ruta == "Anuncios"){
-                    Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                            builder: (BuildContext context) => new Anuncios()
-                        )
-                    );
-                  } else if (ruta == "Mapa"){
-                    Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                            builder: (BuildContext context) => new Maps()
-                        )
-                    );
-                  } else if (ruta == "Rutas"){
-                    Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                            builder: (BuildContext context) => new Rutas()
-                        )
-                    );
-                  } else if (ruta == "domicilio")
-               {
-                 alertCar(context);
-                } else if (ruta == "rickys")
-               {
-                 Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (BuildContext context) => new Rickys()
-                        )
-                        );
-                 
-                 
-               }
-
-
-
-
-
-                },
-              ),
+              ],    
             ),
 
-          ),
-
-          staggeredTileBuilder: (int index) =>
-          new StaggeredTile.count(2, index.isEven ? 2 :2 ),
-          mainAxisSpacing: 4.0,
-          crossAxisSpacing: 4.0,
-        ),
-
+            
+          ];
+        },
+        body: new PageView(
+        controller: _c,
+        
+        onPageChanged: (newPage){
+          setState((){
+            this._page=newPage;
+            selectedIndex=newPage;
+          });
+        },
+        children: <Widget>[
+          
+          cuerpo,
+          new Mis_promos(),
+          new Mis_favoritos(),
+          new Login()
+        ],
+      ),
       ),
 
     );

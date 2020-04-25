@@ -1,63 +1,71 @@
-
-import 'package:cabofind/paginas_listas_ing/list_serv_auto.dart';
-import 'package:cabofind/paginas_listas_ing/list_serv_bancos.dart';
-import 'package:cabofind/paginas_listas_ing/list_serv_mascotas.dart';
-import 'package:cabofind/paginas_listas_ing/list_serv_prof.dart';
-import 'package:cabofind/paginas_listas_ing/list_serv_prov.dart';
-import 'package:cabofind/paginas_listas_ing/list_serv_trans.dart';
+import 'package:cabofind/utilidades/classes.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class Servicios_ing extends StatefulWidget {
-@override
-_Servicios_ing createState() => new _Servicios_ing();
-}
+import 'list_manejador.dart';
 
-class _Servicios_ing extends State<Servicios_ing> {
-  int id=0;
+class Servicios_ing extends StatefulWidget {
+
 
   @override
-Widget build(BuildContext context) {
-  final tabpages=<Widget>[
-    new ListaAutomotriz_ing(),
-    new ListaBancos_ing(),
-    new ListaProfesionales_ing(),
-    new ListaTransporte_ing(),
-    new ListaMascotas_ing(),
+_Restaurantes createState() => new _Restaurantes();
+}
 
-  ];
+class _Restaurantes extends State<Servicios_ing> {
+  int id=0;
+  int cat =59;//educacion
+ 
+@override
+int _page = 0;
+  PageController _c;
+  @override
+  void initState(){
+    _c =  new PageController(
+      initialPage: _page,
+    );
+    super.initState();
+  }
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+      appBar: new AppBar(
+      title: new Text('Services'),
+    ),
+      bottomNavigationBar: new BottomNavigationBar(
+        currentIndex: _page,
+        backgroundColor: Colors.black,
+        fixedColor: Color(0xff01969a),
+        unselectedItemColor: Colors.black54,
+        showUnselectedLabels: false,
+        //unselectedIconTheme: Colors.grey,
 
-  final bnbi=<BottomNavigationBarItem>[
+        onTap: (index){
+          this._c.animateToPage(index,duration: const Duration(milliseconds: 10),curve: Curves.easeInOut);
+        },
+        items: <BottomNavigationBarItem>[
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.car,),title: Text("Cars")),
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.piggyBank,),title: Text("Banks")),
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.userTie,),title: Text("Professionals")),
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.taxi,),title: Text("Transport")),
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.dog,),title: Text("Pets")),
+      ],
 
-
-
-
-  ];
-
-
-  final bnb=BottomNavigationBar(
-
-    items: bnbi,
-    currentIndex:id ,
-    type: BottomNavigationBarType.fixed,
-    onTap: (int value){
-      setState(() {
-        id=value;
-      });
-    },
-  );
-
-  return new Scaffold(
-    body: tabpages[id],
-    bottomNavigationBar: bnb,
-    appBar: new AppBar(
-      title: new Text('Services'),
-    ),
-  );
-}
+      ),
+      body: new PageView(
+        controller: _c,
+        onPageChanged: (newPage){
+          setState((){
+            this._page=newPage;
+          });
+        },
+        children: <Widget>[
+          new Lista_Manejador_ing(manejador: new Lista_manejador(cat,38)),
+          new Lista_Manejador_ing(manejador: new Lista_manejador(cat,50)),
+          new Lista_Manejador_ing(manejador: new Lista_manejador(cat,39)),
+          new Lista_Manejador_ing(manejador: new Lista_manejador(cat,25)),
+          new Lista_Manejador_ing(manejador: new Lista_manejador(cat,51)),
+        ],
+      ),
+    );
+  }
 }
