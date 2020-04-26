@@ -416,7 +416,7 @@ routes: <String, WidgetBuilder>{
           padding: const EdgeInsets.only(top:150.0),
           child: FadeInImage(
 
-                       image: AssetImage('android/assets/images/cabofind.jpeg'),
+                       image: AssetImage('assets/splash.png'),
                        fit: BoxFit.cover,
                        width: 150,
                        height: 150,

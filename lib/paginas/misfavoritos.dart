@@ -316,17 +316,18 @@ class _States extends State<Login3> {
     Colors.white,
     
   ])),
-      child: Center(
-        child: Column(
-         
+      child: Container(
+        child: ListView(
+          shrinkWrap: false,
+          physics: BouncingScrollPhysics(),   
           children: <Widget>[
-            SizedBox(height: 100.0,),
-            ClipRRect(borderRadius: BorderRadius.circular(8.0),child: Image.asset("assets/splash.png",fit: BoxFit.fill,width: 150.0,height: 150.0,)),
-            SizedBox(height: 25.0,),
-            Text("Crea tu cuenta",style: TextStyle(fontSize:25, color: Colors.white,fontWeight: FontWeight.bold ),),
-            Text("Para agregar tus favoritos!",style: TextStyle(fontSize:25, color: Colors.white,fontWeight: FontWeight.bold ),),
-            SizedBox(height: 25.0,),
-            Flexible(child: ClipRRect(borderRadius: BorderRadius.circular(8.0),child: Image.asset("assets/corazon2.png",fit: BoxFit.fill,width: 80.0,height: 80.0,))),
+            Center(child:ClipRRect(borderRadius: BorderRadius.circular(8.0),child: Image.asset("assets/splash.png",fit: BoxFit.fill,width: 150.0,height: 150.0,)),),
+            //SizedBox(height: 100.0,),
+           // SizedBox(height: 25.0,),
+            Center(child: Text("Crea tu cuenta",style: TextStyle(fontSize:25, color: Colors.white,fontWeight: FontWeight.bold ),)),
+            Center(child: Text("Para agregar tus favoritos!",style: TextStyle(fontSize:25, color: Colors.white,fontWeight: FontWeight.bold ),)),
+            Center(child: SizedBox(height: 25.0,)),
+            Center(child: Flexible(child: ClipRRect(borderRadius: BorderRadius.circular(8.0),child: Image.asset("assets/corazon2.png",fit: BoxFit.fill,width: 80.0,height: 80.0,)))),
             
             
 

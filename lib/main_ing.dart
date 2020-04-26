@@ -426,15 +426,18 @@ Future<String> getPortada() async {
                     Positioned(
                      
                                 child: Center(
-                                  child: new Text (
-                                  data[index]["est_nombre_ing"],
-                                  style: new TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 25.0,
-                                    fontWeight: FontWeight.w900,
-                                    backgroundColor: Colors.black45
-                                  )
+                                  child: FittedBox(
+                                    fit: BoxFit.fitWidth,
+                                    child: new Text (
+                                    data[index]["est_nombre_ing"],
+                                    style: new TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 25.0,
+                                      fontWeight: FontWeight.w900,
+                                      backgroundColor: Colors.black45
+                                    )
                               ),
+                                  ),
                                 ),
                               
                                 
@@ -661,10 +664,17 @@ Future<String> getPortada() async {
                   onTap: () {
                   
                   },
-                child: Image.network(
-                      portada[0]["POR_FOTO_ING"],
-                      fit: BoxFit.cover,
-                    ),
+                child: FadeInImage(   
+                        image: NetworkImage(portada[0]["POR_FOTO_ING"]),  
+                        fit: BoxFit.cover,  
+                        width: MediaQuery.of(context).size.width,  
+                        //height: MediaQuery.of(context).size.height * 0.38,  
+                        height: MediaQuery.of(context).size.height,  
+                        // placeholder: AssetImage('android/assets/images/jar-loading.gif'),  
+                        placeholder: AssetImage('android/assets/images/loading.gif'),  
+                        fadeInDuration: Duration(milliseconds: 200),   
+                        
+                      ),
                 ),
                   centerTitle: false,
 
