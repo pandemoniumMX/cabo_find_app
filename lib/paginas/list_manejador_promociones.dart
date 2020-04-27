@@ -88,8 +88,8 @@ class Publicacionesfull extends State<Manejador_promociones> {
 
       var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/insert_recomendacion_publicacion.php?MOD=${iosInfo.model}&BOOT=${iosInfo.utsname.nodename},${iosInfo.identifierForVendor}&VERSION=${iosInfo.systemName}&IDIOMA=${currentLocale}&ID=${id_c}&SO=iOS&CORREO=${_mail}"),
-            //"http://cabofind.com.mx/app_php/APIs/esp/insert_recomendacion_negocio.php?MOD=${iosInfo.model}&BOOT=${iosInfo.utsname.nodename},${iosInfo.identifierForVendor},&VERSION=${iosInfo.systemName}}&IDIOMA=${currentLocale}&ID=${id_n}&SO=iOS&CORREO=${_mail}"),
+            "http://cabofind.com.mx/app_php/APIs/esp/insert_recomendacion_publicacion.php?MOD=${iosInfo.model}&BOOT=${iosInfo.utsname.nodename},${iosInfo.identifierForVendor},&VERSION=${iosInfo.systemName}&IDIOMA=${currentLocale}&ID=${id_c}&SO=iOS&CORREO=${_mail}"),
+           // "http://cabofind.com.mx/app_php/APIs/esp/insert_recomendacion_negocio.php?MOD=${iosInfo.model}&BOOT=${iosInfo.utsname.nodename},${iosInfo.identifierForVendor},&VERSION=${iosInfo.systemName}}&IDIOMA=${currentLocale}&ID=${id_n}&SO=iOS&CORREO=${_mail}"),
         headers: {
           "Accept": "application/json"
         }

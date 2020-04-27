@@ -22,7 +22,6 @@ import 'package:cabofind/utilidades/rutas.dart';
 import 'package:cabofind/weather/weather/weather_builder.dart';
 import 'package:ff_navigation_bar/ff_navigation_bar.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:cabofind/paginas/acercade.dart';
 import 'package:cabofind/paginas/restaurantes.dart';
@@ -40,13 +39,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'paginas/anuncios.dart';
 import 'paginas/promociones.dart';
-//import 'package:geocoder/geocoder.dart';
-//import 'package:geolocator/geolocator.dart';
-
-
-
-
-
 
 void main() => runApp(new Myapp());
 
@@ -73,9 +65,6 @@ class Myapp extends StatelessWidget {
         home: new Container(
             child:           new MyHomePages()
         )
-
-
-
     );
   }
 }
@@ -86,17 +75,10 @@ class MyHomePages extends StatefulWidget {
   @override
   _MyHomePageState createState() => new _MyHomePageState();
 
-
 }
-
-
-
 class _MyHomePageState extends State<MyHomePages> {
 
-  
-
-
-  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
 void fcmSubscribe() {
   _firebaseMessaging.unsubscribeFromTopic('All');
@@ -162,10 +144,7 @@ void fcmSubscribe() {
     }
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
-    //print('Running on ${iosInfo.identifierForVendor}');
-    //print('Running on ${iosInfo.utsname.nodename}');
-    //print('Running on ${iosInfo.utsname.sysname}');
-
+    
 
     var response = await http.get(
         Uri.encodeFull(
@@ -179,19 +158,6 @@ void fcmSubscribe() {
   }
 
 
-
-/*
-    _getLocation() async
-      {
-        Position position = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-        debugPrint('location: ${position.latitude}');
-        final coordinates = new Coordinates(position.latitude, position.longitude);
-        var addresses = await Geocoder.local.findAddressesFromCoordinates(coordinates);
-        var first = addresses.first;
-        print("${first.featureName} : ${first.addressLine}");
-      }
-*/
- // final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
 
   List data;
   List portada;
@@ -247,12 +213,7 @@ void setupNotification() async {
       .listen((IosNotificationSettings settings){
         print("settings registred esp: $settings");
         });
-
-
-
     _firebaseMessaging.getToken().then( (token) {
-
-
       print('===== FCM Token =====');
       print( token );
 
@@ -349,9 +310,6 @@ void setupNotification() async {
             )
             )
             );
-
-       
-
       },
 
       onResume: ( Map<String, dynamic> message ) async {
@@ -594,29 +552,6 @@ Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) async {
   
 
   Widget build(BuildContext context) {
-    /*
-    return new MaterialApp(
-      navigatorKey: navigatorKey,
-
-      routes: {
-        'publicacionx' : (BuildContext context) => Publicacion_detalle_fin_push(),
-      },
-        debugShowCheckedModeBanner:false,
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-          //primaryColor: Color(0xff01969a)
-          primaryColor: Colors.blue,
-          accentColor: Colors.black26,
-        ),
-        home: new Container(
-            child:           new MyHomePages()
-        )
-
-
-
-    );
-    */
-   // new Publicaciones();
 
 alertCar(context) async {  
      return showDialog(
@@ -775,33 +710,6 @@ alertCar(context) async {
 ],
                                   ),
                 ),
-
-/*
-                Row(
-                    children: <Widget>[
-
-
-                      Padding(
-                          child: new Text(
-                            data[index]["NEG_NOMBRE"],
-                            overflow: TextOverflow.ellipsis,),
-                          padding: EdgeInsets.all(
-                              1.0)),
-                      Text(
-                          " | "),
-                      Flexible(
-                        child: new Text(
-                          data[index]["NEG_LUGAR"],
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,),
-
-
-                      ),
-
-
-
-                    ]),
-*/
 
               ],
 

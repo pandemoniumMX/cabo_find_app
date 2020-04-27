@@ -294,7 +294,7 @@ Widget videosection = Container(
                           Image.network(data_pub[index]["GAL_FOTO"],
                               width: MediaQuery.of(context).size.width,
                               height: MediaQuery.of(context).size.height / 1.5,
-                              fit: BoxFit.fill ),
+                              fit: BoxFit.fill ),/*
                         Positioned(
                                 right: 0.0,
                                 bottom: 390.0,
@@ -308,7 +308,7 @@ Widget videosection = Container(
                                   backgroundColor: Colors.black,
                                   onPressed: (){showShortToast();insertRecomendacioniOS();},
                                 ),
-                              ),                                    ]
+                              ),   */                                 ]
                       ),
                      SizedBox(height: 5.0,),  
                           
