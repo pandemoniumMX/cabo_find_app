@@ -318,7 +318,7 @@ Future<String> insertPublicacioniOS() async {
                           Image.network(data_pub[index]["GAL_FOTO_ING"],
                               width: MediaQuery.of(context).size.width,
                               height: MediaQuery.of(context).size.height / 1.5,
-                              fit: BoxFit.fill ),
+                              fit: BoxFit.fill ),/*
                         Positioned(
                                 right: 0.0,
                                 top: 0.0,
@@ -332,7 +332,7 @@ Future<String> insertPublicacioniOS() async {
                                   backgroundColor: Colors.black,
                                   onPressed: (){showShortToast();insertRecomendacion();},
                                 ),
-                              ),                                    ]
+                              ),    */                                ]
                       ),
                      SizedBox(height: 5.0,),  
                           

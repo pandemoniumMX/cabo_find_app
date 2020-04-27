@@ -134,11 +134,19 @@ Navigator.pushReplacement(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
                               
+                              Text("CorreoX:",style: TextStyle(fontSize:25, color: Colors.white ),),
+                              Text(snapshot.data["USU_CORREO"],style: TextStyle(fontSize:25, color: Colors.white ),),
+                              
+                              ]),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                              
                               Text("Correo:",style: TextStyle(fontSize:25, color: Colors.white ),),
                               Text(snapshot.data["USU_CORREO"],style: TextStyle(fontSize:25, color: Colors.white ),),
                               
                               ]),
-                               SizedBox(height:15.0), 
+                               SizedBox(height:15.0),  
                                     ///config
                               Row(
                                 

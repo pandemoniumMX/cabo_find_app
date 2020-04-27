@@ -90,19 +90,15 @@ class Publicacionesfull extends State<Manejador_promociones_ing> {
 
       var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/insert_recomendacion_publicacion.php?MOD=${androidInfo.model}&BOOT=${androidInfo.display},${androidInfo.bootloader},${androidInfo.fingerprint}&VERSION=${androidInfo.product}&IDIOMA=${currentLocale}&ID=${id_c}&SO=Android&CORREO=${_mail}"),
+            "http://cabofind.com.mx/app_php/APIs/ing/insert_recomendacion_publicacion.php?MOD=${androidInfo.model}&BOOT=${androidInfo.display},${androidInfo.bootloader},${androidInfo.fingerprint}&VERSION=${androidInfo.product}&IDIOMA=${currentLocale}&ID=${id_c}&SO=Android&CORREO=${_mail}"),
 
         headers: {
           "Accept": "application/json"
         }
     );
-
-      //CircularProgressIndicator(value: 5.0,);
-      
     }
     else
     {
-     //CircularProgressIndicator(value: 5.0,);
      
       Navigator.pushReplacement(
                     context,
@@ -110,11 +106,7 @@ class Publicacionesfull extends State<Manejador_promociones_ing> {
                         builder: (BuildContext context) => Login_ing()
                         )
                         );            
-     
   }  
-
-
-  
   }
 
 void showPromo() {

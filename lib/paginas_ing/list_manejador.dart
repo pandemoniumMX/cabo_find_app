@@ -108,7 +108,7 @@ GlobalKey _toolTipKey = GlobalKey();
 
       var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/insert_recomendacion_negocio.php?MOD=${androidInfo.model}&BOOT=${androidInfo.display},${androidInfo.bootloader},${androidInfo.fingerprint}&VERSION=${androidInfo.product}&IDIOMA=${currentLocale}&ID=${id_n}&SO=Android&CORREO=${_mail}"),
+            "http://cabofind.com.mx/app_php/APIs/ins/insert_recomendacion_negocio.php?MOD=${androidInfo.model}&BOOT=${androidInfo.display},${androidInfo.bootloader},${androidInfo.fingerprint}&VERSION=${androidInfo.product}&IDIOMA=${currentLocale}&ID=${id_n}&SO=Android&CORREO=${_mail}"),
 
         headers: {
           "Accept": "application/json"

@@ -1,69 +1,17 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
-import 'package:cabofind/main_ing.dart';
-import 'package:cabofind/main_lista.dart';
-import 'package:cabofind/notificaciones/push_publicacion_android.dart';
-import 'package:cabofind/paginas/anuncios.dart';
-//import 'package:cabofind/notificaciones/push_publicacion_android.dart';
-import 'package:cabofind/paginas/descubre.dart';
-import 'package:cabofind/paginas/educacion.dart';
-import 'package:cabofind/paginas/maps.dart';
-import 'package:cabofind/paginas/publicacion_detalle.dart';
-import 'package:cabofind/paginas/publicacion_detalle_estatica.dart';
-import 'package:cabofind/paginas/publicaciones.dart';
 import 'package:cabofind/paginas/ricky_preparing.dart';
-//import 'package:cabofind/paginas/publicacion_detalle_push.dart';
-import 'package:cabofind/paginas/salud.dart';
-import 'package:cabofind/paginas/youtube.dart';
-import 'package:cabofind/paginas_ing/promociones.dart';
-import 'package:cabofind/paginas_listas/list_eventos_grid.dart';
-import 'package:cabofind/paginas_listas/list_promociones.dart';
-import 'package:cabofind/paginas_listas/list_publicaciones_grid.dart';
-import 'package:cabofind/paginas_listas/list_recomendado_grid.dart';
-import 'package:cabofind/paginas_listas/list_visitado.dart';
-import 'package:cabofind/paginas_listas/list_visitado_grid.dart';
-import 'package:cabofind/paginas_listas_ing/list_publicaciones.dart' as prefix0;
-import 'package:cabofind/utilidades/banderasicon_icons.dart' as banderax;
-import 'package:cabofind/utilidades/buscador.dart';
-import 'package:cabofind/utilidades/buscador_2.dart';
-
-import 'package:cabofind/paginas/carrusel.dart';
-import 'package:cabofind/paginas_listas/list_publicaciones.dart';
-import 'package:cabofind/utilidades/calculadora.dart';
 import 'package:cabofind/utilidades/classes.dart';
-import 'package:cabofind/utilidades/notificaciones.dart';
-import 'package:cabofind/utilidades/rutas.dart';
-import 'package:cabofind/weather/weather/weather_builder.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:cabofind/paginas/acercade.dart';
-import 'package:cabofind/paginas/restaurantes.dart';
-import 'package:cabofind/paginas/vida_nocturna.dart';
-import 'package:cabofind/paginas/servicios.dart';
-import 'package:cabofind/paginas/compras.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-import 'package:flutter_facebook_login/flutter_facebook_login.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_youtube/flutter_youtube.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
-import 'package:device_info/device_info.dart';
-import 'package:devicelocale/devicelocale.dart';
-import 'package:location/location.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-//import 'package:firebase_messaging/firebase_messaging.dart';
-//import 'package:geocoder/geocoder.dart';
-//import 'package:geolocator/geolocator.dart';
-
-
 
 FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 

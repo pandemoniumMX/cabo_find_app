@@ -107,7 +107,7 @@ class Detalles extends State<Reservacion> {
   @override
   Widget build(BuildContext context) {
 
-   
+
     void showResena() {
       Fluttertoast.showToast(
           msg: "Reservación hecha existosamente, recibiras confirmacion vìa email en los proximos minutos!",
@@ -283,10 +283,7 @@ class Detalles extends State<Reservacion> {
                       _mySelection = newVal;
                       var one = int.parse(newVal);
 
-                      /*String id = playas[one]['PRE_PLAYA'];                      
-                      print(_mySelection);
-                      print(newVal);
-                      print(id);*/
+                      
                     });
                   },
                   value: _mySelection,

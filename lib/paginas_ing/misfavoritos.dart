@@ -310,6 +310,26 @@ class Login3 extends StatefulWidget {
 }
 
 class _States extends State<Login3> {
+    Widget cuerpo = ListView(
+        shrinkWrap: true,
+        physics: BouncingScrollPhysics(), 
+          children: <Widget>[
+            Column(children: <Widget>[
+            ClipRRect(borderRadius: BorderRadius.circular(8.0),child: Image.asset("assets/splash.png",fit: BoxFit.fill,width: 150.0,height: 150.0,)),
+            //SizedBox(height: 100.0,),
+            SizedBox(height: 25.0,),
+            Text("Creat your account",style: TextStyle(fontSize:25, color: Colors.white,fontWeight: FontWeight.bold ),),
+            Text("To add favorites!",style: TextStyle(fontSize:25, color: Colors.white,fontWeight: FontWeight.bold ),),
+            SizedBox(height: 25.0,),
+            ClipRRect(borderRadius: BorderRadius.circular(8.0),child: Image.asset("assets/corazon2.png",fit: BoxFit.fill,width: 150.0,height: 150.0,)),
+           // ClipRRect(borderRadius: BorderRadius.circular(8.0),child: Image.asset("assets/corazon2.png",fit: BoxFit.fill,width: 80.0,height: 80.0,)),
+            ],)
+
+            
+            
+
+          ],
+        );
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -323,24 +343,16 @@ class _States extends State<Login3> {
     Colors.white,
     
   ])),
-      child: Container(
-        child: ListView(
-          shrinkWrap: false,
+      child: ListView(
+          //shrinkWrap: true,
           physics: BouncingScrollPhysics(),   
           children: <Widget>[
-            Center(child:ClipRRect(borderRadius: BorderRadius.circular(8.0),child: Image.asset("assets/splash.png",fit: BoxFit.fill,width: 150.0,height: 150.0,)),),
-            //SizedBox(height: 100.0,),
-           // SizedBox(height: 25.0,),
-            Center(child: Text("Creat your account",style: TextStyle(fontSize:25, color: Colors.white,fontWeight: FontWeight.bold ),)),
-            Center(child: Text("To add favorites!",style: TextStyle(fontSize:25, color: Colors.white,fontWeight: FontWeight.bold ),)),
-            Center(child: SizedBox(height: 25.0,)),
-            Center(child: Flexible(child: ClipRRect(borderRadius: BorderRadius.circular(8.0),child: Image.asset("assets/corazon2.png",fit: BoxFit.fill,width: 80.0,height: 80.0,)))),
-            
-            
+            Column(children: <Widget>[
+              cuerpo
+            ],)
 
           ],
         ),
-      ),
     );
   }
 }

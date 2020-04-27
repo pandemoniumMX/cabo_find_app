@@ -305,6 +305,28 @@ class Login2 extends StatefulWidget {
 }
 
 class _State extends State<Login2> {
+
+  Widget cuerpo = ListView(
+        shrinkWrap: true,
+        physics: BouncingScrollPhysics(), 
+          children: <Widget>[
+            Column(children: <Widget>[
+            ClipRRect(borderRadius: BorderRadius.circular(8.0),child: Image.asset("assets/splash.png",fit: BoxFit.fill,width: 150.0,height: 150.0,)),
+            //SizedBox(height: 100.0,),
+            SizedBox(height: 25.0,),
+            Text("Crea tu cuenta",style: TextStyle(fontSize:25, color: Colors.white,fontWeight: FontWeight.bold ),),
+            Text("Para agregar tus promos!",style: TextStyle(fontSize:25, color: Colors.white,fontWeight: FontWeight.bold ),),
+            SizedBox(height: 25.0,),
+            ClipRRect(borderRadius: BorderRadius.circular(8.0),child: Image.asset("assets/fire2.png",fit: BoxFit.fill,width: 150.0,height: 150.0,)),
+           // ClipRRect(borderRadius: BorderRadius.circular(8.0),child: Image.asset("assets/corazon2.png",fit: BoxFit.fill,width: 80.0,height: 80.0,)),
+            ],)
+
+            
+            
+
+          ],
+        );
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -318,24 +340,17 @@ class _State extends State<Login2> {
     Colors.white,
     
   ])),
-      child: Container(
-        child: ListView(
-          shrinkWrap: false,
-          //addAutomaticKeepAlives: true,
-          physics: BouncingScrollPhysics(),   
-          children: <Widget>[
-            Center(child:ClipRRect(borderRadius: BorderRadius.circular(8.0),child: Image.asset("assets/splash.png",fit: BoxFit.fill,width: 150.0,height: 150.0,)),),
-            //SizedBox(height: 100.0,),
-            //SizedBox(height: 25.0,),
-            Center(child: Text("Crea tu cuenta",style: TextStyle(fontSize:25, color: Colors.white,fontWeight: FontWeight.bold ),)),
-            Center(child: Text("Para agregar tus promos!",style: TextStyle(fontSize:25, color: Colors.white,fontWeight: FontWeight.bold ),)),
-            Center(child: SizedBox(height: 25.0,)),
-            Center(child: Flexible(child: ClipRRect(borderRadius: BorderRadius.circular(8.0),child: Image.asset("assets/fire2.png",fit: BoxFit.fill,width: 80.0,height: 80.0,)))),
-            
-            
+      child: ListView(
+        //shrinkWrap: true,
+        //addAutomaticKeepAlives: true,
+        physics: BouncingScrollPhysics(),   
+        children: <Widget>[
+          Column(children: <Widget>[
+            cuerpo
+          ],)
+          
 
-          ],
-        ),
+        ],
       ),
     );
   }

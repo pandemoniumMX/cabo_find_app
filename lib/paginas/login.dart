@@ -2,10 +2,8 @@
 import 'dart:convert';
 
 import 'package:cabofind/main_esp.dart';
-import 'package:cabofind/paginas/usuario.dart';
-
-import 'package:cabofind/utilidades/classes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cabofind/utilidades/classes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -22,6 +20,7 @@ _Compras createState() => new _Compras();}
 
 class _Compras extends State<Login> {
 bool isLoggedIn=false;
+
 final GlobalKey<State> _keyLoader = new GlobalKey<State>();
 void initState() {
 
@@ -55,7 +54,6 @@ Future<bool>  sesionLog() async {
   http.Response response = await http.get("http://api.openrates.io/latest");
   return json.decode(response.body);
 }
-  
 
 @override
 Widget build(BuildContext context) {
@@ -77,7 +75,9 @@ Widget build(BuildContext context) {
 
 class Usuario extends StatefulWidget {
   final Users usuarios;
-  
+    
+
+
   Usuario({Key key, @required this.usuarios}) : super(
     key: key);
   @override
@@ -87,6 +87,9 @@ class Usuario extends StatefulWidget {
 
 
 class _UsuarioState extends State<Usuario> {
+  TextEditingController _celular =  TextEditingController();
+
+ String phoneNo, smsId, verificationId;
 
   void initState(){
     super.initState();
@@ -123,6 +126,83 @@ Navigator.pushReplacement(
                         );
  
 }
+
+Future<void> verifyPhone() async{
+    final PhoneCodeAutoRetrievalTimeout autoRetrieve = (String verId){
+      this.verificationId = verId;
+    };
+    final PhoneCodeSent smsCodeSent = (String verId, [int forceCodeResend]){
+      this.verificationId = verId;
+      smsCodeDialoge(context).then((value){
+        print('Signed In');
+      });
+    };
+    final PhoneVerificationCompleted verifiedSuccess = (AuthCredential auth){
+      print('verified');
+    };
+    final PhoneVerificationFailed verifyFailed = (AuthException e) {
+      print('${e.message}');
+    };
+    await FirebaseAuth.instance.verifyPhoneNumber(
+      phoneNumber: phoneNo,
+      timeout: const Duration(seconds: 5),
+      verificationCompleted: verifiedSuccess,
+      verificationFailed: verifyFailed,
+      codeSent: smsCodeSent,
+      codeAutoRetrievalTimeout: autoRetrieve,
+    );
+  }
+  Future<bool> smsCodeDialoge(BuildContext context){
+    return showDialog(context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return new AlertDialog(
+          title: Text('Enter OTP'),
+          content: TextField(
+            onChanged: (value)  {
+              this.smsId  = value;
+            },
+          ),
+          contentPadding: EdgeInsets.all(10.0),
+          actions: <Widget>[
+            new FlatButton(
+                onPressed: (){
+                  FirebaseAuth.instance.currentUser().then((user){
+                    if(user != null){
+                      Navigator.of(context).pop();
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Login()),
+                      );
+
+                    }
+                    else{
+                      Navigator.of(context).pop();
+                      signIn(smsId);
+                    }
+
+                  }
+                  );
+                },
+                child: Text('Done', style: TextStyle( color: Colors.blue),))
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> signIn(String smsCode) async {
+    final AuthCredential credential = PhoneAuthProvider.getCredential(
+      verificationId: verificationId,
+      smsCode: smsCode,
+    );
+     await FirebaseAuth.instance.signInWithCredential(credential)
+        .then((user){
+      Navigator.of(context).pushReplacementNamed('/loginpage');
+    }).catchError((e){
+      print(e);
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(/*
@@ -203,6 +283,46 @@ Navigator.pushReplacement(
                               
                               ]),
                                SizedBox(height:15.0), 
+/*
+                              Row(
+                            //    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                              
+                              Text("Celular:",style: TextStyle(fontSize:25, color: Colors.white ),),
+                              Flexible(
+                                flex:5,
+                                child: TextFormField( 
+                                style: TextStyle(color: Colors.white),     
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Este campo no puede estar vacío';
+                                  } else if (value.length <=3) {
+                                    return 'Requiere minimo 4 letras';
+                                  }
+                                  return null;
+                                }, 
+                                onChanged: (value){
+                                this.phoneNo = value;
+                                 },
+                                decoration: new InputDecoration(                                      
+                                        fillColor: Colors.white,
+                                        hintText: "Ejem. +5216241234567",
+                                        hintStyle: TextStyle(color: Colors.white),
+                                        border: new OutlineInputBorder(
+                                        borderRadius: new BorderRadius.circular(25.0),
+                                        borderSide: new BorderSide(color: Colors.white
+                                        ),
+                                      ),
+        
+                                      ),           
+                                keyboardType: TextInputType.phone, 
+                                controller: _celular,
+                                maxLines: 1, 
+                                ),
+                              )
+                            
+                              ]),*/
+                               SizedBox(height:15.0),  
                                     ///config
                               Row(
                                 
@@ -226,6 +346,25 @@ Navigator.pushReplacement(
                               ),
                               
                               ]),
+/*
+                              Center(
+                                child: RaisedButton(
+                                  onPressed: (){
+                                  verifyPhone();
+                                  },  
+                                  shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
+                                  color: Colors.blueAccent,  
+                                  child: new Row (
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            mainAxisSize: MainAxisSize.min,
+
+                                            children: <Widget>[
+                                              new Text('Guardar celular', style: TextStyle(fontSize: 20, color: Colors.white)), 
+                                              new Icon(FontAwesomeIcons.phoneAlt, color: Colors.white,)
+                                            ],
+                                          )
+                                      ),
+                              ),*/
 
                               Center(
                                 child: RaisedButton(
@@ -243,8 +382,8 @@ Navigator.pushReplacement(
                                             new Icon(FontAwesomeIcons.signOutAlt, color: Colors.white,)
                                           ],
                                         )
-                ),
-                              )
+                                    ),
+                                )
 
                                 
                               
@@ -522,7 +661,7 @@ Widget build(BuildContext context) {
                                           mainAxisSize: MainAxisSize.min,
 
                                           children: <Widget>[
-                                            new Text('Sesión con Google   ', style: TextStyle(fontSize: 20, color: Colors.red)), 
+                                            new Text('Sesión Local   ', style: TextStyle(fontSize: 20, color: Colors.red)), 
                                             new Icon(FontAwesomeIcons.google, color: Colors.red,)
                                           ],
                                         )
