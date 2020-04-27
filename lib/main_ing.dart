@@ -103,26 +103,11 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
 List data;
 List portada;
 
-
-Future<String> getPortada() async {
-    var response = await http.get(
-        Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/consultas_negocios/esp/list_portada.php"),
-
-        headers: {
-          "Accept": "application/json"
-        }
-    );
-
-    this.setState(
-            () {
-          portada = json.decode(
-              response.body);
-        });
-    
-
-    return "Success!";
-  }
+  Future<Map> getPortada() async {
+  http.Response response = await http.get("http://cabofind.com.mx/app_php/consultas_negocios/esp/list_portada2.php");
+  return json.decode(response.body);
+  
+}
 
    //final List<Todo> todos;
   Future<String> getData() async {
@@ -148,7 +133,6 @@ Future<String> getPortada() async {
   @override
   void initState() {
     //addStringToSF();
-    this.getPortada();
     super.initState();
  _c =  new PageController(
       initialPage: _page,
@@ -650,17 +634,40 @@ Future<String> getPortada() async {
                   onTap: () {
                   
                   },
-                child: FadeInImage(   
-                        image: NetworkImage(portada[0]["POR_FOTO_ING"]),  
-                        fit: BoxFit.cover,  
-                        width: MediaQuery.of(context).size.width,  
-                        //height: MediaQuery.of(context).size.height * 0.38,  
-                        height: MediaQuery.of(context).size.height,  
-                        // placeholder: AssetImage('android/assets/images/jar-loading.gif'),  
-                        placeholder: AssetImage('android/assets/images/loading.gif'),  
-                        fadeInDuration: Duration(milliseconds: 200),   
-                        
-                      ),
+                child: FutureBuilder(
+                future: getPortada(),
+                builder: (context, snapshot) {
+                  switch (snapshot.connectionState) {
+                    case ConnectionState.none:
+                    case ConnectionState.waiting:
+                      return Center(
+                          child: CircularProgressIndicator()
+                      );
+                    default:
+                      if (snapshot.hasError) {
+                        return Center(
+                            child: Text(
+                          "Error :(",
+                          style: TextStyle(color: Color(0xff01969a),  fontSize: 25.0),
+                          textAlign: TextAlign.center,
+                        ));
+                      } else {
+                  String _portada = snapshot.data["POR_FOTO"];
+                 // String _matricula = snapshot.data["INT_MATRICULA"];
+                  return FadeInImage(   
+                          image: NetworkImage(_portada),  
+                          fit: BoxFit.cover,  
+                          width: MediaQuery.of(context).size.width,  
+                          //height: MediaQuery.of(context).size.height * 0.38,  
+                          height: MediaQuery.of(context).size.height,  
+                          // placeholder: AssetImage('android/assets/images/jar-loading.gif'),  
+                          placeholder: AssetImage('android/assets/images/loading.gif'),  
+                          fadeInDuration: Duration(milliseconds: 200),   
+                          
+                        );
+                }
+            }
+          }),
                 ),
                   centerTitle: false,
 

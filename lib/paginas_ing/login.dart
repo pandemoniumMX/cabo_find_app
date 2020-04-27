@@ -66,9 +66,9 @@ Widget build(BuildContext context) {
          future: sesionLog(),
          builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
            if (snapshot.hasData) {
-             return snapshot.data ?  Usuario_ing(usuarios: new Users("testing@gmail.com")) : Login2();
+             return snapshot.data ?  Usuario_ing(usuarios: new Users("testing@gmail.com")) : Login2_ing();
            }
-           return Login2(); // noop, this builder is called again when the future completes
+           return Login2_ing(); // noop, this builder is called again when the future completes
          },
        )
     );
@@ -127,20 +127,7 @@ Navigator.pushReplacement(
 }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(/*
-      appBar: AppBar(
-
-        automaticallyImplyLeading: true,
-        centerTitle: false,
-        elevation: 0.0,
-        backgroundColor: Color(0xff01969a),
-        
-
-        //`true` if you want Flutter to automatically add Back Button when needed,
-        //or `false` if you want to force your own back button every where
-        title:  Text("Perfil",style: TextStyle(fontSize:40, color: Colors.white,fontWeight: FontWeight.bold ),)
-        
-      ),*/
+    return Scaffold(
       body: Container(
         decoration: BoxDecoration(
         gradient: LinearGradient(
@@ -175,6 +162,8 @@ Navigator.pushReplacement(
                     ));
                   } else {
                     return ListView(
+                      shrinkWrap: false,
+                      physics: BouncingScrollPhysics(),  
                       children: <Widget>[
                         Center(child: Column(
 
@@ -245,7 +234,7 @@ Navigator.pushReplacement(
                                             new Icon(FontAwesomeIcons.signOutAlt, color: Colors.white,)
                                           ],
                                         )
-                ),
+                                     ),
                               )
 
                                 
@@ -269,11 +258,11 @@ Navigator.pushReplacement(
 }
 
 
-class Login2 extends StatefulWidget {
+class Login2_ing extends StatefulWidget {
 @override
 _Compras2 createState() => new _Compras2();}
 
-class _Compras2 extends State<Login2> {
+class _Compras2 extends State<Login2_ing> {
 bool isLoggedIn=false;
 final GlobalKey<State> _keyLoader = new GlobalKey<State>();
 void initState() {

@@ -76,8 +76,8 @@ Navigator.pushReplacement(
         child: FutureBuilder(
           future: _loadUser(),
           builder: (context, snapshot) {
-            String boolAsString =snapshot.data["USU_NOTIFICACIONES"];
-            bool isSwitched = boolAsString == 'true';
+            //String boolAsString =snapshot.data["USU_NOTIFICACIONES"];
+            bool isSwitched = true;
             // bool isSwitched = snapshot.data["USU_NOTIFICACIONES"];
               switch (snapshot.connectionState) {
                 
@@ -96,6 +96,8 @@ Navigator.pushReplacement(
                     ));
                   } else {
                     return ListView(
+                      shrinkWrap: false,
+                      physics: BouncingScrollPhysics(),   
                       children: <Widget>[
                         Center(child: Column(
 

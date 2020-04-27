@@ -200,20 +200,14 @@ Navigator.pushReplacement(
         itemBuilder: (BuildContext context, int index) {
       String id_n = data[index]["ID_PUBLICACION"];
           return new ListTile(
-
-
             title: new Card(
-
               elevation: 5.0,
               child: new Container(
                 child: Column(
-
                   children: <Widget>[
-                    //Text("Texto",
                     Row(
                       mainAxisAlignment : MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        
+                      children: <Widget>[                       
                       FadeInImage(
                       image: NetworkImage(data[index]["GAL_FOTO"]),
                       fit: BoxFit.fill,
@@ -226,39 +220,24 @@ Navigator.pushReplacement(
                                   child: Text(data[index]["PUB_TITULO"],overflow: TextOverflow.ellipsis,softWrap: true,   
                                   style:TextStyle(fontWeight: FontWeight.bold,fontSize: 20.0, color: Colors.black,)),
                               ),
-
                         FloatingActionButton(
                           child: new Image.asset(
                         "assets/delete.png",
                         fit: BoxFit.cover,
                         width: 20.0,
                         height: 20.0,
-
                       ),
                           elevation: 0.0,
                           backgroundColor: Colors.transparent,
                            onPressed: (){deletefav(id_n);_loadUser();},
 
                         ),
-                        
-                  
-
-                       
-
-
                       ],
-                        
-
-
                     ),
                   ],
-
                 ),
-
               ),
-
             ),
-
             onTap: () {
             String id_n = data[index]["ID_NEGOCIO"];
             String id = data[index]["ID_PUBLICACION"];
@@ -266,13 +245,9 @@ Navigator.pushReplacement(
                 (builder: (context) => new Publicacion_detalle_fin(
               publicacion: new Publicacion(id_n,id),
             )));
-
             },
-            
           );
-
         },
-
     );
     return Scaffold(
      
@@ -287,10 +262,8 @@ Navigator.pushReplacement(
           Color(0xff01969a),
           Colors.white,          
         ])),
-      child: Text("Mis Promos",style: TextStyle(fontSize:40, color: Colors.white,fontWeight: FontWeight.bold ),)),
-  
+      child: Text("Mis Favoritos",style: TextStyle(fontSize:40, color: Colors.white,fontWeight: FontWeight.bold ),)),
       estructura,
-
 
       ],
       ),

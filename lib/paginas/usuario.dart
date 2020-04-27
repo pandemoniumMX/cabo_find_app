@@ -9,10 +9,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../main.dart';
 
-class Usuario extends StatefulWidget {
+class Usuario_esp extends StatefulWidget {
   final Users usuarios;
   
-  Usuario({Key key, @required this.usuarios}) : super(
+  Usuario_esp({Key key, @required this.usuarios}) : super(
     key: key);
   @override
   _UsuarioState createState() => _UsuarioState();
@@ -20,7 +20,7 @@ class Usuario extends StatefulWidget {
 
 
 
-class _UsuarioState extends State<Usuario> {
+class _UsuarioState extends State<Usuario_esp> {
 
   void initState(){
     super.initState();
@@ -60,21 +60,7 @@ Navigator.pushReplacement(
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-
-        automaticallyImplyLeading: true,
-        //`true` if you want Flutter to automatically add Back Button when needed,
-        //or `false` if you want to force your own back button every where
-        title: Text('Cuenta'),
-        leading: IconButton(icon:Icon(Icons.arrow_back),
-          onPressed:() => Navigator.pushReplacement(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (BuildContext context) => new Myapp1()
-                        )
-                        ),
-        )
-      ),
+      
       body: Container(
         decoration: BoxDecoration(
         gradient: LinearGradient(
@@ -89,8 +75,8 @@ Navigator.pushReplacement(
         child: FutureBuilder(
           future: _loadUser(),
           builder: (context, snapshot) {
-            String boolAsString =snapshot.data["USU_NOTIFICACIONES"];
-            bool isSwitched = boolAsString == 'true';
+           // String boolAsString =snapshot.data["USU_NOTIFICACIONES"];
+            bool isSwitched = true;
             // bool isSwitched = snapshot.data["USU_NOTIFICACIONES"];
               switch (snapshot.connectionState) {
                 
@@ -109,6 +95,8 @@ Navigator.pushReplacement(
                     ));
                   } else {
                     return ListView(
+                      shrinkWrap: false,
+                      physics: BouncingScrollPhysics(),
                       children: <Widget>[
                         Center(child: Column(
 
@@ -130,14 +118,7 @@ Navigator.pushReplacement(
                               ]),
                               SizedBox(height:15.0),
 
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
                               
-                              Text("CorreoX:",style: TextStyle(fontSize:25, color: Colors.white ),),
-                              Text(snapshot.data["USU_CORREO"],style: TextStyle(fontSize:25, color: Colors.white ),),
-                              
-                              ]),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
@@ -177,7 +158,7 @@ Navigator.pushReplacement(
                                 _cerrarsesion();
                                 },  
                                 shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
-                                color: Color(0xff01969a),  
+                                color: Colors.red,  
                                 child: new Row (
                                           mainAxisAlignment: MainAxisAlignment.center,
                                           mainAxisSize: MainAxisSize.min,
