@@ -5,6 +5,7 @@ import 'package:cabofind/paginas/anuncios.dart';
 import 'package:cabofind/paginas/descubre.dart';
 import 'package:cabofind/paginas/domicilio.dart';
 import 'package:cabofind/paginas/educacion.dart';
+import 'package:cabofind/paginas/hoteles.dart';
 import 'package:cabofind/paginas/login.dart';
 import 'package:cabofind/paginas/maps.dart';
 import 'package:cabofind/paginas/misfavoritos.dart';
@@ -125,7 +126,7 @@ class _MyHomePageState extends State<MyHomePages> {
   Future<String> getData() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/consultas_negocios/esp/estructura_esp_test.php"),
+            "http://cabofind.com.mx/app_php/consultas_negocios/esp/estructura_esp.php"),
 
         headers: {
           "Accept": "application/json"
@@ -903,6 +904,16 @@ Widget _buildDropDownButton(String currencyCategory) {
                     context,
                     new MaterialPageRoute(
                         builder: (BuildContext context) => new Rickys()
+                        )
+                        );
+                 
+                 
+               }else if (ruta == "Hotel")
+               {
+                 Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Hoteles()
                         )
                         );
                  
