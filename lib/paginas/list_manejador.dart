@@ -327,115 +327,110 @@ String id_n = data[index]["ID_NEGOCIO"];
         itemCount: databaja == null ? 0 : databaja.length,
         itemBuilder: (BuildContext context, int index) {
 String id_n = databaja[index]["ID_NEGOCIO"];
-          return new ListTile(
+          return new GestureDetector(
 
 
-            title: new Card(
-
-              elevation: 5.0,
-              child: new Container(
+            child: new Container(
 
 
-                decoration: BoxDecoration(
-                  borderRadius:BorderRadius.circular(10.0),
-                    border: Border.all(
-                        color: Colors.lightBlueAccent)
-                ),
-                padding: EdgeInsets.all(
-                    10.0),
-                margin: EdgeInsets.all(
-                    10.0),
+              decoration: BoxDecoration(
+                borderRadius:BorderRadius.circular(10.0),
+                  border: Border.all(
+                      color: Colors.lightBlueAccent)
+              ),
+              padding: EdgeInsets.all(
+                  10.0),
+              margin: EdgeInsets.all(
+                  10.0),
 
-                child: Column(
+              child: Column(
 
-                  children: <Widget>[
-
-                    Stack(
                 children: <Widget>[
 
-                   FadeInImage(
+                  Stack(
+              children: <Widget>[
 
-                      image: NetworkImage(databaja[index]["GAL_FOTO"]),
+                 FadeInImage(
+
+                    image: NetworkImage(databaja[index]["GAL_FOTO"]),
+                    fit: BoxFit.cover,
+                    width: MediaQuery.of(context).size.width,
+                    height: 220,
+
+                    // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
+                    placeholder: AssetImage('android/assets/images/loading.gif'),
+                    fadeInDuration: Duration(milliseconds: 200),
+
+                  ),
+
+              Positioned(
+                      right: -8.0,
+                      bottom: -8.0,
+                      child: new FloatingActionButton(
+                        child: new Image.asset(
+                      "assets/corazon2.png",
                       fit: BoxFit.cover,
-                      width: MediaQuery.of(context).size.width,
-                      height: 220,
-
-                      // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
-                      placeholder: AssetImage('android/assets/images/loading.gif'),
-                      fadeInDuration: Duration(milliseconds: 200),
+                      width: 35.0,
+                      height: 35.0,
 
                     ),
-
-                Positioned(
-                        right: -8.0,
-                        bottom: -8.0,
-                        child: new FloatingActionButton(
-                          child: new Image.asset(
-                        "assets/corazon2.png",
-                        fit: BoxFit.cover,
-                        width: 35.0,
-                        height: 35.0,
+                        elevation: 0.0,
+                        backgroundColor: Colors.transparent,
+                         onPressed: (){},
 
                       ),
-                          elevation: 0.0,
-                          backgroundColor: Colors.transparent,
-                           onPressed: (){},
+                    ),
+              Positioned(
+                              
+                              right: -8,
+                              bottom: -8,
+                              child: new FloatingActionButton(
+                                
+                               child: new Text(databaja[index]["NEG_RECOMENDACIONES"],
+                               style: TextStyle(fontWeight: FontWeight.bold,fontSize: 10.0, color: Colors.black)),
+                               elevation: 0.0,
+                               backgroundColor: Colors.transparent,
+                               onPressed: (){insertFavorite(id_n);
+                               getData();
+                               getDatabaja();
+                               },
+                               
+                              ),
+                            ),              
+                          ]
+            ),
+                  Row(
+                      children: <Widget>[
+
+                        Padding(
+
+                            child: Text(
+
+                                databaja[index]["SUB_NOMBRE"],
+                              overflow: TextOverflow.ellipsis,),
+                            padding: EdgeInsets.all(
+                                1.0)),
+                        Text(
+                            " | "),
+                        Padding(
+                            child: new Text(
+                                databaja[index]["NEG_NOMBRE"],
+                              overflow: TextOverflow.ellipsis,),
+                            padding: EdgeInsets.all(
+                                1.0)),
+                        Text(
+                            " | "),
+                        Flexible(
+                          child: new Text(
+                            databaja[index]["NEG_LUGAR"],
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,),
+
 
                         ),
-                      ),
-                Positioned(
-                                
-                                right: -8,
-                                bottom: -8,
-                                child: new FloatingActionButton(
-                                  
-                                 child: new Text(databaja[index]["NEG_RECOMENDACIONES"],
-                                 style: TextStyle(fontWeight: FontWeight.bold,fontSize: 10.0, color: Colors.black)),
-                                 elevation: 0.0,
-                                 backgroundColor: Colors.transparent,
-                                 onPressed: (){insertFavorite(id_n);
-                                 getData();
-                                 getDatabaja();
-                                 },
-                                 
-                                ),
-                              ),              
-                            ]
-              ),
-                    Row(
-                        children: <Widget>[
 
-                          Padding(
-
-                              child: Text(
-
-                                  databaja[index]["SUB_NOMBRE"],
-                                overflow: TextOverflow.ellipsis,),
-                              padding: EdgeInsets.all(
-                                  1.0)),
-                          Text(
-                              " | "),
-                          Padding(
-                              child: new Text(
-                                  databaja[index]["NEG_NOMBRE"],
-                                overflow: TextOverflow.ellipsis,),
-                              padding: EdgeInsets.all(
-                                  1.0)),
-                          Text(
-                              " | "),
-                          Flexible(
-                            child: new Text(
-                              databaja[index]["NEG_LUGAR"],
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,),
-
-
-                          ),
-
-                        ]),
-                  ],
-
-                ),
+                      ]),
+                ],
 
               ),
 
