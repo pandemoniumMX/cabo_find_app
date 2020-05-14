@@ -164,27 +164,27 @@ void dispose() {
         itemCount: data == null ? 0 : data.length,
         itemBuilder: (BuildContext context, int index) {
 String id_n = data[index]["ID_NEGOCIO"];
-          return new ListTile(
+          return new GestureDetector(
 
 
-            title: new Card(
+            child: new Card(
 
-              elevation: 5.0,
+              elevation: 2.0,
               child: new Container(
-
-
+                height: 290,
                 decoration: BoxDecoration(
-                  borderRadius:BorderRadius.circular(10.0),
-                    border: Border.all(
-                        color: Colors.lightBlueAccent)
-                ),
-                padding: EdgeInsets.all(
-                    10.0),
-                margin: EdgeInsets.all(
-                    10.0),
+                    borderRadius:BorderRadius.circular(5.0),
+                      border: Border.all(
+                          color: Colors.grey)
+                  ),
+                  padding: EdgeInsets.all(
+                      0.0),
+                  margin: EdgeInsets.all(
+                      0.0),
+                
 
                 child: Column(
-
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
 
                     Stack(
@@ -193,9 +193,9 @@ String id_n = data[index]["ID_NEGOCIO"];
                    FadeInImage(
 
                       image: NetworkImage(data[index]["GAL_FOTO"]),
-                      fit: BoxFit.cover,
+                      fit: BoxFit.fitWidth,
                       width: MediaQuery.of(context).size.width,
-                      height: 220,
+                      height: 200,
 
                       // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
                       placeholder: AssetImage('android/assets/images/loading.gif'),
@@ -205,7 +205,7 @@ String id_n = data[index]["ID_NEGOCIO"];
 
                 Positioned(
                         right: -8.0,
-                        bottom: 170.0,
+                        bottom: 155.0,
                         child: new FloatingActionButton(
                           child: new Image.asset(
                         "assets/premium1.png",
@@ -264,37 +264,30 @@ String id_n = data[index]["ID_NEGOCIO"];
 
                             ]
               ),
-                    Row(
-                        children: <Widget>[
+                    Padding(
+                      child: Text(
+                      '',
+                      style: TextStyle(fontWeight: FontWeight.bold,),
+                      overflow: TextOverflow.ellipsis,),
+                      padding: EdgeInsets.only(left:25.0)),
 
-                          Padding(
-
-                              child: Text(
-
-                                  data[index]["SUB_NOMBRE_ING"],
-                                overflow: TextOverflow.ellipsis,),
-                              padding: EdgeInsets.all(
-                                  1.0)),
-                          Text(
-                              " | "),
-                          Padding(
-                              child: new Text(
-                                  data[index]["NEG_NOMBRE"],
-                                overflow: TextOverflow.ellipsis,),
-                              padding: EdgeInsets.all(
-                                  1.0)),
-                          Text(
-                              " | "),
-                          Flexible(
-                            child: new Text(
-                              data[index]["NEG_LUGAR"],
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,),
-
-
-                          ),
-
-                        ]),
+                    Padding(
+                      child: Text(
+                      data[index]["NEG_NOMBRE"],
+                      style: TextStyle(fontWeight: FontWeight.bold,),
+                      overflow: TextOverflow.ellipsis,),
+                      padding: EdgeInsets.only(left:25.0)),
+                   
+                    Padding(
+                        child: new Text(
+                        data[index]["SUB_NOMBRE_ING"],
+                        overflow: TextOverflow.ellipsis,),
+                        padding: EdgeInsets.only(left:25.0)),
+                    Padding(
+                        child: new Text(
+                        data[index]["NEG_LUGAR"],
+                        overflow: TextOverflow.ellipsis,),
+                        padding: EdgeInsets.only(left:25.0)),
                   ],
 
                 ),
@@ -325,27 +318,25 @@ String id_n = data[index]["ID_NEGOCIO"];
         itemCount: databaja == null ? 0 : databaja.length,
         itemBuilder: (BuildContext context, int index) {
 String id_n = databaja[index]["ID_NEGOCIO"];
-          return new ListTile(
+          return new GestureDetector(
 
 
-            title: new Card(
+            child: new Card(
 
-              elevation: 5.0,
+              elevation: 2.0,
               child: new Container(
-
-
+                height: 290,
                 decoration: BoxDecoration(
-                  borderRadius:BorderRadius.circular(10.0),
-                    border: Border.all(
-                        color: Colors.lightBlueAccent)
-                ),
-                padding: EdgeInsets.all(
-                    10.0),
-                margin: EdgeInsets.all(
-                    10.0),
-
+                    borderRadius:BorderRadius.circular(5.0),
+                      border: Border.all(
+                          color: Colors.grey)
+                  ),
+                  padding: EdgeInsets.all(
+                      0.0),
+                  margin: EdgeInsets.all(
+                      0.0),
                 child: Column(
-
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
 
                     Stack(
@@ -356,7 +347,7 @@ String id_n = databaja[index]["ID_NEGOCIO"];
                       image: NetworkImage(databaja[index]["GAL_FOTO"]),
                       fit: BoxFit.cover,
                       width: MediaQuery.of(context).size.width,
-                      height: 220,
+                      height: 200,
 
                       // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
                       placeholder: AssetImage('android/assets/images/loading.gif'),
@@ -400,35 +391,30 @@ String id_n = databaja[index]["ID_NEGOCIO"];
                               ),              
                             ]
               ),
-                    Row(
-                        children: <Widget>[
+                    Padding(
+                      child: Text(
+                      '',
+                      style: TextStyle(fontWeight: FontWeight.bold,),
+                      overflow: TextOverflow.ellipsis,),
+                      padding: EdgeInsets.only(left:25.0)),
 
-                          Padding(
-
-                              child: Text(
-
-                                  databaja[index]["SUB_NOMBRE_ING"],
-                                overflow: TextOverflow.ellipsis,),
-                              padding: EdgeInsets.all(
-                                  1.0)),
-                          Text(
-                              " | "),
-                          Padding(
-                              child: new Text(
-                                  databaja[index]["NEG_NOMBRE"],
-                                overflow: TextOverflow.ellipsis,),
-                              padding: EdgeInsets.all(
-                                  1.0)),
-                          Text(
-                              " | "),
-                          Flexible(
-                            child: new Text(
-                              databaja[index]["NEG_LUGAR"],
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,),
-                          ),
-
-                        ]),
+                    Padding(
+                      child: Text(
+                      databaja[index]["NEG_NOMBRE"],
+                      style: TextStyle(fontWeight: FontWeight.bold,),
+                      overflow: TextOverflow.ellipsis,),
+                      padding: EdgeInsets.only(left:25.0)),
+                   
+                    Padding(
+                        child: new Text(
+                        databaja[index]["SUB_NOMBRE_ING"],
+                        overflow: TextOverflow.ellipsis,),
+                        padding: EdgeInsets.only(left:25.0)),
+                    Padding(
+                        child: new Text(
+                        databaja[index]["NEG_LUGAR"],
+                        overflow: TextOverflow.ellipsis,),
+                        padding: EdgeInsets.only(left:25.0)),
                   ],
 
                 ),

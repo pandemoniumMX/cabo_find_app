@@ -15,6 +15,8 @@ import 'package:cabofind/utilidades/classes.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'hotel_detalle.dart';
+
 
 
 
@@ -418,7 +420,7 @@ String id_n = databaja[index]["ID_HOTEL"];
             onTap: () {
               String id_sql = databaja[index]["ID_HOTEL"];
               Navigator.push(context, new MaterialPageRoute
-                (builder: (context) => new Empresa_det_fin(empresa: new Empresa(id_sql))));
+                (builder: (context) => new Hotel_detalle(empresa: new Empresa(id_sql))));
 
             },
             //A Navigator is a widget that manages a set of child widgets with
