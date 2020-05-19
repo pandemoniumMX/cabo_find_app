@@ -723,7 +723,6 @@ final url =  dataneg[index]["NEG_MAP_IOS"];
     
     );
 
-    Color color = Theme.of(context).primaryColor;
 
 
     Widget textSection = Column(

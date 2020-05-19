@@ -9,6 +9,7 @@ import 'package:device_info/device_info.dart';
 import 'package:devicelocale/devicelocale.dart';
 import 'package:dropdownfield/dropdownfield.dart';
 import 'package:cabofind/paginas/reservacion.dart';
+import 'package:expand_widget/expand_widget.dart';
 import 'package:flutter/services.dart';
 //import 'package:flutter/Reservacion.dart';
 
@@ -46,6 +47,7 @@ class Detalles extends State<Hotel_detalle> {
   String _displayValue = "";
   String _displayValor = "";
 
+  bool widgetcarac =  false;
 
 
   
@@ -64,7 +66,7 @@ class Detalles extends State<Hotel_detalle> {
   List dataneg;
   List data_list;
   List data_carrusel;
-  List data_hor;
+  List data_car;
   List logos;
   List descripcion;
   List data_resena;
@@ -119,7 +121,7 @@ Future<String> getResena() async {
   Future<String> getCar() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/list_caracteristicas_api.php?ID=${widget.empresa.id_nm}"),
+            "http://cabofind.com.mx/app_php/APIs/esp/list_car_hab.php?ID=${widget.empresa.id_nm}"),
 
         headers: {
           "Accept": "application/json"
@@ -128,7 +130,7 @@ Future<String> getResena() async {
 
     this.setState(
             () {
-          data = json.decode(
+          data_car = json.decode(
               response.body);
         });
 
@@ -183,26 +185,7 @@ Future<String> getResena() async {
 
 
 
-  Future<String> getHorarios() async {
-    var response = await http.get(
-        Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/list_horarios_api.php?ID=${widget.empresa.id_nm}"),
-
-        headers: {
-          "Accept": "application/json"
-        }
-    );
-
-    this.setState(
-            () {
-              data_hor = json.decode(
-              response.body);
-        });
-
-
-    return "Success!";
-  }
-
+ 
 
   Future<String> get_list() async {
     var response = await http.get(
@@ -307,7 +290,6 @@ Future<String> insertVisitaiOS() async {
     this.get_list();
     this.getSer();
     this.getCarrusel();
-    this.getHorarios();
     this.getInfo();   
     //this.insertVisitaAndroid();
     this.getResena();
@@ -565,37 +547,7 @@ final url =  dataneg[index]["NEG_MAP_IOS"];
          });
    }
 
-    _alertHorario(BuildContext context) async {
-     return showDialog(
-         context: context,
-         builder: (context) {
-           return AlertDialog(
-             title: Text('Horario',style: TextStyle(fontSize: 25.0,),),
-             content: Container(
-                 width: double.maxFinite,
-                 height: 300.0,
-                 child: ListView.builder(
-                     itemCount: data_hor == null ? 0 : data_hor.length,
-                     itemBuilder: (BuildContext context, int index) {
-                       return Column(
-                         children: <Widget>[
-                           Container(child: Text(data_hor[index]["NEG_HORARIO"],style: TextStyle(),),padding: EdgeInsets.only(bottom:15.0),) ,
-                         ],
-                       );
-                     }
-                 )
-             ),
-             actions: <Widget>[
-               new FlatButton(
-                 child: new Text('Cerrar'),
-                 onPressed: () {
-                   Navigator.of(context).pop();
-                 },
-               )
-             ],
-           );
-         });
-   }
+    
 /*
    _mapa() async {
       if (Platform.isIOS) {
@@ -752,6 +704,36 @@ final url =  dataneg[index]["NEG_MAP_IOS"];
       ]
     );
 
+    Widget servicios_desc = Column(
+     
+     children: <Widget>[
+        new ListView.builder(
+        shrinkWrap: true,
+        physics: BouncingScrollPhysics(),
+        itemCount: data_car == null ? 0 : data_car.length,
+       itemBuilder: (BuildContext context, int index) {
+      return Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+            Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,  
+                          children: [
+                        Text(      
+              data_car[index]["CARHAB_NOMBRE"],        
+              // maxLines: 20,
+              //softWrap: true,
+              textAlign: TextAlign.center,
+                              style: TextStyle(fontSize: 18.0),
+                        ),
+                      ],
+            ),
+          ],
+      );
+       }
+      )
+      ]
+    );
+
     Widget logo = Column(
     
       children: <Widget>[
@@ -812,13 +794,6 @@ final url =  dataneg[index]["NEG_MAP_IOS"];
          children: <Widget>[
            FloatingActionButton(child: Icon(FontAwesomeIcons.conciergeBell), onPressed:() => _alertSer(context),backgroundColor:Color(0xff01969a),heroTag: "bt2",elevation: 0.0,),
            Text('Caracteristicas ', style: TextStyle(color: Colors.black),),
-
-         ],
-       ),
-       Column(
-         children: <Widget>[
-           FloatingActionButton(child: Icon(FontAwesomeIcons.clock), onPressed:() => _alertHorario(context),backgroundColor:Color(0xff01969a),heroTag: "bt3",elevation: 0.0,),
-           Text('Tipo ', style: TextStyle(color: Colors.black),),
 
          ],
        ),
@@ -1303,11 +1278,19 @@ Widget resenasection = Column(
                 SizedBox(height: 15.0,),
                 titleSection,
                 textSection,
+                Text('Características de la habitación',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                        fontSize: 20.0,
+                       //color: Colors.blue[500],
+                    ),
+                  ),
+                servicios_desc,
                 SizedBox(height: 10.0,),
 
-                buttonSection(),
+                //buttonSection(),
                 SizedBox(height: 10.0,),
-                ubersection,
+                //ubersection,
 
 
 

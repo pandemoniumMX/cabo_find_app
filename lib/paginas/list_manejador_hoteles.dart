@@ -4,6 +4,7 @@ import 'package:cabofind/paginas/carrusel.dart';
 import 'package:cabofind/main.dart';
 import 'package:cabofind/paginas/login.dart';
 import 'package:cabofind/paginas/usuario.dart';
+import 'package:cabofind/utilidades/filtrohoteles.dart';
 import 'package:device_info/device_info.dart';
 import 'package:devicelocale/devicelocale.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -467,7 +468,13 @@ String id_n = databaja[index]["ID_HOTEL"];
                 children: [
                   RaisedButton(
 
-                  onPressed: (){},  
+                  onPressed: (){
+                    Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Filtro()
+                        )
+                        );},  
 
                   shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
                   color: Color(0xff01969a),
