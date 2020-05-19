@@ -632,9 +632,9 @@ final url =  dataneg[index]["NEG_MAP_IOS"];
             child:FadeInImage(
  
                    image: NetworkImage(data_carrusel[index]["GAL_FOTO"]),
-                   fit: BoxFit.cover,
+                   fit: BoxFit.fitWidth,
                    width: MediaQuery.of(context).size.width,
-                   height: MediaQuery.of(context).size.height / 1.5,
+                   height: MediaQuery.of(context).size.height /.5,
 
                    // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
                    placeholder: AssetImage('android/assets/images/loading.gif'),

@@ -455,14 +455,15 @@ String id_n = databaja[index]["ID_HOTEL"];
           ],
         ),
           Positioned(
-            
-            bottom: 20.0,  
-            left: 50,
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height*1.5,
+           // left: MediaQuery.of(context).size.width/4,
               
             child: Center(
               
               child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
+                //crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   RaisedButton(
 
