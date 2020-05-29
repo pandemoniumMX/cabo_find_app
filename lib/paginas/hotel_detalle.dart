@@ -10,6 +10,7 @@ import 'package:devicelocale/devicelocale.dart';
 import 'package:dropdownfield/dropdownfield.dart';
 import 'package:cabofind/paginas/reservacion.dart';
 import 'package:expand_widget/expand_widget.dart';
+import 'package:expandable/expandable.dart';
 import 'package:flutter/services.dart';
 //import 'package:flutter/Reservacion.dart';
 
@@ -63,6 +64,8 @@ class Detalles extends State<Hotel_detalle> {
   bool isLoggedIn=false;
   List data;
   List data_serv;
+  List data_serh;
+  List data_hab;
   List dataneg;
   List data_list;
   List data_carrusel;
@@ -72,6 +75,8 @@ class Detalles extends State<Hotel_detalle> {
   List data_resena;
   int _current = 0;
   String reason = '';
+
+  
 Future<String> getResena() async {
     var response = await http.get(
         Uri.encodeFull(
@@ -138,6 +143,45 @@ Future<String> getResena() async {
     return "Success!";
   }
 
+    Future<String> getSerH() async {
+    var response = await http.get(
+        Uri.encodeFull(
+            "http://cabofind.com.mx/app_php/APIs/esp/list_ser_hab.php?ID=${widget.empresa.id_nm}"),
+
+        headers: {
+          "Accept": "application/json"
+        }
+    );
+
+    this.setState(
+            () {
+          data_serh = json.decode(
+              response.body);
+        });
+
+
+    return "Success!";
+  }
+
+    Future<String> getHab() async {
+    var response = await http.get(
+        Uri.encodeFull(
+            "http://cabofind.com.mx/app_php/APIs/esp/list_tip_hab.php?ID=${widget.empresa.id_nm}"),
+
+        headers: {
+          "Accept": "application/json"
+        }
+    );
+
+    this.setState(
+            () {
+          data_hab = json.decode(
+              response.body);
+        });
+
+
+    return "Success!";
+  }
 
   Future<String> getSer() async {
     var response = await http.get(
@@ -291,6 +335,8 @@ Future<String> insertVisitaiOS() async {
     this.getSer();
     this.getCarrusel();
     this.getInfo();   
+    this.getSerH();
+    this.getHab();
     //this.insertVisitaAndroid();
     this.getResena();
     this.insertVisitaiOS;
@@ -635,7 +681,7 @@ final url =  dataneg[index]["NEG_MAP_IOS"];
             
                 Text(
 
-                  dataneg[index]["HOT_ESTRELLAS"],
+                  dataneg[index]["EST_ESTRELLAS"],
                   style: TextStyle(
                  fontSize: 20
                 ),
@@ -650,35 +696,90 @@ final url =  dataneg[index]["NEG_MAP_IOS"];
                 ),
               ),
               Text(
-                dataneg[index]["HOT_RANGO"],
+                dataneg[index]["RAN_HOTEL"],
                 style: TextStyle(
                  fontSize: 20
                 ),
               ), 
-              
-              
-              
-
             ],
             ),
 
             ),
-
-         
-
-
           ],
-
-       
         );
        },
-      ),
-       
-    
+      ),    
     );
 
-    Color color = Theme.of(context).primaryColor;
+    Widget widgetinfo = Container(
+      //padding: const EdgeInsets.all(20),
+     height:  50.0,
+      child: new ListView.builder(
+        shrinkWrap: true,
+        physics: BouncingScrollPhysics(),
+        itemCount: dataneg == null ? 0 : dataneg.length,
+       itemBuilder: (BuildContext context, int index) {    
 
+
+       
+
+         return  new Column(
+          children:[
+            
+          Center(
+            child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                
+                RaisedButton(
+
+                  onPressed: (){},  
+
+                  shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
+                  color: Color(0xff01969a),  
+                  
+                  child: new Row (
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+
+                    children: <Widget>[
+                      new Icon(FontAwesomeIcons.globeAmericas, color: Colors.white,),
+                      new Text(' Visitar sitio web', style: TextStyle(fontSize: 15, color: Colors.white)), 
+                      
+                    ],
+                  )
+                  
+                ),
+               // Sitioweb(dataneg: dataneg),
+               
+              RaisedButton(
+
+                  onPressed: (){},  
+
+                  shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
+                  color: Color(0xff01969a),
+                  
+                  child: new Row (
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+
+                    children: <Widget>[
+                      new Icon(FontAwesomeIcons.phoneAlt, color: Colors.white,),
+                      new Text(' Llamar', style: TextStyle(fontSize: 15, color: Colors.white)), 
+                      
+                    ],
+                  )
+                  
+                ),
+            ],
+            ),
+
+            ),
+          ],
+        );
+       },
+      ),    
+    );
 
     Widget textSection = Column(
      
@@ -689,16 +790,41 @@ final url =  dataneg[index]["NEG_MAP_IOS"];
         itemCount: dataneg == null ? 0 : dataneg.length,
        itemBuilder: (BuildContext context, int index) {
   //padding: const EdgeInsets.only(bottom: 10,left: 20,right: 20);
-      return new Card(
-        shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(5.0) ),
-          child: Text(
-          dataneg[index]["HOT_DES"],        
-          maxLines: 20,
-          softWrap: true,
-          textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 18.0),
-        ),
+      return Container(
+        padding: const EdgeInsets.all(10),
+        child: Text(dataneg[index]["HOT_DES"], softWrap: true, overflow: TextOverflow.visible,),
+    
       );
+       }
+      )
+      ]
+    );
+
+    Widget caracteristicas_desc = Column(
+     
+     children: <Widget>[
+        new ListView.builder(
+        shrinkWrap: true,
+        physics: BouncingScrollPhysics(),
+        itemCount: data_car == null ? 0 : data_car.length,
+       itemBuilder: (BuildContext context, int index) {
+      return Container(
+        padding: const EdgeInsets.all(10),
+        child: ExpandablePanel(
+        header: Text('Características de la habitación',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                        fontSize: 18.0,
+                       //color: Colors.blue[500],
+                    ), softWrap: true,
+                  ),
+        collapsed: Text("Ver características", softWrap: true, maxLines: 1, overflow: TextOverflow.ellipsis,),
+        expanded: Text(data_car[index]["Datos"],  softWrap: true, overflow: TextOverflow.visible,),
+        
+      )
+    
+      );
+      
        }
       )
       ]
@@ -710,25 +836,55 @@ final url =  dataneg[index]["NEG_MAP_IOS"];
         new ListView.builder(
         shrinkWrap: true,
         physics: BouncingScrollPhysics(),
-        itemCount: data_car == null ? 0 : data_car.length,
+        itemCount: data_serh == null ? 0 : data_serh.length,
        itemBuilder: (BuildContext context, int index) {
-      return Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-            Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,  
-                          children: [
-                        Text(      
-              data_car[index]["CARHAB_NOMBRE"],        
-              // maxLines: 20,
-              //softWrap: true,
-              textAlign: TextAlign.center,
-                              style: TextStyle(fontSize: 18.0),
-                        ),
-                      ],
-            ),
-          ],
+      return Container(
+        padding: const EdgeInsets.all(10),
+        child: ExpandablePanel(
+        header: Text('Servicios del establecimiento',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                        fontSize: 18.0,
+                       //color: Colors.blue[500],
+                    ), softWrap: true,
+                  ),
+        collapsed: Text("Ver Servicios", softWrap: true, maxLines: 1, overflow: TextOverflow.ellipsis,),
+        expanded: Text(data_serh[index]["Datos2"],  softWrap: true, overflow: TextOverflow.visible,),
+        
+      )
+    
       );
+      
+       }
+      )
+      ]
+    );
+
+Widget tipo_hab = Column(
+     
+     children: <Widget>[
+        new ListView.builder(
+        shrinkWrap: true,
+        physics: BouncingScrollPhysics(),
+        itemCount: data_hab == null ? 0 : data_hab.length,
+       itemBuilder: (BuildContext context, int index) {
+      return Container(
+        padding: const EdgeInsets.all(10),
+        child: ExpandablePanel(
+        header: Text('Tipo de habitaciones',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                        fontSize: 18.0,
+                       //color: Colors.blue[500],
+                    ), softWrap: true,
+                  ),
+        collapsed: Text("Ver Habitaciones", softWrap: true, maxLines: 1, overflow: TextOverflow.ellipsis,),
+        expanded: Text(data_hab[index]["Datos"],  softWrap: true, overflow: TextOverflow.visible,),
+        
+      )
+    
+      );
+      
        }
       )
       ]
@@ -989,7 +1145,7 @@ Widget resenasection = Column(
          
 
    facebook() async {
-     final url =  dataneg[index]["NEG_FACEBOOK"];
+     final url =  dataneg[index]["HOT_FACEBOOK"];
      if (await canLaunch(url)) {
        await launch(url);
      } else {
@@ -998,7 +1154,7 @@ Widget resenasection = Column(
    }
 
    web() async {
-     final url =  dataneg[index]["NEG_WEB"];
+     final url =  dataneg[index]["HOT_TRIPADVISOR"];
      if (await canLaunch(url)) {
        await launch(url);
      } else {
@@ -1007,7 +1163,7 @@ Widget resenasection = Column(
    }
 
    instagram() async {
-     final url =  dataneg[index]["NEG_INSTAGRAM"];
+     final url =  dataneg[index]["HOT_INSTAGRAM"];
      if (await canLaunch(url)) {
        await launch(url);
      } else {
@@ -1025,8 +1181,8 @@ Widget resenasection = Column(
    }
 
    correo() async {
-     if (await canLaunch("mailto:${dataneg[index]["NEG_CORREO"]}")) {
-       await launch("mailto:${dataneg[index]["NEG_CORREO"]}");
+     if (await canLaunch("mailto:${dataneg[index]["HOT_CORREO"]}")) {
+       await launch("mailto:${dataneg[index]["HOT_CORREO"]}");
      } else {
        throw 'Could not launch';
      }
@@ -1041,9 +1197,7 @@ Widget resenasection = Column(
          Expanded(child: SizedBox(width: 5.0,)),
          FloatingActionButton(child: Icon(FontAwesomeIcons.facebook), onPressed: facebook,backgroundColor:Color(0xff01969a),heroTag: "bt2",elevation: 0.0,),
          Expanded(child: SizedBox(width: 5.0,)),
-         FloatingActionButton(child: Icon(FontAwesomeIcons.globeAmericas), onPressed: web,backgroundColor:Color(0xff01969a),heroTag: "bt3",elevation: 0.0,),
-         Expanded(child: SizedBox(width: 5.0,)),
-         FloatingActionButton(child: Icon(FontAwesomeIcons.phone), onPressed: telefono,backgroundColor:Color(0xff01969a),heroTag: "bt4",elevation: 0.0,),
+         FloatingActionButton(child: Icon(FontAwesomeIcons.tripadvisor), onPressed: web,backgroundColor:Color(0xff01969a),heroTag: "bt3",elevation: 0.0,),
          Expanded(child: SizedBox(width: 5.0,)),
          FloatingActionButton(child: Icon(FontAwesomeIcons.envelope), onPressed: correo,backgroundColor:Color(0xff01969a),heroTag: "bt5",elevation: 0.0,),
          Expanded(child: SizedBox(width: 5.0,)),
@@ -1270,23 +1424,22 @@ Widget resenasection = Column(
 
           children: [
             Column(
-
+               crossAxisAlignment: CrossAxisAlignment.start, 
               children: <Widget>[
                
-
-                //logo,
-                SizedBox(height: 15.0,),
                 titleSection,
-                textSection,
-                Text('Características de la habitación',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                        fontSize: 20.0,
-                       //color: Colors.blue[500],
-                    ),
-                  ),
+                widgetinfo,
+                textSection,  
+                Divider(color: Color(0xff01969a),thickness: 3,),
+                Text(' Información',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),),        
+                Divider(),
+                caracteristicas_desc,
+                Divider(),
                 servicios_desc,
-                SizedBox(height: 10.0,),
+                Divider(),
+                tipo_hab,
+                Divider(),
+                
 
                 //buttonSection(),
                 SizedBox(height: 10.0,),
@@ -1323,7 +1476,7 @@ Widget resenasection = Column(
                   SizedBox(
                     height: 20.0,
                   ),
-                  Center(child: Text('Publicaciones',style: TextStyle(fontSize: 20.0,color: Colors.blueAccent ),)),
+                 // Center(child: Text('Publicaciones',style: TextStyle(fontSize: 20.0,color: Colors.blueAccent ),)),
                 ],
               ),
               height: 50.0,
@@ -1341,7 +1494,7 @@ Widget resenasection = Column(
                   SizedBox(
                     height: 15.0,
                   ),
-                 Center(child: Text('Reseñas',style: TextStyle(fontSize: 20.0,color: Colors.blueAccent ),)),
+                // Center(child: Text('Reseñas',style: TextStyle(fontSize: 20.0,color: Colors.blueAccent ),)),
                   SizedBox(
                     height: 15.0,
                   ),
@@ -1356,37 +1509,7 @@ Widget resenasection = Column(
                     height: 15.0,
                   ),
 
-            Container(
-  
-                padding: const EdgeInsets.only(bottom: 10,left: 20,right: 20),
-  
-                child: RaisedButton(
-  
-  
-  
-                  //child: Text(‘Send data to the second page’),
-  
-                  onPressed: initiateFacebookLogin,
-  
-  
-  //Color(0xff01969a),heroTag: "bt1",elevation: 0.0,),
-                  shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
-  
-                  color: Color(0xff4267b2),  
-                  child: new Row (
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          mainAxisSize: MainAxisSize.min,
-
-                                          children: <Widget>[
-                                            new Text('RESEÑA USANDO FACEBOOK ', style: TextStyle(fontSize: 18, color: Colors.white)), 
-                                            new Icon(FontAwesomeIcons.facebookSquare, color: Colors.white,)
-                                          ],
-                                        )
-                                ),
-  
-  
-  
-              ),
+            
 
 
 
@@ -1403,3 +1526,24 @@ Widget resenasection = Column(
 
  
 }
+/*
+class Sitioweb extends StatelessWidget {
+  const Sitioweb({
+    Key key,
+    @required this.dataneg,
+  }) : super(key: key);
+
+  final List dataneg;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+
+      dataneg[index]["EST_ESTRELLAS"],
+      style: TextStyle(
+     fontSize: 20
+    ),
+      
+    );
+  }
+}*/

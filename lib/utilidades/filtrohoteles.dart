@@ -25,7 +25,7 @@ class Cuerpo extends StatelessWidget {
       Center(child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [   
-          Divider(),         
+          Divider(height: 30,),         
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -33,9 +33,9 @@ class Cuerpo extends StatelessWidget {
             Text('Ordenar por',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),
             Text('Calidad-Precio',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),
           ],),
-          Divider(),
+          Divider(height: 30,),
           Text('Opciones de filtro',style: TextStyle(fontWeight: FontWeight.normal,fontSize: 20),),
-          Divider(),
+          Divider(height: 30,),
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -43,15 +43,34 @@ class Cuerpo extends StatelessWidget {
             Text('Estrellas',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),
             Text('Cualquiera',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),
           ],),
-          Divider(),
+          Divider(height: 30,),
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
             Text('Estilo de hotel',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),
+            /*DropdownButton(
+                  items: playas.map((item) {
+                    return new DropdownMenuItem(
+                      child: new Text(item['PER_NOMBRE']),
+                      value: item['ID_PERSONA'].toString(),
+
+                    );
+                  }).toList(),
+                  onChanged: (newVal) {
+                    setState(() {
+                      _estilo = newVal;
+
+                    });
+                  },
+                  value: _estilo,
+                  focusColor: Colors.red,           
+                  isExpanded: true,        
+
+                ),*/
             Text('Todos',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),
           ],),
-          Divider(),
+          Divider(height: 30,),
           RaisedButton(
 
                   onPressed: (){},  

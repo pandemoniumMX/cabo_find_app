@@ -389,13 +389,13 @@ String id_n = databaja[index]["ID_HOTEL"];
                       padding: EdgeInsets.only(left:25.0)),
                   Padding(
                       child: new Text(
-                      databaja[index]["HOT_ESTRELLAS"],
+                      databaja[index]["EST_ESTRELLAS"],
                       overflow: TextOverflow.ellipsis,),
                       padding: EdgeInsets.only(left:25.0)),
                   
                   Padding(
                     child: new Text(
-                      databaja[index]["HOT_RANGO"],
+                      databaja[index]["RAN_HOTEL"],
                       overflow: TextOverflow.ellipsis,
                       
                       
