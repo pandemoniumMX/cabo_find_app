@@ -2,7 +2,6 @@
 import 'dart:convert';
 
 import 'package:cabofind/main_esp.dart';
-import 'package:cabofind/paginas/usuario.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cabofind/utilidades/classes.dart';
 import 'package:flutter/material.dart';
@@ -63,7 +62,7 @@ Widget build(BuildContext context) {
          future: sesionLog(),
          builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
            if (snapshot.hasData) {
-             return snapshot.data ?  Usuario_esp(usuarios: new Users("testing@gmail.com")) : Login2();
+             return snapshot.data ?  Usuario(usuarios: new Users("testing@gmail.com")) : Login2();
            }
            return Login2(); // noop, this builder is called again when the future completes
          },
@@ -72,7 +71,7 @@ Widget build(BuildContext context) {
     }
 }
 
-/*
+
 
 class Usuario extends StatefulWidget {
   final Users usuarios;
@@ -206,7 +205,20 @@ Future<void> verifyPhone() async{
   }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Scaffold(/*
+      appBar: AppBar(
+
+        automaticallyImplyLeading: true,
+        centerTitle: false,
+        elevation: 0.0,
+        backgroundColor: Color(0xff01969a),
+        
+
+        //`true` if you want Flutter to automatically add Back Button when needed,
+        //or `false` if you want to force your own back button every where
+        title:  Text("Perfil",style: TextStyle(fontSize:40, color: Colors.white,fontWeight: FontWeight.bold ),)
+        
+      ),*/
       body: Container(
         decoration: BoxDecoration(
         gradient: LinearGradient(
@@ -241,8 +253,6 @@ Future<void> verifyPhone() async{
                     ));
                   } else {
                     return ListView(
-                      shrinkWrap: false,
-                      physics: BouncingScrollPhysics(),   
                       children: <Widget>[
                         Center(child: Column(
 
@@ -394,7 +404,7 @@ Future<void> verifyPhone() async{
     );
   }
 }
-*/
+
 
 class Login2 extends StatefulWidget {
 @override
@@ -471,7 +481,7 @@ var response = await http.get(
   Navigator.pushReplacement(
                     context,
                     new MaterialPageRoute(
-                        builder: (BuildContext context) => new Usuario_esp(usuarios: new Users(correofb))
+                        builder: (BuildContext context) => new Usuario(usuarios: new Users(correofb))
                         )
                         );
 
@@ -652,7 +662,7 @@ Widget build(BuildContext context) {
 
                                           children: <Widget>[
                                             new Text('Sesión Local   ', style: TextStyle(fontSize: 20, color: Colors.red)), 
-                                            new Icon(FontAwesomeIcons.lockOpen, color: Colors.red,)
+                                            new Icon(FontAwesomeIcons.google, color: Colors.red,)
                                           ],
                                         )
                 ),*/
