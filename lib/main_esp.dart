@@ -10,6 +10,7 @@ import 'package:cabofind/paginas/maps.dart';
 import 'package:cabofind/paginas/misfavoritos.dart';
 import 'package:cabofind/paginas/mispromos.dart';
 import 'package:cabofind/paginas/publicacion_detalle.dart';
+import 'package:cabofind/paginas/recompensa.dart';
 import 'package:cabofind/paginas/ricky.dart';
 import 'package:cabofind/paginas/salud.dart';
 import 'package:cabofind/paginas_listas/list_eventos_grid.dart';
@@ -860,6 +861,7 @@ alertCar(context) async {
           selectedItemBackgroundColor: Color(0xff01969a),
           selectedItemIconColor: Colors.white,
           selectedItemLabelColor: Colors.black,
+          
         ),
         
       
@@ -869,9 +871,14 @@ alertCar(context) async {
             label: 'Inicio',
           ),
           FFNavigationBarItem(
+            iconData: FontAwesomeIcons.gift,
+            label: 'Recompensas',
+          ),
+          FFNavigationBarItem(
             iconData: FontAwesomeIcons.fire,
             label: 'Promos',
           ),
+          
           FFNavigationBarItem(
             iconData: FontAwesomeIcons.solidHeart,
             label: 'Favoritos',
@@ -1096,6 +1103,7 @@ alertCar(context) async {
         children: <Widget>[
           
           cuerpo,
+          new Mis_recompensas(),
           new Mis_promos(),
           new Mis_favoritos(),
           new Login()

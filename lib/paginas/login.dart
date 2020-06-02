@@ -511,7 +511,7 @@ Widget build(BuildContext context) {
                                             new Icon(FontAwesomeIcons.google, color: Colors.red,)
                                           ],
                                         )
-                ), 
+                ), */
                 RaisedButton(
                   onPressed: (){addlogin();},  
                   shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
@@ -521,11 +521,11 @@ Widget build(BuildContext context) {
                                           mainAxisSize: MainAxisSize.min,
 
                                           children: <Widget>[
-                                            new Text('Sesión con Google   ', style: TextStyle(fontSize: 20, color: Colors.red)), 
+                                            new Text('Sesión local   ', style: TextStyle(fontSize: 20, color: Colors.red)), 
                                             new Icon(FontAwesomeIcons.google, color: Colors.red,)
                                           ],
                                         )
-                ),*/
+                ),
                 RaisedButton(
                   onPressed: (){_launchURL();},  
                   shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
