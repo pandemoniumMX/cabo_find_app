@@ -466,8 +466,7 @@ final imagenfb = profile[ 'picture']["data"]["url"];
 final resena = controllerCode.text;
 final valor = _currentCity;
 
-//final imagenfb = profile['picture'];
-//final url =  dataneg[0]["NEG_WEB"];
+
 var response = await http.get(
         Uri.encodeFull(
             'http://cabofind.com.mx/app_php/APIs/esp/insertar_resena.php?ID_FB=${id}&CORREO=${correofb}&NOM=${nombresfb}&APE=${apellidosfb}&FOTO=${imagenfb}&IDIOMA=ESP&RESENA=${resena}&VALOR=${valor}&ID_N=${widget.empresa.id_nm}'),

@@ -62,6 +62,7 @@ Future<bool>  sesionLog() async {
 @override
 Widget build(BuildContext context) {
   return new Scaffold(    
+    appBar: AppBar(title: Text('Mis promos'),),
     body: FutureBuilder(
          future: sesionLog(),
          builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
@@ -103,7 +104,7 @@ final SharedPreferences login = await SharedPreferences.getInstance();
  String _status = "";
  String _mail ="";
  String _mail2 ="";
- _status = login.getString("stringLogin");
+String _idusu="";  _status = login.getString("stringLogin");
  _mail2 = login.getString("stringMail"); 
  
  print(_mail2) ;

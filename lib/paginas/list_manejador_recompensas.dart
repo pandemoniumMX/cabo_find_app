@@ -1,32 +1,28 @@
 import 'dart:convert';
-
-import 'package:cabofind/main_esp.dart';
 import 'package:cabofind/paginas/publicacion_detalle.dart';
-import 'package:cabofind/paginas/usuario.dart';
-
+import 'package:cabofind/paginas/recompensa_detalle.dart';
 import 'package:cabofind/utilidades/classes.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 import '../main.dart';
 
-class Mis_promos_ing extends StatefulWidget {
+class Mis_promos_manejador extends StatefulWidget {
+
+  final Publicacion publicacion;  
+
+  Mis_promos_manejador({Key key, @required this.publicacion}) : super(
+      key: key);  
 @override
 _Compras createState() => new _Compras();}
 
-class _Compras extends State<Mis_promos_ing> {
+class _Compras extends State<Mis_promos_manejador> {
 bool isLoggedIn=false;
 final GlobalKey<State> _keyLoader = new GlobalKey<State>();
 void initState() {
-
-  //sesionLog();
-  super.initState();
+super.initState();
 }
 
 Future<bool>  sesionLog() async {
@@ -60,11 +56,14 @@ Future<bool>  sesionLog() async {
 @override
 Widget build(BuildContext context) {
   return new Scaffold(    
+    appBar: AppBar(title: Text('Regresar'),),
     body: FutureBuilder(
          future: sesionLog(),
          builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
            if (snapshot.hasData) {
-             return snapshot.data ?  Usuario(usuarios: new Users("testing@gmail.com")) : Login2();
+             String id_n = widget.publicacion.id_n;
+             String id_p = widget.publicacion.id_p;
+             return snapshot.data ?  Usuario(usuarios: new Users("testing@gmail.com"), publicacion: new Publicacion(id_n, id_p),) : Login2();
            }
            return Login2(); // noop, this builder is called again when the future completes
          },
@@ -76,9 +75,10 @@ Widget build(BuildContext context) {
 
 
 class Usuario extends StatefulWidget {
+  final Publicacion publicacion;
   final Users usuarios;
   
-  Usuario({Key key, @required this.usuarios}) : super(
+  Usuario({Key key, @required this.publicacion, this.usuarios}) : super(
     key: key);
   @override
   _UsuarioState createState() => _UsuarioState();
@@ -93,6 +93,7 @@ class _UsuarioState extends State<Usuario> {
   void initState(){
   super.initState();
   this._loadUser();
+  print(widget.publicacion.id_p);
 
   }
 
@@ -109,7 +110,7 @@ String _idusu="";  _status = login.getString("stringLogin");
 
   var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/list_promos_api.php?CORREO=$_mail2"),  
+            "http://cabofind.com.mx/app_php/APIs/esp/list_recompensas_usuario.php?CORREO=$_mail2&ID=${widget.publicacion.id_p}"),  
        
         headers: {
           "Accept": "application/json"
@@ -124,79 +125,15 @@ String _idusu="";  _status = login.getString("stringLogin");
   
 }
   
-Future<String> deletefav(id_n) async {
-
-   
- final SharedPreferences login = await SharedPreferences.getInstance();
- String _status = "";
- String _mail ="";
- _status = login.getString("stringLogin")?? '';
- _mail = login.getString("stringMail")?? '';
- print(_status);
- print(_mail);
- //String id = data[0]["ID_NEGOCIO"];
- print(id_n);
-  // if (prefs.getString(_idioma) ?? 'stringValue' == "espanol")
-  if (_status == "True") {
-      showFavorites();
-
-      var response = await http.get(
-        Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/delete_recomendacion_publicacion.php?ID=${id_n}&CORREO=${_mail}"),
-
-        headers: {
-          "Accept": "application/json"
-        }
-    );
-
-      //CircularProgressIndicator(value: 5.0,);
-      
-    }
-    else
-    {
-     //CircularProgressIndicator(value: 5.0,);
-     
-      Navigator.pushReplacement(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (BuildContext context) => Myapp1()
-                        )
-                        );            
-     
-  }    
-  }
-
-  void showFavorites() {
-      Fluttertoast.showToast(
-          msg: "Deleted!",
-          toastLength: Toast.LENGTH_SHORT,
-          backgroundColor: Color(0xffED393A),
-          textColor: Colors.white,
-          timeInSecForIosWeb: 1);
-    }    
-
-Future<Map> _cerrarsesion() async {
-final SharedPreferences login = await SharedPreferences.getInstance();
-//login.setString('stringLogin', "False");
-login.clear();
-//login.setString('stringLogin', "True");
-Navigator.pushReplacement(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (BuildContext context) => new Myapp1()
-                        )
-                        );
- 
-}
   @override
   Widget build(BuildContext context) {
 
     Widget estructura = ListView.builder(
       shrinkWrap: true,
       physics: BouncingScrollPhysics(),
-        itemCount: data == null ? 0 : data.length,
-        itemBuilder: (BuildContext context, int index) {
-      String id_n = data[index]["ID_PUBLICACION"];
+      itemCount: data == null ? 0 : data.length,
+      itemBuilder: (BuildContext context, int index) {
+      //String id_n = data[index]["ID_PUBLICACION"];
           return new ListTile(
 
 
@@ -213,7 +150,7 @@ Navigator.pushReplacement(
                       children: <Widget>[
                         
                       FadeInImage(
-                      image: NetworkImage(data[index]["GAL_FOTO_ING"]),
+                      image: NetworkImage(data[index]["GAL_FOTO"]),
                       fit: BoxFit.fill,
                       width:  MediaQuery.of(context).size.width * .20,
                       height: MediaQuery.of(context).size.height * .10,
@@ -221,28 +158,24 @@ Navigator.pushReplacement(
                       fadeInDuration: Duration(milliseconds: 200),
                       ),  
                         Flexible(
-                                  child: Text(data[index]["PUB_TITULO_ING"],overflow: TextOverflow.ellipsis,softWrap: true,   
-                                  style:TextStyle(fontWeight: FontWeight.bold,fontSize: 20.0, color: Colors.black,)),
+                                  child: Text(data[index]["REC_TITULO"],overflow: TextOverflow.ellipsis,softWrap: true,   
+                                  style:TextStyle(fontWeight: FontWeight.bold,fontSize: 18.0, color: Colors.black,)),
                               ),
-
-                        FloatingActionButton(
-                          child: new Image.asset(
-                        "assets/delete.png",
-                        fit: BoxFit.cover,
-                        width: 20.0,
-                        height: 20.0,
-
-                      ),
-                          elevation: 0.0,
-                          backgroundColor: Colors.transparent,
-                           onPressed: (){deletefav(id_n);_loadUser();},
+                      Row(
+                          children: [
+                            Column(children: [
+                              new Text(
+                            data[index]["REC_META"],style: TextStyle(fontSize:20),
+                            
 
                         ),
+                        new Text('Puntos',style: TextStyle(fontSize: 10),),
+                        new Text('necesarios',style: TextStyle(fontSize: 10),)
+                            ],),
+                            
                         
-                  
-
-                       
-
+                      ],
+                        ),
 
                       ],
                         
@@ -258,11 +191,16 @@ Navigator.pushReplacement(
             ),
 
             onTap: () {
-            String id_n = data[index]["ID_NEGOCIO"];
-            String id = data[index]["ID_PUBLICACION"];
+            String id_re = data[index]["ID_RECOMPENSA"];
+            String id_n = data[index]["negocios_ID_NEGOCIO"];
+            String _mail = widget.usuarios.correo;
+
+            print(id_re);
+            print(id_n);
+            print(_mail);
               Navigator.push(context, new MaterialPageRoute
-                (builder: (context) => new Publicacion_detalle_fin(
-              publicacion: new Publicacion(id_n,id),
+                (builder: (context) => new Recompensa_detalle(
+              publicacion: new Publicacion2(id_re,id_n,_mail),
             )));
 
             },
@@ -275,7 +213,9 @@ Navigator.pushReplacement(
     return Scaffold(
      
       body: ListView(
-       
+    //shrinkWrap: true,
+    physics: BouncingScrollPhysics(),   
+    addAutomaticKeepAlives: true,
     children: <Widget>[                  
     Container(
       decoration: BoxDecoration(
@@ -284,7 +224,7 @@ Navigator.pushReplacement(
           Color(0xff01969a),
           Colors.white,          
         ])),
-      child: Text("My Deals",style: TextStyle(fontSize:40, color: Colors.white,fontWeight: FontWeight.bold ),)),
+      child: Text("Recompensas ",style: TextStyle(fontSize:40, color: Colors.white,fontWeight: FontWeight.bold ),)),
   
       estructura,
 
@@ -324,8 +264,8 @@ class _State extends State<Login2> {
             Center(child:ClipRRect(borderRadius: BorderRadius.circular(8.0),child: Image.asset("assets/splash.png",fit: BoxFit.fill,width: 150.0,height: 150.0,)),),
             //SizedBox(height: 100.0,),
             //SizedBox(height: 25.0,),
-            Center(child: Text("Creat your account",style: TextStyle(fontSize:25, color: Colors.white,fontWeight: FontWeight.bold ),)),
-            Center(child: Text("To add deals!",style: TextStyle(fontSize:25, color: Colors.white,fontWeight: FontWeight.bold ),)),
+            Center(child: Text("Crea tu cuenta",style: TextStyle(fontSize:25, color: Colors.white,fontWeight: FontWeight.bold ),)),
+            Center(child: Text("Para agregar tus promos!",style: TextStyle(fontSize:25, color: Colors.white,fontWeight: FontWeight.bold ),)),
             Center(child: SizedBox(height: 25.0,)),
             Center(child: Flexible(child: ClipRRect(borderRadius: BorderRadius.circular(8.0),child: Image.asset("assets/fire2.png",fit: BoxFit.fill,width: 80.0,height: 80.0,)))),
             

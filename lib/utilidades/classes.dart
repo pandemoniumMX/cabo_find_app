@@ -48,6 +48,13 @@ class Publicacion {
   Publicacion(this.id_n, this.id_p);  
 }
 
+class Publicacion2 {   
+  final String id_r; 
+  final String id_n;
+  final String mail;
+  Publicacion2(this.id_r, this.id_n, this.mail);  
+}
+
 class Anuncios_clase {
   final String id_anun; 
   Anuncios_clase(this.id_anun);

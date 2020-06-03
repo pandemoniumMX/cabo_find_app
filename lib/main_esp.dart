@@ -7,10 +7,8 @@ import 'package:cabofind/paginas/educacion.dart';
 import 'package:cabofind/paginas/hoteles.dart';
 import 'package:cabofind/paginas/login.dart';
 import 'package:cabofind/paginas/maps.dart';
-import 'package:cabofind/paginas/misfavoritos.dart';
-import 'package:cabofind/paginas/mispromos.dart';
+import 'package:cabofind/paginas/misrecompensa.dart';
 import 'package:cabofind/paginas/publicacion_detalle.dart';
-import 'package:cabofind/paginas/recompensa.dart';
 import 'package:cabofind/paginas/ricky.dart';
 import 'package:cabofind/paginas/salud.dart';
 import 'package:cabofind/paginas_listas/list_eventos_grid.dart';
@@ -873,7 +871,7 @@ alertCar(context) async {
           FFNavigationBarItem(
             iconData: FontAwesomeIcons.gift,
             label: 'Recompensas',
-          ),
+          ),/*
           FFNavigationBarItem(
             iconData: FontAwesomeIcons.fire,
             label: 'Promos',
@@ -882,7 +880,7 @@ alertCar(context) async {
           FFNavigationBarItem(
             iconData: FontAwesomeIcons.solidHeart,
             label: 'Favoritos',
-          ),
+          ),*/
           FFNavigationBarItem(
             iconData: FontAwesomeIcons.userAlt,
             label: 'Cuenta',
@@ -1104,8 +1102,8 @@ alertCar(context) async {
           
           cuerpo,
           new Mis_recompensas(),
-          new Mis_promos(),
-          new Mis_favoritos(),
+          //new Mis_promos(),
+          //new Mis_favoritos(),
           new Login()
         ],
       ),

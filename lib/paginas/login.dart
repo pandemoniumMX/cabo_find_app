@@ -2,6 +2,8 @@
 import 'dart:convert';
 
 import 'package:cabofind/main_esp.dart';
+import 'package:cabofind/paginas/misfavoritos.dart';
+import 'package:cabofind/paginas/mispromos.dart';
 import 'package:cabofind/paginas/usuario.dart';
 
 import 'package:cabofind/utilidades/classes.dart';
@@ -100,7 +102,7 @@ final SharedPreferences login = await SharedPreferences.getInstance();
  String _status = "";
  String _mail ="";
  String _mail2 ="";
- _status = login.getString("stringLogin");
+String _idusu="";  _status = login.getString("stringLogin");
  _mail2 = login.getString("stringMail"); 
  
  //_mail = "testing@gmail.com";
@@ -147,7 +149,7 @@ Navigator.pushReplacement(
           
         colors: [
           Color(0xff01969a),
-          Colors.white,
+          Color(0xffAEDEDF)
           
         ])),
         child: FutureBuilder(
@@ -174,14 +176,19 @@ Navigator.pushReplacement(
                   } else {
                     return ListView(
                       children: <Widget>[
-                        Center(child: Column(
-
+                        Container(
+                          padding: const EdgeInsets.all(10),
+                          child: Column(
+                          
                           children: <Widget>[
 
                               Row(
-                                
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
-                                Text("Perfil",style: TextStyle(fontSize:40, color: Colors.white,fontWeight: FontWeight.bold ),),]),
+                                Text("Perfil",style: TextStyle(fontSize:40, color: Colors.white,fontWeight: FontWeight.bold ),),
+                                
+                                ]),
+                                
 
                               Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -203,6 +210,62 @@ Navigator.pushReplacement(
                               
                               ]),
                                SizedBox(height:15.0), 
+                              Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text("Mis favoritos",style: TextStyle(fontSize:40, color: Colors.white,fontWeight: FontWeight.bold ),),
+                                
+                                ]), 
+                              RaisedButton(
+                                onPressed: (){
+                                Navigator.push(
+                                context,
+                                new MaterialPageRoute(
+                                    builder: (BuildContext context) => Mis_favoritos()
+                                    )
+                                    ); 
+                                },  
+                                shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
+                                color: Color(0xffED393A), 
+                                child: new Row (
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          mainAxisSize: MainAxisSize.min,
+
+                                          children: <Widget>[
+                                            new Text('Ver mis negocios guardados', style: TextStyle(fontSize: 20, color: Colors.white)), 
+                                            new Icon(FontAwesomeIcons.solidHeart, color: Colors.white,)
+                                          ],
+                                        )
+                              ),   
+
+                              Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text("Mis promos ",style: TextStyle(fontSize:40, color: Colors.white,fontWeight: FontWeight.bold ),),
+                                
+                                ]), 
+                                
+                              RaisedButton(
+                                onPressed: (){
+                                Navigator.push(
+                                context,
+                                new MaterialPageRoute(
+                                    builder: (BuildContext context) => Mis_promos()
+                                    )
+                                    ); 
+                                },  
+                                shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
+                                color: Color(0xffF4A32C),
+                                child: new Row (
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          mainAxisSize: MainAxisSize.min,
+
+                                          children: <Widget>[
+                                            new Text('Ver mis promos guardadas ', style: TextStyle(fontSize: 20, color: Colors.white)), 
+                                            new Icon(FontAwesomeIcons.fire, color: Colors.white,)
+                                          ],
+                                        )
+                              ),   
                                     ///config
                               Row(
                                 
@@ -243,7 +306,7 @@ Navigator.pushReplacement(
                                             new Icon(FontAwesomeIcons.signOutAlt, color: Colors.white,)
                                           ],
                                         )
-                ),
+                              ),
                               )
 
                                 

@@ -9,6 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 import '../main.dart';
+import 'list_manejador_recompensas.dart';
 
 class Mis_recompensas extends StatefulWidget {
 @override
@@ -95,7 +96,8 @@ final SharedPreferences login = await SharedPreferences.getInstance();
  String _status = "";
  String _mail ="";
  String _mail2 ="";
- _status = login.getString("stringLogin");
+String _idusu="";  
+_status = login.getString("stringLogin");
  _mail2 = login.getString("stringMail"); 
  
  print(_mail2) ;
@@ -185,7 +187,9 @@ Navigator.pushReplacement(
   @override
   Widget build(BuildContext context) {
 
-    Widget tutorial = Column(children: [
+    Widget tutorial = Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
 
       RaisedButton(
 
@@ -232,7 +236,7 @@ Navigator.pushReplacement(
 
       Center(
       child: QrImage(
-      data: "1234567890",
+      data: "ert345dfg",
       version: QrVersions.auto,
       size: 200.0,
     ),
@@ -283,7 +287,8 @@ Navigator.pushReplacement(
                             
 
                         ),
-                        new Text('Puntos ',style: TextStyle(fontSize: 10),)
+                        new Text('Puntos  ',style: TextStyle(fontSize: 10),),
+                        new Text('obtenidos',style: TextStyle(fontSize: 10),)
                             ],)
                         
                       ],
@@ -308,11 +313,13 @@ Navigator.pushReplacement(
             ),
 
             onTap: () {
-            String id_n = data[index]["ID_NEGOCIO"];
-            String id = data[index]["ID_PUBLICACION"];
+            String _usucorreo = widget.usuarios.correo;
+            String _idnegocio = data[index]["ID_NEGOCIO"];
+            print(_idnegocio);
+
               Navigator.push(context, new MaterialPageRoute
-                (builder: (context) => new Publicacion_detalle_fin(
-              publicacion: new Publicacion(id_n,id),
+                (builder: (context) => new Mis_promos_manejador(
+              publicacion: new Publicacion(_usucorreo,_idnegocio),
             )));
 
             },

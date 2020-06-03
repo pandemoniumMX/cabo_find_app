@@ -34,7 +34,7 @@ final SharedPreferences login = await SharedPreferences.getInstance();
  String _status = "";
  String _mail ="";
  String _mail2 ="";
- _status = login.getString("stringLogin");
+String _idusu="";  _status = login.getString("stringLogin");
  _mail2 = login.getString("stringMail"); 
  
  //_mail = "testing@gmail.com";
