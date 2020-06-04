@@ -823,11 +823,9 @@ String resv = dataneg[0]["NEG_RESERVA"];
 
   return new  Row(
        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-       children: [         
-                     
+       children: [        
          
          if ( latc != null) RaisedButton(
-
                   onPressed: (){_uber();},  
 
                   shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),

@@ -4,14 +4,12 @@ import 'dart:convert';
 import 'package:cabofind/main_esp.dart';
 import 'package:cabofind/paginas/misfavoritos.dart';
 import 'package:cabofind/paginas/mispromos.dart';
-import 'package:cabofind/paginas/usuario.dart';
 
 import 'package:cabofind/utilidades/classes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
@@ -453,7 +451,7 @@ void signInWithFacebook() async{
 
       
   }
-}
+}/*
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final GoogleSignIn googleSignIn = GoogleSignIn();
 
@@ -499,7 +497,7 @@ Future<String> signInWithGoogle() async {
   addLoginG(user,name,email, imageUrl);
 
   
-}  
+}  */
 void onLoginStatusChange(bool isLoggedIn){
   setState(() {
    this.isLoggedIn=isLoggedIn; 

@@ -4,6 +4,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:cabofind/paginas/cupones_detalle.dart';
 class Recompensa_detalle extends StatefulWidget {
     
   final Publicacion2 publicacion;  
@@ -67,13 +68,20 @@ var _meta = int.parse(data[0]["REC_META"]);
        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
        children: [         
                      
-         
-         if ( _total >= _meta) RaisedButton(
+         _total >= _meta ? RaisedButton(
                   onPressed: (){
+            String id_re = data[index]["ID_CUPONES"];
+            String id_n = data[index]["negocios_ID_NEGOCIO"];
+            print(id_re);
+            print(id_n);
+              Navigator.push(context, new MaterialPageRoute
+                (builder: (context) => new Cupones_detalles(
+              publicacion: new Publicacion(id_re,id_n),
+            )));                    
                   
                   },  
                   shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
-                  color: Color(0xff4267b2),  
+                  color: Colors.orange,
                   child: new Row (
                                           mainAxisAlignment: MainAxisAlignment.center,
                                           mainAxisSize: MainAxisSize.min,
@@ -85,29 +93,23 @@ var _meta = int.parse(data[0]["REC_META"]);
                                             
                                           ],
                                         )
-                ),
-        if ( _total < _meta ) RaisedButton(
-
+                ) : RaisedButton(
                   onPressed : null,
                   shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
                   color: Color(0xff4267b2),  
                   child: new Row (
                                           mainAxisAlignment: MainAxisAlignment.center,
                                           mainAxisSize: MainAxisSize.min,
-
-                                          children: <Widget>[
-                                            
+                                          children: <Widget>[                                            
                                             new Text(' Necesitas más puntos ', style: TextStyle(fontSize: 20, color: Colors.white)), 
                                             new Icon(FontAwesomeIcons.frown, color: Colors.white,),
-                                            
                                           ],
                                         )
-                ),       
+                ),
+         
+             
        ],
      );
-
-      
-
        }
      ),
      ]
@@ -150,28 +152,16 @@ var _meta = int.parse(data[0]["REC_META"]);
               ],),
               Text(data[index]["REC_TITULO"],style: TextStyle(fontSize: 50,fontWeight: FontWeight.bold, color: Color(0xff01969a)),softWrap: true,maxLines: 5,textAlign: TextAlign.center,),
               Text(data[index]["REC_DESCRIPCION"],style: TextStyle(fontSize:18,color: Colors.black),textAlign: TextAlign.center,),
-
             ],),
           ),
           ),
         ),
           _botonrecompensa,
           Text('Términos y condiciones',style: TextStyle(fontSize:12,color: Colors.black),textAlign: TextAlign.center,),
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Text(data[index]["REC_TERMINOS"],style: TextStyle(fontSize:12,color: Colors.black),textAlign: TextAlign.center,),
-          ),
-
-        
-
+          Center(child: Text(data[index]["REC_TERMINOS"],style: TextStyle(fontSize:10,color: Colors.black,),textAlign: TextAlign.justify,)),
         ],);
-
-
-
-
       }
-      ),
-      
+      ),      
     );
   }
 }

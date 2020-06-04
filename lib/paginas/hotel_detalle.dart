@@ -316,11 +316,11 @@ Future<String> insertVisitaiOS() async {
     return "Success!";
   }
 
-  Future<Map> getPortada() async {
+  Future<Map> getPortada() async { 
   http.Response response = await http.get("http://cabofind.com.mx/app_php/APIs/esp/galeria_hotel_api2.php?ID=${widget.empresa.id_nm}");
   return json.decode(response.body);
   
-} 
+  } 
   
   
 

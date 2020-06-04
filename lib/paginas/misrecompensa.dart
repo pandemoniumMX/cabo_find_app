@@ -1,15 +1,16 @@
 import 'dart:convert';
-import 'package:cabofind/paginas/publicacion_detalle.dart';
+import 'package:cabofind/paginas/list_manejador_rec_obtenidas.dart';
 import 'package:cabofind/utilidades/classes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_youtube/flutter_youtube.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
-
 import '../main.dart';
 import 'list_manejador_recompensas.dart';
+import 'package:encrypt/encrypt.dart' as crypt;
 
 class Mis_recompensas extends StatefulWidget {
 @override
@@ -33,9 +34,7 @@ Future<bool>  sesionLog() async {
  _mail = login.getString("stringMail")?? '';
  bool checkValue = login.containsKey('value');
  return checkValue = login.containsKey('stringLogin');
- print(checkValue);
- print(_status);
- print(_mail);
+ 
  
   // if (prefs.getString(_idioma) ?? 'stringValue' == "espanol")
   if (_status == "True") {
@@ -88,8 +87,23 @@ class _UsuarioState extends State<Usuario> {
   void initState(){
   super.initState();
   this._loadUser();
+  this._loaduserQR();
 
   }
+
+  Future<Map> _loaduserQR() async { 
+  final SharedPreferences login = await SharedPreferences.getInstance();
+ String _status = "";
+ String _mail ="";
+ String _mail2 ="";
+ String _idusu="";  
+_status = login.getString("stringLogin");
+ _mail2 = login.getString("stringMail");   
+
+  http.Response response = await http.get("http://cabofind.com.mx/app_php/APIs/esp/list_userqr_api.php?CORREO=$_mail2");
+  return json.decode(response.body);
+  
+  }   
 
   Future<Map> _loadUser() async {
 final SharedPreferences login = await SharedPreferences.getInstance();
@@ -100,7 +114,6 @@ String _idusu="";
 _status = login.getString("stringLogin");
  _mail2 = login.getString("stringMail"); 
  
- print(_mail2) ;
   
 
   var response = await http.get(
@@ -128,11 +141,7 @@ Future<String> deletefav(id_n) async {
  String _mail ="";
  _status = login.getString("stringLogin")?? '';
  _mail = login.getString("stringMail")?? '';
- print(_status);
- print(_mail);
- //String id = data[0]["ID_NEGOCIO"];
- print(id_n);
-  // if (prefs.getString(_idioma) ?? 'stringValue' == "espanol")
+
   if (_status == "True") {
       showFavorites();
 
@@ -187,13 +196,44 @@ Navigator.pushReplacement(
   @override
   Widget build(BuildContext context) {
 
+   _alertInstrucciones(BuildContext context) async {
+     return showDialog(
+         context: context,
+         builder: (context) {
+           return AlertDialog(
+             title: Text('Instrucciones',style: TextStyle(fontSize: 25.0,),),
+             content: Container(
+                 width: double.maxFinite,
+                 height: 150.0,
+                 child: Column(
+                         crossAxisAlignment: CrossAxisAlignment.start,
+                         children: <Widget>[
+                           Text('1: Ve a uno de los comercios participantes.',style: TextStyle(fontSize:12),),
+                           Text('2: Ordena a tu gusto.',style: TextStyle(fontSize:12),),
+                           Text('3: Cuando pagues, pide a un trabajador que escaneé tu código QR.',style: TextStyle(fontSize:12),),
+                           Text('4: Felicidades, obtuviste un punto! :)',style: TextStyle(fontSize:12),),
+                          // Container(child: Text(data[index]["CAR_NOMBRE_ING"],style: TextStyle(),),padding: EdgeInsets.only(bottom:15.0),) ,
+                         ],
+                       ),
+             ),
+             actions: <Widget>[
+               new FlatButton(
+                 child: new Text('Cerrar'),
+                 onPressed: () {
+                   Navigator.of(context).pop();
+                 },
+               )
+             ],
+           );
+         });
+   }
     Widget tutorial = Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
 
       RaisedButton(
 
-                  onPressed: (){},  
+                  onPressed: () => _alertInstrucciones(context),  
 
                   shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
                   color: Color(0xff01969a),  
@@ -213,10 +253,16 @@ Navigator.pushReplacement(
 
       RaisedButton(
 
-                  onPressed: (){},  
+                  onPressed: (){
+                    FlutterYoutube.playYoutubeVideoByUrl(
+                    apiKey: "AIzaSyAmNDqJm2s5Fpualsl_VF6LhG733knN0BY",
+                    videoUrl: 'https://www.youtube.com/watch?v=Wpwdd3Ibvpw',
+                    autoPlay: false, //default falase
+                    fullScreen: false //default false
+                    ); },  
 
                   shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
-                  color: Colors.red,  
+                  color: Colors.red,
                   
                   child: new Row (
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -233,15 +279,47 @@ Navigator.pushReplacement(
     ],);
 
     Widget miqr = Column (children: [
-
-      Center(
-      child: QrImage(
-      data: "ert345dfg",
-      version: QrVersions.auto,
-      size: 200.0,
-    ),
-    ),
-    Container( padding: const EdgeInsets.all(10),child: Text('Escaneame para sumar puntos y obtener recompensas!',style :TextStyle(fontSize: 20),softWrap: true,overflow: TextOverflow.visible,))
+      
+FutureBuilder(
+          future: _loaduserQR(),
+          builder: (context, snapshot) {            
+              switch (snapshot.connectionState) {
+                
+                case ConnectionState.none:
+                case ConnectionState.waiting:
+                return Center(
+                      child: CircularProgressIndicator()
+                  );
+                default:
+                  if (snapshot.hasError) {
+                    return Center(
+                        child: Text(
+                      "Error :(",
+                      style: TextStyle(color: Color(0xff01969a),  fontSize: 25.0),
+                      textAlign: TextAlign.center,
+                    ));
+                  } else {
+                    final iduser = snapshot.data["ID_USUARIOS"];
+                    final key = crypt.Key.fromLength(32);
+                    final iv = crypt.IV.fromLength(8);
+                    final encrypter = crypt.Encrypter(crypt.Salsa20(key));
+                    final encrypted = encrypter.encrypt(iduser, iv: iv);
+                    final decrypted = encrypter.decrypt(encrypted, iv: iv);
+                    String _qrencryp = encrypted.base64;
+                    //print(decrypted); 
+                    print(encrypted.base64); 
+                    return Center(
+                    child: QrImage(
+                    data: _qrencryp,
+                    version: QrVersions.auto,
+                    size: 200.0,
+                    ),
+                    );
+                  }  
+                
+              }
+          }),
+    Container( padding: const EdgeInsets.all(10),child: Text('Tú código QR',style :TextStyle(fontSize: 20),softWrap: true,overflow: TextOverflow.visible,))
 
     ],);
 
@@ -315,12 +393,12 @@ Navigator.pushReplacement(
             onTap: () {
             String _usucorreo = widget.usuarios.correo;
             String _idnegocio = data[index]["ID_NEGOCIO"];
-            print(_idnegocio);
 
               Navigator.push(context, new MaterialPageRoute
                 (builder: (context) => new Mis_promos_manejador(
               publicacion: new Publicacion(_usucorreo,_idnegocio),
-            )));
+            )
+            ));
 
             },
             
@@ -329,10 +407,10 @@ Navigator.pushReplacement(
         },
 
     );
+
     return Scaffold(
      
-      body: ListView(
-    //shrinkWrap: true,
+    body: ListView(
     physics: BouncingScrollPhysics(),   
     addAutomaticKeepAlives: true,
     children: <Widget>[                  
@@ -345,8 +423,45 @@ Navigator.pushReplacement(
         ])),
       child: Text("Mis Recompensas",style: TextStyle(fontSize:30, color: Colors.white,fontWeight: FontWeight.bold ),)),
       
-      miqr,
-      tutorial,
+      miqr,      
+      tutorial,      
+      Center(
+        child: RaisedButton(
+            onPressed: (){
+
+           
+                Navigator.push(context, new MaterialPageRoute
+                (builder: (context) => new Mis_promos_manejador_obtenidas()               
+                
+               ));
+
+                    },  
+
+                    shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
+                    color: Colors.orange,
+                    
+                    child: new Row (
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+
+                      children: <Widget>[
+                        new Icon(FontAwesomeIcons.gift, color: Colors.white,),
+                        new Text(' Recompensas obtenidas', style: TextStyle(fontSize: 15, color: Colors.white)), 
+                        
+                      ],
+                    )
+                    
+                  ),
+         ),
+      Divider(),
+      Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+        colors: [
+          Color(0xff01969a),
+          Colors.white,          
+        ])),
+      child: Text("Mis puntos",style: TextStyle(fontSize:30, color: Colors.white,fontWeight: FontWeight.bold ),)),
       estructura,
 
 

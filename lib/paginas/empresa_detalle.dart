@@ -9,6 +9,7 @@ import 'package:devicelocale/devicelocale.dart';
 import 'package:dropdownfield/dropdownfield.dart';
 import 'package:cabofind/paginas/reservacion.dart';
 import 'package:flutter/services.dart';
+
 //import 'package:flutter/Reservacion.dart';
 
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
@@ -20,7 +21,7 @@ import 'package:cabofind/utilidades/classes.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
+import 'list_manejador_recompensas.dart';
 //import 'reseña_insert.dart';
 
 
@@ -860,57 +861,88 @@ Widget ubersection = Column(
 
 String latc = dataneg[0]["NEG_MAP_LAT"];
 String resv = dataneg[0]["NEG_RESERVA"];
-  return new  Row(
-       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-       children: [         
-                     
-         
-         if ( latc != null) RaisedButton(
+String recom = dataneg[0]["NEG_RECOMPENSAS"];
+print(recom);
+  return Column(
+      children: [
+         new  Row(
+           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+           children: [         
+                         
+             
+             if ( latc != null) RaisedButton(
 
-                  onPressed: (){_uber();},  
+                      onPressed: (){_uber();},  
 
-                  shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
-                  color: Colors.black,  
-                  
-                  child: new Row (
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
+                      shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
+                      color: Colors.black,  
+                      
+                      child: new Row (
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
 
-                    children: <Widget>[
-                      new Text('Solicitar Uber', style: TextStyle(fontSize: 20, color: Colors.white)), 
-                      new Icon(FontAwesomeIcons.uber, color: Colors.white,)
-                    ],
-                  )
-                  
-                ),
-        if ( resv =='TRUE') RaisedButton(
-                  onPressed: (){
-                    String tipo_r = dataneg[0]["CAT_NOMBRE"];
-                    String tipo_n = dataneg[0]["SUB_NOMBRE"];
-                    String nombre = dataneg[0]["NEG_NOMBRE"];
-                    String id_negocio = dataneg[0]["ID_NEGOCIO"];
-                    String correo = dataneg[0]["NEG_CORREO"];
-                    Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (BuildContext context) => new Reservacion(reserva: new Reserva(tipo_r,tipo_n, nombre, id_negocio,correo))
-                        )
-                        );
-                  },  
-                  shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
-                  color: Colors.black, 
-                  child: new Row (
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      new Text('Reservar ', style: TextStyle(fontSize: 20, color: Colors.white)), 
-                      new Icon(FontAwesomeIcons.calendarAlt, color: Colors.white,)
-                    ],
-                  )
-                  
-                ),        
+                        children: <Widget>[
+                          new Text('Solicitar Uber', style: TextStyle(fontSize: 20, color: Colors.white)), 
+                          new Icon(FontAwesomeIcons.uber, color: Colors.white,)
+                        ],
+                      )
+                      
+                    ),
+            if ( resv =='TRUE') RaisedButton(
+                      onPressed: (){
+                        String tipo_r = dataneg[0]["CAT_NOMBRE"];
+                        String tipo_n = dataneg[0]["SUB_NOMBRE"];
+                        String nombre = dataneg[0]["NEG_NOMBRE"];
+                        String id_negocio = dataneg[0]["ID_NEGOCIO"];
+                        String correo = dataneg[0]["NEG_CORREO"];
+                        Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (BuildContext context) => new Reservacion(reserva: new Reserva(tipo_r,tipo_n, nombre, id_negocio,correo))
+                            )
+                            );
+                      },  
+                      shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
+                      color: Colors.black, 
+                      child: new Row (
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          new Text('Reservar ', style: TextStyle(fontSize: 20, color: Colors.white)), 
+                          new Icon(FontAwesomeIcons.calendarAlt, color: Colors.white,)
+                        ],
+                      )
+                      
+                    ),        
+           ],
+         ),
+         if ( recom =='TRUE') RaisedButton(
+                      onPressed: (){
+                        
+                        String id_negocio = dataneg[0]["ID_NEGOCIO"];
+                        Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (BuildContext context) => new Mis_promos_manejador(
+                            publicacion: new Publicacion('',id_negocio),   
+                          )
+                            )
+                            );
+                      },  
+                      shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
+                      color: Colors.orange,
+                      child: new Row (
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          new Text('Recompensas ', style: TextStyle(fontSize: 20, color: Colors.white)), 
+                          new Icon(FontAwesomeIcons.gift, color: Colors.white,)
+                        ],
+                      )
+                      
+                    ), 
        ],
-     );
+  );
 
       
 

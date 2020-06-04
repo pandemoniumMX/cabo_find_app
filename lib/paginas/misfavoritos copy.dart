@@ -1,27 +1,17 @@
 import 'dart:convert';
-
-import 'package:cabofind/main_esp.dart';
-import 'package:cabofind/paginas/publicacion_detalle.dart';
-import 'package:cabofind/paginas/usuario.dart';
-
 import 'package:cabofind/utilidades/classes.dart';
-import 'package:device_info/device_info.dart';
-import 'package:devicelocale/devicelocale.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
-
 import '../main.dart';
+import 'empresa_detalle.dart';
+class Mis_favoritos extends StatefulWidget {
+  @override
+  _State createState() => _State();
+}
 
-class Mis_promos extends StatefulWidget {
-@override
-_Compras createState() => new _Compras();}
-
-class _Compras extends State<Mis_promos> {
+class _State extends State<Mis_favoritos> {
 bool isLoggedIn=false;
 final GlobalKey<State> _keyLoader = new GlobalKey<State>();
 void initState() {
@@ -61,14 +51,14 @@ Future<bool>  sesionLog() async {
 @override
 Widget build(BuildContext context) {
   return new Scaffold(    
-    appBar: AppBar(title: Text('Mis promos'),),
+    appBar: AppBar(title: Text('Mis favoritos'),),
     body: FutureBuilder(
          future: sesionLog(),
          builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
            if (snapshot.hasData) {
-             return snapshot.data ?  Usuario(usuarios: new Users("testing@gmail.com")) : Login2();
+             return snapshot.data ?  Usuario2(usuarios: new Users("testing@gmail.com")) : Login3();
            }
-           return Login2(); // noop, this builder is called again when the future completes
+           return Login3(); // noop, this builder is called again when the future completes
          },
        )
     );
@@ -77,10 +67,10 @@ Widget build(BuildContext context) {
 
 
 
-class Usuario extends StatefulWidget {
+class Usuario2 extends StatefulWidget {
   final Users usuarios;
   
-  Usuario({Key key, @required this.usuarios}) : super(
+  Usuario2({Key key, @required this.usuarios}) : super(
     key: key);
   @override
   _UsuarioState createState() => _UsuarioState();
@@ -88,7 +78,7 @@ class Usuario extends StatefulWidget {
 
 
 
-class _UsuarioState extends State<Usuario> {
+class _UsuarioState extends State<Usuario2> {
 
   List data;
 
@@ -97,38 +87,9 @@ class _UsuarioState extends State<Usuario> {
   this._loadUser();
 
   }
-
-  Future<Map> _loadUser() async {
-final SharedPreferences login = await SharedPreferences.getInstance();
- String _status = "";
- String _mail ="";
- String _mail2 ="";
-String _idusu="";  _status = login.getString("stringLogin");
- _mail2 = login.getString("stringMail"); 
- 
- print(_mail2) ;
-  
-
-  var response = await http.get(
-        Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/list_promos_api.php?CORREO=$_mail2"),  
-       
-        headers: {
-          "Accept": "application/json"
-        }
-    );
-
-    this.setState(
-            () {
-          data = json.decode(
-              response.body);
-        });            
-  
-}
-  
 Future<String> deletefav(id_n) async {
 
-   
+                
  final SharedPreferences login = await SharedPreferences.getInstance();
  String _status = "";
  String _mail ="";
@@ -144,7 +105,7 @@ Future<String> deletefav(id_n) async {
 
       var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/delete_recomendacion_publicacion.php?ID=${id_n}&CORREO=${_mail}"),
+            "http://cabofind.com.mx/app_php/APIs/esp/delete_recomendacion_negocio.php?ID=${id_n}&CORREO=${_mail}"),
 
         headers: {
           "Accept": "application/json"
@@ -175,7 +136,36 @@ Future<String> deletefav(id_n) async {
           backgroundColor: Color(0xffED393A),
           textColor: Colors.white,
           timeInSecForIosWeb: 1);
-    }  
+    }
+  Future<Map> _loadUser() async {
+final SharedPreferences login = await SharedPreferences.getInstance();
+ String _status = "";
+ String _mail ="";
+ String _mail2 ="";
+String _idusu="";  _status = login.getString("stringLogin");
+ _mail2 = login.getString("stringMail"); 
+ 
+ print(_mail2) ;
+  
+
+  var response = await http.get(
+        Uri.encodeFull(
+            "http://cabofind.com.mx/app_php/APIs/esp/list_favoritos_api.php?CORREO=$_mail2"),  
+       
+        headers: {
+          "Accept": "application/json"
+        }
+    );
+
+    this.setState(
+            () {
+          data = json.decode(
+              response.body);
+        });            
+  
+}
+  
+  
 
 Future<Map> _cerrarsesion() async {
 final SharedPreferences login = await SharedPreferences.getInstance();
@@ -198,7 +188,7 @@ Navigator.pushReplacement(
       physics: BouncingScrollPhysics(),
         itemCount: data == null ? 0 : data.length,
         itemBuilder: (BuildContext context, int index) {
-      String id_n = data[index]["ID_PUBLICACION"];
+      String id_n = data[index]["ID_NEGOCIO"];
           return new ListTile(
 
 
@@ -223,7 +213,7 @@ Navigator.pushReplacement(
                       fadeInDuration: Duration(milliseconds: 200),
                       ),  
                         Flexible(
-                                  child: Text(data[index]["PUB_TITULO"],overflow: TextOverflow.ellipsis,softWrap: true,   
+                                  child: Text(data[index]["NEG_NOMBRE"],overflow: TextOverflow.ellipsis,softWrap: true,   
                                   style:TextStyle(fontWeight: FontWeight.bold,fontSize: 20.0, color: Colors.black,)),
                               ),
 
@@ -260,12 +250,9 @@ Navigator.pushReplacement(
             ),
 
             onTap: () {
-            String id_n = data[index]["ID_NEGOCIO"];
-            String id = data[index]["ID_PUBLICACION"];
+            String id_sql = data[index]["ID_NEGOCIO"];
               Navigator.push(context, new MaterialPageRoute
-                (builder: (context) => new Publicacion_detalle_fin(
-              publicacion: new Publicacion(id_n,id),
-            )));
+                (builder: (context) => new Empresa_det_fin(empresa: new Empresa(id_sql))));
 
             },
             
@@ -277,9 +264,8 @@ Navigator.pushReplacement(
     return Scaffold(
      
       body: ListView(
-    //shrinkWrap: true,
+    shrinkWrap: true,
     physics: BouncingScrollPhysics(),   
-    addAutomaticKeepAlives: true,
     children: <Widget>[                  
     Container(
       decoration: BoxDecoration(
@@ -288,7 +274,7 @@ Navigator.pushReplacement(
           Color(0xff01969a),
           Colors.white,          
         ])),
-      child: Text("Mis Promos",style: TextStyle(fontSize:40, color: Colors.white,fontWeight: FontWeight.bold ),)),
+      child: Text("Mis Favoritos",style: TextStyle(fontSize:40, color: Colors.white,fontWeight: FontWeight.bold ),)),
   
       estructura,
 
@@ -300,12 +286,12 @@ Navigator.pushReplacement(
   
 }
 
-class Login2 extends StatefulWidget {
+class Login3 extends StatefulWidget {
   @override
-  _State createState() => _State();
+  _States createState() => _States();
 }
 
-class _State extends State<Login2> {
+class _States extends State<Login3> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -322,16 +308,15 @@ class _State extends State<Login2> {
       child: Container(
         child: ListView(
           shrinkWrap: false,
-          //addAutomaticKeepAlives: true,
           physics: BouncingScrollPhysics(),   
           children: <Widget>[
             Center(child:ClipRRect(borderRadius: BorderRadius.circular(8.0),child: Image.asset("assets/splash.png",fit: BoxFit.fill,width: 150.0,height: 150.0,)),),
             //SizedBox(height: 100.0,),
-            //SizedBox(height: 25.0,),
+           // SizedBox(height: 25.0,),
             Center(child: Text("Crea tu cuenta",style: TextStyle(fontSize:25, color: Colors.white,fontWeight: FontWeight.bold ),)),
-            Center(child: Text("Para agregar tus promos!",style: TextStyle(fontSize:25, color: Colors.white,fontWeight: FontWeight.bold ),)),
+            Center(child: Text("Para agregar tus favoritos!",style: TextStyle(fontSize:25, color: Colors.white,fontWeight: FontWeight.bold ),)),
             Center(child: SizedBox(height: 25.0,)),
-            Center(child: Flexible(child: ClipRRect(borderRadius: BorderRadius.circular(8.0),child: Image.asset("assets/fire2.png",fit: BoxFit.fill,width: 80.0,height: 80.0,)))),
+            Center(child: Flexible(child: ClipRRect(borderRadius: BorderRadius.circular(8.0),child: Image.asset("assets/corazon2.png",fit: BoxFit.fill,width: 80.0,height: 80.0,)))),
             
             
 
