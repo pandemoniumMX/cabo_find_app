@@ -11,11 +11,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:cabofind/utilidades/classes.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:video_player/video_player.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:flutube/flutube.dart';
 
 
 
@@ -40,7 +36,6 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
   List data_pub;
 
 
-  YoutubePlayerController _controller = YoutubePlayerController();
   var _idController = TextEditingController();
   var _seekToController = TextEditingController();
   double _volume = 100;
@@ -48,24 +43,14 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
   String _playerStatus = "";
   String _errorCode = '0';
 
-
-  void listener() {
-
-    setState(() {
-      _playerStatus = _controller.value.playerState.toString();
-      _errorCode = _controller.value.errorCode.toString();
-      print(_controller.value.toString());
-    });
-  }
+ 
 
   @override
   void deactivate() {
     // This pauses video while navigating to next page.
-    _controller.pause();
     super.deactivate();
   }
   void dispose() {
-    _controller.dispose();
     super.dispose();
 
   }

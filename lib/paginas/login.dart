@@ -2,12 +2,14 @@
 import 'dart:convert';
 
 import 'package:cabofind/main_esp.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cabofind/paginas/misfavoritos.dart';
+import 'package:cabofind/paginas/mispromos.dart';
+
 import 'package:cabofind/utilidades/classes.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
@@ -20,7 +22,6 @@ _Compras createState() => new _Compras();}
 
 class _Compras extends State<Login> {
 bool isLoggedIn=false;
-
 final GlobalKey<State> _keyLoader = new GlobalKey<State>();
 void initState() {
 
@@ -54,6 +55,7 @@ Future<bool>  sesionLog() async {
   http.Response response = await http.get("http://api.openrates.io/latest");
   return json.decode(response.body);
 }
+  
 
 @override
 Widget build(BuildContext context) {
@@ -75,9 +77,7 @@ Widget build(BuildContext context) {
 
 class Usuario extends StatefulWidget {
   final Users usuarios;
-    
-
-
+  
   Usuario({Key key, @required this.usuarios}) : super(
     key: key);
   @override
@@ -87,9 +87,6 @@ class Usuario extends StatefulWidget {
 
 
 class _UsuarioState extends State<Usuario> {
-  TextEditingController _celular =  TextEditingController();
-
- String phoneNo, smsId, verificationId;
 
   void initState(){
     super.initState();
@@ -103,7 +100,7 @@ final SharedPreferences login = await SharedPreferences.getInstance();
  String _status = "";
  String _mail ="";
  String _mail2 ="";
- _status = login.getString("stringLogin");
+String _idusu="";  _status = login.getString("stringLogin");
  _mail2 = login.getString("stringMail"); 
  
  //_mail = "testing@gmail.com";
@@ -126,83 +123,6 @@ Navigator.pushReplacement(
                         );
  
 }
-
-Future<void> verifyPhone() async{
-    final PhoneCodeAutoRetrievalTimeout autoRetrieve = (String verId){
-      this.verificationId = verId;
-    };
-    final PhoneCodeSent smsCodeSent = (String verId, [int forceCodeResend]){
-      this.verificationId = verId;
-      smsCodeDialoge(context).then((value){
-        print('Signed In');
-      });
-    };
-    final PhoneVerificationCompleted verifiedSuccess = (AuthCredential auth){
-      print('verified');
-    };
-    final PhoneVerificationFailed verifyFailed = (AuthException e) {
-      print('${e.message}');
-    };
-    await FirebaseAuth.instance.verifyPhoneNumber(
-      phoneNumber: phoneNo,
-      timeout: const Duration(seconds: 5),
-      verificationCompleted: verifiedSuccess,
-      verificationFailed: verifyFailed,
-      codeSent: smsCodeSent,
-      codeAutoRetrievalTimeout: autoRetrieve,
-    );
-  }
-  Future<bool> smsCodeDialoge(BuildContext context){
-    return showDialog(context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return new AlertDialog(
-          title: Text('Enter OTP'),
-          content: TextField(
-            onChanged: (value)  {
-              this.smsId  = value;
-            },
-          ),
-          contentPadding: EdgeInsets.all(10.0),
-          actions: <Widget>[
-            new FlatButton(
-                onPressed: (){
-                  FirebaseAuth.instance.currentUser().then((user){
-                    if(user != null){
-                      Navigator.of(context).pop();
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Login()),
-                      );
-
-                    }
-                    else{
-                      Navigator.of(context).pop();
-                      signIn(smsId);
-                    }
-
-                  }
-                  );
-                },
-                child: Text('Done', style: TextStyle( color: Colors.blue),))
-          ],
-        );
-      },
-    );
-  }
-
-  Future<void> signIn(String smsCode) async {
-    final AuthCredential credential = PhoneAuthProvider.getCredential(
-      verificationId: verificationId,
-      smsCode: smsCode,
-    );
-     await FirebaseAuth.instance.signInWithCredential(credential)
-        .then((user){
-      Navigator.of(context).pushReplacementNamed('/loginpage');
-    }).catchError((e){
-      print(e);
-    });
-  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(/*
@@ -227,7 +147,7 @@ Future<void> verifyPhone() async{
           
         colors: [
           Color(0xff01969a),
-          Colors.white,
+          Color(0xffAEDEDF)
           
         ])),
         child: FutureBuilder(
@@ -254,14 +174,19 @@ Future<void> verifyPhone() async{
                   } else {
                     return ListView(
                       children: <Widget>[
-                        Center(child: Column(
-
+                        Container(
+                          padding: const EdgeInsets.all(10),
+                          child: Column(
+                          
                           children: <Widget>[
 
                               Row(
-                                
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
-                                Text("Perfil",style: TextStyle(fontSize:40, color: Colors.white,fontWeight: FontWeight.bold ),),]),
+                                Text("Perfil",style: TextStyle(fontSize:40, color: Colors.white,fontWeight: FontWeight.bold ),),
+                                
+                                ]),
+                                
 
                               Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -283,46 +208,62 @@ Future<void> verifyPhone() async{
                               
                               ]),
                                SizedBox(height:15.0), 
-/*
                               Row(
-                            //    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
-                              
-                              Text("Celular:",style: TextStyle(fontSize:25, color: Colors.white ),),
-                              Flexible(
-                                flex:5,
-                                child: TextFormField( 
-                                style: TextStyle(color: Colors.white),     
-                                validator: (value) {
-                                  if (value.isEmpty) {
-                                    return 'Este campo no puede estar vacío';
-                                  } else if (value.length <=3) {
-                                    return 'Requiere minimo 4 letras';
-                                  }
-                                  return null;
-                                }, 
-                                onChanged: (value){
-                                this.phoneNo = value;
-                                 },
-                                decoration: new InputDecoration(                                      
-                                        fillColor: Colors.white,
-                                        hintText: "Ejem. +5216241234567",
-                                        hintStyle: TextStyle(color: Colors.white),
-                                        border: new OutlineInputBorder(
-                                        borderRadius: new BorderRadius.circular(25.0),
-                                        borderSide: new BorderSide(color: Colors.white
-                                        ),
-                                      ),
-        
-                                      ),           
-                                keyboardType: TextInputType.phone, 
-                                controller: _celular,
-                                maxLines: 1, 
-                                ),
-                              )
-                            
-                              ]),*/
-                               SizedBox(height:15.0),  
+                                Text("Mis favoritos",style: TextStyle(fontSize:40, color: Colors.white,fontWeight: FontWeight.bold ),),
+                                
+                                ]), 
+                              RaisedButton(
+                                onPressed: (){
+                                Navigator.push(
+                                context,
+                                new MaterialPageRoute(
+                                    builder: (BuildContext context) => Mis_favoritos()
+                                    )
+                                    ); 
+                                },  
+                                shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
+                                color: Color(0xffED393A), 
+                                child: new Row (
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          mainAxisSize: MainAxisSize.min,
+
+                                          children: <Widget>[
+                                            new Text('Ver mis negocios guardados', style: TextStyle(fontSize: 20, color: Colors.white)), 
+                                            new Icon(FontAwesomeIcons.solidHeart, color: Colors.white,)
+                                          ],
+                                        )
+                              ),   
+
+                              Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text("Mis promos ",style: TextStyle(fontSize:40, color: Colors.white,fontWeight: FontWeight.bold ),),
+                                
+                                ]), 
+                                
+                              RaisedButton(
+                                onPressed: (){
+                                Navigator.push(
+                                context,
+                                new MaterialPageRoute(
+                                    builder: (BuildContext context) => Mis_promos()
+                                    )
+                                    ); 
+                                },  
+                                shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
+                                color: Color(0xffF4A32C),
+                                child: new Row (
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          mainAxisSize: MainAxisSize.min,
+
+                                          children: <Widget>[
+                                            new Text('Ver mis promos guardadas ', style: TextStyle(fontSize: 20, color: Colors.white)), 
+                                            new Icon(FontAwesomeIcons.fire, color: Colors.white,)
+                                          ],
+                                        )
+                              ),   
                                     ///config
                               Row(
                                 
@@ -346,25 +287,6 @@ Future<void> verifyPhone() async{
                               ),
                               
                               ]),
-/*
-                              Center(
-                                child: RaisedButton(
-                                  onPressed: (){
-                                  verifyPhone();
-                                  },  
-                                  shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
-                                  color: Colors.blueAccent,  
-                                  child: new Row (
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            mainAxisSize: MainAxisSize.min,
-
-                                            children: <Widget>[
-                                              new Text('Guardar celular', style: TextStyle(fontSize: 20, color: Colors.white)), 
-                                              new Icon(FontAwesomeIcons.phoneAlt, color: Colors.white,)
-                                            ],
-                                          )
-                                      ),
-                              ),*/
 
                               Center(
                                 child: RaisedButton(
@@ -382,8 +304,8 @@ Future<void> verifyPhone() async{
                                             new Icon(FontAwesomeIcons.signOutAlt, color: Colors.white,)
                                           ],
                                         )
-                                    ),
-                                )
+                              ),
+                              )
 
                                 
                               
@@ -529,7 +451,7 @@ void signInWithFacebook() async{
 
       
   }
-}
+}/*
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final GoogleSignIn googleSignIn = GoogleSignIn();
 
@@ -575,7 +497,7 @@ Future<String> signInWithGoogle() async {
   addLoginG(user,name,email, imageUrl);
 
   
-}  
+}  */
 void onLoginStatusChange(bool isLoggedIn){
   setState(() {
    this.isLoggedIn=isLoggedIn; 
@@ -650,8 +572,7 @@ Widget build(BuildContext context) {
                                             new Icon(FontAwesomeIcons.google, color: Colors.red,)
                                           ],
                                         )
-                ), 
-
+                ), */
                 RaisedButton(
                   onPressed: (){addlogin();},  
                   shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
@@ -661,11 +582,11 @@ Widget build(BuildContext context) {
                                           mainAxisSize: MainAxisSize.min,
 
                                           children: <Widget>[
-                                            new Text('Sesión Local   ', style: TextStyle(fontSize: 20, color: Colors.red)), 
+                                            new Text('Sesión local   ', style: TextStyle(fontSize: 20, color: Colors.red)), 
                                             new Icon(FontAwesomeIcons.google, color: Colors.red,)
                                           ],
                                         )
-                ),*/
+                ),
                 RaisedButton(
                   onPressed: (){_launchURL();},  
                   shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),

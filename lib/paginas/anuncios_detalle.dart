@@ -11,7 +11,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:flutter_youtube/flutter_youtube.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:flutube/flutube.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:cabofind/utilidades/classes.dart';
@@ -19,7 +18,6 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import 'reseña_insert.dart';
 
 
 

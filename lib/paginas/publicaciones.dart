@@ -4,7 +4,7 @@ import 'package:cabofind/paginas_listas/list__anun_electronica.dart';
 import 'package:cabofind/paginas_listas/list__anun_empleo.dart';
 import 'package:cabofind/paginas_listas/list__anun_inmuebles.dart';
 
-import 'package:cabofind/paginas_listas/list_publicaciones_actividades%20.dart';
+import 'package:cabofind/paginas_listas/list_publicaciones_actividades.dart';
 import 'package:cabofind/paginas_listas/list_publicaciones_bares.dart';
 import 'package:cabofind/paginas_listas/list_publicaciones_compras.dart';
 import 'package:cabofind/paginas_listas/list_publicaciones_educacion.dart';

@@ -2,8 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:cabofind/paginas/empresa_detalle.dart';
 import 'package:cabofind/paginas_ing/empresa_detalle.dart';
-import 'package:cabofind/paginas_ing/publicacion_detalle_estatica.dart';
-import 'package:cabofind/paginas_listas/list_publicaciones.dart';
+
 import 'package:device_info/device_info.dart';
 import 'package:devicelocale/devicelocale.dart';
 import 'package:flutter/services.dart';
@@ -15,8 +14,6 @@ import 'package:http/http.dart' as http;
 import 'package:cabofind/utilidades/classes.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:video_player/video_player.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 
 
@@ -43,7 +40,6 @@ class _Publicacion_detalle_fin_ing extends State<Publicacion_detalle_fin_ing> {
 
 
 
-  YoutubePlayerController _controller = YoutubePlayerController();
   var _idController = TextEditingController();
   var _seekToController = TextEditingController();
   double _volume = 100;
@@ -51,23 +47,13 @@ class _Publicacion_detalle_fin_ing extends State<Publicacion_detalle_fin_ing> {
   String _playerStatus = "";
   String _errorCode = '0';
 
-  void listener() {
-
-    setState(() {
-      _playerStatus = _controller.value.playerState.toString();
-      _errorCode = _controller.value.errorCode.toString();
-      print(_controller.value.toString());
-    });
-  }
-
+ 
   @override
   void deactivate() {
     // This pauses video while navigating to next page.
-    _controller.pause();
     super.deactivate();
   }
   void dispose() {
-    _controller.dispose();
     super.dispose();
 
   }

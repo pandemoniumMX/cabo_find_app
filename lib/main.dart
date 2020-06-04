@@ -166,20 +166,18 @@ Future isLogged(context) async {
  _token = prefs.getString("stringValue");
  
   // if (prefs.getString(_idioma) ?? 'stringValue' == "espanol")
-  if (_token != "ingles") {
+  if (_token != "ingles") { 
       print("alreay login.");
       Navigator.of(context).pop();
-      Navigator.pushReplacement(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (BuildContext context) => new Myapp()
-                        )
-                        );
+      Route route = MaterialPageRoute(builder: (context) => Myapp());
+      Navigator.push(context, route);
+      
     }
     else
     {
       Navigator.of(context).pop();
-      Navigator.pushReplacement(
+      
+      Navigator.push(
                     context,
                     new MaterialPageRoute(
                         builder: (BuildContext context) => new MyHomePages_ing()

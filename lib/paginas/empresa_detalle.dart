@@ -19,7 +19,8 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 
-import 'reseña_insert.dart';
+import 'list_manejador_recompensas.dart';
+
 
 
 
@@ -783,7 +784,6 @@ var response = await http.get(
    );
 
 Widget ubersection = Column(
-     //width: MediaQuery.of(context).size.width +30,
 
      children: <Widget>[
         new ListView.builder(
@@ -791,8 +791,8 @@ Widget ubersection = Column(
         physics: BouncingScrollPhysics(),
         itemCount: dataneg == null ? 0 : dataneg.length,
        itemBuilder: (BuildContext context, int index) {
-String latc = dataneg[0]["NEG_MAP_LAT"];
-String resv = dataneg[0]["NEG_RESERVA"];
+//uber://?action=setPickup&client_id=5qCx0VeV1YF9ME3qt2kllkbLbp0hfIdq&pickup=my_location&dropoff[formatted_address]=Cabo%20San%20Lucas%2C%20Baja%20California%20Sur%2C%20M%C3%A9xico&dropoff[latitude]=22.890533&dropoff[longitude]=-109.916737
+
  
     _uber() async {
       final lat = dataneg[index]["NEG_MAP_LAT"];
@@ -806,62 +806,98 @@ String resv = dataneg[0]["NEG_RESERVA"];
     } 
 
 
-return  Row(
-       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-       
-       children: [  
-      //   if(latc != null )
-           if ( latc != null) RaisedButton(
-                  onPressed: (){_uber();},  
-                  shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
-                  color: Colors.black,                    
-                  child: new Row (
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      new Text('Solicitar Uber ', style: TextStyle(fontSize: 20, color: Colors.white)), 
-                      new Icon(FontAwesomeIcons.uber, color: Colors.white,)
-                    ],
-                  )
-                ),
-        if ( resv =='TRUE') RaisedButton(
-                  onPressed: (){
-                    String tipo_r = dataneg[0]["CAT_NOMBRE"];
-                    String tipo_n = dataneg[0]["SUB_NOMBRE"];
-                    String nombre = dataneg[0]["NEG_NOMBRE"];
-                    String id_negocio = dataneg[0]["ID_NEGOCIO"];
-                    String correo = dataneg[0]["NEG_CORREO"];
-                    Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (BuildContext context) => new Reservacion(reserva: new Reserva(tipo_r,tipo_n, nombre, id_negocio,correo))
-                        )
-                        );
-                  },  
-                  shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
-                  color: Colors.black, 
-                  child: new Row (
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      new Text('Agendar ', style: TextStyle(fontSize: 20, color: Colors.white)), 
-                      new Icon(FontAwesomeIcons.calendarAlt, color: Colors.white,)
-                    ],
-                  )
-                  
-                ),
-                   
+String latc = dataneg[0]["NEG_MAP_LAT"];
+String resv = dataneg[0]["NEG_RESERVA"];
+String recom = dataneg[0]["NEG_RECOMPENSAS"];
+print(recom);
+  return Column(
+      children: [
+         new  Row(
+           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+           children: [         
+                         
+             
+             if ( latc != null) RaisedButton(
 
+                      onPressed: (){_uber();},  
+
+                      shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
+                      color: Colors.black,  
+                      
+                      child: new Row (
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+
+                        children: <Widget>[
+                          new Text('Solicitar Uber', style: TextStyle(fontSize: 20, color: Colors.white)), 
+                          new Icon(FontAwesomeIcons.uber, color: Colors.white,)
+                        ],
+                      )
+                      
+                    ),
+            if ( resv =='TRUE') RaisedButton(
+                      onPressed: (){
+                        String tipo_r = dataneg[0]["CAT_NOMBRE"];
+                        String tipo_n = dataneg[0]["SUB_NOMBRE"];
+                        String nombre = dataneg[0]["NEG_NOMBRE"];
+                        String id_negocio = dataneg[0]["ID_NEGOCIO"];
+                        String correo = dataneg[0]["NEG_CORREO"];
+                        Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (BuildContext context) => new Reservacion(reserva: new Reserva(tipo_r,tipo_n, nombre, id_negocio,correo))
+                            )
+                            );
+                      },  
+                      shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
+                      color: Colors.black, 
+                      child: new Row (
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          new Text('Reservar ', style: TextStyle(fontSize: 20, color: Colors.white)), 
+                          new Icon(FontAwesomeIcons.calendarAlt, color: Colors.white,)
+                        ],
+                      )
+                      
+                    ),        
+           ],
+         ),
+         if ( recom =='TRUE') RaisedButton(
+                      onPressed: (){
+                        
+                        String id_negocio = dataneg[0]["ID_NEGOCIO"];
+                        Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (BuildContext context) => new Mis_promos_manejador(
+                            publicacion: new Publicacion('',id_negocio),   
+                          )
+                            )
+                            );
+                      },  
+                      shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
+                      color: Colors.orange,
+                      child: new Row (
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          new Text('Recompensas ', style: TextStyle(fontSize: 20, color: Colors.white)), 
+                          new Icon(FontAwesomeIcons.gift, color: Colors.white,)
+                        ],
+                      )
+                      
+                    ), 
        ],
-     ); 
-  
+  );
 
-    
+      
 
-               }
+       }
      ),
      ]
-   );  
+   ); 
+ 
 
 Widget resenasection = Column(
          

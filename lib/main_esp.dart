@@ -10,6 +10,7 @@ import 'package:cabofind/paginas/login.dart';
 import 'package:cabofind/paginas/maps.dart';
 import 'package:cabofind/paginas/misfavoritos.dart';
 import 'package:cabofind/paginas/mispromos.dart';
+import 'package:cabofind/paginas/misrecompensa.dart';
 import 'package:cabofind/paginas/publicacion_detalle.dart';
 import 'package:cabofind/paginas/publicaciones.dart';
 import 'package:cabofind/paginas/ricky.dart';
@@ -974,18 +975,22 @@ Widget _buildDropDownButton(String currencyCategory) {
             label: 'Inicio',
           ),
           FFNavigationBarItem(
+            iconData: FontAwesomeIcons.gift,
+            label: 'Recompensas',
+          ),/*
+          FFNavigationBarItem(
             iconData: FontAwesomeIcons.fire,
             label: 'Promos',
           ),
+          
           FFNavigationBarItem(
             iconData: FontAwesomeIcons.solidHeart,
             label: 'Favoritos',
-          ),
+          ),*/
           FFNavigationBarItem(
             iconData: FontAwesomeIcons.userAlt,
             label: 'Cuenta',
            ),
-          
         ],
 
         selectedIndex: selectedIndex,
@@ -1179,8 +1184,9 @@ Widget _buildDropDownButton(String currencyCategory) {
         children: <Widget>[
           
           cuerpo,
-          new Mis_promos(),
-          new Mis_favoritos(),
+          new Mis_recompensas(),
+          //new Mis_promos(),
+          //new Mis_favoritos(),
           new Login()
         ],
       ),

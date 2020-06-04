@@ -9,9 +9,7 @@ import 'package:devicelocale/devicelocale.dart';
 import 'package:dropdownfield/dropdownfield.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
-import 'package:flutter_youtube/flutter_youtube.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:flutube/flutube.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:cabofind/utilidades/classes.dart';
@@ -460,35 +458,7 @@ Future<String> insertVisitaiOS() async {
              content: Container(
                 width: double.maxFinite,
                  height: 300.0,
-               child: FluTube(
-                                                dataneg[index]["ANUN_VIDEO"],
-                                                autoPlay: false,
-                                                autoInitialize: true,                                                                                            
-                                                aspectRatio: 4 / 3,
-                                                allowMuting: false,
-                                                looping: false,
-                                                showThumb: true,
-                                                allowFullScreen: false,
-                                                deviceOrientationAfterFullscreen: [
-                                                  DeviceOrientation.portraitUp,
-                                                  DeviceOrientation.landscapeLeft,
-                                                  DeviceOrientation.landscapeRight,
-                                                ],
-                                                systemOverlaysAfterFullscreen: SystemUiOverlay.values,
-                                                onVideoStart: () {
-                                                  setState(() {
-                                                    stateText = 'Video started playing!';
-                                                    
-                                                  });
-                                                },
-                                                onVideoEnd: () {
-                                                  setState(() {
-                                                    stateText = 'Video ended playing!';
-                                                   
-                                                  });
-                                                },
-                                                
-                                              ),
+               
              ),
              actions: <Widget>[
                new FlatButton(
@@ -525,12 +495,7 @@ Future<String> insertVisitaiOS() async {
          Column(
            children: <Widget>[
              FloatingActionButton(child: Icon(FontAwesomeIcons.play), onPressed:() 
-             {FlutterYoutube.playYoutubeVideoByUrl(
-                                         apiKey: "AIzaSyAmNDqJm2s5Fpualsl_VF6LhG733knN0BY",
-                                         videoUrl: dataneg[index]["ANUN_VIDEO"],
-                                         autoPlay: false, //default falase
-                                         fullScreen: false //default false
-                                       );},
+             {},
              backgroundColor:Color(0xff01969a),heroTag: "bt2",),
              Text('Video', style: TextStyle(color: Colors.black),),
 

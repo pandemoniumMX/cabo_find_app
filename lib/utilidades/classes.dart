@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+
 class Users {
   final String correo; 
 
@@ -10,6 +11,13 @@ class Categoria {
   final int cat; 
 
   Categoria(this.cat);
+}
+
+class Lista_manejador {
+  final int id_cat;
+  final int id_sub;  
+  Lista_manejador(this.id_cat,this.id_sub);
+
 }
 
 class Costos {
@@ -34,50 +42,40 @@ class Empresa {
   Empresa(this.id_nm);
 }
 
-class Publicacion {
-   
+class Publicacion {   
   final String id_n; 
   final String id_p;
+  Publicacion(this.id_n, this.id_p);  
+}
 
-  Publicacion(this.id_n, this.id_p);
-  
+class Publicacion2 {   
+  final String id_r; 
+  final String id_n;
+  final String mail;
+  Publicacion2(this.id_r, this.id_n, this.mail);  
 }
 
 class Anuncios_clase {
   final String id_anun; 
   Anuncios_clase(this.id_anun);
-
-
-
 }
 
-class Lista_manejador {
-  final int id_cat;
-  final int id_sub;  
-  Lista_manejador(this.id_cat,this.id_sub);
+class Categorias {
+  final int id;
+  final String position;
+  final String company;
+  final String description;
 
-}
+  Categorias({this.id, this.position, this.company, this.description});
 
-class Note {
-  String id_n;
-  String title;
-  String foto;
-  String sub;
-
-  String cat;
-  String id;
-
-
-
-  Note(this.title, this.foto,this.id_n,this.sub,this.cat,this.id);
-
-  Note.fromJson(Map<String, dynamic> json) {
-    id_n = json['NEG_ETIQUETAS_ING'];
-    title = json['NEG_NOMBRE'];
-    foto = json['GAL_FOTO'];
-    sub = json['NEG_LUGAR'];
-    cat = json['SUB_NOMBRE_ING'];
-    id = json['ID_NEGOCIO'];
-
+  factory Categorias.fromJson(Map<String, dynamic> json) {
+    return Categorias(
+      id: json['id'],
+      position: json['position'],
+      company: json['company'],
+      description: json['description'],
+    );
   }
 }
+
+

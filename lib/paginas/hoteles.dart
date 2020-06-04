@@ -1,4 +1,3 @@
-
 import 'package:cabofind/utilidades/classes.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -31,7 +30,7 @@ class _Restaurantes extends State<Hoteles> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-      title: new Text('Compras'),
+      title: new Text('Hoteles'),
     ),/*
       bottomNavigationBar: new BottomNavigationBar(
         currentIndex: _page,
@@ -40,7 +39,6 @@ class _Restaurantes extends State<Hoteles> {
         unselectedItemColor: Colors.black54,
         showUnselectedLabels: false,
         //unselectedIconTheme: Colors.grey,
-
         onTap: (index){
           this._c.animateToPage(index,duration: const Duration(milliseconds: 10),curve: Curves.easeInOut);
         },
@@ -50,10 +48,7 @@ class _Restaurantes extends State<Hoteles> {
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.gem,),title: Text("Joyería")),
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.store,),title: Text("Tiendas")),
     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.boxOpen,),title: Text("Proveedores")),
-
-
       ],
-
       ),*/
       body: new PageView(
         controller: _c,
@@ -63,7 +58,7 @@ class _Restaurantes extends State<Hoteles> {
           });
         },
         children: <Widget>[
-          new Lista_Manejador_hotel(manejador: new Lista_manejador(cat,33)),
+          new Lista_Manejador_hoteles(manejador: new Lista_manejador(cat,33)),
          // new Lista_Manejador_esp(manejador: new Lista_manejador(cat,34)),
           //new Lista_Manejador_esp(manejador: new Lista_manejador(cat,36)),
           //new Lista_Manejador_esp(manejador: new Lista_manejador(cat,35)),
