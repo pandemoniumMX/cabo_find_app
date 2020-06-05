@@ -228,8 +228,11 @@ _status = login.getString("stringLogin");
           Color(0xff01969a),
           Colors.white,          
         ])),
-      child: Text("Recompensas ",style: TextStyle(fontSize:40, color: Colors.white,fontWeight: FontWeight.bold ),)),
-  
+      child: Row(children: [
+        Text("Puntos obtenidos: ",style: TextStyle(fontSize:40, color: Colors.white,fontWeight: FontWeight.bold ),),
+        Text(data[0]["TOTAL"],style: TextStyle(fontSize:40, color: Colors.white,fontWeight: FontWeight.bold ),)
+        
+        ])),
       estructura,
 
 

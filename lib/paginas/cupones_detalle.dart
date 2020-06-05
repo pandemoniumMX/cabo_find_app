@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:encrypt/encrypt.dart' as crypt;
 class Cupones_detalles extends StatefulWidget {
     
   final Publicacion publicacion;  
@@ -67,15 +66,9 @@ final SharedPreferences login = await SharedPreferences.getInstance();
       physics: BouncingScrollPhysics(),
       itemCount: data == null ? 0 : data.length,
       itemBuilder: (BuildContext context, int index) {
-                    final iduser = data[index]["CUP_CODIGO"];
-                    final key = crypt.Key.fromLength(32);
-                    final iv = crypt.IV.fromLength(8);
-                    final encrypter = crypt.Encrypter(crypt.Salsa20(key));
-                    final encrypted = encrypter.encrypt(iduser, iv: iv);
-                    final decrypted = encrypter.decrypt(encrypted, iv: iv);
-                    String _qrencryp = encrypted.base64;
-                    //print(decrypted); 
-                    print(encrypted.base64); 
+                    
+                    String _qrencryp = data[index]["CUP_CODIGO"];
+
         return Column(children: [
                       FadeInImage(
                       image: NetworkImage(data[index]["GAL_FOTO"]),
