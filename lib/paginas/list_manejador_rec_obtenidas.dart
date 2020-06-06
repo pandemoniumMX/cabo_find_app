@@ -111,7 +111,7 @@ String _idusu="";  _status = login.getString("stringLogin");
 
             onTap: () {
               
-            String id_re = data[index]["ID_CUPONES"];
+            String id_re = data[index]["ID_RECOMPENSA"];
             String id_n = data[index]["negocios_ID_NEGOCIO"];
 
             print(id_re);

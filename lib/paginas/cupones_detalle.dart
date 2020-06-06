@@ -31,7 +31,7 @@ final SharedPreferences login = await SharedPreferences.getInstance();
 
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/list_cupones_api_single.php?CORREO=$_mail2&ID_C=${widget.publicacion.id_n}"),  
+            "http://cabofind.com.mx/app_php/APIs/esp/list_cupones_api_single.php?CORREO=$_mail2&ID_R=${widget.publicacion.id_n}"),  
 
 
         headers: {
@@ -49,25 +49,6 @@ final SharedPreferences login = await SharedPreferences.getInstance();
     return "Success!";
   }
 
-  Future<Map> insertData(String idc) async { 
-
-  var response = await http.get(
-        Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/insert_cupon_cf.php?ID=${idc}"
-            ),  
-       
-        headers: {
-          "Accept": "application/json"
-        }
-    );
-
-    this.setState(
-            () {
-          data = json.decode(
-              response.body);
-        });            
-  
-}
 
   @override
   void initState() {

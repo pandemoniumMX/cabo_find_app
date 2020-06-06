@@ -17,7 +17,7 @@ class Recompensa_detalle extends StatefulWidget {
 
 class _Recompensa_detalleState extends State<Recompensa_detalle> {
   List data;
-
+  List cupon;
 
     Future<String> getData() async {
 
@@ -40,6 +40,32 @@ class _Recompensa_detalleState extends State<Recompensa_detalle> {
 
     return "Success!";
   }
+
+  Future<Map> insertData(String idr, String idu, String total, String idn) async { 
+  var response = await http.get(
+        Uri.encodeFull(
+            "http://cabofind.com.mx/app_php/APIs/esp/insert_cupon_cf.php?ID_R=${idr}&ID_U=${idu}&TOTAL=${total}&ID_N=${idn}"
+            ),  
+       
+        headers: {
+          "Accept": "application/json"
+        }
+    );
+
+                
+        
+              Navigator.push(context, new MaterialPageRoute
+                (builder: (context) => new Cupones_detalles(
+                publicacion: new Publicacion(idr,idn),
+                )));   
+
+    this.setState(
+            () {
+          cupon = json.decode(
+              response.body);
+        });            
+  
+}  
   @override
   void initState() {
     super.initState();
@@ -69,14 +95,16 @@ class _Recompensa_detalleState extends State<Recompensa_detalle> {
               new FlatButton(
               child: new Text("Confirmar"),
               onPressed: () {
-            String id_re = data[0]["ID_CUPONES"];
+            String id_re = data[0]["ID_RECOMPENSA"];
             String id_n = data[0]["negocios_ID_NEGOCIO"];
-            Navigator.of(context).pop();
-        
-              Navigator.push(context, new MaterialPageRoute
-                (builder: (context) => new Cupones_detalles(
-                publicacion: new Publicacion(id_re,id_n),
-                )));    
+
+            String total = data[0]["REC_META"];
+            String id_u = data[0]["ID_USU"];
+            print(id_u);
+            print(total);
+
+            insertData(id_re,id_u,total,id_n);
+            Navigator.of(context).pop();  
               },
               
             ),
@@ -98,7 +126,7 @@ class _Recompensa_detalleState extends State<Recompensa_detalle> {
 
 var _total = int.parse(data[0]["TOTAL"]);
 var _meta = int.parse(data[0]["REC_META"]);
-print('Putnos totales: '+data[0]["TOTAL"]);
+print('Puntos totales: '+data[0]["TOTAL"]);
 //print(_meta);
 
 
@@ -119,7 +147,7 @@ print('Putnos totales: '+data[0]["TOTAL"]);
 
                                           children: <Widget>[
                                             
-                                            new Text(' Obtener recompensa ', style: TextStyle(fontSize: 20, color: Colors.white)), 
+                                            new Text(' Obtener recompensa', style: TextStyle(fontSize: 20, color: Colors.white)), 
                                             new Icon(FontAwesomeIcons.gift, color: Colors.white,),
                                             
                                           ],
@@ -183,13 +211,14 @@ print('Putnos totales: '+data[0]["TOTAL"]);
               ],),
               Text(data[index]["REC_TITULO"],style: TextStyle(fontSize: 50,fontWeight: FontWeight.bold, color: Color(0xff01969a)),softWrap: true,maxLines: 5,textAlign: TextAlign.center,),
               Text(data[index]["REC_DESCRIPCION"],style: TextStyle(fontSize:18,color: Colors.black),textAlign: TextAlign.center,),
-            ],),
+           _botonrecompensa ],),
           ),
           ),
         ),
-          _botonrecompensa,
-          Text('Términos y condiciones',style: TextStyle(fontSize:12,color: Colors.black),textAlign: TextAlign.center,),
-          Center(child: Text(data[index]["REC_TERMINOS"],style: TextStyle(fontSize:10,color: Colors.black,),textAlign: TextAlign.justify,)),
+          
+        Text('Términos y condiciones',style: TextStyle(fontSize:12,color: Colors.black),textAlign: TextAlign.center,),
+        Center(child: Text(data[index]["REC_TERMINOS"],style: TextStyle(fontSize:10,color: Colors.black,),textAlign: TextAlign.justify,)),
+                 
         ],);
       }
       ),      
