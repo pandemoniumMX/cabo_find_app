@@ -144,16 +144,6 @@ Future<String> deletefav(id_n) async {
   if (_status == "True") {
       showFavorites();
 
-      var response = await http.get(
-        Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/delete_recomendacion_publicacion.php?ID=${id_n}&CORREO=${_mail}"),
-
-        headers: {
-          "Accept": "application/json"
-        }
-    );
-
-      //CircularProgressIndicator(value: 5.0,);
       
     }
     else

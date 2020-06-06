@@ -21,7 +21,7 @@ class _Recompensa_detalleState extends State<Cupones_detalles> {
   List data;
   DateFormat dateFormat;
 
-    Future<String> getData() async {
+Future<String> getData() async {
 final SharedPreferences login = await SharedPreferences.getInstance();
  String _status = "";
  String _mail ="";
@@ -48,6 +48,27 @@ final SharedPreferences login = await SharedPreferences.getInstance();
 
     return "Success!";
   }
+
+  Future<Map> insertData(String idc) async { 
+
+  var response = await http.get(
+        Uri.encodeFull(
+            "http://cabofind.com.mx/app_php/APIs/esp/insert_cupon_cf.php?ID=${idc}"
+            ),  
+       
+        headers: {
+          "Accept": "application/json"
+        }
+    );
+
+    this.setState(
+            () {
+          data = json.decode(
+              response.body);
+        });            
+  
+}
+
   @override
   void initState() {
     super.initState();
@@ -105,6 +126,7 @@ final SharedPreferences login = await SharedPreferences.getInstance();
                     size: 200.0,
                     ),
                     ),
+                     
               Text('Canjéa hoy mismo tu recompensa!',style: TextStyle(fontSize:18,color: Colors.black),textAlign: TextAlign.center,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,

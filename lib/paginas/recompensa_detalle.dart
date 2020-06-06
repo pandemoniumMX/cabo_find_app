@@ -20,10 +20,10 @@ class _Recompensa_detalleState extends State<Recompensa_detalle> {
 
 
     Future<String> getData() async {
+
     var response = await http.get(
         Uri.encodeFull(
             "http://cabofind.com.mx/app_php/APIs/esp/list_recompensas_usuario_api.php?ID_N=${widget.publicacion.id_n}&ID_R=${widget.publicacion.id_r}&CORREO=${widget.publicacion.mail}"),
-          //"http://cabofind.com.mx/app_php/list_negocios.php?"),
 
 
         headers: {
@@ -49,6 +49,43 @@ class _Recompensa_detalleState extends State<Recompensa_detalle> {
   }
   Widget build(BuildContext context) {
 
+  void _confirmacion() {
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Alerta"),
+          content: new Text("¿Seguro que desea continuar?"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Cerrar"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+              new FlatButton(
+              child: new Text("Confirmar"),
+              onPressed: () {
+            String id_re = data[0]["ID_CUPONES"];
+            String id_n = data[0]["negocios_ID_NEGOCIO"];
+            Navigator.of(context).pop();
+        
+              Navigator.push(context, new MaterialPageRoute
+                (builder: (context) => new Cupones_detalles(
+                publicacion: new Publicacion(id_re,id_n),
+                )));    
+              },
+              
+            ),
+          ],
+        );
+      },
+    );
+  }
+
     Widget _botonrecompensa = Column(
 
      children: <Widget>[
@@ -61,6 +98,8 @@ class _Recompensa_detalleState extends State<Recompensa_detalle> {
 
 var _total = int.parse(data[0]["TOTAL"]);
 var _meta = int.parse(data[0]["REC_META"]);
+print('Putnos totales: '+data[0]["TOTAL"]);
+//print(_meta);
 
 
 
@@ -69,16 +108,8 @@ var _meta = int.parse(data[0]["REC_META"]);
        children: [         
                      
          _total >= _meta ? RaisedButton(
-                  onPressed: (){
-            String id_re = data[index]["ID_CUPONES"];
-            String id_n = data[index]["negocios_ID_NEGOCIO"];
-            print(id_re);
-            print(id_n);
-              Navigator.push(context, new MaterialPageRoute
-                (builder: (context) => new Cupones_detalles(
-              publicacion: new Publicacion(id_re,id_n),
-            )));                    
-                  
+                  onPressed: (){                
+                  _confirmacion();
                   },  
                   shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
                   color: Colors.orange,
