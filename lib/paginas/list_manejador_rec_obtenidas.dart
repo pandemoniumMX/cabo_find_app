@@ -6,6 +6,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
+import 'cupones_detalle_ob.dart';
+
 
 class Mis_promos_manejador_obtenidas extends StatefulWidget {
  
@@ -111,13 +113,13 @@ String _idusu="";  _status = login.getString("stringLogin");
 
             onTap: () {
               
-            String id_re = data[index]["ID_RECOMPENSA"];
+            String id_re = data[index]["ID_CUPONES"];
             String id_n = data[index]["negocios_ID_NEGOCIO"];
 
-            print(id_re);
+            print('cupones'+id_re);
             print(id_n);
               Navigator.push(context, new MaterialPageRoute
-                (builder: (context) => new Cupones_detalles(
+                (builder: (context) => new Cupones_detalles_ob(
               publicacion: new Publicacion(id_re,id_n),
             )));
 

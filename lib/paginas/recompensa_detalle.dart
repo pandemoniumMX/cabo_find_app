@@ -83,7 +83,7 @@ class _Recompensa_detalleState extends State<Recompensa_detalle> {
         // return object of type Dialog
         return AlertDialog(
           title: new Text("Alerta"),
-          content: new Text("¿Seguro que desea continuar?"),
+          content: new Text("¿Seguro que desea continuar? Tendrás 7 días para la recompensa :)",textAlign: TextAlign.center,),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
             new FlatButton(
