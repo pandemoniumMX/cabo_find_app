@@ -223,7 +223,8 @@ _status = login.getString("stringLogin");
         gradient: LinearGradient(
         colors: [
           Color(0xff01969a),
-          Colors.white,          
+          Color(0xff01969a),
+          //Colors.white,          
         ])),
       child: Row(children: [
         Text("Puntos obtenidos: ",style: TextStyle(fontSize:30, color: Colors.white,fontWeight: FontWeight.bold ),),

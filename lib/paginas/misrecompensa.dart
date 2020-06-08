@@ -200,7 +200,7 @@ Navigator.pushReplacement(
                            Text('1: Ve a uno de los comercios participantes.',style: TextStyle(fontSize:12),),
                            Text('2: Ordena a tu gusto.',style: TextStyle(fontSize:12),),
                            Text('3: Cuando pagues, pide a un trabajador que escaneé tu código QR.',style: TextStyle(fontSize:12),),
-                           Text('4: Felicidades, obtuviste un punto! :)',style: TextStyle(fontSize:12),),
+                           Text('4: Felicidades, obtuviste 100 puntos! :)',style: TextStyle(fontSize:12),),
                           // Container(child: Text(data[index]["CAR_NOMBRE_ING"],style: TextStyle(),),padding: EdgeInsets.only(bottom:15.0),) ,
                          ],
                        ),
@@ -298,8 +298,7 @@ FutureBuilder(
                     size: 200.0,
                     ),
                     );
-                  }  
-                
+                  }                  
               }
           }),
     Container( padding: const EdgeInsets.all(10),child: Text('Tú código QR',style :TextStyle(fontSize: 20),softWrap: true,overflow: TextOverflow.visible,))
@@ -311,22 +310,17 @@ FutureBuilder(
       physics: BouncingScrollPhysics(),
         itemCount: data == null ? 0 : data.length,
         itemBuilder: (BuildContext context, int index) {
-      //String id_n = data[index]["ID_PUBLICACION"];
-          return new ListTile(
-
-
+          String recom = data[0]["GAL_FOTO"];
+          
+            return new ListTile(
             title: new Card(
-
               elevation: 5.0,
               child: new Container(
                 child: Column(
-
                   children: <Widget>[
-                    //Text("Texto",
                     Row(
                       mainAxisAlignment : MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        
+                      children: <Widget>[                        
                       FadeInImage(
                       image: NetworkImage(data[index]["GAL_FOTO"]),
                       fit: BoxFit.fill,
@@ -344,33 +338,19 @@ FutureBuilder(
                           children: [
                             Column(children: [
                               new Text(
-                            data[index]["TOTAL"],style: TextStyle(fontSize:20),
-                            
+                            data[index]["TOTAL"],style: TextStyle(fontSize:20),                            
 
                         ),
                         new Text('Puntos  ',style: TextStyle(fontSize: 10),),
                         new Text('obtenidos',style: TextStyle(fontSize: 10),)
                             ],)
-                        
-                      ],
+                        ],
                         ),
-                        
-                  
-
-                       
-
-
                       ],
-                        
-
-
                     ),
                   ],
-
                 ),
-
               ),
-
             ),
 
             onTap: () {
@@ -385,9 +365,10 @@ FutureBuilder(
 
             },
             
-          );
+          );}
 
-        },
+
+        
 
     );
 
@@ -445,7 +426,8 @@ FutureBuilder(
           Colors.white,          
         ])),
       child: Text("Mis puntos",style: TextStyle(fontSize:30, color: Colors.white,fontWeight: FontWeight.bold ),)),
-      estructura,
+      estructura
+      
 
 
       ],

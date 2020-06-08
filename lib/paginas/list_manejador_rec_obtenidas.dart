@@ -60,17 +60,14 @@ String _idusu="";  _status = login.getString("stringLogin");
       physics: BouncingScrollPhysics(),
       itemCount: data == null ? 0 : data.length,
       itemBuilder: (BuildContext context, int index) {
-          return new ListTile(
+        //print(data[0]["REC_TITULO"]);
 
-
+        return ListTile(
             title: new Card(
-
               elevation: 5.0,
               child: new Container(
                 child: Column(
-
                   children: <Widget>[
-                    //Text("Texto",
                     Row(
                       mainAxisAlignment : MainAxisAlignment.spaceBetween,
                       children: <Widget>[
@@ -91,24 +88,16 @@ String _idusu="";  _status = login.getString("stringLogin");
 
                         new Icon(FontAwesomeIcons.gift, color: Colors.orange,size: 20,), 
                         new Text('Obtenido',style: TextStyle(fontSize: 10),),
-                        //new Text('necesarios',style: TextStyle(fontSize: 10),)
                             ],),
                             
                         
                       ],
                         ),
-
                       ],
-                        
-
-
                     ),
                   ],
-
                 ),
-
               ),
-
             ),
 
             onTap: () {
@@ -116,8 +105,6 @@ String _idusu="";  _status = login.getString("stringLogin");
             String id_re = data[index]["ID_CUPONES"];
             String id_n = data[index]["negocios_ID_NEGOCIO"];
 
-            print('cupones'+id_re);
-            print(id_n);
               Navigator.push(context, new MaterialPageRoute
                 (builder: (context) => new Cupones_detalles_ob(
               publicacion: new Publicacion(id_re,id_n),
@@ -136,8 +123,9 @@ String _idusu="";  _status = login.getString("stringLogin");
         physics: BouncingScrollPhysics(),   
         //addAutomaticKeepAlives: true,
         children: [
-      //  Text('data'),
-        estructura
+          data[0]["REC_TITULO"] != null ? estructura : Text('joto')
+            
+        
       ],)
     
     );
