@@ -1,52 +1,37 @@
-
-import 'dart:async';
-
-import 'package:cabofind/utilidades/classes.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinning_wheel/flutter_spinning_wheel.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
-import 'list_manejador.dart';
-
-class Ruleta extends StatefulWidget {
+import 'dart:math';
 
 
+
+class DicePage extends StatefulWidget {
   @override
-_Restaurantes createState() => new _Restaurantes();
+  _DicePageState createState() => _DicePageState();
 }
 
-class _Restaurantes extends State<Ruleta> {
-      final StreamController _dividerController = StreamController<int>();  
-  dispose() {
-    _dividerController.close();
-  }
+class _DicePageState extends State<DicePage> {
+  int leftDiceNumber = 2;
+  int rightDiceNumber = 6;
 
-  @override
-  void initState(){
-  
-    super.initState();
+  void throwDices() {
+    setState(() {
+      leftDiceNumber = Random().nextInt(6) + 1;
+      rightDiceNumber = Random().nextInt(6) + 1;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-
-    return new Scaffold(
-      appBar: new AppBar(
-      title: new Text('Ruleta'),
-    ),
-      
-      body: Center(
-          child: Container(child:
-            SpinningWheel(
-              Image.asset('assets/ruleta.png'),
-              width: 310,
-              height: 310,
-              dividers: 6,
-              onUpdate: _dividerController.add,
-              onEnd: _dividerController.add,
+    return Center(
+      child: Row(
+        children: <Widget>[
+          Expanded(
+            child: FlatButton(
+              child: Image.asset('assets/dice$leftDiceNumber.png'),
+              onPressed: throwDices,
             ),
           ),
-        )
+        ],
+      ),
     );
   }
 }

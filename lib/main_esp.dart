@@ -40,6 +40,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'paginas/anuncios.dart';
 import 'paginas/promociones.dart';
+import 'paginas/ruleta.dart';
 
 void main() => runApp(new Myapp());
 
@@ -833,7 +834,7 @@ alertCar(context) async {
                  Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (BuildContext context) => new Ruleta()
+                        builder: (BuildContext context) => new DicePage()
                         )
                         );
                  
