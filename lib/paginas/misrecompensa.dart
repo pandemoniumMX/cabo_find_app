@@ -10,7 +10,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import '../main.dart';
 import 'list_manejador_recompensas.dart';
-import 'package:encrypt/encrypt.dart' as crypt;
 
 class Mis_recompensas extends StatefulWidget {
 @override
@@ -299,15 +298,8 @@ FutureBuilder(
                       textAlign: TextAlign.center,
                     ));
                   } else {
-                    final iduser = snapshot.data["ID_USUARIOS"];
-                    final key = crypt.Key.fromLength(32);
-                    final iv = crypt.IV.fromLength(8);
-                    final encrypter = crypt.Encrypter(crypt.Salsa20(key));
-                    final encrypted = encrypter.encrypt(iduser, iv: iv);
-                    final decrypted = encrypter.decrypt(encrypted, iv: iv);
-                    String _qrencryp = encrypted.base64;
-                    //print(decrypted); 
-                    print(encrypted.base64); 
+                    String _qrencryp = snapshot.data["ID_USUARIOS"];
+                
                     return Center(
                     child: QrImage(
                     data: _qrencryp,

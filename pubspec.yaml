@@ -66,9 +66,10 @@ dependencies:
   intl: ^0.16.0  
   qr_flutter: ^3.2.0
   dotted_border: ^1.0.5
-  encrypt: ^4.0.2
+  #encrypt: ^4.0.2
   #expand_widget: ^0.2.0+2
   expandable: ^4.1.4
+  share: ^0.6.4+3
   #expandable_widget: ^1.0.5
   
 

@@ -342,7 +342,8 @@ void initState() {
 }
 
 addLoginFB(FacebookLoginResult result) async {
-  final SharedPreferences login = await SharedPreferences.getInstance();
+  
+final SharedPreferences login = await SharedPreferences.getInstance();
   final token = result.accessToken.token;
 final graphResponse = await http.get(
             'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,picture,email&access_token=${token}');

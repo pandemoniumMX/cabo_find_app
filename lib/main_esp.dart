@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:cabofind/main_ing.dart';
 import 'package:cabofind/paginas/anuncios.dart';
+import 'package:cabofind/paginas/dados.dart';
 import 'package:cabofind/paginas/descubre.dart';
 import 'package:cabofind/paginas/domicilio.dart';
 import 'package:cabofind/paginas/educacion.dart';
@@ -929,6 +930,16 @@ Widget _buildDropDownButton(String currencyCategory) {
                     context,
                     new MaterialPageRoute(
                         builder: (BuildContext context) => new Hoteles()
+                        )
+                        );
+                 
+                 
+               }else if (ruta == "ruleta")
+               {
+                 Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new DicePage()
                         )
                         );
                  
