@@ -15,7 +15,7 @@
     <application
         android:name="io.flutter.app.FlutterApplication"
         android:label="Cabofind"
-        android:icon="@mipmap/launcher_icon">
+        android:icon="@mipmap/splash">
         <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyA152PLBZLFqFlUMKQhMce3Z18OMGhPY6w"/>
 
         <activity

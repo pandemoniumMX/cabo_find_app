@@ -10,7 +10,6 @@ import 'package:cabofind/paginas/maps.dart';
 import 'package:cabofind/paginas/misrecompensa.dart';
 import 'package:cabofind/paginas/publicacion_detalle.dart';
 import 'package:cabofind/paginas/ricky.dart';
-import 'package:cabofind/paginas/ruleta.dart';
 import 'package:cabofind/paginas/salud.dart';
 import 'package:cabofind/paginas_listas/list_eventos_grid.dart';
 
@@ -40,7 +39,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'paginas/anuncios.dart';
 import 'paginas/promociones.dart';
-import 'paginas/ruleta.dart';
 
 void main() => runApp(new Myapp());
 
@@ -825,16 +823,6 @@ alertCar(context) async {
                     context,
                     new MaterialPageRoute(
                         builder: (BuildContext context) => new Hoteles()
-                        )
-                        );
-                 
-                 
-               }else if (ruta == "ruleta")
-               {
-                 Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (BuildContext context) => new DicePage()
                         )
                         );
                  

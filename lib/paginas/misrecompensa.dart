@@ -9,6 +9,7 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import '../main.dart';
+import 'dados.dart';
 import 'list_manejador_recompensas.dart';
 
 class Mis_recompensas extends StatefulWidget {
@@ -389,8 +390,10 @@ FutureBuilder(
       
       miqr,      
       tutorial,      
-      Center(
-        child: RaisedButton(
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+                    RaisedButton(
             onPressed: (){
 
            
@@ -399,23 +402,50 @@ FutureBuilder(
                 
                ));
 
-                    },  
+                      },  
 
-                    shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
-                    color: Colors.orange,
-                    
-                    child: new Row (
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
+                      shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
+                      color: Colors.orange,
+                      
+                      child: new Row (
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
 
-                      children: <Widget>[
-                        new Icon(FontAwesomeIcons.gift, color: Colors.white,),
-                        new Text(' Recompensas obtenidas', style: TextStyle(fontSize: 15, color: Colors.white)), 
-                        
-                      ],
-                    )
-                    
-                  ),
+                        children: <Widget>[
+                          new Icon(FontAwesomeIcons.gift, color: Colors.white,),
+                          new Text(' Recompensas obtenidas', style: TextStyle(fontSize: 12, color: Colors.white)), 
+                           
+                          
+                        ],
+                      )
+                      
+                    ),
+                          RaisedButton(
+
+                  onPressed: () {                 
+                    Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new DicePage()
+                        )
+                        );},  
+
+                  shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
+                  color: Color(0xff01969a),  
+                  
+                  child: new Row (
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+
+                    children: <Widget>[
+                      new Icon(FontAwesomeIcons.diceSix, color: Colors.white,),
+                      new Text(' Obtener puntos', style: TextStyle(fontSize: 12, color: Colors.white)), 
+                      
+                    ],
+                  )
+                  
+                ),
+                  ],
          ),
       Divider(),
       Container(
