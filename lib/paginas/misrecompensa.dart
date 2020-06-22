@@ -87,7 +87,6 @@ class _UsuarioState extends State<Usuario> {
   void initState(){
   super.initState();
   this._loadUser();
-  this._loaduserQR();
 
   }
 
@@ -104,6 +103,20 @@ _status = login.getString("stringLogin");
   return json.decode(response.body);
   
   }   
+
+  Future<Map> _loaduser2() async { 
+  final SharedPreferences login = await SharedPreferences.getInstance();
+ String _status = "";
+ String _mail ="";
+ String _mail2 ="";
+ String _idusu="";  
+_status = login.getString("stringLogin");
+ _mail2 = login.getString("stringMail");   
+
+  http.Response response = await http.get("http://cabofind.com.mx/app_php/APIs/esp/list_recompensas_api2.php?CORREO=$_mail2");
+  return json.decode(response.body);
+  
+  }     
 
   Future<Map> _loadUser() async {
 final SharedPreferences login = await SharedPreferences.getInstance();
@@ -306,15 +319,35 @@ FutureBuilder(
 
     ],);
 
-    Widget estructura = ListView.builder(
-      shrinkWrap: true,
-      physics: BouncingScrollPhysics(),
-        itemCount: data == null ? 0 : data.length,
-        itemBuilder: (BuildContext context, int index) {
-          String recom = data[0]["GAL_FOTO"];
-          
-            return new ListTile(
-            title: new Card(
+    Widget estructura = FutureBuilder(
+          future: _loaduser2(),
+          builder: (context, snapshot) {            
+              switch (snapshot.connectionState) {
+                
+                case ConnectionState.none:
+                case ConnectionState.waiting:
+                return Center(
+                      child: CircularProgressIndicator()
+                  );
+                default:
+                  if (snapshot.hasError) {
+                    return Container(
+                      padding: const EdgeInsets.all(10),
+                      child: Center(child: Text('Aún no tienes puntos',style: TextStyle(fontWeight: FontWeight.bold),)),
+                        
+                        
+                    );
+                  } else {
+                   
+                    return       
+              ListView.builder(
+              shrinkWrap: true,
+              physics: BouncingScrollPhysics(),
+              itemCount: data == null ? 0 : data.length,
+              itemBuilder: (BuildContext context, int index) {
+            
+              return new ListTile(
+              title: new Card(
               elevation: 5.0,
               child: new Container(
                 child: Column(
@@ -339,7 +372,7 @@ FutureBuilder(
                           children: [
                             Column(children: [
                               new Text(
-                            data[index]["TOTAL"],style: TextStyle(fontSize:20),                            
+                            data[index]["PUN_TOTAL"],style: TextStyle(fontSize:20),                            
 
                         ),
                         new Text('Puntos  ',style: TextStyle(fontSize: 10),),
@@ -352,111 +385,112 @@ FutureBuilder(
                   ],
                 ),
               ),
-            ),
+              ),
 
-            onTap: () {
-            String _usucorreo = widget.usuarios.correo;
-            String _idnegocio = data[index]["ID_NEGOCIO"];
+              onTap: () {
+              String _usucorreo = widget.usuarios.correo;
+              String _idnegocio = data[index]["ID_NEGOCIO"];
 
               Navigator.push(context, new MaterialPageRoute
                 (builder: (context) => new Mis_promos_manejador(
               publicacion: new Publicacion(_usucorreo,_idnegocio),
-            )
-            ));
+              )
+              ));
 
-            },
-            
-          );}
-
-
-        
-
-    );
+              },
+              
+            );}
+      );
+                  }                
+              }
+          });
 
     return Scaffold(
      
     body: ListView(
-    physics: BouncingScrollPhysics(),   
-    addAutomaticKeepAlives: true,
-    children: <Widget>[                  
+    physics: NeverScrollableScrollPhysics(),
+    children: <Widget>[        
+                
     Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-        colors: [
-          Color(0xff01969a),
-          Colors.white,          
-        ])),
-      child: Text("Mis Recompensas",style: TextStyle(fontSize:30, color: Colors.white,fontWeight: FontWeight.bold ),)),
-      
-      miqr,      
+    decoration: BoxDecoration(
+      gradient: LinearGradient(
+      colors: [
+        Color(0xff01969a),
+        Colors.white,          
+      ])),
+    child: Text("Mis Recompensas",style: TextStyle(fontSize:30, color: Colors.white,fontWeight: FontWeight.bold ),)),
+
+          miqr,      
       tutorial,      
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-                    RaisedButton(
-            onPressed: (){
+              RaisedButton(
+      onPressed: (){
 
-           
-                Navigator.push(context, new MaterialPageRoute
-                (builder: (context) => new Mis_promos_manejador_obtenidas()               
+     
+          Navigator.push(context, new MaterialPageRoute
+          (builder: (context) => new Mis_promos_manejador_obtenidas()               
+          
+         ));
+
+                },  
+
+                shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
+                color: Colors.orange,
                 
-               ));
+                child: new Row (
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
 
-                      },  
-
-                      shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
-                      color: Colors.orange,
-                      
-                      child: new Row (
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-
-                        children: <Widget>[
-                          new Icon(FontAwesomeIcons.gift, color: Colors.white,),
-                          new Text(' Recompensas obtenidas', style: TextStyle(fontSize: 12, color: Colors.white)), 
-                           
-                          
-                        ],
-                      )
-                      
-                    ),
-                          RaisedButton(
-
-                  onPressed: () {                 
-                    Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (BuildContext context) => new DicePage()
-                        )
-                        );},  
-
-                  shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
-                  color: Color(0xff01969a),  
-                  
-                  child: new Row (
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-
-                    children: <Widget>[
-                      new Icon(FontAwesomeIcons.diceSix, color: Colors.white,),
-                      new Text(' Obtener puntos', style: TextStyle(fontSize: 12, color: Colors.white)), 
-                      
-                    ],
-                  )
-                  
-                ),
+                  children: <Widget>[
+                    new Icon(FontAwesomeIcons.gift, color: Colors.white,),
+                    new Text(' Recompensas obtenidas', style: TextStyle(fontSize: 12, color: Colors.white)), 
+                     
+                    
                   ],
+                )
+                
+              ),
+                    RaisedButton(
+
+            onPressed: () {                 
+              Navigator.push(
+              context,
+              new MaterialPageRoute(
+                  builder: (BuildContext context) => new DicePage()
+                  )
+                  );},  
+
+            shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
+            color: Color(0xff01969a),  
+            
+            child: new Row (
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+
+              children: <Widget>[
+                new Icon(FontAwesomeIcons.diceSix, color: Colors.white,),
+                new Text(' Obtener puntos', style: TextStyle(fontSize: 12, color: Colors.white)), 
+                
+              ],
+            )
+            
+          ),
+            ],
          ),
       Divider(),
       Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
         colors: [
-          Color(0xff01969a),
-          Colors.white,          
+    Color(0xff01969a),
+    Colors.white,          
         ])),
       child: Text("Mis puntos",style: TextStyle(fontSize:30, color: Colors.white,fontWeight: FontWeight.bold ),)),
-      estructura
+      estructura,
+      
+
       
 
 

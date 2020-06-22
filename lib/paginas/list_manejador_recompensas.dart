@@ -228,7 +228,7 @@ _status = login.getString("stringLogin");
         ])),
       child: Row(children: [
         Text("Puntos obtenidos: ",style: TextStyle(fontSize:30, color: Colors.white,fontWeight: FontWeight.bold ),),
-        Text(data[0]["TOTAL"],style: TextStyle(fontSize:30, color: Colors.white,fontWeight: FontWeight.bold ),)
+        Text(data[0]["PUN_TOTAL"],style: TextStyle(fontSize:30, color: Colors.white,fontWeight: FontWeight.bold ),)
         
         ])),
       estructura,

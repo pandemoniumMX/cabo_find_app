@@ -41,6 +41,18 @@ class _Recompensa_detalleState extends State<Recompensa_detalle> {
     return "Success!";
   }
 
+  Future<Map> updatePuntos(String idr, String idu, String total, String idn) async { 
+  var response = await http.get(
+        Uri.encodeFull(
+            "http://cabofind.com.mx/app_php/APIs/esp/update_puntos_c.php?ID_R=${idr}&ID_U=${idu}&TOTAL=${total}&ID_N=${idn}"
+            ),  
+       
+        headers: {
+          "Accept": "application/json"
+        }
+    );
+  }
+
   Future<Map> insertData(String idr, String idu, String total, String idn) async { 
   var response = await http.get(
         Uri.encodeFull(
@@ -51,6 +63,9 @@ class _Recompensa_detalleState extends State<Recompensa_detalle> {
           "Accept": "application/json"
         }
     );
+
+
+
 
                 
         
@@ -104,6 +119,7 @@ class _Recompensa_detalleState extends State<Recompensa_detalle> {
             print(total);
 
             insertData(id_re,id_u,total,id_n);
+            updatePuntos(id_re,id_u,total,id_n);
             Navigator.of(context).pop();  
               },
               
@@ -124,9 +140,10 @@ class _Recompensa_detalleState extends State<Recompensa_detalle> {
        itemBuilder: (BuildContext context, int index) {
 
 
-var _total = int.parse(data[0]["TOTAL"]);
-var _meta = int.parse(data[0]["REC_META"]);
-print('Puntos totales: '+data[0]["TOTAL"]);
+var _total = int.parse(data[index]["PUN_TOTAL"]);
+var _meta = int.parse(data[index]["REC_META"]);
+print('Puntos totales: '+data[index]["PUN_TOTAL"]);
+print(_meta);
 //print(_meta);
 
 

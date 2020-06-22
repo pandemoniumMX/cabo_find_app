@@ -19,21 +19,20 @@ class Mis_promos_manejador_obtenidas extends StatefulWidget {
 class _Mis_promos_manejador_obtenidasState extends State<Mis_promos_manejador_obtenidas> {
   List data;
 
-
-  Future<String> _loadUser() async {
-
- final SharedPreferences login = await SharedPreferences.getInstance();
+  Future<Map> _loadUserx() async {
+final SharedPreferences login = await SharedPreferences.getInstance();
  String _status = "";
  String _mail ="";
  String _mail2 ="";
-String _idusu="";  _status = login.getString("stringLogin");
+String _idusu="";  
+_status = login.getString("stringLogin");
  _mail2 = login.getString("stringMail"); 
  
   
 
   var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/list_cupones_api.php?CORREO=$_mail2"),  
+            "http://cabofind.com.mx/app_php/APIs/esp/list_cupones_api_single2.php?CORREO=$_mail2"),  
        
         headers: {
           "Accept": "application/json"
@@ -47,15 +46,49 @@ String _idusu="";  _status = login.getString("stringLogin");
         });            
   
 }
+ Future<Map> _loaduser() async { 
+ final SharedPreferences login = await SharedPreferences.getInstance();
+ String _status = "";
+ String _mail ="";
+ String _mail2 ="";
+ String _idusu="";  
+_status = login.getString("stringLogin");
+ _mail2 = login.getString("stringMail");   
+
+  http.Response response = await http.get("http://cabofind.com.mx/app_php/APIs/esp/list_cupones_api.php?CORREO=$_mail2");
+  return json.decode(response.body);
+  
+  }  
+
 
   void initState(){
   super.initState();
-  this._loadUser();
+  this._loadUserx();
 
   }
   @override
   Widget build(BuildContext context) {
-    Widget estructura = ListView.builder(
+    Widget estructura = FutureBuilder(
+          future: _loaduser(),
+          builder: (context, snapshot) {            
+              switch (snapshot.connectionState) {
+                
+                case ConnectionState.none:
+                case ConnectionState.waiting:
+                return Center(
+                      child: CircularProgressIndicator()
+                  );
+                default:
+                  if (snapshot.hasError) {
+                    return Container(
+                      padding: const EdgeInsets.all(10),
+                      child: Center(child: Text('Aún no obtienes ninguna recompensa',style: TextStyle(fontWeight: FontWeight.bold),)),
+                        
+                        
+                    );
+                  } else {
+                   
+                    return       ListView.builder(
       shrinkWrap: true,
       physics: BouncingScrollPhysics(),
       itemCount: data == null ? 0 : data.length,
@@ -117,13 +150,16 @@ String _idusu="";  _status = login.getString("stringLogin");
         },
 
     );
+                  }                
+              }
+          });
     return  Scaffold(
       appBar: AppBar(title:Text('Regresar')),
       body: ListView(
-        physics: BouncingScrollPhysics(),   
+          
         //addAutomaticKeepAlives: true,
         children: [
-          data[0]["REC_TITULO"] != null ? estructura : Text('joto')
+          estructura
             
         
       ],)

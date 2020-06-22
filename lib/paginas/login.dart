@@ -173,6 +173,7 @@ Navigator.pushReplacement(
                     ));
                   } else {
                     return ListView(
+                      physics: NeverScrollableScrollPhysics(),
                       children: <Widget>[
                         Container(
                           padding: const EdgeInsets.all(10),
@@ -535,7 +536,7 @@ Widget build(BuildContext context) {
       child: Center(
         child: ListView(
     shrinkWrap: false,
-    physics: BouncingScrollPhysics(), 
+    physics: NeverScrollableScrollPhysics(),
           children: <Widget>[
             Column(children: <Widget>[
 
