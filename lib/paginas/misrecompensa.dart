@@ -9,6 +9,7 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import '../main.dart';
+import 'dados.dart';
 import 'list_manejador_recompensas.dart';
 
 class Mis_recompensas extends StatefulWidget {
@@ -86,7 +87,6 @@ class _UsuarioState extends State<Usuario> {
   void initState(){
   super.initState();
   this._loadUser();
-  this._loaduserQR();
 
   }
 
@@ -103,6 +103,20 @@ _status = login.getString("stringLogin");
   return json.decode(response.body);
   
   }   
+
+  Future<Map> _loaduser2() async { 
+  final SharedPreferences login = await SharedPreferences.getInstance();
+ String _status = "";
+ String _mail ="";
+ String _mail2 ="";
+ String _idusu="";  
+_status = login.getString("stringLogin");
+ _mail2 = login.getString("stringMail");   
+
+  http.Response response = await http.get("http://cabofind.com.mx/app_php/APIs/esp/list_recompensas_api2.php?CORREO=$_mail2");
+  return json.decode(response.body);
+  
+  }     
 
   Future<Map> _loadUser() async {
 final SharedPreferences login = await SharedPreferences.getInstance();
@@ -144,16 +158,6 @@ Future<String> deletefav(id_n) async {
   if (_status == "True") {
       showFavorites();
 
-      var response = await http.get(
-        Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/delete_recomendacion_publicacion.php?ID=${id_n}&CORREO=${_mail}"),
-
-        headers: {
-          "Accept": "application/json"
-        }
-    );
-
-      //CircularProgressIndicator(value: 5.0,);
       
     }
     else
@@ -210,7 +214,7 @@ Navigator.pushReplacement(
                            Text('1: Ve a uno de los comercios participantes.',style: TextStyle(fontSize:12),),
                            Text('2: Ordena a tu gusto.',style: TextStyle(fontSize:12),),
                            Text('3: Cuando pagues, pide a un trabajador que escaneé tu código QR.',style: TextStyle(fontSize:12),),
-                           Text('4: Felicidades, obtuviste un punto! :)',style: TextStyle(fontSize:12),),
+                           Text('4: Felicidades, obtuviste 100 puntos! :)',style: TextStyle(fontSize:12),),
                           // Container(child: Text(data[index]["CAR_NOMBRE_ING"],style: TextStyle(),),padding: EdgeInsets.only(bottom:15.0),) ,
                          ],
                        ),
@@ -298,8 +302,9 @@ FutureBuilder(
                       textAlign: TextAlign.center,
                     ));
                   } else {
+                   
                     String _qrencryp = snapshot.data["ID_USUARIOS"];
-                
+                    //print(); 
                     return Center(
                     child: QrImage(
                     data: _qrencryp,
@@ -307,35 +312,49 @@ FutureBuilder(
                     size: 200.0,
                     ),
                     );
-                  }  
-                
+                  }                  
               }
           }),
     Container( padding: const EdgeInsets.all(10),child: Text('Tú código QR',style :TextStyle(fontSize: 20),softWrap: true,overflow: TextOverflow.visible,))
 
     ],);
 
-    Widget estructura = ListView.builder(
-      shrinkWrap: true,
-      physics: BouncingScrollPhysics(),
-        itemCount: data == null ? 0 : data.length,
-        itemBuilder: (BuildContext context, int index) {
-      //String id_n = data[index]["ID_PUBLICACION"];
-          return new ListTile(
-
-
-            title: new Card(
-
+    Widget estructura = FutureBuilder(
+          future: _loaduser2(),
+          builder: (context, snapshot) {            
+              switch (snapshot.connectionState) {
+                
+                case ConnectionState.none:
+                case ConnectionState.waiting:
+                return Center(
+                      child: CircularProgressIndicator()
+                  );
+                default:
+                  if (snapshot.hasError) {
+                    return Container(
+                      padding: const EdgeInsets.all(10),
+                      child: Center(child: Text('Aún no tienes puntos',style: TextStyle(fontWeight: FontWeight.bold),)),
+                        
+                        
+                    );
+                  } else {
+                   
+                    return       
+              ListView.builder(
+              shrinkWrap: true,
+              physics: BouncingScrollPhysics(),
+              itemCount: data == null ? 0 : data.length,
+              itemBuilder: (BuildContext context, int index) {
+            
+              return new ListTile(
+              title: new Card(
               elevation: 5.0,
               child: new Container(
                 child: Column(
-
                   children: <Widget>[
-                    //Text("Texto",
                     Row(
                       mainAxisAlignment : MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        
+                      children: <Widget>[                        
                       FadeInImage(
                       image: NetworkImage(data[index]["GAL_FOTO"]),
                       fit: BoxFit.fill,
@@ -353,108 +372,126 @@ FutureBuilder(
                           children: [
                             Column(children: [
                               new Text(
-                            data[index]["TOTAL"],style: TextStyle(fontSize:20),
-                            
+                            data[index]["PUN_TOTAL"],style: TextStyle(fontSize:20),                            
 
                         ),
                         new Text('Puntos  ',style: TextStyle(fontSize: 10),),
                         new Text('obtenidos',style: TextStyle(fontSize: 10),)
                             ],)
-                        
-                      ],
+                        ],
                         ),
-                        
-                  
-
-                       
-
-
                       ],
-                        
-
-
                     ),
                   ],
-
                 ),
-
+              ),
               ),
 
-            ),
-
-            onTap: () {
-            String _usucorreo = widget.usuarios.correo;
-            String _idnegocio = data[index]["ID_NEGOCIO"];
+              onTap: () {
+              String _usucorreo = widget.usuarios.correo;
+              String _idnegocio = data[index]["ID_NEGOCIO"];
 
               Navigator.push(context, new MaterialPageRoute
                 (builder: (context) => new Mis_promos_manejador(
               publicacion: new Publicacion(_usucorreo,_idnegocio),
-            )
-            ));
+              )
+              ));
 
-            },
-            
-          );
-
-        },
-
-    );
+              },
+              
+            );}
+      );
+                  }                
+              }
+          });
 
     return Scaffold(
      
     body: ListView(
-    physics: BouncingScrollPhysics(),   
-    addAutomaticKeepAlives: true,
-    children: <Widget>[                  
-    Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-        colors: [
-          Color(0xff01969a),
-          Colors.white,          
-        ])),
-      child: Text("Mis Recompensas",style: TextStyle(fontSize:30, color: Colors.white,fontWeight: FontWeight.bold ),)),
-      
-      miqr,      
-      tutorial,      
-      Center(
-        child: RaisedButton(
-            onPressed: (){
-
-           
-                Navigator.push(context, new MaterialPageRoute
-                (builder: (context) => new Mis_promos_manejador_obtenidas()               
+    physics: NeverScrollableScrollPhysics(),
+    children: <Widget>[        
                 
-               ));
+    Container(
+    decoration: BoxDecoration(
+      gradient: LinearGradient(
+      colors: [
+        Color(0xff01969a),
+        Colors.white,          
+      ])),
+    child: Text("Mis Recompensas",style: TextStyle(fontSize:30, color: Colors.white,fontWeight: FontWeight.bold ),)),
 
-                    },  
+          miqr,      
+      tutorial,      
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+              RaisedButton(
+      onPressed: (){
 
-                    shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
-                    color: Colors.orange,
+     
+          Navigator.push(context, new MaterialPageRoute
+          (builder: (context) => new Mis_promos_manejador_obtenidas()               
+          
+         ));
+
+                },  
+
+                shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
+                color: Colors.orange,
+                
+                child: new Row (
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+
+                  children: <Widget>[
+                    new Icon(FontAwesomeIcons.gift, color: Colors.white,),
+                    new Text(' Recompensas obtenidas', style: TextStyle(fontSize: 12, color: Colors.white)), 
+                     
                     
-                    child: new Row (
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
+                  ],
+                )
+                
+              ),
+                    RaisedButton(
 
-                      children: <Widget>[
-                        new Icon(FontAwesomeIcons.gift, color: Colors.white,),
-                        new Text(' Recompensas obtenidas', style: TextStyle(fontSize: 15, color: Colors.white)), 
-                        
-                      ],
-                    )
-                    
-                  ),
+            onPressed: () {                 
+              Navigator.push(
+              context,
+              new MaterialPageRoute(
+                  builder: (BuildContext context) => new DicePage()
+                  )
+                  );},  
+
+            shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
+            color: Color(0xff01969a),  
+            
+            child: new Row (
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+
+              children: <Widget>[
+                new Icon(FontAwesomeIcons.diceSix, color: Colors.white,),
+                new Text(' Obtener puntos', style: TextStyle(fontSize: 12, color: Colors.white)), 
+                
+              ],
+            )
+            
+          ),
+            ],
          ),
       Divider(),
       Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
         colors: [
-          Color(0xff01969a),
-          Colors.white,          
+    Color(0xff01969a),
+    Colors.white,          
         ])),
       child: Text("Mis puntos",style: TextStyle(fontSize:30, color: Colors.white,fontWeight: FontWeight.bold ),)),
       estructura,
+      
+
+      
 
 
       ],

@@ -9,6 +9,7 @@ import 'package:cabofind/paginas/educacion.dart';
 import 'package:cabofind/paginas/hoteles.dart';
 import 'package:cabofind/paginas/login.dart';
 import 'package:cabofind/paginas/maps.dart';
+import 'package:cabofind/paginas/menu.dart';
 import 'package:cabofind/paginas/misfavoritos.dart';
 import 'package:cabofind/paginas/mispromos.dart';
 import 'package:cabofind/paginas/misrecompensa.dart';
@@ -16,6 +17,7 @@ import 'package:cabofind/paginas/publicacion_detalle.dart';
 import 'package:cabofind/paginas/publicaciones.dart';
 import 'package:cabofind/paginas/ricky.dart';
 import 'package:cabofind/paginas/salud.dart';
+import 'package:cabofind/paginas/scan.dart';
 import 'package:cabofind/paginas_listas/list_eventos_grid.dart';
 import 'package:cabofind/utilidades/buscador.dart';
 import 'package:cabofind/utilidades/calculadora.dart';
@@ -128,7 +130,7 @@ class _MyHomePageState extends State<MyHomePages> {
   Future<String> getData() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/consultas_negocios/esp/estructura_esp.php"),
+            "http://cabofind.com.mx/app_php/consultas_negocios/esp/estructura_esp_test3.php"),
 
         headers: {
           "Accept": "application/json"
@@ -911,7 +913,12 @@ Widget _buildDropDownButton(String currencyCategory) {
                  
                } else if (ruta == "domicilio")
                {
-                 alertCar(context);
+                 Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Menu_comidas()
+                        )
+                        );
                  
                  
                } else if (ruta == "rickys")

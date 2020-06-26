@@ -190,7 +190,7 @@ String id_n = data[index]["ID_NEGOCIO"];
                FadeInImage(
 
                   image: NetworkImage(data[index]["GAL_FOTO"]),
-                  fit: BoxFit.cover,
+                  fit: BoxFit.fill,
                   width: MediaQuery.of(context).size.width,
                   height: 220,
 
@@ -324,7 +324,7 @@ String id_n = databaja[index]["ID_HOTEL"];
                   FadeInImage(
 
                     image: NetworkImage(databaja[index]["GAL_FOTO"]),
-                    fit: BoxFit.contain,
+                    fit: BoxFit.fitWidth,
                     width: MediaQuery.of(context).size.width,
                     height: 220,
 

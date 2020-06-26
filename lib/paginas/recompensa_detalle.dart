@@ -17,13 +17,13 @@ class Recompensa_detalle extends StatefulWidget {
 
 class _Recompensa_detalleState extends State<Recompensa_detalle> {
   List data;
-
+  List cupon;
 
     Future<String> getData() async {
+
     var response = await http.get(
         Uri.encodeFull(
             "http://cabofind.com.mx/app_php/APIs/esp/list_recompensas_usuario_api.php?ID_N=${widget.publicacion.id_n}&ID_R=${widget.publicacion.id_r}&CORREO=${widget.publicacion.mail}"),
-          //"http://cabofind.com.mx/app_php/list_negocios.php?"),
 
 
         headers: {
@@ -40,6 +40,47 @@ class _Recompensa_detalleState extends State<Recompensa_detalle> {
 
     return "Success!";
   }
+
+  Future<Map> updatePuntos(String idr, String idu, String total, String idn) async { 
+  var response = await http.get(
+        Uri.encodeFull(
+            "http://cabofind.com.mx/app_php/APIs/esp/update_puntos_c.php?ID_R=${idr}&ID_U=${idu}&TOTAL=${total}&ID_N=${idn}"
+            ),  
+       
+        headers: {
+          "Accept": "application/json"
+        }
+    );
+  }
+
+  Future<Map> insertData(String idr, String idu, String total, String idn) async { 
+  var response = await http.get(
+        Uri.encodeFull(
+            "http://cabofind.com.mx/app_php/APIs/esp/insert_cupon_cf.php?ID_R=${idr}&ID_U=${idu}&TOTAL=${total}&ID_N=${idn}"
+            ),  
+       
+        headers: {
+          "Accept": "application/json"
+        }
+    );
+
+
+
+
+                
+        
+              Navigator.push(context, new MaterialPageRoute
+                (builder: (context) => new Cupones_detalles(
+                publicacion: new Publicacion(idr,idn),
+                )));   
+
+    this.setState(
+            () {
+          cupon = json.decode(
+              response.body);
+        });            
+  
+}  
   @override
   void initState() {
     super.initState();
@@ -48,6 +89,46 @@ class _Recompensa_detalleState extends State<Recompensa_detalle> {
 
   }
   Widget build(BuildContext context) {
+
+  void _confirmacion() {
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Alerta"),
+          content: new Text("¿Seguro que desea continuar? Tendrás 7 días para la recompensa :)",textAlign: TextAlign.center,),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Cerrar"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+              new FlatButton(
+              child: new Text("Confirmar"),
+              onPressed: () {
+            String id_re = data[0]["ID_RECOMPENSA"];
+            String id_n = data[0]["negocios_ID_NEGOCIO"];
+
+            String total = data[0]["REC_META"];
+            String id_u = data[0]["ID_USU"];
+            print(id_u);
+            print(total);
+
+            insertData(id_re,id_u,total,id_n);
+            updatePuntos(id_re,id_u,total,id_n);
+            Navigator.of(context).pop();  
+              },
+              
+            ),
+          ],
+        );
+      },
+    );
+  }
 
     Widget _botonrecompensa = Column(
 
@@ -59,8 +140,11 @@ class _Recompensa_detalleState extends State<Recompensa_detalle> {
        itemBuilder: (BuildContext context, int index) {
 
 
-var _total = int.parse(data[0]["TOTAL"]);
-var _meta = int.parse(data[0]["REC_META"]);
+var _total = int.parse(data[index]["PUN_TOTAL"]);
+var _meta = int.parse(data[index]["REC_META"]);
+print('Puntos totales: '+data[index]["PUN_TOTAL"]);
+print(_meta);
+//print(_meta);
 
 
 
@@ -69,16 +153,8 @@ var _meta = int.parse(data[0]["REC_META"]);
        children: [         
                      
          _total >= _meta ? RaisedButton(
-                  onPressed: (){
-            String id_re = data[index]["ID_CUPONES"];
-            String id_n = data[index]["negocios_ID_NEGOCIO"];
-            print(id_re);
-            print(id_n);
-              Navigator.push(context, new MaterialPageRoute
-                (builder: (context) => new Cupones_detalles(
-              publicacion: new Publicacion(id_re,id_n),
-            )));                    
-                  
+                  onPressed: (){                
+                  _confirmacion();
                   },  
                   shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
                   color: Colors.orange,
@@ -88,7 +164,7 @@ var _meta = int.parse(data[0]["REC_META"]);
 
                                           children: <Widget>[
                                             
-                                            new Text(' Obtener recompensa ', style: TextStyle(fontSize: 20, color: Colors.white)), 
+                                            new Text(' Obtener recompensa', style: TextStyle(fontSize: 20, color: Colors.white)), 
                                             new Icon(FontAwesomeIcons.gift, color: Colors.white,),
                                             
                                           ],
@@ -152,13 +228,14 @@ var _meta = int.parse(data[0]["REC_META"]);
               ],),
               Text(data[index]["REC_TITULO"],style: TextStyle(fontSize: 50,fontWeight: FontWeight.bold, color: Color(0xff01969a)),softWrap: true,maxLines: 5,textAlign: TextAlign.center,),
               Text(data[index]["REC_DESCRIPCION"],style: TextStyle(fontSize:18,color: Colors.black),textAlign: TextAlign.center,),
-            ],),
+           _botonrecompensa ],),
           ),
           ),
         ),
-          _botonrecompensa,
-          Text('Términos y condiciones',style: TextStyle(fontSize:12,color: Colors.black),textAlign: TextAlign.center,),
-          Center(child: Text(data[index]["REC_TERMINOS"],style: TextStyle(fontSize:10,color: Colors.black,),textAlign: TextAlign.justify,)),
+          
+        Text('Términos y condiciones',style: TextStyle(fontSize:12,color: Colors.black),textAlign: TextAlign.center,),
+        Center(child: Text(data[index]["REC_TERMINOS"],style: TextStyle(fontSize:10,color: Colors.black,),textAlign: TextAlign.justify,)),
+                 
         ],);
       }
       ),      

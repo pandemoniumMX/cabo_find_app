@@ -179,7 +179,7 @@ Navigator.pushReplacement(
                                             new Icon(FontAwesomeIcons.signOutAlt, color: Colors.white,)
                                           ],
                                         )
-                ),
+                              ),
                               )
 
                                 

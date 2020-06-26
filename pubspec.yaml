@@ -70,6 +70,7 @@ dependencies:
   #expand_widget: ^0.2.0+2
   expandable: ^4.1.4
   share: ^0.6.4+3
+  barcode_scan: ^3.0.1  
   #expandable_widget: ^1.0.5
   
 

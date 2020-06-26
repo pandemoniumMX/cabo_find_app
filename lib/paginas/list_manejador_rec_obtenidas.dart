@@ -6,6 +6,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
+import 'cupones_detalle_ob.dart';
+
 
 class Mis_promos_manejador_obtenidas extends StatefulWidget {
  
@@ -17,21 +19,20 @@ class Mis_promos_manejador_obtenidas extends StatefulWidget {
 class _Mis_promos_manejador_obtenidasState extends State<Mis_promos_manejador_obtenidas> {
   List data;
 
-
-  Future<String> _loadUser() async {
-
- final SharedPreferences login = await SharedPreferences.getInstance();
+  Future<Map> _loadUserx() async {
+final SharedPreferences login = await SharedPreferences.getInstance();
  String _status = "";
  String _mail ="";
  String _mail2 ="";
-String _idusu="";  _status = login.getString("stringLogin");
+String _idusu="";  
+_status = login.getString("stringLogin");
  _mail2 = login.getString("stringMail"); 
  
   
 
   var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/list_cupones_api.php?CORREO=$_mail2"),  
+            "http://cabofind.com.mx/app_php/APIs/esp/list_cupones_api_single2.php?CORREO=$_mail2"),  
        
         headers: {
           "Accept": "application/json"
@@ -45,30 +46,61 @@ String _idusu="";  _status = login.getString("stringLogin");
         });            
   
 }
+ Future<Map> _loaduser() async { 
+ final SharedPreferences login = await SharedPreferences.getInstance();
+ String _status = "";
+ String _mail ="";
+ String _mail2 ="";
+ String _idusu="";  
+_status = login.getString("stringLogin");
+ _mail2 = login.getString("stringMail");   
+
+  http.Response response = await http.get("http://cabofind.com.mx/app_php/APIs/esp/list_cupones_api.php?CORREO=$_mail2");
+  return json.decode(response.body);
+  
+  }  
+
 
   void initState(){
   super.initState();
-  this._loadUser();
+  this._loadUserx();
 
   }
   @override
   Widget build(BuildContext context) {
-    Widget estructura = ListView.builder(
+    Widget estructura = FutureBuilder(
+          future: _loaduser(),
+          builder: (context, snapshot) {            
+              switch (snapshot.connectionState) {
+                
+                case ConnectionState.none:
+                case ConnectionState.waiting:
+                return Center(
+                      child: CircularProgressIndicator()
+                  );
+                default:
+                  if (snapshot.hasError) {
+                    return Container(
+                      padding: const EdgeInsets.all(10),
+                      child: Center(child: Text('Aún no obtienes ninguna recompensa',style: TextStyle(fontWeight: FontWeight.bold),)),
+                        
+                        
+                    );
+                  } else {
+                   
+                    return       ListView.builder(
       shrinkWrap: true,
       physics: BouncingScrollPhysics(),
       itemCount: data == null ? 0 : data.length,
       itemBuilder: (BuildContext context, int index) {
-          return new ListTile(
+        //print(data[0]["REC_TITULO"]);
 
-
+        return ListTile(
             title: new Card(
-
               elevation: 5.0,
               child: new Container(
                 child: Column(
-
                   children: <Widget>[
-                    //Text("Texto",
                     Row(
                       mainAxisAlignment : MainAxisAlignment.spaceBetween,
                       children: <Widget>[
@@ -89,24 +121,16 @@ String _idusu="";  _status = login.getString("stringLogin");
 
                         new Icon(FontAwesomeIcons.gift, color: Colors.orange,size: 20,), 
                         new Text('Obtenido',style: TextStyle(fontSize: 10),),
-                        //new Text('necesarios',style: TextStyle(fontSize: 10),)
                             ],),
                             
                         
                       ],
                         ),
-
                       ],
-                        
-
-
                     ),
                   ],
-
                 ),
-
               ),
-
             ),
 
             onTap: () {
@@ -114,10 +138,8 @@ String _idusu="";  _status = login.getString("stringLogin");
             String id_re = data[index]["ID_CUPONES"];
             String id_n = data[index]["negocios_ID_NEGOCIO"];
 
-            print(id_re);
-            print(id_n);
               Navigator.push(context, new MaterialPageRoute
-                (builder: (context) => new Cupones_detalles(
+                (builder: (context) => new Cupones_detalles_ob(
               publicacion: new Publicacion(id_re,id_n),
             )));
 
@@ -128,14 +150,18 @@ String _idusu="";  _status = login.getString("stringLogin");
         },
 
     );
+                  }                
+              }
+          });
     return  Scaffold(
       appBar: AppBar(title:Text('Regresar')),
       body: ListView(
-        physics: BouncingScrollPhysics(),   
+          
         //addAutomaticKeepAlives: true,
         children: [
-      //  Text('data'),
-        estructura
+          estructura
+            
+        
       ],)
     
     );

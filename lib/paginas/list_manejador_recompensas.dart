@@ -96,7 +96,6 @@ class _UsuarioState extends State<Usuario> {
   void initState(){
   super.initState();
   this._loadUser();
-  print(widget.publicacion.id_p);
 
   }
 
@@ -199,9 +198,7 @@ _status = login.getString("stringLogin");
             String id_n = data[index]["negocios_ID_NEGOCIO"];
             String _mail = widget.usuarios.correo;
 
-            print(id_re);
-            print(id_n);
-            print(_mail);
+           
               Navigator.push(context, new MaterialPageRoute
                 (builder: (context) => new Recompensa_detalle(
               publicacion: new Publicacion2(id_re,id_n,_mail),
@@ -226,14 +223,14 @@ _status = login.getString("stringLogin");
         gradient: LinearGradient(
         colors: [
           Color(0xff01969a),
-          Color(0xff01969a),         
+          Color(0xff01969a),
+          //Colors.white,          
         ])),
       child: Row(children: [
-        Text("Puntos obtenidos: ",style: TextStyle(fontSize:40, color: Colors.white,fontWeight: FontWeight.bold ),),
-        Text(data[0]["TOTAL"],style: TextStyle(fontSize:40, color: Colors.white,fontWeight: FontWeight.bold ),)
+        Text("Puntos obtenidos: ",style: TextStyle(fontSize:30, color: Colors.white,fontWeight: FontWeight.bold ),),
+        Text(data[0]["PUN_TOTAL"],style: TextStyle(fontSize:30, color: Colors.white,fontWeight: FontWeight.bold ),)
         
         ])),
-  
       estructura,
 
 
@@ -261,7 +258,6 @@ class _State extends State<Login2> {
     var response = await http.get(
         Uri.encodeFull(
             "http://cabofind.com.mx/app_php/APIs/esp/list_recompensas_usuario_none.php?ID=${widget.publicacion.id_p}"),
-          //"http://cabofind.com.mx/app_php/list_negocios.php?"),
 
 
         headers: {

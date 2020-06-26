@@ -7,17 +7,17 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-class Cupones_detalles extends StatefulWidget {
+class Cupones_detalles_ob extends StatefulWidget {
     
   final Publicacion publicacion;  
 
-  Cupones_detalles({Key key, @required this.publicacion}) : super(
+  Cupones_detalles_ob({Key key, @required this.publicacion}) : super(
       key: key);  
   @override
   _Recompensa_detalleState createState() => _Recompensa_detalleState();
 }
 
-class _Recompensa_detalleState extends State<Cupones_detalles> {
+class _Recompensa_detalleState extends State<Cupones_detalles_ob> {
   List data;
   DateFormat dateFormat;
 
@@ -31,7 +31,7 @@ final SharedPreferences login = await SharedPreferences.getInstance();
 
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/list_cupones_api_single.php?CORREO=$_mail2&ID_R=${widget.publicacion.id_n}"),  
+            "http://cabofind.com.mx/app_php/APIs/esp/list_cupones_api_single_ob.php?CORREO=$_mail2&ID_R=${widget.publicacion.id_n}"),  
 
 
         headers: {

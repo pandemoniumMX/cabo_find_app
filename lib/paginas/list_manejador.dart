@@ -86,11 +86,8 @@ GlobalKey _toolTipKey = GlobalKey();
     } on PlatformException {
       print("Error obtaining current locale");
     }
-
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-    AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-    print('Running on ${androidInfo.id}');
-        print('Running on ${androidInfo.fingerprint}');
+    IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
              
  final SharedPreferences login = await SharedPreferences.getInstance();
  String _status = "";
@@ -107,7 +104,8 @@ GlobalKey _toolTipKey = GlobalKey();
 
       var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/insert_recomendacion_negocio.php?MOD=${androidInfo.model}&BOOT=${androidInfo.display},${androidInfo.bootloader},${androidInfo.fingerprint}&VERSION=${androidInfo.product}&IDIOMA=${currentLocale}&ID=${id_n}&SO=Android&CORREO=${_mail}"),
+            "http://cabofind.com.mx/app_php/APIs/esp/insert_recomendacion_negocio.php?MOD=${iosInfo.model}&BOOT=${iosInfo.utsname.nodename},${iosInfo.identifierForVendor},&VERSION=${iosInfo.systemName}}&IDIOMA=${currentLocale}&ID=${id_n}&SO=iOS&CORREO=${_mail}"),
+            //"http://cabofind.com.mx/app_php/APIs/esp/insert_recomendacion_negocio.php?MOD=${iosInfo.model}&BOOT=${iosInfo.utsname.nodename},${iosInfo.identifierForVendor}&VERSION=${iosInfo.systemName}&IDIOMA=${currentLocale}"),
 
         headers: {
           "Accept": "application/json"
@@ -137,7 +135,7 @@ GlobalKey _toolTipKey = GlobalKey();
           toastLength: Toast.LENGTH_SHORT,
           backgroundColor: Color(0xffED393A),
           textColor: Colors.white,
-          timeInSecForIos: 1);
+          );
     }
 
 
@@ -167,26 +165,26 @@ void dispose() {
         itemCount: data == null ? 0 : data.length,
         itemBuilder: (BuildContext context, int index) {
 String id_n = data[index]["ID_NEGOCIO"];
-          return new ListTile(
+          return new GestureDetector(
 
 
-            title: new Card(
+            child: Card(
+              elevation: 2.0,
+                child: new Container(
 
-              elevation: 5.0,
-              child: new Container(
-
-
+                height: 290,
                 decoration: BoxDecoration(
-                  borderRadius:BorderRadius.circular(10.0),
-                    border: Border.all(
-                        color: Colors.lightBlueAccent)
-                ),
-                padding: EdgeInsets.all(
-                    10.0),
-                margin: EdgeInsets.all(
-                    10.0),
+                    borderRadius:BorderRadius.circular(5.0),
+                      border: Border.all(
+                          color: Colors.grey)
+                  ),
+                  padding: EdgeInsets.all(
+                      0.0),
+                  margin: EdgeInsets.all(
+                      0.0),
 
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
 
                     Stack(
@@ -195,19 +193,18 @@ String id_n = data[index]["ID_NEGOCIO"];
                    FadeInImage(
 
                       image: NetworkImage(data[index]["GAL_FOTO"]),
-                      fit: BoxFit.cover,
+                      fit: BoxFit.fitWidth,
                       width: MediaQuery.of(context).size.width,
-                      height: 220,
+                      height: 200,
 
                       // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
                       placeholder: AssetImage('android/assets/images/loading.gif'),
                       fadeInDuration: Duration(milliseconds: 200),
 
                     ),
-                  
                 Positioned(
                         right: -8.0,
-                        bottom: 170.0,
+                        bottom: 155.0,
                         child: new FloatingActionButton(
                           child: new Image.asset(
                         "assets/premium1.png",
@@ -226,12 +223,12 @@ String id_n = data[index]["ID_NEGOCIO"];
                       ),
                       Tooltip(
                                 key: _toolTipKey,
-                                message: 'Establecimiento destacado',
+                                message: 'Destacado',
                                 verticalOffset: -10,
                                 preferBelow: true,
                                 
                                 
-                              ),
+                              ),    
 
                 Positioned(
                         right: -8.0,
@@ -242,20 +239,21 @@ String id_n = data[index]["ID_NEGOCIO"];
                         fit: BoxFit.cover,
                         width: 35.0,
                         height: 35.0,
-                        
 
                       ),
-                          backgroundColor: Colors.transparent,
                           elevation: 0.0,
-                           
+                          backgroundColor: Colors.transparent,
+                           onPressed: (){},
 
                         ),
-                      ), 
+                      ),
                 Positioned(
+                                
                                 right: -8,
                                 bottom: -8,
-                                child: new FloatingActionButton(                                
-                                 child: new Text( data[index]["NEG_RECOMENDACIONES"],
+                                child: new FloatingActionButton(
+                                  
+                                 child: new Text(data[index]["NEG_RECOMENDACIONES"],
                                  style: TextStyle(fontWeight: FontWeight.bold,fontSize: 10.0, color: Colors.black)),
                                  elevation: 0.0,
                                  backgroundColor: Colors.transparent,
@@ -263,53 +261,44 @@ String id_n = data[index]["ID_NEGOCIO"];
                                  getData();
                                  getDatabaja();
                                  },
+                                 
                                 ),
-                              ),  
-
+                              ),              
                             ]
               ),
-                    Row(
-                        children: <Widget>[
+              Padding(
+                      child: Text(
+                      '',
+                      style: TextStyle(fontWeight: FontWeight.bold,),
+                      overflow: TextOverflow.ellipsis,),
+                      padding: EdgeInsets.only(left:25.0)),
 
-                          Padding(
-
-                              child: Text(
-
-                                  data[index]["SUB_NOMBRE"],
-                                overflow: TextOverflow.ellipsis,),
-                              padding: EdgeInsets.all(
-                                  1.0)),
-                          Text(
-                              " | "),
-                          Padding(
-                              child: new Text(
-                                  data[index]["NEG_NOMBRE"],
-                                overflow: TextOverflow.ellipsis,),
-                              padding: EdgeInsets.all(
-                                  1.0)),
-                          Text(
-                              " | "),
-                          Flexible(
-                            child: new Text(
-                              data[index]["NEG_LUGAR"],
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,),
-
-
-                          ),
-
-                        ]),
+                    Padding(
+                      child: Text(
+                      data[index]["NEG_NOMBRE"],
+                      style: TextStyle(fontWeight: FontWeight.bold,),
+                      overflow: TextOverflow.ellipsis,),
+                      padding: EdgeInsets.only(left:25.0)),
+                   
+                    Padding(
+                        child: new Text(
+                        data[index]["SUB_NOMBRE"],
+                        overflow: TextOverflow.ellipsis,),
+                        padding: EdgeInsets.only(left:25.0)),
+                    Padding(
+                        child: new Text(
+                        data[index]["NEG_LUGAR"],
+                        overflow: TextOverflow.ellipsis,),
+                        padding: EdgeInsets.only(left:25.0)),
                   ],
 
                 ),
 
               ),
-
             ),
 
             onTap: () {
               String id_sql = data[index]["ID_NEGOCIO"];
-
               Navigator.push(context, new MaterialPageRoute
                 (builder: (context) => new Empresa_det_fin(empresa: new Empresa(id_sql))));
 
@@ -329,27 +318,26 @@ String id_n = data[index]["ID_NEGOCIO"];
         itemCount: databaja == null ? 0 : databaja.length,
         itemBuilder: (BuildContext context, int index) {
 String id_n = databaja[index]["ID_NEGOCIO"];
-          return new ListTile(
+          return new GestureDetector(
 
 
-            title: new Card(
+            child: Card(
+              elevation: 2.0,
+                child: new Container(
 
-              elevation: 5.0,
-              child: new Container(
-
-
+                height: 290,
                 decoration: BoxDecoration(
-                  borderRadius:BorderRadius.circular(10.0),
-                    border: Border.all(
-                        color: Colors.lightBlueAccent)
-                ),
-                padding: EdgeInsets.all(
-                    10.0),
-                margin: EdgeInsets.all(
-                    10.0),
+                    borderRadius:BorderRadius.circular(5.0),
+                      border: Border.all(
+                          color: Colors.grey)
+                  ),
+                  padding: EdgeInsets.all(
+                      0.0),
+                  margin: EdgeInsets.all(
+                      0.0),
 
                 child: Column(
-
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
 
                     Stack(
@@ -358,9 +346,9 @@ String id_n = databaja[index]["ID_NEGOCIO"];
                    FadeInImage(
 
                       image: NetworkImage(databaja[index]["GAL_FOTO"]),
-                      fit: BoxFit.cover,
+                      fit: BoxFit.fitWidth,
                       width: MediaQuery.of(context).size.width,
-                      height: 220,
+                      height: 200,
 
                       // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
                       placeholder: AssetImage('android/assets/images/loading.gif'),
@@ -404,43 +392,35 @@ String id_n = databaja[index]["ID_NEGOCIO"];
                               ),              
                             ]
               ),
-                    Row(
-                        children: <Widget>[
+              Padding(
+                      child: Text(
+                      '',
+                      style: TextStyle(fontWeight: FontWeight.bold,),
+                      overflow: TextOverflow.ellipsis,),
+                      padding: EdgeInsets.only(left:25.0)),
 
-                          Padding(
-
-                              child: Text(
-
-                                  databaja[index]["SUB_NOMBRE"],
-                                overflow: TextOverflow.ellipsis,),
-                              padding: EdgeInsets.all(
-                                  1.0)),
-                          Text(
-                              " | "),
-                          Padding(
-                              child: new Text(
-                                  databaja[index]["NEG_NOMBRE"],
-                                overflow: TextOverflow.ellipsis,),
-                              padding: EdgeInsets.all(
-                                  1.0)),
-                          Text(
-                              " | "),
-                          Flexible(
-                            child: new Text(
-                              databaja[index]["NEG_LUGAR"],
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,),
-
-
-                          ),
-
-                        ]),
+                    Padding(
+                      child: Text(
+                      databaja[index]["NEG_NOMBRE"],
+                      style: TextStyle(fontWeight: FontWeight.bold,),
+                      overflow: TextOverflow.ellipsis,),
+                      padding: EdgeInsets.only(left:25.0)),
+                   
+                    Padding(
+                        child: new Text(
+                        databaja[index]["SUB_NOMBRE"],
+                        overflow: TextOverflow.ellipsis,),
+                        padding: EdgeInsets.only(left:25.0)),
+                    Padding(
+                        child: new Text(
+                        databaja[index]["NEG_LUGAR"],
+                        overflow: TextOverflow.ellipsis,),
+                        padding: EdgeInsets.only(left:25.0)),
                   ],
 
                 ),
 
               ),
-
             ),
 
             onTap: () {
