@@ -1,3 +1,4 @@
+import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 
 
@@ -6,6 +7,8 @@ class Users {
 
   Users(this.correo);
 }
+
+
 
 class Categoria {
   final int cat; 
