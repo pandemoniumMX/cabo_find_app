@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:cabofind/utilidades/classes.dart';
 import 'package:cabofind/utilidades/estilo.dart';
@@ -7,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
+import 'dart:math' as math;
 
 class Menu_manejador extends StatefulWidget {
   final Users manejador;
@@ -16,14 +18,16 @@ class Menu_manejador extends StatefulWidget {
   _Menu_majeadorState createState() => _Menu_majeadorState();
 }
 
-class _Menu_majeadorState extends State<Menu_manejador> {
+class _Menu_majeadorState extends State<Menu_manejador>
+    with TickerProviderStateMixin {
   List data;
   List exp;
-  ExpandableController controller1;
-  ExpandableController controller2;
-  ExpandableController controller3;
-  ExpandableController controller4;
-  ExpandableController controller5;
+
+  AnimationController _controller;
+  Animation<double> _animation;
+  TextEditingController controller = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  FocusNode _focusNode;
 
   bool _isVisibleAsi = true;
 
@@ -57,154 +61,231 @@ class _Menu_majeadorState extends State<Menu_manejador> {
     //this._loadMenu('','');
     this._loadExp();
 
-    controller1 = new ExpandableController(initialExpanded: expanded);
-    //_controller.addListener(_onToggle);
-
-    /*_controller.addListener((){
-      if(_controller.value)_controller.value=true;
-    });
-    _controller.addListener((){
-      if(_controller.value)_controller.value=true;
-    });*/
+    _controller = AnimationController(
+        duration: const Duration(milliseconds: 300), vsync: this, value: 0.1);
+    _animation = CurvedAnimation(
+        parent: _controller,
+        // reverseCurve: Curves.bounceInOut,
+        curve: Curves.bounceInOut);
   }
 
   @override
   void dispose() {
-    //  controller1.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
-  _onToggle() {
-    print("Is expanded: ${controller1.expanded}");
-  }
+  cleanTexto() {
+    String controlador = controller.text;
 
-  void showToast(idm) {
-    setState(() {
-      // print(idm);
-      if (idm == '37') {
-        _isVisibleAsi = !true;
-      }
-    });
+    controller.clear();
   }
 
   @override
   Widget build(BuildContext context) {
-    Widget expandir = Offstage(
-        offstage: _isVisibleAsi,
-        child: ListView.builder(
-          shrinkWrap: true,
-          physics: BouncingScrollPhysics(),
-          itemCount: data == null ? 0 : data.length,
-          itemBuilder: (BuildContext context, int index) {
-            return Card(
-              elevation: 2.0,
-              child: new Container(
-                height: 150,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5.0),
-                    border: Border.all(color: Colors.grey)),
-                padding: EdgeInsets.all(20.0),
-                child: Row(
-                  // crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    FadeInImage(
-                      image: NetworkImage(data[index]["GAL_FOTO"]),
-                      fit: BoxFit.fill,
-                      width: 50,
-                      height: 50,
+    Widget expandir = SizeTransition(
+      axisAlignment: 1.0,
+      sizeFactor: _controller,
+      child: Offstage(
+          offstage: _isVisibleAsi,
+          child: ListView.builder(
+            shrinkWrap: true,
+            physics: BouncingScrollPhysics(),
+            itemCount: data == null ? 0 : data.length,
+            itemBuilder: (BuildContext context, int index) {
+              String controlador = controller.text;
+              return Card(
+                elevation: 2.0,
+                child: new Container(
+                  height: 200,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5.0),
+                      border: Border.all(color: Colors.grey)),
+                  padding: EdgeInsets.all(5.0),
+                  //  margin: EdgeInsets.all(5.0),
+                  child: Row(
+                    // crossAxisAlignment: CrossAxisAlignment,
 
-                      // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
-                      placeholder:
-                          AssetImage('android/assets/images/loading.gif'),
-                      fadeInDuration: Duration(milliseconds: 200),
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      //crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
-                          data[index]["MENU_NOMBRE"],
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      FadeInImage(
+                        image: NetworkImage(data[index]["GAL_FOTO"]),
+                        fit: BoxFit.fill,
+                        width: 100,
+                        height: 100,
+
+                        // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
+                        placeholder:
+                            AssetImage('android/assets/images/loading.gif'),
+                        fadeInDuration: Duration(milliseconds: 200),
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        //crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            data[index]["MENU_NOMBRE"],
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                            overflow: TextOverflow.ellipsis,
                           ),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        Flexible(
-                          child: Text(data[index]["MENU_DESC"],
-                              overflow: TextOverflow.ellipsis, softWrap: true),
-                        ),
-                        Text(
-                          '\$' + data[index]["MENU_COSTO"],
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
-                    ),
-                    Row(
-                      //crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        new Icon(FontAwesomeIcons.minusCircle),
-                        Text(
-                          '0',
-                          style: TextStyle(fontSize: 20),
-                        ),
-                        new Icon(FontAwesomeIcons.plusCircle),
-                      ],
-                    ),
-                  ],
+                          Flexible(
+                            child: Text(data[index]["MENU_DESC"],
+                                overflow: TextOverflow.ellipsis,
+                                softWrap: true),
+                          ),
+                          Text(
+                            '\$' + data[index]["MENU_COSTO"],
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      ),
+                      Form(
+                        child: Column(children: <Widget>[
+                          SizedBox(
+                            width: 100,
+                            child: Flexible(
+                              child: TextField(
+                                focusNode: _focusNode,
+                                decoration: new InputDecoration(
+                                  labelText: "Agregar nota",
+                                  labelStyle: TextStyle(fontSize: 15),
+                                  fillColor: Colors.white,
+                                  border: new OutlineInputBorder(
+                                    borderRadius:
+                                        new BorderRadius.circular(10.0),
+                                    borderSide: new BorderSide(),
+                                  ),
+                                  //fillColor: Colors.green
+                                ),
+                                style: TextStyle(fontSize: 12),
+                                keyboardType: TextInputType.text,
+                                //controller: controller,
+                                maxLines: 5,
+
+                                onSubmitted: (String value) {
+                                  controlador = value;
+                                  controlador = '';
+                                },
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Row(
+                            //crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: <Widget>[
+                              new Icon(FontAwesomeIcons.minusCircle),
+                              Text(
+                                '0',
+                                style: TextStyle(fontSize: 20),
+                              ),
+                              new Icon(FontAwesomeIcons.plusCircle),
+                            ],
+                          ),
+                          RaisedButton(
+                              onPressed: () {},
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20.0)),
+                              color: Color(0xff01969a),
+                              child: new Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  new Text('Agregar',
+                                      style: TextStyle(
+                                          fontSize: 15, color: Colors.white)),
+                                  new Icon(
+                                    FontAwesomeIcons.shoppingCart,
+                                    color: Colors.white,
+                                  )
+                                ],
+                              )),
+                        ]),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            );
-          },
-        ));
+              );
+            },
+          )),
+    );
 
     return Scaffold(
         body: Column(
       children: [
-        ListView.builder(
+        GridView.builder(
           shrinkWrap: true,
           physics: BouncingScrollPhysics(),
+          gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
+              mainAxisSpacing: 1,
+              crossAxisSpacing: 1,
+              crossAxisCount: 2,
+              childAspectRatio: MediaQuery.of(context).size.height / 300
+              //  (MediaQuery.of(context).size.height / 1.5)
+              ),
           itemCount: exp == null ? 0 : exp.length,
           itemBuilder: (BuildContext context, int index) {
             String idn = exp[index]["negocios_ID_NEGOCIO"];
 
             String idm = exp[index]["ID_SUB_MEN"];
 
-            return InkWell(
-              onTap: () {
-                _loadMenu(idn, idm);
+            return Container(
+              margin: EdgeInsets.all(3.0),
+              padding: EdgeInsets.all(3.0),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15.0),
+                  border: Border.all(
+                    color: Colors.grey,
+                  )),
+              child: InkWell(
+                onTap: () {
+                  cleanTexto();
+                  _loadMenu(idn, idm);
+                  _isVisibleAsi = !true;
 
-                print(idn);
-                _isVisibleAsi = !true;
-                // (String idn) => showToast(idn);
-              },
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Text(
-                        exp[index]["SUB_MEN_NOMBRE"],
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18.0,
+                  print(idn);
+                  _controller.isCompleted
+                      ? _controller.reverse()
+                      : _controller.forward();
+
+                  /*  _controller.isDismissed
+                      ? _controller.reverse()
+                      : _controller.forward();*/
+
+                  // (String idn) => showToast(idn);
+                },
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      //crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          exp[index]["SUB_MEN_NOMBRE"],
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18.0,
+                          ),
+                          softWrap: true,
                         ),
-                        softWrap: true,
-                      ),
-                      FadeInImage(
-                        image: NetworkImage(exp[0]["GAL_FOTO"]),
-                        fit: BoxFit.fill,
-                        width: 50,
-                        height: 50,
-                        placeholder:
-                            AssetImage('android/assets/images/loading.gif'),
-                        fadeInDuration: Duration(milliseconds: 200),
-                      ),
-                    ],
-                  ),
-                  Divider()
-                ],
+                        FadeInImage(
+                          image: NetworkImage(exp[index]["GAL_FOTO"]),
+                          fit: BoxFit.fill,
+                          width: 50,
+                          height: 50,
+                          placeholder:
+                              AssetImage('android/assets/images/loading.gif'),
+                          fadeInDuration: Duration(milliseconds: 200),
+                        ),
+                      ],
+                    ),
+                    //  Divider()
+                  ],
+                ),
               ),
             );
           },
