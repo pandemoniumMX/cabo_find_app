@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:cabofind/paginas/menu_detalle.dart';
 import 'package:cabofind/utilidades/classes.dart';
 import 'package:cabofind/utilidades/estilo.dart';
 import 'package:expandable/expandable.dart';
@@ -96,117 +97,65 @@ class _Menu_majeadorState extends State<Menu_manejador>
               String controlador = controller.text;
               return Card(
                 elevation: 2.0,
-                child: new Container(
-                  height: 200,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5.0),
-                      border: Border.all(color: Colors.grey)),
-                  padding: EdgeInsets.all(5.0),
-                  //  margin: EdgeInsets.all(5.0),
-                  child: Row(
-                    // crossAxisAlignment: CrossAxisAlignment,
+                child: InkWell(
+                  onTap: () {
+                    String idn = data[index]["negocios_ID_NEGOCIO"];
+                    String idm = data[index]["ID_MENU"];
+                    print(
+                        '***************************************************' +
+                            idm);
+                    Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (context) => new Menu_detalle(
+                                menu: new Publicacion(idn, idm))));
+                  },
+                  child: new Container(
+                    height: 200,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5.0),
+                        border: Border.all(color: Colors.grey)),
+                    padding: EdgeInsets.all(5.0),
+                    //  margin: EdgeInsets.all(5.0),
+                    child: Row(
+                      // crossAxisAlignment: CrossAxisAlignment,
 
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      FadeInImage(
-                        image: NetworkImage(data[index]["GAL_FOTO"]),
-                        fit: BoxFit.fill,
-                        width: 100,
-                        height: 100,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        FadeInImage(
+                          image: NetworkImage(data[index]["GAL_FOTO"]),
+                          fit: BoxFit.fill,
+                          width: 170,
+                          height: 170,
 
-                        // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
-                        placeholder:
-                            AssetImage('android/assets/images/loading.gif'),
-                        fadeInDuration: Duration(milliseconds: 200),
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        //crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Text(
-                            data[index]["MENU_NOMBRE"],
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          Flexible(
-                            child: Text(data[index]["MENU_DESC"],
-                                overflow: TextOverflow.ellipsis,
-                                softWrap: true),
-                          ),
-                          Text(
-                            '\$' + data[index]["MENU_COSTO"],
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
-                      ),
-                      Form(
-                        child: Column(children: <Widget>[
-                          SizedBox(
-                            width: 100,
-                            child: Flexible(
-                              child: TextField(
-                                focusNode: _focusNode,
-                                decoration: new InputDecoration(
-                                  labelText: "Agregar nota",
-                                  labelStyle: TextStyle(fontSize: 15),
-                                  fillColor: Colors.white,
-                                  border: new OutlineInputBorder(
-                                    borderRadius:
-                                        new BorderRadius.circular(10.0),
-                                    borderSide: new BorderSide(),
-                                  ),
-                                  //fillColor: Colors.green
-                                ),
-                                style: TextStyle(fontSize: 12),
-                                keyboardType: TextInputType.text,
-                                //controller: controller,
-                                maxLines: 5,
-
-                                onSubmitted: (String value) {
-                                  controlador = value;
-                                  controlador = '';
-                                },
+                          // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
+                          placeholder:
+                              AssetImage('android/assets/images/loading.gif'),
+                          fadeInDuration: Duration(milliseconds: 200),
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          //crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              data[index]["MENU_NOMBRE"],
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
                               ),
+                              overflow: TextOverflow.ellipsis,
                             ),
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Row(
-                            //crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: <Widget>[
-                              new Icon(FontAwesomeIcons.minusCircle),
-                              Text(
-                                '0',
-                                style: TextStyle(fontSize: 20),
-                              ),
-                              new Icon(FontAwesomeIcons.plusCircle),
-                            ],
-                          ),
-                          RaisedButton(
-                              onPressed: () {},
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20.0)),
-                              color: Color(0xff01969a),
-                              child: new Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
-                                  new Text('Agregar',
-                                      style: TextStyle(
-                                          fontSize: 15, color: Colors.white)),
-                                  new Icon(
-                                    FontAwesomeIcons.shoppingCart,
-                                    color: Colors.white,
-                                  )
-                                ],
-                              )),
-                        ]),
-                      ),
-                    ],
+                            Flexible(
+                              child: Text(data[index]["MENU_DESC"],
+                                  overflow: TextOverflow.ellipsis, maxLines: 4),
+                            ),
+                            Text(
+                              '\$' + data[index]["MENU_COSTO"],
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               );

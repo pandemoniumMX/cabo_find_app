@@ -216,13 +216,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.0"
-  flutter_google_pay:
-    dependency: "direct main"
-    description:
-      name: flutter_google_pay
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.1.4"
   flutter_launcher_icons:
     dependency: "direct dev"
     description:
@@ -586,6 +579,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.5"
+  stripe_native:
+    dependency: "direct main"
+    description:
+      name: stripe_native
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.2.3"
   term_glyph:
     dependency: transitive
     description:
@@ -665,4 +665,4 @@ packages:
     version: "2.2.0"
 sdks:
   dart: ">=2.7.0 <3.0.0"
-  flutter: ">=1.12.13+hotfix.5 <2.0.0"
+  flutter: ">=1.13.0 <2.0.0"

@@ -61,7 +61,7 @@ dependencies:
   location: ^2.3.5
   permission:  
   #Shopping
-  flutter_google_pay: ^0.1.4
+  #flutter_google_pay: ^0.1.4
   flutter_datetime_picker: ^1.3.8
   intl: ^0.16.0  
   qr_flutter: ^3.2.0
@@ -71,6 +71,8 @@ dependencies:
   expandable: ^4.1.4
   share: ^0.6.4+3
   barcode_scan: ^3.0.1  
+  stripe_native: ^1.2.3
+  #flutter_conekta: ^1.0.7+1
   #expandable_widget: ^1.0.5
   
 
