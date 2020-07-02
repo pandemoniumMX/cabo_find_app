@@ -34,15 +34,20 @@ class Detalles extends State<Menu_detalle> {
 
   bool isLoggedIn = false;
   List data;
-  List data_serv;
-  List data_serh;
-  List data_hab;
+  List extra;
+
   List dataneg;
   List data_carrusel;
-  List data_car;
   List logos;
   List descripcion;
   int _counter = 0;
+  int _costo = 0;
+  int _suma = 0;
+  int _suma_ex = 0;
+
+  bool _value = true;
+  var factorial = 0;
+  var userStatus = List<bool>();
 
   Future<String> get receiptPayment async {
     /* custom receipt w/ useReceiptNativePay */
@@ -65,6 +70,7 @@ class Detalles extends State<Menu_detalle> {
 
     this.setState(() {
       dataneg = json.decode(response.body);
+      //  userStatus.add(false);
     });
 
     return "Success!";
@@ -81,6 +87,21 @@ class Detalles extends State<Menu_detalle> {
     return "Success!";
   }
 
+  Future<String> getExtras() async {
+    var response = await http.get(
+        Uri.encodeFull(
+            "http://cabofind.com.mx/app_php/APIs/esp/list_extras_menu.php?ID=${widget.menu.id_n}"),
+        headers: {"Accept": "application/json"});
+    this.setState(() {
+      extra = json.decode(response.body);
+      userStatus.add(false);
+    });
+    for (var u in extra) {
+      userStatus.add(false);
+    }
+    return "Success!";
+  }
+
   Future<Map> getPortada() async {
     http.Response response = await http.get(
         "http://cabofind.com.mx/app_php/APIs/esp/galeria_hotel_api2.php?ID=${widget.menu.id_n}");
@@ -89,6 +110,7 @@ class Detalles extends State<Menu_detalle> {
 
   void initState() {
     super.initState();
+    this.getExtras();
     // this.getCar();
     this.getCarrusel();
     this.getInfo();
@@ -129,47 +151,6 @@ class Detalles extends State<Menu_detalle> {
   }
 
   Widget build(BuildContext context) {
-    _alertCar(BuildContext context) async {
-      return showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              title: Text(
-                'Caracteristicas',
-                style: TextStyle(
-                  fontSize: 25.0,
-                ),
-              ),
-              content: Container(
-                  width: double.maxFinite,
-                  height: 300.0,
-                  child: ListView.builder(
-                      itemCount: data == null ? 0 : data.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Column(
-                          children: <Widget>[
-                            Container(
-                              child: Text(
-                                data[index]["CAR_NOMBRE"],
-                                style: TextStyle(),
-                              ),
-                              padding: EdgeInsets.only(bottom: 15.0),
-                            ),
-                          ],
-                        );
-                      })),
-              actions: <Widget>[
-                new FlatButton(
-                  child: new Text('Cerrar'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                )
-              ],
-            );
-          });
-    }
-
     Widget carrusel = Container(
       child: new CarouselSlider.builder(
         autoPlay: true,
@@ -213,74 +194,15 @@ class Detalles extends State<Menu_detalle> {
       ),
     );
 
-    Widget widgetinfo = Container(
-      //padding: const EdgeInsets.all(20),
-      height: 50.0,
-      child: new ListView.builder(
-        shrinkWrap: true,
-        physics: BouncingScrollPhysics(),
-        itemCount: dataneg == null ? 0 : dataneg.length,
-        itemBuilder: (BuildContext context, int index) {
-          return new Column(
-            children: [
-              Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    RaisedButton(
-                        onPressed: () {},
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(40.0)),
-                        color: Color(0xff01969a),
-                        child: new Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            new Icon(
-                              FontAwesomeIcons.globeAmericas,
-                              color: Colors.white,
-                            ),
-                            new Text(' Visitar sitio web',
-                                style: TextStyle(
-                                    fontSize: 15, color: Colors.white)),
-                          ],
-                        )),
-                    // Sitioweb(dataneg: dataneg),
-
-                    RaisedButton(
-                        onPressed: () {},
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(40.0)),
-                        color: Color(0xff01969a),
-                        child: new Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            new Icon(
-                              FontAwesomeIcons.phoneAlt,
-                              color: Colors.white,
-                            ),
-                            new Text(' Llamar',
-                                style: TextStyle(
-                                    fontSize: 15, color: Colors.white)),
-                          ],
-                        )),
-                  ],
-                ),
-              ),
-            ],
-          );
-        },
-      ),
-    );
-
     Widget textSection = Column(children: <Widget>[
       new ListView.builder(
           shrinkWrap: true,
           physics: BouncingScrollPhysics(),
           itemCount: dataneg == null ? 0 : dataneg.length,
           itemBuilder: (BuildContext context, int index) {
-            //padding: const EdgeInsets.only(bottom: 10,left: 20,right: 20);
+            var suma = int.parse(dataneg[index]["MENU_COSTO"]);
+            _suma = suma;
+            print(suma);
             return Container(
               padding: const EdgeInsets.all(10),
               child: Text(
@@ -291,6 +213,74 @@ class Detalles extends State<Menu_detalle> {
               ),
             );
           })
+    ]);
+
+    Widget extras = Column(children: <Widget>[
+      new ListView.builder(
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          itemCount: extra == null ? 0 : extra.length,
+          itemBuilder: (BuildContext context, int index) {
+            var suma_ex = int.parse(extra[index]["EXT_PRECIO"]);
+            _suma_ex = suma_ex;
+
+            //   Bool indexMaster = userStatus[index];
+            return Column(children: [
+              Container(
+                margin: EdgeInsets.all(1),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      extra[index]["EXT_NOMBRE"],
+                      softWrap: true,
+                      overflow: TextOverflow.visible,
+                      style: TextStyle(color: Colors.black, fontSize: 18),
+                    ),
+                    Text(
+                      '\$' + extra[index]["EXT_PRECIO"],
+                      softWrap: true,
+                      overflow: TextOverflow.visible,
+                      style: TextStyle(color: Colors.black, fontSize: 18),
+                    ),
+                  ],
+                ),
+              ),
+              CheckboxListTile(
+                activeColor: Color(0xff01969a),
+                value: userStatus[index],
+                onChanged: (bool val) {
+                  if (val == true) {
+                    setState(() {
+                      userStatus[index] = !userStatus[index];
+                      if (_counter >= 1) {
+                        _costo = _costo + _suma_ex;
+                      } else if (_counter == 0) {
+                        userStatus[index] = false;
+                      }
+                    });
+                  } else {
+                    setState(() {
+                      userStatus[index] = !userStatus[index];
+                      if (_counter >= 1) {
+                        _costo = _costo - _suma_ex;
+                      } else if (_counter == 0) {
+                        userStatus[index] = false;
+                      }
+                    });
+                  }
+                },
+                subtitle: 2 == userStatus[index]
+                    ? Text(
+                        'Requiere.',
+                        style: TextStyle(color: Colors.red),
+                      )
+                    : null,
+
+                //controlAffinity: ListTileControlAffinity.leading,
+              ),
+            ]);
+          }),
     ]);
 
     return new Scaffold(
@@ -377,7 +367,20 @@ class Detalles extends State<Menu_detalle> {
               titleSection,
               //   widgetinfo,
               textSection,
-
+              Container(
+                height: 50,
+                decoration: BoxDecoration(
+                  color: Color(0xffD3D7D6),
+                ),
+                child: Row(children: <Widget>[
+                  Text(
+                    ' Ingredientes',
+                    style:
+                        TextStyle(fontSize: 25, fontWeight: FontWeight.normal),
+                  ),
+                ]),
+              ),
+              extras,
               Container(
                 height: 50,
                 decoration: BoxDecoration(
@@ -413,7 +416,33 @@ class Detalles extends State<Menu_detalle> {
                     FlatButton(
                         shape:
                             CircleBorder(side: BorderSide(color: Colors.grey)),
-                        onPressed: _decrementCounter,
+                        onPressed: () {
+                          _decrementCounter();
+                          setState(() {
+                            if (_counter >= 1) {
+                              //   _costo = 0;
+                              // _counter = 0;
+                              _costo = _costo - _suma;
+                            } else if (_counter == 0) {
+                              _costo = 0;
+                              userStatus[0] = false;
+                              userStatus[1] = false;
+                              userStatus[2] = false;
+                              userStatus[3] = false;
+                              userStatus[4] = false;
+                              userStatus[5] = false;
+                              userStatus[6] = false;
+                              userStatus[7] = false;
+                              userStatus[8] = false;
+                              userStatus[9] = false;
+                              /*      for (var i = 9; i >= 0; i--) {
+                                userStatus[i] = false;
+                              }*/
+
+                              //   extras;
+                            }
+                          });
+                        },
                         child: Text(
                           '-',
                           style: TextStyle(fontSize: 50),
@@ -425,7 +454,12 @@ class Detalles extends State<Menu_detalle> {
                     FlatButton(
                         shape:
                             CircleBorder(side: BorderSide(color: Colors.grey)),
-                        onPressed: _incrementCounter,
+                        onPressed: () {
+                          _incrementCounter();
+                          setState(() {
+                            _costo = _costo + _suma;
+                          });
+                        },
                         child: Text(
                           '+',
                           style: TextStyle(fontSize: 50),
@@ -464,7 +498,7 @@ class Detalles extends State<Menu_detalle> {
                                   BoxDecoration(color: Color(0xff01969a)),
                               child: Center(
                                 child: Text(
-                                  'Agregar $_counter al carrito • MXN \$350',
+                                  'Agregar $_counter al carrito • MXN \$ $_costo',
                                   style: TextStyle(
                                       fontSize: 20,
                                       color: Colors.white,
@@ -481,7 +515,7 @@ class Detalles extends State<Menu_detalle> {
                             decoration: BoxDecoration(color: Color(0xff9B9D9C)),
                             child: Center(
                               child: Text(
-                                'Agregar $_counter al carrito • MXN \$0',
+                                'Agregar $_counter al carrito • MXN \$ $_costo',
                                 style: TextStyle(
                                     fontSize: 20,
                                     color: Colors.white,

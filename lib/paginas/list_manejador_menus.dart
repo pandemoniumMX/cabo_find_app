@@ -48,7 +48,7 @@ class _Menu_majeadorState extends State<Menu_manejador>
   Future<Map> _loadExp() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/list_menu_comidas_exp.php?ID=37"),
+            "http://cabofind.com.mx/app_php/APIs/esp/list_menu_comidas_exp.php?ID=${widget.manejador.correo}"),
         headers: {"Accept": "application/json"});
 
     this.setState(() {
@@ -164,84 +164,87 @@ class _Menu_majeadorState extends State<Menu_manejador>
     );
 
     return Scaffold(
+        appBar: AppBar(
+          title: Text('Regresar'),
+        ),
         body: Column(
-      children: [
-        GridView.builder(
-          shrinkWrap: true,
-          physics: BouncingScrollPhysics(),
-          gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
-              mainAxisSpacing: 1,
-              crossAxisSpacing: 1,
-              crossAxisCount: 2,
-              childAspectRatio: MediaQuery.of(context).size.height / 300
-              //  (MediaQuery.of(context).size.height / 1.5)
-              ),
-          itemCount: exp == null ? 0 : exp.length,
-          itemBuilder: (BuildContext context, int index) {
-            String idn = exp[index]["negocios_ID_NEGOCIO"];
+          children: [
+            GridView.builder(
+              shrinkWrap: true,
+              physics: BouncingScrollPhysics(),
+              gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
+                  mainAxisSpacing: 1,
+                  crossAxisSpacing: 1,
+                  crossAxisCount: 2,
+                  childAspectRatio: MediaQuery.of(context).size.height / 300
+                  //  (MediaQuery.of(context).size.height / 1.5)
+                  ),
+              itemCount: exp == null ? 0 : exp.length,
+              itemBuilder: (BuildContext context, int index) {
+                String idn = exp[index]["negocios_ID_NEGOCIO"];
 
-            String idm = exp[index]["ID_SUB_MEN"];
+                String idm = exp[index]["ID_SUB_MEN"];
 
-            return Container(
-              margin: EdgeInsets.all(3.0),
-              padding: EdgeInsets.all(3.0),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15.0),
-                  border: Border.all(
-                    color: Colors.grey,
-                  )),
-              child: InkWell(
-                onTap: () {
-                  cleanTexto();
-                  _loadMenu(idn, idm);
-                  _isVisibleAsi = !true;
+                return Container(
+                  margin: EdgeInsets.all(3.0),
+                  padding: EdgeInsets.all(3.0),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15.0),
+                      border: Border.all(
+                        color: Colors.grey,
+                      )),
+                  child: InkWell(
+                    onTap: () {
+                      cleanTexto();
+                      _loadMenu(idn, idm);
+                      _isVisibleAsi = !true;
 
-                  print(idn);
-                  _controller.isCompleted
-                      ? _controller.reverse()
-                      : _controller.forward();
+                      print(idn);
+                      _controller.isCompleted
+                          ? _controller.reverse()
+                          : _controller.forward();
 
-                  /*  _controller.isDismissed
+                      /*  _controller.isDismissed
                       ? _controller.reverse()
                       : _controller.forward();*/
 
-                  // (String idn) => showToast(idn);
-                },
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      //crossAxisAlignment: CrossAxisAlignment.start,
+                      // (String idn) => showToast(idn);
+                    },
+                    child: Column(
                       children: [
-                        Text(
-                          exp[index]["SUB_MEN_NOMBRE"],
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18.0,
-                          ),
-                          softWrap: true,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          //crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              exp[index]["SUB_MEN_NOMBRE"],
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18.0,
+                              ),
+                              softWrap: true,
+                            ),
+                            FadeInImage(
+                              image: NetworkImage(exp[index]["GAL_FOTO"]),
+                              fit: BoxFit.fill,
+                              width: 50,
+                              height: 50,
+                              placeholder: AssetImage(
+                                  'android/assets/images/loading.gif'),
+                              fadeInDuration: Duration(milliseconds: 200),
+                            ),
+                          ],
                         ),
-                        FadeInImage(
-                          image: NetworkImage(exp[index]["GAL_FOTO"]),
-                          fit: BoxFit.fill,
-                          width: 50,
-                          height: 50,
-                          placeholder:
-                              AssetImage('android/assets/images/loading.gif'),
-                          fadeInDuration: Duration(milliseconds: 200),
-                        ),
+                        //  Divider()
                       ],
                     ),
-                    //  Divider()
-                  ],
-                ),
-              ),
-            );
-          },
-        ),
-        expandir
-      ],
-    ));
+                  ),
+                );
+              },
+            ),
+            expandir
+          ],
+        ));
   }
 
   cb(ExpandableController controller) async {

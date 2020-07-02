@@ -619,33 +619,25 @@ routes: <String, WidgetBuilder>{
       );
     }
 
-    Widget domicilio = Positioned(
-      child: Center(
-        child: FittedBox(
-          fit: BoxFit.fitWidth,
-          child: new Text('Comida a domicilio',
-              style: new TextStyle(
-                  color: Colors.white,
-                  fontSize: 25.0,
-                  fontWeight: FontWeight.w900,
-                  backgroundColor: Colors.black45)),
-        ),
-      ),
-    );
-
     Widget cuerpo = Stack(children: <Widget>[
       InkWell(
-        onTap: () {},
+        onTap: () {
+          Navigator.push(
+              context,
+              new MaterialPageRoute(
+                  builder: (BuildContext context) => new Domicilio()));
+        },
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Container(
               padding: EdgeInsets.all(5.0),
               margin: EdgeInsets.all(5.0),
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(20.0),
+                borderRadius: BorderRadius.circular(10.0),
                 child: FadeInImage(
                   image: NetworkImage(
-                      'https://external-preview.redd.it/TOQ8tyYYDtvt5u7hTfVevgG4sYHT-4JdxJe7O8FQDis.jpg?auto=webp&s=8f8d0347f8c995e538c6fbd126b3dee61b5c2415'),
+                      'http://cabofind.com.mx/assets/galeria/principal_domicilio.jpeg'),
                   fit: BoxFit.fitWidth,
                   width: MediaQuery.of(context).size.width,
                   height: 150,
@@ -655,18 +647,13 @@ routes: <String, WidgetBuilder>{
                 ),
               ),
             ),
-            Center(
-              child: FittedBox(
-                fit: BoxFit.fitWidth,
-                child: new Text('Comida a domicilio',
-                    style: new TextStyle(
-                      color: Colors.black,
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.w900,
-                      //  backgroundColor: Colors.black45
-                    )),
-              ),
-            ),
+            new Text('Comida a domicilio',
+                style: new TextStyle(
+                  color: Colors.black,
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.w900,
+                  //  backgroundColor: Colors.black45
+                )),
           ],
         ),
       ),
@@ -690,7 +677,7 @@ routes: <String, WidgetBuilder>{
                       child: Stack(
                         children: <Widget>[
                           ClipRRect(
-                            borderRadius: BorderRadius.circular(20.0),
+                            borderRadius: BorderRadius.circular(10.0),
                             child: FadeInImage(
                               image: NetworkImage(data[index]["est_foto"]),
                               fit: BoxFit.cover,
