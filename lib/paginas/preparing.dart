@@ -25,8 +25,8 @@ Future<String> printDailyNewsDigest() async {
   String data =  await Cart;
 final jsonResult = json.decode(data);
 }*/
-  JsonStore jsonStore = JsonStore();
-  Cart counter;
+  String encodedData;
+  Cart serverData;
 
   @override
   void initState() {
@@ -169,4 +169,12 @@ final jsonResult = json.decode(data);
       // _cartList = list;
     });
   }
+}
+
+class UserList {
+  final List<Cart> users;
+  UserList(this.users);
+
+  UserList.fromJson(List<dynamic> usersJson)
+      : users = usersJson.map((user) => Cart.fromJson(user)).toList();
 }

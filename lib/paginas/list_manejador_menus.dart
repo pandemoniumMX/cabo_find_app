@@ -118,9 +118,8 @@ class _Menu_majeadorState extends State<Menu_manejador>
                     padding: EdgeInsets.all(5.0),
                     //  margin: EdgeInsets.all(5.0),
                     child: Row(
-                      // crossAxisAlignment: CrossAxisAlignment,
-
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      //  crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         FadeInImage(
                           image: NetworkImage(data[index]["GAL_FOTO"]),
@@ -133,26 +132,27 @@ class _Menu_majeadorState extends State<Menu_manejador>
                               AssetImage('android/assets/images/loading.gif'),
                           fadeInDuration: Duration(milliseconds: 200),
                         ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          //crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Text(
-                              data[index]["MENU_NOMBRE"],
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
+                        Container(
+                          margin: EdgeInsets.all(20.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Text(
+                                data[index]["MENU_NOMBRE"],
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                overflow: TextOverflow.ellipsis,
                               ),
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            Flexible(
-                              child: Text(data[index]["MENU_DESC"],
-                                  overflow: TextOverflow.ellipsis, maxLines: 4),
-                            ),
-                            Text(
-                              '\$' + data[index]["MENU_COSTO"],
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ],
+                              Text(data[index]["MENU_SUBTITULO"],
+                                  overflow: TextOverflow.ellipsis, maxLines: 5),
+                              Text(
+                                '\$' + data[index]["MENU_COSTO"],
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
@@ -169,6 +169,22 @@ class _Menu_majeadorState extends State<Menu_manejador>
         ),
         body: Column(
           children: [
+            FadeInImage(
+              image: NetworkImage(exp[0]['GAL_FOTO']),
+              fit: BoxFit.fill,
+              width: MediaQuery.of(context).size.width,
+              height: 250,
+              // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
+              placeholder: AssetImage('android/assets/images/loading.gif'),
+              fadeInDuration: Duration(milliseconds: 200),
+            ),
+            Row(
+              children: <Widget>[
+                Column(
+                  children: <Widget>[Text(exp[0]['SUB_MEN_NOMBRE'])],
+                )
+              ],
+            ),
             GridView.builder(
               shrinkWrap: true,
               physics: BouncingScrollPhysics(),
@@ -189,7 +205,7 @@ class _Menu_majeadorState extends State<Menu_manejador>
                   margin: EdgeInsets.all(3.0),
                   padding: EdgeInsets.all(3.0),
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15.0),
+                      borderRadius: BorderRadius.circular(5.0),
                       border: Border.all(
                         color: Colors.grey,
                       )),
@@ -205,35 +221,30 @@ class _Menu_majeadorState extends State<Menu_manejador>
                           : _controller.forward();
 
                       /*  _controller.isDismissed
-                      ? _controller.reverse()
-                      : _controller.forward();*/
+                    ? _controller.reverse()
+                    : _controller.forward();*/
 
                       // (String idn) => showToast(idn);
                     },
                     child: Column(
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          //crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              exp[index]["SUB_MEN_NOMBRE"],
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18.0,
-                              ),
-                              softWrap: true,
+                        Container(
+                          padding: EdgeInsets.all(10.0),
+                          child: Text(
+                            exp[index]["SUB_MEN_NOMBRE"],
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 25.0,
                             ),
-                            FadeInImage(
-                              image: NetworkImage(exp[index]["GAL_FOTO"]),
-                              fit: BoxFit.fill,
-                              width: 50,
-                              height: 50,
-                              placeholder: AssetImage(
-                                  'android/assets/images/loading.gif'),
-                              fadeInDuration: Duration(milliseconds: 200),
-                            ),
-                          ],
+                            softWrap: true,
+                          ),
+                        ),
+                        Text(
+                          '12 PIEZAS',
+                          style: TextStyle(
+                            fontSize: 18.0,
+                          ),
+                          softWrap: true,
                         ),
                         //  Divider()
                       ],
