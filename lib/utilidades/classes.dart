@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:json_store/json_store.dart';
 
 class Dish {
   final String name;
@@ -7,6 +6,24 @@ class Dish {
   final Color color;
 
   Dish({this.name, this.icon, this.color});
+}
+
+class Post {
+  final int userId;
+  final int id;
+  final String title;
+  final String body;
+
+  Post({this.userId, this.id, this.title, this.body});
+
+  /* factory Post.fromJson(Map<String, dynamic> json) {
+    return Post(
+      userId: json['userId'],
+      id: json['id'],
+      title: json['title'],
+      body: json['body'],
+    );
+  } */
 }
 
 /*

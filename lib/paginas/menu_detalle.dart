@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:cabofind/carrito/carrito.dart';
 import 'package:cabofind/carrito/cart_bloc.dart';
-import 'package:cabofind/carrito/cart_page.dart';
 import 'package:cabofind/paginas/preparing.dart';
 import 'package:provider/provider.dart';
 import 'package:stripe_native/stripe_native.dart';
@@ -527,7 +527,7 @@ class Detalles extends State<Menu_detalle> {
                   Navigator.push(
                       context,
                       new MaterialPageRoute(
-                          builder: (BuildContext context) => new Preparing()));
+                          builder: (BuildContext context) => new Carrito()));
                 },
                 child: new Stack(
                   children: [
