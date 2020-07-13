@@ -72,7 +72,10 @@ dependencies:
   share: ^0.6.4+3
   barcode_scan: ^3.0.1  
   stripe_native: ^1.2.3
-  json_store: ^1.1.0
+  #json_store: ^1.1.0
+  pref_dessert: ^0.4.0+1
+  json_serializable: ^3.2.2
+  json_annotation: ^3.0.0
   #flutter_conekta: ^1.0.7+1
   #expandable_widget: ^1.0.5
   

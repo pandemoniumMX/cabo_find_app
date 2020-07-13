@@ -1,31 +1,5 @@
 import 'package:flutter/material.dart';
 
-class Dish {
-  final String name;
-  final IconData icon;
-  final Color color;
-
-  Dish({this.name, this.icon, this.color});
-}
-
-class Post {
-  final int userId;
-  final int id;
-  final String title;
-  final String body;
-
-  Post({this.userId, this.id, this.title, this.body});
-
-  /* factory Post.fromJson(Map<String, dynamic> json) {
-    return Post(
-      userId: json['userId'],
-      id: json['id'],
-      title: json['title'],
-      body: json['body'],
-    );
-  } */
-}
-
 /*
 class Cart {
   String _orden;
@@ -43,22 +17,6 @@ class Cart {
         '_nota': _notas,
       };
 }*/
-class Cart {
-  String orden;
-  String costo;
-  String nota;
-  Cart(this.orden, this.costo, this.nota);
-  Cart.fromJson(Map<String, dynamic> json)
-      : this.orden = json['orden'],
-        this.costo = json['costo'],
-        this.nota = json['nota'];
-
-  Map<String, dynamic> toJson() => {
-        'orden': orden,
-        'costo': costo,
-        'nota': nota,
-      };
-}
 
 class Users {
   final String correo;

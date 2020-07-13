@@ -1,17 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:cabofind/carrito/carrito.dart';
-import 'package:cabofind/carrito/cart_bloc.dart';
 import 'package:cabofind/paginas/preparing.dart';
-import 'package:provider/provider.dart';
 import 'package:stripe_native/stripe_native.dart';
-
-import 'package:cabofind/paginas/stripe.dart';
 import 'package:cabofind/utilidades/clasesilver.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
 import 'package:flutter/services.dart';
-
 import 'package:http/http.dart' as http;
 import 'package:cabofind/utilidades/classes.dart';
 import 'package:flutter/material.dart';
@@ -53,7 +47,6 @@ class Detalles extends State<Menu_detalle> {
   var factorial = 0;
   var userStatus = List<bool>();
 
-  Cart serverData;
   String encodeData;
 
   //var cart = bloc.cart;
@@ -206,6 +199,87 @@ class Detalles extends State<Menu_detalle> {
       ),
     );
 
+    Widget extras = Column(children: <Widget>[
+      Container(
+        height: 50,
+        decoration: BoxDecoration(
+          color: Color(0xffD3D7D6),
+        ),
+        child: Row(children: <Widget>[
+          Text(
+            ' Ingredientes',
+            style: TextStyle(fontSize: 25, fontWeight: FontWeight.normal),
+          ),
+        ]),
+      ),
+      new ListView.builder(
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          itemCount: extra == null ? 0 : extra.length,
+          itemBuilder: (BuildContext context, int index) {
+            var suma_ex = int.parse(extra[index]["EXT_PRECIO"]);
+            _suma_ex = suma_ex;
+            var item = extra[index]["EXT_NOMBRE"];
+
+            //   Bool indexMaster = userStatus[index];
+            return Column(children: [
+              Container(
+                margin: EdgeInsets.all(1),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      extra[index]["EXT_NOMBRE"],
+                      softWrap: true,
+                      overflow: TextOverflow.visible,
+                      style: TextStyle(color: Colors.black, fontSize: 18),
+                    ),
+                    Text(
+                      '\$' + extra[index]["EXT_PRECIO"],
+                      softWrap: true,
+                      overflow: TextOverflow.visible,
+                      style: TextStyle(color: Colors.black, fontSize: 18),
+                    ),
+                  ],
+                ),
+              ),
+              CheckboxListTile(
+                activeColor: Color(0xff01969a),
+                value: userStatus[index],
+                onChanged: (bool val) {
+                  if (val == true) {
+                    setState(() {
+                      userStatus[index] = !userStatus[index];
+                      if (_counter >= 1) {
+                        _costo = _costo + _suma_ex;
+                      } else if (_counter == 0) {
+                        userStatus[index] = false;
+                      }
+                    });
+                  } else {
+                    setState(() {
+                      userStatus[index] = !userStatus[index];
+                      if (_counter >= 1) {
+                        _costo = _costo - _suma_ex;
+                      } else if (_counter == 0) {
+                        userStatus[index] = false;
+                      }
+                    });
+                  }
+                },
+                subtitle: 2 == userStatus[index]
+                    ? Text(
+                        'Requiere.',
+                        style: TextStyle(color: Colors.red),
+                      )
+                    : null,
+
+                //controlAffinity: ListTileControlAffinity.leading,
+              ),
+            ]);
+          }),
+    ]);
+
     Widget textSection = Column(children: <Widget>[
       new ListView.builder(
           shrinkWrap: true,
@@ -228,6 +302,7 @@ class Detalles extends State<Menu_detalle> {
                     style: TextStyle(color: Colors.grey, fontSize: 18),
                   ),
                 ),
+                extras,
                 Container(
                   height: 50,
                   decoration: BoxDecoration(
@@ -286,7 +361,6 @@ class Detalles extends State<Menu_detalle> {
                                 userStatus[i] = false;
                               }*/
 
-                                //   extras;
                               }
                             });
                           },
@@ -327,8 +401,6 @@ class Detalles extends State<Menu_detalle> {
                                     .toString(); //int.parse(_costo);// int.parse(_costo);
                                 String _nota = controller.text;
 
-                                serverData = new Cart(_orden, _costos, _nota);
-                                encodeData = jsonEncode(serverData);
                                 print(encodeData);
                                 // _cartList.addCart(widget.menu.id_n);
                                 //  bloc.addToCart(dataneg);
@@ -376,79 +448,6 @@ class Detalles extends State<Menu_detalle> {
               ],
             );
           })
-    ]);
-
-    Widget extras = Column(children: <Widget>[
-      new ListView.builder(
-          shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
-          itemCount: extra == null ? 0 : extra.length,
-          itemBuilder: (BuildContext context, int index) {
-            var suma_ex = int.parse(extra[index]["EXT_PRECIO"]);
-            _suma_ex = suma_ex;
-            var item = extra[index]["EXT_NOMBRE"];
-
-            //   Bool indexMaster = userStatus[index];
-            return Column(children: [
-              Container(
-                margin: EdgeInsets.all(1),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text(
-                      extra[index]["EXT_NOMBRE"],
-                      softWrap: true,
-                      overflow: TextOverflow.visible,
-                      style: TextStyle(color: Colors.black, fontSize: 18),
-                    ),
-                    Text(
-                      '\$' + extra[index]["EXT_PRECIO"],
-                      softWrap: true,
-                      overflow: TextOverflow.visible,
-                      style: TextStyle(color: Colors.black, fontSize: 18),
-                    ),
-                  ],
-                ),
-              ),
-              CheckboxListTile(
-                activeColor: Color(0xff01969a),
-                value: userStatus[index],
-                onChanged: (bool val) {
-                  if (val == true) {
-                    /* setState(() {
-                      userStatus[index] = !userStatus[index];
-                      if (_counter >= 1) {
-                        _costo = _costo + _suma_ex;
-                        if (!_cartList.contains(item))
-                          _cartList.add(item);
-                        else
-                          _cartList.remove(item);
-                      } else if (_counter == 0) {
-                        userStatus[index] = false;
-                      }
-                    });*/
-                  } else {
-                    setState(() {
-                      userStatus[index] = !userStatus[index];
-                      if (_counter >= 1) {
-                        _costo = _costo - _suma_ex;
-                      } else if (_counter == 0) {
-                        userStatus[index] = false;
-                      }
-                    });
-                  }
-                },
-                subtitle: 2 == userStatus[index]
-                    ? Text(
-                        'Requiere.',
-                        style: TextStyle(color: Colors.red),
-                      )
-                    : null,
-
-                //controlAffinity: ListTileControlAffinity.leading,
-              ),
-            ]);
-          }),
     ]);
 
     return new Scaffold(
@@ -527,7 +526,7 @@ class Detalles extends State<Menu_detalle> {
                   Navigator.push(
                       context,
                       new MaterialPageRoute(
-                          builder: (BuildContext context) => new Carrito()));
+                          builder: (BuildContext context) => new Preparing()));
                 },
                 child: new Stack(
                   children: [
@@ -571,9 +570,10 @@ class Detalles extends State<Menu_detalle> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               titleSection,
+
               //   widgetinfo,
               textSection,
-              /*   Container(
+              /* Container(
                 height: 50,
                 decoration: BoxDecoration(
                   color: Color(0xffD3D7D6),
@@ -586,7 +586,6 @@ class Detalles extends State<Menu_detalle> {
                   ),
                 ]),
               ),*/
-              // extras,
 
               //  Divider(),
 
