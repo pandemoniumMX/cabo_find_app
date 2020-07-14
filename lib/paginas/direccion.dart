@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -7,6 +8,8 @@ import 'package:geolocator/geolocator.dart' as geo;
 import 'package:location/location.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 class Mi_direccion extends StatefulWidget {
   @override
@@ -15,6 +18,8 @@ class Mi_direccion extends StatefulWidget {
 
 class _Mi_direccionState extends State<Mi_direccion> {
   final _formKey = GlobalKey<FormState>();
+  var _miciudad2 = '';
+  TextEditingController csl = TextEditingController();
   TextEditingController calle = TextEditingController();
   TextEditingController colonia = TextEditingController();
   TextEditingController ciudad = TextEditingController();
@@ -48,19 +53,21 @@ class _Mi_direccionState extends State<Mi_direccion> {
     print(addresses.first.adminArea); //ESTADO
     // print(addresses.getRange(1, 3).first.addressLine);
     //print(addresses.single.adminArea);
-
     var cp2 = addresses.first.postalCode; //= cp
     var calle2 = addresses.getRange(1, 2).first.addressLine; //= calle.
     var ciudad2 = addresses.first.locality; //= ciudad
     var col2 = addresses.first.subLocality; //= colonia
 
-    //print(first.addressLine.); //colonia
     setState(() {
-      //cp2 = cp.text;
       cp = new TextEditingController(text: cp2);
       calle = new TextEditingController(text: calle2);
       colonia = new TextEditingController(text: col2);
       ciudad = new TextEditingController(text: ciudad2);
+      csl = new TextEditingController(text: ciudad2);
+      _miciudad2 = ciudad2;
+      print(_miciudad2);
+
+      //print(final micity);
     });
 
     //print("${first.featureName} : ${first.addressLine}");
@@ -96,10 +103,12 @@ class _Mi_direccionState extends State<Mi_direccion> {
   }
 
   void _distanc() async {
-    Dio dio = new Dio();
-    Response response = await dio.get(
+    http.Response response = await http.get(
         "https://maps.googleapis.com/maps/api/distancematrix/json?units=kilometer&origins=23.057034,-109.709089&destinations=22.886692,-109.911503&key=AIzaSyA152PLBZLFqFlUMKQhMce3Z18OMGhPY6w");
-    print(response.data);
+    Map<String, dynamic> map = json.decode(response.body);
+    List<dynamic> data = map["rows"];
+    print(data[0]['elements'][0]['distance']['text']);
+    print(data[0]['elements'][0]['duration']['text']);
   }
 
   @override
@@ -118,26 +127,39 @@ class _Mi_direccionState extends State<Mi_direccion> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: Container(
-        height: 50,
-        child: RaisedButton(
-          onPressed: () {
-            if (_formKey.currentState.validate()) {}
-          },
-          color: Colors.green,
-          textColor: Colors.white,
-          child: Text(
-            'Confirmar dirección',
-            style: TextStyle(fontSize: 20),
-          ),
-        ),
-      ),
+      bottomNavigationBar: _miciudad2 == 'Cabo San Lucas'
+          ? Container(
+              height: 50,
+              child: RaisedButton(
+                onPressed: () {
+                  if (_formKey.currentState.validate()) {}
+                },
+                color: Colors.green,
+                textColor: Colors.white,
+                child: Text(
+                  'Confirmar dirección',
+                  style: TextStyle(fontSize: 20),
+                ),
+              ),
+            )
+          : Container(
+              height: 50,
+              child: RaisedButton(
+                onPressed: null,
+                color: Colors.grey,
+                textColor: Colors.white,
+                child: Text(
+                  'Ciudad no disponible',
+                  style: TextStyle(fontSize: 20),
+                ),
+              ),
+            ),
       appBar: AppBar(
         title: Text('Regresar'),
       ),
       body: ListView(
         children: <Widget>[
-          Stack(
+          /* Stack(
             children: <Widget>[
               Container(
                 width: MediaQuery.of(context).size.width,
@@ -152,7 +174,7 @@ class _Mi_direccionState extends State<Mi_direccion> {
                 ),
               )
             ],
-          ),
+          ),*/
           Divider(),
           Form(
             key: _formKey,
@@ -221,13 +243,11 @@ class _Mi_direccionState extends State<Mi_direccion> {
                         padding: EdgeInsets.all(10),
                         width: MediaQuery.of(context).size.width / 1.2,
                         child: TextFormField(
-                          readOnly: true,
                           controller: cp,
                           keyboardType: TextInputType.number,
                           inputFormatters: <TextInputFormatter>[
                             WhitelistingTextInputFormatter.digitsOnly
                           ],
-                          enabled: false,
                           style: TextStyle(fontSize: 15),
                           decoration: InputDecoration(
                               focusColor: Color(0xffD3D7D6),
@@ -331,4 +351,16 @@ class _Mi_direccionState extends State<Mi_direccion> {
       ),
     );
   }
+}
+
+class Element {
+  final String text;
+  final String value;
+
+  Element.fromJson(dynamic json)
+      : text = json['text'] as String,
+        value = json['value'] as String;
+
+  @override
+  String toString() => 'text: $text\nvalue: $value';
 }

@@ -168,11 +168,7 @@ class _UsuarioState extends State<Carritox> {
                     itemCount: data == null ? 0 : data.length,
                     itemBuilder: (BuildContext context, int index) {
                       String idx = data[index]["ID_PEDIDOS"];
-                      String unitario = data[index]["MENU_COSTO"];
-                      String cantidad = data[index]["PED_CANTIDAD"];
-                      var sum = int.parse(unitario) * int.parse(cantidad);
-                      String sum2 = sum.toString();
-                      print(idx);
+                      String nota = data[index]["PED_NOTA"];
 
                       return new Card(
                         elevation: 1.0,
@@ -228,7 +224,7 @@ class _UsuarioState extends State<Carritox> {
                                   )
                                 ],
                               ),*/
-                              data[index]["PED_NOTA"] != null
+                              /*   nota != null
                                   ? Column(
                                       children: <Widget>[
                                         Row(
@@ -271,7 +267,7 @@ class _UsuarioState extends State<Carritox> {
                                         )
                                       ],
                                     )
-                                  : SizedBox(),
+                                  : SizedBox(),*/
                               Container(
                                 margin: EdgeInsets.only(right: 210),
                                 padding: EdgeInsets.all(10),
@@ -328,14 +324,7 @@ class _UsuarioState extends State<Carritox> {
                                         } else {
                                           return SizedBox();
                                         }
-                                        //Text('');
                                       })
-
-                                  /*  return Text(
-                                                    ext[a]["EXT_NOMBRE"],
-                                                    style:
-                                                        TextStyle(fontSize: 20),
-                                                  );*/
                                   : Text('')
                             ],
                           ),
@@ -380,10 +369,10 @@ class _UsuarioState extends State<Carritox> {
                   'Estás ordenando en ',
                   style: TextStyle(fontSize: 18),
                 ),
-                Text(
+                /*   Text(
                   data[0]["NEG_NOMBRE"],
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
+                ),*/
               ])),
           estructura,
           Row(
