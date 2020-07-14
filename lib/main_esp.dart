@@ -636,15 +636,16 @@ routes: <String, WidgetBuilder>{
               margin: EdgeInsets.all(5.0),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(10.0),
-                child: FadeInImage(
-                  image: NetworkImage(
-                      'http://cabofind.com.mx/assets/galeria/principal_domicilio.jpeg'),
+                child: CachedNetworkImage(
                   fit: BoxFit.fitWidth,
                   width: MediaQuery.of(context).size.width,
                   height: 150,
-                  // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
-                  placeholder: AssetImage('android/assets/images/loading.gif'),
-                  fadeInDuration: Duration(milliseconds: 200),
+                  imageUrl:
+                      'http://cabofind.com.mx/assets/galeria/principal_domicilio.jpeg',
+                  progressIndicatorBuilder: (context, url, downloadProgress) =>
+                      CircularProgressIndicator(
+                          value: downloadProgress.progress),
+                  errorWidget: (context, url, error) => Icon(Icons.error),
                 ),
               ),
             ),
@@ -866,8 +867,8 @@ routes: <String, WidgetBuilder>{
             label: 'Inicio',
           ),
           FFNavigationBarItem(
-            iconData: FontAwesomeIcons.box,
-            label: 'Pedidos',
+            iconData: FontAwesomeIcons.shoppingCart,
+            label: 'Carrito',
           ),
           /*
           FFNavigationBarItem(
@@ -903,16 +904,17 @@ routes: <String, WidgetBuilder>{
                 titlePadding: EdgeInsets.all(10.0),
                 background: GestureDetector(
                   onTap: () {},
-                  child: FadeInImage(
-                    image: NetworkImage(portada[0]["POR_FOTO"]),
+                  child: CachedNetworkImage(
                     fit: BoxFit.cover,
                     width: MediaQuery.of(context).size.width,
                     //height: MediaQuery.of(context).size.height * 0.38,
                     height: MediaQuery.of(context).size.height,
-                    // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
-                    placeholder:
-                        AssetImage('android/assets/images/loading.gif'),
-                    fadeInDuration: Duration(milliseconds: 200),
+                    imageUrl: portada[0]["POR_FOTO"],
+                    progressIndicatorBuilder:
+                        (context, url, downloadProgress) =>
+                            CircularProgressIndicator(
+                                value: downloadProgress.progress),
+                    errorWidget: (context, url, error) => Icon(Icons.error),
                   ),
                 ),
                 centerTitle: false,

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geocoder/geocoder.dart';
@@ -34,7 +35,7 @@ class _Mi_direccionState extends State<Mi_direccion> {
 
   _getCurrentLocation() async {
     geo.Position position = await geo.Geolocator()
-        .getCurrentPosition(desiredAccuracy: geo.LocationAccuracy.best);
+        .getCurrentPosition(desiredAccuracy: geo.LocationAccuracy.high);
     debugPrint('location: ${position.latitude}');
     final coordinates = new Coordinates(position.latitude, position.longitude);
     var addresses =
@@ -94,12 +95,21 @@ class _Mi_direccionState extends State<Mi_direccion> {
     ));
   }
 
+  void _distanc() async {
+    Dio dio = new Dio();
+    Response response = await dio.get(
+        "https://maps.googleapis.com/maps/api/distancematrix/json?units=kilometer&origins=23.057034,-109.709089&destinations=22.886692,-109.911503&key=AIzaSyA152PLBZLFqFlUMKQhMce3Z18OMGhPY6w");
+    print(response.data);
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _getCurrentLocation();
     _currentLocation();
+    _distanc();
+
     rootBundle.loadString('assets/map_style1.txt').then((string) {
       _mapStyle = string;
     });
@@ -108,16 +118,19 @@ class _Mi_direccionState extends State<Mi_direccion> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: RaisedButton(
-        onPressed: () {
-          final nombre1 = calle.text;
-          final numero1 = ciudad.text;
-          final correo1 = cp.text;
-          if (_formKey.currentState.validate()) {}
-        },
-        color: Color(0xff01969a),
-        textColor: Colors.white,
-        child: Text('Confirmar dirección'),
+      bottomNavigationBar: Container(
+        height: 50,
+        child: RaisedButton(
+          onPressed: () {
+            if (_formKey.currentState.validate()) {}
+          },
+          color: Colors.green,
+          textColor: Colors.white,
+          child: Text(
+            'Confirmar dirección',
+            style: TextStyle(fontSize: 20),
+          ),
+        ),
       ),
       appBar: AppBar(
         title: Text('Regresar'),
@@ -126,7 +139,7 @@ class _Mi_direccionState extends State<Mi_direccion> {
         children: <Widget>[
           Stack(
             children: <Widget>[
-              /* Container(
+              Container(
                 width: MediaQuery.of(context).size.width,
                 height: 300,
                 child: GoogleMap(
@@ -137,7 +150,7 @@ class _Mi_direccionState extends State<Mi_direccion> {
                   mapType: MapType.normal,
                   onMapCreated: _onMapCreated,
                 ),
-              )*/
+              )
             ],
           ),
           Divider(),
@@ -181,6 +194,7 @@ class _Mi_direccionState extends State<Mi_direccion> {
                         width: MediaQuery.of(context).size.width / 1.2,
                         child: TextFormField(
                           controller: ciudad,
+                          enabled: false,
                           readOnly: true,
                           style: TextStyle(fontSize: 15),
                           decoration: InputDecoration(
@@ -196,7 +210,7 @@ class _Mi_direccionState extends State<Mi_direccion> {
                             return null;
                           },
                         )),
-                    Icon(FontAwesomeIcons.road)
+                    Icon(FontAwesomeIcons.city)
                   ],
                 ),
                 Row(
@@ -213,7 +227,7 @@ class _Mi_direccionState extends State<Mi_direccion> {
                           inputFormatters: <TextInputFormatter>[
                             WhitelistingTextInputFormatter.digitsOnly
                           ],
-                          enabled: true,
+                          enabled: false,
                           style: TextStyle(fontSize: 15),
                           decoration: InputDecoration(
                               focusColor: Color(0xffD3D7D6),
@@ -245,7 +259,7 @@ class _Mi_direccionState extends State<Mi_direccion> {
                           decoration: InputDecoration(
                               focusColor: Color(0xffD3D7D6),
                               hoverColor: Color(0xffD3D7D6),
-                              hintText: 'Apartamento/Hotel/Empresa'),
+                              hintText: 'Referencia/Hotel/Empresa'),
                           validator: (value) {
                             if (value.isEmpty) {
                               return 'Este campo no puede estar vacío';

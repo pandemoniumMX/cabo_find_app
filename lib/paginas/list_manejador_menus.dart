@@ -111,48 +111,45 @@ class _Menu_majeadorState extends State<Menu_manejador>
                                 menu: new Publicacion(idn, idm))));
                   },
                   child: new Container(
-                    height: 200,
+                    height: 150,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5.0),
                         border: Border.all(color: Colors.grey)),
                     padding: EdgeInsets.all(5.0),
                     //  margin: EdgeInsets.all(5.0),
                     child: Row(
-                      //  crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
+                      //crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         FadeInImage(
                           image: NetworkImage(data[index]["GAL_FOTO"]),
                           fit: BoxFit.fill,
-                          width: 170,
-                          height: 170,
+                          width: 150,
+                          height: 150,
 
                           // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
                           placeholder:
                               AssetImage('android/assets/images/loading.gif'),
                           fadeInDuration: Duration(milliseconds: 200),
                         ),
-                        Container(
-                          margin: EdgeInsets.all(20.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              Text(
-                                data[index]["MENU_NOMBRE"],
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                overflow: TextOverflow.ellipsis,
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          //   crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              data[index]["MENU_NOMBRE"],
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
                               ),
-                              Text(data[index]["MENU_SUBTITULO"],
-                                  overflow: TextOverflow.ellipsis, maxLines: 5),
-                              Text(
-                                '\$' + data[index]["MENU_COSTO"],
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ],
-                          ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            Text(data[index]["MENU_SUBTITULO"],
+                                overflow: TextOverflow.ellipsis, maxLines: 5),
+                            Text(
+                              '\$' + data[index]["MENU_COSTO"],
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ],
                         ),
                       ],
                     ),
@@ -229,21 +226,20 @@ class _Menu_majeadorState extends State<Menu_manejador>
                     child: Column(
                       children: [
                         Container(
-                          padding: EdgeInsets.all(10.0),
+                          padding: EdgeInsets.all(5.0),
                           child: Text(
                             exp[index]["SUB_MEN_NOMBRE"],
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              fontSize: 25.0,
+                              fontSize: 20.0,
                             ),
                             softWrap: true,
                           ),
                         ),
                         Text(
                           '12 PIEZAS',
-                          style: TextStyle(
-                            fontSize: 18.0,
-                          ),
+                          style:
+                              TextStyle(fontSize: 15.0, color: Colors.black54),
                           softWrap: true,
                         ),
                         //  Divider()
