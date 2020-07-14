@@ -1,19 +1,87 @@
 import 'dart:convert';
-import 'dart:ui';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:http/http.dart' as http;
+import 'package:cabofind/paginas/list_manejador_rec_obtenidas.dart';
+import 'package:cabofind/utilidades/classes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_youtube/flutter_youtube.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+import '../main.dart';
+import 'dados.dart';
+import 'list_manejador_recompensas.dart';
+import 'package:cabofind/paginas/direccion.dart';
 
 class Preparing extends StatefulWidget {
-  Preparing({Key key, this.title}) : super(key: key);
-  final String title;
-
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _Compras createState() => new _Compras();
 }
 
-class _MyHomePageState extends State<Preparing> {
+class _Compras extends State<Preparing> {
+  //bool isLoggedIn = false;
+  //final GlobalKey<State> _keyLoader = new GlobalKey<State>();
+  void initState() {
+    //sesionLog();
+    super.initState();
+  }
+
+  Future<bool> sesionLog() async {
+    final SharedPreferences login = await SharedPreferences.getInstance();
+    String _status = "";
+    String _mail = "";
+    _status = login.getString("stringLogin") ?? '';
+    _mail = login.getString("stringMail") ?? '';
+    bool checkValue = login.containsKey('value');
+    return checkValue = login.containsKey('stringLogin');
+
+    // if (prefs.getString(_idioma) ?? 'stringValue' == "espanol")
+    if (_status == "True") {
+      print("Sesión ya iniciada");
+    } else {
+      print("Sesión no iniciada");
+    }
+    http.Response response = await http.get("http://api.openrates.io/latest");
+    return json.decode(response.body);
+  }
+
+  Future<bool> _check2() async {
+    final SharedPreferences login = await SharedPreferences.getInstance();
+    String _mail2 = "";
+    _mail2 = login.getString("stringMail");
+
+    http.Response response = await http.get(
+        "http://cabofind.com.mx/app_php/APIs/esp/check_pedidos.php?CORREO=$_mail2");
+    return json.decode(response.body);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+        body: FutureBuilder(
+            future: _check2(),
+            builder: (context, snapshot) {
+              switch (snapshot.connectionState) {
+                case ConnectionState.none:
+                case ConnectionState.waiting:
+                  return Center(child: CircularProgressIndicator());
+                default:
+                  if (snapshot.hasData) {
+                    return snapshot.data ? Carritox() : Login2();
+                  }
+                  return Carritox();
+              }
+            }));
+  }
+}
+
+class Carritox extends StatefulWidget {
+  Carritox({Key key}) : super(key: key);
+  @override
+  _UsuarioState createState() => _UsuarioState();
+}
+
+class _UsuarioState extends State<Carritox> {
   List data;
   List ext;
   String id_extra;
@@ -107,30 +175,33 @@ class _MyHomePageState extends State<Preparing> {
                       print(idx);
 
                       return new Card(
-                        elevation: 5.0,
+                        elevation: 1.0,
                         child: new Container(
                           child: Column(
                             children: <Widget>[
+                              SizedBox(
+                                height: 15,
+                              ),
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceAround,
                                 children: <Widget>[
                                   Column(children: <Widget>[
-                                    Text(data[index]["PED_CANTIDAD"],
+                                    Text(data[index]["PED_CANTIDAD"] + 'X',
                                         overflow: TextOverflow.ellipsis,
                                         softWrap: true,
                                         style: TextStyle(
                                           fontWeight: FontWeight.bold,
-                                          fontSize: 15.0,
-                                          color: Colors.black,
+                                          fontSize: 18.0,
+                                          color: Colors.green,
                                         )),
                                   ]),
                                   Text(data[index]["MENU_NOMBRE"],
                                       overflow: TextOverflow.ellipsis,
                                       softWrap: true,
                                       style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15.0,
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 18.0,
                                         color: Colors.black,
                                       )),
                                   new Text(
@@ -139,7 +210,7 @@ class _MyHomePageState extends State<Preparing> {
                                   ),
                                 ],
                               ),
-                              Row(
+                              /*Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: <Widget>[
                                   Container(
@@ -156,15 +227,64 @@ class _MyHomePageState extends State<Preparing> {
                                         )),
                                   )
                                 ],
+                              ),*/
+                              data[index]["PED_NOTA"] != null
+                                  ? Column(
+                                      children: <Widget>[
+                                        Row(
+                                          children: <Widget>[
+                                            Container(
+                                              margin: EdgeInsets.only(left: 20),
+                                              padding: EdgeInsets.all(10),
+                                              child: Text('Nota(s): ',
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  softWrap: true,
+                                                  style: TextStyle(
+                                                    // fontWeight: FontWeight.bold,
+                                                    fontSize: 15.0,
+                                                    color: Colors.black,
+                                                  )),
+                                            )
+                                          ],
+                                        ),
+                                        Row(
+                                          children: <Widget>[
+                                            Container(
+                                              margin: EdgeInsets.only(left: 30),
+                                              padding: EdgeInsets.all(10),
+                                              child: Flexible(
+                                                child: Text(
+                                                    data[index]["PED_NOTA"],
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    softWrap: true,
+                                                    maxLines: 3,
+                                                    style: TextStyle(
+                                                      // fontWeight: FontWeight.bold,
+                                                      fontSize: 15.0,
+                                                      color: Colors.black54,
+                                                    )),
+                                              ),
+                                            )
+                                          ],
+                                        )
+                                      ],
+                                    )
+                                  : SizedBox(),
+                              Container(
+                                margin: EdgeInsets.only(right: 210),
+                                padding: EdgeInsets.all(10),
+                                child:
+                                    Text(data[index]["MENU_EXTRA_TIPO"] + ':',
+                                        overflow: TextOverflow.ellipsis,
+                                        softWrap: true,
+                                        style: TextStyle(
+                                          // fontWeight: FontWeight.bold,
+                                          fontSize: 15.0,
+                                          color: Colors.black,
+                                        )),
                               ),
-                              Text(' Notas: ' + data[index]["PED_NOTA"],
-                                  overflow: TextOverflow.ellipsis,
-                                  softWrap: true,
-                                  style: TextStyle(
-                                    // fontWeight: FontWeight.bold,
-                                    fontSize: 15.0,
-                                    color: Colors.black,
-                                  )),
                               idx == idx
                                   ? ListView.builder(
                                       shrinkWrap: true,
@@ -176,36 +296,39 @@ class _MyHomePageState extends State<Preparing> {
                                             ext[a]["pedidos_ID_PEDIDOS"];
                                         String idx2 = data[index]["ID_PEDIDOS"];
 
-                                        return idp == idx2
-                                            ? Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: <Widget>[
-                                                  Container(
-                                                    margin: EdgeInsets.only(
-                                                        left: 20),
-                                                    padding: EdgeInsets.all(10),
-                                                    child: Text(
-                                                      ext[a]["EXT_NOMBRE"],
-                                                      style: TextStyle(
-                                                          fontSize: 20),
-                                                    ),
-                                                  ),
-                                                  Container(
-                                                    margin: EdgeInsets.only(
-                                                        right: 20),
-                                                    padding: EdgeInsets.all(10),
-                                                    child: Text(
-                                                      '\$' +
-                                                          ext[a]["EXT_PRECIO"],
-                                                      style: TextStyle(
-                                                          fontSize: 20),
-                                                    ),
-                                                  )
-                                                ],
+                                        if (idp == idx2) {
+                                          return Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: <Widget>[
+                                              Container(
+                                                margin:
+                                                    EdgeInsets.only(left: 30),
+                                                padding: EdgeInsets.all(10),
+                                                child: Text(
+                                                  ext[a]["EXT_NOMBRE"],
+                                                  style: TextStyle(
+                                                      fontSize: 15,
+                                                      color: Colors.black54),
+                                                ),
+                                              ),
+                                              Container(
+                                                margin:
+                                                    EdgeInsets.only(right: 15),
+                                                padding: EdgeInsets.all(5),
+                                                child: Text(
+                                                  '\$' + ext[a]["EXT_PRECIO"],
+                                                  style: TextStyle(
+                                                      fontSize: 16,
+                                                      color: Colors.black54),
+                                                ),
                                               )
-                                            : Text('');
+                                            ],
+                                          );
+                                        } else {
+                                          return SizedBox();
+                                        }
+                                        //Text('');
                                       })
 
                                   /*  return Text(
@@ -224,17 +347,21 @@ class _MyHomePageState extends State<Preparing> {
         });
 
     return Scaffold(
-      bottomNavigationBar: Padding(
-        padding: EdgeInsets.all(8.0),
+      bottomNavigationBar: Container(
+        height: 50,
         child: RaisedButton(
           onPressed: () {},
-          color: Color(0xff01969a),
+          color: Colors.green,
           textColor: Colors.white,
-          child: Text('Confirmar orden'),
+          child: Text(
+            'Confirmar orden',
+            style: TextStyle(fontSize: 20),
+          ),
         ),
       ),
       appBar: AppBar(
         title: Text('Regresar'),
+        backgroundColor: Colors.green,
       ),
       body: ListView(
         children: <Widget>[
@@ -288,21 +415,32 @@ class _MyHomePageState extends State<Preparing> {
                 'Acerca de la orden',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               )),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Container(
-                  margin: EdgeInsets.only(left: 10),
-                  padding: EdgeInsets.all(10),
-                  child: Text(
-                    'Dirección',
-                    style: TextStyle(
-                      fontSize: 18,
-                    ),
-                  )),
-              Text('Ingresa tu dirección'),
-              Icon(FontAwesomeIcons.chevronRight),
-            ],
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                      builder: (BuildContext context) => new Mi_direccion()));
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Container(
+                    margin: EdgeInsets.only(left: 10),
+                    padding: EdgeInsets.all(10),
+                    child: Text(
+                      'Dirección',
+                      style: TextStyle(
+                        fontSize: 18,
+                      ),
+                    )),
+                Text(
+                  'Agrega tu dirección',
+                  style: TextStyle(color: Colors.red),
+                ),
+                Icon(FontAwesomeIcons.chevronRight),
+              ],
+            ),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -351,8 +489,8 @@ class _MyHomePageState extends State<Preparing> {
                         hintText: 'Ingresa un cupon válido'),
                   )),
               Container(
-                  margin: EdgeInsets.only(left: 10),
-                  padding: EdgeInsets.all(10),
+                  margin: EdgeInsets.only(right: 10),
+                  padding: EdgeInsets.all(1),
                   child: FlatButton(
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5.0),
@@ -391,8 +529,83 @@ class _MyHomePageState extends State<Preparing> {
                 )
               ],
             ),
+          ),
+          SizedBox(
+            height: 50,
           )
         ],
+      ),
+    );
+  }
+}
+
+class Login2 extends StatefulWidget {
+  @override
+  _State createState() => _State();
+}
+
+class _State extends State<Login2> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+              colors: [
+            Color(0xff01969a),
+            Colors.white,
+          ])),
+      child: Container(
+        child: ListView(
+          shrinkWrap: false,
+          //addAutomaticKeepAlives: true,
+          physics: BouncingScrollPhysics(),
+          children: <Widget>[
+            Center(
+              child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8.0),
+                  child: Image.asset(
+                    "assets/splash.png",
+                    fit: BoxFit.fill,
+                    width: 150.0,
+                    height: 150.0,
+                  )),
+            ),
+            //SizedBox(height: 100.0,),
+            //SizedBox(height: 25.0,),
+            Center(
+                child: Text(
+              "Crea tu cuenta",
+              style: TextStyle(
+                  fontSize: 25,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold),
+            )),
+            Center(
+                child: Text(
+              "Para obtener recompensas!",
+              style: TextStyle(
+                  fontSize: 25,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold),
+            )),
+            Center(
+                child: SizedBox(
+              height: 25.0,
+            )),
+            Center(
+                child: Flexible(
+                    child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8.0),
+                        child: Image.asset(
+                          "assets/fire2.png",
+                          fit: BoxFit.fill,
+                          width: 80.0,
+                          height: 80.0,
+                        )))),
+          ],
+        ),
       ),
     );
   }

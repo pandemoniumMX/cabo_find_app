@@ -19,7 +19,7 @@ class Mis_recompensas extends StatefulWidget {
 
 class _Compras extends State<Mis_recompensas> {
   bool isLoggedIn = false;
-  final GlobalKey<State> _keyLoader = new GlobalKey<State>();
+  //final GlobalKey<State> _keyLoader = new GlobalKey<State>();
   void initState() {
     //sesionLog();
     super.initState();

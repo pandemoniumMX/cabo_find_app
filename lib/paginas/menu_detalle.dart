@@ -4,7 +4,7 @@ import 'package:cabofind/paginas/preparing.dart';
 import 'package:stripe_native/stripe_native.dart';
 import 'package:cabofind/utilidades/clasesilver.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:cabofind/utilidades/classes.dart';
@@ -156,6 +156,15 @@ class Detalles extends State<Menu_detalle> {
   }
 
   Widget build(BuildContext context) {
+    void showResena() {
+      Fluttertoast.showToast(
+          msg: "Necesitas agregar mínimo 1 platillo",
+          toastLength: Toast.LENGTH_SHORT,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          timeInSecForIos: 1);
+    }
+
     Widget carrusel = Container(
       child: new CarouselSlider.builder(
         autoPlay: true,
@@ -207,7 +216,7 @@ class Detalles extends State<Menu_detalle> {
         ),
         child: Row(children: <Widget>[
           Text(
-            ' Ingredientes',
+            ' ' + dataneg[0]["MENU_EXTRA_TIPO"],
             style: TextStyle(fontSize: 25, fontWeight: FontWeight.normal),
           ),
         ]),
@@ -226,7 +235,7 @@ class Detalles extends State<Menu_detalle> {
               Container(
                 margin: EdgeInsets.all(1),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
                     Text(
                       extra[index]["EXT_NOMBRE"],
@@ -235,46 +244,50 @@ class Detalles extends State<Menu_detalle> {
                       style: TextStyle(color: Colors.black, fontSize: 18),
                     ),
                     Text(
-                      '\$' + extra[index]["EXT_PRECIO"],
+                      ' \$' + extra[index]["EXT_PRECIO"],
                       softWrap: true,
                       overflow: TextOverflow.visible,
                       style: TextStyle(color: Colors.black, fontSize: 18),
                     ),
+                    Expanded(
+                      flex: 1,
+                      child: CheckboxListTile(
+                        activeColor: Color(0xff01969a),
+                        value: userStatus[index],
+                        onChanged: (bool val) {
+                          if (val == true) {
+                            setState(() {
+                              userStatus[index] = !userStatus[index];
+                              if (_counter >= 1) {
+                                _costo = _costo + _suma_ex;
+                              } else if (_counter == 0) {
+                                userStatus[index] = false;
+                                showResena();
+                              }
+                            });
+                          } else {
+                            setState(() {
+                              userStatus[index] = !userStatus[index];
+                              if (_counter >= 1) {
+                                _costo = _costo - _suma_ex;
+                              } else if (_counter == 0) {
+                                userStatus[index] = false;
+                              }
+                            });
+                          }
+                        },
+                        subtitle: 2 == userStatus[index]
+                            ? Text(
+                                'Requiere.',
+                                style: TextStyle(color: Colors.red),
+                              )
+                            : null,
+
+                        //controlAffinity: ListTileControlAffinity.leading,
+                      ),
+                    ),
                   ],
                 ),
-              ),
-              CheckboxListTile(
-                activeColor: Color(0xff01969a),
-                value: userStatus[index],
-                onChanged: (bool val) {
-                  if (val == true) {
-                    setState(() {
-                      userStatus[index] = !userStatus[index];
-                      if (_counter >= 1) {
-                        _costo = _costo + _suma_ex;
-                      } else if (_counter == 0) {
-                        userStatus[index] = false;
-                      }
-                    });
-                  } else {
-                    setState(() {
-                      userStatus[index] = !userStatus[index];
-                      if (_counter >= 1) {
-                        _costo = _costo - _suma_ex;
-                      } else if (_counter == 0) {
-                        userStatus[index] = false;
-                      }
-                    });
-                  }
-                },
-                subtitle: 2 == userStatus[index]
-                    ? Text(
-                        'Requiere.',
-                        style: TextStyle(color: Colors.red),
-                      )
-                    : null,
-
-                //controlAffinity: ListTileControlAffinity.leading,
               ),
             ]);
           }),

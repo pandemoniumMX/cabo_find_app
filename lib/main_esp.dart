@@ -25,6 +25,7 @@ import 'package:cabofind/utilidades/classes.dart';
 import 'package:cabofind/utilidades/notificaciones.dart';
 import 'package:cabofind/utilidades/rutas.dart';
 import 'package:cabofind/weather/weather/weather_builder.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ff_navigation_bar/ff_navigation_bar.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -678,16 +679,17 @@ routes: <String, WidgetBuilder>{
                         children: <Widget>[
                           ClipRRect(
                             borderRadius: BorderRadius.circular(10.0),
-                            child: FadeInImage(
-                              image: NetworkImage(data[index]["est_foto"]),
+                            child: CachedNetworkImage(
                               fit: BoxFit.cover,
-                              width: MediaQuery.of(context).size.width,
-                              //height: MediaQuery.of(context).size.height * 0.38,
-                              height: MediaQuery.of(context).size.height,
-                              // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
-                              placeholder: AssetImage(
-                                  'android/assets/images/loading.gif'),
-                              fadeInDuration: Duration(milliseconds: 200),
+                              height: MediaQuery.of(context).size.height * 0.38,
+                              width: MediaQuery.of(context).size.height,
+                              imageUrl: data[index]["est_foto"],
+                              progressIndicatorBuilder:
+                                  (context, url, downloadProgress) =>
+                                      CircularProgressIndicator(
+                                          value: downloadProgress.progress),
+                              errorWidget: (context, url, error) =>
+                                  Icon(Icons.error),
                             ),
                           ),
                         ],
