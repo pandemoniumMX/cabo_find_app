@@ -301,8 +301,9 @@ class Detalles extends State<Menu_detalle> {
           itemBuilder: (BuildContext context, int index) {
             var suma = int.parse(dataneg[index]["MENU_COSTO"]);
             var item = dataneg[index];
-
+            // _costo = suma; por aqui va la validacion
             _suma = suma;
+
             print(suma);
             return Column(
               children: [

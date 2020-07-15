@@ -5,6 +5,7 @@ import 'package:cabofind/paginas/menu_detalle.dart';
 import 'package:cabofind/utilidades/classes.dart';
 import 'package:cabofind/utilidades/estilo.dart';
 import 'package:expandable/expandable.dart';
+import 'package:ff_navigation_bar/ff_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -23,7 +24,9 @@ class _Menu_majeadorState extends State<Menu_manejador>
     with TickerProviderStateMixin {
   List data;
   List exp;
-
+  int _page = 0;
+  int selectedIndex = 0;
+  PageController _c;
   AnimationController _controller;
   Animation<double> _animation;
   TextEditingController controller = TextEditingController();
@@ -59,7 +62,9 @@ class _Menu_majeadorState extends State<Menu_manejador>
   @override
   void initState() {
     super.initState();
-    //this._loadMenu('','');
+    _c = new PageController(
+      initialPage: _page,
+    );
     this._loadExp();
 
     _controller = AnimationController(

@@ -43,6 +43,11 @@ class _Mi_direccionState extends State<Mi_direccion> {
         .getCurrentPosition(desiredAccuracy: geo.LocationAccuracy.high);
     debugPrint('location: ${position.latitude}');
     final coordinates = new Coordinates(position.latitude, position.longitude);
+    print(coordinates.latitude);
+    print(coordinates.longitude);
+
+    double coor = coordinates.latitude;
+    double long = coordinates.longitude;
     var addresses =
         await Geocoder.local.findAddressesFromCoordinates(coordinates);
     //  await Geocoder.local.findAddressesFromQuery('22.914517');
@@ -88,7 +93,7 @@ class _Mi_direccionState extends State<Mi_direccion> {
     var location = new Location();
     try {
       currentLocation = await location.getLocation();
-      print(currentLocation);
+      // print(currentLocation);
     } on Exception {
       currentLocation = null;
     }
