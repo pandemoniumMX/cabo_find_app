@@ -603,7 +603,7 @@ class _UsuarioState extends State<Carritox> {
                                   width: MediaQuery.of(context).size.width,
                                   child: RaisedButton(
                                     onPressed: () {},
-                                    color: Color(0xffFF7864),
+                                    color: Colors.green,
                                     textColor: Colors.white,
                                     child: Text(
                                       'Confirmar orden',
@@ -702,6 +702,7 @@ class _UsuarioState extends State<Carritox> {
                                     Container(
                                         margin: EdgeInsets.only(right: 10),
                                         padding: EdgeInsets.all(1),
+                                        //color: Colors.green,
                                         child: FlatButton(
                                             shape: RoundedRectangleBorder(
                                                 borderRadius:

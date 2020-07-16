@@ -53,14 +53,17 @@ class _DomicilioState extends State<Domicilio> {
           ),
           items: [
             FFNavigationBarItem(
+              selectedBackgroundColor: Colors.green,
               iconData: FontAwesomeIcons.utensils,
               label: 'Inicio',
             ),
             FFNavigationBarItem(
+              selectedBackgroundColor: Colors.green,
               iconData: FontAwesomeIcons.search,
               label: 'Buscar',
             ),
             FFNavigationBarItem(
+              selectedBackgroundColor: Colors.green,
               iconData: FontAwesomeIcons.fileAlt,
               label: 'Pedidos',
             ),

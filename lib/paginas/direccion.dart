@@ -139,7 +139,7 @@ class _Mi_direccionState extends State<Mi_direccion> {
                 onPressed: () {
                   if (_formKey.currentState.validate()) {}
                 },
-                color: Color(0xffFF7864),
+                color: Colors.green,
                 textColor: Colors.white,
                 child: Text(
                   'Confirmar dirección',

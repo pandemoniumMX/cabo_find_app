@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:cabofind/paginas/preparing.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stripe_native/stripe_native.dart';
 import 'package:cabofind/utilidades/clasesilver.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -26,17 +27,15 @@ class Menu_detalle extends StatefulWidget {
 
 class Detalles extends State<Menu_detalle> {
   TextEditingController controller = TextEditingController();
-  String _displayValue = "";
-  String _displayValor = "";
 
   bool widgetcarac = false;
 
   bool isLoggedIn = false;
   List data;
   List extra;
+  List _complementos;
 
   List dataneg;
-  List data_carrusel;
   List logos;
   List descripcion;
   int _counter = 0;
@@ -44,7 +43,6 @@ class Detalles extends State<Menu_detalle> {
   int _suma = 0;
   int _suma_ex = 0;
 
-  bool _value = true;
   var factorial = 0;
   var userStatus = List<bool>();
 
@@ -76,20 +74,8 @@ class Detalles extends State<Menu_detalle> {
 
     this.setState(() {
       dataneg = json.decode(response.body);
-      //  userStatus.add(false);
     });
 
-    return "Success!";
-  }
-
-  Future<String> getCarrusel() async {
-    var response = await http.get(
-        Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/galeria_hotel_api.php?ID=${widget.menu.id_n}"),
-        headers: {"Accept": "application/json"});
-    this.setState(() {
-      data_carrusel = json.decode(response.body);
-    });
     return "Success!";
   }
 
@@ -100,7 +86,7 @@ class Detalles extends State<Menu_detalle> {
         headers: {"Accept": "application/json"});
     this.setState(() {
       extra = json.decode(response.body);
-      userStatus.add(false);
+      //  userStatus.add(false);
     });
     for (var u in extra) {
       userStatus.add(false);
@@ -120,11 +106,32 @@ class Detalles extends State<Menu_detalle> {
     return json.decode(response.body);
   }
 
+  List<String> list;
+
+  String listKeys = "Plátano";
+
+  void storeStringList(String listkay) async {
+    SharedPreferences prefsx = await SharedPreferences.getInstance();
+    await prefsx.setStringList("Plátano", list);
+  }
+/*
+  Future<List<String>> getStringList() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    
+    return await prefs.getStringList(listKeys);
+  }*/
+
+  Future<List<String>> getStringList() async {
+    SharedPreferences prefsx = await SharedPreferences.getInstance();
+    String _mail2 = "";
+    print(prefsx.getStringList("Plátano"));
+    return prefsx.getStringList("Plátano");
+  }
+
   void initState() {
     super.initState();
     this.getExtras();
     // this.getCar();
-    this.getCarrusel();
     this.getInfo();
 
     StripeNative.setPublishableKey(
@@ -164,6 +171,11 @@ class Detalles extends State<Menu_detalle> {
   }
 
   Widget build(BuildContext context) {
+    getStringList(List<String> strList) {
+      print(strList);
+    }
+
+    ;
     void showResena() {
       Fluttertoast.showToast(
           msg: "Necesitas agregar mínimo 1 platillo",
@@ -172,30 +184,6 @@ class Detalles extends State<Menu_detalle> {
           textColor: Colors.white,
           timeInSecForIos: 1);
     }
-
-    Widget carrusel = Container(
-      child: new CarouselSlider.builder(
-        autoPlay: true,
-        height: 500.0,
-        aspectRatio: 16 / 9,
-        viewportFraction: 0.9,
-        autoPlayInterval: Duration(seconds: 3),
-        autoPlayCurve: Curves.fastOutSlowIn,
-        itemCount: data_carrusel == null ? 0 : data_carrusel.length,
-        itemBuilder: (BuildContext context, int index) => Container(
-          child: FadeInImage(
-            image: NetworkImage(data_carrusel[index]["GAL_FOTO"]),
-            fit: BoxFit.fitWidth,
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height / .5,
-
-            // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
-            placeholder: AssetImage('android/assets/images/loading.gif'),
-            fadeInDuration: Duration(milliseconds: 200),
-          ),
-        ),
-      ),
-    );
 
     Widget titleSection = Container(
       //padding: const EdgeInsets.all(20),
@@ -251,7 +239,6 @@ class Detalles extends State<Menu_detalle> {
                   _suma_ex = suma_ex;
                   var item = extra[index]["EXT_NOMBRE"];
 
-                  //   Bool indexMaster = userStatus[index];
                   return Column(children: [
                     Container(
                       margin: EdgeInsets.all(1),
@@ -273,12 +260,18 @@ class Detalles extends State<Menu_detalle> {
                           Expanded(
                             flex: 1,
                             child: CheckboxListTile(
-                              activeColor: Color(0xff01969a),
+                              activeColor: Colors.green,
                               value: userStatus[index],
                               onChanged: (bool val) {
                                 if (val == true) {
                                   setState(() {
                                     userStatus[index] = !userStatus[index];
+
+                                    String listKey = extra[index]["EXT_NOMBRE"];
+
+                                    storeStringList(listKey);
+                                    print(listKey);
+
                                     if (_counter >= 1) {
                                       _costo = _costo + _suma_ex;
                                     } else if (_counter == 0) {
@@ -435,8 +428,21 @@ class Detalles extends State<Menu_detalle> {
                               height: 60,
                               width: MediaQuery.of(context).size.width,
                               child: RaisedButton(
-                                onPressed: () {},
-                                color: Color(0xffFF7864),
+                                onPressed: () {
+                                  /* if (userStatus[index] == true) {
+                                    var a = extra[index]["EXT_NOMBRE"];
+                                    print(a);
+                                  }
+                                  if (userStatus[index] == true) {
+                                    setState(() {
+                                      var a = extra[index]["EXT_NOMBRE"];
+                                      print(a);
+                                    });
+                                  }*/
+                                  // getStringList();
+                                  getStringList(list);
+                                },
+                                color: Colors.green,
                                 textColor: Colors.white,
                                 child: Text(
                                   'Agregar $_counter al carrito • MXN \$ $_costo',
@@ -481,7 +487,7 @@ class Detalles extends State<Menu_detalle> {
             )),
             //title: Text(dataneg[0]["HOT_NOMBRE"],style: TextStyle(fontSize: 18),),
             automaticallyImplyLeading: true,
-            flexibleSpace: FlexibleSpaceBar(
+            /*   flexibleSpace: FlexibleSpaceBar(
               //titlePadding: EdgeInsets.all(10.0),
               background: FutureBuilder(
                   future: getPortada(),
@@ -518,7 +524,7 @@ class Detalles extends State<Menu_detalle> {
                         }
                     }
                   }),
-            ),
+            ),*/
             actions: <Widget>[
               InkWell(
                 onTap: () {
@@ -561,7 +567,7 @@ class Detalles extends State<Menu_detalle> {
                                             fontWeight: FontWeight.bold,
                                             fontSize: 10.0,
                                             color: Colors.white)),
-                                    backgroundColor: Colors.red,
+                                    backgroundColor: Colors.green,
                                   ),
                                 );
                               } else {
@@ -576,7 +582,7 @@ class Detalles extends State<Menu_detalle> {
                                             fontWeight: FontWeight.bold,
                                             fontSize: 10.0,
                                             color: Colors.white)),
-                                    backgroundColor: Colors.red,
+                                    backgroundColor: Colors.green,
                                   ),
                                 );
                               }
