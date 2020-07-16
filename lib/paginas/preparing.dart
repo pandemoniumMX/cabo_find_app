@@ -14,6 +14,9 @@ import 'list_manejador_recompensas.dart';
 import 'package:cabofind/paginas/direccion.dart';
 
 class Preparing extends StatefulWidget {
+  final Users negocio;
+
+  const Preparing({Key key, this.negocio}) : super(key: key);
   @override
   _Compras createState() => new _Compras();
 }
@@ -26,32 +29,14 @@ class _Compras extends State<Preparing> {
     super.initState();
   }
 
-  Future<bool> sesionLog() async {
-    final SharedPreferences login = await SharedPreferences.getInstance();
-    String _status = "";
-    String _mail = "";
-    _status = login.getString("stringLogin") ?? '';
-    _mail = login.getString("stringMail") ?? '';
-    bool checkValue = login.containsKey('value');
-    return checkValue = login.containsKey('stringLogin');
-
-    // if (prefs.getString(_idioma) ?? 'stringValue' == "espanol")
-    if (_status == "True") {
-      print("Sesión ya iniciada");
-    } else {
-      print("Sesión no iniciada");
-    }
-    http.Response response = await http.get("http://api.openrates.io/latest");
-    return json.decode(response.body);
-  }
-
-  Future<bool> _check2() async {
+  Future<Map> _check2() async {
     final SharedPreferences login = await SharedPreferences.getInstance();
     String _mail2 = "";
     _mail2 = login.getString("stringMail");
-
+    print(widget.negocio.correo);
     http.Response response = await http.get(
-        "http://cabofind.com.mx/app_php/APIs/esp/check_pedidos.php?CORREO=$_mail2");
+        "http://cabofind.com.mx/app_php/APIs/esp/check_pedidos.php?CORREO=$_mail2&IDN=${widget.negocio.correo}");
+
     return json.decode(response.body);
   }
 
@@ -66,17 +51,22 @@ class _Compras extends State<Preparing> {
                 case ConnectionState.waiting:
                   return Center(child: CircularProgressIndicator());
                 default:
-                  if (snapshot.hasData) {
-                    return snapshot.data ? Carritox() : Login2();
+                  if (snapshot.hasError) {
+                    return Login2();
+                  } else {
+                    return Carritox(
+                      negocio: Users(widget.negocio.correo),
+                    );
                   }
-                  return Carritox();
               }
             }));
   }
 }
 
 class Carritox extends StatefulWidget {
-  Carritox({Key key}) : super(key: key);
+  final Users negocio;
+
+  const Carritox({Key key, this.negocio}) : super(key: key);
   @override
   _UsuarioState createState() => _UsuarioState();
 }
@@ -91,10 +81,22 @@ class _UsuarioState extends State<Carritox> {
     final SharedPreferences login = await SharedPreferences.getInstance();
     String _mail2 = "";
     _mail2 = login.getString("stringMail");
+    print('putaaaaaaaaaaaaa' + widget.negocio.correo);
+    http.Response response = await http.get(
+        "http://cabofind.com.mx/app_php/APIs/esp/check_pedidos.php?CORREO=$_mail2&IDN=${widget.negocio.correo}");
+    return json.decode(response.body);
+  }
+
+  Future<Map> _checkDireccion() async {
+    final SharedPreferences login = await SharedPreferences.getInstance();
+    String _mail2 = "";
+    _mail2 = login.getString("stringMail");
 
     http.Response response = await http.get(
-        "http://cabofind.com.mx/app_php/APIs/esp/check_pedidos.php?CORREO=$_mail2");
+        "http://cabofind.com.mx/app_php/APIs/esp/check_direccion_api.php?CORREO=$_mail2");
+    //print(widget.negocio.correo);
     return json.decode(response.body);
+    //widget.negocio.correo
   }
 
   // ignore: missing_return
@@ -109,7 +111,7 @@ class _UsuarioState extends State<Carritox> {
 
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/list_pedidos_api.php?CORREO=$_mail2"),
+            "http://cabofind.com.mx/app_php/APIs/esp/list_pedidos_api.php?CORREO=$_mail2&IDN"),
         headers: {"Accept": "application/json"});
 
     this.setState(() {
@@ -336,21 +338,9 @@ class _UsuarioState extends State<Carritox> {
         });
 
     return Scaffold(
-      bottomNavigationBar: Container(
-        height: 50,
-        child: RaisedButton(
-          onPressed: () {},
-          color: Colors.green,
-          textColor: Colors.white,
-          child: Text(
-            'Confirmar orden',
-            style: TextStyle(fontSize: 20),
-          ),
-        ),
-      ),
       appBar: AppBar(
         title: Text('Regresar'),
-        backgroundColor: Colors.green,
+        backgroundColor: Color(0xffFF7864),
       ),
       body: ListView(
         children: <Widget>[
@@ -366,13 +356,9 @@ class _UsuarioState extends State<Carritox> {
               padding: EdgeInsets.all(10),
               child: Row(children: <Widget>[
                 Text(
-                  'Estás ordenando en ',
+                  'Estás ordenando en ' + data[0]["NEG_NOMBRE"],
                   style: TextStyle(fontSize: 18),
                 ),
-                /*   Text(
-                  data[0]["NEG_NOMBRE"],
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),*/
               ])),
           estructura,
           Row(
@@ -395,7 +381,7 @@ class _UsuarioState extends State<Carritox> {
             ],
           ),
           Divider(
-            thickness: 2,
+            thickness: 1,
           ),
           Container(
               margin: EdgeInsets.only(left: 10),
@@ -404,124 +390,385 @@ class _UsuarioState extends State<Carritox> {
                 'Acerca de la orden',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               )),
-          InkWell(
-            onTap: () {
-              Navigator.push(
-                  context,
-                  new MaterialPageRoute(
-                      builder: (BuildContext context) => new Mi_direccion()));
-            },
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Container(
-                    margin: EdgeInsets.only(left: 10),
-                    padding: EdgeInsets.all(10),
-                    child: Text(
-                      'Dirección',
-                      style: TextStyle(
-                        fontSize: 18,
-                      ),
-                    )),
-                Text(
-                  'Agrega tu dirección',
-                  style: TextStyle(color: Colors.red),
-                ),
-                Icon(FontAwesomeIcons.chevronRight),
-              ],
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Container(
-                  margin: EdgeInsets.only(left: 10),
-                  padding: EdgeInsets.all(10),
-                  child: Text(
-                    'Comisión por entrega',
-                    style: TextStyle(
-                      fontSize: 18,
-                    ),
-                  )),
-              Container(
-                  margin: EdgeInsets.only(left: 10),
-                  padding: EdgeInsets.all(10),
-                  child: Text(
-                    '\$ 50',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ))
-            ],
-          ),
-          Divider(
-            thickness: 2,
-          ),
-          Container(
-              margin: EdgeInsets.only(left: 10),
-              padding: EdgeInsets.all(10),
-              child: Text(
-                '¿Cupón de descuento?',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              )),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Container(
-                  margin: EdgeInsets.only(left: 10),
-                  padding: EdgeInsets.all(10),
-                  width: MediaQuery.of(context).size.width / 1.4,
-                  child: TextField(
-                    controller: cupon,
-                    enabled: true,
-                    decoration: InputDecoration(
-                        focusColor: Color(0xffD3D7D6),
-                        hoverColor: Color(0xffD3D7D6),
-                        hintText: 'Ingresa un cupon válido'),
-                  )),
-              Container(
-                  margin: EdgeInsets.only(right: 10),
-                  padding: EdgeInsets.all(1),
-                  child: FlatButton(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5.0),
-                          side: BorderSide(color: Color(0xffD3D7D6))),
-                      onPressed: () {},
-                      child: Text('Check')))
-            ],
-          ),
-          Container(
-            //color: Color(0xffD3D7D6),
-            margin: EdgeInsets.only(left: 50, right: 50),
-            decoration: BoxDecoration(
-              color: Color(0xffD3D7D6),
-              shape: BoxShape.rectangle,
-              borderRadius: BorderRadius.circular(5.0),
-              //  border: Border.all(width: 1, color: Color(0xffD3D7D6))
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Container(
-                  margin: EdgeInsets.only(left: 10),
-                  padding: EdgeInsets.all(10),
-                  child: Text(
-                    'Total',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(right: 10),
-                  padding: EdgeInsets.all(10),
-                  child: Text(
-                    '\$ 220',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                )
-              ],
-            ),
-          ),
-          SizedBox(
-            height: 50,
-          )
+          FutureBuilder(
+              future: _checkDireccion(),
+              builder: (context, snapshot) {
+                switch (snapshot.connectionState) {
+                  case ConnectionState.none:
+                  case ConnectionState.waiting:
+                    return Center(child: CircularProgressIndicator());
+                  default:
+                    if (snapshot.hasError) {
+                      return InkWell(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              new MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      new Mi_direccion()));
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Container(
+                                margin: EdgeInsets.only(left: 10),
+                                padding: EdgeInsets.all(10),
+                                child: Text(
+                                  'Dirección',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                  ),
+                                )),
+                            Text(
+                              'Agrega tu dirección',
+                              style: TextStyle(color: Colors.red),
+                            ),
+                            Icon(FontAwesomeIcons.chevronRight),
+                          ],
+                        ),
+                      );
+                    } else {
+                      return snapshot.data['DIC_CIUDAD'] == 'Cabo San Lucas'
+                          ? Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        new MaterialPageRoute(
+                                            builder: (BuildContext context) =>
+                                                new Mi_direccion()));
+                                  },
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Container(
+                                          margin: EdgeInsets.only(left: 10),
+                                          padding: EdgeInsets.all(10),
+                                          child: Text(
+                                            'Dirección',
+                                            style: TextStyle(
+                                              fontSize: 18,
+                                            ),
+                                          )),
+                                      Text(snapshot.data['DIC_CALLE'],
+                                          style: TextStyle(
+                                              color: Colors.green,
+                                              fontWeight: FontWeight.bold)),
+                                      Container(
+                                          margin: EdgeInsets.only(right: 10),
+                                          child: Icon(
+                                            FontAwesomeIcons.check,
+                                            color: Colors.green,
+                                            size: 18,
+                                          )),
+                                    ],
+                                  ),
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Container(
+                                        margin: EdgeInsets.only(left: 10),
+                                        padding: EdgeInsets.all(10),
+                                        child: Text(
+                                          'Comisión por entrega',
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                          ),
+                                        )),
+                                    Container(
+                                        margin: EdgeInsets.only(left: 10),
+                                        padding: EdgeInsets.all(10),
+                                        child: Text(
+                                          '\$ 50',
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold),
+                                        ))
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Container(
+                                        margin: EdgeInsets.only(left: 10),
+                                        padding: EdgeInsets.all(10),
+                                        child: Text(
+                                          'Tiempo de entrega ',
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                          ),
+                                        )),
+                                    Container(
+                                        margin: EdgeInsets.only(left: 10),
+                                        padding: EdgeInsets.all(10),
+                                        child: Text(
+                                          '35 minutos',
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold),
+                                        ))
+                                  ],
+                                ),
+                                Divider(
+                                  thickness: 2,
+                                ),
+                                Container(
+                                    margin: EdgeInsets.only(left: 10),
+                                    padding: EdgeInsets.all(10),
+                                    child: Text(
+                                      '¿Cupón de descuento?',
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold),
+                                    )),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Container(
+                                        margin: EdgeInsets.only(left: 10),
+                                        padding: EdgeInsets.all(10),
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                1.4,
+                                        child: TextField(
+                                          controller: cupon,
+                                          enabled: true,
+                                          decoration: InputDecoration(
+                                              focusColor: Color(0xffD3D7D6),
+                                              hoverColor: Color(0xffD3D7D6),
+                                              hintText:
+                                                  'Ingresa un cupon válido'),
+                                        )),
+                                    Container(
+                                        margin: EdgeInsets.only(right: 10),
+                                        padding: EdgeInsets.all(1),
+                                        child: FlatButton(
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(5.0),
+                                                side: BorderSide(
+                                                    color: Color(0xffD3D7D6))),
+                                            onPressed: () {},
+                                            child: Text('Check')))
+                                  ],
+                                ),
+                                Container(
+                                  //color: Color(0xffD3D7D6),
+                                  margin: EdgeInsets.only(left: 50, right: 50),
+                                  decoration: BoxDecoration(
+                                    color: Color(0xffD3D7D6),
+                                    shape: BoxShape.rectangle,
+                                    borderRadius: BorderRadius.circular(5.0),
+                                    //  border: Border.all(width: 1, color: Color(0xffD3D7D6))
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Container(
+                                        margin: EdgeInsets.only(left: 10),
+                                        padding: EdgeInsets.all(10),
+                                        child: Text(
+                                          'Total',
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.only(right: 10),
+                                        padding: EdgeInsets.all(10),
+                                        child: Text(
+                                          '\$ 220',
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Container(
+                                  height: 50,
+                                  width: MediaQuery.of(context).size.width,
+                                  child: RaisedButton(
+                                    onPressed: () {},
+                                    color: Color(0xffFF7864),
+                                    textColor: Colors.white,
+                                    child: Text(
+                                      'Confirmar orden',
+                                      style: TextStyle(fontSize: 20),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
+                          : Column(
+                              children: <Widget>[
+                                InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        new MaterialPageRoute(
+                                            builder: (BuildContext context) =>
+                                                new Mi_direccion()));
+                                  },
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Container(
+                                          margin: EdgeInsets.only(left: 10),
+                                          padding: EdgeInsets.all(10),
+                                          child: Text(
+                                            'Dirección',
+                                            style: TextStyle(
+                                              fontSize: 18,
+                                            ),
+                                          )),
+                                      Text(
+                                        'Agrega tu dirección',
+                                        style: TextStyle(color: Colors.red),
+                                      ),
+                                      Icon(FontAwesomeIcons.chevronRight),
+                                    ],
+                                  ),
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Container(
+                                        margin: EdgeInsets.only(left: 10),
+                                        padding: EdgeInsets.all(10),
+                                        child: Text(
+                                          'Comisión por entrega',
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                          ),
+                                        )),
+                                    Container(
+                                        margin: EdgeInsets.only(left: 10),
+                                        padding: EdgeInsets.all(10),
+                                        child: Text(
+                                          '\$ 50',
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold),
+                                        ))
+                                  ],
+                                ),
+                                Divider(
+                                  thickness: 2,
+                                ),
+                                Container(
+                                    margin: EdgeInsets.only(left: 10),
+                                    padding: EdgeInsets.all(10),
+                                    child: Text(
+                                      '¿Cupón de descuento?',
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold),
+                                    )),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Container(
+                                        margin: EdgeInsets.only(left: 10),
+                                        padding: EdgeInsets.all(10),
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                1.4,
+                                        child: TextField(
+                                          controller: cupon,
+                                          enabled: true,
+                                          decoration: InputDecoration(
+                                              focusColor: Color(0xffD3D7D6),
+                                              hoverColor: Color(0xffD3D7D6),
+                                              hintText:
+                                                  'Ingresa un cupon válido'),
+                                        )),
+                                    Container(
+                                        margin: EdgeInsets.only(right: 10),
+                                        padding: EdgeInsets.all(1),
+                                        child: FlatButton(
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(5.0),
+                                                side: BorderSide(
+                                                    color: Color(0xffD3D7D6))),
+                                            onPressed: () {},
+                                            child: Text('Check')))
+                                  ],
+                                ),
+                                Container(
+                                  //color: Color(0xffD3D7D6),
+                                  margin: EdgeInsets.only(left: 50, right: 50),
+                                  decoration: BoxDecoration(
+                                    color: Color(0xffD3D7D6),
+                                    shape: BoxShape.rectangle,
+                                    borderRadius: BorderRadius.circular(5.0),
+                                    //  border: Border.all(width: 1, color: Color(0xffD3D7D6))
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Container(
+                                        margin: EdgeInsets.only(left: 10),
+                                        padding: EdgeInsets.all(10),
+                                        child: Text(
+                                          'Total',
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.only(right: 10),
+                                        padding: EdgeInsets.all(10),
+                                        child: Text(
+                                          '\$ 220',
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Container(
+                                  height: 50,
+                                  width: MediaQuery.of(context).size.width,
+                                  child: RaisedButton(
+                                    onPressed: null,
+                                    color: Colors.grey,
+                                    textColor: Colors.white,
+                                    child: Text(
+                                      'Verifica tu dirección',
+                                      style: TextStyle(fontSize: 20),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            );
+                    }
+                }
+              }),
         ],
       ),
     );
@@ -536,66 +783,65 @@ class Login2 extends StatefulWidget {
 class _State extends State<Login2> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-          gradient: LinearGradient(
-              begin: Alignment.topRight,
-              end: Alignment.bottomLeft,
-              colors: [
-            Color(0xff01969a),
-            Colors.white,
-          ])),
-      child: Container(
-        child: ListView(
-          shrinkWrap: false,
-          //addAutomaticKeepAlives: true,
-          physics: BouncingScrollPhysics(),
-          children: <Widget>[
-            Center(
-              child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8.0),
-                  child: Image.asset(
-                    "assets/splash.png",
-                    fit: BoxFit.fill,
-                    width: 150.0,
-                    height: 150.0,
-                  )),
-            ),
-            //SizedBox(height: 100.0,),
-            //SizedBox(height: 25.0,),
-            Center(
-                child: Text(
-              "Crea tu cuenta",
-              style: TextStyle(
-                  fontSize: 25,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold),
-            )),
-            Center(
-                child: Text(
-              "Para obtener recompensas!",
-              style: TextStyle(
-                  fontSize: 25,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold),
-            )),
-            Center(
-                child: SizedBox(
-              height: 25.0,
-            )),
-            Center(
-                child: Flexible(
-                    child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8.0),
-                        child: Image.asset(
-                          "assets/fire2.png",
-                          fit: BoxFit.fill,
-                          width: 80.0,
-                          height: 80.0,
-                        )))),
-          ],
+    return Scaffold(
+        appBar: AppBar(
+          title: Text('Regresar'),
         ),
-      ),
-    );
+        body: Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topRight,
+                  end: Alignment.bottomLeft,
+                  colors: [
+                Color(0xff01969a),
+                Colors.white,
+              ])),
+          child: Container(
+            height: MediaQuery.of(context).size.height,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              // mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                SizedBox(
+                  height: 100,
+                ),
+                Center(
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8.0),
+                      child: Image.asset(
+                        "assets/splash.png",
+                        fit: BoxFit.fill,
+                        width: 150.0,
+                        height: 150.0,
+                      )),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                //SizedBox(height: 100.0,),
+                //SizedBox(height: 25.0,),
+                Center(
+                    child: Text(
+                  "No tienes órdenes😢",
+                  style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold),
+                )),
+                SizedBox(
+                  height: 10,
+                ),
+                Center(
+                    child: Text(
+                  "El carrito está vacío",
+                  style: TextStyle(
+                    fontSize: 15,
+                    color: Colors.white,
+                  ),
+                )),
+              ],
+            ),
+          ),
+        ));
   }
 }

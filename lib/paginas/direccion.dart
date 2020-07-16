@@ -139,7 +139,7 @@ class _Mi_direccionState extends State<Mi_direccion> {
                 onPressed: () {
                   if (_formKey.currentState.validate()) {}
                 },
-                color: Colors.green,
+                color: Color(0xffFF7864),
                 textColor: Colors.white,
                 child: Text(
                   'Confirmar dirección',
@@ -161,10 +161,11 @@ class _Mi_direccionState extends State<Mi_direccion> {
             ),
       appBar: AppBar(
         title: Text('Regresar'),
+        backgroundColor: Color(0xffFF7864),
       ),
       body: ListView(
         children: <Widget>[
-          /* Stack(
+          Stack(
             children: <Widget>[
               Container(
                 width: MediaQuery.of(context).size.width,
@@ -179,7 +180,7 @@ class _Mi_direccionState extends State<Mi_direccion> {
                 ),
               )
             ],
-          ),*/
+          ),
           Divider(),
           Form(
             key: _formKey,

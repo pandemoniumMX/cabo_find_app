@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:cabofind/paginas/pedidos_historial.dart';
 import 'package:cabofind/utilidades/classes.dart';
 import 'package:ff_navigation_bar/ff_navigation_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -46,7 +47,7 @@ class _DomicilioState extends State<Domicilio> {
           theme: FFNavigationBarTheme(
             barBackgroundColor: Colors.white,
             selectedItemBorderColor: Colors.white,
-            selectedItemBackgroundColor: Color(0xff01969a),
+            selectedItemBackgroundColor: Color(0xffFF7864),
             selectedItemIconColor: Colors.white,
             selectedItemLabelColor: Colors.black,
           ),
@@ -60,8 +61,8 @@ class _DomicilioState extends State<Domicilio> {
               label: 'Buscar',
             ),
             FFNavigationBarItem(
-              iconData: FontAwesomeIcons.shoppingCart,
-              label: 'Carrito',
+              iconData: FontAwesomeIcons.fileAlt,
+              label: 'Pedidos',
             ),
           ],
           selectedIndex: selectedIndex,
@@ -72,7 +73,8 @@ class _DomicilioState extends State<Domicilio> {
           },
         ),
         appBar: AppBar(
-          title: Text('Regresar'),
+          title: Text('Comida a domicilio'),
+          backgroundColor: Color(0xffFF7864),
         ),
         body: new PageView(
           controller: _c,
@@ -135,12 +137,13 @@ class _DomicilioState extends State<Domicilio> {
                 );
               },
             ),
-            Container(
-              child: Text('Puta'),
+            Center(
+              child: Text(
+                'Proximamente :)',
+                style: TextStyle(fontSize: 25),
+              ),
             ),
-            Container(
-              child: Text('Puta'),
-            ),
+            new Pedidos_historial()
             //new Mis_recompensas(),
             //new Mis_promos(),
             //new Mis_favoritos(),

@@ -123,8 +123,7 @@ class _Menu_majeadorState extends State<Menu_manejador>
                     padding: EdgeInsets.all(5.0),
                     //  margin: EdgeInsets.all(5.0),
                     child: Row(
-                      //crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         FadeInImage(
                           image: NetworkImage(data[index]["GAL_FOTO"]),
@@ -137,24 +136,28 @@ class _Menu_majeadorState extends State<Menu_manejador>
                               AssetImage('android/assets/images/loading.gif'),
                           fadeInDuration: Duration(milliseconds: 200),
                         ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          //   crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Text(
-                              data[index]["MENU_NOMBRE"],
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
+                        Container(
+                          margin: EdgeInsets.all(5),
+                          padding: EdgeInsets.all(5),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                data[index]["MENU_NOMBRE"],
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                overflow: TextOverflow.ellipsis,
                               ),
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            Text(data[index]["MENU_SUBTITULO"],
-                                overflow: TextOverflow.ellipsis, maxLines: 5),
-                            Text(
-                              '\$' + data[index]["MENU_COSTO"],
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ],
+                              Text(data[index]["MENU_SUBTITULO"],
+                                  overflow: TextOverflow.ellipsis, maxLines: 5),
+                              Text(
+                                '\$' + data[index]["MENU_COSTO"],
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
@@ -168,8 +171,9 @@ class _Menu_majeadorState extends State<Menu_manejador>
     return Scaffold(
         appBar: AppBar(
           title: Text('Regresar'),
+          backgroundColor: Color(0xffFF7864),
         ),
-        body: Column(
+        body: ListView(
           children: [
             FadeInImage(
               image: NetworkImage(exp[0]['GAL_FOTO']),
@@ -194,7 +198,8 @@ class _Menu_majeadorState extends State<Menu_manejador>
                   mainAxisSpacing: 1,
                   crossAxisSpacing: 1,
                   crossAxisCount: 2,
-                  childAspectRatio: MediaQuery.of(context).size.height / 300
+                  //childAspectRatio: MediaQuery.of(context).size.height / 300
+                  childAspectRatio: 2.5
                   //  (MediaQuery.of(context).size.height / 1.5)
                   ),
               itemCount: exp == null ? 0 : exp.length,

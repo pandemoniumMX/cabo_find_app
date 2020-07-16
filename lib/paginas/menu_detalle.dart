@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:cabofind/paginas/preparing.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:stripe_native/stripe_native.dart';
 import 'package:cabofind/utilidades/clasesilver.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -48,6 +49,7 @@ class Detalles extends State<Menu_detalle> {
   var userStatus = List<bool>();
 
   String encodeData;
+  String idn = '';
 
   //var cart = bloc.cart;
 
@@ -69,7 +71,7 @@ class Detalles extends State<Menu_detalle> {
   Future<String> getInfo() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/list_menu_comidas.php?ID=${widget.menu.id_n}&MENU=${widget.menu.id_p}"),
+            "http://cabofind.com.mx/app_php/APIs/esp/list_menu_comidas_single.php?ID=${widget.menu.id_n}&MENU=${widget.menu.id_p}"),
         headers: {"Accept": "application/json"});
 
     this.setState(() {
@@ -94,7 +96,7 @@ class Detalles extends State<Menu_detalle> {
   Future<String> getExtras() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/list_extras_menu.php?ID=${widget.menu.id_n}"),
+            "http://cabofind.com.mx/app_php/APIs/esp/list_extras_menu.php?ID=${widget.menu.id_p}"),
         headers: {"Accept": "application/json"});
     this.setState(() {
       extra = json.decode(response.body);
@@ -109,6 +111,12 @@ class Detalles extends State<Menu_detalle> {
   Future<Map> getPortada() async {
     http.Response response = await http.get(
         "http://cabofind.com.mx/app_php/APIs/esp/galeria_hotel_api2.php?ID=${widget.menu.id_n}");
+    return json.decode(response.body);
+  }
+
+  Future<Map> _countCart() async {
+    http.Response response = await http.get(
+        "http://cabofind.com.mx/app_php/APIs/esp/list_count_cart.php?ID=${widget.menu.id_n}");
     return json.decode(response.body);
   }
 
@@ -191,12 +199,24 @@ class Detalles extends State<Menu_detalle> {
 
     Widget titleSection = Container(
       //padding: const EdgeInsets.all(20),
-      height: 50.0,
+      height: 40.0,
       child: new ListView.builder(
         shrinkWrap: true,
         physics: BouncingScrollPhysics(),
         itemCount: dataneg == null ? 0 : dataneg.length,
         itemBuilder: (BuildContext context, int index) {
+          var cts = int.parse(dataneg[index]["MENU_COSTO"]);
+
+          idn = widget.menu.id_n;
+          // _counter = 1;
+          if (_counter >= 1) {
+            // _costo = cts;
+            //_suma = cts;
+            //_costo = _suma;
+            // _costo = cts;
+            // _costo = cts;
+            // _suma_ex = cts;
+          }
           return Container(
             padding: const EdgeInsets.all(10),
             child: Text(
@@ -208,90 +228,95 @@ class Detalles extends State<Menu_detalle> {
       ),
     );
 
-    Widget extras = Column(children: <Widget>[
-      Container(
-        height: 50,
-        decoration: BoxDecoration(
-          color: Color(0xffD3D7D6),
-        ),
-        child: Row(children: <Widget>[
-          Text(
-            ' ' + dataneg[0]["MENU_EXTRA_TIPO"],
-            style: TextStyle(fontSize: 25, fontWeight: FontWeight.normal),
-          ),
-        ]),
-      ),
-      new ListView.builder(
-          shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
-          itemCount: extra == null ? 0 : extra.length,
-          itemBuilder: (BuildContext context, int index) {
-            var suma_ex = int.parse(extra[index]["EXT_PRECIO"]);
-            _suma_ex = suma_ex;
-            var item = extra[index]["EXT_NOMBRE"];
+    Widget extras = dataneg[0]["MENU_EXTRA_TIPO"] != null
+        ? Column(children: <Widget>[
+            Container(
+              height: 50,
+              decoration: BoxDecoration(
+                color: Color(0xffD3D7D6),
+              ),
+              child: Row(children: <Widget>[
+                Text(
+                  ' ' + dataneg[0]["MENU_EXTRA_TIPO"],
+                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.normal),
+                )
+              ]),
+            ),
+            new ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: extra == null ? 0 : extra.length,
+                itemBuilder: (BuildContext context, int index) {
+                  var suma_ex = int.parse(extra[index]["EXT_PRECIO"]);
+                  _suma_ex = suma_ex;
+                  var item = extra[index]["EXT_NOMBRE"];
 
-            //   Bool indexMaster = userStatus[index];
-            return Column(children: [
-              Container(
-                margin: EdgeInsets.all(1),
-                child: Row(
-                  //mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    Text(
-                      extra[index]["EXT_NOMBRE"],
-                      softWrap: true,
-                      overflow: TextOverflow.visible,
-                      style: TextStyle(color: Colors.black, fontSize: 18),
-                    ),
-                    Text(
-                      ' \$' + extra[index]["EXT_PRECIO"],
-                      softWrap: true,
-                      overflow: TextOverflow.visible,
-                      style: TextStyle(color: Colors.black, fontSize: 18),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: CheckboxListTile(
-                        activeColor: Color(0xff01969a),
-                        value: userStatus[index],
-                        onChanged: (bool val) {
-                          if (val == true) {
-                            setState(() {
-                              userStatus[index] = !userStatus[index];
-                              if (_counter >= 1) {
-                                _costo = _costo + _suma_ex;
-                              } else if (_counter == 0) {
-                                userStatus[index] = false;
-                                showResena();
-                              }
-                            });
-                          } else {
-                            setState(() {
-                              userStatus[index] = !userStatus[index];
-                              if (_counter >= 1) {
-                                _costo = _costo - _suma_ex;
-                              } else if (_counter == 0) {
-                                userStatus[index] = false;
-                              }
-                            });
-                          }
-                        },
-                        subtitle: 2 == userStatus[index]
-                            ? Text(
-                                'Requiere.',
-                                style: TextStyle(color: Colors.red),
-                              )
-                            : null,
+                  //   Bool indexMaster = userStatus[index];
+                  return Column(children: [
+                    Container(
+                      margin: EdgeInsets.all(1),
+                      child: Row(
+                        //mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          Text(
+                            extra[index]["EXT_NOMBRE"],
+                            softWrap: true,
+                            overflow: TextOverflow.visible,
+                            style: TextStyle(color: Colors.black, fontSize: 18),
+                          ),
+                          Text(
+                            ' \$' + extra[index]["EXT_PRECIO"],
+                            softWrap: true,
+                            overflow: TextOverflow.visible,
+                            style: TextStyle(color: Colors.black, fontSize: 18),
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: CheckboxListTile(
+                              activeColor: Color(0xff01969a),
+                              value: userStatus[index],
+                              onChanged: (bool val) {
+                                if (val == true) {
+                                  setState(() {
+                                    userStatus[index] = !userStatus[index];
+                                    if (_counter >= 1) {
+                                      _costo = _costo + _suma_ex;
+                                    } else if (_counter == 0) {
+                                      userStatus[index] = false;
+                                      showResena();
+                                    }
+                                  });
+                                } else {
+                                  setState(() {
+                                    userStatus[index] = !userStatus[index];
+                                    if (_counter >= 1) {
+                                      _costo = _costo - _suma_ex;
+                                    } else if (_counter == 0) {
+                                      userStatus[index] = false;
+                                    }
+                                  });
+                                }
+                              },
+                              subtitle: 2 == userStatus[index]
+                                  ? Text(
+                                      'Requiere.',
+                                      style: TextStyle(color: Colors.red),
+                                    )
+                                  : Text(
+                                      '',
+                                      style: TextStyle(color: Colors.red),
+                                    ),
 
-                        //controlAffinity: ListTileControlAffinity.leading,
+                              //controlAffinity: ListTileControlAffinity.leading,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ],
-                ),
-              ),
-            ]);
-          }),
-    ]);
+                  ]);
+                }),
+          ])
+        : SizedBox();
 
     Widget textSection = Column(children: <Widget>[
       new ListView.builder(
@@ -304,7 +329,6 @@ class Detalles extends State<Menu_detalle> {
             // _costo = suma; por aqui va la validacion
             _suma = suma;
 
-            print(suma);
             return Column(
               children: [
                 Container(
@@ -402,52 +426,28 @@ class Detalles extends State<Menu_detalle> {
                     ],
                   ),
                 ),
-                Divider(),
                 Row(mainAxisAlignment: MainAxisAlignment.center,
                     //   crossAxisAlignment: CrossAxisAlignment.center,
 
                     children: <Widget>[
                       _counter >= 1
-                          ? InkWell(
-                              onTap: () async {
-                                String _orden = dataneg[index]["MENU_NOMBRE"];
-                                String _costos = _costo
-                                    .toString(); //int.parse(_costo);// int.parse(_costo);
-                                String _nota = controller.text;
-
-                                print(encodeData);
-                                // _cartList.addCart(widget.menu.id_n);
-                                //  bloc.addToCart(dataneg);
-                                /* Navigator.of(context).pop();
-                              var token = await receiptPayment;
-                              print(token);                             
-                              StripeNative.confirmPayment(true); */
-                              },
-                              child: Container(
-                                margin: EdgeInsets.all(10),
-                                padding: EdgeInsets.all(10),
-                                height: 50,
-                                width: 350,
-                                decoration:
-                                    BoxDecoration(color: Color(0xff01969a)),
-                                child: Center(
-                                  child: Text(
-                                    'Agregar $_counter al carrito • MXN \$ $_costo',
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.normal),
-                                  ),
+                          ? Container(
+                              height: 60,
+                              width: MediaQuery.of(context).size.width,
+                              child: RaisedButton(
+                                onPressed: () {},
+                                color: Color(0xffFF7864),
+                                textColor: Colors.white,
+                                child: Text(
+                                  'Agregar $_counter al carrito • MXN \$ $_costo',
+                                  style: TextStyle(fontSize: 20),
                                 ),
                               ),
                             )
                           : Container(
-                              margin: EdgeInsets.all(10),
-                              padding: EdgeInsets.all(10),
-                              height: 50,
-                              width: 350,
-                              decoration:
-                                  BoxDecoration(color: Color(0xff9B9D9C)),
+                              height: 60,
+                              width: MediaQuery.of(context).size.width,
+                              decoration: BoxDecoration(color: Colors.grey),
                               child: Center(
                                 child: Text(
                                   'Agregar $_counter al carrito • MXN \$ $_costo',
@@ -469,6 +469,8 @@ class Detalles extends State<Menu_detalle> {
       headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
         return <Widget>[
           SliverAppBar(
+            backgroundColor: Color(0xffFF7864),
+
             expandedHeight: 230.0,
             floating: false,
             pinned: true,
@@ -481,58 +483,41 @@ class Detalles extends State<Menu_detalle> {
             automaticallyImplyLeading: true,
             flexibleSpace: FlexibleSpaceBar(
               //titlePadding: EdgeInsets.all(10.0),
-              background: GestureDetector(
-                onTap: () {},
-                child: FutureBuilder(
-                    future: getPortada(),
-                    builder: (context, snapshot) {
-                      switch (snapshot.connectionState) {
-                        case ConnectionState.none:
-                        case ConnectionState.waiting:
-                          return Center(child: CircularProgressIndicator());
-                        default:
-                          if (snapshot.hasError) {
-                            return Center(
-                                child: Text(
-                              "Error :(",
-                              style: TextStyle(
-                                  color: Color(0xff01969a), fontSize: 25.0),
-                              textAlign: TextAlign.center,
-                            ));
-                          } else {
-                            String _portada = snapshot.data["GAL_FOTO"];
-                            // String _matricula = snapshot.data["INT_MATRICULA"];
-                            return CarouselSlider.builder(
-                              autoPlay: true,
-                              height: 250.0,
-                              //aspectRatio: 16/9,
-                              viewportFraction: 1.0,
-                              autoPlayInterval: Duration(seconds: 3),
-                              autoPlayCurve: Curves.fastOutSlowIn,
-
-                              itemCount: data_carrusel == null
-                                  ? 0
-                                  : data_carrusel.length,
-                              itemBuilder: (BuildContext context, int index) =>
-                                  Container(
-                                child: FadeInImage(
-                                  image: NetworkImage(
-                                      data_carrusel[index]["GAL_FOTO"]),
-                                  fit: BoxFit.cover,
-                                  width: MediaQuery.of(context).size.width,
-                                  height: MediaQuery.of(context).size.height,
-
-                                  // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
-                                  placeholder: AssetImage(
-                                      'android/assets/images/loading.gif'),
-                                  fadeInDuration: Duration(milliseconds: 200),
-                                ),
-                              ),
-                            );
-                          }
-                      }
-                    }),
-              ),
+              background: FutureBuilder(
+                  future: getPortada(),
+                  builder: (context, snapshot) {
+                    switch (snapshot.connectionState) {
+                      case ConnectionState.none:
+                      case ConnectionState.waiting:
+                        return Center(child: CircularProgressIndicator());
+                      default:
+                        if (snapshot.hasError) {
+                          return Center(
+                              child: Text(
+                            "Error :(",
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 25.0),
+                            textAlign: TextAlign.center,
+                          ));
+                        } else {
+                          String _portada = snapshot.data["GAL_FOTO"];
+                          // String _matricula = snapshot.data["INT_MATRICULA"];
+                          return CachedNetworkImage(
+                            fit: BoxFit.cover,
+                            width: MediaQuery.of(context).size.width,
+                            //height: MediaQuery.of(context).size.height * 0.38,
+                            height: MediaQuery.of(context).size.height,
+                            imageUrl: snapshot.data["GAL_FOTO"],
+                            progressIndicatorBuilder:
+                                (context, url, downloadProgress) =>
+                                    CircularProgressIndicator(
+                                        value: downloadProgress.progress),
+                            errorWidget: (context, url, error) =>
+                                Icon(Icons.error),
+                          );
+                        }
+                    }
+                  }),
             ),
             actions: <Widget>[
               InkWell(
@@ -540,7 +525,9 @@ class Detalles extends State<Menu_detalle> {
                   Navigator.push(
                       context,
                       new MaterialPageRoute(
-                          builder: (BuildContext context) => new Preparing()));
+                          builder: (BuildContext context) => new Preparing(
+                                negocio: Users(idn),
+                              )));
                 },
                 child: new Stack(
                   children: [
@@ -554,20 +541,47 @@ class Detalles extends State<Menu_detalle> {
                         ),
                       ]),
                     ),
-                    Positioned(
-                      height: 20,
-                      width: 20,
-                      right: 1.0,
-                      bottom: 28,
-                      child: new FloatingActionButton(
-                        child: new Text('1',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 10.0,
-                                color: Colors.white)),
-                        backgroundColor: Colors.red,
-                      ),
-                    ),
+                    FutureBuilder(
+                        future: _countCart(),
+                        builder: (context, snapshot) {
+                          switch (snapshot.connectionState) {
+                            case ConnectionState.none:
+                            case ConnectionState.waiting:
+                              return Center(child: CircularProgressIndicator());
+                            default:
+                              if (snapshot.hasError) {
+                                return Positioned(
+                                  height: 20,
+                                  width: 20,
+                                  right: 1.0,
+                                  bottom: 28,
+                                  child: new FloatingActionButton(
+                                    child: new Text('0',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 10.0,
+                                            color: Colors.white)),
+                                    backgroundColor: Colors.red,
+                                  ),
+                                );
+                              } else {
+                                return Positioned(
+                                  height: 20,
+                                  width: 20,
+                                  right: 1.0,
+                                  bottom: 28,
+                                  child: new FloatingActionButton(
+                                    child: new Text(snapshot.data["Total"],
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 10.0,
+                                            color: Colors.white)),
+                                    backgroundColor: Colors.red,
+                                  ),
+                                );
+                              }
+                          }
+                        }),
                   ],
                 ),
               )
@@ -584,30 +598,7 @@ class Detalles extends State<Menu_detalle> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               titleSection,
-
-              //   widgetinfo,
               textSection,
-              /* Container(
-                height: 50,
-                decoration: BoxDecoration(
-                  color: Color(0xffD3D7D6),
-                ),
-                child: Row(children: <Widget>[
-                  Text(
-                    ' Ingredientes',
-                    style:
-                        TextStyle(fontSize: 25, fontWeight: FontWeight.normal),
-                  ),
-                ]),
-              ),*/
-
-              //  Divider(),
-
-              //buttonSection(),
-              SizedBox(
-                height: 10.0,
-              ),
-              //ubersection,
             ],
           ),
         ],
