@@ -1,22 +1,15 @@
 import 'package:flutter/material.dart';
 
-/*
-class Cart {
-  String _orden;
-  String _costo;
-  String _notas;
-  Cart(this._orden, this._costo, this._notas);
+class Dibs {
+  final String extra;
+  final String costo;
 
-  Cart.fromJson(Map<String, dynamic> parsedJson)
-      : _orden = parsedJson['_orden'],
-        _costo = parsedJson['_costo'],
-        _notas = parsedJson['_nota'];
-  Map<String, dynamic> toJson() => {
-        '_orden': _orden,
-        '_costo': _costo,
-        '_nota': _notas,
-      };
-}*/
+  Dibs(this.extra, this.costo);
+  @override
+  String toString() {
+    return '{ ${this.extra}, ${this.costo} }';
+  }
+}
 
 class Users {
   final String correo;

@@ -49,6 +49,8 @@ class Detalles extends State<Menu_detalle> {
   String encodeData;
   String idn = '';
 
+  List customers = [];
+
   //var cart = bloc.cart;
 
   //List<Cart> _cartList = List<Cart>();
@@ -106,28 +108,6 @@ class Detalles extends State<Menu_detalle> {
     return json.decode(response.body);
   }
 
-  List<String> list;
-
-  String listKeys = "Plátano";
-
-  void storeStringList(String listkay) async {
-    SharedPreferences prefsx = await SharedPreferences.getInstance();
-    await prefsx.setStringList("Plátano", list);
-  }
-/*
-  Future<List<String>> getStringList() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    
-    return await prefs.getStringList(listKeys);
-  }*/
-
-  Future<List<String>> getStringList() async {
-    SharedPreferences prefsx = await SharedPreferences.getInstance();
-    String _mail2 = "";
-    print(prefsx.getStringList("Plátano"));
-    return prefsx.getStringList("Plátano");
-  }
-
   void initState() {
     super.initState();
     this.getExtras();
@@ -171,9 +151,9 @@ class Detalles extends State<Menu_detalle> {
   }
 
   Widget build(BuildContext context) {
-    getStringList(List<String> strList) {
+    /*getStringList(List<String> strList) {
       print(strList);
-    }
+    }*/
 
     ;
     void showResena() {
@@ -267,10 +247,9 @@ class Detalles extends State<Menu_detalle> {
                                   setState(() {
                                     userStatus[index] = !userStatus[index];
 
-                                    String listKey = extra[index]["EXT_NOMBRE"];
-
-                                    storeStringList(listKey);
-                                    print(listKey);
+                                    String name = extra[index]["EXT_NOMBRE"];
+                                    customers.add(Dibs(name, '50'));
+                                    print(customers);
 
                                     if (_counter >= 1) {
                                       _costo = _costo + _suma_ex;
@@ -428,20 +407,7 @@ class Detalles extends State<Menu_detalle> {
                               height: 60,
                               width: MediaQuery.of(context).size.width,
                               child: RaisedButton(
-                                onPressed: () {
-                                  /* if (userStatus[index] == true) {
-                                    var a = extra[index]["EXT_NOMBRE"];
-                                    print(a);
-                                  }
-                                  if (userStatus[index] == true) {
-                                    setState(() {
-                                      var a = extra[index]["EXT_NOMBRE"];
-                                      print(a);
-                                    });
-                                  }*/
-                                  // getStringList();
-                                  getStringList(list);
-                                },
+                                onPressed: () {},
                                 color: Colors.green,
                                 textColor: Colors.white,
                                 child: Text(
