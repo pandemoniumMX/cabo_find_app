@@ -34,7 +34,10 @@ class Detalles extends State<Menu_detalle> {
   List data;
   List extra;
   List _complementos;
-
+  String _extras1;
+  String _extras2;
+  String _extras3;
+  String holder = '';
   List dataneg;
   List logos;
   List descripcion;
@@ -45,6 +48,7 @@ class Detalles extends State<Menu_detalle> {
 
   var factorial = 0;
   var userStatus = List<bool>();
+  var _multiple = List<String>();
 
   String encodeData;
   String idn = '';
@@ -91,7 +95,7 @@ class Detalles extends State<Menu_detalle> {
       //  userStatus.add(false);
     });
     for (var u in extra) {
-      userStatus.add(false);
+      // userStatus.add(false);
     }
     return "Success!";
   }
@@ -150,6 +154,12 @@ class Detalles extends State<Menu_detalle> {
     super.dispose();
   }
 
+  void getDropDownItem() {
+    setState(() {
+      holder = _extras1;
+    });
+  }
+
   Widget build(BuildContext context) {
     /*getStringList(List<String> strList) {
       print(strList);
@@ -196,7 +206,7 @@ class Detalles extends State<Menu_detalle> {
       ),
     );
 
-    Widget extras = dataneg[0]["MENU_EXTRA_TIPO"] != null
+    /*Widget extras = dataneg[0]["MENU_EXTRA_TIPO"] != null
         ? Column(children: <Widget>[
             Container(
               height: 50,
@@ -248,11 +258,14 @@ class Detalles extends State<Menu_detalle> {
                                     userStatus[index] = !userStatus[index];
 
                                     String name = extra[index]["EXT_NOMBRE"];
-                                    customers.add(Dibs(name, '50'));
-                                    print(customers);
+                                    String costo = extra[index]["EXT_PRECIO"];
 
                                     if (_counter >= 1) {
                                       _costo = _costo + _suma_ex;
+
+                                      customers.add(Dibs(name, costo));
+
+                                      print(customers);
                                     } else if (_counter == 0) {
                                       userStatus[index] = false;
                                       showResena();
@@ -260,9 +273,14 @@ class Detalles extends State<Menu_detalle> {
                                   });
                                 } else {
                                   setState(() {
+                                    String name = extra[index]["EXT_NOMBRE"];
+                                    String costox = extra[index]["EXT_PRECIO"];
+                                    _costo = _costo - _suma_ex;
                                     userStatus[index] = !userStatus[index];
+                                    customers.remove(Dibs(name, costox));
+
+                                    print(customers);
                                     if (_counter >= 1) {
-                                      _costo = _costo - _suma_ex;
                                     } else if (_counter == 0) {
                                       userStatus[index] = false;
                                     }
@@ -288,8 +306,168 @@ class Detalles extends State<Menu_detalle> {
                   ]);
                 }),
           ])
-        : SizedBox();
+        : SizedBox();*/
+    Widget extras2 = dataneg[0]["MENU_EXTRA_TIPO"] != null
+        ? Column(children: <Widget>[
+            Container(
+              height: 50,
+              decoration: BoxDecoration(
+                color: Color(0xffD3D7D6),
+              ),
+              child: Row(children: <Widget>[
+                Text(
+                  ' ' + dataneg[0]["MENU_EXTRA_TIPO"],
+                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.normal),
+                )
+              ]),
+            ),
+            dataneg[0]["MENU_REQUIERE"] == '1'
+                ? Column(children: <Widget>[
+                    DropdownButton(
+                      items: extra.map((item) {
+                        return new DropdownMenuItem(
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                new Text(item['EXT_NOMBRE'] + ' '),
+                                Text('\$' + item['EXT_PRECIO'])
+                              ]),
+                          onTap: () {
+                            var suma_ex = int.parse(item['EXT_PRECIO']);
+                            if (_suma_ex == 0) {
+                              _suma_ex = suma_ex;
+                              _costo = _costo + _suma_ex;
+                              print(suma_ex);
+                            } else if (_suma_ex != 0) {
+                              _costo = _costo - _suma_ex;
+                              _suma_ex = suma_ex;
+                              _costo = _costo + _suma_ex;
+                              print(suma_ex);
+                            }
+                          },
+                          value: item['ID_EXTRAS'].toString(),
+                        );
+                      }).toList(),
+                      onChanged: (newVal) {
+                        setState(() {
+                          if (_counter >= 1) {
+                            /* var suma_ex = (newVal['EXT_PRECIO']);
+                            _suma_ex = suma_ex;*/
+                            // _costo = _costo + _suma_ex;
+                            _extras1 = newVal;
+                          }
+                        });
+                      },
+                      hint: Text('Selecciona un ingrediente'),
+                      value: _extras1,
+                      focusColor: Colors.red,
+                      isExpanded: true,
+                    )
+                  ])
+                : dataneg[0]["MENU_REQUIERE"] == '2'
+                    ? Column(children: <Widget>[
+                        DropdownButton(
+                          items: extra.map((item) {
+                            return new DropdownMenuItem(
+                              child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    new Text(item['EXT_NOMBRE'] + ' '),
+                                    Text('\$' + item['EXT_PRECIO'])
+                                  ]),
+                              onTap: () {
+                                var suma_ex = int.parse(item['EXT_PRECIO']);
+                                if (_suma_ex == 0) {
+                                  _suma_ex = suma_ex;
+                                  _costo = _costo + _suma_ex;
+                                  print(suma_ex);
+                                } else if (_suma_ex != 0) {
+                                  _suma_ex = suma_ex;
+                                  _costo = _costo + _suma_ex;
+                                  print(suma_ex);
+                                }
+                              },
+                              value: item['ID_EXTRAS'].toString(),
+                            );
+                          }).toList(),
+                          onChanged: (newVal) {
+                            setState(() {
+                              _extras1 = newVal;
+                              _costo = _costo + _suma_ex;
+                            });
+                          },
+                          hint: Text('Selecciona un ingrediente'),
+                          value: _extras1,
+                          focusColor: Colors.red,
+                          isExpanded: true,
+                        ),
+                        DropdownButton(
+                          items: extra.map((item) {
+                            return new DropdownMenuItem(
+                              child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    new Text(item['EXT_NOMBRE'] + ' '),
+                                    Text('\$' + item['EXT_PRECIO'])
+                                  ]),
+                              onTap: () {
+                                var suma_ex = int.parse(item['EXT_PRECIO']);
+                                if (_suma_ex == 0) {
+                                  _suma_ex = suma_ex;
+                                  _costo = _costo + _suma_ex;
+                                  print(suma_ex);
+                                } else if (_suma_ex != 0) {
+                                  _suma_ex = suma_ex;
+                                  _costo = _costo + _suma_ex;
+                                  print(suma_ex);
+                                }
+                              },
+                              value: item['ID_EXTRAS'].toString(),
+                            );
+                          }).toList(),
+                          onChanged: (newVal) {
+                            setState(() {
+                              _extras2 = newVal;
+                            });
+                          },
+                          hint: Text('Selecciona un ingrediente'),
+                          value: _extras2,
+                          focusColor: Colors.red,
+                          isExpanded: true,
+                        ),
+                      ])
+                    : dataneg[0]["MENU_REQUIERE"] == 3
+                        ? Column(children: <Widget>[
+                            DropdownButton(
+                              items: extra.map((item) {
+                                return new DropdownMenuItem(
+                                  child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        new Text(item['EXT_NOMBRE'] + ' '),
+                                        Text('\$' + item['EXT_PRECIO'])
+                                      ]),
+                                  value: item['ID_EXTRAS'].toString(),
+                                );
+                              }).toList(),
+                              onChanged: (newVal) {
+                                setState(() {
+                                  _extras1 = newVal;
 
+                                  print('puta' + _extras1);
+                                });
+                              },
+                              value: _extras1,
+                              focusColor: Colors.red,
+                              isExpanded: true,
+                            )
+                          ])
+                        : SizedBox(),
+          ])
+        : SizedBox();
     Widget textSection = Column(children: <Widget>[
       new ListView.builder(
           shrinkWrap: true,
@@ -312,7 +490,8 @@ class Detalles extends State<Menu_detalle> {
                     style: TextStyle(color: Colors.grey, fontSize: 18),
                   ),
                 ),
-                extras,
+                // extras, //Checkbox EXTRAS
+                extras2,
                 Container(
                   height: 50,
                   decoration: BoxDecoration(
@@ -352,21 +531,15 @@ class Detalles extends State<Menu_detalle> {
                             _decrementCounter();
                             setState(() {
                               if (_counter >= 1) {
-                                //   _costo = 0;
-                                // _counter = 0;
                                 _costo = _costo - _suma;
                               } else if (_counter == 0) {
+                                customers.clear(); //borra la lista
+                                print(customers);
                                 _costo = 0;
-                                userStatus[0] = false;
-                                userStatus[1] = false;
-                                userStatus[2] = false;
-                                userStatus[3] = false;
-                                userStatus[4] = false;
-                                userStatus[5] = false;
-                                userStatus[6] = false;
-                                userStatus[7] = false;
-                                userStatus[8] = false;
-                                userStatus[9] = false;
+                                _extras1 = null;
+                                _extras2 = null;
+                                _extras3 = null;
+
                                 /*      for (var i = 9; i >= 0; i--) {
                                 userStatus[i] = false;
                               }*/
