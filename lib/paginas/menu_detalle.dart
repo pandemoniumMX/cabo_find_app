@@ -42,12 +42,12 @@ class Detalles extends State<Menu_detalle> {
   List logos;
   List descripcion;
   int _counter = 0;
-  int _costo = 0;
-  int _costocu = 0;
-  int _subtotal = 0;
-  int _suma = 0;
-  int _suma_ex = 0;
-  int _suma_ex2 = 0;
+  double _costo = 0;
+  double _costocu = 0;
+  double _subtotal = 0;
+  double _suma = 0;
+  double _suma_ex = 0;
+  double _suma_ex2 = 0;
 
   var factorial = 0;
   var userStatus = List<bool>();
@@ -88,8 +88,8 @@ class Detalles extends State<Menu_detalle> {
     return "Success!";
   }
 
-  Future<String> _insertPedidoSingle(int cantidad, int costo, String nota,
-      String extra1, String extra2, int costoex1, int costoex2) async {
+  Future<String> _insertPedidoSingle(int cantidad, double costo, String nota,
+      String extra1, String extra2, double costoex1, double costoex2) async {
     final SharedPreferences login = await SharedPreferences.getInstance();
     String _mail2 = "";
     _mail2 = login.getString("stringMail");
@@ -180,11 +180,6 @@ class Detalles extends State<Menu_detalle> {
   }
 
   Widget build(BuildContext context) {
-    /*getStringList(List<String> strList) {
-      print(strList);
-    }*/
-
-    ;
     void showResena() {
       Fluttertoast.showToast(
           msg: "Necesitas agregar mínimo 1 platillo",
@@ -202,7 +197,7 @@ class Detalles extends State<Menu_detalle> {
         physics: BouncingScrollPhysics(),
         itemCount: dataneg == null ? 0 : dataneg.length,
         itemBuilder: (BuildContext context, int index) {
-          var suma = int.parse(dataneg[index]["MENU_COSTO"]);
+          var suma = double.parse(dataneg[index]["MENU_COSTO"]);
           _costocu = suma;
 
           idn = widget.menu.id_n;
@@ -322,6 +317,43 @@ class Detalles extends State<Menu_detalle> {
                 }),
           ])
         : SizedBox();*/
+
+    void _confirmacion() {
+      // flutter defined function
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          // return object of type Dialog
+          return AlertDialog(
+            title: new Text("Alerta"),
+            content: new Text(
+              "¿Seguro que desea agregar al carrito?",
+              textAlign: TextAlign.center,
+            ),
+            actions: <Widget>[
+              // usually buttons at the bottom of the dialog
+              new FlatButton(
+                child: new Text("Cerrar"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              new FlatButton(
+                child: new Text("Confirmar"),
+                onPressed: () {
+                  String notax = controller.text;
+                  _insertPedidoSingle(_counter, _costocu, notax, _extras1,
+                      _extras2, _suma_ex, _suma_ex2);
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+
+    ;
     Widget extras2 = dataneg[0]["MENU_EXTRA_TIPO"] != null
         ? Column(children: <Widget>[
             Container(
@@ -350,7 +382,8 @@ class Detalles extends State<Menu_detalle> {
                                       Text('\$' + item['EXT_PRECIO'])
                                     ]),
                                 onTap: () {
-                                  var suma_ex = int.parse(item['EXT_PRECIO']);
+                                  var suma_ex =
+                                      double.parse(item['EXT_PRECIO']);
                                   if (_counter >= 1) {
                                     if (_suma_ex == 0) {
                                       _suma_ex = suma_ex;
@@ -407,7 +440,8 @@ class Detalles extends State<Menu_detalle> {
                                         Text('\$' + item['EXT_PRECIO'])
                                       ]),
                                   onTap: () {
-                                    var suma_ex = int.parse(item['EXT_PRECIO']);
+                                    var suma_ex =
+                                        double.parse(item['EXT_PRECIO']);
                                     if (_counter >= 1) {
                                       if (_suma_ex == 0) {
                                         _suma_ex = suma_ex;
@@ -448,7 +482,8 @@ class Detalles extends State<Menu_detalle> {
                                         Text('\$' + item['EXT_PRECIO'])
                                       ]),
                                   onTap: () {
-                                    var suma_ex = int.parse(item['EXT_PRECIO']);
+                                    var suma_ex =
+                                        double.parse(item['EXT_PRECIO']);
                                     if (_counter >= 1) {
                                       if (_suma_ex2 == 0) {
                                         _suma_ex2 = suma_ex;
@@ -513,7 +548,7 @@ class Detalles extends State<Menu_detalle> {
           physics: BouncingScrollPhysics(),
           itemCount: dataneg == null ? 0 : dataneg.length,
           itemBuilder: (BuildContext context, int index) {
-            var suma = int.parse(dataneg[index]["MENU_COSTO"]);
+            var suma = double.parse(dataneg[index]["MENU_COSTO"]);
             var item = dataneg[index];
             // _costo = suma; por aqui va la validacion
             _suma = suma;
@@ -618,15 +653,7 @@ class Detalles extends State<Menu_detalle> {
                                 width: MediaQuery.of(context).size.width,
                                 child: RaisedButton(
                                   onPressed: () {
-                                    String notax = controller.text;
-                                    _insertPedidoSingle(
-                                        _counter,
-                                        _costocu,
-                                        notax,
-                                        _extras1,
-                                        _extras2,
-                                        _suma_ex,
-                                        _suma_ex2);
+                                    _confirmacion();
                                   },
                                   color: Colors.green,
                                   textColor: Colors.white,

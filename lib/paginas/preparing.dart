@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_youtube/flutter_youtube.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:geocoder/geocoder.dart';
+import 'package:geolocator/geolocator.dart' as geo;
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -75,7 +77,28 @@ class _UsuarioState extends State<Carritox> {
   List data;
   List ext;
   String id_extra;
+  double envio = 30.0;
+  double total;
   TextEditingController cupon = TextEditingController();
+
+  _getCurrentLocation() async {
+    geo.Position position = await geo.Geolocator()
+        .getCurrentPosition(desiredAccuracy: geo.LocationAccuracy.high);
+    debugPrint('location: ${position.latitude}');
+    final coordinates = new Coordinates(position.latitude, position.longitude);
+    print(coordinates.latitude);
+    print(coordinates.longitude);
+
+    double coor = coordinates.latitude;
+    double long = coordinates.longitude;
+
+    http.Response response = await http.get(
+        "https://maps.googleapis.com/maps/api/distancematrix/json?units=kilometer&origins=$coor,$long&destinations=22.886692,-109.911503&key=AIzaSyA152PLBZLFqFlUMKQhMce3Z18OMGhPY6w");
+    Map<String, dynamic> map = json.decode(response.body);
+    List<dynamic> data = map["rows"];
+    print(data[0]['elements'][0]['distance']['text']);
+    print(data[0]['elements'][0]['duration']['text']);
+  }
 
   Future<Map> _check() async {
     final SharedPreferences login = await SharedPreferences.getInstance();
@@ -135,6 +158,7 @@ class _UsuarioState extends State<Carritox> {
     super.initState();
     this._cargarPedido();
     this._cargarExtra();
+    _getCurrentLocation();
   }
 
   @override
@@ -270,6 +294,7 @@ class _UsuarioState extends State<Carritox> {
                                       ],
                                     )
                                   : SizedBox(),*/
+
                               Container(
                                 margin: EdgeInsets.only(right: 210),
                                 padding: EdgeInsets.all(10),
@@ -293,7 +318,8 @@ class _UsuarioState extends State<Carritox> {
                                         String idp =
                                             ext[a]["pedidos_ID_PEDIDOS"];
                                         String idx2 = data[index]["ID_PEDIDOS"];
-
+                                        total = envio +
+                                            double.parse(data[0]["Total"]);
                                         if (idp == idx2) {
                                           return Row(
                                             mainAxisAlignment:
@@ -375,7 +401,7 @@ class _UsuarioState extends State<Carritox> {
                   margin: EdgeInsets.only(left: 10),
                   padding: EdgeInsets.all(10),
                   child: Text(
-                    '\$ 170',
+                    '\$' + data[0]["Total"],
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   )),
             ],
@@ -484,7 +510,7 @@ class _UsuarioState extends State<Carritox> {
                                         margin: EdgeInsets.only(left: 10),
                                         padding: EdgeInsets.all(10),
                                         child: Text(
-                                          '\$ 50',
+                                          '\$' + envio.toString(),
                                           style: TextStyle(
                                               fontSize: 18,
                                               fontWeight: FontWeight.bold),
@@ -586,7 +612,7 @@ class _UsuarioState extends State<Carritox> {
                                         margin: EdgeInsets.only(right: 10),
                                         padding: EdgeInsets.all(10),
                                         child: Text(
-                                          '\$ 220',
+                                          '\$' + total.toString(),
                                           style: TextStyle(
                                               fontSize: 18,
                                               fontWeight: FontWeight.bold),
@@ -661,7 +687,7 @@ class _UsuarioState extends State<Carritox> {
                                         margin: EdgeInsets.only(left: 10),
                                         padding: EdgeInsets.all(10),
                                         child: Text(
-                                          '\$ 50',
+                                          '\$ 30',
                                           style: TextStyle(
                                               fontSize: 18,
                                               fontWeight: FontWeight.bold),
