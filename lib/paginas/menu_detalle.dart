@@ -29,7 +29,7 @@ class Detalles extends State<Menu_detalle> {
   TextEditingController controller = TextEditingController();
 
   bool widgetcarac = false;
-
+  final _formKey = GlobalKey<FormState>();
   bool isLoggedIn = false;
   List data;
   List extra;
@@ -43,8 +43,11 @@ class Detalles extends State<Menu_detalle> {
   List descripcion;
   int _counter = 0;
   int _costo = 0;
+  int _costocu = 0;
+  int _subtotal = 0;
   int _suma = 0;
   int _suma_ex = 0;
+  int _suma_ex2 = 0;
 
   var factorial = 0;
   var userStatus = List<bool>();
@@ -81,6 +84,28 @@ class Detalles extends State<Menu_detalle> {
     this.setState(() {
       dataneg = json.decode(response.body);
     });
+
+    return "Success!";
+  }
+
+  Future<String> _insertPedidoSingle(int cantidad, int costo, String nota,
+      String extra1, String extra2, int costoex1, int costoex2) async {
+    final SharedPreferences login = await SharedPreferences.getInstance();
+    String _mail2 = "";
+    _mail2 = login.getString("stringMail");
+    var response = await http.get(
+        Uri.encodeFull(
+            "http://cabofind.com.mx/app_php/APIs/esp/insert_carrito_single.php?ID=${widget.menu.id_n}&MENU=${widget.menu.id_p}&CORREO=$_mail2&CANTIDAD=${cantidad}&COSTO=${costo}&NOTA=${nota}&EXTRA1=${extra1}&EXTRA2=${extra2}&EXTRA1COSTO=${costoex1}&EXTRA2COSTO=${costoex2}"),
+        headers: {"Accept": "application/json"});
+
+    return "Success!";
+  }
+
+  Future<String> _insertPedidoDouble() async {
+    var response = await http.get(
+        Uri.encodeFull(
+            "http://cabofind.com.mx/app_php/APIs/esp/insert_carrito_single.php?ID=${widget.menu.id_n}&MENU=${widget.menu.id_p}"),
+        headers: {"Accept": "application/json"});
 
     return "Success!";
   }
@@ -154,12 +179,6 @@ class Detalles extends State<Menu_detalle> {
     super.dispose();
   }
 
-  void getDropDownItem() {
-    setState(() {
-      holder = _extras1;
-    });
-  }
-
   Widget build(BuildContext context) {
     /*getStringList(List<String> strList) {
       print(strList);
@@ -183,17 +202,13 @@ class Detalles extends State<Menu_detalle> {
         physics: BouncingScrollPhysics(),
         itemCount: dataneg == null ? 0 : dataneg.length,
         itemBuilder: (BuildContext context, int index) {
-          var cts = int.parse(dataneg[index]["MENU_COSTO"]);
+          var suma = int.parse(dataneg[index]["MENU_COSTO"]);
+          _costocu = suma;
 
           idn = widget.menu.id_n;
-          // _counter = 1;
+
           if (_counter >= 1) {
-            // _costo = cts;
-            //_suma = cts;
-            //_costo = _suma;
-            // _costo = cts;
-            // _costo = cts;
-            // _suma_ex = cts;
+            //  _costo = suma;
           }
           return Container(
             padding: const EdgeInsets.all(10),
@@ -323,124 +338,65 @@ class Detalles extends State<Menu_detalle> {
             ),
             dataneg[0]["MENU_REQUIERE"] == '1'
                 ? Column(children: <Widget>[
-                    DropdownButton(
-                      items: extra.map((item) {
-                        return new DropdownMenuItem(
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                new Text(item['EXT_NOMBRE'] + ' '),
-                                Text('\$' + item['EXT_PRECIO'])
-                              ]),
-                          onTap: () {
-                            var suma_ex = int.parse(item['EXT_PRECIO']);
-                            if (_suma_ex == 0) {
-                              _suma_ex = suma_ex;
-                              _costo = _costo + _suma_ex;
-                              print(suma_ex);
-                            } else if (_suma_ex != 0) {
-                              _costo = _costo - _suma_ex;
-                              _suma_ex = suma_ex;
-                              _costo = _costo + _suma_ex;
-                              print(suma_ex);
-                            }
-                          },
-                          value: item['ID_EXTRAS'].toString(),
-                        );
-                      }).toList(),
-                      onChanged: (newVal) {
-                        setState(() {
-                          if (_counter >= 1) {
-                            /* var suma_ex = (newVal['EXT_PRECIO']);
+                    _counter >= 1
+                        ? DropdownButtonFormField(
+                            items: extra.map((item) {
+                              return new DropdownMenuItem(
+                                child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      new Text(item['EXT_NOMBRE'] + ' '),
+                                      Text('\$' + item['EXT_PRECIO'])
+                                    ]),
+                                onTap: () {
+                                  var suma_ex = int.parse(item['EXT_PRECIO']);
+                                  if (_counter >= 1) {
+                                    if (_suma_ex == 0) {
+                                      _suma_ex = suma_ex;
+                                      _costo = _costo + _suma_ex;
+                                      print(suma_ex);
+                                    } else if (_suma_ex != 0) {
+                                      _costo = _costo - _suma_ex;
+                                      _suma_ex = suma_ex;
+                                      _costo = _costo + _suma_ex;
+                                    }
+                                  }
+                                },
+                                value: item['ID_EXTRAS'].toString(),
+                              );
+                            }).toList(),
+                            onTap: null,
+                            onChanged: (newVal) {
+                              setState(() {
+                                if (_counter >= 1) {
+                                  /* var suma_ex = (newVal['EXT_PRECIO']);
                             _suma_ex = suma_ex;*/
-                            // _costo = _costo + _suma_ex;
-                            _extras1 = newVal;
-                          }
-                        });
-                      },
-                      hint: Text('Selecciona un ingrediente'),
-                      value: _extras1,
-                      focusColor: Colors.red,
-                      isExpanded: true,
-                    )
+                                  // _costo = _costo + _suma_ex;
+                                  _extras1 = newVal;
+                                }
+                              });
+                            },
+                            validator: (value) =>
+                                value == null ? 'field required' : null,
+                            hint: Text('Selecciona un ingrediente'),
+                            value: _extras1,
+                            isExpanded: true,
+                          )
+                        : DropdownButtonFormField(
+                            items: extra.map((item) {}).toList(),
+                            onTap: null,
+                            validator: (value) =>
+                                value == null ? 'field required' : null,
+                            hint: Text('Selecciona un ingrediente'),
+                            value: _extras1,
+                            isExpanded: true,
+                          )
                   ])
                 : dataneg[0]["MENU_REQUIERE"] == '2'
-                    ? Column(children: <Widget>[
-                        DropdownButton(
-                          items: extra.map((item) {
-                            return new DropdownMenuItem(
-                              child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    new Text(item['EXT_NOMBRE'] + ' '),
-                                    Text('\$' + item['EXT_PRECIO'])
-                                  ]),
-                              onTap: () {
-                                var suma_ex = int.parse(item['EXT_PRECIO']);
-                                if (_suma_ex == 0) {
-                                  _suma_ex = suma_ex;
-                                  _costo = _costo + _suma_ex;
-                                  print(suma_ex);
-                                } else if (_suma_ex != 0) {
-                                  _suma_ex = suma_ex;
-                                  _costo = _costo + _suma_ex;
-                                  print(suma_ex);
-                                }
-                              },
-                              value: item['ID_EXTRAS'].toString(),
-                            );
-                          }).toList(),
-                          onChanged: (newVal) {
-                            setState(() {
-                              _extras1 = newVal;
-                              _costo = _costo + _suma_ex;
-                            });
-                          },
-                          hint: Text('Selecciona un ingrediente'),
-                          value: _extras1,
-                          focusColor: Colors.red,
-                          isExpanded: true,
-                        ),
-                        DropdownButton(
-                          items: extra.map((item) {
-                            return new DropdownMenuItem(
-                              child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    new Text(item['EXT_NOMBRE'] + ' '),
-                                    Text('\$' + item['EXT_PRECIO'])
-                                  ]),
-                              onTap: () {
-                                var suma_ex = int.parse(item['EXT_PRECIO']);
-                                if (_suma_ex == 0) {
-                                  _suma_ex = suma_ex;
-                                  _costo = _costo + _suma_ex;
-                                  print(suma_ex);
-                                } else if (_suma_ex != 0) {
-                                  _suma_ex = suma_ex;
-                                  _costo = _costo + _suma_ex;
-                                  print(suma_ex);
-                                }
-                              },
-                              value: item['ID_EXTRAS'].toString(),
-                            );
-                          }).toList(),
-                          onChanged: (newVal) {
-                            setState(() {
-                              _extras2 = newVal;
-                            });
-                          },
-                          hint: Text('Selecciona un ingrediente'),
-                          value: _extras2,
-                          focusColor: Colors.red,
-                          isExpanded: true,
-                        ),
-                      ])
-                    : dataneg[0]["MENU_REQUIERE"] == 3
+                    ? _counter >= 1
                         ? Column(children: <Widget>[
-                            DropdownButton(
+                            DropdownButtonFormField(
                               items: extra.map((item) {
                                 return new DropdownMenuItem(
                                   child: Row(
@@ -450,22 +406,105 @@ class Detalles extends State<Menu_detalle> {
                                         new Text(item['EXT_NOMBRE'] + ' '),
                                         Text('\$' + item['EXT_PRECIO'])
                                       ]),
+                                  onTap: () {
+                                    var suma_ex = int.parse(item['EXT_PRECIO']);
+                                    if (_counter >= 1) {
+                                      if (_suma_ex == 0) {
+                                        _suma_ex = suma_ex;
+                                        _costo = _costo + _suma_ex;
+                                        print(suma_ex);
+                                      } else if (_suma_ex != 0) {
+                                        _costo = _costo - _suma_ex;
+                                        _suma_ex = suma_ex;
+                                        _costo = _costo + _suma_ex;
+                                      }
+                                    }
+                                  },
                                   value: item['ID_EXTRAS'].toString(),
                                 );
                               }).toList(),
+                              onTap: null,
                               onChanged: (newVal) {
                                 setState(() {
-                                  _extras1 = newVal;
-
-                                  print('puta' + _extras1);
+                                  if (_counter >= 1) {
+                                    _extras1 = newVal;
+                                  }
                                 });
                               },
+                              validator: (value) =>
+                                  value == null ? 'field required' : null,
+                              hint: Text('Selecciona un ingrediente'),
                               value: _extras1,
-                              focusColor: Colors.red,
                               isExpanded: true,
-                            )
+                            ),
+                            DropdownButtonFormField(
+                              items: extra.map((item) {
+                                return new DropdownMenuItem(
+                                  child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        new Text(item['EXT_NOMBRE'] + ' '),
+                                        Text('\$' + item['EXT_PRECIO'])
+                                      ]),
+                                  onTap: () {
+                                    var suma_ex = int.parse(item['EXT_PRECIO']);
+                                    if (_counter >= 1) {
+                                      if (_suma_ex2 == 0) {
+                                        _suma_ex2 = suma_ex;
+                                        _costo = _costo + _suma_ex2;
+                                        print(suma_ex);
+                                        print('Vacio');
+                                      } else if (_suma_ex2 != 0) {
+                                        _costo = _costo - _suma_ex2;
+                                        _suma_ex2 = suma_ex;
+                                        _costo = _costo + _suma_ex2;
+                                        print('Encontrado');
+                                      }
+                                    }
+                                  },
+                                  value: item['ID_EXTRAS'].toString(),
+                                );
+                              }).toList(),
+                              onTap: null,
+                              onChanged: (newVal) {
+                                setState(() {
+                                  if (_counter >= 1) {
+                                    /* var suma_ex = (newVal['EXT_PRECIO']);
+                          _suma_ex = suma_ex;*/
+                                    // _costo = _costo + _suma_ex;
+                                    _extras2 = newVal;
+                                  }
+                                });
+                              },
+                              validator: (value) =>
+                                  value == null ? 'field required' : null,
+                              hint: Text('Selecciona un ingrediente'),
+                              value: _extras2,
+                              isExpanded: true,
+                            ),
                           ])
-                        : SizedBox(),
+                        : Column(children: <Widget>[
+                            DropdownButtonFormField(
+                              items: extra.map((item) {}).toList(),
+                              onTap: null,
+                              validator: (value) =>
+                                  value == null ? 'field required' : null,
+                              hint: Text('Selecciona un ingrediente'),
+                              value: _extras1,
+                              isExpanded: true,
+                            ),
+                            DropdownButtonFormField(
+                              items: extra.map((item) {}).toList(),
+                              onTap: null,
+                              validator: (value) =>
+                                  value == null ? 'field required' : null,
+                              hint: Text('Selecciona un ingrediente'),
+                              value: _extras2,
+                              isExpanded: true,
+                            ),
+                          ])
+                    : SizedBox()
           ])
         : SizedBox();
     Widget textSection = Column(children: <Widget>[
@@ -479,132 +518,141 @@ class Detalles extends State<Menu_detalle> {
             // _costo = suma; por aqui va la validacion
             _suma = suma;
 
-            return Column(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  child: Text(
-                    dataneg[index]["MENU_DESC"],
-                    softWrap: true,
-                    overflow: TextOverflow.visible,
-                    style: TextStyle(color: Colors.grey, fontSize: 18),
-                  ),
-                ),
-                // extras, //Checkbox EXTRAS
-                extras2,
-                Container(
-                  height: 50,
-                  decoration: BoxDecoration(
-                    color: Color(0xffD3D7D6),
-                  ),
-                  child: Row(children: <Widget>[
-                    Text(
-                      ' Instrucciones especiales',
-                      style: TextStyle(
-                          fontSize: 25, fontWeight: FontWeight.normal),
+            return Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    child: Text(
+                      dataneg[index]["MENU_DESC"],
+                      softWrap: true,
+                      overflow: TextOverflow.visible,
+                      style: TextStyle(color: Colors.grey, fontSize: 18),
                     ),
-                  ]),
-                ),
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  child: TextField(
-                    style: TextStyle(fontSize: 15),
-                    keyboardType: TextInputType.text,
-                    controller: controller,
-                    maxLines: 1,
-                    decoration: InputDecoration(
-                        focusColor: Color(0xffD3D7D6),
-                        hoverColor: Color(0xffD3D7D6),
-                        hintText:
-                            'Agrega una nota (salsa adicional, sin cebolla, etc.)'),
                   ),
-                ),
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      FlatButton(
-                          shape: CircleBorder(
-                              side: BorderSide(color: Colors.grey)),
-                          onPressed: () {
-                            _decrementCounter();
-                            setState(() {
-                              if (_counter >= 1) {
-                                _costo = _costo - _suma;
-                              } else if (_counter == 0) {
-                                customers.clear(); //borra la lista
-                                print(customers);
-                                _costo = 0;
-                                _extras1 = null;
-                                _extras2 = null;
-                                _extras3 = null;
-
-                                /*      for (var i = 9; i >= 0; i--) {
-                                userStatus[i] = false;
-                              }*/
-
-                              }
-                            });
-                          },
-                          child: Text(
-                            '-',
-                            style: TextStyle(fontSize: 50),
-                          )),
+                  // extras, //Checkbox EXTRAS
+                  extras2,
+                  Container(
+                    height: 50,
+                    decoration: BoxDecoration(
+                      color: Color(0xffD3D7D6),
+                    ),
+                    child: Row(children: <Widget>[
                       Text(
-                        '$_counter',
-                        style: TextStyle(fontSize: 20),
+                        ' Instrucciones especiales',
+                        style: TextStyle(
+                            fontSize: 25, fontWeight: FontWeight.normal),
                       ),
-                      FlatButton(
-                          shape: CircleBorder(
-                              side: BorderSide(color: Colors.grey)),
-                          onPressed: () {
-                            _incrementCounter();
-                            setState(() {
-                              _costo = _costo + _suma;
-                            });
-                          },
-                          child: Text(
-                            '+',
-                            style: TextStyle(fontSize: 50),
-                          )),
-                    ],
-                  ),
-                ),
-                Row(mainAxisAlignment: MainAxisAlignment.center,
-                    //   crossAxisAlignment: CrossAxisAlignment.center,
-
-                    children: <Widget>[
-                      _counter >= 1
-                          ? Container(
-                              height: 60,
-                              width: MediaQuery.of(context).size.width,
-                              child: RaisedButton(
-                                onPressed: () {},
-                                color: Colors.green,
-                                textColor: Colors.white,
-                                child: Text(
-                                  'Agregar $_counter al carrito • MXN \$ $_costo',
-                                  style: TextStyle(fontSize: 20),
-                                ),
-                              ),
-                            )
-                          : Container(
-                              height: 60,
-                              width: MediaQuery.of(context).size.width,
-                              decoration: BoxDecoration(color: Colors.grey),
-                              child: Center(
-                                child: Text(
-                                  'Agregar $_counter al carrito • MXN \$ $_costo',
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.normal),
-                                ),
-                              ),
-                            )
                     ]),
-              ],
+                  ),
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    child: TextField(
+                      style: TextStyle(fontSize: 15),
+                      keyboardType: TextInputType.text,
+                      controller: controller,
+                      maxLines: 1,
+                      decoration: InputDecoration(
+                          focusColor: Color(0xffD3D7D6),
+                          hoverColor: Color(0xffD3D7D6),
+                          hintText:
+                              'Agrega una nota (salsa adicional, sin cebolla, etc.)'),
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        FlatButton(
+                            shape: CircleBorder(
+                                side: BorderSide(color: Colors.grey)),
+                            onPressed: () {
+                              _decrementCounter();
+                              setState(() {
+                                if (_counter >= 1) {
+                                  _costo = _costo - _suma;
+                                } else if (_counter == 0) {
+                                  _costo = 0;
+                                  _suma_ex = 0;
+                                  _suma_ex2 = 0;
+                                  _extras1 = null;
+                                  _extras2 = null;
+                                  _extras3 = null;
+                                }
+                              });
+                            },
+                            child: Text(
+                              '-',
+                              style: TextStyle(fontSize: 50),
+                            )),
+                        Text(
+                          '$_counter',
+                          style: TextStyle(fontSize: 20),
+                        ),
+                        FlatButton(
+                            shape: CircleBorder(
+                                side: BorderSide(color: Colors.grey)),
+                            onPressed: () {
+                              _incrementCounter();
+                              setState(() {
+                                _costo = _costo + _suma;
+                                print(_costocu);
+                              });
+                            },
+                            child: Text(
+                              '+',
+                              style: TextStyle(fontSize: 50),
+                            )),
+                      ],
+                    ),
+                  ),
+                  Row(mainAxisAlignment: MainAxisAlignment.center,
+                      //   crossAxisAlignment: CrossAxisAlignment.center,
+
+                      children: <Widget>[
+                        _counter >= 1
+                            ? Container(
+                                height: 60,
+                                width: MediaQuery.of(context).size.width,
+                                child: RaisedButton(
+                                  onPressed: () {
+                                    String notax = controller.text;
+                                    _insertPedidoSingle(
+                                        _counter,
+                                        _costocu,
+                                        notax,
+                                        _extras1,
+                                        _extras2,
+                                        _suma_ex,
+                                        _suma_ex2);
+                                  },
+                                  color: Colors.green,
+                                  textColor: Colors.white,
+                                  child: Text(
+                                    'Agregar $_counter al carrito • MXN \$ $_costo',
+                                    style: TextStyle(fontSize: 20),
+                                  ),
+                                ),
+                              )
+                            : Container(
+                                height: 60,
+                                width: MediaQuery.of(context).size.width,
+                                decoration: BoxDecoration(color: Colors.grey),
+                                child: Center(
+                                  child: Text(
+                                    'Agregar $_counter al carrito • MXN \$ $_costo',
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.normal),
+                                  ),
+                                ),
+                              )
+                      ]),
+                ],
+              ),
             );
           })
     ]);
