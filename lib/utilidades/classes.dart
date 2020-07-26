@@ -57,6 +57,12 @@ class Publicacion {
   Publicacion(this.id_n, this.id_p);
 }
 
+class Ubicacion {
+  final double lat;
+  final double long;
+  Ubicacion(this.lat, this.long);
+}
+
 class Publicacion2 {
   final String id_r;
   final String id_n;

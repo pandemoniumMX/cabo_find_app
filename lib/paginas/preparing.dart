@@ -7,6 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart' as geo;
+import 'package:intl/intl.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -78,35 +79,24 @@ class _UsuarioState extends State<Carritox> {
   List ext;
   String id_extra;
   double envio = 30.0;
-  double total;
+  double total = 0;
+  double latn;
+  double longn;
+  DateFormat dateFormat;
+  double tiempoprep;
+  double tiemporuta;
+  double tiempototal;
+  int tiempptxt;
   TextEditingController cupon = TextEditingController();
-
-  _getCurrentLocation() async {
-    geo.Position position = await geo.Geolocator()
-        .getCurrentPosition(desiredAccuracy: geo.LocationAccuracy.high);
-    debugPrint('location: ${position.latitude}');
-    final coordinates = new Coordinates(position.latitude, position.longitude);
-    print(coordinates.latitude);
-    print(coordinates.longitude);
-
-    double coor = coordinates.latitude;
-    double long = coordinates.longitude;
-
-    http.Response response = await http.get(
-        "https://maps.googleapis.com/maps/api/distancematrix/json?units=kilometer&origins=$coor,$long&destinations=22.886692,-109.911503&key=AIzaSyA152PLBZLFqFlUMKQhMce3Z18OMGhPY6w");
-    Map<String, dynamic> map = json.decode(response.body);
-    List<dynamic> data = map["rows"];
-    print(data[0]['elements'][0]['distance']['text']);
-    print(data[0]['elements'][0]['duration']['text']);
-  }
 
   Future<Map> _check() async {
     final SharedPreferences login = await SharedPreferences.getInstance();
     String _mail2 = "";
     _mail2 = login.getString("stringMail");
-    print('putaaaaaaaaaaaaa' + widget.negocio.correo);
+
     http.Response response = await http.get(
         "http://cabofind.com.mx/app_php/APIs/esp/check_pedidos.php?CORREO=$_mail2&IDN=${widget.negocio.correo}");
+    //_getCurrentLocation();
     return json.decode(response.body);
   }
 
@@ -117,12 +107,36 @@ class _UsuarioState extends State<Carritox> {
 
     http.Response response = await http.get(
         "http://cabofind.com.mx/app_php/APIs/esp/check_direccion_api.php?CORREO=$_mail2");
-    //print(widget.negocio.correo);
     return json.decode(response.body);
-    //widget.negocio.correo
   }
 
-  // ignore: missing_return
+  _getCurrentLocation() async {
+    geo.Position position = await geo.Geolocator()
+        .getCurrentPosition(desiredAccuracy: geo.LocationAccuracy.high);
+    debugPrint('location: ${position.latitude}');
+    final coordinates = new Coordinates(position.latitude, position.longitude);
+
+    print(coordinates.longitude);
+
+    double coor = coordinates.latitude;
+    double long = coordinates.longitude;
+
+    http.Response response = await http.get(
+        "https://maps.googleapis.com/maps/api/distancematrix/json?units=kilometer&origins=$coor,$long&destinations=$latn,$longn&key=AIzaSyA152PLBZLFqFlUMKQhMce3Z18OMGhPY6w");
+    Map<String, dynamic> map = json.decode(response.body);
+    List<dynamic> data = map["rows"];
+    print(data[0]['elements'][0]['distance']['text']);
+    print(data[0]['elements'][0]['duration']['value']);
+
+    var tiempox = data[0]['elements'][0]['duration']['value'];
+
+    setState(() {
+      tiemporuta = tiempox / 60;
+      print(tiemporuta.round());
+      print('tiempo casa');
+    });
+  }
+
   Future<String> _cargarPedido() async {
     final SharedPreferences login = await SharedPreferences.getInstance();
     String _status = "";
@@ -134,7 +148,7 @@ class _UsuarioState extends State<Carritox> {
 
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/list_pedidos_api.php?CORREO=$_mail2&IDN"),
+            "http://cabofind.com.mx/app_php/APIs/esp/list_pedidos_api.php?CORREO=$_mail2&IDN=${widget.negocio.correo}"),
         headers: {"Accept": "application/json"});
 
     this.setState(() {
@@ -159,6 +173,7 @@ class _UsuarioState extends State<Carritox> {
     this._cargarPedido();
     this._cargarExtra();
     _getCurrentLocation();
+    dateFormat = new DateFormat.jms('es');
   }
 
   @override
@@ -188,13 +203,21 @@ class _UsuarioState extends State<Carritox> {
                   )),
                 );
               } else {
+                tiempoprep = double.parse(data[0]["MENU_TIEMPO_PREP"]);
+                double tiemposub = tiemporuta + tiempoprep; //tiempoprep;
+                tiempototal = tiemposub;
+                print(tiempoprep);
+                print('valioverga');
+                print(tiempototal.round());
+                tiempptxt = tiempototal.round();
                 return ListView.builder(
                     shrinkWrap: true,
                     physics: BouncingScrollPhysics(),
                     itemCount: data == null ? 0 : data.length,
                     itemBuilder: (BuildContext context, int index) {
                       String idx = data[index]["ID_PEDIDOS"];
-                      String nota = data[index]["PED_NOTA"];
+                      /*latn = double.parse(data[index]["NEG_MAP_LAT"]);
+                      longn = double.parse(data[index]["NEG_MAP_LONG"]);*/
 
                       return new Card(
                         elevation: 1.0,
@@ -318,8 +341,7 @@ class _UsuarioState extends State<Carritox> {
                                         String idp =
                                             ext[a]["pedidos_ID_PEDIDOS"];
                                         String idx2 = data[index]["ID_PEDIDOS"];
-                                        total = envio +
-                                            double.parse(data[0]["Total"]);
+
                                         if (idp == idx2) {
                                           return Row(
                                             mainAxisAlignment:
@@ -430,8 +452,8 @@ class _UsuarioState extends State<Carritox> {
                           Navigator.push(
                               context,
                               new MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      new Mi_direccion()));
+                                  builder: (context) => new Mi_direccion(
+                                      ubicacion: new Ubicacion(latn, longn))));
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -454,6 +476,12 @@ class _UsuarioState extends State<Carritox> {
                         ),
                       );
                     } else {
+                      total =
+                          envio + double.parse(data[0]["Total"]); //suma totalx
+                      latn = double.parse(data[0]["NEG_MAP_LAT"]);
+                      longn = double.parse(data[0]["NEG_MAP_LONG"]);
+
+                      print(latn);
                       return snapshot.data['DIC_CIUDAD'] == 'Cabo San Lucas'
                           ? Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -463,8 +491,10 @@ class _UsuarioState extends State<Carritox> {
                                     Navigator.push(
                                         context,
                                         new MaterialPageRoute(
-                                            builder: (BuildContext context) =>
-                                                new Mi_direccion()));
+                                            builder: (context) =>
+                                                new Mi_direccion(
+                                                    ubicacion: new Ubicacion(
+                                                        latn, longn))));
                                   },
                                   child: Row(
                                     mainAxisAlignment:
@@ -534,7 +564,7 @@ class _UsuarioState extends State<Carritox> {
                                         margin: EdgeInsets.only(left: 10),
                                         padding: EdgeInsets.all(10),
                                         child: Text(
-                                          '35 minutos',
+                                          tiempptxt.toString() + ' Minutos',
                                           style: TextStyle(
                                               fontSize: 18,
                                               fontWeight: FontWeight.bold),

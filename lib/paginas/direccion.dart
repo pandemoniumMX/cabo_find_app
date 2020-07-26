@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:cabofind/utilidades/classes.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -12,6 +13,9 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
 class Mi_direccion extends StatefulWidget {
+  final Ubicacion ubicacion;
+
+  Mi_direccion({Key key, @required this.ubicacion}) : super(key: key);
   @override
   _Mi_direccionState createState() => _Mi_direccionState();
 }
@@ -19,6 +23,8 @@ class Mi_direccion extends StatefulWidget {
 class _Mi_direccionState extends State<Mi_direccion> {
   final _formKey = GlobalKey<FormState>();
   var _miciudad2 = '';
+  double latn;
+  double longn;
   TextEditingController csl = TextEditingController();
   TextEditingController calle = TextEditingController();
   TextEditingController colonia = TextEditingController();
@@ -46,8 +52,6 @@ class _Mi_direccionState extends State<Mi_direccion> {
     print(coordinates.latitude);
     print(coordinates.longitude);
 
-    double coor = coordinates.latitude;
-    double long = coordinates.longitude;
     var addresses =
         await Geocoder.local.findAddressesFromCoordinates(coordinates);
     //  await Geocoder.local.findAddressesFromQuery('22.914517');
@@ -75,7 +79,18 @@ class _Mi_direccionState extends State<Mi_direccion> {
       //print(final micity);
     });
 
-    //print("${first.featureName} : ${first.addressLine}");
+    double coor = coordinates.latitude;
+    double long = coordinates.longitude;
+    double latn = widget.ubicacion.lat;
+    double longn = widget.ubicacion.long;
+
+    http.Response response = await http.get(
+        "https://maps.googleapis.com/maps/api/distancematrix/json?units=kilometer&origins=$coor,$long&destinations=$latn,$longn&key=AIzaSyA152PLBZLFqFlUMKQhMce3Z18OMGhPY6w");
+    Map<String, dynamic> map = json.decode(response.body);
+    List<dynamic> data = map["rows"];
+    print(data[0]['elements'][0]['distance']['text']);
+    print(data[0]['elements'][0]['duration']['text']);
+
   }
 
   _onMapCreated(GoogleMapController controller) {
@@ -107,22 +122,12 @@ class _Mi_direccionState extends State<Mi_direccion> {
     ));
   }
 
-  void _distanc() async {
-    http.Response response = await http.get(
-        "https://maps.googleapis.com/maps/api/distancematrix/json?units=kilometer&origins=23.057034,-109.709089&destinations=22.886692,-109.911503&key=AIzaSyA152PLBZLFqFlUMKQhMce3Z18OMGhPY6w");
-    Map<String, dynamic> map = json.decode(response.body);
-    List<dynamic> data = map["rows"];
-    print(data[0]['elements'][0]['distance']['text']);
-    print(data[0]['elements'][0]['duration']['text']);
-  }
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _getCurrentLocation();
     _currentLocation();
-    _distanc();
 
     rootBundle.loadString('assets/map_style1.txt').then((string) {
       _mapStyle = string;
