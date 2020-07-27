@@ -80,13 +80,14 @@ class _UsuarioState extends State<Carritox> {
   String id_extra;
   double envio = 30.0;
   double total = 0;
-  double latn;
-  double longn;
+
   DateFormat dateFormat;
   double tiempoprep;
   double tiemporuta;
   double tiempototal;
+  int tiempox;
   int tiempptxt;
+  int secs = 60;
   TextEditingController cupon = TextEditingController();
 
   Future<Map> _check() async {
@@ -96,7 +97,6 @@ class _UsuarioState extends State<Carritox> {
 
     http.Response response = await http.get(
         "http://cabofind.com.mx/app_php/APIs/esp/check_pedidos.php?CORREO=$_mail2&IDN=${widget.negocio.correo}");
-    //_getCurrentLocation();
     return json.decode(response.body);
   }
 
@@ -110,9 +110,9 @@ class _UsuarioState extends State<Carritox> {
     return json.decode(response.body);
   }
 
-  _getCurrentLocation() async {
+  _getCurrentLocation(double latn, double longn, double tiempo) async {
     geo.Position position = await geo.Geolocator()
-        .getCurrentPosition(desiredAccuracy: geo.LocationAccuracy.high);
+        .getCurrentPosition(desiredAccuracy: geo.LocationAccuracy.best);
     debugPrint('location: ${position.latitude}');
     final coordinates = new Coordinates(position.latitude, position.longitude);
 
@@ -128,12 +128,19 @@ class _UsuarioState extends State<Carritox> {
     print(data[0]['elements'][0]['distance']['text']);
     print(data[0]['elements'][0]['duration']['value']);
 
-    var tiempox = data[0]['elements'][0]['duration']['value'];
+    tiempox = data[0]['elements'][0]['duration']['value'];
 
     setState(() {
-      tiemporuta = tiempox / 60;
+      tiemporuta = tiempox / secs;
       print(tiemporuta.round());
       print('tiempo casa');
+
+      double tiemposub = tiemporuta + tiempo; //tiempoprep;
+      tiempototal = tiemposub;
+      print(tiempo);
+      print('valioverga');
+      print(tiemposub.round());
+      tiempptxt = tiempototal.round();
     });
   }
 
@@ -172,7 +179,7 @@ class _UsuarioState extends State<Carritox> {
     super.initState();
     this._cargarPedido();
     this._cargarExtra();
-    _getCurrentLocation();
+
     dateFormat = new DateFormat.jms('es');
   }
 
@@ -203,21 +210,17 @@ class _UsuarioState extends State<Carritox> {
                   )),
                 );
               } else {
-                tiempoprep = double.parse(data[0]["MENU_TIEMPO_PREP"]);
-                double tiemposub = tiemporuta + tiempoprep; //tiempoprep;
-                tiempototal = tiemposub;
-                print(tiempoprep);
-                print('valioverga');
-                print(tiempototal.round());
-                tiempptxt = tiempototal.round();
                 return ListView.builder(
                     shrinkWrap: true,
                     physics: BouncingScrollPhysics(),
                     itemCount: data == null ? 0 : data.length,
                     itemBuilder: (BuildContext context, int index) {
                       String idx = data[index]["ID_PEDIDOS"];
-                      /*latn = double.parse(data[index]["NEG_MAP_LAT"]);
-                      longn = double.parse(data[index]["NEG_MAP_LONG"]);*/
+                      var latx = double.parse(data[0]["NEG_MAP_LAT"]);
+                      var longx = double.parse(data[0]["NEG_MAP_LONG"]);
+                      tiempoprep = double.parse(data[0]["MENU_TIEMPO_PREP"]);
+
+                      //   _getCurrentLocation(latx, longx, tiempoprep);
 
                       return new Card(
                         elevation: 1.0,
@@ -449,11 +452,11 @@ class _UsuarioState extends State<Carritox> {
                     if (snapshot.hasError) {
                       return InkWell(
                         onTap: () {
-                          Navigator.push(
+                          /* Navigator.push(
                               context,
                               new MaterialPageRoute(
                                   builder: (context) => new Mi_direccion(
-                                      ubicacion: new Ubicacion(latn, longn))));
+                                      ubicacion: new Ubicacion(latn, longn))));*/
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -476,25 +479,19 @@ class _UsuarioState extends State<Carritox> {
                         ),
                       );
                     } else {
-                      total =
-                          envio + double.parse(data[0]["Total"]); //suma totalx
-                      latn = double.parse(data[0]["NEG_MAP_LAT"]);
-                      longn = double.parse(data[0]["NEG_MAP_LONG"]);
-
-                      print(latn);
                       return snapshot.data['DIC_CIUDAD'] == 'Cabo San Lucas'
                           ? Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 InkWell(
                                   onTap: () {
-                                    Navigator.push(
+                                    /*  Navigator.push(
                                         context,
                                         new MaterialPageRoute(
                                             builder: (context) =>
                                                 new Mi_direccion(
                                                     ubicacion: new Ubicacion(
-                                                        latn, longn))));
+                                                        latn, longn))));*/
                                   },
                                   child: Row(
                                     mainAxisAlignment:
