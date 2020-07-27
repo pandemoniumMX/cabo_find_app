@@ -86,8 +86,9 @@ class _UsuarioState extends State<Carritox> {
   double tiemporuta;
   double tiempototal;
   int tiempox;
-  int tiempptxt;
+  int tiempptxt = 0;
   int secs = 60;
+  var listy = 0;
   TextEditingController cupon = TextEditingController();
 
   Future<Map> _check() async {
@@ -130,18 +131,20 @@ class _UsuarioState extends State<Carritox> {
 
     tiempox = data[0]['elements'][0]['duration']['value'];
 
-    setState(() {
-      tiemporuta = tiempox / secs;
-      print(tiemporuta.round());
-      print('tiempo casa');
+    tiemporuta = tiempox / secs;
+    print(tiemporuta.round());
+    print('tiempo casa');
 
-      double tiemposub = tiemporuta + tiempo; //tiempoprep;
-      tiempototal = tiemposub;
-      print(tiempo);
-      print('valioverga');
-      print(tiemposub.round());
-      tiempptxt = tiempototal.round();
-    });
+    double tiemposub = tiemporuta + tiempo; //tiempoprep;
+    tiempototal = tiemposub;
+    print(tiempo);
+    print('valioverga');
+    print(tiemposub.round());
+    if (tiempptxt == 0) {
+      setState(() {
+        tiempptxt = tiempototal.round();
+      });
+    }
   }
 
   Future<String> _cargarPedido() async {
@@ -191,202 +194,7 @@ class _UsuarioState extends State<Carritox> {
 
   @override
   Widget build(BuildContext context) {
-    Widget estructura = FutureBuilder(
-        future: _check(),
-        builder: (context, snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.none:
-            case ConnectionState.waiting:
-              return Center(child: CircularProgressIndicator());
-            default:
-              if (snapshot.hasError) {
-                //  print(snapshot.hasError);
-                return Container(
-                  padding: const EdgeInsets.all(10),
-                  child: Center(
-                      child: Text(
-                    'Aún no tienes puntoss',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  )),
-                );
-              } else {
-                return ListView.builder(
-                    shrinkWrap: true,
-                    physics: BouncingScrollPhysics(),
-                    itemCount: data == null ? 0 : data.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      String idx = data[index]["ID_PEDIDOS"];
-                      var latx = double.parse(data[0]["NEG_MAP_LAT"]);
-                      var longx = double.parse(data[0]["NEG_MAP_LONG"]);
-                      tiempoprep = double.parse(data[0]["MENU_TIEMPO_PREP"]);
-
-                      //   _getCurrentLocation(latx, longx, tiempoprep);
-
-                      return new Card(
-                        elevation: 1.0,
-                        child: new Container(
-                          child: Column(
-                            children: <Widget>[
-                              SizedBox(
-                                height: 15,
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: <Widget>[
-                                  Column(children: <Widget>[
-                                    Text(data[index]["PED_CANTIDAD"] + 'X',
-                                        overflow: TextOverflow.ellipsis,
-                                        softWrap: true,
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 18.0,
-                                          color: Colors.green,
-                                        )),
-                                  ]),
-                                  Text(data[index]["MENU_NOMBRE"],
-                                      overflow: TextOverflow.ellipsis,
-                                      softWrap: true,
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 18.0,
-                                        color: Colors.black,
-                                      )),
-                                  new Text(
-                                    '\$ ' + data[index]["PED_TOTAL"],
-                                    style: TextStyle(fontSize: 20),
-                                  ),
-                                ],
-                              ),
-                              /*Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  Container(
-                                    margin: EdgeInsets.only(left: 20),
-                                    padding: EdgeInsets.all(10),
-                                    child: Text(
-                                        'C/u \$' + data[index]["MENU_COSTO"],
-                                        overflow: TextOverflow.ellipsis,
-                                        softWrap: true,
-                                        style: TextStyle(
-                                          //  fontWeight: FontWeight.bold,
-                                          fontSize: 15.0,
-                                          color: Colors.black,
-                                        )),
-                                  )
-                                ],
-                              ),*/
-                              /*   nota != null
-                                  ? Column(
-                                      children: <Widget>[
-                                        Row(
-                                          children: <Widget>[
-                                            Container(
-                                              margin: EdgeInsets.only(left: 20),
-                                              padding: EdgeInsets.all(10),
-                                              child: Text('Nota(s): ',
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  softWrap: true,
-                                                  style: TextStyle(
-                                                    // fontWeight: FontWeight.bold,
-                                                    fontSize: 15.0,
-                                                    color: Colors.black,
-                                                  )),
-                                            )
-                                          ],
-                                        ),
-                                        Row(
-                                          children: <Widget>[
-                                            Container(
-                                              margin: EdgeInsets.only(left: 30),
-                                              padding: EdgeInsets.all(10),
-                                              child: Flexible(
-                                                child: Text(
-                                                    data[index]["PED_NOTA"],
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    softWrap: true,
-                                                    maxLines: 3,
-                                                    style: TextStyle(
-                                                      // fontWeight: FontWeight.bold,
-                                                      fontSize: 15.0,
-                                                      color: Colors.black54,
-                                                    )),
-                                              ),
-                                            )
-                                          ],
-                                        )
-                                      ],
-                                    )
-                                  : SizedBox(),*/
-
-                              Container(
-                                margin: EdgeInsets.only(right: 210),
-                                padding: EdgeInsets.all(10),
-                                child:
-                                    Text(data[index]["MENU_EXTRA_TIPO"] + ':',
-                                        overflow: TextOverflow.ellipsis,
-                                        softWrap: true,
-                                        style: TextStyle(
-                                          // fontWeight: FontWeight.bold,
-                                          fontSize: 15.0,
-                                          color: Colors.black,
-                                        )),
-                              ),
-                              idx == idx
-                                  ? ListView.builder(
-                                      shrinkWrap: true,
-                                      physics: BouncingScrollPhysics(),
-                                      itemCount: ext == null ? 0 : ext.length,
-                                      itemBuilder:
-                                          (BuildContext contexts, int a) {
-                                        String idp =
-                                            ext[a]["pedidos_ID_PEDIDOS"];
-                                        String idx2 = data[index]["ID_PEDIDOS"];
-
-                                        if (idp == idx2) {
-                                          return Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: <Widget>[
-                                              Container(
-                                                margin:
-                                                    EdgeInsets.only(left: 30),
-                                                padding: EdgeInsets.all(10),
-                                                child: Text(
-                                                  ext[a]["EXT_NOMBRE"],
-                                                  style: TextStyle(
-                                                      fontSize: 15,
-                                                      color: Colors.black54),
-                                                ),
-                                              ),
-                                              Container(
-                                                margin:
-                                                    EdgeInsets.only(right: 15),
-                                                padding: EdgeInsets.all(5),
-                                                child: Text(
-                                                  '\$' + ext[a]["EXT_PRECIO"],
-                                                  style: TextStyle(
-                                                      fontSize: 16,
-                                                      color: Colors.black54),
-                                                ),
-                                              )
-                                            ],
-                                          );
-                                        } else {
-                                          return SizedBox();
-                                        }
-                                      })
-                                  : Text('')
-                            ],
-                          ),
-                        ),
-                      );
-                    });
-              }
-          }
-        });
+    //Widget estructura =
 
     return Scaffold(
       appBar: AppBar(
@@ -411,7 +219,152 @@ class _UsuarioState extends State<Carritox> {
                   style: TextStyle(fontSize: 18),
                 ),
               ])),
-          estructura,
+          FutureBuilder(
+              future: _check(),
+              builder: (context, snapshot) {
+                switch (snapshot.connectionState) {
+                  case ConnectionState.none:
+                  case ConnectionState.waiting:
+                    return Center(child: CircularProgressIndicator());
+                  default:
+                    if (snapshot.hasError) {
+                      //  print(snapshot.hasError);
+                      return Container(
+                        padding: const EdgeInsets.all(10),
+                        child: Center(
+                            child: Text(
+                          'Aún no tienes puntoss',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        )),
+                      );
+                    } else {
+                      return ListView.builder(
+                          shrinkWrap: true,
+                          physics: BouncingScrollPhysics(),
+                          itemCount: data == null ? 0 : data.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            String idx = data[index]["ID_PEDIDOS"];
+                            var latx = double.parse(data[0]["NEG_MAP_LAT"]);
+                            var longx = double.parse(data[0]["NEG_MAP_LONG"]);
+                            tiempoprep =
+                                double.parse(data[0]["MENU_TIEMPO_PREP"]);
+                            _getCurrentLocation(latx, longx, tiempoprep);
+                            return new Card(
+                              elevation: 1.0,
+                              child: new Container(
+                                child: Column(
+                                  children: <Widget>[
+                                    SizedBox(
+                                      height: 15,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: <Widget>[
+                                        Column(children: <Widget>[
+                                          Text(
+                                              data[index]["PED_CANTIDAD"] + 'X',
+                                              overflow: TextOverflow.ellipsis,
+                                              softWrap: true,
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 18.0,
+                                                color: Colors.green,
+                                              )),
+                                        ]),
+                                        Text(data[index]["MENU_NOMBRE"],
+                                            overflow: TextOverflow.ellipsis,
+                                            softWrap: true,
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 18.0,
+                                              color: Colors.black,
+                                            )),
+                                        new Text(
+                                          '\$ ' + data[index]["PED_TOTAL"],
+                                          style: TextStyle(fontSize: 20),
+                                        ),
+                                      ],
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(right: 210),
+                                      padding: EdgeInsets.all(10),
+                                      child: data[index]["MENU_EXTRA_TIPO"] !=
+                                              null
+                                          ? Text(
+                                              data[index]["MENU_EXTRA_TIPO"] +
+                                                  ':',
+                                              overflow: TextOverflow.ellipsis,
+                                              softWrap: true,
+                                              style: TextStyle(
+                                                // fontWeight: FontWeight.bold,
+                                                fontSize: 15.0,
+                                                color: Colors.black,
+                                              ))
+                                          : SizedBox(),
+                                    ),
+                                    idx == idx
+                                        ? ListView.builder(
+                                            shrinkWrap: true,
+                                            physics: BouncingScrollPhysics(),
+                                            itemCount:
+                                                ext == null ? 0 : ext.length,
+                                            itemBuilder:
+                                                (BuildContext contexts, int a) {
+                                              String idp =
+                                                  ext[a]["pedidos_ID_PEDIDOS"];
+                                              String idx2 =
+                                                  data[index]["ID_PEDIDOS"];
+
+                                              if (idp == idx2) {
+                                                return Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: <Widget>[
+                                                    Container(
+                                                      margin: EdgeInsets.only(
+                                                          left: 30),
+                                                      padding:
+                                                          EdgeInsets.all(10),
+                                                      child: Text(
+                                                        ext[a]["EXT_NOMBRE"],
+                                                        style: TextStyle(
+                                                            fontSize: 15,
+                                                            color:
+                                                                Colors.black54),
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      margin: EdgeInsets.only(
+                                                          right: 15),
+                                                      padding:
+                                                          EdgeInsets.all(5),
+                                                      child: Text(
+                                                        '\$' +
+                                                            ext[a]
+                                                                ["EXT_PRECIO"],
+                                                        style: TextStyle(
+                                                            fontSize: 16,
+                                                            color:
+                                                                Colors.black54),
+                                                      ),
+                                                    )
+                                                  ],
+                                                );
+                                              } else {
+                                                return SizedBox();
+                                              }
+                                            })
+                                        : Text('')
+                                  ],
+                                ),
+                              ),
+                            );
+                          });
+                    }
+                }
+              }),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
@@ -479,6 +432,8 @@ class _UsuarioState extends State<Carritox> {
                         ),
                       );
                     } else {
+                      total =
+                          envio + double.parse(data[0]["Total"]); //suma totalx
                       return snapshot.data['DIC_CIUDAD'] == 'Cabo San Lucas'
                           ? Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -591,6 +546,7 @@ class _UsuarioState extends State<Carritox> {
                                             MediaQuery.of(context).size.width /
                                                 1.4,
                                         child: TextField(
+                                          readOnly: true,
                                           controller: cupon,
                                           enabled: true,
                                           decoration: InputDecoration(
