@@ -11,11 +11,12 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Mi_direccion extends StatefulWidget {
-  final Ubicacion ubicacion;
+  // final Ubicacion ubicacion;
 
-  Mi_direccion({Key key, @required this.ubicacion}) : super(key: key);
+  Mi_direccion({Key key}) : super(key: key);
   @override
   _Mi_direccionState createState() => _Mi_direccionState();
 }
@@ -25,7 +26,6 @@ class _Mi_direccionState extends State<Mi_direccion> {
   var _miciudad2 = '';
   double latn;
   double longn;
-  TextEditingController csl = TextEditingController();
   TextEditingController calle = TextEditingController();
   TextEditingController colonia = TextEditingController();
   TextEditingController ciudad = TextEditingController();
@@ -60,7 +60,7 @@ class _Mi_direccionState extends State<Mi_direccion> {
     print(addresses.first.addressLine); //calle,colonia y cp
     print(addresses.first.postalCode); //CP
     print(addresses.first.adminArea); //ESTADO
-    // print(addresses.getRange(1, 3).first.addressLine);
+    // print(addresses.getRange(1, 3).first.addressLine);vo
     //print(addresses.single.adminArea);
     var cp2 = addresses.first.postalCode; //= cp
     var calle2 = addresses.getRange(1, 2).first.addressLine; //= calle.
@@ -72,25 +72,19 @@ class _Mi_direccionState extends State<Mi_direccion> {
       calle = new TextEditingController(text: calle2);
       colonia = new TextEditingController(text: col2);
       ciudad = new TextEditingController(text: ciudad2);
-      csl = new TextEditingController(text: ciudad2);
       _miciudad2 = ciudad2;
       print(_miciudad2);
-
-      //print(final micity);
     });
+  }
 
-    double coor = coordinates.latitude;
-    double long = coordinates.longitude;
-    double latn = widget.ubicacion.lat;
-    double longn = widget.ubicacion.long;
+  Future<String> _insertDireccion(String calle, String ciudad, String celular,
+      String cp, String ref, String inst) async {
+    final SharedPreferences login = await SharedPreferences.getInstance();
+    String _mail2 = "";
+    _mail2 = login.getString("stringMail");
 
     http.Response response = await http.get(
-        "https://maps.googleapis.com/maps/api/distancematrix/json?units=kilometer&origins=$coor,$long&destinations=$latn,$longn&key=AIzaSyA152PLBZLFqFlUMKQhMce3Z18OMGhPY6w");
-    Map<String, dynamic> map = json.decode(response.body);
-    List<dynamic> data = map["rows"];
-    print(data[0]['elements'][0]['distance']['text']);
-    print(data[0]['elements'][0]['duration']['text']);
-
+        "http://cabofind.com.mx/app_php/APIs/esp/insert_direccion.php?CORREO=$_mail2&CALLE=${calle}&CIUDAD=${ciudad}&CELULAR=${celular}&CP=${cp}&REF=${ref}&INST=${inst}");
   }
 
   _onMapCreated(GoogleMapController controller) {
@@ -135,35 +129,19 @@ class _Mi_direccionState extends State<Mi_direccion> {
   }
 
   @override
+  void dispose() {
+    calle.dispose();
+    colonia.dispose();
+    ciudad.dispose();
+    tel.dispose();
+    apartamento.dispose();
+    instrucciones.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: _miciudad2 == 'Cabo San Lucas'
-          ? Container(
-              height: 50,
-              child: RaisedButton(
-                onPressed: () {
-                  if (_formKey.currentState.validate()) {}
-                },
-                color: Colors.green,
-                textColor: Colors.white,
-                child: Text(
-                  'Confirmar dirección',
-                  style: TextStyle(fontSize: 20),
-                ),
-              ),
-            )
-          : Container(
-              height: 50,
-              child: RaisedButton(
-                onPressed: null,
-                color: Colors.grey,
-                textColor: Colors.white,
-                child: Text(
-                  'Ciudad no disponible',
-                  style: TextStyle(fontSize: 20),
-                ),
-              ),
-            ),
       appBar: AppBar(
         title: Text('Regresar'),
         backgroundColor: Color(0xffFF7864),
@@ -360,6 +338,41 @@ class _Mi_direccionState extends State<Mi_direccion> {
           Divider()
         ],
       ),
+      bottomNavigationBar: _miciudad2 == 'Cabo San Lucas'
+          ? Container(
+              height: 50,
+              child: RaisedButton(
+                onPressed: () {
+                  if (_formKey.currentState.validate()) {
+                    String call = calle.text;
+                    String ciu = ciudad.text;
+                    String tel1 = tel.text;
+                    String cp1 = cp.text;
+                    String apa = apartamento.text;
+                    String inst = instrucciones.text;
+                    _insertDireccion(call, ciu, tel1, cp1, apa, inst);
+                  }
+                },
+                color: Colors.green,
+                textColor: Colors.white,
+                child: Text(
+                  'Confirmar dirección',
+                  style: TextStyle(fontSize: 20),
+                ),
+              ),
+            )
+          : Container(
+              height: 50,
+              child: RaisedButton(
+                onPressed: null,
+                color: Colors.grey,
+                textColor: Colors.white,
+                child: Text(
+                  'Ciudad no disponible',
+                  style: TextStyle(fontSize: 20),
+                ),
+              ),
+            ),
     );
   }
 }

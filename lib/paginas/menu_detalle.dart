@@ -354,6 +354,7 @@ class Detalles extends State<Menu_detalle> {
     }
 
     ;
+
     Widget extras2 = dataneg[0]["MENU_EXTRA_TIPO"] != null
         ? Column(children: <Widget>[
             Container(
@@ -411,8 +412,8 @@ class Detalles extends State<Menu_detalle> {
                               });
                             },
                             validator: (value) =>
-                                value == null ? 'field required' : null,
-                            hint: Text('Selecciona un ingrediente'),
+                                value == null ? 'Campo requerido' : null,
+                            hint: Text('Seleccionar'),
                             value: _extras1,
                             isExpanded: true,
                           )
@@ -653,7 +654,9 @@ class Detalles extends State<Menu_detalle> {
                                 width: MediaQuery.of(context).size.width,
                                 child: RaisedButton(
                                   onPressed: () {
-                                    _confirmacion();
+                                    if (_formKey.currentState.validate()) {
+                                      _confirmacion();
+                                    }
                                   },
                                   color: Colors.green,
                                   textColor: Colors.white,

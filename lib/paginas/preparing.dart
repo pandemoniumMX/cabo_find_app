@@ -111,6 +111,15 @@ class _UsuarioState extends State<Carritox> {
     return json.decode(response.body);
   }
 
+  Future<String> _eliminarItem(String id) async {
+    final SharedPreferences login = await SharedPreferences.getInstance();
+    String _mail2 = "";
+    _mail2 = login.getString("stringMail");
+
+    http.Response response = await http.get(
+        "http://cabofind.com.mx/app_php/APIs/esp/delete_pedidos_api.php?IDP=${id}");
+  }
+
   _getCurrentLocation(double latn, double longn, double tiempo) async {
     geo.Position position = await geo.Geolocator()
         .getCurrentPosition(desiredAccuracy: geo.LocationAccuracy.best);
@@ -182,7 +191,6 @@ class _UsuarioState extends State<Carritox> {
     super.initState();
     this._cargarPedido();
     this._cargarExtra();
-
     dateFormat = new DateFormat.jms('es');
   }
 
@@ -194,8 +202,6 @@ class _UsuarioState extends State<Carritox> {
 
   @override
   Widget build(BuildContext context) {
-    //Widget estructura =
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Regresar'),
@@ -228,12 +234,11 @@ class _UsuarioState extends State<Carritox> {
                     return Center(child: CircularProgressIndicator());
                   default:
                     if (snapshot.hasError) {
-                      //  print(snapshot.hasError);
                       return Container(
                         padding: const EdgeInsets.all(10),
                         child: Center(
                             child: Text(
-                          'Aún no tienes puntoss',
+                          'Aún no tienes pedidos',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         )),
                       );
@@ -253,9 +258,69 @@ class _UsuarioState extends State<Carritox> {
                               elevation: 1.0,
                               child: new Container(
                                 child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
-                                    SizedBox(
-                                      height: 15,
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: <Widget>[
+                                        InkWell(
+                                          onTap: () {
+                                            showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                // return object of type Dialog
+                                                return AlertDialog(
+                                                  shape: RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10.0)),
+                                                  title: new Text("Alerta"),
+                                                  content: new Text(
+                                                    "¿Seguro que desea eliminar?",
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                  actions: <Widget>[
+                                                    // usually buttons at the bottom of the dialog
+                                                    new FlatButton(
+                                                      child: new Text(
+                                                        "Cerrar",
+                                                        style: TextStyle(
+                                                            color: Colors.red),
+                                                      ),
+                                                      onPressed: () {
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                      },
+                                                    ),
+                                                    new FlatButton(
+                                                      child: new Text(
+                                                        "Confirmar",
+                                                        style: TextStyle(
+                                                            color:
+                                                                Colors.green),
+                                                      ),
+                                                      onPressed: () {
+                                                        _eliminarItem(idx);
+                                                        setState(() {});
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                      },
+                                                    ),
+                                                  ],
+                                                );
+                                              },
+                                            );
+                                          },
+                                          child: Container(
+                                            margin: EdgeInsets.all(10),
+                                            child: Icon(
+                                              FontAwesomeIcons.trashAlt,
+                                              color: Colors.red,
+                                              size: 18,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                     Row(
                                       mainAxisAlignment:
@@ -356,7 +421,33 @@ class _UsuarioState extends State<Carritox> {
                                                 return SizedBox();
                                               }
                                             })
-                                        : Text('')
+                                        : Text(''),
+                                    Container(
+                                      margin: EdgeInsets.only(left: 25),
+                                      padding: EdgeInsets.all(10),
+                                      child: data[index]["PED_NOTA"] != null
+                                          ? Text('Nota(s): ',
+                                              overflow: TextOverflow.ellipsis,
+                                              softWrap: true,
+                                              style: TextStyle(
+                                                // fontWeight: FontWeight.bold,
+                                                fontSize: 15.0,
+                                                color: Colors.black,
+                                              ))
+                                          : SizedBox(),
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(left: 25),
+                                      padding: EdgeInsets.all(10),
+                                      child: data[index]["PED_NOTA"] != null
+                                          ? Text(
+                                              data[index]["PED_NOTA"],
+                                              style: TextStyle(
+                                                  fontSize: 15,
+                                                  color: Colors.black54),
+                                            )
+                                          : SizedBox(),
+                                    )
                                   ],
                                 ),
                               ),
@@ -405,11 +496,10 @@ class _UsuarioState extends State<Carritox> {
                     if (snapshot.hasError) {
                       return InkWell(
                         onTap: () {
-                          /* Navigator.push(
+                          Navigator.push(
                               context,
                               new MaterialPageRoute(
-                                  builder: (context) => new Mi_direccion(
-                                      ubicacion: new Ubicacion(latn, longn))));*/
+                                  builder: (context) => new Mi_direccion()));
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -440,13 +530,11 @@ class _UsuarioState extends State<Carritox> {
                               children: <Widget>[
                                 InkWell(
                                   onTap: () {
-                                    /*  Navigator.push(
+                                    Navigator.push(
                                         context,
                                         new MaterialPageRoute(
                                             builder: (context) =>
-                                                new Mi_direccion(
-                                                    ubicacion: new Ubicacion(
-                                                        latn, longn))));*/
+                                                new Mi_direccion()));
                                   },
                                   child: Row(
                                     mainAxisAlignment:
