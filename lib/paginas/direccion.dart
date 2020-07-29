@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:cabofind/paginas/preparing.dart';
 import 'package:cabofind/utilidades/classes.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
@@ -14,9 +15,9 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Mi_direccion extends StatefulWidget {
-  // final Ubicacion ubicacion;
+  final Users ubicacion;
 
-  Mi_direccion({Key key}) : super(key: key);
+  Mi_direccion({Key key, this.ubicacion}) : super(key: key);
   @override
   _Mi_direccionState createState() => _Mi_direccionState();
 }
@@ -36,6 +37,8 @@ class _Mi_direccionState extends State<Mi_direccion> {
   String _comboCiudad;
   String _currentPosition;
   String position;
+  double lat;
+  double long;
   static final CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(22.900890, -109.942955),
     zoom: 13.0,
@@ -49,12 +52,15 @@ class _Mi_direccionState extends State<Mi_direccion> {
         .getCurrentPosition(desiredAccuracy: geo.LocationAccuracy.high);
     debugPrint('location: ${position.latitude}');
     final coordinates = new Coordinates(position.latitude, position.longitude);
-    print(coordinates.latitude);
-    print(coordinates.longitude);
+
+    lat = coordinates.latitude;
+    long = coordinates.longitude;
+
+    print(lat);
+    print(long);
 
     var addresses =
         await Geocoder.local.findAddressesFromCoordinates(coordinates);
-    //  await Geocoder.local.findAddressesFromQuery('22.914517');
 
     print(addresses.first.locality); //ciudad
     print(addresses.first.addressLine); //calle,colonia y cp
@@ -84,7 +90,7 @@ class _Mi_direccionState extends State<Mi_direccion> {
     _mail2 = login.getString("stringMail");
 
     http.Response response = await http.get(
-        "http://cabofind.com.mx/app_php/APIs/esp/insert_direccion.php?CORREO=$_mail2&CALLE=${calle}&CIUDAD=${ciudad}&CELULAR=${celular}&CP=${cp}&REF=${ref}&INST=${inst}");
+        "http://cabofind.com.mx/app_php/APIs/esp/insert_direccion.php?CORREO=$_mail2&CALLE=${calle}&CIUDAD=${ciudad}&CELULAR=${celular}&CP=${cp}&REF=${ref}&INST=${inst}&LAT=${lat}&LONG=${long}");
   }
 
   _onMapCreated(GoogleMapController controller) {
@@ -262,7 +268,7 @@ class _Mi_direccionState extends State<Mi_direccion> {
                         padding: EdgeInsets.all(10),
                         width: MediaQuery.of(context).size.width / 1.2,
                         child: TextFormField(
-                          //  controller: cupon,
+                          controller: apartamento,
                           enabled: true,
                           style: TextStyle(fontSize: 15),
                           decoration: InputDecoration(
@@ -289,7 +295,7 @@ class _Mi_direccionState extends State<Mi_direccion> {
                         padding: EdgeInsets.all(10),
                         width: MediaQuery.of(context).size.width / 1.2,
                         child: TextFormField(
-                          //  controller: cupon,
+                          controller: tel,
                           enabled: true,
                           keyboardType: TextInputType.number,
                           inputFormatters: <TextInputFormatter>[
@@ -320,7 +326,7 @@ class _Mi_direccionState extends State<Mi_direccion> {
                         padding: EdgeInsets.all(10),
                         width: MediaQuery.of(context).size.width / 1.2,
                         child: TextField(
-                          //  controller: cupon,
+                          controller: instrucciones,
                           enabled: true,
                           style: TextStyle(fontSize: 15),
                           decoration: InputDecoration(
@@ -343,20 +349,67 @@ class _Mi_direccionState extends State<Mi_direccion> {
               height: 50,
               child: RaisedButton(
                 onPressed: () {
+                  String call = calle.text;
+                  String ciu = ciudad.text;
+                  String tel1 = tel.text;
+                  String cp1 = cp.text;
+                  String apa = apartamento.text;
+                  String inst = instrucciones.text;
+                  print(inst);
                   if (_formKey.currentState.validate()) {
-                    String call = calle.text;
-                    String ciu = ciudad.text;
-                    String tel1 = tel.text;
-                    String cp1 = cp.text;
-                    String apa = apartamento.text;
-                    String inst = instrucciones.text;
-                    _insertDireccion(call, ciu, tel1, cp1, apa, inst);
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        // return object of type Dialog
+                        return AlertDialog(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0)),
+                          title: new Text("Alerta"),
+                          content: new Text(
+                            "¿Los datos son correctos?",
+                            textAlign: TextAlign.center,
+                          ),
+                          actions: <Widget>[
+                            // usually buttons at the bottom of the dialog
+                            new FlatButton(
+                              child: new Text(
+                                "Cerrar",
+                                style: TextStyle(color: Colors.red),
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                            new FlatButton(
+                              child: new Text(
+                                "Confirmar",
+                                style: TextStyle(color: Colors.green),
+                              ),
+                              onPressed: () {
+                                _insertDireccion(
+                                    call, ciu, tel1, cp1, apa, inst);
+                                setState(() {});
+                                Navigator.of(context).pop();
+                                Navigator.push(
+                                    context,
+                                    new MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            new Preparing(
+                                              negocio: Users(
+                                                  widget.ubicacion.correo),
+                                            )));
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
                   }
                 },
                 color: Colors.green,
                 textColor: Colors.white,
                 child: Text(
-                  'Confirmar dirección',
+                  'Guardar dirección',
                   style: TextStyle(fontSize: 20),
                 ),
               ),

@@ -13,6 +13,8 @@ import 'package:cabofind/utilidades/classes.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import 'list_manejador_menus.dart';
+
 //import 'reseña_insert.dart';
 
 class Menu_detalle extends StatefulWidget {
@@ -198,6 +200,7 @@ class Detalles extends State<Menu_detalle> {
         itemCount: dataneg == null ? 0 : dataneg.length,
         itemBuilder: (BuildContext context, int index) {
           var suma = double.parse(dataneg[index]["MENU_COSTO"]);
+          // String idnx = dataneg[index]["ID_NEGOCIO"];
           _costocu = suma;
 
           idn = widget.menu.id_n;
@@ -333,18 +336,23 @@ class Detalles extends State<Menu_detalle> {
             actions: <Widget>[
               // usually buttons at the bottom of the dialog
               new FlatButton(
-                child: new Text("Cerrar"),
+                child: new Text("Seguir ordenando"),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
               ),
               new FlatButton(
-                child: new Text("Confirmar"),
+                child: new Text("Pagar"),
                 onPressed: () {
                   String notax = controller.text;
                   _insertPedidoSingle(_counter, _costocu, notax, _extras1,
                       _extras2, _suma_ex, _suma_ex2);
                   Navigator.of(context).pop();
+                  Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              new Menu_manejador(manejador: new Users(idn))));
                 },
               ),
             ],

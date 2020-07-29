@@ -75,11 +75,14 @@ class Carritox extends StatefulWidget {
 }
 
 class _UsuarioState extends State<Carritox> {
+  final _formKey = GlobalKey<FormState>();
   List data;
   List ext;
   String id_extra;
   double envio = 30.0;
   double total = 0;
+  String ciudad;
+  String idx;
 
   DateFormat dateFormat;
   double tiempoprep;
@@ -89,6 +92,7 @@ class _UsuarioState extends State<Carritox> {
   int tiempptxt = 0;
   int secs = 60;
   var listy = 0;
+  String valpago;
   TextEditingController cupon = TextEditingController();
 
   Future<Map> _check() async {
@@ -120,6 +124,15 @@ class _UsuarioState extends State<Carritox> {
         "http://cabofind.com.mx/app_php/APIs/esp/delete_pedidos_api.php?IDP=${id}");
   }
 
+  Future<String> _confirmarOrden(String pago) async {
+    final SharedPreferences login = await SharedPreferences.getInstance();
+    String _mail2 = "";
+    _mail2 = login.getString("stringMail");
+
+    http.Response response = await http.get(
+        "http://cabofind.com.mx/app_php/APIs/esp/insert_carrito_all.php?IDP=${idx}&IDN=${widget.negocio.correo}&CORREO=$_mail2&FORMA=${pago}");
+  }
+
   _getCurrentLocation(double latn, double longn, double tiempo) async {
     geo.Position position = await geo.Geolocator()
         .getCurrentPosition(desiredAccuracy: geo.LocationAccuracy.best);
@@ -137,6 +150,11 @@ class _UsuarioState extends State<Carritox> {
     List<dynamic> data = map["rows"];
     print(data[0]['elements'][0]['distance']['text']);
     print(data[0]['elements'][0]['duration']['value']);
+
+    var addresses =
+        await Geocoder.local.findAddressesFromCoordinates(coordinates);
+    var ciudad2 = addresses.first.locality; //= ciudad
+    ciudad = ciudad2;
 
     tiempox = data[0]['elements'][0]['duration']['value'];
 
@@ -249,6 +267,7 @@ class _UsuarioState extends State<Carritox> {
                           itemCount: data == null ? 0 : data.length,
                           itemBuilder: (BuildContext context, int index) {
                             String idx = data[index]["ID_PEDIDOS"];
+                            String idn = data[index]["ID_NEGOCIO"];
                             var latx = double.parse(data[0]["NEG_MAP_LAT"]);
                             var longx = double.parse(data[0]["NEG_MAP_LONG"]);
                             tiempoprep =
@@ -301,9 +320,17 @@ class _UsuarioState extends State<Carritox> {
                                                       ),
                                                       onPressed: () {
                                                         _eliminarItem(idx);
-                                                        setState(() {});
+                                                        _cargarPedido();
                                                         Navigator.of(context)
                                                             .pop();
+                                                        /*  Navigator.pushReplacement(
+                                                      context,
+                                                      new MaterialPageRoute(
+                                                          builder: (BuildContext
+                                                                  context) =>
+                                                              new Carritox(
+                                                                  negocio:
+                                                                      new Users(idn))));*/
                                                       },
                                                     ),
                                                   ],
@@ -499,7 +526,9 @@ class _UsuarioState extends State<Carritox> {
                           Navigator.push(
                               context,
                               new MaterialPageRoute(
-                                  builder: (context) => new Mi_direccion()));
+                                  builder: (context) => new Mi_direccion(
+                                        ubicacion: Users(widget.negocio.correo),
+                                      )));
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -524,19 +553,56 @@ class _UsuarioState extends State<Carritox> {
                     } else {
                       total =
                           envio + double.parse(data[0]["Total"]); //suma totalx
-                      return snapshot.data['DIC_CIUDAD'] == 'Cabo San Lucas'
-                          ? Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                InkWell(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        new MaterialPageRoute(
-                                            builder: (context) =>
-                                                new Mi_direccion()));
-                                  },
-                                  child: Row(
+                      return ciudad == 'Cabo San Lucas'
+                          ? Form(
+                              key: _formKey,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          new MaterialPageRoute(
+                                              builder: (context) =>
+                                                  new Mi_direccion(
+                                                    ubicacion: Users(
+                                                        widget.negocio.correo),
+                                                  )));
+                                    },
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Container(
+                                            margin: EdgeInsets.only(left: 10),
+                                            padding: EdgeInsets.all(10),
+                                            child: Text(
+                                              'Dirección',
+                                              style: TextStyle(
+                                                fontSize: 18,
+                                              ),
+                                            )),
+                                        Flexible(
+                                          child: Text(
+                                            snapshot.data['DIC_CALLE'],
+                                            style: TextStyle(
+                                                color: Colors.green,
+                                                fontWeight: FontWeight.bold),
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ),
+                                        Container(
+                                            margin: EdgeInsets.only(right: 10),
+                                            child: Icon(
+                                              FontAwesomeIcons.check,
+                                              color: Colors.green,
+                                              size: 18,
+                                            )),
+                                      ],
+                                    ),
+                                  ),
+                                  Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
@@ -544,171 +610,197 @@ class _UsuarioState extends State<Carritox> {
                                           margin: EdgeInsets.only(left: 10),
                                           padding: EdgeInsets.all(10),
                                           child: Text(
-                                            'Dirección',
+                                            'Comisión por entrega',
                                             style: TextStyle(
                                               fontSize: 18,
                                             ),
                                           )),
-                                      Text(snapshot.data['DIC_CALLE'],
-                                          style: TextStyle(
-                                              color: Colors.green,
-                                              fontWeight: FontWeight.bold)),
                                       Container(
-                                          margin: EdgeInsets.only(right: 10),
-                                          child: Icon(
-                                            FontAwesomeIcons.check,
-                                            color: Colors.green,
-                                            size: 18,
-                                          )),
+                                          margin: EdgeInsets.only(left: 10),
+                                          padding: EdgeInsets.all(10),
+                                          child: Text(
+                                            '\$' + envio.toString(),
+                                            style: TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.bold),
+                                          ))
                                     ],
                                   ),
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    Container(
-                                        margin: EdgeInsets.only(left: 10),
-                                        padding: EdgeInsets.all(10),
-                                        child: Text(
-                                          'Comisión por entrega',
-                                          style: TextStyle(
-                                            fontSize: 18,
-                                          ),
-                                        )),
-                                    Container(
-                                        margin: EdgeInsets.only(left: 10),
-                                        padding: EdgeInsets.all(10),
-                                        child: Text(
-                                          '\$' + envio.toString(),
-                                          style: TextStyle(
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Container(
+                                          margin: EdgeInsets.only(left: 10),
+                                          padding: EdgeInsets.all(10),
+                                          child: Text(
+                                            'Tiempo de entrega ',
+                                            style: TextStyle(
                                               fontSize: 18,
-                                              fontWeight: FontWeight.bold),
-                                        ))
-                                  ],
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    Container(
-                                        margin: EdgeInsets.only(left: 10),
-                                        padding: EdgeInsets.all(10),
-                                        child: Text(
-                                          'Tiempo de entrega ',
-                                          style: TextStyle(
+                                            ),
+                                          )),
+                                      Container(
+                                          margin: EdgeInsets.only(left: 10),
+                                          padding: EdgeInsets.all(10),
+                                          child: Text(
+                                            tiempptxt.toString() + ' Minutos',
+                                            style: TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.bold),
+                                          ))
+                                    ],
+                                  ),
+                                  Divider(
+                                    thickness: 2,
+                                  ),
+                                  Container(
+                                      margin: EdgeInsets.only(left: 10),
+                                      padding: EdgeInsets.all(10),
+                                      child: Text(
+                                        '¿Cupón de descuento?',
+                                        style: TextStyle(
                                             fontSize: 18,
-                                          ),
-                                        )),
-                                    Container(
-                                        margin: EdgeInsets.only(left: 10),
-                                        padding: EdgeInsets.all(10),
-                                        child: Text(
-                                          tiempptxt.toString() + ' Minutos',
-                                          style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold),
-                                        ))
-                                  ],
-                                ),
-                                Divider(
-                                  thickness: 2,
-                                ),
-                                Container(
-                                    margin: EdgeInsets.only(left: 10),
-                                    padding: EdgeInsets.all(10),
-                                    child: Text(
-                                      '¿Cupón de descuento?',
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold),
-                                    )),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    Container(
+                                            fontWeight: FontWeight.bold),
+                                      )),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Container(
+                                          margin: EdgeInsets.only(left: 10),
+                                          padding: EdgeInsets.all(10),
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              1.4,
+                                          child: TextField(
+                                            readOnly: true,
+                                            controller: cupon,
+                                            enabled: true,
+                                            decoration: InputDecoration(
+                                                focusColor: Color(0xffD3D7D6),
+                                                hoverColor: Color(0xffD3D7D6),
+                                                hintText:
+                                                    'Ingresa un cupon válido'),
+                                          )),
+                                      Container(
+                                          margin: EdgeInsets.only(right: 10),
+                                          padding: EdgeInsets.all(1),
+                                          child: FlatButton(
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          5.0),
+                                                  side: BorderSide(
+                                                      color:
+                                                          Color(0xffD3D7D6))),
+                                              onPressed: () {},
+                                              child: Text('Check')))
+                                    ],
+                                  ),
+                                  Container(
+                                      margin: EdgeInsets.only(left: 10),
+                                      padding: EdgeInsets.all(10),
+                                      child: Text(
+                                        'Forma de pago',
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold),
+                                      )),
+                                  Row(
+                                    children: <Widget>[
+                                      Container(
                                         margin: EdgeInsets.only(left: 10),
                                         padding: EdgeInsets.all(10),
                                         width:
                                             MediaQuery.of(context).size.width /
                                                 1.4,
-                                        child: TextField(
-                                          readOnly: true,
-                                          controller: cupon,
-                                          enabled: true,
-                                          decoration: InputDecoration(
-                                              focusColor: Color(0xffD3D7D6),
-                                              hoverColor: Color(0xffD3D7D6),
-                                              hintText:
-                                                  'Ingresa un cupon válido'),
-                                        )),
-                                    Container(
-                                        margin: EdgeInsets.only(right: 10),
-                                        padding: EdgeInsets.all(1),
-                                        child: FlatButton(
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(5.0),
-                                                side: BorderSide(
-                                                    color: Color(0xffD3D7D6))),
-                                            onPressed: () {},
-                                            child: Text('Check')))
-                                  ],
-                                ),
-                                Container(
-                                  //color: Color(0xffD3D7D6),
-                                  margin: EdgeInsets.only(left: 50, right: 50),
-                                  decoration: BoxDecoration(
-                                    color: Color(0xffD3D7D6),
-                                    shape: BoxShape.rectangle,
-                                    borderRadius: BorderRadius.circular(5.0),
-                                    //  border: Border.all(width: 1, color: Color(0xffD3D7D6))
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: <Widget>[
-                                      Container(
-                                        margin: EdgeInsets.only(left: 10),
-                                        padding: EdgeInsets.all(10),
-                                        child: Text(
-                                          'Total',
-                                          style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ),
-                                      Container(
-                                        margin: EdgeInsets.only(right: 10),
-                                        padding: EdgeInsets.all(10),
-                                        child: Text(
-                                          '\$' + total.toString(),
-                                          style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold),
+                                        child: DropdownButtonFormField<String>(
+                                          items: [
+                                            DropdownMenuItem<String>(
+                                              child: Text('Efectivo'),
+                                              value: 'Efectivo',
+                                            ),
+                                            /*  DropdownMenuItem<String>(
+                                              child: Text('Tarjeta'),
+                                              value: null,
+
+                                            ),*/
+                                          ],
+                                          onChanged: (String value) {
+                                            setState(() {
+                                              valpago = value;
+                                            });
+                                          },
+                                          hint:
+                                              Text('Selecciona forma de pago'),
+                                          value: valpago,
+                                          validator: (value) => value == null
+                                              ? 'Campo requerido'
+                                              : null,
                                         ),
                                       )
                                     ],
                                   ),
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Container(
-                                  height: 50,
-                                  width: MediaQuery.of(context).size.width,
-                                  child: RaisedButton(
-                                    onPressed: () {},
-                                    color: Colors.green,
-                                    textColor: Colors.white,
-                                    child: Text(
-                                      'Confirmar orden',
-                                      style: TextStyle(fontSize: 20),
+                                  Container(
+                                    //color: Color(0xffD3D7D6),
+                                    margin:
+                                        EdgeInsets.only(left: 50, right: 50),
+                                    decoration: BoxDecoration(
+                                      color: Color(0xffD3D7D6),
+                                      shape: BoxShape.rectangle,
+                                      borderRadius: BorderRadius.circular(5.0),
+                                      //  border: Border.all(width: 1, color: Color(0xffD3D7D6))
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Container(
+                                          margin: EdgeInsets.only(left: 10),
+                                          padding: EdgeInsets.all(10),
+                                          child: Text(
+                                            'Total',
+                                            style: TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                        Container(
+                                          margin: EdgeInsets.only(right: 10),
+                                          padding: EdgeInsets.all(10),
+                                          child: Text(
+                                            '\$' + total.toString(),
+                                            style: TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        )
+                                      ],
                                     ),
                                   ),
-                                ),
-                              ],
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Container(
+                                    height: 50,
+                                    width: MediaQuery.of(context).size.width,
+                                    child: RaisedButton(
+                                      onPressed: () {
+                                        if (_formKey.currentState.validate()) {
+                                          _confirmarOrden(valpago);
+                                        }
+                                      },
+                                      color: Colors.green,
+                                      textColor: Colors.white,
+                                      child: Text(
+                                        'Confirmar orden',
+                                        style: TextStyle(fontSize: 20),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             )
                           : Column(
                               children: <Widget>[
@@ -717,8 +809,11 @@ class _UsuarioState extends State<Carritox> {
                                     Navigator.push(
                                         context,
                                         new MaterialPageRoute(
-                                            builder: (BuildContext context) =>
-                                                new Mi_direccion()));
+                                            builder: (context) =>
+                                                new Mi_direccion(
+                                                  ubicacion: Users(
+                                                      widget.negocio.correo),
+                                                )));
                                   },
                                   child: Row(
                                     mainAxisAlignment:

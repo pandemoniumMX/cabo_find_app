@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 
 import 'package:cabofind/main_esp.dart';
@@ -17,115 +16,100 @@ import 'package:url_launcher/url_launcher.dart';
 import '../main.dart';
 
 class Login extends StatefulWidget {
-@override
-_Compras createState() => new _Compras();}
+  @override
+  _Compras createState() => new _Compras();
+}
 
 class _Compras extends State<Login> {
-bool isLoggedIn=false;
-final GlobalKey<State> _keyLoader = new GlobalKey<State>();
-void initState() {
-
-  //sesionLog();
-  super.initState();
-}
-
-Future<bool>  sesionLog() async {
-  
- final SharedPreferences login = await SharedPreferences.getInstance();
- String _status = "";
- String _mail ="";
- _status = login.getString("stringLogin")?? '';
- _mail = login.getString("stringMail")?? '';
- bool checkValue = login.containsKey('value');
- return checkValue = login.containsKey('stringLogin');
- print(checkValue);
- print(_status);
- print(_mail);
- 
-  // if (prefs.getString(_idioma) ?? 'stringValue' == "espanol")
-  if (_status == "True") {
-      print("Sesión ya iniciada");
-    
-    }
-    else
-    {
-     print("Sesión no iniciada");
-     
+  bool isLoggedIn = false;
+  final GlobalKey<State> _keyLoader = new GlobalKey<State>();
+  void initState() {
+    //sesionLog();
+    super.initState();
   }
-  http.Response response = await http.get("http://api.openrates.io/latest");
-  return json.decode(response.body);
-}
-  
 
-@override
-Widget build(BuildContext context) {
-  return new Scaffold(    
-    body: FutureBuilder(
-         future: sesionLog(),
-         builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-           if (snapshot.hasData) {
-             return snapshot.data ?  Usuario(usuarios: new Users("testing@gmail.com")) : Login2();
-           }
-           return Login2(); // noop, this builder is called again when the future completes
-         },
-       )
-    );
+  Future<bool> sesionLog() async {
+    final SharedPreferences login = await SharedPreferences.getInstance();
+    String _status = "";
+    String _mail = "";
+    _status = login.getString("stringLogin") ?? '';
+    _mail = login.getString("stringMail") ?? '';
+    bool checkValue = login.containsKey('value');
+    return checkValue = login.containsKey('stringLogin');
+    print(checkValue);
+    print(_status);
+    print(_mail);
+
+    // if (prefs.getString(_idioma) ?? 'stringValue' == "espanol")
+    if (_status == "True") {
+      print("Sesión ya iniciada");
+    } else {
+      print("Sesión no iniciada");
     }
+    http.Response response = await http.get("http://api.openrates.io/latest");
+    return json.decode(response.body);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+        body: FutureBuilder(
+      future: sesionLog(),
+      builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+        if (snapshot.hasData) {
+          return snapshot.data
+              ? Usuario(usuarios: new Users("testing@gmail.com"))
+              : Login2();
+        }
+        return Login2(); // noop, this builder is called again when the future completes
+      },
+    ));
+  }
 }
-
-
 
 class Usuario extends StatefulWidget {
   final Users usuarios;
-  
-  Usuario({Key key, @required this.usuarios}) : super(
-    key: key);
+
+  Usuario({Key key, @required this.usuarios}) : super(key: key);
   @override
   _UsuarioState createState() => _UsuarioState();
 }
 
-
-
 class _UsuarioState extends State<Usuario> {
-
-  void initState(){
+  void initState() {
     super.initState();
-
-    
-
   }
 
   Future<Map> _loadUser() async {
-final SharedPreferences login = await SharedPreferences.getInstance();
- String _status = "";
- String _mail ="";
- String _mail2 ="";
-String _idusu="";  _status = login.getString("stringLogin");
- _mail2 = login.getString("stringMail"); 
- 
- //_mail = "testing@gmail.com";
- print(_mail2) ;
-  http.Response response = await http.get("http://cabofind.com.mx/app_php/APIs/esp/list_usuarios_api.php?CORREO=$_mail2");
-  //http.Response response = await http.get("http://cabofind.com.mx/app_php/APIs/esp/list_usuarios_api.php");
-  return json.decode(response.body);
-}
+    final SharedPreferences login = await SharedPreferences.getInstance();
+    String _status = "";
+    String _mail = "";
+    String _mail2 = "";
+    String _idusu = "";
+    _status = login.getString("stringLogin");
+    _mail2 = login.getString("stringMail");
 
-Future<Map> _cerrarsesion() async {
-final SharedPreferences login = await SharedPreferences.getInstance();
+    //_mail = "testing@gmail.com";
+    print(_mail2);
+    http.Response response = await http.get(
+        "http://cabofind.com.mx/app_php/APIs/esp/list_usuarios_api.php?CORREO=$_mail2");
+    //http.Response response = await http.get("http://cabofind.com.mx/app_php/APIs/esp/list_usuarios_api.php");
+    return json.decode(response.body);
+  }
+
+  Future<Map> _cerrarsesion() async {
+    final SharedPreferences login = await SharedPreferences.getInstance();
 //login.setString('stringLogin', "False");
-login.clear();
+    login.clear();
 //login.setString('stringLogin', "True");
-Navigator.pushReplacement(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (BuildContext context) => new Myapp1()
-                        )
-                        );
- 
-}
+    Navigator.pushReplacement(context,
+        new MaterialPageRoute(builder: (BuildContext context) => new Myapp1()));
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(/*
+    return Scaffold(
+        /*
       appBar: AppBar(
 
         automaticallyImplyLeading: true,
@@ -139,320 +123,327 @@ Navigator.pushReplacement(
         title:  Text("Perfil",style: TextStyle(fontSize:40, color: Colors.white,fontWeight: FontWeight.bold ),)
         
       ),*/
-      body: Container(
-        decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topRight,
-          end: Alignment.bottomLeft,
-          
-        colors: [
-          Color(0xff01969a),
-          Color(0xffAEDEDF)
-          
-        ])),
-        child: FutureBuilder(
+        body: Container(
+      decoration: BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+              colors: [Color(0xff01969a), Color(0xffAEDEDF)])),
+      child: FutureBuilder(
           future: _loadUser(),
           builder: (context, snapshot) {
-            String boolAsString =snapshot.data["USU_NOTIFICACIONES"];
+            String boolAsString = snapshot.data["USU_NOTIFICACIONES"];
             bool isSwitched = boolAsString == 'true';
             // bool isSwitched = snapshot.data["USU_NOTIFICACIONES"];
-              switch (snapshot.connectionState) {
-                
-                case ConnectionState.none:
-                case ConnectionState.waiting:
-                return Center(
-                      child: CircularProgressIndicator()
-                  );
-                default:
-                  if (snapshot.hasError) {
-                    return Center(
-                        child: Text(
-                      "Error :(",
-                      style: TextStyle(color: Color(0xff01969a),  fontSize: 25.0),
-                      textAlign: TextAlign.center,
-                    ));
-                  } else {
-                    return ListView(
-                      children: <Widget>[
-                        Container(
-                          padding: const EdgeInsets.all(10),
-                          child: Column(
-                          
-                          children: <Widget>[
-
-                              Row(
+            switch (snapshot.connectionState) {
+              case ConnectionState.none:
+              case ConnectionState.waiting:
+                return Center(child: CircularProgressIndicator());
+              default:
+                if (snapshot.hasError) {
+                  return Center(
+                      child: Text(
+                    "Error :(",
+                    style: TextStyle(color: Color(0xff01969a), fontSize: 25.0),
+                    textAlign: TextAlign.center,
+                  ));
+                } else {
+                  return ListView(
+                    children: <Widget>[
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        child: Column(children: <Widget>[
+                          Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
-                                Text("Perfil",style: TextStyle(fontSize:40, color: Colors.white,fontWeight: FontWeight.bold ),),
-                                
-                                ]),
-                                
-
-                              Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                
-                              Text("Nombre:",style: TextStyle(fontSize:25, color: Colors.white ),),
-                              Text(snapshot.data["USU_NOMBRE"],style: TextStyle(fontSize:25, color: Colors.white, ),)
-                             
-                              
+                                Text(
+                                  "Perfil",
+                                  style: TextStyle(
+                                      fontSize: 40,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                ),
                               ]),
-                              SizedBox(height:15.0),
 
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                              
-                              Text("Correo:",style: TextStyle(fontSize:25, color: Colors.white ),),
-                              Text(snapshot.data["USU_CORREO"],style: TextStyle(fontSize:25, color: Colors.white ),),
-                              
-                              ]),
-                               SizedBox(height:15.0), 
-                              Row(
+                          Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
-                                Text("Mis favoritos",style: TextStyle(fontSize:40, color: Colors.white,fontWeight: FontWeight.bold ),),
-                                
-                                ]), 
-                              RaisedButton(
-                                onPressed: (){
+                                Text(
+                                  "Nombre:",
+                                  style: TextStyle(
+                                      fontSize: 25, color: Colors.white),
+                                ),
+                                Text(
+                                  snapshot.data["USU_NOMBRE"],
+                                  style: TextStyle(
+                                    fontSize: 25,
+                                    color: Colors.white,
+                                  ),
+                                )
+                              ]),
+                          SizedBox(height: 15.0),
+
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text(
+                                  "Correo:",
+                                  style: TextStyle(
+                                      fontSize: 25, color: Colors.white),
+                                ),
+                                Text(
+                                  snapshot.data["USU_CORREO"],
+                                  style: TextStyle(
+                                      fontSize: 25, color: Colors.white),
+                                ),
+                              ]),
+                          SizedBox(height: 15.0),
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text(
+                                  "Mis favoritos",
+                                  style: TextStyle(
+                                      fontSize: 40,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ]),
+                          RaisedButton(
+                              onPressed: () {
                                 Navigator.push(
-                                context,
-                                new MaterialPageRoute(
-                                    builder: (BuildContext context) => Mis_favoritos()
-                                    )
-                                    ); 
-                                },  
-                                shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
-                                color: Color(0xffED393A), 
-                                child: new Row (
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          mainAxisSize: MainAxisSize.min,
+                                    context,
+                                    new MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            Mis_favoritos()));
+                              },
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(40.0)),
+                              color: Color(0xffED393A),
+                              child: new Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  new Text('Ver mis negocios guardados',
+                                      style: TextStyle(
+                                          fontSize: 20, color: Colors.white)),
+                                  new Icon(
+                                    FontAwesomeIcons.solidHeart,
+                                    color: Colors.white,
+                                  )
+                                ],
+                              )),
 
-                                          children: <Widget>[
-                                            new Text('Ver mis negocios guardados', style: TextStyle(fontSize: 20, color: Colors.white)), 
-                                            new Icon(FontAwesomeIcons.solidHeart, color: Colors.white,)
-                                          ],
-                                        )
-                              ),   
-
-                              Row(
+                          Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
-                                Text("Mis promos ",style: TextStyle(fontSize:40, color: Colors.white,fontWeight: FontWeight.bold ),),
-                                
-                                ]), 
-                                
-                              RaisedButton(
-                                onPressed: (){
-                                Navigator.push(
-                                context,
-                                new MaterialPageRoute(
-                                    builder: (BuildContext context) => Mis_promos()
-                                    )
-                                    ); 
-                                },  
-                                shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
-                                color: Color(0xffF4A32C),
-                                child: new Row (
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          mainAxisSize: MainAxisSize.min,
-
-                                          children: <Widget>[
-                                            new Text('Ver mis promos guardadas ', style: TextStyle(fontSize: 20, color: Colors.white)), 
-                                            new Icon(FontAwesomeIcons.fire, color: Colors.white,)
-                                          ],
-                                        )
-                              ),   
-                                    ///config
-                              Row(
-                                
-                              children: <Widget>[
-                                Text("Configuración",style: TextStyle(fontSize:40, color: Colors.white,fontWeight: FontWeight.bold ),),]),
-
-                                Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                              Text("Notificaciones:",style: TextStyle(fontSize:25, color: Colors.white ),),
-                              Switch(
-                                value: isSwitched,
-                                onChanged: (value) {
-                                  setState(() {
-                                    isSwitched = value;
-                                    print(isSwitched);
-                                  });
-                                },
-                                activeTrackColor: Colors.lightGreenAccent,
-                                activeColor: Colors.green,
-                              ),
-                              
+                                Text(
+                                  "Mis promos ",
+                                  style: TextStyle(
+                                      fontSize: 40,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                ),
                               ]),
 
-                              Center(
-                                child: RaisedButton(
-                                onPressed: (){
-                                _cerrarsesion();
-                                },  
-                                shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
-                                color: Colors.red,  
-                                child: new Row (
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          mainAxisSize: MainAxisSize.min,
+                          RaisedButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    new MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            Mis_promos()));
+                              },
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(40.0)),
+                              color: Color(0xffF4A32C),
+                              child: new Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  new Text('Ver mis promos guardadas ',
+                                      style: TextStyle(
+                                          fontSize: 20, color: Colors.white)),
+                                  new Icon(
+                                    FontAwesomeIcons.fire,
+                                    color: Colors.white,
+                                  )
+                                ],
+                              )),
 
-                                          children: <Widget>[
-                                            new Text('Cerrar sesión', style: TextStyle(fontSize: 20, color: Colors.white)), 
-                                            new Icon(FontAwesomeIcons.signOutAlt, color: Colors.white,)
-                                          ],
-                                        )
-                              ),
-                              )
-
-                                
-                              
-                              
-                            ]),
-                            
-                            
+                          ///config
+                          Row(children: <Widget>[
+                            Text(
+                              "Configuración",
+                              style: TextStyle(
+                                  fontSize: 40,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
                             ),
-                        
-                        
-                      ],
-                    );
-                  }  
-                
-              }
+                          ]),
+
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text(
+                                  "Notificaciones:",
+                                  style: TextStyle(
+                                      fontSize: 25, color: Colors.white),
+                                ),
+                                Switch(
+                                  value: isSwitched,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      isSwitched = value;
+                                      print(isSwitched);
+                                    });
+                                  },
+                                  activeTrackColor: Colors.lightGreenAccent,
+                                  activeColor: Colors.green,
+                                ),
+                              ]),
+
+                          Center(
+                            child: RaisedButton(
+                                onPressed: () {
+                                  _cerrarsesion();
+                                },
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(40.0)),
+                                color: Colors.red,
+                                child: new Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    new Text('Cerrar sesión',
+                                        style: TextStyle(
+                                            fontSize: 20, color: Colors.white)),
+                                    new Icon(
+                                      FontAwesomeIcons.signOutAlt,
+                                      color: Colors.white,
+                                    )
+                                  ],
+                                )),
+                          )
+                        ]),
+                      ),
+                    ],
+                  );
+                }
+            }
           }),
-      )
-    );
+    ));
   }
 }
-
 
 class Login2 extends StatefulWidget {
-@override
-_Compras2 createState() => new _Compras2();}
-
-class _Compras2 extends State<Login2> {
-bool isLoggedIn=false;
-final GlobalKey<State> _keyLoader = new GlobalKey<State>();
-void initState() {
-
-  //sesionLog(context);
-  super.initState();
+  @override
+  _Compras2 createState() => new _Compras2();
 }
 
-addLoginFB(FacebookLoginResult result) async {
-  
-final SharedPreferences login = await SharedPreferences.getInstance();
-  final token = result.accessToken.token;
-final graphResponse = await http.get(
-            'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,picture,email&access_token=${token}');
-final profile = json.decode(graphResponse.body);
- print(profile[ 'email'],);
- print(profile[ 'last_name'],);
+class _Compras2 extends State<Login2> {
+  bool isLoggedIn = false;
+  final GlobalKey<State> _keyLoader = new GlobalKey<State>();
+  void initState() {
+    //sesionLog(context);
+    super.initState();
+  }
+
+  addLoginFB(FacebookLoginResult result) async {
+    final SharedPreferences login = await SharedPreferences.getInstance();
+    final token = result.accessToken.token;
+    final graphResponse = await http.get(
+        'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,picture,email&access_token=${token}');
+    final profile = json.decode(graphResponse.body);
+    print(
+      profile['email'],
+    );
+    print(
+      profile['last_name'],
+    );
 //final pictures= profile[ 'picture']["data"]["url"];
-final id= profile['id'];
-final correofb= profile['email'];
-final nombresfb= profile['first_name'];
-final apellidosfb= profile['last_name'];
-final imagenfb = profile[ 'picture']["data"]["url"];
+    final id = profile['id'];
+    final correofb = profile['email'];
+    final nombresfb = profile['first_name'];
+    final apellidosfb = profile['last_name'];
+    final imagenfb = profile['picture']["data"]["url"];
 
-	login.setString('stringLogin', "True");
-  login.setString('stringMail', correofb);
+    login.setString('stringLogin', "True");
+    login.setString('stringMail', correofb);
 
-var response = await http.get(
+    var response = await http.get(
         Uri.encodeFull(
-            'http://cabofind.com.mx/app_php/APIs/esp/insert_usuarios.php?NOMBRE=${nombresfb },${apellidosfb}&CORREO=${correofb}&FOTO=${imagenfb}&NOT=true&IDIOMA=ESP'),
+            'http://cabofind.com.mx/app_php/APIs/esp/insert_usuarios.php?NOMBRE=${nombresfb},${apellidosfb}&CORREO=${correofb}&FOTO=${imagenfb}&NOT=true&IDIOMA=ESP'),
+        headers: {"Accept": "application/json"});
 
-        headers: {
-          "Accept": "application/json"
-        }
-    );   
+    Navigator.pushReplacement(context,
+        new MaterialPageRoute(builder: (BuildContext context) => new Myapp()));
+  }
 
-  Navigator.pushReplacement(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (BuildContext context) => new Myapp()
-                        )
-                        );
-  }  
+  addLoginG(FirebaseUser user, name, email, imageUrl) async {
+    final SharedPreferences login = await SharedPreferences.getInstance();
 
-  addLoginG(FirebaseUser user,name,email, imageUrl) async {
-  final SharedPreferences login = await SharedPreferences.getInstance();
+    final correofb = user.email;
+    final nombre = user.displayName;
+    final foto = user.photoUrl;
 
-  final correofb = user.email;
-  final nombre = user.displayName;
-  final foto = user.photoUrl;
+    final names = name;
+    final correo = email;
+    final picture = imageUrl;
 
-  final names = name;
-  final correo = email;
-  final picture = imageUrl;
-  
+    login.setString('stringLogin', "True");
+    login.setString('stringMail', correofb);
 
-	login.setString('stringLogin', "True");
-  login.setString('stringMail', correofb);
-
-  var response = await http.get(
+    var response = await http.get(
         Uri.encodeFull(
             'http://cabofind.com.mx/app_php/APIs/esp/insert_usuarios.php?NOMBRE=${names}&CORREO=${correo}&FOTO=${picture}&NOT=true&IDIOMA=ESP'),
+        headers: {"Accept": "application/json"});
 
-        headers: {
-          "Accept": "application/json"
-        }
-    );  
-
-  Navigator.pushReplacement(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (BuildContext context) => new Usuario(usuarios: new Users(correofb))
-                        )
-                        );
-
-  } 
+    Navigator.pushReplacement(
+        context,
+        new MaterialPageRoute(
+            builder: (BuildContext context) =>
+                new Usuario(usuarios: new Users(correofb))));
+  }
 
   addlogin() async {
-  final SharedPreferences login = await SharedPreferences.getInstance();
+    final SharedPreferences login = await SharedPreferences.getInstance();
 
-  final correog = "tesging2";
+    final correog = "tesging2";
 
-	login.setString('stringLogin', "True");
-  login.setString('stringMail', "testing@gmail.com");
-  
-  Navigator.pushReplacement(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (BuildContext context) => new Myapp()
-                        )
-                        );
+    login.setString('stringLogin', "True");
+    login.setString('stringMail', "testing@gmail.com");
 
-  } 
+    Navigator.pushReplacement(context,
+        new MaterialPageRoute(builder: (BuildContext context) => new Myapp()));
+  }
 
   borrarsesion() async {
-  final SharedPreferences login = await SharedPreferences.getInstance();
-  //login.setString('stringLogin', "False");
-  //login.remove("stringLogin");
-  //login.remove("stringMail");
-  login.clear();
-
-  } 
-void signInWithFacebook() async{
-  var login = FacebookLogin();
-  var result = await login.logIn(['email']);
-  switch(result.status){
-    case FacebookLoginStatus.error:
-    print("Surgio un error");
-    break;
-    case FacebookLoginStatus.cancelledByUser:
-    print("Cancelado por el usuario");
-    break;
-    case FacebookLoginStatus.loggedIn:
-    onLoginStatusChange(true);
-
-    addLoginFB(result);
-
-      
+    final SharedPreferences login = await SharedPreferences.getInstance();
+    //login.setString('stringLogin', "False");
+    //login.remove("stringLogin");
+    //login.remove("stringMail");
+    login.clear();
   }
-}/*
+
+  void signInWithFacebook() async {
+    var login = FacebookLogin();
+    var result = await login.logIn(['email']);
+    switch (result.status) {
+      case FacebookLoginStatus.error:
+        print("Surgio un error");
+        break;
+      case FacebookLoginStatus.cancelledByUser:
+        print("Cancelado por el usuario");
+        break;
+      case FacebookLoginStatus.loggedIn:
+        onLoginStatusChange(true);
+
+        addLoginFB(result);
+    }
+  }
+
+  /*
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final GoogleSignIn googleSignIn = GoogleSignIn();
 
@@ -499,68 +490,89 @@ Future<String> signInWithGoogle() async {
 
   
 }  */
-void onLoginStatusChange(bool isLoggedIn){
-  setState(() {
-   this.isLoggedIn=isLoggedIn; 
-   
-  });
-}
-_launchURL() async {
-  const url = 'http://cabofind.com.mx/admin/politicas.html';
-  if (await canLaunch(url)) {
-    await launch(url);
-  } else {
-    throw 'Could not launch $url';
+  void onLoginStatusChange(bool isLoggedIn) {
+    setState(() {
+      this.isLoggedIn = isLoggedIn;
+    });
   }
-}
 
-@override
-Widget build(BuildContext context) {
+  _launchURL() async {
+    const url = 'http://cabofind.com.mx/admin/politicas.html';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
 
-  
-  
-
-  return new Scaffold(    
-    
-    body: Container(
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+        body: Container(
       decoration: BoxDecoration(
-  gradient: LinearGradient(
-    begin: Alignment.topRight,
-    end: Alignment.bottomLeft,
-    
-  colors: [
-    Color(0xff01969a),
-    Colors.white,
-    
-  ])),
+          gradient: LinearGradient(
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+              colors: [
+            Color(0xff01969a),
+            Colors.white,
+          ])),
       child: Center(
         child: ListView(
-    shrinkWrap: false,
-    physics: BouncingScrollPhysics(), 
+          shrinkWrap: false,
+          physics: BouncingScrollPhysics(),
           children: <Widget>[
-            Column(children: <Widget>[
-
-              SizedBox(height: 100.0,),
-            ClipRRect(borderRadius: BorderRadius.circular(8.0),child: Image.asset("assets/splash.png",fit: BoxFit.fill,width: 150.0,height: 150.0,)),
-            SizedBox(height: 50.0,),
-            Text("Crea tu cuenta",style: TextStyle(fontSize:25, color: Colors.white,fontWeight: FontWeight.bold ),),
-            Text("Para más beneficios",style: TextStyle(fontSize:25, color: Colors.white,fontWeight: FontWeight.bold ),),
-            RaisedButton(
-                  onPressed: (){
-                  signInWithFacebook();
-                  },  
-                  shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
-                  color: Color(0xff4267b2),  
-                  child: new Row (
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          mainAxisSize: MainAxisSize.min,
-
-                                          children: <Widget>[
-                                            new Text('Sesión con Facebook', style: TextStyle(fontSize: 20, color: Colors.white)), 
-                                            new Icon(FontAwesomeIcons.facebookSquare, color: Colors.white,)
-                                          ],
-                                        )
-                ),/*
+            Column(
+              children: <Widget>[
+                SizedBox(
+                  height: 100.0,
+                ),
+                ClipRRect(
+                    borderRadius: BorderRadius.circular(8.0),
+                    child: Image.asset(
+                      "assets/splash.png",
+                      fit: BoxFit.fill,
+                      width: 150.0,
+                      height: 150.0,
+                    )),
+                SizedBox(
+                  height: 50.0,
+                ),
+                Text(
+                  "Crea tu cuenta",
+                  style: TextStyle(
+                      fontSize: 25,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  "Para más beneficios",
+                  style: TextStyle(
+                      fontSize: 25,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold),
+                ),
+                RaisedButton(
+                    onPressed: () {
+                      signInWithFacebook();
+                    },
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(40.0)),
+                    color: Color(0xff4267b2),
+                    child: new Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        new Text('Sesión con Facebook',
+                            style:
+                                TextStyle(fontSize: 20, color: Colors.white)),
+                        new Icon(
+                          FontAwesomeIcons.facebookSquare,
+                          color: Colors.white,
+                        )
+                      ],
+                    )),
+                /*
             RaisedButton(
                   onPressed: (){signInWithGoogle();},  
                   shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
@@ -575,41 +587,49 @@ Widget build(BuildContext context) {
                                         )
                 ), */
                 RaisedButton(
-                  onPressed: (){addlogin();},  
-                  shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
-                  color: Colors.white,  
-                  child: new Row (
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          mainAxisSize: MainAxisSize.min,
-
-                                          children: <Widget>[
-                                            new Text('Sesión local   ', style: TextStyle(fontSize: 20, color: Colors.red)), 
-                                            new Icon(FontAwesomeIcons.google, color: Colors.red,)
-                                          ],
-                                        )
-                ),
+                    onPressed: () {
+                      addlogin();
+                    },
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(40.0)),
+                    color: Colors.white,
+                    child: new Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        new Text('Sesión local   ',
+                            style: TextStyle(fontSize: 20, color: Colors.red)),
+                        new Icon(
+                          FontAwesomeIcons.google,
+                          color: Colors.red,
+                        )
+                      ],
+                    )),
                 RaisedButton(
-                  onPressed: (){_launchURL();},  
-                  shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
-                  color: Colors.white,  
-                  child: new Row (
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          mainAxisSize: MainAxisSize.min,
-
-                                          children: <Widget>[
-                                            new Text('Políticas de privacidad   ', style: TextStyle(fontSize: 20, color: Colors.black)), 
-                                            new Icon(FontAwesomeIcons.userSecret, color: Colors.black,)
-                                          ],
-                                        )
-                ),
-
-            ],)
-            
-
+                    onPressed: () {
+                      _launchURL();
+                    },
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(40.0)),
+                    color: Colors.white,
+                    child: new Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        new Text('Políticas de privacidad   ',
+                            style:
+                                TextStyle(fontSize: 20, color: Colors.black)),
+                        new Icon(
+                          FontAwesomeIcons.userSecret,
+                          color: Colors.black,
+                        )
+                      ],
+                    )),
+              ],
+            )
           ],
         ),
       ),
-    )
-    );
-    }
+    ));
+  }
 }
