@@ -5,6 +5,7 @@ import 'package:ff_navigation_bar/ff_navigation_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import 'list_manejador_menus.dart';
 import 'menu.dart';
@@ -15,6 +16,8 @@ class Domicilio extends StatefulWidget {
 }
 
 class _DomicilioState extends State<Domicilio> {
+  DateTime now = DateTime.now();
+  DateFormat dateFormat;
   List data;
   int _page = 0;
   int selectedIndex = 0;
@@ -38,6 +41,7 @@ class _DomicilioState extends State<Domicilio> {
     _c = new PageController(
       initialPage: _page,
     );
+    dateFormat = new DateFormat.Hm();
   }
 
   @override
@@ -76,7 +80,17 @@ class _DomicilioState extends State<Domicilio> {
           },
         ),
         appBar: AppBar(
-          title: Text('Comida a domicilio'),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Text('Cabofood'),
+              InkWell(
+                  onTap: () {
+                    setState(() {});
+                  },
+                  child: Icon(FontAwesomeIcons.syncAlt))
+            ],
+          ),
           backgroundColor: Color(0xffFF7864),
         ),
         body: new PageView(
@@ -94,50 +108,126 @@ class _DomicilioState extends State<Domicilio> {
               itemCount: data == null ? 0 : data.length,
               itemBuilder: (BuildContext context, int index) {
                 String id_n = data[index]["ID_NEGOCIO"];
-                print(id_n);
-                return new InkWell(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                new Menu_manejador(
-                                    manejador: new Users(id_n))));
-                  },
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Container(
-                        padding: EdgeInsets.all(5.0),
-                        margin: EdgeInsets.all(5.0),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(10.0),
-                          child: FadeInImage(
-                            image: NetworkImage(data[index]['GAL_FOTO']),
-                            fit: BoxFit.fill,
-                            width: MediaQuery.of(context).size.width,
-                            height: 150,
-                            // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
-                            placeholder:
-                                AssetImage('android/assets/images/loading.gif'),
-                            fadeInDuration: Duration(milliseconds: 200),
-                          ),
+                String hora = data[index]["HOR_APERTURA"];
+                String horaclose = data[index]["HOR_CIERRE"];
+                String formattedTime = DateFormat('kk:mm:ss').format(now);
+                DateTime hora1 = dateFormat.parse(hora);
+                DateTime horacerrar = dateFormat.parse(horaclose);
+                DateTime hora2 =
+                    new DateFormat("kk:mm:ss").parse(formattedTime);
+
+                DateTime apertura2 = new DateFormat("kk:mm:ss").parse(hora);
+                String apertura = DateFormat('kk:mm a').format(hora1);
+                print(hora1);
+                print(formattedTime);
+                return hora1.isBefore(hora2) && horacerrar.isAfter(hora2)
+                    ? new InkWell(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              new MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      new Menu_manejador(
+                                          manejador: new Users(id_n))));
+                        },
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Container(
+                              padding: EdgeInsets.all(5.0),
+                              margin: EdgeInsets.all(5.0),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10.0),
+                                child: FadeInImage(
+                                  image: NetworkImage(data[index]['GAL_FOTO']),
+                                  fit: BoxFit.fill,
+                                  width: MediaQuery.of(context).size.width,
+                                  height: 150,
+                                  // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
+                                  placeholder: AssetImage(
+                                      'android/assets/images/loading.gif'),
+                                  fadeInDuration: Duration(milliseconds: 200),
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 10.0),
+                              child: new Text(data[index]['NEG_NOMBRE'],
+                                  style: new TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.w900,
+                                    //  backgroundColor: Colors.black45
+                                  )),
+                            ),
+                            Divider()
+                          ],
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10.0),
-                        child: new Text(data[index]['NEG_NOMBRE'],
-                            style: new TextStyle(
-                              color: Colors.black,
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.w900,
-                              //  backgroundColor: Colors.black45
-                            )),
-                      ),
-                      Divider()
-                    ],
-                  ),
-                );
+                      )
+                    : new InkWell(
+                        onTap: () {},
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.all(5.0),
+                                  margin: EdgeInsets.all(5.0),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    child: FadeInImage(
+                                      image:
+                                          NetworkImage(data[index]['GAL_FOTO']),
+                                      fit: BoxFit.fill,
+                                      width: MediaQuery.of(context).size.width,
+                                      height: 150,
+                                      // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
+                                      placeholder: AssetImage(
+                                          'android/assets/images/loading.gif'),
+                                      fadeInDuration:
+                                          Duration(milliseconds: 200),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  //  margin: EdgeInsets.all(50),
+                                  height: 50,
+                                  width: 300,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    border: Border.all(
+                                      color: Colors.black26,
+                                    ),
+                                    color: Colors.black26,
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      'Hora de apertura: ' +
+                                          apertura.toString(),
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 20),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 10.0),
+                              child: new Text(data[index]['NEG_NOMBRE'],
+                                  style: new TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.w900,
+                                    //  backgroundColor: Colors.black45
+                                  )),
+                            ),
+                            Divider()
+                          ],
+                        ),
+                      );
+                //  : SizedBox();
               },
             ),
             Center(

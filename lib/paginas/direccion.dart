@@ -87,10 +87,10 @@ class _Mi_direccionState extends State<Mi_direccion> {
       String cp, String ref, String inst) async {
     final SharedPreferences login = await SharedPreferences.getInstance();
     String _mail2 = "";
-    _mail2 = login.getString("stringMail");
+    _mail2 = login.getString("stringID");
 
     http.Response response = await http.get(
-        "http://cabofind.com.mx/app_php/APIs/esp/insert_direccion.php?CORREO=$_mail2&CALLE=${calle}&CIUDAD=${ciudad}&CELULAR=${celular}&CP=${cp}&REF=${ref}&INST=${inst}&LAT=${lat}&LONG=${long}");
+        "http://cabofind.com.mx/app_php/APIs/esp/insert_direccion.php?IDF=$_mail2&CALLE=${calle}&CIUDAD=${ciudad}&CELULAR=${celular}&CP=${cp}&REF=${ref}&INST=${inst}&LAT=${lat}&LONG=${long}");
   }
 
   _onMapCreated(GoogleMapController controller) {

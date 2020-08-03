@@ -126,7 +126,7 @@ class _Menu_majeadorState extends State<Menu_manejador>
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         FadeInImage(
-                          image: NetworkImage(data[index]["GAL_FOTO"]),
+                          image: NetworkImage(data[index]["MENU_FOTO"]),
                           fit: BoxFit.fill,
                           width: 150,
                           height: 150,
@@ -176,20 +176,13 @@ class _Menu_majeadorState extends State<Menu_manejador>
         body: ListView(
           children: [
             FadeInImage(
-              image: NetworkImage(exp[0]['GAL_FOTO']),
+              image: NetworkImage(exp[0]['GAL_FOTO']), //portada
               fit: BoxFit.fill,
               width: MediaQuery.of(context).size.width,
               height: 250,
               // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
               placeholder: AssetImage('android/assets/images/loading.gif'),
               fadeInDuration: Duration(milliseconds: 200),
-            ),
-            Row(
-              children: <Widget>[
-                Column(
-                  children: <Widget>[Text(exp[0]['SUB_MEN_NOMBRE'])],
-                )
-              ],
             ),
             GridView.builder(
               shrinkWrap: true,
@@ -246,12 +239,12 @@ class _Menu_majeadorState extends State<Menu_manejador>
                             softWrap: true,
                           ),
                         ),
-                        Text(
+                        /* Text(
                           '12 PIEZAS',
                           style:
                               TextStyle(fontSize: 15.0, color: Colors.black54),
                           softWrap: true,
-                        ),
+                        ),*/
                         //  Divider()
                       ],
                     ),

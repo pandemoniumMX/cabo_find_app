@@ -87,12 +87,12 @@ class _UsuarioState extends State<Usuario> {
     String _mail2 = "";
     String _idusu = "";
     _status = login.getString("stringLogin");
-    _mail2 = login.getString("stringMail");
+    _mail2 = login.getString("stringID");
 
     //_mail = "testing@gmail.com";
     print(_mail2);
     http.Response response = await http.get(
-        "http://cabofind.com.mx/app_php/APIs/esp/list_usuarios_api.php?CORREO=$_mail2");
+        "http://cabofind.com.mx/app_php/APIs/esp/list_usuarios_api.php?IDF=$_mail2");
     //http.Response response = await http.get("http://cabofind.com.mx/app_php/APIs/esp/list_usuarios_api.php");
     return json.decode(response.body);
   }
@@ -364,16 +364,18 @@ class _Compras2 extends State<Login2> {
 //final pictures= profile[ 'picture']["data"]["url"];
     final id = profile['id'];
     final correofb = profile['email'];
+    final celular = profile['phone'];
     final nombresfb = profile['first_name'];
     final apellidosfb = profile['last_name'];
     final imagenfb = profile['picture']["data"]["url"];
 
     login.setString('stringLogin', "True");
     login.setString('stringMail', correofb);
+    login.setString('stringID', id);
 
     var response = await http.get(
         Uri.encodeFull(
-            'http://cabofind.com.mx/app_php/APIs/esp/insert_usuarios.php?NOMBRE=${nombresfb},${apellidosfb}&CORREO=${correofb}&FOTO=${imagenfb}&NOT=true&IDIOMA=ESP'),
+            'http://cabofind.com.mx/app_php/APIs/esp/insert_usuarios.php?NOMBRE=${nombresfb},${apellidosfb}&CORREO=${correofb}&FOTO=${imagenfb}&NOT=true&IDIOMA=ESP&IDF=${id}'),
         headers: {"Accept": "application/json"});
 
     Navigator.pushReplacement(context,
@@ -413,6 +415,7 @@ class _Compras2 extends State<Login2> {
 
     login.setString('stringLogin', "True");
     login.setString('stringMail', "testing@gmail.com");
+    login.setString('stringID', '54321');
 
     Navigator.pushReplacement(context,
         new MaterialPageRoute(builder: (BuildContext context) => new Myapp()));

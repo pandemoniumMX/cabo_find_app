@@ -641,7 +641,7 @@ routes: <String, WidgetBuilder>{
                   width: MediaQuery.of(context).size.width,
                   height: 150,
                   imageUrl:
-                      'http://cabofind.com.mx/assets/galeria/principal_domicilio.jpeg',
+                      'http://cabofind.com.mx/assets/galeria/principal_domicilio.png',
                   progressIndicatorBuilder: (context, url, downloadProgress) =>
                       CircularProgressIndicator(
                           value: downloadProgress.progress),
@@ -649,7 +649,7 @@ routes: <String, WidgetBuilder>{
                 ),
               ),
             ),
-            new Text('Comida a domicilio',
+            new Text('Cabofood',
                 style: new TextStyle(
                   color: Colors.black,
                   fontSize: 18.0,

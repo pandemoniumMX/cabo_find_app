@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:cabofind/paginas/domicilio.dart';
 import 'package:cabofind/paginas/list_manejador_rec_obtenidas.dart';
 import 'package:cabofind/utilidades/classes.dart';
 import 'package:flutter/material.dart';
@@ -35,10 +36,10 @@ class _Compras extends State<Preparing> {
   Future<Map> _check2() async {
     final SharedPreferences login = await SharedPreferences.getInstance();
     String _mail2 = "";
-    _mail2 = login.getString("stringMail");
+    _mail2 = login.getString("stringID");
     print(widget.negocio.correo);
     http.Response response = await http.get(
-        "http://cabofind.com.mx/app_php/APIs/esp/check_pedidos.php?CORREO=$_mail2&IDN=${widget.negocio.correo}");
+        "http://cabofind.com.mx/app_php/APIs/esp/check_pedidos.php?IDF=$_mail2&IDN=${widget.negocio.correo}");
 
     return json.decode(response.body);
   }
@@ -94,31 +95,32 @@ class _UsuarioState extends State<Carritox> {
   var listy = 0;
   String valpago;
   TextEditingController cupon = TextEditingController();
+  TextEditingController forma = TextEditingController();
 
   Future<Map> _check() async {
     final SharedPreferences login = await SharedPreferences.getInstance();
     String _mail2 = "";
-    _mail2 = login.getString("stringMail");
+    _mail2 = login.getString("stringID");
 
     http.Response response = await http.get(
-        "http://cabofind.com.mx/app_php/APIs/esp/check_pedidos.php?CORREO=$_mail2&IDN=${widget.negocio.correo}");
+        "http://cabofind.com.mx/app_php/APIs/esp/check_pedidos.php?IDF=$_mail2&IDN=${widget.negocio.correo}");
     return json.decode(response.body);
   }
 
   Future<Map> _checkDireccion() async {
     final SharedPreferences login = await SharedPreferences.getInstance();
     String _mail2 = "";
-    _mail2 = login.getString("stringMail");
+    _mail2 = login.getString("stringID");
 
     http.Response response = await http.get(
-        "http://cabofind.com.mx/app_php/APIs/esp/check_direccion_api.php?CORREO=$_mail2");
+        "http://cabofind.com.mx/app_php/APIs/esp/check_direccion_api.php?IDF=$_mail2");
     return json.decode(response.body);
   }
 
   Future<String> _eliminarItem(String id) async {
     final SharedPreferences login = await SharedPreferences.getInstance();
     String _mail2 = "";
-    _mail2 = login.getString("stringMail");
+    _mail2 = login.getString("stringID");
 
     http.Response response = await http.get(
         "http://cabofind.com.mx/app_php/APIs/esp/delete_pedidos_api.php?IDP=${id}");
@@ -127,10 +129,10 @@ class _UsuarioState extends State<Carritox> {
   Future<String> _confirmarOrden(String pago) async {
     final SharedPreferences login = await SharedPreferences.getInstance();
     String _mail2 = "";
-    _mail2 = login.getString("stringMail");
+    _mail2 = login.getString("stringID");
 
     http.Response response = await http.get(
-        "http://cabofind.com.mx/app_php/APIs/esp/insert_carrito_all.php?IDP=${idx}&IDN=${widget.negocio.correo}&CORREO=$_mail2&FORMA=${pago}");
+        "http://cabofind.com.mx/app_php/APIs/esp/insert_carrito_all.php?IDP=${idx}&IDN=${widget.negocio.correo}&IDF=$_mail2&FORMA=${pago}");
   }
 
   _getCurrentLocation(double latn, double longn, double tiempo) async {
@@ -181,11 +183,11 @@ class _UsuarioState extends State<Carritox> {
     String _mail2 = "";
     String _idusu = "";
     _status = login.getString("stringLogin");
-    _mail2 = login.getString("stringMail");
+    _mail2 = login.getString("stringID");
 
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/list_pedidos_api.php?CORREO=$_mail2&IDN=${widget.negocio.correo}"),
+            "http://cabofind.com.mx/app_php/APIs/esp/list_pedidos_api.php?IDF=$_mail2&IDN=${widget.negocio.correo}"),
         headers: {"Accept": "application/json"});
 
     this.setState(() {
@@ -379,8 +381,8 @@ class _UsuarioState extends State<Carritox> {
                                       ],
                                     ),
                                     Container(
-                                      margin: EdgeInsets.only(right: 210),
-                                      padding: EdgeInsets.all(10),
+                                      margin: EdgeInsets.only(left: 0),
+                                      padding: EdgeInsets.all(5),
                                       child: data[index]["MENU_EXTRA_TIPO"] !=
                                               null
                                           ? Text(
@@ -418,7 +420,7 @@ class _UsuarioState extends State<Carritox> {
                                                       margin: EdgeInsets.only(
                                                           left: 30),
                                                       padding:
-                                                          EdgeInsets.all(10),
+                                                          EdgeInsets.all(5),
                                                       child: Text(
                                                         ext[a]["EXT_NOMBRE"],
                                                         style: TextStyle(
@@ -450,17 +452,20 @@ class _UsuarioState extends State<Carritox> {
                                             })
                                         : Text(''),
                                     Container(
-                                      margin: EdgeInsets.only(left: 25),
-                                      padding: EdgeInsets.all(10),
+                                      margin: EdgeInsets.only(left: 0),
+                                      padding: EdgeInsets.all(5),
                                       child: data[index]["PED_NOTA"] != null
-                                          ? Text('Nota(s): ',
-                                              overflow: TextOverflow.ellipsis,
-                                              softWrap: true,
-                                              style: TextStyle(
-                                                // fontWeight: FontWeight.bold,
-                                                fontSize: 15.0,
-                                                color: Colors.black,
-                                              ))
+                                          ? Container(
+                                              child: Text('Nota(s): ',
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  softWrap: true,
+                                                  style: TextStyle(
+                                                    // fontWeight: FontWeight.bold,
+                                                    fontSize: 15.0,
+                                                    color: Colors.black,
+                                                  )),
+                                            )
                                           : SizedBox(),
                                     ),
                                     Container(
@@ -710,12 +715,18 @@ class _UsuarioState extends State<Carritox> {
                                   Row(
                                     children: <Widget>[
                                       Container(
-                                        margin: EdgeInsets.only(left: 10),
-                                        padding: EdgeInsets.all(10),
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                1.4,
-                                        child: DropdownButtonFormField<String>(
+                                          margin: EdgeInsets.only(left: 10),
+                                          padding: EdgeInsets.all(10),
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              1.4,
+                                          child: Text(
+                                            'Efectivo',
+                                            style: TextStyle(
+                                                color: Colors.black54,
+                                                fontSize: 18),
+                                          ) /*DropdownButtonFormField<String>(
                                           items: [
                                             DropdownMenuItem<String>(
                                               child: Text('Efectivo'),
@@ -738,8 +749,8 @@ class _UsuarioState extends State<Carritox> {
                                           validator: (value) => value == null
                                               ? 'Campo requerido'
                                               : null,
-                                        ),
-                                      )
+                                        ),*/
+                                          )
                                     ],
                                   ),
                                   Container(
@@ -788,7 +799,55 @@ class _UsuarioState extends State<Carritox> {
                                     child: RaisedButton(
                                       onPressed: () {
                                         if (_formKey.currentState.validate()) {
-                                          _confirmarOrden(valpago);
+                                          showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              // return object of type Dialog
+                                              return AlertDialog(
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10.0)),
+                                                title: new Text("Alerta"),
+                                                content: new Text(
+                                                  "¿Seguro que desea confirmar orden?",
+                                                  textAlign: TextAlign.center,
+                                                ),
+                                                actions: <Widget>[
+                                                  // usually buttons at the bottom of the dialog
+                                                  new FlatButton(
+                                                    child: new Text(
+                                                      "Cerrar",
+                                                      style: TextStyle(
+                                                          color: Colors.red),
+                                                    ),
+                                                    onPressed: () {
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    },
+                                                  ),
+                                                  new FlatButton(
+                                                    child: new Text(
+                                                      "Confirmar",
+                                                      style: TextStyle(
+                                                          color: Colors.green),
+                                                    ),
+                                                    onPressed: () {
+                                                      _confirmarOrden(valpago);
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                      Navigator.pushReplacement(
+                                                          context,
+                                                          new MaterialPageRoute(
+                                                              builder: (BuildContext
+                                                                      context) =>
+                                                                  new Domicilio()));
+                                                    },
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                          );
                                         }
                                       },
                                       color: Colors.green,
@@ -884,7 +943,8 @@ class _UsuarioState extends State<Carritox> {
                                                 1.4,
                                         child: TextField(
                                           controller: cupon,
-                                          enabled: true,
+                                          enabled: false,
+                                          readOnly: true,
                                           decoration: InputDecoration(
                                               focusColor: Color(0xffD3D7D6),
                                               hoverColor: Color(0xffD3D7D6),
@@ -932,7 +992,7 @@ class _UsuarioState extends State<Carritox> {
                                         margin: EdgeInsets.only(right: 10),
                                         padding: EdgeInsets.all(10),
                                         child: Text(
-                                          '\$ 220',
+                                          '\$ 0',
                                           style: TextStyle(
                                               fontSize: 18,
                                               fontWeight: FontWeight.bold),
@@ -952,7 +1012,7 @@ class _UsuarioState extends State<Carritox> {
                                     color: Colors.grey,
                                     textColor: Colors.white,
                                     child: Text(
-                                      'Verifica tu dirección',
+                                      'Ciudad no disponible',
                                       style: TextStyle(fontSize: 20),
                                     ),
                                   ),

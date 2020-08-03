@@ -92,13 +92,13 @@ class _UsuarioState extends State<Usuario> {
     String _mail = "";
     String _mail2 = "";
     _status = login.getString("stringLogin");
-    _mail2 = login.getString("stringMail");
+    _mail2 = login.getString("stringID");
 
     print(_mail2);
 
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/list_promos_api.php?CORREO=$_mail2"),
+            "http://cabofind.com.mx/app_php/APIs/esp/list_promos_api.php?IDF=$_mail2"),
         headers: {"Accept": "application/json"});
 
     this.setState(() {

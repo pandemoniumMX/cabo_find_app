@@ -84,10 +84,10 @@ class _UsuarioState extends State<Usuario> {
     String _mail2 = "";
     String _idusu = "";
     _status = login.getString("stringLogin");
-    _mail2 = login.getString("stringMail");
+    _mail2 = login.getString("stringID");
 
     http.Response response = await http.get(
-        "http://cabofind.com.mx/app_php/APIs/esp/list_userqr_api.php?CORREO=$_mail2");
+        "http://cabofind.com.mx/app_php/APIs/esp/list_userqr_api.php?IDF=$_mail2");
     return json.decode(response.body);
   }
 
@@ -98,10 +98,10 @@ class _UsuarioState extends State<Usuario> {
     String _mail2 = "";
     String _idusu = "";
     _status = login.getString("stringLogin");
-    _mail2 = login.getString("stringMail");
+    _mail2 = login.getString("stringID");
 
     http.Response response = await http.get(
-        "http://cabofind.com.mx/app_php/APIs/esp/list_recompensas_api2.php?CORREO=$_mail2");
+        "http://cabofind.com.mx/app_php/APIs/esp/list_recompensas_api2.php?IDF=$_mail2");
     return json.decode(response.body);
   }
 
@@ -112,11 +112,11 @@ class _UsuarioState extends State<Usuario> {
     String _mail2 = "";
     String _idusu = "";
     _status = login.getString("stringLogin");
-    _mail2 = login.getString("stringMail");
+    _mail2 = login.getString("stringID");
 
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/list_recompensas_api.php?CORREO=$_mail2"),
+            "http://cabofind.com.mx/app_php/APIs/esp/list_recompensas_api.php?IDF=$_mail2"),
         headers: {"Accept": "application/json"});
 
     this.setState(() {
