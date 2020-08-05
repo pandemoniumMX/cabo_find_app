@@ -12,6 +12,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'dart:math' as math;
 
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'login.dart';
+
 class Menu_manejador extends StatefulWidget {
   final Users manejador;
 
@@ -26,6 +30,7 @@ class _Menu_majeadorState extends State<Menu_manejador>
   List exp;
   int _page = 0;
   int selectedIndex = 0;
+  String _mail2 = "";
   PageController _c;
   AnimationController _controller;
   Animation<double> _animation;
@@ -36,6 +41,14 @@ class _Menu_majeadorState extends State<Menu_manejador>
   bool _isVisibleAsi = true;
 
   final bool expanded = false;
+  Future<String> _logcheck() async {
+    final SharedPreferences login = await SharedPreferences.getInstance();
+    setState(() {
+      _mail2 = login.getString("stringID");
+    });
+
+    return "Success!";
+  }
 
   Future<Map> _loadMenu(String idn, idm) async {
     var response = await http.get(
@@ -66,6 +79,7 @@ class _Menu_majeadorState extends State<Menu_manejador>
       initialPage: _page,
     );
     this._loadExp();
+    this._logcheck();
 
     _controller = AnimationController(
         duration: const Duration(milliseconds: 300), vsync: this, value: 0.1);
@@ -109,11 +123,18 @@ class _Menu_majeadorState extends State<Menu_manejador>
                     print(
                         '***************************************************' +
                             idm);
-                    Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                            builder: (context) => new Menu_detalle(
-                                menu: new Publicacion(idn, idm))));
+                    print(_mail2);
+                    _mail2 != null
+                        ? Navigator.push(
+                            context,
+                            new MaterialPageRoute(
+                                builder: (context) => new Menu_detalle(
+                                    menu: new Publicacion(idn, idm))))
+                        : Navigator.pushReplacement(
+                            context,
+                            new MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    new Login2()));
                   },
                   child: new Container(
                     height: 150,

@@ -171,6 +171,12 @@ class _Mi_direccionState extends State<Mi_direccion> {
             ],
           ),
           Divider(),
+          Center(
+            child: Text(
+              'En caso de que no coincida tu ubicacion, regresa y vuelve a entrar :)',
+              style: TextStyle(fontSize: 12, color: Colors.black38),
+            ),
+          ),
           Form(
             key: _formKey,
             child: Column(

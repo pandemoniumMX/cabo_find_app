@@ -158,7 +158,7 @@ class _Pedidos_historialState extends State<Pedidos_historial> {
               onRefresh: _onRefresh,
               child: ListView(children: <Widget>[
                 FutureBuilder(
-                    future: _loadEnviado(),
+                    future: _loadProximo(),
                     builder: (context, snapshot) {
                       switch (snapshot.connectionState) {
                         case ConnectionState.none:
@@ -166,7 +166,8 @@ class _Pedidos_historialState extends State<Pedidos_historial> {
                           return Center(child: CircularProgressIndicator());
                         default:
                           if (snapshot.hasError) {
-                            return Text('No tienes pedidos anteriores');
+                            return Center(
+                                child: Text('No tienes pedidos proximos'));
                           } else {
                             return ListView.builder(
                                 shrinkWrap: true,
@@ -276,7 +277,7 @@ class _Pedidos_historialState extends State<Pedidos_historial> {
             ListView(
               children: <Widget>[
                 FutureBuilder(
-                    future: _loadProximo(),
+                    future: _loadEnviado(),
                     builder: (context, snapshot) {
                       switch (snapshot.connectionState) {
                         case ConnectionState.none:
@@ -284,7 +285,8 @@ class _Pedidos_historialState extends State<Pedidos_historial> {
                           return Center(child: CircularProgressIndicator());
                         default:
                           if (snapshot.hasError) {
-                            return Text('No tienes pedidos anteriores');
+                            return Center(
+                                child: Text('No tienes pedidos enviados'));
                           } else {
                             return ListView.builder(
                                 shrinkWrap: true,
@@ -394,7 +396,8 @@ class _Pedidos_historialState extends State<Pedidos_historial> {
                           return Center(child: CircularProgressIndicator());
                         default:
                           if (snapshot.hasError) {
-                            return Text('No tienes pedidos anteriores');
+                            return Center(
+                                child: Text('No tienes pedidos anteriores'));
                           } else {
                             return ListView.builder(
                                 shrinkWrap: true,

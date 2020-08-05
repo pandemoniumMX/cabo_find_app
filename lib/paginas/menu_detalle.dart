@@ -697,7 +697,7 @@ class Detalles extends State<Menu_detalle> {
             pinned: true,
             title: SABT(
                 child: Text(
-              'testing',
+              'Regresar',
               style: TextStyle(fontSize: 18),
             )),
             //title: Text(dataneg[0]["HOT_NOMBRE"],style: TextStyle(fontSize: 18),),

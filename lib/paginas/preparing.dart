@@ -89,6 +89,7 @@ class _UsuarioState extends State<Carritox> {
   double tiempoprep;
   double tiemporuta;
   double tiempototal;
+  double distanciafinal;
   int tiempox;
   int tiempptxt = 0;
   int secs = 60;
@@ -132,7 +133,7 @@ class _UsuarioState extends State<Carritox> {
     _mail2 = login.getString("stringID");
 
     http.Response response = await http.get(
-        "http://cabofind.com.mx/app_php/APIs/esp/insert_carrito_all.php?IDP=${idx}&IDN=${widget.negocio.correo}&IDF=$_mail2&FORMA=${pago}");
+        "http://cabofind.com.mx/app_php/APIs/esp/insert_carrito_all.php?IDP=${idx}&IDN=${widget.negocio.correo}&IDF=$_mail2&FORMA=${pago}&DISTANCIA=$distanciafinal&TIEMPO=$tiempototal");
   }
 
   _getCurrentLocation(double latn, double longn, double tiempo) async {
@@ -151,6 +152,10 @@ class _UsuarioState extends State<Carritox> {
     Map<String, dynamic> map = json.decode(response.body);
     List<dynamic> data = map["rows"];
     print(data[0]['elements'][0]['distance']['text']);
+    int distancia = data[0]['elements'][0]['distance']['value'];
+    double subdistancia = distancia / 1000;
+
+    print(distanciafinal);
     print(data[0]['elements'][0]['duration']['value']);
 
     var addresses =
@@ -166,11 +171,12 @@ class _UsuarioState extends State<Carritox> {
 
     double tiemposub = tiemporuta + tiempo; //tiempoprep;
     tiempototal = tiemposub;
-    print(tiempo);
+    print(tiempo); //tiempo total
     print('valioverga');
     print(tiemposub.round());
     if (tiempptxt == 0) {
       setState(() {
+        distanciafinal = subdistancia;
         tiempptxt = tiempototal.round();
       });
     }
