@@ -13,6 +13,7 @@ import 'package:cabofind/utilidades/classes.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import 'domicilio.dart';
 import 'list_manejador_menus.dart';
 
 //import 'reseña_insert.dart';
@@ -342,11 +343,17 @@ class Detalles extends State<Menu_detalle> {
                       _insertPedidoSingle(_counter, _costocu, notax, _extras1,
                           _extras2, _suma_ex, _suma_ex2);
                       Navigator.of(context).pop();
-                      Navigator.of(context).pushAndRemoveUntil(
+                      Navigator.push(
+                          context,
+                          new MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  new Menu_manejador(
+                                      manejador: new Users(idn))));
+                      /*   Navigator.of(context).pushAndRemoveUntil(
                           MaterialPageRoute(
                               builder: (context) =>
                                   Menu_manejador(manejador: new Users(idn))),
-                          (Route<dynamic> route) => false);
+                          (Route<dynamic> route) => false);*/
                     },
                   ),
                   new FlatButton(
@@ -356,11 +363,16 @@ class Detalles extends State<Menu_detalle> {
                       _insertPedidoSingle(_counter, _costocu, notax, _extras1,
                           _extras2, _suma_ex, _suma_ex2);
                       Navigator.of(context).pop();
-                      Navigator.of(context).pushAndRemoveUntil(
+                      Navigator.push(
+                          context,
+                          new MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  new Preparing(negocio: new Users(idn))));
+                      /*Navigator.of(context).push(
                           MaterialPageRoute(
                               builder: (context) =>
                                   Preparing(negocio: new Users(idn))),
-                          (Route<dynamic> route) => false);
+                          (Route<dynamic> route) => false);*/
                     },
                   ),
                 ],
@@ -706,7 +718,13 @@ class Detalles extends State<Menu_detalle> {
           SliverAppBar(
             backgroundColor: Color(0xffFF7864),
 
-            //   expandedHeight: 230.0,
+            /*  leading: new IconButton(
+              icon: new Icon(Icons.arrow_back),
+              onPressed: () => Navigator.pushReplacement(
+                  context,
+                  new MaterialPageRoute(
+                      builder: (BuildContext context) => new Domicilio())),
+            ),*/
             floating: false,
             pinned: true,
             title: SABT(

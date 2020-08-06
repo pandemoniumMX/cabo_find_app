@@ -64,14 +64,20 @@ class _ListaAcuaticas extends State<Lista_Manejador_esp> {
     } on PlatformException {
       print("Error obtaining current locale");
     }
+
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-    IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
+    AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+    print('Running on ${androidInfo.id}');
+    print('Running on ${androidInfo.fingerprint}');
 
     final SharedPreferences login = await SharedPreferences.getInstance();
     String _status = "";
     String _mail = "";
     _status = login.getString("stringLogin") ?? '';
     _mail = login.getString("stringMail") ?? '';
+    String _id = "";
+
+    _id = login.getString("stringID");
     print(_status);
     print(_mail);
     //String id = data[0]["ID_NEGOCIO"];
@@ -82,7 +88,7 @@ class _ListaAcuaticas extends State<Lista_Manejador_esp> {
 
       var response = await http.get(
           Uri.encodeFull(
-              "http://cabofind.com.mx/app_php/APIs/esp/insert_recomendacion_negocio.php?MOD=${iosInfo.model}&BOOT=${iosInfo.utsname.nodename},${iosInfo.identifierForVendor},&VERSION=${iosInfo.systemName}}&IDIOMA=${currentLocale}&ID=${id_n}&SO=iOS&CORREO=${_mail}"),
+              "http://cabofind.com.mx/app_php/APIs/esp/insert_recomendacion_negocio.php?MOD=${androidInfo.model}&BOOT=${androidInfo.display},${androidInfo.bootloader},${androidInfo.fingerprint}&VERSION=${androidInfo.product}&IDIOMA=${currentLocale}&ID=${id_n}&SO=Android&IDF=${_id}"),
           //"http://cabofind.com.mx/app_php/APIs/esp/insert_recomendacion_negocio.php?MOD=${iosInfo.model}&BOOT=${iosInfo.utsname.nodename},${iosInfo.identifierForVendor}&VERSION=${iosInfo.systemName}&IDIOMA=${currentLocale}"),
 
           headers: {"Accept": "application/json"});

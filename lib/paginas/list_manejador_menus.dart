@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:cabofind/paginas/domicilio.dart';
 import 'package:cabofind/paginas/menu_detalle.dart';
 import 'package:cabofind/utilidades/classes.dart';
 import 'package:cabofind/utilidades/estilo.dart';
@@ -198,32 +199,25 @@ class _Menu_majeadorState extends State<Menu_manejador>
           )),
     );
 
-    return Scaffold(
-        appBar: AppBar(
-          title: Text('Regresar'),
-          backgroundColor: Color(0xffFF7864),
-          actions: <Widget>[
-            InkWell(
-              onTap: () {
-                Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (BuildContext context) => new Preparing(
-                              negocio: Users(widget.manejador.correo),
-                            )));
-              },
-              child: new Stack(
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+          appBar: AppBar(
+            leading: new IconButton(
+                icon: new Icon(Icons.arrow_back),
+                onPressed: () => Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (context) => Domicilio()),
+                    (Route<dynamic> route) => false)
+                /*    Navigator.pushReplacement(
+                  context,
+                  new MaterialPageRoute(
+                      builder: (BuildContext context) => new Domicilio())),*/
+                ),
+            title: Text('Regresar'),
+            backgroundColor: Color(0xffFF7864),
+            actions: <Widget>[
+              new Stack(
                 children: [
-                  Center(
-                    child: new Row(children: <Widget>[
-                      new Icon(FontAwesomeIcons.shoppingCart),
-                      Text(
-                        "  ",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 25.0),
-                      ),
-                    ]),
-                  ),
                   FutureBuilder(
                       future: _countCart(),
                       builder: (context, snapshot) {
@@ -247,113 +241,170 @@ class _Menu_majeadorState extends State<Menu_manejador>
                                   backgroundColor: Colors.green,
                                 ),
                               );
+                            } else if (snapshot.data["Total"] == '0') {
+                              return Stack(
+                                children: [
+                                  Center(
+                                    child: new Row(children: <Widget>[
+                                      new Icon(FontAwesomeIcons.shoppingCart),
+                                      Text(
+                                        "  ",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 25.0),
+                                      ),
+                                    ]),
+                                  ),
+                                  Positioned(
+                                    height: 20,
+                                    width: 20,
+                                    right: 1.0,
+                                    bottom: 28,
+                                    child: new FloatingActionButton(
+                                      child: new Text('0',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 10.0,
+                                              color: Colors.white)),
+                                      backgroundColor: Colors.green,
+                                    ),
+                                  ),
+                                ],
+                              );
                             } else {
-                              return Positioned(
-                                height: 20,
-                                width: 20,
-                                right: 1.0,
-                                bottom: 28,
-                                child: new FloatingActionButton(
-                                  child: new Text(snapshot.data["Total"],
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 10.0,
-                                          color: Colors.white)),
-                                  backgroundColor: Colors.green,
+                              return InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      new MaterialPageRoute(
+                                          builder: (BuildContext context) =>
+                                              new Preparing(
+                                                negocio: Users(
+                                                    widget.manejador.correo),
+                                              )));
+                                },
+                                child: Stack(
+                                  children: [
+                                    Center(
+                                      child: new Row(children: <Widget>[
+                                        new Icon(FontAwesomeIcons.shoppingCart),
+                                        Text(
+                                          "  ",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 25.0),
+                                        ),
+                                      ]),
+                                    ),
+                                    Positioned(
+                                      height: 20,
+                                      width: 20,
+                                      right: 1.0,
+                                      bottom: 28,
+                                      child: new FloatingActionButton(
+                                        child: new Text(snapshot.data["Total"],
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 10.0,
+                                                color: Colors.white)),
+                                        backgroundColor: Colors.green,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               );
                             }
                         }
                       }),
                 ],
+              )
+            ],
+          ),
+          body: ListView(
+            children: [
+              CachedNetworkImage(
+                fit: BoxFit.fill,
+                width: MediaQuery.of(context).size.width,
+                height: 250,
+                imageUrl: (exp[0]['GAL_FOTO']),
+                progressIndicatorBuilder: (context, url, downloadProgress) =>
+                    Center(
+                        child: CircularProgressIndicator(
+                            value: downloadProgress.progress)),
+                errorWidget: (context, url, error) => Icon(Icons.error),
               ),
-            )
-          ],
-        ),
-        body: ListView(
-          children: [
-            CachedNetworkImage(
-              fit: BoxFit.fill,
-              width: MediaQuery.of(context).size.width,
-              height: 250,
-              imageUrl: (exp[0]['GAL_FOTO']),
-              progressIndicatorBuilder: (context, url, downloadProgress) =>
-                  Center(
-                      child: CircularProgressIndicator(
-                          value: downloadProgress.progress)),
-              errorWidget: (context, url, error) => Icon(Icons.error),
-            ),
-            GridView.builder(
-              shrinkWrap: true,
-              physics: BouncingScrollPhysics(),
-              gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
-                  mainAxisSpacing: 1,
-                  crossAxisSpacing: 1,
-                  crossAxisCount: 2,
-                  //childAspectRatio: MediaQuery.of(context).size.height / 300
-                  childAspectRatio: 2.5
-                  //  (MediaQuery.of(context).size.height / 1.5)
-                  ),
-              itemCount: exp == null ? 0 : exp.length,
-              itemBuilder: (BuildContext context, int index) {
-                String idn = exp[index]["negocios_ID_NEGOCIO"];
-
-                String idm = exp[index]["ID_SUB_MEN"];
-
-                return Container(
-                  margin: EdgeInsets.all(3.0),
-                  padding: EdgeInsets.all(3.0),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5.0),
-                      border: Border.all(
-                        color: Colors.grey,
-                      )),
-                  child: InkWell(
-                    onTap: () {
-                      cleanTexto();
-                      _loadMenu(idn, idm);
-                      _isVisibleAsi = !true;
-
-                      print(idn);
-                      _controller.isCompleted
-                          ? _controller.reverse()
-                          : _controller.forward();
-
-                      /*  _controller.isDismissed
-                    ? _controller.reverse()
-                    : _controller.forward();*/
-
-                      // (String idn) => showToast(idn);
-                    },
-                    child: Column(
-                      children: [
-                        Container(
-                          padding: EdgeInsets.all(5.0),
-                          child: Text(
-                            exp[index]["SUB_MEN_NOMBRE"],
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20.0,
-                            ),
-                            softWrap: true,
-                          ),
-                        ),
-                        /* Text(
-                          '12 PIEZAS',
-                          style:
-                              TextStyle(fontSize: 15.0, color: Colors.black54),
-                          softWrap: true,
-                        ),*/
-                        //  Divider()
-                      ],
+              GridView.builder(
+                shrinkWrap: true,
+                physics: BouncingScrollPhysics(),
+                gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
+                    mainAxisSpacing: 1,
+                    crossAxisSpacing: 1,
+                    crossAxisCount: 2,
+                    //childAspectRatio: MediaQuery.of(context).size.height / 300
+                    childAspectRatio: 2.5
+                    //  (MediaQuery.of(context).size.height / 1.5)
                     ),
-                  ),
-                );
-              },
-            ),
-            expandir
-          ],
-        ));
+                itemCount: exp == null ? 0 : exp.length,
+                itemBuilder: (BuildContext context, int index) {
+                  String idn = exp[index]["negocios_ID_NEGOCIO"];
+
+                  String idm = exp[index]["ID_SUB_MEN"];
+
+                  return Container(
+                    margin: EdgeInsets.all(3.0),
+                    padding: EdgeInsets.all(3.0),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5.0),
+                        border: Border.all(
+                          color: Colors.grey,
+                        )),
+                    child: InkWell(
+                      onTap: () {
+                        cleanTexto();
+                        _loadMenu(idn, idm);
+                        _isVisibleAsi = !true;
+
+                        print(idn);
+                        _controller.isCompleted
+                            ? _controller.reverse()
+                            : _controller.forward();
+
+                        /*  _controller.isDismissed
+                      ? _controller.reverse()
+                      : _controller.forward();*/
+
+                        // (String idn) => showToast(idn);
+                      },
+                      child: Column(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.all(5.0),
+                            child: Text(
+                              exp[index]["SUB_MEN_NOMBRE"],
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20.0,
+                              ),
+                              softWrap: true,
+                            ),
+                          ),
+                          /* Text(
+                            '12 PIEZAS',
+                            style:
+                                TextStyle(fontSize: 15.0, color: Colors.black54),
+                            softWrap: true,
+                          ),*/
+                          //  Divider()
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+              expandir
+            ],
+          )),
+    );
   }
 
   cb(ExpandableController controller) async {

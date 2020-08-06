@@ -93,6 +93,9 @@ class _UsuarioState extends State<Usuario2> {
     String _mail = "";
     _status = login.getString("stringLogin") ?? '';
     _mail = login.getString("stringMail") ?? '';
+    String _id = "";
+
+    _id = login.getString("stringID");
     print(_status);
     print(_mail);
     //String id = data[0]["ID_NEGOCIO"];
@@ -103,7 +106,7 @@ class _UsuarioState extends State<Usuario2> {
 
       var response = await http.get(
           Uri.encodeFull(
-              "http://cabofind.com.mx/app_php/APIs/esp/delete_recomendacion_negocio.php?ID=${id_n}&CORREO=${_mail}"),
+              "http://cabofind.com.mx/app_php/APIs/esp/delete_recomendacion_negocio.php?ID=${id_n}&IDF=${_id}"),
           headers: {"Accept": "application/json"});
 
       //CircularProgressIndicator(value: 5.0,);
@@ -130,14 +133,15 @@ class _UsuarioState extends State<Usuario2> {
     String _status = "";
     String _mail = "";
     String _mail2 = "";
-    _status = login.getString("stringLogin");
-    _mail2 = login.getString("stringID");
+    String _id = "";
+
+    _id = login.getString("stringID");
 
     print(_mail2);
 
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/list_favoritos_api.php?IDF=$_mail2"),
+            "http://cabofind.com.mx/app_php/APIs/esp/list_favoritos_api.php?IDF=$_id"),
         headers: {"Accept": "application/json"});
 
     this.setState(() {
@@ -223,6 +227,9 @@ class _UsuarioState extends State<Usuario2> {
       },
     );
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Regresar'),
+      ),
       body: ListView(
         //shrinkWrap: true,
         physics: BouncingScrollPhysics(),

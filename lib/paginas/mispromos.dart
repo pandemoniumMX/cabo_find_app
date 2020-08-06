@@ -91,6 +91,9 @@ class _UsuarioState extends State<Usuario> {
     String _status = "";
     String _mail = "";
     String _mail2 = "";
+    String _id = "";
+
+    _id = login.getString("stringID");
     _status = login.getString("stringLogin");
     _mail2 = login.getString("stringID");
 
@@ -98,7 +101,7 @@ class _UsuarioState extends State<Usuario> {
 
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/list_promos_api.php?IDF=$_mail2"),
+            "http://cabofind.com.mx/app_php/APIs/esp/list_promos_api.php?IDF=$_id"),
         headers: {"Accept": "application/json"});
 
     this.setState(() {
@@ -110,6 +113,9 @@ class _UsuarioState extends State<Usuario> {
     final SharedPreferences login = await SharedPreferences.getInstance();
     String _status = "";
     String _mail = "";
+    String _id = "";
+
+    _id = login.getString("stringID");
     _status = login.getString("stringLogin") ?? '';
     _mail = login.getString("stringMail") ?? '';
     print(_status);
@@ -122,7 +128,7 @@ class _UsuarioState extends State<Usuario> {
 
       var response = await http.get(
           Uri.encodeFull(
-              "http://cabofind.com.mx/app_php/APIs/esp/delete_recomendacion_publicacion.php?ID=${id_n}&CORREO=${_mail}"),
+              "http://cabofind.com.mx/app_php/APIs/esp/delete_recomendacion_publicacion.php?ID=${id_n}&IDF=${_id}"),
           headers: {"Accept": "application/json"});
 
       //CircularProgressIndicator(value: 5.0,);
@@ -224,6 +230,9 @@ class _UsuarioState extends State<Usuario> {
       },
     );
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Regresar'),
+      ),
       body: ListView(
         //shrinkWrap: true,
         physics: BouncingScrollPhysics(),

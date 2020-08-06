@@ -15,6 +15,7 @@ import 'package:cabofind/paginas/menu.dart';
 import 'package:cabofind/paginas/misfavoritos.dart';
 import 'package:cabofind/paginas/mispromos.dart';
 import 'package:cabofind/paginas/misrecompensa.dart';
+import 'package:cabofind/paginas/pedidos_proceso_list.dart';
 import 'package:cabofind/paginas/publicacion_detalle.dart';
 import 'package:cabofind/paginas/publicaciones.dart';
 import 'package:cabofind/paginas/ricky.dart';
@@ -325,6 +326,7 @@ class _MyHomePageState extends State<MyHomePages> {
         String id_n = (message['data']['id_n']) as String;
         String id = (message['data']['id']) as String;
         String idc = (message['data']['idc']) as String;
+        String idcn = (message['data']['idn']) as String;
         var idcnumber = int.parse(idc);
 
         id_n != null
@@ -410,7 +412,7 @@ class _MyHomePageState extends State<MyHomePages> {
                           new FlatButton(
                             color: Colors.green,
                             child: new Text(
-                              'Entendido',
+                              'Ver detalle',
                               style: TextStyle(
                                   fontSize: 14.0, color: Colors.white),
                             ),
@@ -421,9 +423,9 @@ class _MyHomePageState extends State<MyHomePages> {
                                   context,
                                   new MaterialPageRoute(
                                       builder: (BuildContext context) =>
-                                          new Domicilio(
-                                              // carrito: new Data_login(idc),
-                                              )));
+                                          new Lista_enproceso(
+                                            carrito: new Costos(idc, idcn),
+                                          )));
                             },
                           )
                         ],
