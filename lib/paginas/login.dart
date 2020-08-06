@@ -1,9 +1,7 @@
 import 'dart:convert';
-
 import 'package:cabofind/main_esp.dart';
 import 'package:cabofind/paginas/misfavoritos.dart';
 import 'package:cabofind/paginas/mispromos.dart';
-
 import 'package:cabofind/utilidades/classes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +22,6 @@ class _Compras extends State<Login> {
   bool isLoggedIn = false;
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
   void initState() {
-    //sesionLog();
     super.initState();
   }
 
@@ -363,19 +360,22 @@ class _Compras2 extends State<Login2> {
     );
 //final pictures= profile[ 'picture']["data"]["url"];
     final id = profile['id'];
+    final name = profile['name'];
     final correofb = profile['email'];
-    final celular = profile['phone'];
     final nombresfb = profile['first_name'];
     final apellidosfb = profile['last_name'];
     final imagenfb = profile['picture']["data"]["url"];
+    String tokenfirebase;
+    print(name);
 
     login.setString('stringLogin', "True");
     login.setString('stringMail', correofb);
     login.setString('stringID', id);
+    tokenfirebase = login.getString("stringToken");
 
     var response = await http.get(
         Uri.encodeFull(
-            'http://cabofind.com.mx/app_php/APIs/esp/insert_usuarios.php?NOMBRE=${nombresfb},${apellidosfb}&CORREO=${correofb}&FOTO=${imagenfb}&NOT=true&IDIOMA=ESP&IDF=${id}'),
+            'http://cabofind.com.mx/app_php/APIs/esp/insert_usuarios.php?NOMBRE=${nombresfb},${apellidosfb}&CORREO=${correofb}&FOTO=${imagenfb}&NOT=true&IDIOMA=ESP&IDF=${id}&TOKEN=${tokenfirebase}'),
         headers: {"Accept": "application/json"});
 
     Navigator.pushReplacement(context,
@@ -588,7 +588,7 @@ Future<String> signInWithGoogle() async {
                                             new Icon(FontAwesomeIcons.google, color: Colors.red,)
                                           ],
                                         )
-                ), */
+                ), 
                 RaisedButton(
                     onPressed: () {
                       addlogin();
@@ -607,7 +607,7 @@ Future<String> signInWithGoogle() async {
                           color: Colors.red,
                         )
                       ],
-                    )),
+                    )),*/
                 RaisedButton(
                     onPressed: () {
                       _launchURL();

@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:cabofind/paginas/menu_detalle.dart';
 import 'package:cabofind/utilidades/classes.dart';
 import 'package:cabofind/utilidades/estilo.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:expandable/expandable.dart';
 import 'package:ff_navigation_bar/ff_navigation_bar.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,8 @@ import 'dart:math' as math;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'login.dart';
+import 'login3.dart';
+import 'preparing.dart';
 
 class Menu_manejador extends StatefulWidget {
   final Users manejador;
@@ -70,6 +73,12 @@ class _Menu_majeadorState extends State<Menu_manejador>
     this.setState(() {
       exp = json.decode(response.body);
     });
+  }
+
+  Future<Map> _countCart() async {
+    http.Response response = await http.get(
+        "http://cabofind.com.mx/app_php/APIs/esp/list_count_cart.php?ID=${widget.manejador.correo}");
+    return json.decode(response.body);
   }
 
   @override
@@ -134,7 +143,7 @@ class _Menu_majeadorState extends State<Menu_manejador>
                             context,
                             new MaterialPageRoute(
                                 builder: (BuildContext context) =>
-                                    new Login2()));
+                                    new Login_esp()));
                   },
                   child: new Container(
                     height: 150,
@@ -193,17 +202,86 @@ class _Menu_majeadorState extends State<Menu_manejador>
         appBar: AppBar(
           title: Text('Regresar'),
           backgroundColor: Color(0xffFF7864),
+          actions: <Widget>[
+            InkWell(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Preparing(
+                              negocio: Users(widget.manejador.correo),
+                            )));
+              },
+              child: new Stack(
+                children: [
+                  Center(
+                    child: new Row(children: <Widget>[
+                      new Icon(FontAwesomeIcons.shoppingCart),
+                      Text(
+                        "  ",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 25.0),
+                      ),
+                    ]),
+                  ),
+                  FutureBuilder(
+                      future: _countCart(),
+                      builder: (context, snapshot) {
+                        switch (snapshot.connectionState) {
+                          case ConnectionState.none:
+                          case ConnectionState.waiting:
+                            return Center(child: CircularProgressIndicator());
+                          default:
+                            if (snapshot.hasError) {
+                              return Positioned(
+                                height: 20,
+                                width: 20,
+                                right: 1.0,
+                                bottom: 28,
+                                child: new FloatingActionButton(
+                                  child: new Text('0',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 10.0,
+                                          color: Colors.white)),
+                                  backgroundColor: Colors.green,
+                                ),
+                              );
+                            } else {
+                              return Positioned(
+                                height: 20,
+                                width: 20,
+                                right: 1.0,
+                                bottom: 28,
+                                child: new FloatingActionButton(
+                                  child: new Text(snapshot.data["Total"],
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 10.0,
+                                          color: Colors.white)),
+                                  backgroundColor: Colors.green,
+                                ),
+                              );
+                            }
+                        }
+                      }),
+                ],
+              ),
+            )
+          ],
         ),
         body: ListView(
           children: [
-            FadeInImage(
-              image: NetworkImage(exp[0]['GAL_FOTO']), //portada
+            CachedNetworkImage(
               fit: BoxFit.fill,
               width: MediaQuery.of(context).size.width,
               height: 250,
-              // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
-              placeholder: AssetImage('android/assets/images/loading.gif'),
-              fadeInDuration: Duration(milliseconds: 200),
+              imageUrl: (exp[0]['GAL_FOTO']),
+              progressIndicatorBuilder: (context, url, downloadProgress) =>
+                  Center(
+                      child: CircularProgressIndicator(
+                          value: downloadProgress.progress)),
+              errorWidget: (context, url, error) => Icon(Icons.error),
             ),
             GridView.builder(
               shrinkWrap: true,

@@ -832,6 +832,7 @@ class _UsuarioState extends State<Carritox> {
                                                           .pop();
                                                     },
                                                   ),
+
                                                   new FlatButton(
                                                     child: new Text(
                                                       "Confirmar",
@@ -840,14 +841,16 @@ class _UsuarioState extends State<Carritox> {
                                                     ),
                                                     onPressed: () {
                                                       _confirmarOrden(valpago);
+
                                                       Navigator.of(context)
-                                                          .pop();
-                                                      Navigator.pushReplacement(
-                                                          context,
-                                                          new MaterialPageRoute(
-                                                              builder: (BuildContext
-                                                                      context) =>
-                                                                  new Domicilio()));
+                                                          .pushAndRemoveUntil(
+                                                              MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) =>
+                                                                          Domicilio()),
+                                                              (Route<dynamic>
+                                                                      route) =>
+                                                                  false);
                                                     },
                                                   ),
                                                 ],
@@ -1031,76 +1034,5 @@ class _UsuarioState extends State<Carritox> {
         ],
       ),
     );
-  }
-}
-
-class Login2 extends StatefulWidget {
-  @override
-  _State createState() => _State();
-}
-
-class _State extends State<Login2> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text('Regresar'),
-        ),
-        body: Container(
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.topRight,
-                  end: Alignment.bottomLeft,
-                  colors: [
-                Color(0xff01969a),
-                Colors.white,
-              ])),
-          child: Container(
-            height: MediaQuery.of(context).size.height,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              // mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                SizedBox(
-                  height: 100,
-                ),
-                Center(
-                  child: ClipRRect(
-                      borderRadius: BorderRadius.circular(8.0),
-                      child: Image.asset(
-                        "assets/splash.png",
-                        fit: BoxFit.fill,
-                        width: 150.0,
-                        height: 150.0,
-                      )),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                //SizedBox(height: 100.0,),
-                //SizedBox(height: 25.0,),
-                Center(
-                    child: Text(
-                  "No tienes órdenes😢",
-                  style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold),
-                )),
-                SizedBox(
-                  height: 10,
-                ),
-                Center(
-                    child: Text(
-                  "El carrito está vacío",
-                  style: TextStyle(
-                    fontSize: 15,
-                    color: Colors.white,
-                  ),
-                )),
-              ],
-            ),
-          ),
-        ));
   }
 }

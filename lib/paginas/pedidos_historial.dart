@@ -1,5 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:cabofind/paginas/pedidos_proceso_list.dart';
+import 'package:cabofind/paginas/pedidos_nuevos_list.dart';
+import 'package:cabofind/paginas/pedidos_terminado_list.dart';
+import 'package:cabofind/utilidades/classes.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -174,6 +178,9 @@ class _Pedidos_historialState extends State<Pedidos_historial> {
                                 physics: BouncingScrollPhysics(),
                                 itemCount: proximo == null ? 0 : proximo.length,
                                 itemBuilder: (BuildContext context, int index) {
+                                  String idc = proximo[index]["ID_CARRITO"];
+                                  String idn = proximo[index]["ID_NEGOCIO"];
+
                                   return Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -263,6 +270,31 @@ class _Pedidos_historialState extends State<Pedidos_historial> {
                                               ))
                                         ],
                                       ),
+                                      Container(
+                                        height: 40,
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        child: RaisedButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                            Navigator.push(
+                                                context,
+                                                new MaterialPageRoute(
+                                                    builder: (BuildContext
+                                                            context) =>
+                                                        new Lista_pedidosx(
+                                                          carrito: new Costos(
+                                                              idc, idn),
+                                                        )));
+                                          },
+                                          color: Colors.green,
+                                          textColor: Colors.white,
+                                          child: Text(
+                                            'Ver detalle',
+                                            style: TextStyle(fontSize: 20),
+                                          ),
+                                        ),
+                                      ),
                                       Divider(
                                         thickness: 3,
                                       )
@@ -293,6 +325,9 @@ class _Pedidos_historialState extends State<Pedidos_historial> {
                                 physics: BouncingScrollPhysics(),
                                 itemCount: enviado == null ? 0 : enviado.length,
                                 itemBuilder: (BuildContext context, int index) {
+                                  String idc = enviado[index]["ID_CARRITO"];
+                                  String idn = enviado[index]["ID_NEGOCIO"];
+
                                   return Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -374,6 +409,31 @@ class _Pedidos_historialState extends State<Pedidos_historial> {
                                               ))
                                         ],
                                       ),
+                                      Container(
+                                        height: 40,
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        child: RaisedButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                            Navigator.push(
+                                                context,
+                                                new MaterialPageRoute(
+                                                    builder: (BuildContext
+                                                            context) =>
+                                                        new Lista_enproceso(
+                                                          carrito: new Costos(
+                                                              idc, idn),
+                                                        )));
+                                          },
+                                          color: Colors.green,
+                                          textColor: Colors.white,
+                                          child: Text(
+                                            'Ver detalle',
+                                            style: TextStyle(fontSize: 20),
+                                          ),
+                                        ),
+                                      ),
                                       Divider(
                                         thickness: 3,
                                       )
@@ -405,6 +465,8 @@ class _Pedidos_historialState extends State<Pedidos_historial> {
                                 itemCount:
                                     historial == null ? 0 : historial.length,
                                 itemBuilder: (BuildContext context, int index) {
+                                  String idc = historial[index]["ID_CARRITO"];
+                                  String idn = historial[index]["ID_NEGOCIO"];
                                   return Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -506,6 +568,31 @@ class _Pedidos_historialState extends State<Pedidos_historial> {
                                                         FontWeight.bold),
                                               ))
                                         ],
+                                      ),
+                                      Container(
+                                        height: 40,
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        child: RaisedButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                            Navigator.push(
+                                                context,
+                                                new MaterialPageRoute(
+                                                    builder: (BuildContext
+                                                            context) =>
+                                                        new Lista_terminado(
+                                                          carrito: new Costos(
+                                                              idc, idn),
+                                                        )));
+                                          },
+                                          color: Colors.green,
+                                          textColor: Colors.white,
+                                          child: Text(
+                                            'Ver detalle',
+                                            style: TextStyle(fontSize: 20),
+                                          ),
+                                        ),
                                       ),
                                       Divider(
                                         thickness: 3,

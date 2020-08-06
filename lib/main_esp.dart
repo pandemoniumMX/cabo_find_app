@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:audioplayers/audio_cache.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:cabofind/main_ing.dart';
 import 'package:cabofind/paginas/anuncios.dart';
 import 'package:cabofind/paginas/dados.dart';
@@ -105,6 +107,16 @@ class _MyHomePageState extends State<MyHomePages> {
   int id = 0;
 
   List data;
+  AudioCache _audioCache;
+  AudioPlayer _player;
+
+  void _playFile() async {
+    _player = await _audioCache.loop('notification.mp3'); // assign player here
+  }
+
+  void _stopFile() {
+    _player?.stop(); // stop the file like this
+  }
 
   //var mp = MP("CLIENT_ID", "CLIENT_SECRET");
 
@@ -112,7 +124,7 @@ class _MyHomePageState extends State<MyHomePages> {
   Future<String> getData() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/consultas_negocios/esp/estructura_esp_test3.php"),
+            "http://cabofind.com.mx/app_php/consultas_negocios/esp/estructura_esp.php"),
         headers: {"Accept": "application/json"});
 
     this.setState(() {
@@ -294,11 +306,15 @@ class _MyHomePageState extends State<MyHomePages> {
   }
 
   void setupNotification() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    //prefs.remove("stringValue");
+
     _firebaseMessaging.requestNotificationPermissions();
 
     _firebaseMessaging.getToken().then((token) {
       print('===== FCM Token =====');
       print(token);
+      prefs.setString('stringToken', token);
     });
 
     _firebaseMessaging.configure(
@@ -308,58 +324,112 @@ class _MyHomePageState extends State<MyHomePages> {
 
         String id_n = (message['data']['id_n']) as String;
         String id = (message['data']['id']) as String;
+        String idc = (message['data']['idc']) as String;
+        var idcnumber = int.parse(idc);
 
-        showDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                title: Text(
-                  'Nueva publicación!',
-                  style: TextStyle(
-                    fontSize: 25.0,
-                  ),
-                ),
-                content: Container(
-                  width: 300,
-                  height: 300.0,
-                  child: FadeInImage(
-                    image: NetworkImage(
-                        "http://cabofind.com.mx/assets/img/alerta.png"),
-                    fit: BoxFit.cover,
-                    width: 300,
-                    height: 300,
-
-                    // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
-                    placeholder:
-                        AssetImage('android/assets/images/loading.gif'),
-                    fadeInDuration: Duration(milliseconds: 200),
-                  ),
-                ),
-                actions: <Widget>[
-                  new FlatButton(
-                    child: new Text('Cerrar'),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                  new FlatButton(
-                    color: Colors.blueAccent,
-                    child: new Text(
-                      'Descubrir',
-                      style: TextStyle(fontSize: 14.0, color: Colors.white),
+        id_n != null
+            ? showDialog(
+                context: context,
+                builder: (context) {
+                  _playFile();
+                  return AlertDialog(
+                    title: Text(
+                      'Nueva publicación!',
+                      style: TextStyle(
+                        fontSize: 25.0,
+                      ),
                     ),
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          new MaterialPageRoute(
-                              builder: (context) => new Publicacion_detalle_fin(
-                                    publicacion: new Publicacion(id_n, id),
-                                  )));
-                    },
-                  )
-                ],
-              );
-            });
+                    content: Container(
+                      width: 300,
+                      height: 300.0,
+                      child: FadeInImage(
+                        image: NetworkImage(
+                            "http://cabofind.com.mx/assets/img/alerta.png"),
+                        fit: BoxFit.fill,
+                        width: 300,
+                        height: 300,
+
+                        // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
+                        placeholder:
+                            AssetImage('android/assets/images/loading.gif'),
+                        fadeInDuration: Duration(milliseconds: 200),
+                      ),
+                    ),
+                    actions: <Widget>[
+                      new FlatButton(
+                        child: new Text('Cerrar'),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                      new FlatButton(
+                        color: Colors.blueAccent,
+                        child: new Text(
+                          'Descubrir',
+                          style: TextStyle(fontSize: 14.0, color: Colors.white),
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              new MaterialPageRoute(
+                                  builder: (context) =>
+                                      new Publicacion_detalle_fin(
+                                        publicacion: new Publicacion(id_n, id),
+                                      )));
+                        },
+                      )
+                    ],
+                  );
+                })
+            : idcnumber != null
+                ? showDialog(
+                    barrierDismissible: false,
+                    context: context,
+                    builder: (context) {
+                      _playFile();
+                      return AlertDialog(
+                        title: Text(
+                          'Nuevo pedido!',
+                          style: TextStyle(
+                            fontSize: 25.0,
+                          ),
+                        ),
+                        content: Container(
+                            width: 300,
+                            height: 50.0,
+                            child: Text('Pedido número #$idcnumber enviado')),
+                        actions: <Widget>[
+                          new FlatButton(
+                            child: new Text('Cerrar'),
+                            onPressed: () {
+                              _stopFile();
+
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                          new FlatButton(
+                            color: Colors.green,
+                            child: new Text(
+                              'Entendido',
+                              style: TextStyle(
+                                  fontSize: 14.0, color: Colors.white),
+                            ),
+                            onPressed: () {
+                              _stopFile();
+                              Navigator.of(context).pop();
+                              Navigator.push(
+                                  context,
+                                  new MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          new Domicilio(
+                                              // carrito: new Data_login(idc),
+                                              )));
+                            },
+                          )
+                        ],
+                      );
+                    })
+                : SizedBox();
 
 /*
        showDialog(
@@ -380,13 +450,23 @@ class _MyHomePageState extends State<MyHomePages> {
 
         String id_n = (message['data']['id_n']) as String;
         String id = (message['data']['id']) as String;
-
-        Navigator.push(
-            context,
-            new MaterialPageRoute(
-                builder: (context) => new Publicacion_detalle_fin(
-                      publicacion: new Publicacion(id_n, id),
-                    )));
+        String idc = (message['data']['idc']) as String;
+        var idcnumber = int.parse(idc);
+        id_n != null
+            ? Navigator.push(
+                context,
+                new MaterialPageRoute(
+                    builder: (context) => new Publicacion_detalle_fin(
+                          publicacion: new Publicacion(id_n, id),
+                        )))
+            : idcnumber != null
+                ? Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Domicilio(
+                            // carrito: new Data_login(idc),
+                            )))
+                : SizedBox();
       },
       onResume: (Map<String, dynamic> message) async {
         print('======= On resume ========');
@@ -394,13 +474,23 @@ class _MyHomePageState extends State<MyHomePages> {
 
         String id_n = (message['data']['id_n']) as String;
         String id = (message['data']['id']) as String;
-
-        Navigator.push(
-            context,
-            new MaterialPageRoute(
-                builder: (context) => new Publicacion_detalle_fin(
-                      publicacion: new Publicacion(id_n, id),
-                    )));
+        String idc = (message['data']['idc']) as String;
+        var idcnumber = int.parse(idc);
+        id_n != null
+            ? Navigator.push(
+                context,
+                new MaterialPageRoute(
+                    builder: (context) => new Publicacion_detalle_fin(
+                          publicacion: new Publicacion(id_n, id),
+                        )))
+            : idcnumber != null
+                ? Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Domicilio(
+                            // carrito: new Data_login(idc),
+                            )))
+                : SizedBox();
       },
     );
   }
@@ -708,33 +798,6 @@ routes: <String, WidgetBuilder>{
                             )),
                       ),
                     ),
-
-/*
-                Row(
-                    children: <Widget>[
-
-
-                      Padding(
-                          child: new Text(
-                            data[index]["NEG_NOMBRE"],
-                            overflow: TextOverflow.ellipsis,),
-                          padding: EdgeInsets.all(
-                              1.0)),
-                      Text(
-                          " | "),
-                      Flexible(
-                        child: new Text(
-                          data[index]["NEG_LUGAR"],
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,),
-
-
-                      ),
-
-
-
-                    ]),
-*/
                   ],
                 ),
                 onTap: () {
@@ -866,11 +929,11 @@ routes: <String, WidgetBuilder>{
             iconData: FontAwesomeIcons.home,
             label: 'Inicio',
           ),
-          FFNavigationBarItem(
+          /*  FFNavigationBarItem(
             iconData: FontAwesomeIcons.shoppingCart,
             label: 'Carrito',
           ),
-          /*
+          
           FFNavigationBarItem(
             iconData: FontAwesomeIcons.fire,
             label: 'Promos',
@@ -1058,7 +1121,7 @@ routes: <String, WidgetBuilder>{
           },
           children: <Widget>[
             cuerpo,
-            new Mis_recompensas(),
+            //new Mis_recompensas(),
             //new Mis_promos(),
             //new Mis_favoritos(),
             new Login()

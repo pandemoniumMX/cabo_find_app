@@ -22,6 +22,7 @@ class _DomicilioState extends State<Domicilio> {
   int _page = 0;
   int selectedIndex = 0;
   PageController _c;
+
   Future<String> getData() async {
     var response = await http.get(
         Uri.encodeFull(

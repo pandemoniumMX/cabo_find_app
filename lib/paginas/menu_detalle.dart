@@ -321,36 +321,50 @@ class Detalles extends State<Menu_detalle> {
           return AlertDialog(
             title: new Text("Alerta"),
             content: new Text(
-              "¿Que desea hacer?",
+              "¿Seguro que desea agregar?",
               textAlign: TextAlign.center,
             ),
             actions: <Widget>[
               // usually buttons at the bottom of the dialog
-              new FlatButton(
-                child: new Text("Seguir ordenando"),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              new Menu_manejador(manejador: new Users(idn))));
-                },
-              ),
-              new FlatButton(
-                child: new Text("Pagar"),
-                onPressed: () {
-                  String notax = controller.text;
-                  _insertPedidoSingle(_counter, _costocu, notax, _extras1,
-                      _extras2, _suma_ex, _suma_ex2);
-                  Navigator.of(context).pop();
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              new Preparing(negocio: new Users(idn))));
-                },
-              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  new FlatButton(
+                    child: new Text("Cancelar"),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                  new FlatButton(
+                    child: new Text("Agregar"),
+                    onPressed: () {
+                      String notax = controller.text;
+                      _insertPedidoSingle(_counter, _costocu, notax, _extras1,
+                          _extras2, _suma_ex, _suma_ex2);
+                      Navigator.of(context).pop();
+                      Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  Menu_manejador(manejador: new Users(idn))),
+                          (Route<dynamic> route) => false);
+                    },
+                  ),
+                  new FlatButton(
+                    child: new Text("Pagar"),
+                    onPressed: () {
+                      String notax = controller.text;
+                      _insertPedidoSingle(_counter, _costocu, notax, _extras1,
+                          _extras2, _suma_ex, _suma_ex2);
+                      Navigator.of(context).pop();
+                      Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  Preparing(negocio: new Users(idn))),
+                          (Route<dynamic> route) => false);
+                    },
+                  ),
+                ],
+              )
             ],
           );
         },
