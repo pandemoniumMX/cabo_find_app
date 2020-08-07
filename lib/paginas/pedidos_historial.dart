@@ -207,7 +207,7 @@ class _Pedidos_historialState extends State<Pedidos_historial> {
                                           Container(
                                             margin: EdgeInsets.only(left: 10),
                                             child: Icon(
-                                              FontAwesomeIcons.clock,
+                                              FontAwesomeIcons.utensilSpoon,
                                               color: Colors.green,
                                             ),
                                           ),
@@ -223,6 +223,22 @@ class _Pedidos_historialState extends State<Pedidos_historial> {
                                                       child: Text(
                                                           'En preparacion'))
                                                   : SizedBox()
+                                        ],
+                                      ),
+                                      Row(
+                                        children: <Widget>[
+                                          Container(
+                                            margin: EdgeInsets.only(left: 10),
+                                            child: Icon(
+                                              FontAwesomeIcons.clock,
+                                              color: Colors.green,
+                                            ),
+                                          ),
+                                          Container(
+                                              margin: EdgeInsets.all(10),
+                                              child: Text(proximo[index]
+                                                      ["CAR_TIEMPO"] +
+                                                  ' Minutos aprox.'))
                                         ],
                                       ),
                                       Container(
@@ -354,8 +370,9 @@ class _Pedidos_historialState extends State<Pedidos_historial> {
                                           Container(
                                             margin: EdgeInsets.only(left: 10),
                                             child: Icon(
-                                              FontAwesomeIcons.clock,
+                                              FontAwesomeIcons.motorcycle,
                                               color: Colors.green,
+                                              size: 20,
                                             ),
                                           ),
                                           enviado[index]["CAR_ESTATUS"] == 'C'
@@ -363,6 +380,22 @@ class _Pedidos_historialState extends State<Pedidos_historial> {
                                                   margin: EdgeInsets.all(10),
                                                   child: Text('Enviado'))
                                               : SizedBox()
+                                        ],
+                                      ),
+                                      Row(
+                                        children: <Widget>[
+                                          Container(
+                                            margin: EdgeInsets.only(left: 10),
+                                            child: Icon(
+                                              FontAwesomeIcons.clock,
+                                              color: Colors.green,
+                                            ),
+                                          ),
+                                          Container(
+                                              margin: EdgeInsets.all(10),
+                                              child: Text(enviado[index]
+                                                      ["CAR_TIEMPO"] +
+                                                  ' Minutos aprox.'))
                                         ],
                                       ),
                                       Container(

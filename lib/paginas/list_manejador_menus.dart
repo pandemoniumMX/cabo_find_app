@@ -156,16 +156,21 @@ class _Menu_majeadorState extends State<Menu_manejador>
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
-                        FadeInImage(
-                          image: NetworkImage(data[index]["MENU_FOTO"]),
+                        CachedNetworkImage(
                           fit: BoxFit.fill,
                           width: 150,
                           height: 150,
-
-                          // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
-                          placeholder:
-                              AssetImage('android/assets/images/loading.gif'),
-                          fadeInDuration: Duration(milliseconds: 200),
+                          imageUrl: (data[index]["MENU_FOTO"]),
+                          progressIndicatorBuilder:
+                              (context, url, downloadProgress) => Center(
+                                  child: Container(
+                            width: 150,
+                            height: 150,
+                            child: CircularProgressIndicator(
+                                value: downloadProgress.progress),
+                          )),
+                          errorWidget: (context, url, error) =>
+                              Icon(Icons.error),
                         ),
                         Container(
                           margin: EdgeInsets.all(5),

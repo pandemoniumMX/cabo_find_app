@@ -44,14 +44,13 @@ class Detalles extends State<Menu_detalle> {
   List dataneg;
   List logos;
   List descripcion;
-  int _counter = 1;
+  int _counter = 0;
   double _costo = 0;
   double _costocu = 0;
   double _subtotal = 0;
   double _suma;
   double _suma_ex = 0;
   double _suma_ex2 = 50;
-  double costoinicial;
   double total = 0;
 
   var factorial = 0;
@@ -62,19 +61,6 @@ class Detalles extends State<Menu_detalle> {
   String idn = '';
 
   List customers = [];
-
-  //var cart = bloc.cart;
-
-  //List<Cart> _cartList = List<Cart>();
-  void cash() async {
-    setState(() {
-      //_counter++;
-      //_costo = _costocu;
-      print('costo menu cash ' + _costocu.toString());
-      //_costo = double.parse(dataneg[0]["MENU_COSTO"]);
-      //  _costo = _costocu;
-    });
-  }
 
   Future<String> get receiptPayment async {
     /* custom receipt w/ useReceiptNativePay */
@@ -159,6 +145,14 @@ class Detalles extends State<Menu_detalle> {
     StripeNative.setPublishableKey(
         "pk_test_qRcqwUowOCDhl2bEuXPPCKDw00LMVoJpLi");
     StripeNative.setMerchantIdentifier("4525-9725-4152");
+    setState(() {
+      // This call to setState tells the Flutter framework that something has
+      // changed in this State, which causes it to rerun the build method below
+      // so that the display can reflect the updated values. If we changed
+      // _counter without calling setState(), then the build method would not be
+      // called again, and so nothing would appear to happen.
+      _counter++;
+    });
   }
 
   void _incrementCounter() {
@@ -179,7 +173,7 @@ class Detalles extends State<Menu_detalle> {
       // so that the display can reflect the updated values. If we changed
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
-      if (_counter >= 1) {
+      if (_counter > 1) {
         _counter--;
       } else {}
     });
@@ -212,8 +206,19 @@ class Detalles extends State<Menu_detalle> {
         itemBuilder: (BuildContext context, int index) {
           var sumax = double.parse(dataneg[0]["MENU_COSTO"]);
           // String idnx = dataneg[index]["ID_NEGOCIO"];
-          _costocu = sumax;
-          total = _costo + _costocu;
+          //
+
+          if (_counter >= 1) {
+            _costocu = sumax;
+            total = _costo + _costocu;
+            print(total);
+            print(_costo);
+            print(_costocu);
+            print(_counter);
+          } else if (total == 0) {
+            total = _costo + 0;
+          }
+
           idn = widget.menu.id_n;
 
           return Container(
@@ -338,7 +343,7 @@ class Detalles extends State<Menu_detalle> {
           return AlertDialog(
             title: new Text("Alerta"),
             content: new Text(
-              "¿Seguro que desea agregar?",
+              "¿Seguro que desea hacer?",
               textAlign: TextAlign.center,
             ),
             actions: <Widget>[
@@ -353,10 +358,10 @@ class Detalles extends State<Menu_detalle> {
                     },
                   ),
                   new FlatButton(
-                    child: new Text("Agregar"),
+                    child: new Text("Agregar al carrito"),
                     onPressed: () {
                       String notax = controller.text;
-                      _insertPedidoSingle(_counter, _costocu, notax, _extras1,
+                      _insertPedidoSingle(_counter, total, notax, _extras1,
                           _extras2, _suma_ex, _suma_ex2);
                       Navigator.of(context).pop();
                       Navigator.push(
@@ -376,7 +381,7 @@ class Detalles extends State<Menu_detalle> {
                     child: new Text("Pagar"),
                     onPressed: () {
                       String notax = controller.text;
-                      _insertPedidoSingle(_counter, _costocu, notax, _extras1,
+                      _insertPedidoSingle(_counter, total, notax, _extras1,
                           _extras2, _suma_ex, _suma_ex2);
                       Navigator.of(context).pop();
                       Navigator.push(
@@ -646,18 +651,22 @@ class Detalles extends State<Menu_detalle> {
                             shape: CircleBorder(
                                 side: BorderSide(color: Colors.grey)),
                             onPressed: () {
-                              _decrementCounter();
+                              if (_counter > 1) {
+                                _decrementCounter();
+                                _costo = _costo - _suma;
+                              }
                               setState(() {
-                                if (_counter >= 1) {
-                                  _costo = _costo - _suma;
-                                } else if (_counter == 0) {
+                                /*else if (_counter == 0) {
+                                  _costocu = 0;
+                                  total = 0;
                                   _costo = 0;
                                   _suma_ex = 0;
                                   _suma_ex2 = 0;
                                   _extras1 = null;
                                   _extras2 = null;
                                   _extras3 = null;
-                                }
+                                  print('COSTO RESTADO' + _costo.toString());
+                                }*/
                               });
                             },
                             child: Text(
@@ -713,7 +722,7 @@ class Detalles extends State<Menu_detalle> {
                                 decoration: BoxDecoration(color: Colors.grey),
                                 child: Center(
                                   child: Text(
-                                    'Agregar $_counter al carrito • MXN \$ $_costo',
+                                    'Agregar $_counter al carrito • MXN \$ $total',
                                     style: TextStyle(
                                         fontSize: 20,
                                         color: Colors.white,

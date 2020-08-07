@@ -82,7 +82,8 @@ class _UsuarioState extends State<Carritox> {
   List data;
   List ext;
   String id_extra;
-  double envio = 30.0;
+
+  double envio3 = 0.0;
   double total = 0;
   String ciudad;
   String idx;
@@ -135,7 +136,7 @@ class _UsuarioState extends State<Carritox> {
     _mail2 = login.getString("stringID");
 
     http.Response response = await http.get(
-        "http://cabofind.com.mx/app_php/APIs/esp/insert_carrito_all.php?IDP=${idx}&IDN=${widget.negocio.correo}&IDF=$_mail2&FORMA=${pago}&DISTANCIA=$distanciafinal&TIEMPO=$tiempototal");
+        "http://cabofind.com.mx/app_php/APIs/esp/insert_carrito_all.php?IDP=${idx}&IDN=${widget.negocio.correo}&IDF=$_mail2&FORMA=${pago}&DISTANCIA=$distanciafinal&TIEMPO=$tiempototal&ENVIO=$envio3");
   }
 
   _getCurrentLocation(double latn, double longn, double tiempo) async {
@@ -157,7 +158,7 @@ class _UsuarioState extends State<Carritox> {
     int distancia = data[0]['elements'][0]['distance']['value'];
     double subdistancia = distancia / 1000;
 
-    print(distanciafinal);
+    print('distancia numerica' + distanciafinal.toString());
 
     var addresses =
         await Geocoder.local.findAddressesFromCoordinates(coordinates);
@@ -173,6 +174,18 @@ class _UsuarioState extends State<Carritox> {
 
     if (tiempptxt == 0) {
       setState(() {
+        if (distancia <= 2999) {
+          envio3 = 30.0;
+          print('costo 3 de envio' + envio3.toString());
+        } else if (distancia >= 3000 && distancia <= 4999) {
+          envio3 = 50.0;
+          print('costo 3 de envio' + envio3.toString());
+        } else if (distancia != null) {
+          double distanciaplus = distancia / 110;
+          envio3 = distanciaplus;
+          print('costo 3 de envio' + envio3.toString());
+        }
+
         distanciafinal = subdistancia;
         tiempptxt = tiempototal.round();
       });
@@ -563,7 +576,7 @@ class _UsuarioState extends State<Carritox> {
                       );
                     } else {
                       total =
-                          envio + double.parse(data[0]["Total"]); //suma totalx
+                          envio3 + double.parse(data[0]["Total"]); //suma totalx
                       return distanciafinal <= 8.0
                           ? Form(
                               key: _formKey,
@@ -623,7 +636,7 @@ class _UsuarioState extends State<Carritox> {
                                           margin: EdgeInsets.only(left: 10),
                                           padding: EdgeInsets.all(10),
                                           child: Text(
-                                            'Comisión por entrega',
+                                            'Costo de envío',
                                             style: TextStyle(
                                               fontSize: 18,
                                             ),
@@ -632,7 +645,7 @@ class _UsuarioState extends State<Carritox> {
                                           margin: EdgeInsets.only(left: 10),
                                           padding: EdgeInsets.all(10),
                                           child: Text(
-                                            '\$' + envio.toString(),
+                                            '\$' + envio3.toString(),
                                             style: TextStyle(
                                                 fontSize: 18,
                                                 fontWeight: FontWeight.bold),

@@ -443,6 +443,7 @@ class _MyHomePageState extends State<MyHomePages> {
         String id_n = (message['data']['id_n']) as String;
         String id = (message['data']['id']) as String;
         String idc = (message['data']['idc']) as String;
+        String idcn = (message['data']['idn']) as String;
         var idcnumber = int.parse(idc);
         id_n != null
             ? Navigator.push(
@@ -455,8 +456,8 @@ class _MyHomePageState extends State<MyHomePages> {
                 ? Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (BuildContext context) => new Domicilio(
-                            // carrito: new Data_login(idc),
+                        builder: (BuildContext context) => new Lista_enproceso(
+                              carrito: new Costos(idc, idcn),
                             )))
                 : SizedBox();
       },
@@ -467,6 +468,8 @@ class _MyHomePageState extends State<MyHomePages> {
         String id_n = (message['data']['id_n']) as String;
         String id = (message['data']['id']) as String;
         String idc = (message['data']['idc']) as String;
+        String idcn = (message['data']['idn']) as String;
+
         var idcnumber = int.parse(idc);
         id_n != null
             ? Navigator.push(
@@ -479,8 +482,8 @@ class _MyHomePageState extends State<MyHomePages> {
                 ? Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (BuildContext context) => new Domicilio(
-                            // carrito: new Data_login(idc),
+                        builder: (BuildContext context) => new Lista_enproceso(
+                              carrito: new Costos(idc, idcn),
                             )))
                 : SizedBox();
       },
