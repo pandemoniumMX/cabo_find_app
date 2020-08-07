@@ -64,14 +64,10 @@ class _MyHomePageState extends State<Start> {
     try {
       currentLocale = await Devicelocale.currentLocale;
       print(currentLocale);
-    } on PlatformException {
-      print("Error obtaining current locale");
-    }
+    } on PlatformException {}
 
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-    print('Running on ${androidInfo.id}');
-    print('Running on ${androidInfo.fingerprint}');
 
     var response = await http.get(
         Uri.encodeFull(

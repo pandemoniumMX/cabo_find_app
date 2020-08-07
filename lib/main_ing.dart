@@ -141,7 +141,6 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
     Map curMap = responseBody['rates'];
     currencies = curMap.keys.toList();
     setState(() {});
-    print(currencies);
     return "Success";
   }
 

@@ -76,6 +76,8 @@ class Carritox extends StatefulWidget {
 }
 
 class _UsuarioState extends State<Carritox> {
+  String latd = "";
+  String longd = "";
   final _formKey = GlobalKey<FormState>();
   List data;
   List ext;
@@ -137,8 +139,8 @@ class _UsuarioState extends State<Carritox> {
   }
 
   _getCurrentLocation(double latn, double longn, double tiempo) async {
-    geo.Position position = await geo.Geolocator()
-        .getCurrentPosition(desiredAccuracy: geo.LocationAccuracy.best);
+    geo.Position position = await geo.Geolocator().getCurrentPosition(
+        desiredAccuracy: geo.LocationAccuracy.bestForNavigation);
     debugPrint('location: ${position.latitude}');
     final coordinates = new Coordinates(position.latitude, position.longitude);
 
@@ -156,7 +158,6 @@ class _UsuarioState extends State<Carritox> {
     double subdistancia = distancia / 1000;
 
     print(distanciafinal);
-    print(data[0]['elements'][0]['duration']['value']);
 
     var addresses =
         await Geocoder.local.findAddressesFromCoordinates(coordinates);
@@ -166,14 +167,10 @@ class _UsuarioState extends State<Carritox> {
     tiempox = data[0]['elements'][0]['duration']['value'];
 
     tiemporuta = tiempox / secs;
-    print(tiemporuta.round());
-    print('tiempo casa');
 
     double tiemposub = tiemporuta + tiempo; //tiempoprep;
     tiempototal = tiemposub;
-    print(tiempo); //tiempo total
-    print('valioverga');
-    print(tiemposub.round());
+
     if (tiempptxt == 0) {
       setState(() {
         distanciafinal = subdistancia;
@@ -278,6 +275,8 @@ class _UsuarioState extends State<Carritox> {
                             String idn = data[index]["ID_NEGOCIO"];
                             var latx = double.parse(data[0]["NEG_MAP_LAT"]);
                             var longx = double.parse(data[0]["NEG_MAP_LONG"]);
+                            latd = latx.toString();
+                            longd = longx.toString();
                             tiempoprep =
                                 double.parse(data[0]["MENU_TIEMPO_PREP"]);
                             _getCurrentLocation(latx, longx, tiempoprep);
@@ -538,7 +537,8 @@ class _UsuarioState extends State<Carritox> {
                               context,
                               new MaterialPageRoute(
                                   builder: (context) => new Mi_direccion(
-                                        ubicacion: Users(widget.negocio.correo),
+                                        ubicacion: Latlong(
+                                            widget.negocio.correo, latd, longd),
                                       )));
                         },
                         child: Row(
@@ -564,7 +564,7 @@ class _UsuarioState extends State<Carritox> {
                     } else {
                       total =
                           envio + double.parse(data[0]["Total"]); //suma totalx
-                      return ciudad == 'Cabo San Lucas'
+                      return distanciafinal <= 8.0
                           ? Form(
                               key: _formKey,
                               child: Column(
@@ -577,8 +577,10 @@ class _UsuarioState extends State<Carritox> {
                                           new MaterialPageRoute(
                                               builder: (context) =>
                                                   new Mi_direccion(
-                                                    ubicacion: Users(
-                                                        widget.negocio.correo),
+                                                    ubicacion: Latlong(
+                                                        widget.negocio.correo,
+                                                        latd,
+                                                        longd),
                                                   )));
                                     },
                                     child: Row(
@@ -879,8 +881,10 @@ class _UsuarioState extends State<Carritox> {
                                         new MaterialPageRoute(
                                             builder: (context) =>
                                                 new Mi_direccion(
-                                                  ubicacion: Users(
-                                                      widget.negocio.correo),
+                                                  ubicacion: Latlong(
+                                                      widget.negocio.correo,
+                                                      latd,
+                                                      longd),
                                                 )));
                                   },
                                   child: Row(
@@ -1021,7 +1025,7 @@ class _UsuarioState extends State<Carritox> {
                                     color: Colors.grey,
                                     textColor: Colors.white,
                                     child: Text(
-                                      'Ciudad no disponible',
+                                      'Distancia demasiado lejana :(',
                                       style: TextStyle(fontSize: 20),
                                     ),
                                   ),

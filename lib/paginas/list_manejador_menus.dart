@@ -78,7 +78,7 @@ class _Menu_majeadorState extends State<Menu_manejador>
 
   Future<Map> _countCart() async {
     http.Response response = await http.get(
-        "http://cabofind.com.mx/app_php/APIs/esp/list_count_cart.php?ID=${widget.manejador.correo}");
+        "http://cabofind.com.mx/app_php/APIs/esp/list_count_cart.php?ID=${widget.manejador.correo}&IDF=$_mail2");
     return json.decode(response.body);
   }
 
@@ -200,7 +200,12 @@ class _Menu_majeadorState extends State<Menu_manejador>
     );
 
     return WillPopScope(
-      onWillPop: () async => false,
+      onWillPop: () {
+        Navigator.push(
+            context,
+            new MaterialPageRoute(
+                builder: (BuildContext context) => new Domicilio()));
+      },
       child: Scaffold(
           appBar: AppBar(
             leading: new IconButton(

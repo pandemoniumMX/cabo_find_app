@@ -15,7 +15,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Mi_direccion extends StatefulWidget {
-  final Users ubicacion;
+  final Latlong ubicacion;
 
   Mi_direccion({Key key, this.ubicacion}) : super(key: key);
   @override
@@ -27,6 +27,7 @@ class _Mi_direccionState extends State<Mi_direccion> {
   var _miciudad2 = '';
   double latn;
   double longn;
+  double distanciafinal;
   TextEditingController calle = TextEditingController();
   TextEditingController colonia = TextEditingController();
   TextEditingController ciudad = TextEditingController();
@@ -48,39 +49,57 @@ class _Mi_direccionState extends State<Mi_direccion> {
   GoogleMapController _mapController;
 
   _getCurrentLocation() async {
-    geo.Position position = await geo.Geolocator()
-        .getCurrentPosition(desiredAccuracy: geo.LocationAccuracy.high);
+    try {
+      final geo.Geolocator geolocator = geo.Geolocator()
+        ..forceAndroidLocationManager = true;
+      geo.Position position = await geolocator.getLastKnownPosition(
+          desiredAccuracy: geo.LocationAccuracy.best);
+      final coordinates =
+          new Coordinates(position.latitude, position.longitude);
+
+      lat = coordinates.latitude;
+      long = coordinates.longitude;
+
+      http.Response response = await http.get(
+          "https://maps.googleapis.com/maps/api/distancematrix/json?units=kilometer&origins=${widget.ubicacion.lat},${widget.ubicacion.long}&destinations=$lat,$long&key=AIzaSyA152PLBZLFqFlUMKQhMce3Z18OMGhPY6w");
+      Map<String, dynamic> map = json.decode(response.body);
+      List<dynamic> data = map["rows"];
+      print(data[0]['elements'][0]['distance']['text']);
+      int distancia = data[0]['elements'][0]['distance']['value'];
+      double subdistancia = distancia / 1000;
+      print('DISTANCIA' + subdistancia.toString());
+
+      var addresses =
+          await Geocoder.local.findAddressesFromCoordinates(coordinates);
+
+      print(addresses.first.locality); //ciudad
+      print(addresses.first.addressLine); //calle,colonia y cp
+      print(addresses.first.postalCode); //CP
+      print(addresses.first.adminArea); //ESTADO
+      // print(addresses.getRange(1, 3).first.addressLine);vo
+      //print(addresses.single.adminArea);
+      var cp2 = addresses.first.postalCode; //= cp
+      var calle2 = addresses.getRange(1, 2).first.addressLine; //= calle.
+      var ciudad2 = addresses.first.locality; //= ciudad
+      var col2 = addresses.first.subLocality; //= colonia
+
+      setState(() {
+        distanciafinal = subdistancia;
+        cp = new TextEditingController(text: cp2);
+        calle = new TextEditingController(text: calle2);
+        colonia = new TextEditingController(text: col2);
+        ciudad = new TextEditingController(text: ciudad2);
+        _miciudad2 = ciudad2;
+        print(_miciudad2);
+      });
+    } on PlatformException {
+      geo.Position position = null;
+    }
+
+    /*geo.Position position = await geo.Geolocator().getCurrentPosition(
+        desiredAccuracy: geo.LocationAccuracy.bestForNavigation);
     debugPrint('location: ${position.latitude}');
-    final coordinates = new Coordinates(position.latitude, position.longitude);
-
-    lat = coordinates.latitude;
-    long = coordinates.longitude;
-
-    print(lat);
-    print(long);
-
-    var addresses =
-        await Geocoder.local.findAddressesFromCoordinates(coordinates);
-
-    print(addresses.first.locality); //ciudad
-    print(addresses.first.addressLine); //calle,colonia y cp
-    print(addresses.first.postalCode); //CP
-    print(addresses.first.adminArea); //ESTADO
-    // print(addresses.getRange(1, 3).first.addressLine);vo
-    //print(addresses.single.adminArea);
-    var cp2 = addresses.first.postalCode; //= cp
-    var calle2 = addresses.getRange(1, 2).first.addressLine; //= calle.
-    var ciudad2 = addresses.first.locality; //= ciudad
-    var col2 = addresses.first.subLocality; //= colonia
-
-    setState(() {
-      cp = new TextEditingController(text: cp2);
-      calle = new TextEditingController(text: calle2);
-      colonia = new TextEditingController(text: col2);
-      ciudad = new TextEditingController(text: ciudad2);
-      _miciudad2 = ciudad2;
-      print(_miciudad2);
-    });
+    //final coordinates = new Coordinates(position.latitude, position.longitude);*/
   }
 
   Future<String> _insertDireccion(String calle, String ciudad, String celular,
@@ -280,7 +299,7 @@ class _Mi_direccionState extends State<Mi_direccion> {
                           decoration: InputDecoration(
                               focusColor: Color(0xffD3D7D6),
                               hoverColor: Color(0xffD3D7D6),
-                              hintText: 'Referencia/Hotel/Empresa'),
+                              hintText: 'Referencia/Casa/Hotel/Empresa'),
                           validator: (value) {
                             if (value.isEmpty) {
                               return 'Este campo no puede estar vacío';
@@ -350,7 +369,7 @@ class _Mi_direccionState extends State<Mi_direccion> {
           Divider()
         ],
       ),
-      bottomNavigationBar: _miciudad2 == 'Cabo San Lucas'
+      bottomNavigationBar: distanciafinal <= 8.0
           ? Container(
               height: 50,
               child: RaisedButton(
@@ -401,8 +420,8 @@ class _Mi_direccionState extends State<Mi_direccion> {
                                     new MaterialPageRoute(
                                         builder: (BuildContext context) =>
                                             new Preparing(
-                                              negocio: Users(
-                                                  widget.ubicacion.correo),
+                                              negocio:
+                                                  Users(widget.ubicacion.idn),
                                             )));
                               },
                             ),
@@ -427,7 +446,7 @@ class _Mi_direccionState extends State<Mi_direccion> {
                 color: Colors.grey,
                 textColor: Colors.white,
                 child: Text(
-                  'Ciudad no disponible',
+                  'Distancia demasiado lejana :(',
                   style: TextStyle(fontSize: 20),
                 ),
               ),

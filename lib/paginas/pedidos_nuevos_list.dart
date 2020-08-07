@@ -59,7 +59,12 @@ class _Pedidos_nuevosState extends State<Lista_pedidosx> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () async => false,
+      onWillPop: () {
+        Navigator.push(
+            context,
+            new MaterialPageRoute(
+                builder: (BuildContext context) => new Domicilio()));
+      },
       child: Scaffold(
         appBar: AppBar(
           title: Text('Regresar'),

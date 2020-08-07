@@ -1,5 +1,12 @@
 import 'package:flutter/material.dart';
 
+class Latlong {
+  final String idn;
+  final String lat;
+  final String long;
+  Latlong(this.idn, this.lat, this.long);
+}
+
 class Dibs {
   final String extra;
   final String costo;

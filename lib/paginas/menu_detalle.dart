@@ -44,13 +44,15 @@ class Detalles extends State<Menu_detalle> {
   List dataneg;
   List logos;
   List descripcion;
-  int _counter = 0;
+  int _counter = 1;
   double _costo = 0;
   double _costocu = 0;
   double _subtotal = 0;
-  double _suma = 0;
+  double _suma;
   double _suma_ex = 0;
-  double _suma_ex2 = 0;
+  double _suma_ex2 = 50;
+  double costoinicial;
+  double total = 0;
 
   var factorial = 0;
   var userStatus = List<bool>();
@@ -64,6 +66,15 @@ class Detalles extends State<Menu_detalle> {
   //var cart = bloc.cart;
 
   //List<Cart> _cartList = List<Cart>();
+  void cash() async {
+    setState(() {
+      //_counter++;
+      //_costo = _costocu;
+      print('costo menu cash ' + _costocu.toString());
+      //_costo = double.parse(dataneg[0]["MENU_COSTO"]);
+      //  _costo = _costocu;
+    });
+  }
 
   Future<String> get receiptPayment async {
     /* custom receipt w/ useReceiptNativePay */
@@ -126,15 +137,23 @@ class Detalles extends State<Menu_detalle> {
   }
 
   Future<Map> _countCart() async {
+    final SharedPreferences login = await SharedPreferences.getInstance();
+    String _status = "";
+    String _mail = "";
+    _status = login.getString("stringLogin") ?? '';
+    _mail = login.getString("stringMail") ?? '';
+    String _id = "";
+
+    _id = login.getString("stringID");
     http.Response response = await http.get(
-        "http://cabofind.com.mx/app_php/APIs/esp/list_count_cart.php?ID=${widget.menu.id_n}");
+        "http://cabofind.com.mx/app_php/APIs/esp/list_count_cart.php?ID=${widget.menu.id_n}&IDF=$_id");
     return json.decode(response.body);
   }
 
   void initState() {
     super.initState();
     this.getExtras();
-    // this.getCar();
+
     this.getInfo();
 
     StripeNative.setPublishableKey(
@@ -191,15 +210,12 @@ class Detalles extends State<Menu_detalle> {
         physics: BouncingScrollPhysics(),
         itemCount: dataneg == null ? 0 : dataneg.length,
         itemBuilder: (BuildContext context, int index) {
-          var suma = double.parse(dataneg[index]["MENU_COSTO"]);
+          var sumax = double.parse(dataneg[0]["MENU_COSTO"]);
           // String idnx = dataneg[index]["ID_NEGOCIO"];
-          _costocu = suma;
-
+          _costocu = sumax;
+          total = _costo + _costocu;
           idn = widget.menu.id_n;
 
-          if (_counter >= 1) {
-            //  _costo = suma;
-          }
           return Container(
             padding: const EdgeInsets.all(10),
             child: Text(
@@ -574,8 +590,9 @@ class Detalles extends State<Menu_detalle> {
           itemCount: dataneg == null ? 0 : dataneg.length,
           itemBuilder: (BuildContext context, int index) {
             var suma = double.parse(dataneg[index]["MENU_COSTO"]);
-            var item = dataneg[index];
+
             // _costo = suma; por aqui va la validacion
+
             _suma = suma;
 
             return Form(
@@ -658,7 +675,7 @@ class Detalles extends State<Menu_detalle> {
                               _incrementCounter();
                               setState(() {
                                 _costo = _costo + _suma;
-                                print(_costocu);
+                                // _suma = _costocu;
                               });
                             },
                             child: Text(
@@ -685,7 +702,7 @@ class Detalles extends State<Menu_detalle> {
                                   color: Colors.green,
                                   textColor: Colors.white,
                                   child: Text(
-                                    'Agregar $_counter al carrito • MXN \$ $_costo',
+                                    'Agregar $_counter al carrito • MXN \$ $total',
                                     style: TextStyle(fontSize: 20),
                                   ),
                                 ),
@@ -711,87 +728,70 @@ class Detalles extends State<Menu_detalle> {
           })
     ]);
 
-    return new Scaffold(
-        body: NestedScrollView(
-      headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-        return <Widget>[
-          SliverAppBar(
-            backgroundColor: Color(0xffFF7864),
+    return WillPopScope(
+      onWillPop: () async => true,
+      child: new Scaffold(
+          body: NestedScrollView(
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return <Widget>[
+            SliverAppBar(
+              backgroundColor: Color(0xffFF7864),
 
-            /*  leading: new IconButton(
-              icon: new Icon(Icons.arrow_back),
-              onPressed: () => Navigator.pushReplacement(
-                  context,
-                  new MaterialPageRoute(
-                      builder: (BuildContext context) => new Domicilio())),
-            ),*/
-            floating: false,
-            pinned: true,
-            title: SABT(
-                child: Text(
-              'Regresar',
-              style: TextStyle(fontSize: 18),
-            )),
-            //title: Text(dataneg[0]["HOT_NOMBRE"],style: TextStyle(fontSize: 18),),
-            automaticallyImplyLeading: true,
-            flexibleSpace: FlexibleSpaceBar(
-                //titlePadding: EdgeInsets.all(10.0),
-                /*background: FutureBuilder(
-                  future: getPortada(),
-                  builder: (context, snapshot) {
-                    switch (snapshot.connectionState) {
-                      case ConnectionState.none:
-                      case ConnectionState.waiting:
-                        return Center(child: CircularProgressIndicator());
-                      default:
-                        if (snapshot.hasError) {
-                          return Center(
-                              child: Text(
-                            "Error :(",
-                            style:
-                                TextStyle(color: Colors.white, fontSize: 25.0),
-                            textAlign: TextAlign.center,
-                          ));
-                        } else {
-                          return CachedNetworkImage(
-                            fit: BoxFit.contain,
-                            width: MediaQuery.of(context).size.width,
-                            //height: MediaQuery.of(context).size.height * 0.38,
-                            height: MediaQuery.of(context).size.height,
-                            imageUrl: snapshot.data["MENU_FOTO"],
-                            progressIndicatorBuilder:
-                                (context, url, downloadProgress) =>
-                                    CircularProgressIndicator(
-                                        value: downloadProgress.progress),
-                            errorWidget: (context, url, error) =>
-                                Icon(Icons.error),
-                          );
-                        }
-                    }
-                  }),*/
-                ),
-            actions: <Widget>[
-              InkWell(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (BuildContext context) => new Preparing(
-                                negocio: Users(idn),
-                              )));
-                },
-                child: new Stack(
+              /*  leading: new IconButton(
+                icon: new Icon(Icons.arrow_back),
+                onPressed: () => Navigator.pushReplacement(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Domicilio())),
+              ),*/
+              floating: false,
+              pinned: true,
+              title: SABT(
+                  child: Text(
+                'Regresar',
+                style: TextStyle(fontSize: 18),
+              )),
+              //title: Text(dataneg[0]["HOT_NOMBRE"],style: TextStyle(fontSize: 18),),
+              automaticallyImplyLeading: true,
+              flexibleSpace: FlexibleSpaceBar(
+                  //titlePadding: EdgeInsets.all(10.0),
+                  /*background: FutureBuilder(
+                    future: getPortada(),
+                    builder: (context, snapshot) {
+                      switch (snapshot.connectionState) {
+                        case ConnectionState.none:
+                        case ConnectionState.waiting:
+                          return Center(child: CircularProgressIndicator());
+                        default:
+                          if (snapshot.hasError) {
+                            return Center(
+                                child: Text(
+                              "Error :(",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 25.0),
+                              textAlign: TextAlign.center,
+                            ));
+                          } else {
+                            return CachedNetworkImage(
+                              fit: BoxFit.contain,
+                              width: MediaQuery.of(context).size.width,
+                              //height: MediaQuery.of(context).size.height * 0.38,
+                              height: MediaQuery.of(context).size.height,
+                              imageUrl: snapshot.data["MENU_FOTO"],
+                              progressIndicatorBuilder:
+                                  (context, url, downloadProgress) =>
+                                      CircularProgressIndicator(
+                                          value: downloadProgress.progress),
+                              errorWidget: (context, url, error) =>
+                                  Icon(Icons.error),
+                            );
+                          }
+                      }
+                    }),*/
+                  ),
+              actions: <Widget>[
+                new Stack(
                   children: [
-                    Center(
-                      child: new Row(children: <Widget>[
-                        new Icon(FontAwesomeIcons.shoppingCart),
-                        Text(
-                          "  ",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 25.0),
-                        ),
-                      ]),
-                    ),
                     FutureBuilder(
                         future: _countCart(),
                         builder: (context, snapshot) {
@@ -815,45 +815,103 @@ class Detalles extends State<Menu_detalle> {
                                     backgroundColor: Colors.green,
                                   ),
                                 );
+                              } else if (snapshot.data["Total"] == '0') {
+                                return Stack(
+                                  children: [
+                                    Center(
+                                      child: new Row(children: <Widget>[
+                                        new Icon(FontAwesomeIcons.shoppingCart),
+                                        Text(
+                                          "  ",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 25.0),
+                                        ),
+                                      ]),
+                                    ),
+                                    Positioned(
+                                      height: 20,
+                                      width: 20,
+                                      right: 1.0,
+                                      bottom: 28,
+                                      child: new FloatingActionButton(
+                                        child: new Text('0',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 10.0,
+                                                color: Colors.white)),
+                                        backgroundColor: Colors.green,
+                                      ),
+                                    ),
+                                  ],
+                                );
                               } else {
-                                return Positioned(
-                                  height: 20,
-                                  width: 20,
-                                  right: 1.0,
-                                  bottom: 28,
-                                  child: new FloatingActionButton(
-                                    child: new Text(snapshot.data["Total"],
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 10.0,
-                                            color: Colors.white)),
-                                    backgroundColor: Colors.green,
+                                return InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        new MaterialPageRoute(
+                                            builder: (BuildContext context) =>
+                                                new Preparing(
+                                                  negocio: Users(idn),
+                                                )));
+                                  },
+                                  child: Stack(
+                                    children: [
+                                      Center(
+                                        child: new Row(children: <Widget>[
+                                          new Icon(
+                                              FontAwesomeIcons.shoppingCart),
+                                          Text(
+                                            "  ",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 25.0),
+                                          ),
+                                        ]),
+                                      ),
+                                      Positioned(
+                                        height: 20,
+                                        width: 20,
+                                        right: 1.0,
+                                        bottom: 28,
+                                        child: new FloatingActionButton(
+                                          child: new Text(
+                                              snapshot.data["Total"],
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 10.0,
+                                                  color: Colors.white)),
+                                          backgroundColor: Colors.green,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 );
                               }
                           }
                         }),
                   ],
-                ),
-              )
-            ],
-          )
-        ];
-      },
-      body: ListView(
-        //shrinkWrap: true,
-        //physics: BouncingScrollPhysics(),
+                )
+              ],
+            )
+          ];
+        },
+        body: ListView(
+          //shrinkWrap: true,
+          //physics: BouncingScrollPhysics(),
 
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              titleSection,
-              textSection,
-            ],
-          ),
-        ],
-      ),
-    ));
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                titleSection,
+                textSection,
+              ],
+            ),
+          ],
+        ),
+      )),
+    );
   }
 }

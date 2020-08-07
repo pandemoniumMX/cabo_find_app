@@ -154,16 +154,10 @@ class _MyHomePageState extends State<MyHomePages> {
     String currentLocale;
     try {
       currentLocale = await Devicelocale.currentLocale;
-
-      print(currentLocale);
-    } on PlatformException {
-      print("Error obtaining current locale");
-    }
+    } on PlatformException {}
 
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-    print('Running on ${androidInfo.id}');
-    print('Running on ${androidInfo.fingerprint}');
 
     var response = await http.get(
         Uri.encodeFull(
@@ -250,7 +244,6 @@ class _MyHomePageState extends State<MyHomePages> {
     Map curMap = responseBody['rates'];
     currencies = curMap.keys.toList();
     setState(() {});
-    print(currencies);
     return "Success";
   }
 
@@ -266,7 +259,6 @@ class _MyHomePageState extends State<MyHomePages> {
           .toString();
       result = multi;
     });
-    print(result);
     return "Success";
   }
 
@@ -295,7 +287,6 @@ class _MyHomePageState extends State<MyHomePages> {
 
     // if (prefs.getString(_idioma) ?? 'stringValue' == "espanol")
     if (_token != "ingles") {
-      print("alreay login.");
       //your home page is loaded
     } else {
       Navigator.of(context).pop();
@@ -314,7 +305,6 @@ class _MyHomePageState extends State<MyHomePages> {
 
     _firebaseMessaging.getToken().then((token) {
       print('===== FCM Token =====');
-      print(token);
       prefs.setString('stringToken', token);
     });
 
@@ -741,7 +731,7 @@ routes: <String, WidgetBuilder>{
                 ),
               ),
             ),
-            new Text('Cabofood',
+            new Text('Cabofood - Comida a domicilio',
                 style: new TextStyle(
                   color: Colors.black,
                   fontSize: 18.0,
