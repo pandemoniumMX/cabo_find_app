@@ -921,7 +921,7 @@ class Detalles extends State<Menu_detalle> {
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
             SliverAppBar(
-              backgroundColor: Color(0xffFF7864),
+              backgroundColor: Color(0xff3E252B),
 
               /*  leading: new IconButton(
                 icon: new Icon(Icons.arrow_back),

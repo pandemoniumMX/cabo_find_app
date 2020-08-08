@@ -148,7 +148,7 @@ class _DicePageState extends State<DicePage> with TickerProviderStateMixin {
     return Scaffold(
       appBar: AppBar(title: Text('Regresar')),
       body: Container(
-        // color: Color(0xff01969a),
+        // color: Colors.black,
         child: Column(
           children: [
             Text(
@@ -160,7 +160,7 @@ class _DicePageState extends State<DicePage> with TickerProviderStateMixin {
             AnimatedBuilder(
               animation: _controller,
               child: Container(
-                color: Color(0xff01969a),
+                color: Colors.black,
                 child: Center(
                   child: Row(
                     children: <Widget>[

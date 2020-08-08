@@ -75,7 +75,7 @@ class _Menu_comidasState extends State<Menu_comidas> {
       /*bottomNavigationBar: new BottomNavigationBar(
         currentIndex: _page,
         backgroundColor: Colors.black,
-        fixedColor: Color(0xff01969a),
+        fixedColor: Colors.black,
         unselectedItemColor: Colors.black54,
         showUnselectedLabels: false,
         //unselectedIconTheme: Colors.grey,

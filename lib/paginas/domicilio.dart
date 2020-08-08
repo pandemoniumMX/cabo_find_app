@@ -60,7 +60,7 @@ class _DomicilioState extends State<Domicilio> {
             theme: FFNavigationBarTheme(
               barBackgroundColor: Colors.white,
               selectedItemBorderColor: Colors.white,
-              selectedItemBackgroundColor: Color(0xffFF7864),
+              selectedItemBackgroundColor: Color(0xff3E252B),
               selectedItemIconColor: Colors.white,
               selectedItemLabelColor: Colors.black,
             ),
@@ -108,7 +108,7 @@ class _DomicilioState extends State<Domicilio> {
                     child: Icon(FontAwesomeIcons.syncAlt))
               ],
             ),
-            backgroundColor: Color(0xffFF7864),
+            backgroundColor: Color(0xff3E252B),
           ),
           body: new PageView(
             controller: _c,

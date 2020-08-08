@@ -37,9 +37,9 @@ class Myapp1 extends StatelessWidget {
 */
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          primarySwatch: Colors.blue,
-          primaryColor: Color(0xff01969a),
-          //primaryColor: Colors.blue,
+          primarySwatch: Colors.grey,
+          primaryColor: Colors.black,
+          //primaryColor: Colors.black,
           accentColor: Colors.black26,
         ),
         home: new Container(child: new Start()));
@@ -207,7 +207,7 @@ class _MyHomePageState extends State<Start> {
                         },
                       ),
                       new FlatButton(
-                        color: Colors.blueAccent,
+                        color: Colors.black,
                         child: new Text(
                           'Descubrir',
                           style: TextStyle(fontSize: 14.0, color: Colors.white),
@@ -268,9 +268,9 @@ class _MyHomePageState extends State<Start> {
       },
         debugShowCheckedModeBanner:false,
         theme: ThemeData(
-          primarySwatch: Colors.blue,
-          //primaryColor: Color(0xff01969a)
-          primaryColor: Colors.blue,
+          primarySwatch: Colors.grey,
+          //primaryColor: Colors.black
+          primaryColor: Colors.black,
           accentColor: Colors.black26,
         ),
         home: new Container(

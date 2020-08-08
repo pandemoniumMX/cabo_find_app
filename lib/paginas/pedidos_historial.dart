@@ -153,7 +153,7 @@ class _Pedidos_historialState extends State<Pedidos_historial> {
             preferredSize: tab.preferredSize,
             child: new Card(
               elevation: 26.0,
-              color: Color(0xffFF7864),
+              color: Color(0xff3E252B),
               child: tab,
             )),
         body: TabBarView(

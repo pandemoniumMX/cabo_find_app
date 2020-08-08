@@ -243,7 +243,7 @@ class _UsuarioState extends State<Carritox> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Regresar'),
-        backgroundColor: Color(0xffFF7864),
+        backgroundColor: Color(0xff3E252B),
       ),
       body: ListView(
         children: <Widget>[

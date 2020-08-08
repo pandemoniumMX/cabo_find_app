@@ -227,7 +227,7 @@ class _UsuarioState extends State<Usuario> {
           Container(
               decoration: BoxDecoration(
                   gradient: LinearGradient(colors: [
-                Color(0xff01969a),
+                Colors.black,
                 Colors.white,
               ])),
               child: Text(
@@ -302,7 +302,7 @@ class _State extends State<Login2> {
               begin: Alignment.topRight,
               end: Alignment.bottomLeft,
               colors: [
-            Color(0xff01969a),
+            Colors.black,
             Colors.white,
           ])),
       child: ListView(

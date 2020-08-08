@@ -75,7 +75,7 @@ class _Pedidos_nuevosState extends State<Lista_pedidosx> {
                 new MaterialPageRoute(
                     builder: (BuildContext context) => new Domicilio())),
           ),
-          backgroundColor: Color(0xffFF7864),
+          backgroundColor: Color(0xff3E252B),
         ),
         body: ListView(
           children: <Widget>[

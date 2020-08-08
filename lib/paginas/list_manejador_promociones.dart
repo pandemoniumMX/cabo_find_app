@@ -119,7 +119,7 @@ class Publicacionesfull extends State<Manejador_promociones> {
             return Container(
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10.0),
-                  border: Border.all(color: Colors.blue)),
+                  border: Border.all(color: Colors.black)),
               padding: EdgeInsets.all(1.0),
               margin: EdgeInsets.all(1.0),
               child: InkWell(

@@ -193,7 +193,7 @@ Future<String> signInWithGoogle() async {
               begin: Alignment.topRight,
               end: Alignment.bottomLeft,
               colors: [
-            Color(0xff01969a),
+            Colors.black,
             Colors.white,
           ])),
       child: Center(

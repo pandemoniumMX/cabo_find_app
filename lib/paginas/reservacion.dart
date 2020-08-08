@@ -18,9 +18,9 @@ class Myapp extends StatelessWidget {
     return new MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          primarySwatch: Colors.blue,
-          primaryColor: Color(0xff01969a),
-          //primaryColor: Colors.blue,
+          primarySwatch: Colors.grey,
+          primaryColor: Colors.black,
+          //primaryColor: Colors.black,
           accentColor: Colors.black26,
         ),
         home: new Container(child: new Reservacion()));
@@ -86,7 +86,7 @@ class Detalles extends State<Reservacion> {
           msg:
               "Reservación hecha existosamente, recibiras confirmacion vìa email en los proximos minutos!",
           toastLength: Toast.LENGTH_LONG,
-          backgroundColor: Colors.blue,
+          backgroundColor: Colors.black,
           textColor: Colors.white,
           timeInSecForIos: 5);
     }
@@ -109,7 +109,7 @@ class Detalles extends State<Reservacion> {
                 },
               ),
               new FlatButton(
-                  color: Colors.blueAccent,
+                  color: Colors.black,
                   child: new Text("Sí"),
                   onPressed: () {
                     showResena();
@@ -142,7 +142,7 @@ class Detalles extends State<Reservacion> {
                     child: Text(
                       "Llena todo los campos por favor, verificar que el horario seleccionado este disponible en el negocio",
                       style: TextStyle(
-                          color: Colors.blueAccent,
+                          color: Colors.black,
                           fontWeight: FontWeight.bold,
                           fontSize: 12.0),
                     ),
@@ -331,7 +331,7 @@ class Detalles extends State<Reservacion> {
                                   shape: RoundedRectangleBorder(
                                       borderRadius:
                                           BorderRadius.circular(40.0)),
-                                  color: Color(0xff01969a),
+                                  color: Colors.black,
                                   child: new Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     mainAxisSize: MainAxisSize.min,

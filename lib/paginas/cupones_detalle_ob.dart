@@ -74,7 +74,7 @@ class _Recompensa_detalleState extends State<Cupones_detalles_ob> {
                 Container(
                   padding: const EdgeInsets.all(15.0),
                   child: DottedBorder(
-                    color: Color(0xff01969a),
+                    color: Colors.black,
                     strokeWidth: 1,
                     strokeCap: StrokeCap.butt,
                     child: Container(
@@ -110,7 +110,7 @@ class _Recompensa_detalleState extends State<Cupones_detalles_ob> {
                             style: TextStyle(
                                 fontSize: 50,
                                 fontWeight: FontWeight.bold,
-                                color: Color(0xff01969a)),
+                                color: Colors.black),
                             softWrap: true,
                             maxLines: 5,
                             textAlign: TextAlign.center,

@@ -297,7 +297,7 @@ class Detalles extends State<Empresa_det_fin_bus> {
           width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
           border: Border.all(
-              color: Colors.blue)),
+              color: Colors.black)),
       padding: const EdgeInsets.all(20),
       child: Column(
         children:[
@@ -499,7 +499,7 @@ facebook() async {
                   borderRadius:BorderRadius.circular(10.0),
 
                   border: Border.all(
-                      color: Colors.blue)),
+                      color: Colors.black)),
               padding: EdgeInsets.all(
                   10.0),
               margin: EdgeInsets.all(
@@ -656,7 +656,7 @@ facebook() async {
                   SizedBox(
                     height: 15.0,
                   ),
-                 Center(child: Text('Redes sociales y contacto',style: TextStyle(fontSize: 20.0,color: Colors.blueAccent ),)),
+                 Center(child: Text('Redes sociales y contacto',style: TextStyle(fontSize: 20.0,color: Colors.black ),)),
                   SizedBox(
                     height: 15.0,
                   ),
@@ -672,7 +672,7 @@ facebook() async {
                   SizedBox(
                     height: 20.0,
                   ),
-                  Center(child: Text('Publicaciones ${widget.empresa.nombre}',style: TextStyle(fontSize: 20.0,color: Colors.blueAccent ),)),
+                  Center(child: Text('Publicaciones ${widget.empresa.nombre}',style: TextStyle(fontSize: 20.0,color: Colors.black ),)),
                 ],
               ),
               height: 50.0,

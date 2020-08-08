@@ -22,6 +22,7 @@ import 'package:cabofind/utilidades_ing/calculadora.dart';
 import 'package:cabofind/utilidades_ing/notificaciones.dart';
 import 'package:cabofind/utilidades_ing/rutas.dart';
 import 'package:cabofind/weather/weather/weather_builder.dart';
+import 'package:clippy_flutter/clippy_flutter.dart';
 import 'package:ff_navigation_bar/ff_navigation_bar.dart';
 import 'package:http/http.dart' as http;
 import 'package:cached_network_image/cached_network_image.dart';
@@ -58,8 +59,8 @@ class MyApp_ing extends StatelessWidget {
     return new MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          primarySwatch: Colors.blue,
-          primaryColor: Color(0xff01969a),
+          primarySwatch: Colors.grey,
+          primaryColor: Colors.black,
           accentColor: Colors.black26,
         ),
         home: new Container(child: new MyHomePages_ing()));
@@ -227,7 +228,7 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
                     },
                   ),
                   new FlatButton(
-                    color: Colors.blueAccent,
+                    color: Colors.black,
                     child: new Text(
                       'Discover',
                       style: TextStyle(fontSize: 14.0, color: Colors.white),
@@ -319,149 +320,157 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
 
     Widget cuerpo = Container(
       // height: MediaQuery.of(context).size.height,
-      child: new StaggeredGridView.countBuilder(
-        crossAxisCount: 4,
+      child: new GridView.builder(
+        shrinkWrap: true,
         itemCount: data == null ? 0 : data.length,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          childAspectRatio: 0.48,
+        ),
         itemBuilder: (BuildContext context, int index) => new Container(
-          //color: Colors.white,
-          child: Container(
-            padding: EdgeInsets.all(5.0),
-            margin: EdgeInsets.all(10.0),
-            child: InkWell(
-              child: Column(
-                children: <Widget>[
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Expanded(
-                    child: Stack(
-                      children: <Widget>[
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(10.0),
-                          child: CachedNetworkImage(
-                            fit: BoxFit.cover,
-                            height: MediaQuery.of(context).size.height * 0.38,
-                            width: MediaQuery.of(context).size.height,
-                            imageUrl: data[index]["est_foto"],
-                            progressIndicatorBuilder:
-                                (context, url, downloadProgress) =>
-                                    CircularProgressIndicator(
-                                        value: downloadProgress.progress),
-                            errorWidget: (context, url, error) =>
-                                Icon(Icons.error),
-                          ),
+          height: 400,
+          padding: EdgeInsets.all(0.5),
+          margin: EdgeInsets.all(0.5),
+          child: Stack(
+            children: [
+              InkWell(
+                child: Column(
+                  children: <Widget>[
+                    CachedNetworkImage(
+                      fit: BoxFit.fitHeight,
+                      height: 400,
+                      width: MediaQuery.of(context).size.width / 2,
+                      imageUrl: data[index]["est_foto"],
+                      progressIndicatorBuilder:
+                          (context, url, downloadProgress) =>
+                              CircularProgressIndicator(
+                                  value: downloadProgress.progress),
+                      errorWidget: (context, url, error) => Icon(Icons.error),
+                    ),
+                  ],
+                ),
+                onTap: () {
+                  String ruta = data[index]["est_navegacion"];
+                  print(ruta);
+
+                  if (ruta == "Restaurantes") {
+                    Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                new Restaurantes_ing()));
+                  } else if (ruta == "Descubre") {
+                    Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                new Descubre_ing()));
+                  } else if (ruta == "Compras") {
+                    Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                new Compras_ing()));
+                  } else if (ruta == "Educacion") {
+                    Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                new Educacion_ing()));
+                  } else if (ruta == "Eventos") {
+                    Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                new Eventos_ing_grid()));
+                  } else if (ruta == "Acercade") {
+                    Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                new Acercade_ing()));
+                  } else if (ruta == "Promociones") {
+                    Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                new Promociones_list_ing()));
+                  } else if (ruta == "Salud") {
+                    Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                new Salud_ing()));
+                  } else if (ruta == "Servicios") {
+                    Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                new Servicios_ing()));
+                  } else if (ruta == "Vida_nocturna") {
+                    Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                new Vida_nocturna_ing()));
+                  } else if (ruta == "Publicaciones") {
+                    Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                new Publicaciones_grid_ing()));
+                  } else if (ruta == "Anuncios") {
+                    Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                new Anuncios_ing()));
+                  } else if (ruta == "Mapa") {
+                    Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (BuildContext context) => new Maps_ing()));
+                  } else if (ruta == "Rutas") {
+                    Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                new Rutas_ing()));
+                  }
+                },
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Point(
+                        triangleHeight: 10.0,
+                        edge: Edge.LEFT,
+                        child: Container(
+                          margin: const EdgeInsets.only(bottom: 8, top: 8),
+                          padding: const EdgeInsets.only(
+                              left: 18.0, right: 18.0, top: 8.0, bottom: 8.0),
+                          color: Color(int.parse(data[index]["est_color"])),
+                          child: new Text(data[index]["est_nombre_ing"],
+                              style: new TextStyle(
+                                color: Colors.white,
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.w900,
+                                //  backgroundColor: Colors.black45
+                              )),
                         ),
-                      ],
-                    ),
-                  ),
-                  Center(
-                    child: FittedBox(
-                      fit: BoxFit.fitWidth,
-                      child: new Text(data[index]["est_nombre_ing"],
-                          style: new TextStyle(
-                            color: Colors.black,
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.w900,
-                            //  backgroundColor: Colors.black45
-                          )),
-                    ),
+                      ),
+                    ],
                   ),
                 ],
               ),
-              onTap: () {
-                String ruta = data[index]["est_navegacion"];
-                print(ruta);
-
-                if (ruta == "Restaurantes") {
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              new Restaurantes_ing()));
-                } else if (ruta == "Descubre") {
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              new Descubre_ing()));
-                } else if (ruta == "Compras") {
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              new Compras_ing()));
-                } else if (ruta == "Educacion") {
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              new Educacion_ing()));
-                } else if (ruta == "Eventos") {
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              new Eventos_ing_grid()));
-                } else if (ruta == "Acercade") {
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              new Acercade_ing()));
-                } else if (ruta == "Promociones") {
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              new Promociones_list_ing()));
-                } else if (ruta == "Salud") {
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (BuildContext context) => new Salud_ing()));
-                } else if (ruta == "Servicios") {
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              new Servicios_ing()));
-                } else if (ruta == "Vida_nocturna") {
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              new Vida_nocturna_ing()));
-                } else if (ruta == "Publicaciones") {
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              new Publicaciones_grid_ing()));
-                } else if (ruta == "Anuncios") {
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              new Anuncios_ing()));
-                } else if (ruta == "Mapa") {
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (BuildContext context) => new Maps_ing()));
-                } else if (ruta == "Rutas") {
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (BuildContext context) => new Rutas_ing()));
-                }
-              },
-            ),
+            ],
           ),
         ),
-        staggeredTileBuilder: (int index) =>
-            new StaggeredTile.count(2, index.isEven ? 2 : 2),
-        mainAxisSpacing: 4.0,
-        crossAxisSpacing: 4.0,
+        /* staggeredTileBuilder: (int index) =>
+            new StaggeredTile.count(2, index.isEven ? 2 : 2),*/
       ),
     );
 
@@ -470,7 +479,7 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
         theme: FFNavigationBarTheme(
           barBackgroundColor: Colors.white,
           selectedItemBorderColor: Colors.white,
-          selectedItemBackgroundColor: Color(0xff01969a),
+          selectedItemBackgroundColor: Colors.black,
           selectedItemIconColor: Colors.white,
           selectedItemLabelColor: Colors.black,
         ),

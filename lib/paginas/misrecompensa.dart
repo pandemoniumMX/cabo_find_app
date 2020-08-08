@@ -217,7 +217,7 @@ class _UsuarioState extends State<Usuario> {
             onPressed: () => _alertInstrucciones(context),
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(40.0)),
-            color: Color(0xff01969a),
+            color: Colors.black,
             child: new Row(
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
@@ -271,8 +271,7 @@ class _UsuarioState extends State<Usuario> {
                     return Center(
                         child: Text(
                       "Error :(",
-                      style:
-                          TextStyle(color: Color(0xff01969a), fontSize: 25.0),
+                      style: TextStyle(color: Colors.black, fontSize: 25.0),
                       textAlign: TextAlign.center,
                     ));
                   } else {
@@ -408,7 +407,7 @@ class _UsuarioState extends State<Usuario> {
           Container(
               decoration: BoxDecoration(
                   gradient: LinearGradient(colors: [
-                Color(0xff01969a),
+                Colors.black,
                 Colors.white,
               ])),
               child: Text(
@@ -455,7 +454,7 @@ class _UsuarioState extends State<Usuario> {
                   },
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(40.0)),
-                  color: Color(0xff01969a),
+                  color: Colors.black,
                   child: new Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     mainAxisSize: MainAxisSize.min,
@@ -474,7 +473,7 @@ class _UsuarioState extends State<Usuario> {
           Container(
               decoration: BoxDecoration(
                   gradient: LinearGradient(colors: [
-                Color(0xff01969a),
+                Colors.black,
                 Colors.white,
               ])),
               child: Text(
@@ -505,7 +504,7 @@ class _State extends State<Login2> {
               begin: Alignment.topRight,
               end: Alignment.bottomLeft,
               colors: [
-            Color(0xff01969a),
+            Colors.black,
             Colors.white,
           ])),
       child: Container(

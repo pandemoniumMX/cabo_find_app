@@ -188,10 +188,18 @@ class _Menu_majeadorState extends State<Menu_manejador>
                               ),
                               Text(data[index]["MENU_SUBTITULO"],
                                   overflow: TextOverflow.ellipsis, maxLines: 5),
-                              Text(
+                              Container(
+                                  child: Text(
+                                'MXN: \$' + data[index]["MENU_COSTO"],
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.green),
+                              ))
+                              /*   Text(
                                 '\$' + data[index]["MENU_COSTO"],
                                 overflow: TextOverflow.ellipsis,
-                              ),
+                              ),*/
                             ],
                           ),
                         ),
@@ -224,7 +232,7 @@ class _Menu_majeadorState extends State<Menu_manejador>
                       builder: (BuildContext context) => new Domicilio())),*/
                 ),
             title: Text('Regresar'),
-            backgroundColor: Color(0xffFF7864),
+            backgroundColor: Color(0xff3E252B),
             actions: <Widget>[
               new Stack(
                 children: [

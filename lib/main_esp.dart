@@ -29,6 +29,7 @@ import 'package:cabofind/utilidades/notificaciones.dart';
 import 'package:cabofind/utilidades/rutas.dart';
 import 'package:cabofind/weather/weather/weather_builder.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:clippy_flutter/clippy_flutter.dart';
 import 'package:ff_navigation_bar/ff_navigation_bar.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -79,9 +80,9 @@ class Myapp extends StatelessWidget {
 */
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          primarySwatch: Colors.blue,
-          primaryColor: Color(0xff01969a),
-          //primaryColor: Colors.blue,
+          primarySwatch: Colors.grey,
+          primaryColor: Colors.black,
+          //primaryColor: Colors.black,
           accentColor: Colors.black26,
         ),
         home: new Container(child: new MyHomePages()));
@@ -355,7 +356,7 @@ class _MyHomePageState extends State<MyHomePages> {
                         },
                       ),
                       new FlatButton(
-                        color: Colors.blueAccent,
+                        color: Colors.black,
                         child: new Text(
                           'Descubrir',
                           style: TextStyle(fontSize: 14.0, color: Colors.white),
@@ -500,9 +501,9 @@ class _MyHomePageState extends State<MyHomePages> {
       },
         debugShowCheckedModeBanner:false,
         theme: ThemeData(
-          primarySwatch: Colors.blue,
-          //primaryColor: Color(0xff01969a)
-          primaryColor: Colors.blue,
+          primarySwatch: Colors.grey,
+          //primaryColor: Colors.black
+          primaryColor: Colors.black,
           accentColor: Colors.black26,
         ),
         home: new Container(
@@ -574,7 +575,7 @@ routes: <String, WidgetBuilder>{
                 },
               ),
               new FlatButton(
-                color: Colors.blueAccent,
+                color: Colors.black,
                 child: new Text(
                   'Acepto los terminos',
                   style: TextStyle(fontSize: 14.0, color: Colors.white),
@@ -601,7 +602,7 @@ routes: <String, WidgetBuilder>{
         Fluttertoast.showToast(
           msg: "Google pay no disponible",
           toastLength: Toast.LENGTH_SHORT,
-          backgroundColor: Color(0xff01969a),
+          backgroundColor: Colors.black,
           textColor: Colors.white,
           timeInSecForIos: 1);
       } else {
@@ -617,7 +618,7 @@ routes: <String, WidgetBuilder>{
           Fluttertoast.showToast(
           msg: "SUCESS",
           toastLength: Toast.LENGTH_SHORT,
-          backgroundColor: Color(0xff01969a),
+          backgroundColor: Colors.black,
           textColor: Colors.white,
           timeInSecForIos: 1);
     
@@ -626,7 +627,7 @@ routes: <String, WidgetBuilder>{
           Fluttertoast.showToast(
           msg: error.toString(),
           toastLength: Toast.LENGTH_SHORT,
-          backgroundColor: Color(0xff01969a),
+          backgroundColor: Colors.black,
           textColor: Colors.white,
           timeInSecForIos: 1);
         });
@@ -640,7 +641,7 @@ routes: <String, WidgetBuilder>{
         Fluttertoast.showToast(
           msg:"Google pay no disponible",
           toastLength: Toast.LENGTH_SHORT,
-          backgroundColor: Color(0xff01969a),
+          backgroundColor: Colors.black,
           textColor: Colors.white,
           timeInSecForIos: 1);
       } else {
@@ -662,14 +663,14 @@ routes: <String, WidgetBuilder>{
             Fluttertoast.showToast(
           msg:"Success",
           toastLength: Toast.LENGTH_SHORT,
-          backgroundColor: Color(0xff01969a),
+          backgroundColor: Colors.black,
           textColor: Colors.white,
           timeInSecForIos: 1);
           } else if (result.error != null) {
             Fluttertoast.showToast(
           msg:result.error,
           toastLength: Toast.LENGTH_SHORT,
-          backgroundColor: Color(0xff01969a),
+          backgroundColor: Colors.black,
           textColor: Colors.white,
           timeInSecForIos: 1);
           }
@@ -705,93 +706,34 @@ routes: <String, WidgetBuilder>{
       );
     }
 
-    Widget cuerpo = Stack(children: <Widget>[
-      InkWell(
-        onTap: () {
-          Navigator.push(
-              context,
-              new MaterialPageRoute(
-                  builder: (BuildContext context) => new Domicilio()));
-        },
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Container(
-              padding: EdgeInsets.all(5.0),
-              margin: EdgeInsets.all(5.0),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(10.0),
-                child: CachedNetworkImage(
-                  fit: BoxFit.fitWidth,
-                  width: MediaQuery.of(context).size.width,
-                  height: 150,
-                  imageUrl:
-                      'http://cabofind.com.mx/assets/galeria/principal_domicilio.png',
-                  progressIndicatorBuilder: (context, url, downloadProgress) =>
-                      CircularProgressIndicator(
-                          value: downloadProgress.progress),
-                  errorWidget: (context, url, error) => Icon(Icons.error),
-                ),
-              ),
-            ),
-            new Text('Cabofood - Comida a domicilio',
-                style: new TextStyle(
-                  color: Colors.black,
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.w900,
-                  //  backgroundColor: Colors.black45
-                )),
-          ],
+    Widget cuerpo = Container(
+      color: Colors.black,
+      child: new GridView.builder(
+        shrinkWrap: true,
+        itemCount: data == null ? 0 : data.length,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          childAspectRatio: 0.48,
         ),
-      ),
-      Container(
-        padding: EdgeInsets.only(top: 170),
-        child: new StaggeredGridView.countBuilder(
-          crossAxisCount: 4,
-          itemCount: data == null ? 0 : data.length,
-          itemBuilder: (BuildContext context, int index) => new Container(
-            //color: Colors.white,
-            child: Container(
-              padding: EdgeInsets.all(5.0),
-              margin: EdgeInsets.all(5.0),
-              child: InkWell(
+        itemBuilder: (BuildContext context, int index) => Container(
+          height: 400,
+          padding: EdgeInsets.all(0.5),
+          margin: EdgeInsets.all(0.5),
+          child: Stack(
+            children: [
+              InkWell(
                 child: Column(
                   children: <Widget>[
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Expanded(
-                      child: Stack(
-                        children: <Widget>[
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(10.0),
-                            child: CachedNetworkImage(
-                              fit: BoxFit.cover,
-                              height: MediaQuery.of(context).size.height * 0.38,
-                              width: MediaQuery.of(context).size.height,
-                              imageUrl: data[index]["est_foto"],
-                              progressIndicatorBuilder:
-                                  (context, url, downloadProgress) =>
-                                      CircularProgressIndicator(
-                                          value: downloadProgress.progress),
-                              errorWidget: (context, url, error) =>
-                                  Icon(Icons.error),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Center(
-                      child: FittedBox(
-                        fit: BoxFit.fitWidth,
-                        child: new Text(data[index]["est_nombre"],
-                            style: new TextStyle(
-                              color: Colors.black,
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.w900,
-                              //  backgroundColor: Colors.black45
-                            )),
-                      ),
+                    CachedNetworkImage(
+                      fit: BoxFit.fitHeight,
+                      height: 400,
+                      width: MediaQuery.of(context).size.width / 2,
+                      imageUrl: data[index]["est_foto"],
+                      progressIndicatorBuilder:
+                          (context, url, downloadProgress) =>
+                              CircularProgressIndicator(
+                                  value: downloadProgress.progress),
+                      errorWidget: (context, url, error) => Icon(Icons.error),
                     ),
                   ],
                 ),
@@ -892,30 +834,56 @@ routes: <String, WidgetBuilder>{
                         context,
                         new MaterialPageRoute(
                             builder: (BuildContext context) => new Hoteles()));
-                  } else if (ruta == "ruleta") {
+                  } else if (ruta == "Cabofood") {
                     Navigator.push(
                         context,
                         new MaterialPageRoute(
-                            builder: (BuildContext context) => new DicePage()));
+                            builder: (BuildContext context) =>
+                                new Domicilio()));
                   }
                 },
               ),
-            ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Point(
+                        triangleHeight: 10.0,
+                        edge: Edge.LEFT,
+                        child: Container(
+                          margin: const EdgeInsets.only(bottom: 8, top: 8),
+                          padding: const EdgeInsets.only(
+                              left: 18.0, right: 18.0, top: 8.0, bottom: 8.0),
+                          color: Color(int.parse(data[index]["est_color"])),
+                          child: new Text(data[index]["est_nombre"],
+                              style: new TextStyle(
+                                color: Colors.white,
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.w900,
+                                //  backgroundColor: Colors.black45
+                              )),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ],
           ),
-          staggeredTileBuilder: (int index) =>
-              new StaggeredTile.count(2, index.isEven ? 2 : 2),
-          mainAxisSpacing: 4.0,
-          crossAxisSpacing: 4.0,
         ),
-      )
-    ]);
+        /* staggeredTileBuilder: (int index) =>
+            new StaggeredTile.count(2, index.isEven ? 2 : 2),*/
+      ),
+    );
 
     return Scaffold(
       bottomNavigationBar: FFNavigationBar(
         theme: FFNavigationBarTheme(
           barBackgroundColor: Colors.white,
           selectedItemBorderColor: Colors.white,
-          selectedItemBackgroundColor: Color(0xff01969a),
+          selectedItemBackgroundColor: Colors.black,
           selectedItemIconColor: Colors.white,
           selectedItemLabelColor: Colors.black,
         ),

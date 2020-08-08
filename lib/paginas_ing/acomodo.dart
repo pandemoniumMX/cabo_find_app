@@ -15,50 +15,45 @@ class Home extends StatelessWidget {
                   children: [
                     Container(
                         child: Text(
-                          'No te lo puedes perder',
-                          textAlign: TextAlign.center,
-                          //overflow: TextOverflow.ellipsis,
+                      'No te lo puedes perder',
+                      textAlign: TextAlign.center,
+                      //overflow: TextOverflow.ellipsis,
 
-                          style: TextStyle(
-
-                              color: Color(0XFF000000),
-                              fontSize:25.0,
-                              fontWeight: FontWeight.bold),
-                        )
-
-                    ),
-
+                      style: TextStyle(
+                          color: Color(0XFF000000),
+                          fontSize: 25.0,
+                          fontWeight: FontWeight.bold),
+                    )),
                   ],
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-
                     new RaisedButton(
                       padding: const EdgeInsets.all(8.0),
                       textColor: Colors.white,
-                      color: Colors.blue,
+                      color: Colors.black,
                       onPressed: null,
                       child: new Text("Lo nuevo"),
                     ),
                     new RaisedButton(
                       padding: const EdgeInsets.all(8.0),
                       textColor: Colors.white,
-                      color: Colors.blue,
+                      color: Colors.black,
                       onPressed: null,
                       child: new Text("Lo más visitado"),
                     ),
                     new RaisedButton(
                       padding: const EdgeInsets.all(8.0),
                       textColor: Colors.white,
-                      color: Colors.blue,
+                      color: Colors.black,
                       onPressed: null,
                       child: new Text("Recomendado"),
                     ),
                     new RaisedButton(
                       padding: const EdgeInsets.all(8.0),
                       textColor: Colors.white,
-                      color: Colors.blue,
+                      color: Colors.black,
                       onPressed: null,
                       child: new Text("Promociones"),
                     ),

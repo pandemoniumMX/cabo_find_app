@@ -10,180 +10,127 @@ import 'package:cabofind/utilidades/classes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
-
-
-
 class Publicacionesx extends StatefulWidget {
-   
-
-
   @override
   Publicacionesfull createState() => new Publicacionesfull();
-
 }
-
 
 class Publicacionesfull extends State<Publicacionesx> {
   ScrollController _scrollController = new ScrollController();
-  int _ultimoItem =0;
+  int _ultimoItem = 0;
   List<int> _listaNumeros = new List();
 
   List data;
   List data_n;
   List data_c;
 
-
   //final List<Todo> todos;
   Future<String> getData() async {
     var response = await http.get(
         Uri.encodeFull(
             "http://cabofind.com.mx/app_php/consultas_negocios/esp/list_publicaciones.php"),
+        headers: {"Accept": "application/json"});
 
-        headers: {
-          "Accept": "application/json"
-        }
-    );
-
-    this.setState(
-            () {
-          data = json.decode(
-              response.body);
-        });
-    
+    this.setState(() {
+      data = json.decode(response.body);
+    });
 
     return "Success!";
   }
 
-
-
   @override
   void initState() {
-    super.initState(
-
-    );
+    super.initState();
     this.getData();
-
-
   }
 
-
   Widget build(BuildContext context) {
+    return new Scaffold(
+      appBar: new AppBar(
+        title: new Text('Publicaciones'),
+      ),
+      body: Container(
+        // height: MediaQuery.of(context).size.height,
+        child: new StaggeredGridView.countBuilder(
+          crossAxisCount: 4,
+          itemCount: data == null ? 0 : data.length,
+          itemBuilder: (BuildContext context, int index) => new Container(
+            //color: Colors.white,
+            child: Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.0),
+                  border: Border.all(color: Colors.black)),
+              padding: EdgeInsets.all(1.0),
+              margin: EdgeInsets.all(1.0),
+              child: InkWell(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Padding(
+                      child: new Text(
+                        data[index]["PUB_TITULO"],
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                          fontSize: 20.0,
+                        ),
+                      ),
+                      padding: EdgeInsets.all(1.0),
+                    ),
+                    Expanded(
+                      child: FadeInImage(
+                        image: NetworkImage(data[index]["GAL_FOTO"]),
+                        fit: BoxFit.cover,
+                        width: MediaQuery.of(context).size.width,
+                        //height: MediaQuery.of(context).size.height * 0.38,
+                        height: MediaQuery.of(context).size.height,
 
-return new Scaffold(
-appBar: new AppBar(
-      title: new Text('Publicaciones'),
-    ),
-    body: Container(
-     // height: MediaQuery.of(context).size.height,
-    child: new  StaggeredGridView.countBuilder(
-      crossAxisCount: 4,
-      itemCount:data == null ? 0 : data.length,
-      itemBuilder: (BuildContext context, int index) => new Container(
-          //color: Colors.white,
-        child: Container(
-
-          decoration: BoxDecoration(
-                    borderRadius:BorderRadius.circular(10.0),
-
-                    border: Border.all(
-                        color: Colors.blue)),
-                padding: EdgeInsets.all(
-                    1.0),
-                margin: EdgeInsets.all(
-                    1.0),
-          child: InkWell(
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start ,
-              children: <Widget>[
-
-
-                Padding(
-                  child: new Text(
-                    data[index]["PUB_TITULO"],
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                      fontSize: 20.0,
-                    ),),
-                  padding: EdgeInsets.all(1.0),
-                ),
-
-                Expanded(
-                                  child: FadeInImage(
-
-                    image: NetworkImage(data[index]["GAL_FOTO"]),
-                    fit: BoxFit.cover,
-                    width: MediaQuery.of(context).size.width,
-                    //height: MediaQuery.of(context).size.height * 0.38,
-                    height: MediaQuery.of(context).size.height,
-
-                    // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
-                    placeholder: AssetImage('android/assets/images/loading.gif'),
-                    fadeInDuration: Duration(milliseconds: 200),
-
-                  ),
-                ),
-
-
-                Row(
-                    children: <Widget>[
-
-
+                        // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
+                        placeholder:
+                            AssetImage('android/assets/images/loading.gif'),
+                        fadeInDuration: Duration(milliseconds: 200),
+                      ),
+                    ),
+                    Row(children: <Widget>[
                       Padding(
                           child: new Text(
                             data[index]["NEG_NOMBRE"],
-                            overflow: TextOverflow.ellipsis,),
-                          padding: EdgeInsets.all(
-                              1.0)),
-                      Text(
-                          " | "),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          padding: EdgeInsets.all(1.0)),
+                      Text(" | "),
                       Flexible(
                         child: new Text(
                           data[index]["NEG_LUGAR"],
                           overflow: TextOverflow.ellipsis,
-                          maxLines: 1,),
-
-
+                          maxLines: 1,
+                        ),
                       ),
-
-
-
                     ]),
-              ],
+                  ],
+                ),
+                onTap: () {
+                  String id_n = data[index]["ID_NEGOCIO"];
+                  String id_p = data[index]["ID_PUBLICACION"];
 
+                  Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (context) => new Publicacion_detalle_fin(
+                                publicacion: new Publicacion(id_n, id_p),
+                              )));
+                },
+              ),
             ),
-            onTap: () {
-              String id_n = data[index]["ID_NEGOCIO"];
-              String id_p = data[index]["ID_PUBLICACION"];            
-
-
-              Navigator.push(context, new MaterialPageRoute
-                (builder: (context) => new Publicacion_detalle_fin(
-                publicacion: new Publicacion(id_n,id_p),
-              )
-              )
-              );
-
-
-            },
           ),
+          staggeredTileBuilder: (int index) =>
+              new StaggeredTile.count(2, index.isEven ? 3 : 3),
+          mainAxisSpacing: 4.0,
+          crossAxisSpacing: 4.0,
         ),
-
       ),
-
-      staggeredTileBuilder: (int index) =>
-      new StaggeredTile.count(2, index.isEven ? 3 : 3),
-      mainAxisSpacing: 4.0,
-      crossAxisSpacing: 4.0,
-    ),
-
-    ),
-
-
     );
-
-
   }
 }

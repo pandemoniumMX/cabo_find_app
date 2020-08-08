@@ -3,8 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-
-
 class Buscador2 extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
@@ -26,17 +24,30 @@ class Posts {
   final String cor;
   final String hor;
 
-  Posts({this.id_nm,this.nombre,this.cat,this.subs,this.logo,this.etiquetas, this.desc,this.maps, this.fb,this.inst,this.web,this.tel,this.cor,this.hor});
+  Posts(
+      {this.id_nm,
+      this.nombre,
+      this.cat,
+      this.subs,
+      this.logo,
+      this.etiquetas,
+      this.desc,
+      this.maps,
+      this.fb,
+      this.inst,
+      this.web,
+      this.tel,
+      this.cor,
+      this.hor});
 
+  //Posts({this.userId, this.id, this.title, this.body});
 
- //Posts({this.userId, this.id, this.title, this.body});
-
-  factory Posts.formJson(Map <String, dynamic> json){
+  factory Posts.formJson(Map<String, dynamic> json) {
     return new Posts(
-       id_nm: json['ID_NEGOCIO'],
-       nombre: json['NEG_NOMBRE'],
-       etiquetas: json['NEG_ETIQUETAS'],
-       cat: json['CAT_NOMBRE'],
+      id_nm: json['ID_NEGOCIO'],
+      nombre: json['NEG_NOMBRE'],
+      etiquetas: json['NEG_ETIQUETAS'],
+      cat: json['CAT_NOMBRE'],
     );
   }
 }
@@ -50,8 +61,8 @@ class _HomeState extends State<Buscador2> {
       loading = true;
     });
     _list.clear();
-    final response =
-        await http.get("http://cabofind.com.mx/app_php/consultas_negocios/esp/list_negocios_bus.php");
+    final response = await http.get(
+        "http://cabofind.com.mx/app_php/consultas_negocios/esp/list_negocios_bus.php");
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
       setState(() {
@@ -96,7 +107,7 @@ class _HomeState extends State<Buscador2> {
           children: <Widget>[
             Container(
               padding: EdgeInsets.all(10.0),
-              color: Colors.blue,
+              color: Colors.black,
               child: Card(
                 child: ListTile(
                   leading: Icon(Icons.search),
@@ -125,58 +136,53 @@ class _HomeState extends State<Buscador2> {
                         ? ListView.builder(
                             itemCount: _search.length,
                             itemBuilder: (context, i) {
-                               final b = _search[i];
-                              return ListTile(title: Container(
-                                  padding: EdgeInsets.all(10.0),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Text(
-                                        b.nombre,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 18.0),
-                                      ),
-                                      SizedBox(
-                                        height: 4.0,
-                                      ),
-                                    ],
-                                  )),);
-
-                             
-                              
+                              final b = _search[i];
+                              return ListTile(
+                                title: Container(
+                                    padding: EdgeInsets.all(10.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Text(
+                                          b.nombre,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 18.0),
+                                        ),
+                                        SizedBox(
+                                          height: 4.0,
+                                        ),
+                                      ],
+                                    )),
+                              );
                             },
                           )
                         : ListView.builder(
                             itemCount: _list.length,
                             itemBuilder: (context, i) {
-
                               final a = _list[i];
 
                               return ListTile(
-                            title:  Container(
-                                  padding: EdgeInsets.all(10.0),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Text(
-                                        a.nombre,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 18.0),
-                                      ),
-                                      SizedBox(
-                                        height: 4.0,
-                                      ),
-                                      Text(a.cat),
-                                    ],
-                                  )
-                                  
-                                  ),
+                                title: Container(
+                                    padding: EdgeInsets.all(10.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Text(
+                                          a.nombre,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 18.0),
+                                        ),
+                                        SizedBox(
+                                          height: 4.0,
+                                        ),
+                                        Text(a.cat),
+                                      ],
+                                    )),
                               );
-                              
                             },
                           ),
                   ),

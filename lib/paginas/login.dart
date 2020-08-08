@@ -112,7 +112,7 @@ class _UsuarioState extends State<Usuario> {
         automaticallyImplyLeading: true,
         centerTitle: false,
         elevation: 0.0,
-        backgroundColor: Color(0xff01969a),
+        backgroundColor: Colors.black,
         
 
         //`true` if you want Flutter to automatically add Back Button when needed,
@@ -125,7 +125,7 @@ class _UsuarioState extends State<Usuario> {
           gradient: LinearGradient(
               begin: Alignment.topRight,
               end: Alignment.bottomLeft,
-              colors: [Color(0xff01969a), Color(0xffAEDEDF)])),
+              colors: [Colors.black, Colors.white60])),
       child: FutureBuilder(
           future: _loadUser(),
           builder: (context, snapshot) {
@@ -141,7 +141,7 @@ class _UsuarioState extends State<Usuario> {
                   return Center(
                       child: Text(
                     "Error :(",
-                    style: TextStyle(color: Color(0xff01969a), fontSize: 25.0),
+                    style: TextStyle(color: Colors.black, fontSize: 25.0),
                     textAlign: TextAlign.center,
                   ));
                 } else {
@@ -517,7 +517,7 @@ Future<String> signInWithGoogle() async {
               begin: Alignment.topRight,
               end: Alignment.bottomLeft,
               colors: [
-            Color(0xff01969a),
+            Colors.black,
             Colors.white,
           ])),
       child: Center(

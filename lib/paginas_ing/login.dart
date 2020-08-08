@@ -118,7 +118,7 @@ class _UsuarioState extends State<Usuario> {
         automaticallyImplyLeading: true,
         centerTitle: false,
         elevation: 0.0,
-        backgroundColor: Color(0xff01969a),
+        backgroundColor: Colors.black,
         
 
         //`true` if you want Flutter to automatically add Back Button when needed,
@@ -132,7 +132,7 @@ class _UsuarioState extends State<Usuario> {
               begin: Alignment.topRight,
               end: Alignment.bottomLeft,
               colors: [
-            Color(0xff01969a),
+            Colors.black,
             Colors.white,
           ])),
       child: FutureBuilder(
@@ -150,7 +150,7 @@ class _UsuarioState extends State<Usuario> {
                   return Center(
                       child: Text(
                     "Error :(",
-                    style: TextStyle(color: Color(0xff01969a), fontSize: 25.0),
+                    style: TextStyle(color: Colors.black, fontSize: 25.0),
                     textAlign: TextAlign.center,
                   ));
                 } else {
@@ -447,7 +447,7 @@ class _Compras2 extends State<Login2> {
               begin: Alignment.topRight,
               end: Alignment.bottomLeft,
               colors: [
-            Color(0xff01969a),
+            Colors.black,
             Colors.white,
           ])),
       child: Center(
