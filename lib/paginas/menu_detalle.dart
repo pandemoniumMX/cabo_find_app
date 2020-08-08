@@ -16,10 +16,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'domicilio.dart';
 import 'list_manejador_menus.dart';
 
-//import 'reseña_insert.dart';
-
 class Menu_detalle extends StatefulWidget {
-//final Publicacion publicacion;
   final Publicacion menu;
 
   Menu_detalle({Key key, @required this.menu}) : super(key: key);
@@ -50,7 +47,8 @@ class Detalles extends State<Menu_detalle> {
   double _subtotal = 0;
   double _suma;
   double _suma_ex = 0;
-  double _suma_ex2 = 50;
+  double _suma_ex2 = 0;
+  double _suma_ex3 = 0;
   double total = 0;
 
   var factorial = 0;
@@ -88,14 +86,21 @@ class Detalles extends State<Menu_detalle> {
     return "Success!";
   }
 
-  Future<String> _insertPedidoSingle(int cantidad, double costo, String nota,
-      String extra1, String extra2, double costoex1, double costoex2) async {
+  Future<String> _insertPedidoSingle(
+      int cantidad,
+      double costo,
+      String nota,
+      String extra1,
+      String extra2,
+      String extra3,
+      double costoex1,
+      double costoex2) async {
     final SharedPreferences login = await SharedPreferences.getInstance();
     String _mail2 = "";
     _mail2 = login.getString("stringID");
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/insert_carrito_single.php?ID=${widget.menu.id_n}&MENU=${widget.menu.id_p}&IDF=$_mail2&CANTIDAD=${cantidad}&COSTO=${costo}&NOTA=${nota}&EXTRA1=${extra1}&EXTRA2=${extra2}&EXTRA1COSTO=${costoex1}&EXTRA2COSTO=${costoex2}"),
+            "http://cabofind.com.mx/app_php/APIs/esp/insert_carrito_single.php?ID=${widget.menu.id_n}&MENU=${widget.menu.id_p}&IDF=$_mail2&CANTIDAD=${cantidad}&COSTO=${costo}&NOTA=${nota}&EXTRA1=${extra1}&EXTRA2=${extra2}&EXTRA1COSTO=${costoex1}&EXTRA2COSTO=${costoex2}&EXTRA3=${extra3}"),
         headers: {"Accept": "application/json"});
 
     return "Success!";
@@ -362,14 +367,18 @@ class Detalles extends State<Menu_detalle> {
                     onPressed: () {
                       String notax = controller.text;
                       _insertPedidoSingle(_counter, total, notax, _extras1,
-                          _extras2, _suma_ex, _suma_ex2);
-                      Navigator.of(context).pop();
-                      Navigator.push(
-                          context,
-                          new MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  new Menu_manejador(
-                                      manejador: new Users(idn))));
+                          _extras2, _extras3, _suma_ex, _suma_ex2);
+
+                      Future.delayed(const Duration(milliseconds: 500), () {
+                        Navigator.of(context).pop();
+                        Navigator.push(
+                            context,
+                            new MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    new Menu_manejador(
+                                        manejador: new Users(idn))));
+                      });
+
                       /*   Navigator.of(context).pushAndRemoveUntil(
                           MaterialPageRoute(
                               builder: (context) =>
@@ -382,13 +391,16 @@ class Detalles extends State<Menu_detalle> {
                     onPressed: () {
                       String notax = controller.text;
                       _insertPedidoSingle(_counter, total, notax, _extras1,
-                          _extras2, _suma_ex, _suma_ex2);
-                      Navigator.of(context).pop();
-                      Navigator.push(
-                          context,
-                          new MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  new Preparing(negocio: new Users(idn))));
+                          _extras2, _extras3, _suma_ex, _suma_ex2);
+
+                      Future.delayed(const Duration(milliseconds: 500), () {
+                        Navigator.of(context).pop();
+                        Navigator.push(
+                            context,
+                            new MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    new Preparing(negocio: new Users(idn))));
+                      });
                       /*Navigator.of(context).push(
                           MaterialPageRoute(
                               builder: (context) =>
@@ -585,7 +597,172 @@ class Detalles extends State<Menu_detalle> {
                                 isExpanded: true,
                               ),
                       ])
-                    : SizedBox()
+                    : dataneg[0]["MENU_REQUIERE"] == '3'
+                        ? Column(children: <Widget>[
+                            _counter >= 1
+                                ? DropdownButtonFormField(
+                                    items: extra.map((item) {
+                                      return new DropdownMenuItem(
+                                        child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: <Widget>[
+                                              new Text(
+                                                  item['EXT_NOMBRE'] + ' '),
+                                              Text('\$' + item['EXT_PRECIO'])
+                                            ]),
+                                        onTap: () {
+                                          var suma_ex =
+                                              double.parse(item['EXT_PRECIO']);
+                                          if (_counter >= 1) {
+                                            if (_suma_ex == 0) {
+                                              _suma_ex = suma_ex;
+                                              _costo = _costo + _suma_ex;
+                                              print(suma_ex);
+                                            } else if (_suma_ex != 0) {
+                                              _costo = _costo - _suma_ex;
+                                              _suma_ex = suma_ex;
+                                              _costo = _costo + _suma_ex;
+                                            }
+                                          }
+                                        },
+                                        value: item['ID_EXTRAS'].toString(),
+                                      );
+                                    }).toList(),
+                                    onTap: null,
+                                    onChanged: (newValx) {
+                                      setState(() {
+                                        if (_counter >= 1) {
+                                          _extras1 = newValx;
+                                        }
+                                      });
+                                    },
+                                    validator: (value) => value == null
+                                        ? 'Campo requerido'
+                                        : null,
+                                    hint: Text('Seleccionar'),
+                                    value: _extras1,
+                                    isExpanded: true,
+                                  )
+                                : DropdownButtonFormField(
+                                    items: extra.map((item) {}).toList(),
+                                    onTap: null,
+                                    validator: (value) =>
+                                        value == null ? 'field required' : null,
+                                    hint: Text('Selecciona un ingrediente'),
+                                    value: _extras1,
+                                    isExpanded: true,
+                                  ),
+                            _counter >= 1
+                                ? DropdownButtonFormField(
+                                    items: extra.map((item) {
+                                      return new DropdownMenuItem(
+                                        child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: <Widget>[
+                                              new Text(
+                                                  item['EXT_NOMBRE'] + ' '),
+                                              Text('\$' + item['EXT_PRECIO'])
+                                            ]),
+                                        onTap: () {
+                                          var suma_ex2 =
+                                              double.parse(item['EXT_PRECIO']);
+                                          if (_counter >= 1) {
+                                            if (suma_ex2 == 0) {
+                                              _suma_ex2 = suma_ex2;
+                                              _costo = _costo + _suma_ex2;
+                                              print(suma_ex2);
+                                            } else if (suma_ex2 != 0) {
+                                              _costo = _costo - _suma_ex2;
+                                              _suma_ex2 = suma_ex2;
+                                              _costo = _costo + _suma_ex2;
+                                            }
+                                          }
+                                        },
+                                        value: item['ID_EXTRAS'].toString(),
+                                      );
+                                    }).toList(),
+                                    onTap: null,
+                                    onChanged: (newVal) {
+                                      setState(() {
+                                        if (_counter >= 1) {
+                                          _extras2 = newVal;
+                                        }
+                                      });
+                                    },
+                                    validator: (value) => value == null
+                                        ? 'Campo requerido'
+                                        : null,
+                                    hint: Text('Seleccionar'),
+                                    value: _extras2,
+                                    isExpanded: true,
+                                  )
+                                : DropdownButtonFormField(
+                                    items: extra.map((item) {}).toList(),
+                                    onTap: null,
+                                    validator: (value) =>
+                                        value == null ? 'field required' : null,
+                                    hint: Text('Selecciona un ingrediente'),
+                                    value: _extras2,
+                                    isExpanded: true,
+                                  ),
+                            _counter >= 1
+                                ? DropdownButtonFormField(
+                                    items: extra.map((item) {
+                                      return new DropdownMenuItem(
+                                        child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: <Widget>[
+                                              new Text(
+                                                  item['EXT_NOMBRE'] + ' '),
+                                              Text('\$' + item['EXT_PRECIO'])
+                                            ]),
+                                        onTap: () {
+                                          var suma_ex3 =
+                                              double.parse(item['EXT_PRECIO']);
+                                          if (_counter >= 1) {
+                                            if (suma_ex3 == 0) {
+                                              _suma_ex3 = suma_ex3;
+                                              _costo = _costo + _suma_ex3;
+                                              print(suma_ex3);
+                                            } else if (suma_ex3 != 0) {
+                                              _costo = _costo - _suma_ex3;
+                                              _suma_ex3 = suma_ex3;
+                                              _costo = _costo + _suma_ex3;
+                                            }
+                                          }
+                                        },
+                                        value: item['ID_EXTRAS'].toString(),
+                                      );
+                                    }).toList(),
+                                    onTap: null,
+                                    onChanged: (newVal) {
+                                      setState(() {
+                                        if (_counter >= 1) {
+                                          _extras3 = newVal;
+                                        }
+                                      });
+                                    },
+                                    validator: (value) => value == null
+                                        ? 'Campo requerido'
+                                        : null,
+                                    hint: Text('Seleccionar'),
+                                    value: _extras3,
+                                    isExpanded: true,
+                                  )
+                                : DropdownButtonFormField(
+                                    items: extra.map((item) {}).toList(),
+                                    onTap: null,
+                                    validator: (value) =>
+                                        value == null ? 'field required' : null,
+                                    hint: Text('Selecciona un ingrediente'),
+                                    value: _extras3,
+                                    isExpanded: true,
+                                  ),
+                          ])
+                        : SizedBox()
           ])
         : SizedBox();
     Widget textSection = Column(children: <Widget>[

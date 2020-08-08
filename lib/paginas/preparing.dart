@@ -13,7 +13,9 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import '../main.dart';
+import 'carrito_check.dart';
 import 'dados.dart';
+import 'list_manejador_menus.dart';
 import 'list_manejador_recompensas.dart';
 import 'package:cabofind/paginas/direccion.dart';
 
@@ -151,7 +153,7 @@ class _UsuarioState extends State<Carritox> {
     double long = coordinates.longitude;
 
     http.Response response = await http.get(
-        "https://maps.googleapis.com/maps/api/distancematrix/json?units=kilometer&origins=$coor,$long&destinations=$latn,$longn&key=AIzaSyA152PLBZLFqFlUMKQhMce3Z18OMGhPY6w");
+        "https://maps.googleapis.com/maps/api/distancematrix/json?units=kilometer&origins=22.920840, -109.930567&destinations=$latn,$longn&key=AIzaSyA152PLBZLFqFlUMKQhMce3Z18OMGhPY6w");
     Map<String, dynamic> map = json.decode(response.body);
     List<dynamic> data = map["rows"];
     print(data[0]['elements'][0]['distance']['text']);
@@ -180,9 +182,9 @@ class _UsuarioState extends State<Carritox> {
         } else if (distancia >= 3000 && distancia <= 4999) {
           envio3 = 50.0;
           print('costo 3 de envio' + envio3.toString());
-        } else if (distancia != null) {
+        } else if (distancia >= 5000) {
           double distanciaplus = distancia / 110;
-          envio3 = distanciaplus;
+          envio3 = distanciaplus.roundToDouble();
           print('costo 3 de envio' + envio3.toString());
         }
 
@@ -270,14 +272,11 @@ class _UsuarioState extends State<Carritox> {
                     return Center(child: CircularProgressIndicator());
                   default:
                     if (snapshot.hasError) {
-                      return Container(
-                        padding: const EdgeInsets.all(10),
-                        child: Center(
-                            child: Text(
-                          'Aún no tienes pedidos',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        )),
-                      );
+                      Navigator.push(
+                          context,
+                          new MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  Carrito_check()));
                     } else {
                       return ListView.builder(
                           shrinkWrap: true,
@@ -292,7 +291,9 @@ class _UsuarioState extends State<Carritox> {
                             longd = longx.toString();
                             tiempoprep =
                                 double.parse(data[0]["MENU_TIEMPO_PREP"]);
+
                             _getCurrentLocation(latx, longx, tiempoprep);
+
                             return new Card(
                               elevation: 1.0,
                               child: new Container(
@@ -340,17 +341,50 @@ class _UsuarioState extends State<Carritox> {
                                                       ),
                                                       onPressed: () {
                                                         _eliminarItem(idx);
-                                                        _cargarPedido();
+                                                        setState(() {
+                                                          _cargarPedido();
+                                                          _cargarPedido();
+                                                        });
+                                                        Future.delayed(
+                                                            const Duration(
+                                                                milliseconds:
+                                                                    1000), () {
+                                                          Navigator.of(context)
+                                                              .pop();
+                                                        });
+
+                                                        /*_eliminarItem(idx);
+                                                        setState(() {});
+
                                                         Navigator.of(context)
                                                             .pop();
-                                                        /*  Navigator.pushReplacement(
-                                                      context,
-                                                      new MaterialPageRoute(
-                                                          builder: (BuildContext
-                                                                  context) =>
-                                                              new Carritox(
-                                                                  negocio:
-                                                                      new Users(idn))));*/
+                                                        if (snapshot.hasError) {
+                                                          /*
+                                                          Navigator.push(
+                                                              context,
+                                                              new MaterialPageRoute(
+                                                                  builder: (BuildContext
+                                                                          context) =>
+                                                                      new Menu_manejador(
+                                                                          manejador: new Users(widget
+                                                                              .negocio
+                                                                              .correo))));*/
+                                                        } else if (snapshot
+                                                            .hasData) {
+                                                          setState(() {});
+                                                          _cargarPedido();
+                                                        } else {
+                                                           Navigator.of(context)
+                                                              .pop();
+                                                          Navigator.push(
+                                                              context,
+                                                              new MaterialPageRoute(
+                                                                  builder: (BuildContext
+                                                                          context) =>
+                                                                      new Menu_manejador(
+                                                                          manejador: new Users(widget
+                                                                              .negocio
+                                                                              .correo))));*/
                                                       },
                                                     ),
                                                   ],
