@@ -164,7 +164,7 @@ class Detalles extends State<Reservacion> {
                         borderRadius: new BorderRadius.circular(25.0),
                         borderSide: new BorderSide(),
                       ),
-                      //fillColor: Colors.green
+                      //fillColor: Color(0xff773E42)
                     ),
                     keyboardType: TextInputType.text,
                     controller: nombre,
@@ -187,7 +187,7 @@ class Detalles extends State<Reservacion> {
                         borderRadius: new BorderRadius.circular(25.0),
                         borderSide: new BorderSide(),
                       ),
-                      //fillColor: Colors.green
+                      //fillColor: Color(0xff773E42)
                     ),
                     keyboardType: TextInputType.phone,
                     inputFormatters: <TextInputFormatter>[
@@ -213,7 +213,7 @@ class Detalles extends State<Reservacion> {
                         borderRadius: new BorderRadius.circular(25.0),
                         borderSide: new BorderSide(),
                       ),
-                      //fillColor: Colors.green
+                      //fillColor: Color(0xff773E42)
                     ),
                     keyboardType: TextInputType.emailAddress,
                     controller: correo,
@@ -228,7 +228,7 @@ class Detalles extends State<Reservacion> {
                         borderRadius: new BorderRadius.circular(25.0),
                         borderSide: new BorderSide(),
                       ),
-                      //fillColor: Colors.green
+                      //fillColor: Color(0xff773E42)
                     ),
                     child: DropdownButton(
                       items: playas.map((item) {

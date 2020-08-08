@@ -401,7 +401,7 @@ class _MyHomePageState extends State<MyHomePages> {
                             },
                           ),
                           new FlatButton(
-                            color: Colors.green,
+                            color: Color(0xff773E42),
                             child: new Text(
                               'Ver detalle',
                               style: TextStyle(

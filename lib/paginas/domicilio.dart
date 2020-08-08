@@ -60,23 +60,23 @@ class _DomicilioState extends State<Domicilio> {
             theme: FFNavigationBarTheme(
               barBackgroundColor: Colors.white,
               selectedItemBorderColor: Colors.white,
-              selectedItemBackgroundColor: Color(0xff3E252B),
+              selectedItemBackgroundColor: Color(0xff60032D),
               selectedItemIconColor: Colors.white,
               selectedItemLabelColor: Colors.black,
             ),
             items: [
               FFNavigationBarItem(
-                selectedBackgroundColor: Colors.green,
+                selectedBackgroundColor: Color(0xff773E42),
                 iconData: FontAwesomeIcons.utensils,
                 label: 'Inicio',
               ),
               FFNavigationBarItem(
-                selectedBackgroundColor: Colors.green,
+                selectedBackgroundColor: Color(0xff773E42),
                 iconData: FontAwesomeIcons.search,
                 label: 'Buscar',
               ),
               FFNavigationBarItem(
-                selectedBackgroundColor: Colors.green,
+                selectedBackgroundColor: Color(0xff773E42),
                 iconData: FontAwesomeIcons.fileAlt,
                 label: 'Pedidos',
               ),
@@ -108,7 +108,7 @@ class _DomicilioState extends State<Domicilio> {
                     child: Icon(FontAwesomeIcons.syncAlt))
               ],
             ),
-            backgroundColor: Color(0xff3E252B),
+            backgroundColor: Color(0xff60032D),
           ),
           body: new PageView(
             controller: _c,

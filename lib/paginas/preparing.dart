@@ -243,7 +243,7 @@ class _UsuarioState extends State<Carritox> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Regresar'),
-        backgroundColor: Color(0xff3E252B),
+        backgroundColor: Color(0xff60032D),
       ),
       body: ListView(
         children: <Widget>[
@@ -336,8 +336,8 @@ class _UsuarioState extends State<Carritox> {
                                                       child: new Text(
                                                         "Confirmar",
                                                         style: TextStyle(
-                                                            color:
-                                                                Colors.green),
+                                                            color: Color(
+                                                                0xff773E42)),
                                                       ),
                                                       onPressed: () {
                                                         _eliminarItem(idx);
@@ -415,7 +415,7 @@ class _UsuarioState extends State<Carritox> {
                                               style: TextStyle(
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 18.0,
-                                                color: Colors.green,
+                                                color: Color(0xff773E42),
                                               )),
                                         ]),
                                         Text(data[index]["MENU_NOMBRE"],
@@ -647,7 +647,7 @@ class _UsuarioState extends State<Carritox> {
                                           child: Text(
                                             snapshot.data['DIC_CALLE'],
                                             style: TextStyle(
-                                                color: Colors.green,
+                                                color: Color(0xff773E42),
                                                 fontWeight: FontWeight.bold),
                                             overflow: TextOverflow.ellipsis,
                                           ),
@@ -656,7 +656,7 @@ class _UsuarioState extends State<Carritox> {
                                             margin: EdgeInsets.only(right: 10),
                                             child: Icon(
                                               FontAwesomeIcons.check,
-                                              color: Colors.green,
+                                              color: Color(0xff773E42),
                                               size: 18,
                                             )),
                                       ],
@@ -886,7 +886,8 @@ class _UsuarioState extends State<Carritox> {
                                                     child: new Text(
                                                       "Confirmar",
                                                       style: TextStyle(
-                                                          color: Colors.green),
+                                                          color: Color(
+                                                              0xff773E42)),
                                                     ),
                                                     onPressed: () {
                                                       _confirmarOrden(valpago);
@@ -908,7 +909,7 @@ class _UsuarioState extends State<Carritox> {
                                           );
                                         }
                                       },
-                                      color: Colors.green,
+                                      color: Color(0xff773E42),
                                       textColor: Colors.white,
                                       child: Text(
                                         'Confirmar orden',
@@ -1014,7 +1015,7 @@ class _UsuarioState extends State<Carritox> {
                                     Container(
                                         margin: EdgeInsets.only(right: 10),
                                         padding: EdgeInsets.all(1),
-                                        //color: Colors.green,
+                                        //color: Color(0xff773E42),
                                         child: FlatButton(
                                             shape: RoundedRectangleBorder(
                                                 borderRadius:

@@ -978,57 +978,97 @@ Future<String> insertVisitaiOS() async {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                     SizedBox(width: 30),
-                    FloatingActionButton(
-                      child: Icon(FontAwesomeIcons.instagram),
-                      onPressed: instagram,
-                      backgroundColor: Colors.black,
-                      heroTag: "bt1",
-                      elevation: 0.0,
-                    ),
+                    dataneg[index]["NEG_INSTAGRAM"] != null
+                        ? FloatingActionButton(
+                            child: Icon(FontAwesomeIcons.instagram),
+                            onPressed: instagram,
+                            backgroundColor: Colors.black,
+                            heroTag: "bt1",
+                            elevation: 0.0,
+                          )
+                        : FloatingActionButton(
+                            child: Icon(FontAwesomeIcons.instagram),
+                            onPressed: null,
+                            backgroundColor: Colors.grey,
+                            heroTag: "bt1",
+                            elevation: 0.0,
+                          ),
                     Expanded(
                         child: SizedBox(
                       width: 5.0,
                     )),
-                    FloatingActionButton(
-                      child: Icon(FontAwesomeIcons.facebook),
-                      onPressed: facebook,
-                      backgroundColor: Colors.black,
-                      heroTag: "bt3",
-                      elevation: 0.0,
-                    ),
+                    dataneg[index]["NEG_FACEBOOK"] != null
+                        ? FloatingActionButton(
+                            child: Icon(FontAwesomeIcons.facebook),
+                            onPressed: facebook,
+                            backgroundColor: Colors.black,
+                            heroTag: "bt3",
+                            elevation: 0.0,
+                          )
+                        : FloatingActionButton(
+                            child: Icon(FontAwesomeIcons.facebook),
+                            onPressed: null,
+                            backgroundColor: Colors.grey,
+                            heroTag: "bt3",
+                            elevation: 0.0,
+                          ),
                     Expanded(
                         child: SizedBox(
                       width: 5.0,
                     )),
-                    FloatingActionButton(
-                      child: Icon(FontAwesomeIcons.globeAmericas),
-                      onPressed: web,
-                      backgroundColor: Colors.black,
-                      heroTag: "bt4",
-                      elevation: 0.0,
-                    ),
+                    dataneg[index]["NEG_WEB"] != null
+                        ? FloatingActionButton(
+                            child: Icon(FontAwesomeIcons.globeAmericas),
+                            onPressed: web,
+                            backgroundColor: Colors.black,
+                            heroTag: "bt4",
+                            elevation: 0.0,
+                          )
+                        : FloatingActionButton(
+                            child: Icon(FontAwesomeIcons.globeAmericas),
+                            onPressed: null,
+                            backgroundColor: Colors.grey,
+                            heroTag: "bt4",
+                            elevation: 0.0,
+                          ),
                     Expanded(
                         child: SizedBox(
                       width: 5.0,
                     )),
-                    FloatingActionButton(
-                      child: Icon(FontAwesomeIcons.phone),
-                      onPressed: telefono,
-                      backgroundColor: Colors.black,
-                      heroTag: "bt5",
-                      elevation: 0.0,
-                    ),
+                    dataneg[index]["NEG_TEL"] != null
+                        ? FloatingActionButton(
+                            child: Icon(FontAwesomeIcons.phone),
+                            onPressed: telefono,
+                            backgroundColor: Colors.black,
+                            heroTag: "bt5",
+                            elevation: 0.0,
+                          )
+                        : FloatingActionButton(
+                            child: Icon(FontAwesomeIcons.phone),
+                            onPressed: null,
+                            backgroundColor: Colors.grey,
+                            heroTag: "bt5",
+                            elevation: 0.0,
+                          ),
                     Expanded(
                         child: SizedBox(
                       width: 5.0,
                     )),
-                    FloatingActionButton(
-                      child: Icon(FontAwesomeIcons.envelope),
-                      onPressed: correo,
-                      backgroundColor: Colors.black,
-                      heroTag: "bt6",
-                      elevation: 0.0,
-                    ),
+                    dataneg[index]["NEG_CORREO"] != null
+                        ? FloatingActionButton(
+                            child: Icon(FontAwesomeIcons.envelope),
+                            onPressed: correo,
+                            backgroundColor: Colors.black,
+                            heroTag: "bt6",
+                            elevation: 0.0,
+                          )
+                        : FloatingActionButton(
+                            child: Icon(FontAwesomeIcons.envelope),
+                            onPressed: null,
+                            backgroundColor: Colors.grey,
+                            heroTag: "bt6",
+                            elevation: 0.0,
+                          ),
                     Expanded(
                         child: SizedBox(
                       width: 5.0,

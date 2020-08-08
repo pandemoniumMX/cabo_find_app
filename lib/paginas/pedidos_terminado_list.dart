@@ -79,7 +79,7 @@ class _Pedidos_nuevosState extends State<Lista_terminado> {
                 new MaterialPageRoute(
                     builder: (BuildContext context) => new Domicilio())),
           ),
-          backgroundColor: Color(0xff3E252B),
+          backgroundColor: Color(0xff60032D),
         ),
         body: ListView(
           children: <Widget>[
@@ -110,7 +110,7 @@ class _Pedidos_nuevosState extends State<Lista_terminado> {
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 18.0,
-                                      color: Colors.green,
+                                      color: Color(0xff773E42),
                                     )),
                               ]),
                               Text(data[index]["MENU_NOMBRE"],
@@ -157,7 +157,7 @@ class _Pedidos_nuevosState extends State<Lista_terminado> {
                                         children: <Widget>[
                                           Container(
                                             margin: EdgeInsets.only(left: 30),
-                                            padding: EdgeInsets.all(5),
+                                            padding: EdgeInsets.all(0),
                                             child: Text(
                                               ext[a]["EXT_NOMBRE"],
                                               style: TextStyle(
@@ -198,7 +198,7 @@ class _Pedidos_nuevosState extends State<Lista_terminado> {
                           ),
                           Container(
                             margin: EdgeInsets.only(left: 25),
-                            padding: EdgeInsets.all(10),
+                            padding: EdgeInsets.all(5),
                             child: data[index]["PED_NOTA"] != null
                                 ? Text(
                                     data[index]["PED_NOTA"],
@@ -206,7 +206,20 @@ class _Pedidos_nuevosState extends State<Lista_terminado> {
                                         fontSize: 15, color: Colors.black54),
                                   )
                                 : SizedBox(),
-                          )
+                          ),
+                          /* Container(
+                            height: 40,
+                            width: MediaQuery.of(context).size.width,
+                            child: RaisedButton(
+                              onPressed: () {},
+                              color: Color(0xff773E42),
+                              textColor: Colors.white,
+                              child: Text(
+                                'Calificar pedido',
+                                style: TextStyle(fontSize: 20),
+                              ),
+                            ),
+                          )*/
                         ],
                       ),
                     ),

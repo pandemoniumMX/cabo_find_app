@@ -281,7 +281,7 @@ class Detalles extends State<Menu_detalle> {
                           Expanded(
                             flex: 1,
                             child: CheckboxListTile(
-                              activeColor: Colors.green,
+                              activeColor: Color(0xff773E42),
                               value: userStatus[index],
                               onChanged: (bool val) {
                                 if (val == true) {
@@ -885,7 +885,7 @@ class Detalles extends State<Menu_detalle> {
                                       _confirmacion();
                                     }
                                   },
-                                  color: Colors.green,
+                                  color: Color(0xff773E42),
                                   textColor: Colors.white,
                                   child: Text(
                                     'Agregar $_counter al carrito • MXN \$ $total',
@@ -921,7 +921,7 @@ class Detalles extends State<Menu_detalle> {
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
             SliverAppBar(
-              backgroundColor: Color(0xff3E252B),
+              backgroundColor: Color(0xff60032D),
 
               /*  leading: new IconButton(
                 icon: new Icon(Icons.arrow_back),
@@ -998,7 +998,7 @@ class Detalles extends State<Menu_detalle> {
                                             fontWeight: FontWeight.bold,
                                             fontSize: 10.0,
                                             color: Colors.white)),
-                                    backgroundColor: Colors.green,
+                                    backgroundColor: Color(0xff773E42),
                                   ),
                                 );
                               } else if (snapshot.data["Total"] == '0') {
@@ -1026,7 +1026,7 @@ class Detalles extends State<Menu_detalle> {
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 10.0,
                                                 color: Colors.white)),
-                                        backgroundColor: Colors.green,
+                                        backgroundColor: Color(0xff773E42),
                                       ),
                                     ),
                                   ],
@@ -1068,7 +1068,7 @@ class Detalles extends State<Menu_detalle> {
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 10.0,
                                                   color: Colors.white)),
-                                          backgroundColor: Colors.green,
+                                          backgroundColor: Color(0xff773E42),
                                         ),
                                       ),
                                     ],

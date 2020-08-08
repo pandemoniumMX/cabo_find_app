@@ -4,6 +4,7 @@ import 'package:cabofind/paginas/carrusel.dart';
 import 'package:cabofind/main.dart';
 import 'package:cabofind/paginas/login.dart';
 import 'package:cabofind/paginas/usuario.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:device_info/device_info.dart';
 import 'package:devicelocale/devicelocale.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -147,16 +148,21 @@ class _ListaAcuaticas extends State<Lista_Manejador_esp> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Stack(children: <Widget>[
-                    FadeInImage(
-                      image: NetworkImage(data[index]["GAL_FOTO"]),
+                    CachedNetworkImage(
                       fit: BoxFit.fitWidth,
                       width: MediaQuery.of(context).size.width,
                       height: 200,
-
-                      // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
-                      placeholder:
-                          AssetImage('android/assets/images/loading.gif'),
-                      fadeInDuration: Duration(milliseconds: 200),
+                      imageUrl: data[index]["GAL_FOTO"],
+                      progressIndicatorBuilder:
+                          (context, url, downloadProgress) => Center(
+                        child: Container(
+                          width: 160,
+                          height: 160,
+                          child: CircularProgressIndicator(
+                              value: downloadProgress.progress),
+                        ),
+                      ),
+                      errorWidget: (context, url, error) => Icon(Icons.error),
                     ),
                     Positioned(
                       right: -8.0,
@@ -286,16 +292,21 @@ class _ListaAcuaticas extends State<Lista_Manejador_esp> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Stack(children: <Widget>[
-                    FadeInImage(
-                      image: NetworkImage(databaja[index]["GAL_FOTO"]),
+                    CachedNetworkImage(
                       fit: BoxFit.fitWidth,
                       width: MediaQuery.of(context).size.width,
                       height: 200,
-
-                      // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
-                      placeholder:
-                          AssetImage('android/assets/images/loading.gif'),
-                      fadeInDuration: Duration(milliseconds: 200),
+                      imageUrl: databaja[index]["GAL_FOTO"],
+                      progressIndicatorBuilder:
+                          (context, url, downloadProgress) => Center(
+                        child: Container(
+                          width: 160,
+                          height: 160,
+                          child: CircularProgressIndicator(
+                              value: downloadProgress.progress),
+                        ),
+                      ),
+                      errorWidget: (context, url, error) => Icon(Icons.error),
                     ),
                     Positioned(
                       right: -8.0,

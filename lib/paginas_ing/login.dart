@@ -230,7 +230,7 @@ class _UsuarioState extends State<Usuario> {
                                     });
                                   },
                                   activeTrackColor: Colors.lightGreenAccent,
-                                  activeColor: Colors.green,
+                                  activeColor: Color(0xff773E42),
                                 ),
                               ]),
 

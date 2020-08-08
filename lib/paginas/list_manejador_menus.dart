@@ -38,6 +38,7 @@ class _Menu_majeadorState extends State<Menu_manejador>
   PageController _c;
   AnimationController _controller;
   Animation<double> _animation;
+  double calificacion;
   TextEditingController controller = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   FocusNode _focusNode;
@@ -123,6 +124,12 @@ class _Menu_majeadorState extends State<Menu_manejador>
             physics: BouncingScrollPhysics(),
             itemCount: data == null ? 0 : data.length,
             itemBuilder: (BuildContext context, int index) {
+              String suma = data[index]["SUMA"];
+              String conta = data[index]["CONTA"];
+              double subcalificacion = int.parse(suma) / int.parse(conta);
+              calificacion = subcalificacion.roundToDouble();
+              print(calificacion);
+
               String controlador = controller.text;
               return Card(
                 elevation: 2.0,
@@ -188,14 +195,66 @@ class _Menu_majeadorState extends State<Menu_manejador>
                               ),
                               Text(data[index]["MENU_SUBTITULO"],
                                   overflow: TextOverflow.ellipsis, maxLines: 5),
-                              Container(
-                                  child: Text(
-                                'MXN: \$' + data[index]["MENU_COSTO"],
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.green),
-                              ))
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Container(
+                                      child: Text(
+                                    'MXN: \$' + data[index]["MENU_COSTO"],
+                                    style: TextStyle(
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.bold,
+                                        color: Color(0xff773E42)),
+                                  )),
+                                  Container(
+                                      child: Text(
+                                    '    ⭐⭐⭐⭐⭐',
+                                    style: TextStyle(
+                                        fontSize: 16, color: Color(0xff773E42)),
+                                  ) /*calificacion == 5
+                                          ? Text(
+                                              '    ⭐⭐⭐⭐⭐',
+                                              style: TextStyle(
+                                                  fontSize: 16,
+                                                  color: Color(0xff773E42)),
+                                            )
+                                          : calificacion == 4
+                                              ? Text(
+                                                  '    ⭐⭐⭐⭐',
+                                                  style: TextStyle(
+                                                      fontSize: 16,
+                                                      color: Color(0xff773E42)),
+                                                )
+                                              : calificacion == 3
+                                                  ? Text(
+                                                      '    ⭐⭐⭐',
+                                                      style: TextStyle(
+                                                          fontSize: 16,
+                                                          color: Color(
+                                                              0xff773E42)),
+                                                    )
+                                                  : calificacion == 2
+                                                      ? Text(
+                                                          '    ⭐⭐',
+                                                          style: TextStyle(
+                                                              fontSize: 16,
+                                                              color: Color(
+                                                                  0xff773E42)),
+                                                        )
+                                                      : calificacion == 1
+                                                          ? Text(
+                                                              '    ⭐',
+                                                              style: TextStyle(
+                                                                  fontSize: 16,
+                                                                  color: Color(
+                                                                      0xff773E42)),
+                                                            )
+                                                          : SizedBox())*/
+                                      )
+                                ],
+                              ),
+
                               /*   Text(
                                 '\$' + data[index]["MENU_COSTO"],
                                 overflow: TextOverflow.ellipsis,
@@ -232,7 +291,7 @@ class _Menu_majeadorState extends State<Menu_manejador>
                       builder: (BuildContext context) => new Domicilio())),*/
                 ),
             title: Text('Regresar'),
-            backgroundColor: Color(0xff3E252B),
+            backgroundColor: Color(0xff60032D),
             actions: <Widget>[
               new Stack(
                 children: [
@@ -256,7 +315,7 @@ class _Menu_majeadorState extends State<Menu_manejador>
                                           fontWeight: FontWeight.bold,
                                           fontSize: 10.0,
                                           color: Colors.white)),
-                                  backgroundColor: Colors.green,
+                                  backgroundColor: Color(0xff773E42),
                                 ),
                               );
                             } else if (snapshot.data["Total"] == '0') {
@@ -284,7 +343,7 @@ class _Menu_majeadorState extends State<Menu_manejador>
                                               fontWeight: FontWeight.bold,
                                               fontSize: 10.0,
                                               color: Colors.white)),
-                                      backgroundColor: Colors.green,
+                                      backgroundColor: Color(0xff773E42),
                                     ),
                                   ),
                                 ],
@@ -325,7 +384,7 @@ class _Menu_majeadorState extends State<Menu_manejador>
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 10.0,
                                                 color: Colors.white)),
-                                        backgroundColor: Colors.green,
+                                        backgroundColor: Color(0xff773E42),
                                       ),
                                     ),
                                   ],

@@ -169,7 +169,7 @@ class _Mi_direccionState extends State<Mi_direccion> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Regresar'),
-        backgroundColor: Color(0xff3E252B),
+        backgroundColor: Color(0xff60032D),
       ),
       body: ListView(
         children: <Widget>[
@@ -408,7 +408,7 @@ class _Mi_direccionState extends State<Mi_direccion> {
                             new FlatButton(
                               child: new Text(
                                 "Confirmar",
-                                style: TextStyle(color: Colors.green),
+                                style: TextStyle(color: Color(0xff773E42)),
                               ),
                               onPressed: () {
                                 _insertDireccion(
@@ -431,7 +431,7 @@ class _Mi_direccionState extends State<Mi_direccion> {
                     );
                   }
                 },
-                color: Colors.green,
+                color: Color(0xff773E42),
                 textColor: Colors.white,
                 child: Text(
                   'Guardar dirección',

@@ -75,7 +75,7 @@ class _Pedidos_nuevosState extends State<Lista_pedidosx> {
                 new MaterialPageRoute(
                     builder: (BuildContext context) => new Domicilio())),
           ),
-          backgroundColor: Color(0xff3E252B),
+          backgroundColor: Color(0xff60032D),
         ),
         body: ListView(
           children: <Widget>[
@@ -106,7 +106,7 @@ class _Pedidos_nuevosState extends State<Lista_pedidosx> {
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 18.0,
-                                      color: Colors.green,
+                                      color: Color(0xff773E42),
                                     )),
                               ]),
                               Text(data[index]["MENU_NOMBRE"],

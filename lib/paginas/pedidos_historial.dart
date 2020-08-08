@@ -153,7 +153,7 @@ class _Pedidos_historialState extends State<Pedidos_historial> {
             preferredSize: tab.preferredSize,
             child: new Card(
               elevation: 26.0,
-              color: Color(0xff3E252B),
+              color: Color(0xff60032D),
               child: tab,
             )),
         body: TabBarView(
@@ -208,7 +208,7 @@ class _Pedidos_historialState extends State<Pedidos_historial> {
                                             margin: EdgeInsets.only(left: 10),
                                             child: Icon(
                                               FontAwesomeIcons.utensilSpoon,
-                                              color: Colors.green,
+                                              color: Color(0xff773E42),
                                             ),
                                           ),
                                           proximo[index]["CAR_ESTATUS"] == 'A'
@@ -231,7 +231,7 @@ class _Pedidos_historialState extends State<Pedidos_historial> {
                                             margin: EdgeInsets.only(left: 10),
                                             child: Icon(
                                               FontAwesomeIcons.clock,
-                                              color: Colors.green,
+                                              color: Color(0xff773E42),
                                             ),
                                           ),
                                           Container(
@@ -269,7 +269,7 @@ class _Pedidos_historialState extends State<Pedidos_historial> {
                                             margin: EdgeInsets.only(left: 10),
                                             child: Icon(
                                               FontAwesomeIcons.moneyBill,
-                                              color: Colors.green,
+                                              color: Color(0xff773E42),
                                               size: 20,
                                             ),
                                           ),
@@ -303,7 +303,7 @@ class _Pedidos_historialState extends State<Pedidos_historial> {
                                                               idc, idn),
                                                         )));
                                           },
-                                          color: Colors.green,
+                                          color: Color(0xff773E42),
                                           textColor: Colors.white,
                                           child: Text(
                                             'Ver detalle',
@@ -371,7 +371,7 @@ class _Pedidos_historialState extends State<Pedidos_historial> {
                                             margin: EdgeInsets.only(left: 10),
                                             child: Icon(
                                               FontAwesomeIcons.motorcycle,
-                                              color: Colors.green,
+                                              color: Color(0xff773E42),
                                               size: 20,
                                             ),
                                           ),
@@ -388,7 +388,7 @@ class _Pedidos_historialState extends State<Pedidos_historial> {
                                             margin: EdgeInsets.only(left: 10),
                                             child: Icon(
                                               FontAwesomeIcons.clock,
-                                              color: Colors.green,
+                                              color: Color(0xff773E42),
                                             ),
                                           ),
                                           Container(
@@ -425,7 +425,7 @@ class _Pedidos_historialState extends State<Pedidos_historial> {
                                             margin: EdgeInsets.only(left: 10),
                                             child: Icon(
                                               FontAwesomeIcons.moneyBill,
-                                              color: Colors.green,
+                                              color: Color(0xff773E42),
                                               size: 20,
                                             ),
                                           ),
@@ -459,7 +459,7 @@ class _Pedidos_historialState extends State<Pedidos_historial> {
                                                               idc, idn),
                                                         )));
                                           },
-                                          color: Colors.green,
+                                          color: Color(0xff773E42),
                                           textColor: Colors.white,
                                           child: Text(
                                             'Ver detalle',
@@ -528,7 +528,7 @@ class _Pedidos_historialState extends State<Pedidos_historial> {
                                             margin: EdgeInsets.only(left: 10),
                                             child: Icon(
                                               FontAwesomeIcons.checkCircle,
-                                              color: Colors.green,
+                                              color: Color(0xff773E42),
                                             ),
                                           ),
                                           Container(
@@ -562,7 +562,7 @@ class _Pedidos_historialState extends State<Pedidos_historial> {
                                             margin: EdgeInsets.only(left: 10),
                                             child: Icon(
                                               FontAwesomeIcons.userCheck,
-                                              color: Colors.green,
+                                              color: Color(0xff773E42),
                                               size: 20,
                                             ),
                                           ),
@@ -585,7 +585,7 @@ class _Pedidos_historialState extends State<Pedidos_historial> {
                                             margin: EdgeInsets.only(left: 10),
                                             child: Icon(
                                               FontAwesomeIcons.moneyBill,
-                                              color: Colors.green,
+                                              color: Color(0xff773E42),
                                               size: 20,
                                             ),
                                           ),
@@ -619,7 +619,7 @@ class _Pedidos_historialState extends State<Pedidos_historial> {
                                                               idc, idn),
                                                         )));
                                           },
-                                          color: Colors.green,
+                                          color: Color(0xff773E42),
                                           textColor: Colors.white,
                                           child: Text(
                                             'Ver detalle',
