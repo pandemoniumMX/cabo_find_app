@@ -142,6 +142,7 @@ class Detalles extends State<Menu_detalle> {
   }
 
   void initState() {
+    // setState(() {});
     super.initState();
     this.getExtras();
 
@@ -363,7 +364,10 @@ class Detalles extends State<Menu_detalle> {
                     },
                   ),
                   new FlatButton(
-                    child: new Text("Agregar al carrito"),
+                    child: new Text(
+                      "Agregar al carrito",
+                      style: TextStyle(color: Color(0xff60032D)),
+                    ),
                     onPressed: () {
                       String notax = controller.text;
                       _insertPedidoSingle(_counter, total, notax, _extras1,
@@ -387,7 +391,8 @@ class Detalles extends State<Menu_detalle> {
                     },
                   ),
                   new FlatButton(
-                    child: new Text("Pagar"),
+                    child: new Text("Pagar",
+                        style: TextStyle(color: Color(0xff60032D))),
                     onPressed: () {
                       String notax = controller.text;
                       _insertPedidoSingle(_counter, total, notax, _extras1,
@@ -396,10 +401,17 @@ class Detalles extends State<Menu_detalle> {
                       Future.delayed(const Duration(milliseconds: 500), () {
                         Navigator.of(context).pop();
                         Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  new Preparing(negocio: new Users(idn))),
+                        ).then((value) => setState(() {}));
+                        /* Navigator.push(
                             context,
                             new MaterialPageRoute(
                                 builder: (BuildContext context) =>
-                                    new Preparing(negocio: new Users(idn))));
+                                    new Preparing(negocio: new Users(idn))
+                                    ));*/
                       });
                       /*Navigator.of(context).push(
                           MaterialPageRoute(
@@ -1034,13 +1046,14 @@ class Detalles extends State<Menu_detalle> {
                               } else {
                                 return InkWell(
                                   onTap: () {
-                                    Navigator.push(
+                                    setState(() {
+                                      Navigator.push(
                                         context,
-                                        new MaterialPageRoute(
-                                            builder: (BuildContext context) =>
-                                                new Preparing(
-                                                  negocio: Users(idn),
-                                                )));
+                                        MaterialPageRoute(
+                                            builder: (context) => new Preparing(
+                                                negocio: new Users(idn))),
+                                      ).then((value) => setState(() {}));
+                                    });
                                   },
                                   child: Stack(
                                     children: [

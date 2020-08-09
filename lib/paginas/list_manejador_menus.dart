@@ -30,6 +30,7 @@ class Menu_manejador extends StatefulWidget {
 
 class _Menu_majeadorState extends State<Menu_manejador>
     with TickerProviderStateMixin {
+  List cal;
   List data;
   List exp;
   int _page = 0;
@@ -124,13 +125,11 @@ class _Menu_majeadorState extends State<Menu_manejador>
             physics: BouncingScrollPhysics(),
             itemCount: data == null ? 0 : data.length,
             itemBuilder: (BuildContext context, int index) {
-              String suma = data[index]["SUMA"];
-              String conta = data[index]["CONTA"];
-              double subcalificacion = int.parse(suma) / int.parse(conta);
-              calificacion = subcalificacion.roundToDouble();
+              String division = data[index]["MENU_CALIFICACION"];
+              double resultado = double.parse(division);
+              calificacion = resultado.roundToDouble();
               print(calificacion);
 
-              String controlador = controller.text;
               return Card(
                 elevation: 2.0,
                 child: InkWell(
@@ -196,8 +195,7 @@ class _Menu_majeadorState extends State<Menu_manejador>
                               Text(data[index]["MENU_SUBTITULO"],
                                   overflow: TextOverflow.ellipsis, maxLines: 5),
                               Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                //mainAxisAlignment:                                    MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Container(
                                       child: Text(
@@ -207,58 +205,46 @@ class _Menu_majeadorState extends State<Menu_manejador>
                                         fontWeight: FontWeight.bold,
                                         color: Color(0xff773E42)),
                                   )),
-                                  Container(
-                                      child: Text(
-                                    '    ⭐⭐⭐⭐⭐',
-                                    style: TextStyle(
-                                        fontSize: 16, color: Color(0xff773E42)),
-                                  ) /*calificacion == 5
+                                  calificacion == 5
+                                      ? Text(
+                                          '    ⭐⭐⭐⭐⭐',
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              color: Color(0xff773E42)),
+                                        )
+                                      : calificacion == 4
                                           ? Text(
-                                              '    ⭐⭐⭐⭐⭐',
+                                              '    ⭐⭐⭐⭐',
                                               style: TextStyle(
                                                   fontSize: 16,
                                                   color: Color(0xff773E42)),
                                             )
-                                          : calificacion == 4
+                                          : calificacion == 3
                                               ? Text(
-                                                  '    ⭐⭐⭐⭐',
+                                                  '    ⭐⭐⭐',
                                                   style: TextStyle(
                                                       fontSize: 16,
                                                       color: Color(0xff773E42)),
                                                 )
-                                              : calificacion == 3
+                                              : calificacion == 2
                                                   ? Text(
-                                                      '    ⭐⭐⭐',
+                                                      '    ⭐⭐',
                                                       style: TextStyle(
                                                           fontSize: 16,
                                                           color: Color(
                                                               0xff773E42)),
                                                     )
-                                                  : calificacion == 2
+                                                  : calificacion == 1
                                                       ? Text(
-                                                          '    ⭐⭐',
+                                                          '    ⭐',
                                                           style: TextStyle(
                                                               fontSize: 16,
                                                               color: Color(
                                                                   0xff773E42)),
                                                         )
-                                                      : calificacion == 1
-                                                          ? Text(
-                                                              '    ⭐',
-                                                              style: TextStyle(
-                                                                  fontSize: 16,
-                                                                  color: Color(
-                                                                      0xff773E42)),
-                                                            )
-                                                          : SizedBox())*/
-                                      )
+                                                      : SizedBox()
                                 ],
                               ),
-
-                              /*   Text(
-                                '\$' + data[index]["MENU_COSTO"],
-                                overflow: TextOverflow.ellipsis,
-                              ),*/
                             ],
                           ),
                         ),

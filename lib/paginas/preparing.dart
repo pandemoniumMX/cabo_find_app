@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:cabofind/paginas/domicilio.dart';
 import 'package:cabofind/paginas/list_manejador_rec_obtenidas.dart';
+import 'package:cabofind/paginas/menu_detalle.dart';
 import 'package:cabofind/utilidades/classes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_youtube/flutter_youtube.dart';
@@ -272,11 +273,10 @@ class _UsuarioState extends State<Carritox> {
                     return Center(child: CircularProgressIndicator());
                   default:
                     if (snapshot.hasError) {
-                      Navigator.push(
-                          context,
-                          new MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  Carrito_check()));
+                      Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                              builder: (context) => Carrito_check()),
+                          (Route<dynamic> route) => false);
                     } else {
                       return ListView.builder(
                           shrinkWrap: true,
@@ -340,18 +340,18 @@ class _UsuarioState extends State<Carritox> {
                                                                 0xff773E42)),
                                                       ),
                                                       onPressed: () {
-                                                        _eliminarItem(idx);
                                                         setState(() {
-                                                          _cargarPedido();
-                                                          _cargarPedido();
+                                                          _eliminarItem(idx);
                                                         });
+                                                        _cargarPedido();
+                                                        _cargarPedido();
                                                         Future.delayed(
                                                             const Duration(
                                                                 milliseconds:
-                                                                    1000), () {
-                                                          Navigator.of(context)
-                                                              .pop();
-                                                        });
+                                                                    500),
+                                                            () {});
+                                                        Navigator.of(context)
+                                                            .pop();
 
                                                         /*_eliminarItem(idx);
                                                         setState(() {});

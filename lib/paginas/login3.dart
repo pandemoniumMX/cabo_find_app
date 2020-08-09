@@ -1,3 +1,4 @@
+import 'package:cabofind/paginas/domicilio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -186,129 +187,137 @@ Future<String> signInWithGoogle() async {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-        body: Container(
-      decoration: BoxDecoration(
-          gradient: LinearGradient(
-              begin: Alignment.topRight,
-              end: Alignment.bottomLeft,
-              colors: [
-            Colors.black,
-            Colors.white,
-          ])),
-      child: Center(
-        child: ListView(
-          shrinkWrap: false,
-          physics: BouncingScrollPhysics(),
-          children: <Widget>[
-            Column(
-              children: <Widget>[
-                SizedBox(
-                  height: 100.0,
-                ),
-                ClipRRect(
-                    borderRadius: BorderRadius.circular(8.0),
-                    child: Image.asset(
-                      "assets/splash.png",
-                      fit: BoxFit.fill,
-                      width: 150.0,
-                      height: 150.0,
-                    )),
-                SizedBox(
-                  height: 50.0,
-                ),
-                Text(
-                  "Crea tu cuenta",
-                  style: TextStyle(
-                      fontSize: 25,
+    return WillPopScope(
+      onWillPop: () {
+        Navigator.push(
+            context,
+            new MaterialPageRoute(
+                builder: (BuildContext context) => new Domicilio()));
+      },
+      child: new Scaffold(
+          body: Container(
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topRight,
+                end: Alignment.bottomLeft,
+                colors: [
+              Colors.black,
+              Colors.white,
+            ])),
+        child: Center(
+          child: ListView(
+            shrinkWrap: false,
+            physics: BouncingScrollPhysics(),
+            children: <Widget>[
+              Column(
+                children: <Widget>[
+                  SizedBox(
+                    height: 100.0,
+                  ),
+                  ClipRRect(
+                      borderRadius: BorderRadius.circular(8.0),
+                      child: Image.asset(
+                        "assets/splash.png",
+                        fit: BoxFit.fill,
+                        width: 150.0,
+                        height: 150.0,
+                      )),
+                  SizedBox(
+                    height: 50.0,
+                  ),
+                  Text(
+                    "Crea tu cuenta",
+                    style: TextStyle(
+                        fontSize: 25,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    "Para poder ordenar",
+                    style: TextStyle(
+                        fontSize: 25,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  RaisedButton(
+                      onPressed: () {
+                        signInWithFacebook();
+                      },
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(40.0)),
+                      color: Color(0xff4267b2),
+                      child: new Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          new Text('Sesión con Facebook',
+                              style:
+                                  TextStyle(fontSize: 20, color: Colors.white)),
+                          new Icon(
+                            FontAwesomeIcons.facebookSquare,
+                            color: Colors.white,
+                          )
+                        ],
+                      )),
+                  /*
+              RaisedButton(
+                    onPressed: (){signInWithGoogle();},  
+                    shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
+                    color: Colors.white,  
+                    child: new Row (
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: <Widget>[
+                                              new Text('Sesión con Google   ', style: TextStyle(fontSize: 20, color: Colors.red)), 
+                                              new Icon(FontAwesomeIcons.google, color: Colors.red,)
+                                            ],
+                                          )
+                  ), 
+                  RaisedButton(
+                      onPressed: () {
+                        addlogin();
+                      },
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(40.0)),
                       color: Colors.white,
-                      fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  "Para poder ordenar",
-                  style: TextStyle(
-                      fontSize: 25,
+                      child: new Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          new Text('Sesión local   ',
+                              style: TextStyle(fontSize: 20, color: Colors.red)),
+                          new Icon(
+                            FontAwesomeIcons.google,
+                            color: Colors.red,
+                          )
+                        ],
+                      )),*/
+                  RaisedButton(
+                      onPressed: () {
+                        _launchURL();
+                      },
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(40.0)),
                       color: Colors.white,
-                      fontWeight: FontWeight.bold),
-                ),
-                RaisedButton(
-                    onPressed: () {
-                      signInWithFacebook();
-                    },
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(40.0)),
-                    color: Color(0xff4267b2),
-                    child: new Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        new Text('Sesión con Facebook',
-                            style:
-                                TextStyle(fontSize: 20, color: Colors.white)),
-                        new Icon(
-                          FontAwesomeIcons.facebookSquare,
-                          color: Colors.white,
-                        )
-                      ],
-                    )),
-                /*
-            RaisedButton(
-                  onPressed: (){signInWithGoogle();},  
-                  shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
-                  color: Colors.white,  
-                  child: new Row (
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: <Widget>[
-                                            new Text('Sesión con Google   ', style: TextStyle(fontSize: 20, color: Colors.red)), 
-                                            new Icon(FontAwesomeIcons.google, color: Colors.red,)
-                                          ],
-                                        )
-                ), 
-                RaisedButton(
-                    onPressed: () {
-                      addlogin();
-                    },
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(40.0)),
-                    color: Colors.white,
-                    child: new Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        new Text('Sesión local   ',
-                            style: TextStyle(fontSize: 20, color: Colors.red)),
-                        new Icon(
-                          FontAwesomeIcons.google,
-                          color: Colors.red,
-                        )
-                      ],
-                    )),*/
-                RaisedButton(
-                    onPressed: () {
-                      _launchURL();
-                    },
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(40.0)),
-                    color: Colors.white,
-                    child: new Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        new Text('Políticas de privacidad   ',
-                            style:
-                                TextStyle(fontSize: 20, color: Colors.black)),
-                        new Icon(
-                          FontAwesomeIcons.userSecret,
-                          color: Colors.black,
-                        )
-                      ],
-                    )),
-              ],
-            )
-          ],
+                      child: new Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          new Text('Políticas de privacidad   ',
+                              style:
+                                  TextStyle(fontSize: 20, color: Colors.black)),
+                          new Icon(
+                            FontAwesomeIcons.userSecret,
+                            color: Colors.black,
+                          )
+                        ],
+                      )),
+                ],
+              )
+            ],
+          ),
         ),
-      ),
-    ));
+      )),
+    );
   }
 }

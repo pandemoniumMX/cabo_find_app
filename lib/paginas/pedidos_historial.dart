@@ -277,7 +277,7 @@ class _Pedidos_historialState extends State<Pedidos_historial> {
                                               margin: EdgeInsets.all(5),
                                               padding: EdgeInsets.all(5),
                                               child: Text(
-                                                'Total: MXN ' +
+                                                'Total MXN: \$' +
                                                     proximo[index]["Total"],
                                                 style: TextStyle(
                                                     fontSize: 20,
@@ -433,7 +433,7 @@ class _Pedidos_historialState extends State<Pedidos_historial> {
                                               margin: EdgeInsets.all(5),
                                               padding: EdgeInsets.all(5),
                                               child: Text(
-                                                'Total: MXN ' +
+                                                'Total MXN: \$' +
                                                     enviado[index]["Total"],
                                                 style: TextStyle(
                                                     fontSize: 20,
@@ -593,7 +593,7 @@ class _Pedidos_historialState extends State<Pedidos_historial> {
                                               margin: EdgeInsets.all(5),
                                               padding: EdgeInsets.all(5),
                                               child: Text(
-                                                'Total: MXN ' +
+                                                'Total MXN: \$' +
                                                     historial[index]["Total"],
                                                 style: TextStyle(
                                                     fontSize: 20,

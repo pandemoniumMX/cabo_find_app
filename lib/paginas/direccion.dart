@@ -415,7 +415,7 @@ class _Mi_direccionState extends State<Mi_direccion> {
                                     call, ciu, tel1, cp1, apa, inst);
                                 setState(() {});
                                 Navigator.of(context).pop();
-                                Navigator.push(
+                                Navigator.pushReplacement(
                                     context,
                                     new MaterialPageRoute(
                                         builder: (BuildContext context) =>

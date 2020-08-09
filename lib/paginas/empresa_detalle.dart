@@ -831,7 +831,7 @@ Future<String> insertVisitaiOS() async {
                       },
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(40.0)),
-                      color: Colors.orange,
+                      color: Color(0xff60032D),
                       child: new Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         mainAxisSize: MainAxisSize.min,

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:cabofind/paginas/domicilio.dart';
 import 'package:cabofind/utilidades/classes.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,6 +17,10 @@ class Lista_terminado extends StatefulWidget {
 }
 
 class _Pedidos_nuevosState extends State<Lista_terminado> {
+  var currentSelectedValue;
+  static const deviceTypes = ["⭐", "⭐⭐", "⭐⭐⭐", "⭐⭐⭐⭐", "⭐⭐⭐⭐⭐"];
+
+  int _value = 1;
   List data;
   List ext;
   List carrito;
@@ -48,6 +53,21 @@ class _Pedidos_nuevosState extends State<Lista_terminado> {
     });
   }
 
+  Future<String> _confirmarCalificacion(
+      String menu, String idp, int drop) async {
+    print('VALORES CALIFICACION*******************');
+    print(menu);
+    print(idp);
+
+    print(drop);
+    final SharedPreferences login = await SharedPreferences.getInstance();
+    String _mail2 = "";
+    _mail2 = login.getString("stringID");
+
+    http.Response response = await http.get(
+        "http://cabofind.com.mx/app_php/APIs/esp/insert_calificacion_pedido.php?IDP=${idp}&MENU=${menu}&IDF=$_mail2&CAL=${drop}");
+  }
+
   void initState() {
     super.initState();
     this._cargarPedido();
@@ -62,6 +82,15 @@ class _Pedidos_nuevosState extends State<Lista_terminado> {
 
   @override
   Widget build(BuildContext context) {
+    void showCalificacion() {
+      Fluttertoast.showToast(
+        msg: "Platillo calificado correctamente",
+        toastLength: Toast.LENGTH_SHORT,
+        backgroundColor: Color(0xff60032D),
+        textColor: Colors.white,
+      );
+    }
+
     return WillPopScope(
       onWillPop: () {
         Navigator.push(
@@ -90,6 +119,7 @@ class _Pedidos_nuevosState extends State<Lista_terminado> {
                 itemBuilder: (BuildContext context, int index) {
                   String idx = data[index]["ID_PEDIDOS"];
                   String idn = data[index]["ID_NEGOCIO"];
+                  String idm = data[index]["menu_ID_MENU"];
 
                   return new Card(
                     elevation: 1.0,
@@ -207,19 +237,90 @@ class _Pedidos_nuevosState extends State<Lista_terminado> {
                                   )
                                 : SizedBox(),
                           ),
-                          /* Container(
+                          Container(
                             height: 40,
                             width: MediaQuery.of(context).size.width,
                             child: RaisedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    // return object of type Dialog
+                                    return StatefulBuilder(builder:
+                                        (BuildContext context,
+                                            StateSetter setState) {
+                                      return AlertDialog(
+                                        title: new Text(
+                                            "Calificación de platillo"),
+                                        content: DropdownButton(
+                                            onTap: () {
+                                              setState(() {});
+                                            },
+                                            isExpanded: true,
+                                            value: _value,
+                                            items: [
+                                              DropdownMenuItem(
+                                                child: Text("⭐"),
+                                                value: 1,
+                                              ),
+                                              DropdownMenuItem(
+                                                child: Text("⭐⭐"),
+                                                value: 2,
+                                              ),
+                                              DropdownMenuItem(
+                                                  child: Text("⭐⭐⭐"), value: 3),
+                                              DropdownMenuItem(
+                                                  child: Text("⭐⭐⭐⭐"),
+                                                  value: 4),
+                                              DropdownMenuItem(
+                                                  child: Text("⭐⭐⭐⭐⭐"),
+                                                  value: 5)
+                                            ],
+                                            onChanged: (valuex) {
+                                              setState(() {
+                                                _value = valuex;
+                                              });
+                                            }),
+                                        actions: <Widget>[
+                                          // usually buttons at the bottom of the dialog
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            children: <Widget>[
+                                              new FlatButton(
+                                                child: new Text("Cancelar"),
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                              ),
+                                              new FlatButton(
+                                                child: new Text("Calificar",
+                                                    style: TextStyle(
+                                                        color:
+                                                            Color(0xff60032D))),
+                                                onPressed: () {
+                                                  _confirmarCalificacion(
+                                                      idm, idx, _value);
+                                                  showCalificacion();
+                                                  Navigator.of(context).pop();
+                                                },
+                                              ),
+                                            ],
+                                          )
+                                        ],
+                                      );
+                                    });
+                                  },
+                                );
+                              },
                               color: Color(0xff773E42),
                               textColor: Colors.white,
                               child: Text(
-                                'Calificar pedido',
+                                'Calificar platillo',
                                 style: TextStyle(fontSize: 20),
                               ),
                             ),
-                          )*/
+                          ),
                         ],
                       ),
                     ),
