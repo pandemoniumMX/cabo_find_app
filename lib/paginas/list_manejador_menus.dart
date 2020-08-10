@@ -185,17 +185,24 @@ class _Menu_majeadorState extends State<Menu_manejador>
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              Text(
-                                data[index]["MENU_NOMBRE"],
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
+                              Flexible(
+                                child: Text(
+                                  data[index]["MENU_NOMBRE"],
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
                                 ),
-                                overflow: TextOverflow.ellipsis,
                               ),
-                              Text(data[index]["MENU_SUBTITULO"],
-                                  overflow: TextOverflow.ellipsis, maxLines: 5),
+                              Flexible(
+                                child: Text(
+                                  data[index]["MENU_SUBTITULO"],
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
                               Row(
-                                //mainAxisAlignment:                                    MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Container(
                                       child: Text(
@@ -207,28 +214,28 @@ class _Menu_majeadorState extends State<Menu_manejador>
                                   )),
                                   calificacion == 5
                                       ? Text(
-                                          '    ⭐⭐⭐⭐⭐',
+                                          ' ⭐⭐⭐⭐⭐',
                                           style: TextStyle(
                                               fontSize: 16,
                                               color: Color(0xff773E42)),
                                         )
                                       : calificacion == 4
                                           ? Text(
-                                              '    ⭐⭐⭐⭐',
+                                              ' ⭐⭐⭐⭐',
                                               style: TextStyle(
                                                   fontSize: 16,
                                                   color: Color(0xff773E42)),
                                             )
                                           : calificacion == 3
                                               ? Text(
-                                                  '    ⭐⭐⭐',
+                                                  ' ⭐⭐⭐',
                                                   style: TextStyle(
                                                       fontSize: 16,
                                                       color: Color(0xff773E42)),
                                                 )
                                               : calificacion == 2
                                                   ? Text(
-                                                      '    ⭐⭐',
+                                                      ' ⭐⭐',
                                                       style: TextStyle(
                                                           fontSize: 16,
                                                           color: Color(
@@ -236,7 +243,7 @@ class _Menu_majeadorState extends State<Menu_manejador>
                                                     )
                                                   : calificacion == 1
                                                       ? Text(
-                                                          '    ⭐',
+                                                          ' ⭐',
                                                           style: TextStyle(
                                                               fontSize: 16,
                                                               color: Color(
@@ -262,20 +269,18 @@ class _Menu_majeadorState extends State<Menu_manejador>
         Navigator.push(
             context,
             new MaterialPageRoute(
-                builder: (BuildContext context) => new Domicilio()));
+                builder: (BuildContext context) => new Domicilio(
+                    numeropagina: Categoria(0), numtab: Categoria(0))));
       },
       child: Scaffold(
           appBar: AppBar(
             leading: new IconButton(
                 icon: new Icon(Icons.arrow_back),
                 onPressed: () => Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(builder: (context) => Domicilio()),
-                    (Route<dynamic> route) => false)
-                /*    Navigator.pushReplacement(
-                  context,
-                  new MaterialPageRoute(
-                      builder: (BuildContext context) => new Domicilio())),*/
-                ),
+                    MaterialPageRoute(
+                        builder: (context) => Domicilio(
+                            numeropagina: Categoria(0), numtab: Categoria(0))),
+                    (Route<dynamic> route) => false)),
             title: Text('Regresar'),
             backgroundColor: Color(0xff60032D),
             actions: <Widget>[

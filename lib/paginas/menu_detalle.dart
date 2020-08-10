@@ -935,13 +935,6 @@ class Detalles extends State<Menu_detalle> {
             SliverAppBar(
               backgroundColor: Color(0xff60032D),
 
-              /*  leading: new IconButton(
-                icon: new Icon(Icons.arrow_back),
-                onPressed: () => Navigator.pushReplacement(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (BuildContext context) => new Domicilio())),
-              ),*/
               floating: false,
               pinned: true,
               title: SABT(

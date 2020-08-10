@@ -96,7 +96,8 @@ class _Pedidos_nuevosState extends State<Lista_terminado> {
         Navigator.push(
             context,
             new MaterialPageRoute(
-                builder: (BuildContext context) => new Domicilio()));
+                builder: (BuildContext context) => new Domicilio(
+                    numeropagina: Categoria(2), numtab: Categoria(2))));
       },
       child: Scaffold(
         appBar: AppBar(
@@ -106,7 +107,8 @@ class _Pedidos_nuevosState extends State<Lista_terminado> {
             onPressed: () => Navigator.pushReplacement(
                 context,
                 new MaterialPageRoute(
-                    builder: (BuildContext context) => new Domicilio())),
+                    builder: (BuildContext context) => new Domicilio(
+                        numeropagina: Categoria(2), numtab: Categoria(2)))),
           ),
           backgroundColor: Color(0xff60032D),
         ),

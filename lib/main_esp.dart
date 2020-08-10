@@ -81,9 +81,9 @@ class Myapp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.grey,
-          primaryColor: Colors.black,
+          primaryColor: Color(0xff60032D),
           //primaryColor: Colors.black,
-          accentColor: Colors.black26,
+          accentColor: Color(0xff773E42),
         ),
         home: new Container(child: new MyHomePages()));
   }
@@ -395,7 +395,7 @@ class _MyHomePageState extends State<MyHomePages> {
                           new FlatButton(
                             child: new Text('Cerrar'),
                             onPressed: () {
-                              _stopFile();
+                              // _stopFile();
 
                               Navigator.of(context).pop();
                             },
@@ -403,20 +403,19 @@ class _MyHomePageState extends State<MyHomePages> {
                           new FlatButton(
                             color: Color(0xff773E42),
                             child: new Text(
-                              'Ver detalle',
+                              'Ver pedido',
                               style: TextStyle(
                                   fontSize: 14.0, color: Colors.white),
                             ),
                             onPressed: () {
-                              _stopFile();
                               Navigator.of(context).pop();
                               Navigator.push(
                                   context,
                                   new MaterialPageRoute(
                                       builder: (BuildContext context) =>
-                                          new Lista_enproceso(
-                                            carrito: new Costos(idc, idcn),
-                                          )));
+                                          new Domicilio(
+                                              numeropagina: Categoria(2),
+                                              numtab: Categoria(1))));
                             },
                           )
                         ],
@@ -483,9 +482,8 @@ class _MyHomePageState extends State<MyHomePages> {
                 ? Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (BuildContext context) => new Lista_enproceso(
-                              carrito: new Costos(idc, idcn),
-                            )))
+                        builder: (BuildContext context) => new Domicilio(
+                            numeropagina: Categoria(2), numtab: Categoria(1))))
                 : SizedBox();
       },
     );
@@ -707,7 +705,7 @@ routes: <String, WidgetBuilder>{
     }
 
     Widget cuerpo = Container(
-      color: Colors.black,
+      color: Colors.white54,
       child: new GridView.builder(
         shrinkWrap: true,
         itemCount: data == null ? 0 : data.length,
@@ -838,8 +836,9 @@ routes: <String, WidgetBuilder>{
                     Navigator.push(
                         context,
                         new MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                new Domicilio()));
+                            builder: (BuildContext context) => new Domicilio(
+                                numeropagina: Categoria(0),
+                                numtab: Categoria(0))));
                   }
                 },
               ),
@@ -883,9 +882,9 @@ routes: <String, WidgetBuilder>{
         theme: FFNavigationBarTheme(
           barBackgroundColor: Colors.white,
           selectedItemBorderColor: Colors.white,
-          selectedItemBackgroundColor: Colors.black,
+          selectedItemBackgroundColor: Color(0xff773E42),
           selectedItemIconColor: Colors.white,
-          selectedItemLabelColor: Colors.black,
+          selectedItemLabelColor: Color(0xff773E42),
         ),
         items: [
           FFNavigationBarItem(

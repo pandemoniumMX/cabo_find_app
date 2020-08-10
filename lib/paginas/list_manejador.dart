@@ -211,7 +211,7 @@ class _ListaAcuaticas extends State<Lista_Manejador_esp> {
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 10.0,
-                                color: Colors.black)),
+                                color: Color(0xff773E42))),
                         elevation: 0.0,
                         backgroundColor: Colors.transparent,
                         onPressed: () {
@@ -331,7 +331,7 @@ class _ListaAcuaticas extends State<Lista_Manejador_esp> {
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 10.0,
-                                color: Colors.black)),
+                                color: Color(0xff773E42))),
                         elevation: 0.0,
                         backgroundColor: Colors.transparent,
                         onPressed: () {

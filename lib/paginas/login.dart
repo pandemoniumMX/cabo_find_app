@@ -288,16 +288,15 @@ class _UsuarioState extends State<Usuario> {
                                       fontSize: 25, color: Colors.white),
                                 ),
                                 Switch(
-                                  value: isSwitched,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      isSwitched = value;
-                                      print(isSwitched);
-                                    });
-                                  },
-                                  activeTrackColor: Colors.lightGreenAccent,
-                                  activeColor: Color(0xff773E42),
-                                ),
+                                    value: isSwitched,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        isSwitched = value;
+                                        print(isSwitched);
+                                      });
+                                    },
+                                    activeTrackColor: Colors.white,
+                                    activeColor: Colors.black),
                               ]),
 
                           Center(

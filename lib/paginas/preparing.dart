@@ -259,9 +259,12 @@ class _UsuarioState extends State<Carritox> {
               margin: EdgeInsets.all(10),
               padding: EdgeInsets.all(10),
               child: Row(children: <Widget>[
-                Text(
-                  'Estás ordenando en ' + data[0]["NEG_NOMBRE"],
-                  style: TextStyle(fontSize: 18),
+                Flexible(
+                  child: Text(
+                    'Estás ordenando en ' + data[0]["NEG_NOMBRE"],
+                    style: TextStyle(fontSize: 15),
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               ])),
           FutureBuilder(
@@ -893,14 +896,17 @@ class _UsuarioState extends State<Carritox> {
                                                       _confirmarOrden(valpago);
 
                                                       Navigator.of(context)
-                                                          .pushAndRemoveUntil(
-                                                              MaterialPageRoute(
-                                                                  builder:
-                                                                      (context) =>
-                                                                          Domicilio()),
-                                                              (Route<dynamic>
-                                                                      route) =>
-                                                                  false);
+                                                          .pushReplacement(
+                                                        MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                Domicilio(
+                                                                    numeropagina:
+                                                                        Categoria(
+                                                                            2),
+                                                                    numtab:
+                                                                        Categoria(
+                                                                            0))),
+                                                      );
                                                     },
                                                   ),
                                                 ],
