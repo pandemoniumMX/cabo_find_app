@@ -93,7 +93,7 @@ class _Pedidos_nuevosState extends State<Lista_terminado> {
 
     return WillPopScope(
       onWillPop: () {
-        Navigator.push(
+        Navigator.pushReplacement(
             context,
             new MaterialPageRoute(
                 builder: (BuildContext context) => new Domicilio(

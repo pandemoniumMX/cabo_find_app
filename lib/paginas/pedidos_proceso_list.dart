@@ -62,7 +62,7 @@ class _Pedidos_nuevosState extends State<Lista_enproceso> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () {
-        Navigator.push(
+        Navigator.pushReplacement(
             context,
             new MaterialPageRoute(
                 builder: (BuildContext context) => new Domicilio(

@@ -216,8 +216,8 @@ class _ListaAcuaticas extends State<Lista_Manejador_esp> {
                         backgroundColor: Colors.transparent,
                         onPressed: () {
                           insertFavorite(id_n);
-                          getData();
-                          getDatabaja();
+                          // getData();
+                          // getDatabaja();
                         },
                       ),
                     ),
@@ -336,8 +336,8 @@ class _ListaAcuaticas extends State<Lista_Manejador_esp> {
                         backgroundColor: Colors.transparent,
                         onPressed: () {
                           insertFavorite(id_n);
-                          getData();
-                          getDatabaja();
+                          //getData();
+                          //getDatabaja();
                         },
                       ),
                     ),

@@ -60,7 +60,7 @@ class _Acercade extends State<Acercade_ing> {
                 child: ClipRRect(
                     borderRadius: BorderRadius.circular(8.0),
                     child: Image.asset(
-                      "assets/splash.png",
+                      "assets/cabofind.png",
                       fit: BoxFit.cover,
                       width: 150.0,
                       height: 150.0,

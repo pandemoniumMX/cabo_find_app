@@ -125,7 +125,7 @@ class _UsuarioState extends State<Usuario> {
           gradient: LinearGradient(
               begin: Alignment.topRight,
               end: Alignment.bottomLeft,
-              colors: [Colors.black, Colors.white60])),
+              colors: [Colors.white60, Colors.white60])),
       child: FutureBuilder(
           future: _loadUser(),
           builder: (context, snapshot) {
@@ -144,8 +144,16 @@ class _UsuarioState extends State<Usuario> {
                     style: TextStyle(color: Colors.black, fontSize: 25.0),
                     textAlign: TextAlign.center,
                   ));
+                } else if (boolAsString == null) {
+                  return Center(
+                      child: Text(
+                    "Error :(",
+                    style: TextStyle(color: Colors.black, fontSize: 25.0),
+                    textAlign: TextAlign.center,
+                  ));
                 } else {
                   return ListView(
+                    physics: NeverScrollableScrollPhysics(),
                     children: <Widget>[
                       Container(
                         padding: const EdgeInsets.all(10),
@@ -157,7 +165,7 @@ class _UsuarioState extends State<Usuario> {
                                   "Perfil",
                                   style: TextStyle(
                                       fontSize: 40,
-                                      color: Colors.white,
+                                      color: Color(0xff773E42),
                                       fontWeight: FontWeight.bold),
                                 ),
                               ]),
@@ -168,13 +176,13 @@ class _UsuarioState extends State<Usuario> {
                                 Text(
                                   "Nombre:",
                                   style: TextStyle(
-                                      fontSize: 25, color: Colors.white),
+                                      fontSize: 25, color: Color(0xff773E42)),
                                 ),
                                 Text(
                                   snapshot.data["USU_NOMBRE"],
                                   style: TextStyle(
                                     fontSize: 25,
-                                    color: Colors.white,
+                                    color: Color(0xff773E42),
                                   ),
                                 )
                               ]),
@@ -186,12 +194,12 @@ class _UsuarioState extends State<Usuario> {
                                 Text(
                                   "Correo:",
                                   style: TextStyle(
-                                      fontSize: 25, color: Colors.white),
+                                      fontSize: 25, color: Color(0xff773E42)),
                                 ),
                                 Text(
                                   snapshot.data["USU_CORREO"],
                                   style: TextStyle(
-                                      fontSize: 25, color: Colors.white),
+                                      fontSize: 25, color: Color(0xff773E42)),
                                 ),
                               ]),
                           SizedBox(height: 15.0),
@@ -202,7 +210,7 @@ class _UsuarioState extends State<Usuario> {
                                   "Mis favoritos",
                                   style: TextStyle(
                                       fontSize: 40,
-                                      color: Colors.white,
+                                      color: Color(0xff773E42),
                                       fontWeight: FontWeight.bold),
                                 ),
                               ]),
@@ -221,9 +229,11 @@ class _UsuarioState extends State<Usuario> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
-                                  new Text('Ver mis negocios guardados',
-                                      style: TextStyle(
-                                          fontSize: 20, color: Colors.white)),
+                                  new Text(
+                                    'Ver mis negocios guardados',
+                                    style: TextStyle(
+                                        fontSize: 20, color: Colors.white),
+                                  ),
                                   new Icon(
                                     FontAwesomeIcons.solidHeart,
                                     color: Colors.white,
@@ -238,7 +248,7 @@ class _UsuarioState extends State<Usuario> {
                                   "Mis promos ",
                                   style: TextStyle(
                                       fontSize: 40,
-                                      color: Colors.white,
+                                      color: Color(0xff773E42),
                                       fontWeight: FontWeight.bold),
                                 ),
                               ]),
@@ -274,7 +284,7 @@ class _UsuarioState extends State<Usuario> {
                               "Configuración",
                               style: TextStyle(
                                   fontSize: 40,
-                                  color: Colors.white,
+                                  color: Color(0xff773E42),
                                   fontWeight: FontWeight.bold),
                             ),
                           ]),
@@ -285,7 +295,7 @@ class _UsuarioState extends State<Usuario> {
                                 Text(
                                   "Notificaciones:",
                                   style: TextStyle(
-                                      fontSize: 25, color: Colors.white),
+                                      fontSize: 25, color: Color(0xff773E42)),
                                 ),
                                 Switch(
                                     value: isSwitched,
@@ -295,7 +305,7 @@ class _UsuarioState extends State<Usuario> {
                                         print(isSwitched);
                                       });
                                     },
-                                    activeTrackColor: Colors.white,
+                                    activeTrackColor: Color(0xff773E42),
                                     activeColor: Colors.black),
                               ]),
 
@@ -365,7 +375,6 @@ class _Compras2 extends State<Login2> {
     final apellidosfb = profile['last_name'];
     final imagenfb = profile['picture']["data"]["url"];
     String tokenfirebase;
-    print(name);
 
     login.setString('stringLogin', "True");
     login.setString('stringMail', correofb);
@@ -516,13 +525,13 @@ Future<String> signInWithGoogle() async {
               begin: Alignment.topRight,
               end: Alignment.bottomLeft,
               colors: [
-            Colors.black,
+            Colors.white,
             Colors.white,
           ])),
       child: Center(
         child: ListView(
-          shrinkWrap: false,
-          physics: BouncingScrollPhysics(),
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
           children: <Widget>[
             Column(
               children: <Widget>[
@@ -532,7 +541,7 @@ Future<String> signInWithGoogle() async {
                 ClipRRect(
                     borderRadius: BorderRadius.circular(8.0),
                     child: Image.asset(
-                      "assets/splash.png",
+                      "assets/cabofind.png",
                       fit: BoxFit.fill,
                       width: 150.0,
                       height: 150.0,

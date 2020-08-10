@@ -450,7 +450,7 @@ Future<String> insertVisitaiOS() async {
                 //padding: const EdgeInsets.only(bottom: 10,left: 20,right: 20);
                 return new Card(
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.0)),
+                      borderRadius: BorderRadius.circular(5.0)),
                   child: Text(
                     dataneg[index]["NEG_DESCRIPCION"],
                     maxLines: 20,
@@ -649,7 +649,7 @@ Future<String> insertVisitaiOS() async {
                         ),
                         Text(
                           'Caracteristicas',
-                          style: TextStyle(color: Color(0xff773E42)),
+                          style: TextStyle(color: Colors.black),
                         ),
                       ],
                     ),
@@ -664,7 +664,7 @@ Future<String> insertVisitaiOS() async {
                         ),
                         Text(
                           'Servicios',
-                          style: TextStyle(color: Color(0xff773E42)),
+                          style: TextStyle(color: Colors.black),
                         ),
                       ],
                     ),
@@ -679,7 +679,7 @@ Future<String> insertVisitaiOS() async {
                         ),
                         Text(
                           'Horarios',
-                          style: TextStyle(color: Color(0xff773E42)),
+                          style: TextStyle(color: Colors.black),
                         ),
                       ],
                     ),
@@ -694,7 +694,7 @@ Future<String> insertVisitaiOS() async {
                         ),
                         Text(
                           'Abrir mapa',
-                          style: TextStyle(color: Color(0xff773E42)),
+                          style: TextStyle(color: Colors.black),
                         ),
                       ],
                     ),
@@ -740,7 +740,7 @@ Future<String> insertVisitaiOS() async {
                           },
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(40.0)),
-                          color: Color(0xff773E42),
+                          color: Colors.black,
                           child: new Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             mainAxisSize: MainAxisSize.min,
@@ -1186,7 +1186,7 @@ Future<String> insertVisitaiOS() async {
               Center(
                   child: Text(
                 'Galería de imagenes',
-                style: TextStyle(fontSize: 20.0, color: Color(0xff773E42)),
+                style: TextStyle(fontSize: 20.0, color: Colors.black),
               )),
               SizedBox(
                 height: 15.0,
@@ -1206,7 +1206,7 @@ Future<String> insertVisitaiOS() async {
               Center(
                   child: Text(
                 'Redes sociales y contacto',
-                style: TextStyle(fontSize: 20.0, color: Color(0xff773E42)),
+                style: TextStyle(fontSize: 20.0, color: Colors.black),
               )),
               SizedBox(
                 height: 15.0,
@@ -1223,7 +1223,7 @@ Future<String> insertVisitaiOS() async {
                 Center(
                     child: Text(
                   'Publicaciones',
-                  style: TextStyle(fontSize: 20.0, color: Color(0xff773E42)),
+                  style: TextStyle(fontSize: 20.0, color: Colors.black),
                 )),
               ],
             ),
@@ -1242,7 +1242,7 @@ Future<String> insertVisitaiOS() async {
               Center(
                   child: Text(
                 'Comentarios',
-                style: TextStyle(fontSize: 20.0, color: Color(0xff773E42)),
+                style: TextStyle(fontSize: 20.0, color: Colors.black),
               )),
               SizedBox(
                 height: 15.0,

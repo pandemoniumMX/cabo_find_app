@@ -38,9 +38,9 @@ class Myapp1 extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.grey,
-          primaryColor: Colors.black,
+          primaryColor: Color(0xff60032D),
           //primaryColor: Colors.black,
-          accentColor: Colors.black26,
+          accentColor: Color(0xff773E42),
         ),
         home: new Container(child: new Start()));
   }
@@ -303,7 +303,7 @@ routes: <String, WidgetBuilder>{
               child: Padding(
                 padding: const EdgeInsets.only(top: 150.0),
                 child: FadeInImage(
-                  image: AssetImage('assets/splash.png'),
+                  image: AssetImage('assets/cabofind.png'),
                   fit: BoxFit.cover,
                   width: 150,
                   height: 150,

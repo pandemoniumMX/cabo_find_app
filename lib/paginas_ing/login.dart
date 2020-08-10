@@ -153,6 +153,13 @@ class _UsuarioState extends State<Usuario> {
                     style: TextStyle(color: Colors.black, fontSize: 25.0),
                     textAlign: TextAlign.center,
                   ));
+                } else if (boolAsString == null) {
+                  return Center(
+                      child: Text(
+                    "Error :(",
+                    style: TextStyle(color: Colors.black, fontSize: 25.0),
+                    textAlign: TextAlign.center,
+                  ));
                 } else {
                   return ListView(
                     children: <Widget>[
@@ -160,7 +167,7 @@ class _UsuarioState extends State<Usuario> {
                         child: Column(children: <Widget>[
                           Row(children: <Widget>[
                             Text(
-                              "Configuración",
+                              "Profile",
                               style: TextStyle(
                                   fontSize: 40,
                                   color: Colors.white,
@@ -172,7 +179,7 @@ class _UsuarioState extends State<Usuario> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
                                 Text(
-                                  "Nombre:",
+                                  "Name:",
                                   style: TextStyle(
                                       fontSize: 25, color: Colors.white),
                                 ),
@@ -190,14 +197,19 @@ class _UsuarioState extends State<Usuario> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
                                 Text(
-                                  "Correo:",
+                                  "Mail:",
                                   style: TextStyle(
                                       fontSize: 25, color: Colors.white),
                                 ),
-                                Text(
-                                  snapshot.data["USU_CORREO"],
-                                  style: TextStyle(
-                                      fontSize: 25, color: Colors.white),
+                                Flexible(
+                                  child: Text(
+                                    snapshot.data["USU_CORREO"],
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      fontSize: 25,
+                                      color: Colors.white,
+                                    ),
+                                  ),
                                 ),
                               ]),
                           SizedBox(height: 15.0),
@@ -205,7 +217,7 @@ class _UsuarioState extends State<Usuario> {
                           ///config
                           Row(children: <Widget>[
                             Text(
-                              "Configuración",
+                              "Settings",
                               style: TextStyle(
                                   fontSize: 40,
                                   color: Colors.white,
@@ -217,7 +229,7 @@ class _UsuarioState extends State<Usuario> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
                                 Text(
-                                  "Notificaciones:",
+                                  "Notifications:",
                                   style: TextStyle(
                                       fontSize: 25, color: Colors.white),
                                 ),
@@ -229,8 +241,8 @@ class _UsuarioState extends State<Usuario> {
                                       print(isSwitched);
                                     });
                                   },
-                                  activeTrackColor: Colors.lightGreenAccent,
-                                  activeColor: Color(0xff773E42),
+                                  activeTrackColor: Color(0xff773E42),
+                                  activeColor: Colors.black,
                                 ),
                               ]),
 
@@ -246,7 +258,7 @@ class _UsuarioState extends State<Usuario> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   mainAxisSize: MainAxisSize.min,
                                   children: <Widget>[
-                                    new Text('Cerrar sesión',
+                                    new Text('Log Out',
                                         style: TextStyle(
                                             fontSize: 20, color: Colors.white)),
                                     new Icon(
@@ -447,13 +459,13 @@ class _Compras2 extends State<Login2> {
               begin: Alignment.topRight,
               end: Alignment.bottomLeft,
               colors: [
-            Colors.black,
+            Colors.white,
             Colors.white,
           ])),
       child: Center(
         child: ListView(
-          shrinkWrap: false,
-          physics: BouncingScrollPhysics(),
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
           children: <Widget>[
             Column(
               children: <Widget>[
@@ -463,7 +475,7 @@ class _Compras2 extends State<Login2> {
                 ClipRRect(
                     borderRadius: BorderRadius.circular(8.0),
                     child: Image.asset(
-                      "assets/splash.png",
+                      "assets/cabofind.png",
                       fit: BoxFit.fill,
                       width: 150.0,
                       height: 150.0,

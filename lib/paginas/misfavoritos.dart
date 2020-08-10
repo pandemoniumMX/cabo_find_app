@@ -237,7 +237,7 @@ class _UsuarioState extends State<Usuario2> {
           Container(
               decoration: BoxDecoration(
                   gradient: LinearGradient(colors: [
-                Colors.black,
+                Color(0xff773E42),
                 Colors.white,
               ])),
               child: Text(
@@ -270,7 +270,7 @@ class _States extends State<Login3> {
           ClipRRect(
               borderRadius: BorderRadius.circular(8.0),
               child: Image.asset(
-                "assets/splash.png",
+                "assets/cabofind.png",
                 fit: BoxFit.fill,
                 width: 150.0,
                 height: 150.0,

@@ -201,8 +201,8 @@ class _ListaAcuaticas extends State<Lista_Manejador_hoteles> {
                     backgroundColor: Colors.transparent,
                     onPressed: () {
                       insertFavorite(id_n);
-                      getData();
-                      getDatabaja();
+                      //getData();
+                      //getDatabaja();
                     },
                   ),
                 ),

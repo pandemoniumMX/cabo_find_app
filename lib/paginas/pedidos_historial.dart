@@ -26,15 +26,6 @@ class _Pedidos_historialState extends State<Pedidos_historial> {
   List proximo;
   List enviado;
 
-  Future<Null> _onRefresh() {
-    Completer<Null> completer = new Completer<Null>();
-    Timer timer = new Timer(new Duration(seconds: 1), () {
-      setState(() {});
-      completer.complete();
-    });
-    return completer.future;
-  }
-
   Future<Map> _deleteCarrito(String idcc) async {
     http.Response response = await http.get(
         "http://cabofind.com.mx/app_php/APIs/esp/cancelacion_carrito.php?ID=${idcc}");
@@ -134,6 +125,19 @@ class _Pedidos_historialState extends State<Pedidos_historial> {
     this.setState(() {
       enviado = json.decode(response.body);
     });
+  }
+
+  Future<Null> _onRefresh() {
+    Completer<Null> completer = new Completer<Null>();
+    Timer timer = new Timer(new Duration(seconds: 1), () {
+      _cargarEnviado();
+      _cargarProximo();
+      _cargarHistorial();
+
+      setState(() {});
+      completer.complete();
+    });
+    return completer.future;
   }
 
   @override
@@ -253,7 +257,7 @@ class _Pedidos_historialState extends State<Pedidos_historial> {
                                                           title: new Text(
                                                               "Alerta"),
                                                           content: new Text(
-                                                            "¿Seguro que desea eliminar?",
+                                                            "¿Seguro que desea cancelar?",
                                                             textAlign: TextAlign
                                                                 .center,
                                                           ),
@@ -282,6 +286,7 @@ class _Pedidos_historialState extends State<Pedidos_historial> {
                                                               onPressed: () {
                                                                 _deleteCarrito(
                                                                     idc);
+                                                                _cargarProximo();
                                                                 setState(() {});
 
                                                                 Navigator.of(

@@ -205,39 +205,40 @@ class _Menu_majeadorState extends State<Menu_manejador>
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Container(
+                                      margin: EdgeInsets.only(top: 3),
                                       child: Text(
-                                    'MXN: \$' + data[index]["MENU_COSTO"],
-                                    style: TextStyle(
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.bold,
-                                        color: Color(0xff773E42)),
-                                  )),
+                                        'MXN: \$' + data[index]["MENU_COSTO"],
+                                        style: TextStyle(
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.bold,
+                                            color: Color(0xff773E42)),
+                                      )),
                                   calificacion == 5
                                       ? Text(
                                           ' ⭐⭐⭐⭐⭐',
                                           style: TextStyle(
-                                              fontSize: 16,
+                                              fontSize: 14,
                                               color: Color(0xff773E42)),
                                         )
                                       : calificacion == 4
                                           ? Text(
                                               ' ⭐⭐⭐⭐',
                                               style: TextStyle(
-                                                  fontSize: 16,
+                                                  fontSize: 14,
                                                   color: Color(0xff773E42)),
                                             )
                                           : calificacion == 3
                                               ? Text(
                                                   ' ⭐⭐⭐',
                                                   style: TextStyle(
-                                                      fontSize: 16,
+                                                      fontSize: 14,
                                                       color: Color(0xff773E42)),
                                                 )
                                               : calificacion == 2
                                                   ? Text(
                                                       ' ⭐⭐',
                                                       style: TextStyle(
-                                                          fontSize: 16,
+                                                          fontSize: 14,
                                                           color: Color(
                                                               0xff773E42)),
                                                     )
@@ -245,7 +246,7 @@ class _Menu_majeadorState extends State<Menu_manejador>
                                                       ? Text(
                                                           ' ⭐',
                                                           style: TextStyle(
-                                                              fontSize: 16,
+                                                              fontSize: 14,
                                                               color: Color(
                                                                   0xff773E42)),
                                                         )
@@ -396,9 +397,12 @@ class _Menu_majeadorState extends State<Menu_manejador>
                 height: 250,
                 imageUrl: (exp[0]['GAL_FOTO']),
                 progressIndicatorBuilder: (context, url, downloadProgress) =>
-                    Center(
-                        child: CircularProgressIndicator(
-                            value: downloadProgress.progress)),
+                    Container(
+                  margin: EdgeInsets.all(100),
+                  child: Center(
+                      child: CircularProgressIndicator(
+                          value: downloadProgress.progress)),
+                ),
                 errorWidget: (context, url, error) => Icon(Icons.error),
               ),
               GridView.builder(
