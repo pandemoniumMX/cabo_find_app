@@ -14,69 +14,81 @@ description: A new Flutter application.
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.2.2 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
   flutter_localizations:
-        sdk: flutter  
-  carousel_pro: ^1.0.0
-  carousel_slider: ^1.4.1
-  #firebase_cloud_messaging: ^4.0.4+1
-  firebase_messaging: 5.1.5
+        sdk: flutter    
+  #Funciones      
+
+  firebase_messaging: ^5.1.5
   http: any
-  path_provider: ^1.5.1
+  path_provider: ^1.6.9
   dio: ^3.0.8
-  url_launcher: ^5.1.3
-  #flutter_widget_gallery: ^0.1.2  
-  #custom_chewie: ^0.7.0
+  url_launcher: any
+  flutter_swiper : ^1.1.6
   font_awesome_flutter: any
-  flutter_staggered_grid_view: "^0.3.0"
-  #imei_plugin: ^1.1.0
-  device_info: ^0.4.1+4
-  devicelocale: ^0.2.1
-  fluttertoast: ^4.0.1
-  flutter_facebook_login: ^3.0.0
-  dropdown_menu: ^1.1.1
-  dropdownfield: ^1.0.3
+  shared_preferences: ^0.5.7+3 
+  #Video
+  flutter_youtube: "^2.0.0"
+  #chewie: ^0.9.8+1  
+  #flutter_youtube_view: ^1.1.6  
   #flutube: 0.8.3
-  #youtube_player_flutter: ^1.1.0
-  #flutter_youtube_view: ^1.1.6
-  shared_preferences: ^0.5.6
+  #youtube_player_flutter: ^7.0.0+1
+  #video_player: ^0.10.5  
+  #Dispositivos
+  device_info: ^0.4.2+4
+  devicelocale: ^0.2.1
+  #Autentificacion
+  provider: ^4.0.2
+  flutter_facebook_login: ^3.0.0  
+  firebase_auth: ^0.15.5+3
+  google_sign_in: ^4.3.0
+  #Navegacionydiseño
+  flutter_staggered_grid_view: "^0.3.0"  
+  ff_navigation_bar: ^0.1.5
+  dropdown_menu: ^1.1.1
+  dropdownfield: ^1.0.3  
+  carousel_pro: ^1.0.0
+  carousel_slider: ^1.4.1  
+  fluttertoast: ^3.1.3  
+  flutter_web_browser: ^0.11.0  
+  #Localizacion
   google_maps_flutter: ^0.5.21
   google_map_polyline: 
-  #google_maps_webservice: ^0.0.16
-  #geolocator: ^5.1.5
-  #chewie: ^0.9.8+1
-  #geocoder: ^0.1.1
-  #geolocator: ^5.1.3
-  flutter_youtube: "^2.0.0"
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
-  #font_awesome_flutter: ^8.2.0
   location: ^2.3.5
-  permission:
-  provider: ^4.0.2
-  flutter_google_pay: ^0.1.4
+  permission:  
+  #Shopping
+  #flutter_google_pay: ^0.1.4
   flutter_datetime_picker: ^1.3.8
-  intl: ^0.16.0
-  flutter_web_browser: ^0.11.0
-  firebase_auth: ^0.15.5+3
-  #google_sign_in: ^4.3.0
-  #Navegacion
-  ff_navigation_bar: ^0.1.5
-  expand_widget: ^0.2.0+2
-  expandable: ^4.1.4
-  expandable_widget: ^1.0.5
+  intl: ^0.16.0  
   qr_flutter: ^3.2.0
   dotted_border: ^1.0.5
-  #dart_dice_parser: ^2.0.1
-  share: ^0.6.4+3
   #encrypt: ^4.0.2
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
-  #font_awesome_flutter: ^8.2.0
+  #expand_widget: ^0.2.0+2
+  expandable: ^4.1.4
+  share: ^0.6.4+3
+  # barcode_scan: ^3.0.1
+  #stripe_native: ^1.2.3
+ 
+  #flutter_conekta: ^1.0.7+1
+  #expandable_widget: ^1.0.5
+  geolocator: ^5.3.2+2
+  geocoder: ^0.2.1
+  cached_network_image: ^2.2.0+1
+  awesome_dialog: ^1.1.3
+  audioplayers: ^0.15.1
+  clippy_flutter: ^1.1.1
+  
+
+  
+  #flutter_localizations: 
+dependency_overrides: 
+
+  
+  
 
 dev_dependencies:
   flutter_test:
@@ -84,10 +96,10 @@ dev_dependencies:
   flutter_launcher_icons: "^0.7.0"
 
 flutter_icons:
- android: "splash"
+ android: "launcher_icon"
  ios: true
- image_path: "assets/icon/cabofind500.jpg"
- adaptive_icon_background: "assets/cabofind500.jpg"
+ image_path: "assets/icon/cabofind.png"
+ adaptive_icon_background: "assets/cabofind.png"
 
 
  
@@ -107,8 +119,7 @@ flutter:
   - android/assets/images/
   - assets/
   - assets/map_style1.txt
-
-
+  - assets/audio/notification.mp3  
 
   # To add assets to your application, add an assets section, like this:
   # assets:

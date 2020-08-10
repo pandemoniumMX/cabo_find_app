@@ -11,379 +11,341 @@ import '../main.dart';
 import 'login.dart';
 
 class Mis_promos_manejador extends StatefulWidget {
+  final Publicacion publicacion;
 
-  final Publicacion publicacion;  
-
-  Mis_promos_manejador({Key key, @required this.publicacion}) : super(
-      key: key);  
-@override
-_Compras createState() => new _Compras();}
+  Mis_promos_manejador({Key key, @required this.publicacion}) : super(key: key);
+  @override
+  _Compras createState() => new _Compras();
+}
 
 class _Compras extends State<Mis_promos_manejador> {
-bool isLoggedIn=false;
-final GlobalKey<State> _keyLoader = new GlobalKey<State>();
-void initState() {
-super.initState();
-}
-
-Future<bool>  sesionLog() async {
-  
- final SharedPreferences login = await SharedPreferences.getInstance();
- String _status = "";
- String _mail ="";
- _status = login.getString("stringLogin")?? '';
- _mail = login.getString("stringMail")?? '';
- bool checkValue = login.containsKey('value');
- return checkValue = login.containsKey('stringLogin');
- print(checkValue);
- print(_status);
- print(_mail);
- 
-  // if (prefs.getString(_idioma) ?? 'stringValue' == "espanol")
-  if (_status == "True") {
-      print("Sesión ya iniciada");
-    
-    }
-    else
-    {
-     print("Sesión no iniciada");
-     
+  bool isLoggedIn = false;
+  final GlobalKey<State> _keyLoader = new GlobalKey<State>();
+  void initState() {
+    super.initState();
   }
-  http.Response response = await http.get("http://api.openrates.io/latest");
-  return json.decode(response.body);
-}
-  
 
-@override
-Widget build(BuildContext context) {
-  return new Scaffold(    
-    appBar: AppBar(title: Text('Regresar'),),
-    body: FutureBuilder(
-         future: sesionLog(),
-         builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-           if (snapshot.hasData) {
-             String id_n = widget.publicacion.id_n;
-             String id_p = widget.publicacion.id_p;
-             return snapshot.data ?  Usuario(usuarios: new Users("testing@gmail.com"), publicacion: new Publicacion(id_n, id_p),) : Login2(publicacion: new Publicacion(id_n, id_p));
-           }
-             String id_n = widget.publicacion.id_n;
-             String id_p = widget.publicacion.id_p;
-           Login2(publicacion: new Publicacion(id_n, id_p)); // noop, this builder is called again when the future completes
-         },
-       )
-    );
+  Future<bool> sesionLog() async {
+    final SharedPreferences login = await SharedPreferences.getInstance();
+    String _status = "";
+    String _mail = "";
+    _status = login.getString("stringLogin") ?? '';
+    _mail = login.getString("stringMail") ?? '';
+    bool checkValue = login.containsKey('value');
+    return checkValue = login.containsKey('stringLogin');
+    print(checkValue);
+    print(_status);
+    print(_mail);
+
+    // if (prefs.getString(_idioma) ?? 'stringValue' == "espanol")
+    if (_status == "True") {
+      print("Sesión ya iniciada");
+    } else {
+      print("Sesión no iniciada");
     }
+    http.Response response = await http.get("http://api.openrates.io/latest");
+    return json.decode(response.body);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+        appBar: AppBar(
+          title: Text('Regresar'),
+        ),
+        body: FutureBuilder(
+          future: sesionLog(),
+          builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+            if (snapshot.hasData) {
+              String id_n = widget.publicacion.id_n;
+              String id_p = widget.publicacion.id_p;
+              return snapshot.data
+                  ? Usuario(
+                      usuarios: new Users("testing@gmail.com"),
+                      publicacion: new Publicacion(id_n, id_p),
+                    )
+                  : Login2(publicacion: new Publicacion(id_n, id_p));
+            }
+            String id_n = widget.publicacion.id_n;
+            String id_p = widget.publicacion.id_p;
+            Login2(
+                publicacion: new Publicacion(id_n,
+                    id_p)); // noop, this builder is called again when the future completes
+          },
+        ));
+  }
 }
-
-
 
 class Usuario extends StatefulWidget {
   final Publicacion publicacion;
   final Users usuarios;
-  
-  Usuario({Key key, @required this.publicacion, this.usuarios}) : super(
-    key: key);
+
+  Usuario({Key key, @required this.publicacion, this.usuarios})
+      : super(key: key);
   @override
   _UsuarioState createState() => _UsuarioState();
 }
 
-
-
 class _UsuarioState extends State<Usuario> {
-
   List data;
 
-  void initState(){
-  super.initState();
-  this._loadUser();
-
+  void initState() {
+    super.initState();
+    this._loadUser();
   }
 
   Future<Map> _loadUser() async {
-final SharedPreferences login = await SharedPreferences.getInstance();
- String _status = "";
- String _mail ="";
- String _mail2 ="";
-String _idusu="";  
-_status = login.getString("stringLogin");
- _mail2 = login.getString("stringMail"); 
- 
- print(_mail2) ;
-  
+    final SharedPreferences login = await SharedPreferences.getInstance();
+    String _status = "";
+    String _mail = "";
+    String _mail2 = "";
+    String _idusu = "";
+    _status = login.getString("stringLogin");
+    _mail2 = login.getString("stringID");
 
-  var response = await http.get(
+    print(_mail2);
+
+    var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/list_recompensas_usuario.php?CORREO=$_mail2&ID=${widget.publicacion.id_p}"),  
-       
-        headers: {
-          "Accept": "application/json"
-        }
-    );
+            "http://cabofind.com.mx/app_php/APIs/esp/list_recompensas_usuario.php?IDF=$_mail2&ID=${widget.publicacion.id_p}"),
+        headers: {"Accept": "application/json"});
 
-    this.setState(
-            () {
-          data = json.decode(
-              response.body);
-        });            
-  
-}
-  
+    this.setState(() {
+      data = json.decode(response.body);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-
     Widget estructura = ListView.builder(
       shrinkWrap: true,
       physics: BouncingScrollPhysics(),
       itemCount: data == null ? 0 : data.length,
       itemBuilder: (BuildContext context, int index) {
-      //String id_n = data[index]["ID_PUBLICACION"];
-          return new ListTile(
-
-
-            title: new Card(
-
-              elevation: 5.0,
-              child: new Container(
-                child: Column(
-
-                  children: <Widget>[
-                    //Text("Texto",
-                    Row(
-                      mainAxisAlignment : MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        
+        //String id_n = data[index]["ID_PUBLICACION"];
+        return new ListTile(
+          title: new Card(
+            elevation: 5.0,
+            child: new Container(
+              child: Column(
+                children: <Widget>[
+                  //Text("Texto",
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
                       FadeInImage(
-                      image: NetworkImage(data[index]["GAL_FOTO"]),
-                      fit: BoxFit.fill,
-                      width:  MediaQuery.of(context).size.width * .20,
-                      height: MediaQuery.of(context).size.height * .10,
-                      placeholder: AssetImage('android/assets/images/loading.gif'),
-                      fadeInDuration: Duration(milliseconds: 200),
-                      ),  
-                        Flexible(
-                                  child: Text(data[index]["REC_TITULO"],overflow: TextOverflow.ellipsis,softWrap: true,   
-                                  style:TextStyle(fontWeight: FontWeight.bold,fontSize: 18.0, color: Colors.black,)),
-                              ),
+                        image: NetworkImage(data[index]["GAL_FOTO"]),
+                        fit: BoxFit.fill,
+                        width: MediaQuery.of(context).size.width * .20,
+                        height: MediaQuery.of(context).size.height * .10,
+                        placeholder:
+                            AssetImage('android/assets/images/loading.gif'),
+                        fadeInDuration: Duration(milliseconds: 200),
+                      ),
+                      Flexible(
+                        child: Text(data[index]["REC_TITULO"],
+                            overflow: TextOverflow.ellipsis,
+                            softWrap: true,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18.0,
+                              color: Colors.black,
+                            )),
+                      ),
                       Row(
-                          children: [
-                            Column(children: [
+                        children: [
+                          Column(
+                            children: [
                               new Text(
-                            data[index]["REC_META"],style: TextStyle(fontSize:20),
-                            
-
-                        ),
-                        new Text('Puntos',style: TextStyle(fontSize: 10),),
-                        new Text('necesarios',style: TextStyle(fontSize: 10),)
-                            ],),
-                            
-                        
-                      ],
-                        ),
-
-                      ],
-                        
-
-
-                    ),
-                  ],
-
-                ),
-
+                                data[index]["REC_META"],
+                                style: TextStyle(fontSize: 20),
+                              ),
+                              new Text(
+                                'Puntos',
+                                style: TextStyle(fontSize: 10),
+                              ),
+                              new Text(
+                                'necesarios',
+                                style: TextStyle(fontSize: 10),
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
               ),
-
             ),
-
-            onTap: () {
+          ),
+          onTap: () {
             String id_re = data[index]["ID_RECOMPENSA"];
             String id_n = data[index]["negocios_ID_NEGOCIO"];
             String _mail = widget.usuarios.correo;
 
-           
-              Navigator.push(context, new MaterialPageRoute
-                (builder: (context) => new Recompensa_detalle(
-              publicacion: new Publicacion2(id_re,id_n,_mail),
-            )));
-
-            },
-            
-          );
-
-        },
-
+            Navigator.push(
+                context,
+                new MaterialPageRoute(
+                    builder: (context) => new Recompensa_detalle(
+                          publicacion: new Publicacion2(id_re, id_n, _mail),
+                        )));
+          },
+        );
+      },
     );
     return Scaffold(
-     
       body: ListView(
-    //shrinkWrap: true,
-    physics: BouncingScrollPhysics(),   
-    addAutomaticKeepAlives: true,
-    children: <Widget>[                  
-    Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-        colors: [
-          Color(0xff01969a),
-          Color(0xff01969a),
-          //Colors.white,          
-        ])),
-      child: Row(children: [
-        Text("Puntos obtenidos: ",style: TextStyle(fontSize:30, color: Colors.white,fontWeight: FontWeight.bold ),),
-        Text(data[0]["PUN_TOTAL"],style: TextStyle(fontSize:30, color: Colors.white,fontWeight: FontWeight.bold ),)
-        
-        ])),
-      estructura,
-
-
-      ],
+        //shrinkWrap: true,
+        physics: BouncingScrollPhysics(),
+        addAutomaticKeepAlives: true,
+        children: <Widget>[
+          Container(
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(colors: [
+                Colors.black,
+                Colors.black,
+                //Colors.white,
+              ])),
+              child: Row(children: [
+                Text(
+                  "Puntos obtenidos: ",
+                  style: TextStyle(
+                      fontSize: 30,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  data[0]["PUN_TOTAL"],
+                  style: TextStyle(
+                      fontSize: 30,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold),
+                )
+              ])),
+          estructura,
+        ],
       ),
     );
   }
-  
 }
 
 class Login2 extends StatefulWidget {
   final Publicacion publicacion;
-  
-  Login2({Key key, @required this.publicacion}) : super(
-    key: key);
+
+  Login2({Key key, @required this.publicacion}) : super(key: key);
   @override
   _State createState() => _State();
 }
 
 class _State extends State<Login2> {
-
   List data;
 
-      Future<String> getData() async {
+  Future<String> getData() async {
     var response = await http.get(
         Uri.encodeFull(
             "http://cabofind.com.mx/app_php/APIs/esp/list_recompensas_usuario_none.php?ID=${widget.publicacion.id_p}"),
+        headers: {"Accept": "application/json"});
 
-
-        headers: {
-          "Accept": "application/json"
-        }
-    );
-
-    this.setState(
-            () {
-          data = json.decode(
-              response.body);
-        });
-    
+    this.setState(() {
+      data = json.decode(response.body);
+    });
 
     return "Success!";
   }
 
   Future<String> _checklogin() async {
+    final SharedPreferences login = await SharedPreferences.getInstance();
+    String _status = "";
+    String _mail = "";
+    _status = login.getString("stringLogin") ?? '';
+    _mail = login.getString("stringMail") ?? '';
+    print(_status);
+    print(_mail);
+    //String id = data[0]["ID_NEGOCIO"];
+    // if (prefs.getString(_idioma) ?? 'stringValue' == "espanol")
+    if (_status == "True") {
+    } else {
+      //CircularProgressIndicator(value: 5.0,);
 
-        
- final SharedPreferences login = await SharedPreferences.getInstance();
- String _status = "";
- String _mail ="";
- _status = login.getString("stringLogin")?? '';
- _mail = login.getString("stringMail")?? '';
- print(_status);
- print(_mail);
- //String id = data[0]["ID_NEGOCIO"];
-  // if (prefs.getString(_idioma) ?? 'stringValue' == "espanol")
-  if (_status == "True") {
-
-
-      
+      Navigator.pushReplacement(context,
+          new MaterialPageRoute(builder: (BuildContext context) => Login()));
     }
-    else
-    {
-     //CircularProgressIndicator(value: 5.0,);
-     
-      Navigator.pushReplacement(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (BuildContext context) => Login()
-                        )
-                        );            
-     
-  }    
-  }  
+  }
+
   @override
-    void initState() {
+  void initState() {
     super.initState();
 
     this.getData();
-
   }
+
   Widget build(BuildContext context) {
-    return   ListView.builder(
+    return ListView.builder(
       shrinkWrap: true,
       physics: BouncingScrollPhysics(),
       itemCount: data == null ? 0 : data.length,
       itemBuilder: (BuildContext context, int index) {
-      //String id_n = data[index]["ID_PUBLICACION"];
-          return new ListTile(
-
-
-            title: new Card(
-
-              elevation: 5.0,
-              child: new Container(
-                child: Column(
-
-                  children: <Widget>[
-                    //Text("Texto",
-                    Row(
-                      mainAxisAlignment : MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        
+        //String id_n = data[index]["ID_PUBLICACION"];
+        return new ListTile(
+          title: new Card(
+            elevation: 5.0,
+            child: new Container(
+              child: Column(
+                children: <Widget>[
+                  //Text("Texto",
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
                       FadeInImage(
-                      image: NetworkImage(data[index]["GAL_FOTO"]),
-                      fit: BoxFit.fill,
-                      width:  MediaQuery.of(context).size.width * .20,
-                      height: MediaQuery.of(context).size.height * .10,
-                      placeholder: AssetImage('android/assets/images/loading.gif'),
-                      fadeInDuration: Duration(milliseconds: 200),
-                      ),  
-                        Flexible(
-                                  child: Text(data[index]["REC_TITULO"],overflow: TextOverflow.ellipsis,softWrap: true,   
-                                  style:TextStyle(fontWeight: FontWeight.bold,fontSize: 18.0, color: Colors.black,)),
-                              ),
+                        image: NetworkImage(data[index]["GAL_FOTO"]),
+                        fit: BoxFit.fill,
+                        width: MediaQuery.of(context).size.width * .20,
+                        height: MediaQuery.of(context).size.height * .10,
+                        placeholder:
+                            AssetImage('android/assets/images/loading.gif'),
+                        fadeInDuration: Duration(milliseconds: 200),
+                      ),
+                      Flexible(
+                        child: Text(data[index]["REC_TITULO"],
+                            overflow: TextOverflow.ellipsis,
+                            softWrap: true,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18.0,
+                              color: Colors.black,
+                            )),
+                      ),
                       Row(
-                          children: [
-                            Column(children: [
+                        children: [
+                          Column(
+                            children: [
                               new Text(
-                            data[index]["REC_META"],style: TextStyle(fontSize:20),
-                            
-
-                        ),
-                        new Text('Puntos',style: TextStyle(fontSize: 10),),
-                        new Text('necesarios',style: TextStyle(fontSize: 10),)
-                            ],),
-                            
-                        
-                      ],
-                        ),
-
-                      ],
-                        
-
-
-                    ),
-                  ],
-
-                ),
-
+                                data[index]["REC_META"],
+                                style: TextStyle(fontSize: 20),
+                              ),
+                              new Text(
+                                'Puntos',
+                                style: TextStyle(fontSize: 10),
+                              ),
+                              new Text(
+                                'necesarios',
+                                style: TextStyle(fontSize: 10),
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
               ),
-
             ),
-
-            onTap: () {
-            
-              _checklogin();
-            },
-            
-          );
-
-        },
-
+          ),
+          onTap: () {
+            _checklogin();
+          },
+        );
+      },
     );
   }
 }

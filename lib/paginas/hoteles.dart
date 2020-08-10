@@ -6,36 +6,36 @@ import 'list_manejador.dart';
 import 'list_manejador_hoteles.dart';
 
 class Hoteles extends StatefulWidget {
-
-
   @override
-_Restaurantes createState() => new _Restaurantes();
+  _Restaurantes createState() => new _Restaurantes();
 }
 
 class _Restaurantes extends State<Hoteles> {
-  int id=0;
-  int cat =61;//educacion
- 
-@override 
- int _page = 0;
- PageController _c;
+  int id = 0;
+  int cat = 61; //educacion
+
   @override
-  void initState(){
-    _c =  new PageController(
+  int _page = 0;
+  PageController _c;
+  @override
+  void initState() {
+    _c = new PageController(
       initialPage: _page,
     );
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-      title: new Text('Hoteles'),
-    ),/*
+        title: new Text('Hoteles'),
+      ),
+      /*
       bottomNavigationBar: new BottomNavigationBar(
         currentIndex: _page,
         backgroundColor: Colors.black,
-        fixedColor: Color(0xff01969a),
+        fixedColor: Colors.black,
         unselectedItemColor: Colors.black54,
         showUnselectedLabels: false,
         //unselectedIconTheme: Colors.grey,
@@ -52,14 +52,14 @@ class _Restaurantes extends State<Hoteles> {
       ),*/
       body: new PageView(
         controller: _c,
-        onPageChanged: (newPage){
-          setState((){
-            this._page=newPage;
+        onPageChanged: (newPage) {
+          setState(() {
+            this._page = newPage;
           });
         },
         children: <Widget>[
-          new Lista_Manejador_hoteles(manejador: new Lista_manejador(cat,33)),
-         // new Lista_Manejador_esp(manejador: new Lista_manejador(cat,34)),
+          new Lista_Manejador_hoteles(manejador: new Lista_manejador(cat, 33)),
+          // new Lista_Manejador_esp(manejador: new Lista_manejador(cat,34)),
           //new Lista_Manejador_esp(manejador: new Lista_manejador(cat,36)),
           //new Lista_Manejador_esp(manejador: new Lista_manejador(cat,35)),
           //new Lista_Manejador_esp(manejador: new Lista_manejador(cat,65)),

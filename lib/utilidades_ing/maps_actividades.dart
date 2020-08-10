@@ -237,7 +237,7 @@ class _MyHomePageState extends State<Maps_actividades_ing> {
                         fadeInDuration: Duration(milliseconds: 200),   
                         
                       ),
-                      Text('  Culture')
+                      Text('  Places')
                     ],
                   ),
                   SizedBox(height: 10.0,),    
@@ -422,7 +422,7 @@ class _MyHomePageState extends State<Maps_actividades_ing> {
                     mainAxisSize: MainAxisSize.min,
 
                     children: <Widget>[
-                      new Text('Uber request ', style: TextStyle(fontSize: 20, color: Colors.white)), 
+                      new Text('Get a ride ', style: TextStyle(fontSize: 20, color: Colors.white)), 
                       new Icon(FontAwesomeIcons.uber, color: Colors.white,)
                     ],
                   )

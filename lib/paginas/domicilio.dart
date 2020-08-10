@@ -1,444 +1,267 @@
-import 'dart:async';
 import 'dart:convert';
-
-import 'package:cabofind/paginas/domicilio_detalle_restaurantes.dart';
+import 'package:cabofind/paginas/pedidos_historial.dart';
 import 'package:cabofind/utilidades/classes.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:ff_navigation_bar/ff_navigation_bar.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
-import 'package:device_info/device_info.dart';
-import 'package:devicelocale/devicelocale.dart';
-import 'domicilio_detalle_general.dart';
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
-
-//import 'package:firebase_messaging/firebase_messaging.dart';
-//import 'package:geocoder/geocoder.dart';
-//import 'package:geolocator/geolocator.dart';
-
-
-
-FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-
-void fcmSubscribe() {
-  _firebaseMessaging.unsubscribeFromTopic('All');
-    _firebaseMessaging.subscribeToTopic('Todos');
-  }
-  
-
-//void main() => runApp(new Myapp());
-
-class Myapp extends StatelessWidget {
-  // This widget is the root of your application.
-  // final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
-
-  @override
-  Widget build(BuildContext context) {
-   return new MaterialApp(
-     // navigatorKey: navigatorKey,
-/*
-      routes: {
-        'publicacionx' : (BuildContext context) => Publicacion_detalle_fin_push(),
-      },
-*/
-        debugShowCheckedModeBanner:false,
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-          primaryColor: Color(0xff01969a),
-          //primaryColor: Colors.blue,
-          accentColor: Colors.black26,
-        ),
-        
-        home: new Container(
-            child:           new Domicilio()
-        )
-
-
-
-    );
-  }
-}
-
-
+import '../main_esp.dart';
+import 'list_manejador_menus.dart';
+import 'menu.dart';
 
 class Domicilio extends StatefulWidget {
   @override
-  _MyHomePageState createState() => new _MyHomePageState();
-
-
+  _DomicilioState createState() => _DomicilioState();
 }
 
-
-
-class _MyHomePageState extends State<Domicilio> {
-
-  final fromTextController = TextEditingController();
-  List<String> currencies;
-  String fromCurrency = "USD";
-  String toCurrency = "MXN";
-  String multi;
-  String result;
-
-
-  Icon actionIcon = new Icon(Icons.search);
-
-  Widget appBarTitle = new Text("Cabofind");
-  int id=0;
-
+class _DomicilioState extends State<Domicilio> {
+  DateTime now = DateTime.now();
+  DateFormat dateFormat;
   List data;
+  int _page = 0;
+  int selectedIndex = 0;
+  PageController _c;
 
-
-  //final List<Todo> todos;
   Future<String> getData() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/consultas_negocios/esp/estructura_domicilio.php"),
+            "http://cabofind.com.mx/app_php/APIs/esp/list_domicilio_rest.php"),
+        headers: {"Accept": "application/json"});
 
-        headers: {
-          "Accept": "application/json"
-        }
-    );
-
-    this.setState(
-            () {
-          data = json.decode(
-              response.body);
-        });
-    
+    this.setState(() {
+      data = json.decode(response.body);
+    });
 
     return "Success!";
   }
- 
 
-
-    @override//Registro descarga en Android
-    Future<String> checkModelAndroid() async {
-       String currentLocale;
-    try {
-      currentLocale = await Devicelocale.currentLocale;
-      print(currentLocale);
-    } on PlatformException {
-      print("Error obtaining current locale");
-    }
-
-    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-    AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-    print('Running on ${androidInfo.id}');
-        print('Running on ${androidInfo.fingerprint}');
-
-    var response = await http.get(
-        Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/insertInfo.php?MOD=${androidInfo.model}&BOOT=${androidInfo.display},${androidInfo.bootloader},${androidInfo.fingerprint}&VERSION=${androidInfo.product}&IDIOMA=${currentLocale}"),
-
-        headers: {
-          "Accept": "application/json"
-        }
-    );
-  
-  }
-  
-  /*
-  //Registro descarga en iOS
-  @override
-    Future<String> checkModelIos() async {
-    String currentLocale;
-    try {
-      currentLocale = await Devicelocale.currentLocale;
-      print(currentLocale);
-    } on PlatformException {
-      print("Error obtaining current locale");
-    }
-    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-    IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
-    //print('Running on ${iosInfo.identifierForVendor}');
-    var response = await http.get(
-        Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/insertInfoiOS.php?MOD=${iosInfo.model}&BOOT=${iosInfo.utsname.nodename}&VERSION=${iosInfo.systemName}&IDIOMA=${currentLocale}"),
-
-        headers: {
-          "Accept": "application/json"
-        }
-    );
-
-  }
-*/
-
-
-/*
-    _getLocation() async
-      {
-        Position position = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-        debugPrint('location: ${position.latitude}');
-        final coordinates = new Coordinates(position.latitude, position.longitude);
-        var addresses = await Geocoder.local.findAddressesFromCoordinates(coordinates);
-        var first = addresses.first;
-        print("${first.featureName} : ${first.addressLine}");
-      }
-*/
-  //final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
-
- @override
   void initState() {
-    //addStringToSF();
-
-
     super.initState();
-    
-    //fcmSubscribe();    
-
-    //setupNotification();
     this.getData();
-
-    
-    
-
-
-
-  final _mensajesStreamController = StreamController<String>.broadcast();
-
-
-   
-
-
-  dispose() {
-    _mensajesStreamController?.close();
-  }
-
-
-    //this.checkModelIos();
-    //this.checkModelAndroid();
-    ///this._getLocation();
-  
-
-
-  }
-
-  Widget build(BuildContext context) {
-    
-    //_alertCar(BuildContext context) async {
-    alertCar(context) async {  
-     return showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              // return object of type AlertDialog
-              return AlertDialog(
-                title: new Text("AlertDialog Class"),
-                content: new Text("Creates an alert dialog.Typically used in conjunction with showDialog."+
-                "The contentPadding must not be null. The titlePadding defaults to null, which implies a default."),
-                actions: <Widget>[
-                  // usually buttons at the bottom of the dialog
-                  new FlatButton(
-                    child: new Text("Close"),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ],
-              );
-            },
-          );
-   }
-    /*
-    return new MaterialApp(
-      navigatorKey: navigatorKey,
-
-      routes: {
-        'publicacionx' : (BuildContext context) => Publicacion_detalle_fin_push(),
-      },
-        debugShowCheckedModeBanner:false,
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-          //primaryColor: Color(0xff01969a)
-          primaryColor: Colors.blue,
-          accentColor: Colors.black26,
-        ),
-        home: new Container(
-            child:           new MyHomePages()
-        )
-
-
-
+    _c = new PageController(
+      initialPage: _page,
     );
-    */
-   // new Publicaciones();
-
-    /*
-routes: <String, WidgetBuilder>{
-          "/inicio" : (BuildContext context) => data[index]["est_navegacion"],
-         
-        };
-*/
-
-    return  Scaffold(
-
-      
-      appBar: AppBar(
-        title: Text("Servicio a domicilio"),
-        
-        centerTitle: true,
-      ),
-         
-              
-
-
-      
-
-
-      body: Stack(
-
-        
-     // height: MediaQuery.of(context).size.height,
-    children: <Widget>[
-      new  StaggeredGridView.countBuilder(
-        crossAxisCount: 4,
-        itemCount:data == null ? 0 : data.length,
-        itemBuilder: (BuildContext context, int index) => new Container(
-            //color: Colors.white,
-          child: Container(
-            
-            decoration: BoxDecoration(
-                      borderRadius:BorderRadius.circular(20.0),   
-                      border: Border.all(
-                      color: Color(0xff01969a),)),
-                      padding: EdgeInsets.all(5.0),
-                      margin: EdgeInsets.all(10.0),
-                      
-            child: InkWell(
-                      child: Column(
-
-
-                children: <Widget>[              
-
-                  
-                  Expanded(
-                  child: Stack(
-                    
-                  
-                  children: <Widget>[
-
-                    
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(20.0),
-                                    child: FadeInImage(   
-                          image: NetworkImage(data[index]["EST_DOM_FOTO"]),  
-                          fit: BoxFit.cover,  
-                          width: MediaQuery.of(context).size.width,  
-                          //height: MediaQuery.of(context).size.height * 0.38,  
-                          height: MediaQuery.of(context).size.height,  
-                          // placeholder: AssetImage('android/assets/images/jar-loading.gif'),  
-                          placeholder: AssetImage('android/assets/images/loading.gif'),  
-                          fadeInDuration: Duration(milliseconds: 200),   
-                          
-                        ),
-                  ),
-
-                  
-                  
-                      Positioned(
-                       
-                                  child: Center(
-                                    child: new Text (
-                                    data[index]["EST_DOM_NOMBRE"],
-                                    style: new TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 25.0,
-                                      fontWeight: FontWeight.w900,
-                                      backgroundColor: Colors.black45
-                                    )
-                                ),
-                                  ),
-                                
-                                  
-                                ),  
-                                
-],
-                                    ),
-                  ),
-
-/*
-                  Row(
-                      children: <Widget>[
-
-
-                        Padding(
-                            child: new Text(
-                              data[index]["NEG_NOMBRE"],
-                              overflow: TextOverflow.ellipsis,),
-                            padding: EdgeInsets.all(
-                                1.0)),
-                        Text(
-                            " | "),
-                        Flexible(
-                          child: new Text(
-                            data[index]["NEG_LUGAR"],
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,),
-
-
-                        ),
-
-
-
-                      ]),
-*/
-
-                ],
-
-              ),
-              onTap: () {
-
-
-                String ruta = data[index]["EST_DOM_NAVEGACION"];
-                String id = data[index]["EST_DOM_ID"];
-                print(ruta);
-                
-                 if( ruta == "comida"){
-
-                 Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                          builder: (BuildContext context) => new Domicilio_comida(empresa: new Empresa(id))
-                          )
-                        );
-
-               } else {
-                 Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                          builder: (BuildContext context) => new Domicilio_general(empresa: new Empresa(id))
-                          )
-                        );
-               } 
-                 
-
-
-              },
-            ),
-          ),
-
-        ),
-
-        staggeredTileBuilder: (int index) =>
-        new StaggeredTile.count(2, index.isEven ? 2 :2 ),
-        mainAxisSpacing: 4.0,
-        crossAxisSpacing: 4.0,
-      ),
-
-      
-      
-    ],
-    
-
-    ),
-
-        );
+    dateFormat = new DateFormat.Hm();
   }
+
   @override
-  void dispose() {
-    super.dispose();
+  Widget build(BuildContext context) {
+    return WillPopScope(
+      onWillPop: () {
+        Navigator.push(
+            context,
+            new MaterialPageRoute(
+                builder: (BuildContext context) => new Myapp()));
+      },
+      child: Scaffold(
+          bottomNavigationBar: FFNavigationBar(
+            theme: FFNavigationBarTheme(
+              barBackgroundColor: Colors.white,
+              selectedItemBorderColor: Colors.white,
+              selectedItemBackgroundColor: Color(0xff60032D),
+              selectedItemIconColor: Colors.white,
+              selectedItemLabelColor: Colors.black,
+            ),
+            items: [
+              FFNavigationBarItem(
+                selectedBackgroundColor: Color(0xff773E42),
+                iconData: FontAwesomeIcons.utensils,
+                label: 'Inicio',
+              ),
+              FFNavigationBarItem(
+                selectedBackgroundColor: Color(0xff773E42),
+                iconData: FontAwesomeIcons.search,
+                label: 'Buscar',
+              ),
+              FFNavigationBarItem(
+                selectedBackgroundColor: Color(0xff773E42),
+                iconData: FontAwesomeIcons.fileAlt,
+                label: 'Pedidos',
+              ),
+            ],
+            selectedIndex: selectedIndex,
+            onSelectTab: (index) {
+              this._c.animateToPage(index,
+                  duration: const Duration(milliseconds: 10),
+                  curve: Curves.easeInOut);
+            },
+          ),
+          appBar: AppBar(
+            leading: new IconButton(
+                icon: new Icon(Icons.arrow_back),
+                onPressed: () {
+                  Navigator.pushReplacement(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (BuildContext context) => new Myapp()));
+                }),
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text('Cabofood'),
+                InkWell(
+                    onTap: () {
+                      setState(() {});
+                    },
+                    child: Icon(FontAwesomeIcons.syncAlt))
+              ],
+            ),
+            backgroundColor: Color(0xff60032D),
+          ),
+          body: new PageView(
+            controller: _c,
+            onPageChanged: (newPage) {
+              setState(() {
+                this._page = newPage;
+                selectedIndex = newPage;
+              });
+            },
+            children: <Widget>[
+              ListView.builder(
+                shrinkWrap: true,
+                physics: BouncingScrollPhysics(),
+                itemCount: data == null ? 0 : data.length,
+                itemBuilder: (BuildContext context, int index) {
+                  String id_n = data[index]["ID_NEGOCIO"];
+                  String hora = data[index]["HOR_APERTURA"];
+                  String horaclose = data[index]["HOR_CIERRE"];
+                  String formattedTime = DateFormat('h:mm a').format(now);
+                  DateTime hora1 = dateFormat.parse(hora);
+                  DateTime horacerrar = dateFormat.parse(horaclose);
+                  DateTime hora2 =
+                      new DateFormat("h:mm a").parse(formattedTime);
+
+                  //DateTime apertura2 = new DateFormat("kk:mm:ss").parse(hora);
+                  String apertura = DateFormat('h:mm a').format(hora1);
+                  print(hora1);
+                  print(formattedTime);
+                  return hora1.isBefore(hora2) && horacerrar.isAfter(hora2)
+                      ? new InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                new MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        new Menu_manejador(
+                                            manejador: new Users(id_n))));
+                          },
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Container(
+                                padding: EdgeInsets.all(5.0),
+                                margin: EdgeInsets.all(5.0),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  child: FadeInImage(
+                                    image:
+                                        NetworkImage(data[index]['GAL_FOTO']),
+                                    fit: BoxFit.fill,
+                                    width: MediaQuery.of(context).size.width,
+                                    height: 150,
+                                    // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
+                                    placeholder: AssetImage(
+                                        'android/assets/images/loading.gif'),
+                                    fadeInDuration: Duration(milliseconds: 200),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 10.0),
+                                child: new Text(data[index]['NEG_NOMBRE'],
+                                    style: new TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 18.0,
+                                      fontWeight: FontWeight.w900,
+                                      //  backgroundColor: Colors.black45
+                                    )),
+                              ),
+                              Divider()
+                            ],
+                          ),
+                        )
+                      : new InkWell(
+                          onTap: () {},
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.all(5.0),
+                                    margin: EdgeInsets.all(5.0),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      child: FadeInImage(
+                                        image: NetworkImage(
+                                            data[index]['GAL_FOTO']),
+                                        fit: BoxFit.fill,
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        height: 150,
+                                        // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
+                                        placeholder: AssetImage(
+                                            'android/assets/images/loading.gif'),
+                                        fadeInDuration:
+                                            Duration(milliseconds: 200),
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    //  margin: EdgeInsets.all(50),
+                                    height: 50,
+                                    width: 300,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      border: Border.all(
+                                        color: Colors.black26,
+                                      ),
+                                      color: Colors.black26,
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        'Hora de apertura: ' +
+                                            apertura.toString(),
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 20),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 10.0),
+                                child: new Text(data[index]['NEG_NOMBRE'],
+                                    style: new TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 18.0,
+                                      fontWeight: FontWeight.w900,
+                                      //  backgroundColor: Colors.black45
+                                    )),
+                              ),
+                              Divider()
+                            ],
+                          ),
+                        );
+                  //  : SizedBox();
+                },
+              ),
+              Center(
+                child: Text(
+                  'Proximamente :)',
+                  style: TextStyle(fontSize: 25),
+                ),
+              ),
+              new Pedidos_historial()
+              //new Mis_recompensas(),
+              //new Mis_promos(),
+              //new Mis_favoritos(),
+              //new Login()
+            ],
+          )),
+    );
   }
 }
-
-
-

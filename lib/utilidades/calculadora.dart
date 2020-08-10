@@ -3,21 +3,18 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-
 const request = "https://api.hgbrasil.com/finance?format=json&key=80f27c39";
-
 
 void main() {
   runApp(MaterialApp(
     home: Calculadora(),
     theme: ThemeData(
-          primarySwatch: Colors.blue,
-          primaryColor: Color(0xff01969a),          
-          accentColor: Colors.black26,
-        ),
+      primarySwatch: Colors.grey,
+      primaryColor: Colors.black,
+      accentColor: Colors.black26,
+    ),
   ));
 }
-
 
 Future<Map> getData() async {
   http.Response response = await http.get(request);
@@ -29,12 +26,9 @@ Future<Map> getData1() async {
   return json.decode(response.body);
 }
 
-
-
 class Calculadora extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
-  
 }
 
 class _HomeState extends State<Calculadora> {
@@ -44,7 +38,6 @@ class _HomeState extends State<Calculadora> {
   List<String> currencies;
   String fromCurrency = "USD";
   String toCurrency = "MXN";
-
 
   //here we have decleared the variables, that store rates from API
   Future<String> _loadCurrencies() async {
@@ -103,7 +96,6 @@ class _HomeState extends State<Calculadora> {
   @override
   void initState() {
     _loadCurrencies();
-
   }
 
   Widget build(BuildContext context) {
@@ -116,37 +108,29 @@ class _HomeState extends State<Calculadora> {
       ),
       body: FutureBuilder(
           future: getData1(),
-          //snapshot of the context/getData
           builder: (context, snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.none:
               case ConnectionState.waiting:
-                return Center(
-                    child: Text(
-                  "Cargando...",
-                  style: TextStyle(color: Color(0xff01969a), fontSize: 25.0),
-                  textAlign: TextAlign.center,
-                ));
+                return Center(child: CircularProgressIndicator());
               default:
                 if (snapshot.hasError) {
                   return Center(
                       child: Text(
                     "Error :(",
-                    style: TextStyle(color: Color(0xff01969a),  fontSize: 25.0),
+                    style: TextStyle(color: Colors.black, fontSize: 25.0),
                     textAlign: TextAlign.center,
                   ));
                 } else {
                   dollar_buy =
-                  //here we pull the us and eu rate
+                      //here we pull the us and eu rate
                       snapshot.data["rates"]["MXN"];
-                  euro_buy =
-                      snapshot.data["rates"]["USD"];
+                  euro_buy = snapshot.data["rates"]["USD"];
                   return SingleChildScrollView(
                       child: Column(
                     children: <Widget>[
                       Icon(Icons.monetization_on,
-                          size: 150.0, color:Color(0xff01969a)), 
-                      
+                          size: 150.0, color: Colors.black),
                       Divider(),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -174,7 +158,7 @@ Widget buildTextField(
     controller: c,
     decoration: InputDecoration(
         labelText: label,
-        labelStyle: TextStyle(color: Color(0xff01969a)),
+        labelStyle: TextStyle(color: Colors.black),
         border: OutlineInputBorder(),
         prefixText: prefix),
     style: TextStyle(color: Colors.black, fontSize: 25.0),
