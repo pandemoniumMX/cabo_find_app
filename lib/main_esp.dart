@@ -137,9 +137,9 @@ class _MyHomePageState extends State<MyHomePages> {
     return "Success!";
   }
 
-  @override //Registro descarga en Android
+  //Registro descarga en Android
 
-  Future<String> checkModelAndroid() async {
+  /*Future<String> checkModelAndroid() async {
     String currentLocale;
     try {
       currentLocale = await Devicelocale.currentLocale;
@@ -152,9 +152,9 @@ class _MyHomePageState extends State<MyHomePages> {
         Uri.encodeFull(
             "http://cabofind.com.mx/app_php/APIs/esp/insertInfo.php?MOD=${androidInfo.model}&BOOT=${androidInfo.display},${androidInfo.bootloader},${androidInfo.fingerprint}&VERSION=${androidInfo.product}&IDIOMA=${currentLocale}"),
         headers: {"Accept": "application/json"});
-  }
+  }*/
 
-  /*
+  
   //Registro descarga en iOS
   @override
     Future<String> checkModelIos() async {
@@ -167,7 +167,7 @@ class _MyHomePageState extends State<MyHomePages> {
     }
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
-    //print('Running on ${iosInfo.identifierForVendor}');
+    print('Running on ${iosInfo.utsname.nodename}');
     var response = await http.get(
         Uri.encodeFull(
             "http://cabofind.com.mx/app_php/APIs/esp/insertInfoiOS.php?MOD=${iosInfo.model}&BOOT=${iosInfo.utsname.nodename}&VERSION=${iosInfo.systemName}&IDIOMA=${currentLocale}"),
@@ -178,7 +178,7 @@ class _MyHomePageState extends State<MyHomePages> {
     );
 
   }
-*/
+
 
 /*
     _getLocation() async
@@ -218,8 +218,8 @@ class _MyHomePageState extends State<MyHomePages> {
       _mensajesStreamController?.close();
     }
 
-    //this.checkModelIos();
-    this.checkModelAndroid();
+    this.checkModelIos();
+    //this.checkModelAndroid();
 
     ///this._getLocation();
     initializeDateFormatting();
@@ -286,18 +286,41 @@ class _MyHomePageState extends State<MyHomePages> {
     }
   }
 
+  Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) {
+  if (message.containsKey('data')) {
+    // Handle data message
+    final dynamic data = message['data'];
+  }
+
+  if (message.containsKey('notification')) {
+    // Handle notification message
+    final dynamic notification = message['notification'];
+  }
+
+  // Or do other work.
+}
+
   void setupNotification() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     //prefs.remove("stringValue");
 
-    _firebaseMessaging.requestNotificationPermissions();
+    _firebaseMessaging.requestNotificationPermissions(
+      const IosNotificationSettings(sound: true, badge: true, alert: true));
+      _firebaseMessaging.onIosSettingsRegistered
+      .listen((IosNotificationSettings settings){
+        print("settings registred main: $settings");
+        });
 
-    _firebaseMessaging.getToken().then((token) {
+        _firebaseMessaging.getToken().then( (token) {
+
+
       print('===== FCM Token =====');
-      prefs.setString('stringToken', token);
+      print( token );
+
     });
 
     _firebaseMessaging.configure(
+      
       onMessage: (Map<String, dynamic> message) async {
         print('======= On Message ========');
         print(" $message");
@@ -307,6 +330,9 @@ class _MyHomePageState extends State<MyHomePages> {
         String idc = (message['data']['idc']) as String;
         String idcn = (message['data']['idn']) as String;
         var idcnumber = int.parse(idc);
+        print(idc);
+        print(idcn);
+        print(idcnumber);
 
         id_n != null
             ? showDialog(
@@ -361,7 +387,7 @@ class _MyHomePageState extends State<MyHomePages> {
                     ],
                   );
                 })
-            : idcnumber != null
+            : 1 != null
                 ? showDialog(
                     barrierDismissible: false,
                     context: context,
@@ -409,19 +435,9 @@ class _MyHomePageState extends State<MyHomePages> {
                     })
                 : SizedBox();
 
-/*
-       showDialog(
-         context: context,
-         builder: (context) => AlertDialog(
-           content: ListTile(
-             title: Text(message['data']['id_n']),
-             subtitle: Text(message['data']['id']),
 
-           ),
-         )
-       );
-*/
       },
+      
       onLaunch: (Map<String, dynamic> message) async {
         print('======= On launch ========');
         print(" $message");
@@ -431,6 +447,7 @@ class _MyHomePageState extends State<MyHomePages> {
         String idc = (message['data']['idc']) as String;
         String idcn = (message['data']['idn']) as String;
         var idcnumber = int.parse(idc);
+        print(idcn);
         id_n != null
             ? Navigator.push(
                 context,
@@ -447,6 +464,7 @@ class _MyHomePageState extends State<MyHomePages> {
                             )))
                 : SizedBox();
       },
+      
       onResume: (Map<String, dynamic> message) async {
         print('======= On resume ========');
         print(" $message");
@@ -455,16 +473,19 @@ class _MyHomePageState extends State<MyHomePages> {
         String id = (message['data']['id']) as String;
         String idc = (message['data']['idc']) as String;
         String idcn = (message['data']['idn']) as String;
+        print(idc);
+        print(idcn);
 
         var idcnumber = int.parse(idc);
-        id_n != null
+        print(idcn);
+        /*id_n != null
             ? Navigator.push(
                 context,
                 new MaterialPageRoute(
                     builder: (context) => new Publicacion_detalle_fin(
                           publicacion: new Publicacion(id_n, id),
                         )))
-            : idcnumber != null
+            : */idcnumber != null
                 ? Navigator.push(
                     context,
                     new MaterialPageRoute(
@@ -472,6 +493,7 @@ class _MyHomePageState extends State<MyHomePages> {
                             numeropagina: Categoria(2), numtab: Categoria(1))))
                 : SizedBox();
       },
+      onBackgroundMessage: myBackgroundMessageHandler,
     );
   }
 

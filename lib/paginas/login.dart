@@ -196,10 +196,12 @@ class _UsuarioState extends State<Usuario> {
                                   style: TextStyle(
                                       fontSize: 25, color: Color(0xff773E42)),
                                 ),
-                                Text(
-                                  snapshot.data["USU_CORREO"],
-                                  style: TextStyle(
-                                      fontSize: 25, color: Color(0xff773E42)),
+                                Flexible(
+                                                                  child: Text(
+                                    snapshot.data["USU_CORREO"],
+                                    style: TextStyle(
+                                        fontSize: 25, color: Color(0xff773E42)),overflow: TextOverflow.ellipsis,
+                                  ),
                                 ),
                               ]),
                           SizedBox(height: 15.0),

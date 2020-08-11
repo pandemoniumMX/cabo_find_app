@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:stripe_native/stripe_native.dart';
+/*import 'package:flutter/material.dart';
 
 class NativePayExample extends StatefulWidget {
   @override
@@ -10,9 +9,9 @@ class _NativePayExampleState extends State<NativePayExample> {
   @override
   void initState() {
     super.initState();
-    StripeNative.setPublishableKey(
+    /*StripeNative.setPublishableKey(
         "pk_test_qRcqwUowOCDhl2bEuXPPCKDw00LMVoJpLi");
-    StripeNative.setMerchantIdentifier("4525-9725-4152");
+    StripeNative.setMerchantIdentifier("4525-9725-4152");*/
   }
 
   Future<String> get receiptPayment async {
@@ -52,4 +51,4 @@ class _NativePayExampleState extends State<NativePayExample> {
   @override
   Widget build(BuildContext context) =>
       MaterialApp(home: Scaffold(body: Center(child: nativeButton)));
-}
+}*/
