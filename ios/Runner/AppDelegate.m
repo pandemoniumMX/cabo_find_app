@@ -12,20 +12,38 @@
   [GeneratedPluginRegistrant registerWithRegistry:self];
   
   // Override point for customization after application launch.
-  //
- //if (@available(iOS 10.0, *)) {
-  //  [UNUserNotificationCenter currentNotificationCenter].delegate = (id<UNUserNotificationCenterDelegate>) self;
-//  }*/
+  
     
   [GMSServices provideAPIKey:@"AIzaSyDJhdbCYd1IWnHdnLf3bmUY8DA2m0Kr9mQ"];
   [[FBSDKApplicationDelegate sharedInstance] application:application
     didFinishLaunchingWithOptions:launchOptions];
+    
+if ([UNUserNotificationCenter class] != nil) {
+  // iOS 10 or later
+  // For iOS 10 display notification (sent via APNS)
+  [UNUserNotificationCenter currentNotificationCenter].delegate = self;
+  UNAuthorizationOptions authOptions = UNAuthorizationOptionAlert |
+      UNAuthorizationOptionSound | UNAuthorizationOptionBadge;
+  [[UNUserNotificationCenter currentNotificationCenter]
+      requestAuthorizationWithOptions:authOptions
+      completionHandler:^(BOOL granted, NSError * _Nullable error) {
+        // ...
+      }];
+} else {
+  // iOS 10 notifications aren't available; fall back to iOS 8-9 notifications.
+  
+}
+
+[application registerForRemoteNotifications];
+    
   return YES;
   //return [super application:application didFinishLaunchingWithOptions:launchOptions];
     
   
     
 }
+
+
 
 
 

@@ -290,6 +290,7 @@ class _MyHomePageState extends State<MyHomePages> {
   if (message.containsKey('data')) {
     // Handle data message
     final dynamic data = message['data'];
+    print(data);
   }
 
   if (message.containsKey('notification')) {
@@ -325,19 +326,20 @@ class _MyHomePageState extends State<MyHomePages> {
         print('======= On Message ========');
         print(" $message");
 
-        String id_n = (message['data']['id_n']) as String;
-        String id = (message['data']['id']) as String;
-        String idc = (message['data']['idc']) as String;
-        String idcn = (message['data']['idn']) as String;
+        String id_n = (message['id_n']) as String;
+        String id = (message['id']) as String;
+        String idc = (message['idc']) as String;
+        String idcn = (message['idn']) as String;
         var idcnumber = int.parse(idc);
-        print(idc);
-        print(idcn);
-        print(idcnumber);
+       
 
         id_n != null
             ? showDialog(
                 context: context,
                 builder: (context) {
+                  return StatefulBuilder(builder:
+                                        (BuildContext context,
+                                            StateSetter setState) {
                   return AlertDialog(
                     title: Text(
                       'Nueva publicación!',
@@ -386,8 +388,9 @@ class _MyHomePageState extends State<MyHomePages> {
                       )
                     ],
                   );
-                })
-            : 1 != null
+                                    });
+                                  },)
+            : idcnumber == null
                 ? showDialog(
                     barrierDismissible: false,
                     context: context,
@@ -437,15 +440,15 @@ class _MyHomePageState extends State<MyHomePages> {
 
 
       },
-      
+      onBackgroundMessage: myBackgroundMessageHandler,
       onLaunch: (Map<String, dynamic> message) async {
         print('======= On launch ========');
         print(" $message");
 
-        String id_n = (message['data']['id_n']) as String;
-        String id = (message['data']['id']) as String;
-        String idc = (message['data']['idc']) as String;
-        String idcn = (message['data']['idn']) as String;
+        String id_n = (message['id_n']) as String;
+        String id = (message['id']) as String;
+        String idc = (message['idc']) as String;
+        String idcn = (message['idn']) as String;
         var idcnumber = int.parse(idc);
         print(idcn);
         id_n != null
@@ -469,15 +472,15 @@ class _MyHomePageState extends State<MyHomePages> {
         print('======= On resume ========');
         print(" $message");
 
-        String id_n = (message['data']['id_n']) as String;
-        String id = (message['data']['id']) as String;
-        String idc = (message['data']['idc']) as String;
-        String idcn = (message['data']['idn']) as String;
+        String id_n = (message['id_n']) as String;
+        String id = (message['id']) as String;
+        String idc = (message['idc']) as String;
+        String idcn = (message['idn']) as String;
         print(idc);
         print(idcn);
 
         var idcnumber = int.parse(idc);
-        print(idcn);
+        print(idcnumber);
         /*id_n != null
             ? Navigator.push(
                 context,
@@ -493,7 +496,7 @@ class _MyHomePageState extends State<MyHomePages> {
                             numeropagina: Categoria(2), numtab: Categoria(1))))
                 : SizedBox();
       },
-      onBackgroundMessage: myBackgroundMessageHandler,
+      
     );
   }
 

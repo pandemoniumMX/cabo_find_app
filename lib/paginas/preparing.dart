@@ -154,7 +154,7 @@ class _UsuarioState extends State<Carritox> {
     double long = coordinates.longitude;
 
     http.Response response = await http.get(
-        "https://maps.googleapis.com/maps/api/distancematrix/json?units=kilometer&origins=22.920840, -109.930567&destinations=$latn,$longn&key=AIzaSyA152PLBZLFqFlUMKQhMce3Z18OMGhPY6w");
+        "https://maps.googleapis.com/maps/api/distancematrix/json?units=kilometer&origins=$coor,$long&destinations=$latn,$longn&key=AIzaSyA152PLBZLFqFlUMKQhMce3Z18OMGhPY6w");
     Map<String, dynamic> map = json.decode(response.body);
     List<dynamic> data = map["rows"];
     print(data[0]['elements'][0]['distance']['text']);
