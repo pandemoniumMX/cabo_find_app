@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:cabofind/main_ing.dart';
+import 'package:cabofind/paginas_ing/misfavoritos.dart';
+import 'package:cabofind/paginas_ing/mispromos.dart';
 import 'package:cabofind/utilidades/classes.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -58,7 +60,7 @@ class _UsuarioState extends State<Usuario_ing> {
               begin: Alignment.topRight,
               end: Alignment.bottomLeft,
               colors: [
-            Colors.black,
+            Colors.white,
             Colors.white,
           ])),
       child: FutureBuilder(
@@ -81,6 +83,8 @@ class _UsuarioState extends State<Usuario_ing> {
                   ));
                 } else {
                   return ListView(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
                     children: <Widget>[
                       Center(
                         child: Column(children: <Widget>[
@@ -89,7 +93,7 @@ class _UsuarioState extends State<Usuario_ing> {
                               "Profile",
                               style: TextStyle(
                                   fontSize: 40,
-                                  color: Colors.white,
+                                  color: Color(0xff773E42),
                                   fontWeight: FontWeight.bold),
                             ),
                           ]),
@@ -100,13 +104,13 @@ class _UsuarioState extends State<Usuario_ing> {
                                 Text(
                                   "Name:",
                                   style: TextStyle(
-                                      fontSize: 25, color: Colors.white),
+                                      fontSize: 25, color: Color(0xff773E42)),
                                 ),
                                 Text(
                                   snapshot.data["USU_NOMBRE"],
                                   style: TextStyle(
                                     fontSize: 25,
-                                    color: Colors.white,
+                                    color: Color(0xff773E42),
                                   ),
                                 )
                               ]),
@@ -118,15 +122,89 @@ class _UsuarioState extends State<Usuario_ing> {
                                 Text(
                                   "Email:",
                                   style: TextStyle(
-                                      fontSize: 25, color: Colors.white),
+                                      fontSize: 25, color: Color(0xff773E42)),
                                 ),
                                 Text(
                                   snapshot.data["USU_CORREO"],
                                   style: TextStyle(
-                                      fontSize: 25, color: Colors.white),
+                                      fontSize: 25, color: Color(0xff773E42)),
                                 ),
                               ]),
                           SizedBox(height: 15.0),
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text(
+                                  "My favorites ",
+                                  style: TextStyle(
+                                      fontSize: 40,
+                                      color: Color(0xff773E42),
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ]),
+                          RaisedButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    new MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            Mis_favoritos_ing()));
+                              },
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(40.0)),
+                              color: Color(0xffED393A),
+                              child: new Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  new Text(
+                                    'See my favorites places',
+                                    style: TextStyle(
+                                        fontSize: 20, color: Colors.white),
+                                  ),
+                                  new Icon(
+                                    FontAwesomeIcons.solidHeart,
+                                    color: Colors.white,
+                                  )
+                                ],
+                              )),
+
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text(
+                                  "My deals ",
+                                  style: TextStyle(
+                                      fontSize: 40,
+                                      color: Color(0xff773E42),
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ]),
+
+                          RaisedButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    new MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            Mis_promos_ing()));
+                              },
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(40.0)),
+                              color: Color(0xffF4A32C),
+                              child: new Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  new Text('See my deals ',
+                                      style: TextStyle(
+                                          fontSize: 20, color: Colors.white)),
+                                  new Icon(
+                                    FontAwesomeIcons.fire,
+                                    color: Colors.white,
+                                  )
+                                ],
+                              )),
 
                           ///config
                           Row(children: <Widget>[
@@ -134,7 +212,7 @@ class _UsuarioState extends State<Usuario_ing> {
                               "Settings",
                               style: TextStyle(
                                   fontSize: 40,
-                                  color: Colors.white,
+                                  color: Color(0xff773E42),
                                   fontWeight: FontWeight.bold),
                             ),
                           ]),
@@ -145,7 +223,7 @@ class _UsuarioState extends State<Usuario_ing> {
                                 Text(
                                   "Push notifications:",
                                   style: TextStyle(
-                                      fontSize: 25, color: Colors.white),
+                                      fontSize: 25, color: Color(0xff773E42)),
                                 ),
                                 Switch(
                                   value: isSwitched,
@@ -155,8 +233,8 @@ class _UsuarioState extends State<Usuario_ing> {
                                       print(isSwitched);
                                     });
                                   },
-                                  activeTrackColor: Colors.lightGreenAccent,
-                                  activeColor: Color(0xff773E42),
+                                  activeTrackColor: Colors.black,
+                                  activeColor: (Color(0xff773E42)),
                                 ),
                               ]),
 

@@ -119,7 +119,7 @@ flutter:
   - android/assets/images/
   - assets/
   - assets/map_style1.txt
-  - assets/audio/notification.mp3  
+
 
   # To add assets to your application, add an assets section, like this:
   # assets:

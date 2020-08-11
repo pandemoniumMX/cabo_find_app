@@ -146,18 +146,18 @@ class Detalles extends State<Menu_detalle> {
     this.getExtras();
 
     this.getInfo();
-
+    _counter++;
     /*StripeNative.setPublishableKey(
         "pk_test_qRcqwUowOCDhl2bEuXPPCKDw00LMVoJpLi");
-    StripeNative.setMerchantIdentifier("4525-9725-4152");*/
+    StripeNative.setMerchantIdentifier("4525-9725-4152");
     setState(() {
       // This call to setState tells the Flutter framework that something has
       // changed in this State, which causes it to rerun the build method below
       // so that the display can reflect the updated values. If we changed
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
-      _counter++;
-    });
+
+    });*/
   }
 
   void _incrementCounter() {
@@ -934,13 +934,6 @@ class Detalles extends State<Menu_detalle> {
             SliverAppBar(
               backgroundColor: Color(0xff60032D),
 
-              /*  leading: new IconButton(
-                icon: new Icon(Icons.arrow_back),
-                onPressed: () => Navigator.pushReplacement(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (BuildContext context) => new Domicilio())),
-              ),*/
               floating: false,
               pinned: true,
               title: SABT(

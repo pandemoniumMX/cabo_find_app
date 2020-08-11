@@ -79,7 +79,7 @@ class _Mi_direccionState extends State<Mi_direccion> {
       // print(addresses.getRange(1, 3).first.addressLine);vo
       //print(addresses.single.adminArea);
       var cp2 = addresses.first.postalCode; //= cp
-      var calle2 = addresses.first.addressLine; //= calle.
+      var calle2 = addresses.getRange(1, 2).first.addressLine; //= calle.
       var ciudad2 = addresses.first.locality; //= ciudad
       var col2 = addresses.first.subLocality; //= colonia
 
@@ -369,9 +369,8 @@ class _Mi_direccionState extends State<Mi_direccion> {
           Divider()
         ],
       ),
-
       bottomNavigationBar: distanciafinal <= 8.0
-      ? Container(
+          ? Container(
               height: 50,
               child: RaisedButton(
                 onPressed: () {

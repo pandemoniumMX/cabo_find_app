@@ -1,4 +1,5 @@
 import 'package:cabofind/paginas/domicilio.dart';
+import 'package:cabofind/utilidades/classes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -118,7 +119,8 @@ Future<String> signInWithGoogle() async {
         Navigator.pushReplacement(
             context,
             new MaterialPageRoute(
-                builder: (BuildContext context) => new Domicilio()));
+                builder: (BuildContext context) =>
+                    new Domicilio(numeropagina: Categoria(0))));
       },
       child: new Scaffold(
           appBar: AppBar(
@@ -146,7 +148,7 @@ Future<String> signInWithGoogle() async {
                       ClipRRect(
                           borderRadius: BorderRadius.circular(8.0),
                           child: Image.asset(
-                            "assets/splash.png",
+                            "assets/cabofind.png",
                             fit: BoxFit.fill,
                             width: 150.0,
                             height: 150.0,

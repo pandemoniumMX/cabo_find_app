@@ -245,7 +245,7 @@ Future<String> insertVisitaiOS() async {
     Fluttertoast.showToast(
         msg: "Review sent successfully",
         toastLength: Toast.LENGTH_SHORT,
-        backgroundColor: Colors.black,
+        backgroundColor: Color(0xff773E42),
         textColor: Colors.white,
         timeInSecForIos: 1);
   }
@@ -254,7 +254,7 @@ Future<String> insertVisitaiOS() async {
     Fluttertoast.showToast(
         msg: "Comment reported",
         toastLength: Toast.LENGTH_SHORT,
-        backgroundColor: Colors.black,
+        backgroundColor: Color(0xff773E42),
         textColor: Colors.white,
         timeInSecForIos: 1);
   }
@@ -546,7 +546,6 @@ Future<String> insertVisitaiOS() async {
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 28.0,
-                      //color: Colors.black,
                     ),
                   ),
                 ],
@@ -558,7 +557,7 @@ Future<String> insertVisitaiOS() async {
                     Text(
                       dataneg[index]["CAT_NOMBRE_ING"],
                       style: TextStyle(
-                        color: Colors.black,
+                        color: Color(0xff773E42),
                       ),
                     ),
                     Text(
@@ -570,7 +569,7 @@ Future<String> insertVisitaiOS() async {
                     Text(
                       dataneg[index]["SUB_NOMBRE_ING"],
                       style: TextStyle(
-                        color: Colors.black,
+                        color: Color(0xff773E42),
                       ),
                     ),
                   ],
@@ -596,7 +595,7 @@ Future<String> insertVisitaiOS() async {
                 //padding: const EdgeInsets.only(bottom: 10,left: 20,right: 20);
                 return new Card(
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(40.0)),
+                      borderRadius: BorderRadius.circular(5.0)),
                   child: Text(
                     dataneg[index]["NEG_DESCRIPCION_ING"],
                     maxLines: 20,
@@ -640,7 +639,7 @@ Future<String> insertVisitaiOS() async {
               FloatingActionButton(
                 child: Icon(FontAwesomeIcons.feather),
                 onPressed: () => _alertCar(context),
-                backgroundColor: Colors.black,
+                backgroundColor: Color(0xff773E42),
                 heroTag: "bt1",
                 elevation: 0.0,
               ),
@@ -655,7 +654,7 @@ Future<String> insertVisitaiOS() async {
               FloatingActionButton(
                 child: Icon(FontAwesomeIcons.conciergeBell),
                 onPressed: () => _alertSer(context),
-                backgroundColor: Colors.black,
+                backgroundColor: Color(0xff773E42),
                 heroTag: "bt2",
                 elevation: 0.0,
               ),
@@ -670,7 +669,7 @@ Future<String> insertVisitaiOS() async {
               FloatingActionButton(
                 child: Icon(FontAwesomeIcons.clock),
                 onPressed: () => _alertHorario(context),
-                backgroundColor: Colors.black,
+                backgroundColor: Color(0xff773E42),
                 heroTag: "bt3",
                 elevation: 0.0,
               ),
@@ -685,12 +684,12 @@ Future<String> insertVisitaiOS() async {
               FloatingActionButton(
                 child: Icon(FontAwesomeIcons.mapMarkerAlt),
                 onPressed: () => _mapa(),
-                backgroundColor: Colors.black,
+                backgroundColor: Color(0xff773E42),
                 heroTag: "bt4",
                 elevation: 0.0,
               ),
               Text(
-                'Open map',
+                'Open maps',
                 style: TextStyle(color: Colors.black),
               ),
             ],
@@ -764,7 +763,7 @@ Future<String> insertVisitaiOS() async {
                           },
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(40.0)),
-                          color: Colors.black,
+                          color: Color(0xff773E42),
                           child: new Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             mainAxisSize: MainAxisSize.min,
@@ -930,57 +929,97 @@ Future<String> insertVisitaiOS() async {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                     SizedBox(width: 30),
-                    FloatingActionButton(
-                      child: Icon(FontAwesomeIcons.instagram),
-                      onPressed: instagram,
-                      backgroundColor: Colors.black,
-                      heroTag: "bt1",
-                      elevation: 0.0,
-                    ),
+                    dataneg[index]["NEG_INSTAGRAM"] != null
+                        ? FloatingActionButton(
+                            child: Icon(FontAwesomeIcons.instagram),
+                            onPressed: instagram,
+                            backgroundColor: Color(0xff773E42),
+                            heroTag: "bt1",
+                            elevation: 0.0,
+                          )
+                        : FloatingActionButton(
+                            child: Icon(FontAwesomeIcons.instagram),
+                            onPressed: null,
+                            backgroundColor: Colors.grey,
+                            heroTag: "bt1",
+                            elevation: 0.0,
+                          ),
                     Expanded(
                         child: SizedBox(
                       width: 5.0,
                     )),
-                    FloatingActionButton(
-                      child: Icon(FontAwesomeIcons.facebook),
-                      onPressed: facebook,
-                      backgroundColor: Colors.black,
-                      heroTag: "bt2",
-                      elevation: 0.0,
-                    ),
+                    dataneg[index]["NEG_FACEBOOK"] != null
+                        ? FloatingActionButton(
+                            child: Icon(FontAwesomeIcons.facebook),
+                            onPressed: facebook,
+                            backgroundColor: Color(0xff773E42),
+                            heroTag: "bt3",
+                            elevation: 0.0,
+                          )
+                        : FloatingActionButton(
+                            child: Icon(FontAwesomeIcons.facebook),
+                            onPressed: null,
+                            backgroundColor: Colors.grey,
+                            heroTag: "bt3",
+                            elevation: 0.0,
+                          ),
                     Expanded(
                         child: SizedBox(
                       width: 5.0,
                     )),
-                    FloatingActionButton(
-                      child: Icon(FontAwesomeIcons.globeAmericas),
-                      onPressed: web,
-                      backgroundColor: Colors.black,
-                      heroTag: "bt3",
-                      elevation: 0.0,
-                    ),
+                    dataneg[index]["NEG_WEB"] != null
+                        ? FloatingActionButton(
+                            child: Icon(FontAwesomeIcons.globeAmericas),
+                            onPressed: web,
+                            backgroundColor: Color(0xff773E42),
+                            heroTag: "bt4",
+                            elevation: 0.0,
+                          )
+                        : FloatingActionButton(
+                            child: Icon(FontAwesomeIcons.globeAmericas),
+                            onPressed: null,
+                            backgroundColor: Colors.grey,
+                            heroTag: "bt4",
+                            elevation: 0.0,
+                          ),
                     Expanded(
                         child: SizedBox(
                       width: 5.0,
                     )),
-                    FloatingActionButton(
-                      child: Icon(FontAwesomeIcons.phone),
-                      onPressed: telefono,
-                      backgroundColor: Colors.black,
-                      heroTag: "bt4",
-                      elevation: 0.0,
-                    ),
+                    dataneg[index]["NEG_TEL"] != null
+                        ? FloatingActionButton(
+                            child: Icon(FontAwesomeIcons.phone),
+                            onPressed: telefono,
+                            backgroundColor: Color(0xff773E42),
+                            heroTag: "bt5",
+                            elevation: 0.0,
+                          )
+                        : FloatingActionButton(
+                            child: Icon(FontAwesomeIcons.phone),
+                            onPressed: null,
+                            backgroundColor: Colors.grey,
+                            heroTag: "bt5",
+                            elevation: 0.0,
+                          ),
                     Expanded(
                         child: SizedBox(
                       width: 5.0,
                     )),
-                    FloatingActionButton(
-                      child: Icon(FontAwesomeIcons.envelope),
-                      onPressed: correo,
-                      backgroundColor: Colors.black,
-                      heroTag: "bt5",
-                      elevation: 0.0,
-                    ),
+                    dataneg[index]["NEG_CORREO"] != null
+                        ? FloatingActionButton(
+                            child: Icon(FontAwesomeIcons.envelope),
+                            onPressed: correo,
+                            backgroundColor: Color(0xff773E42),
+                            heroTag: "bt6",
+                            elevation: 0.0,
+                          )
+                        : FloatingActionButton(
+                            child: Icon(FontAwesomeIcons.envelope),
+                            onPressed: null,
+                            backgroundColor: Colors.grey,
+                            heroTag: "bt6",
+                            elevation: 0.0,
+                          ),
                     Expanded(
                         child: SizedBox(
                       width: 5.0,
@@ -1001,7 +1040,7 @@ Future<String> insertVisitaiOS() async {
             child: new Container(
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10.0),
-                  border: Border.all(color: Colors.black)),
+                  border: Border.all(color: Color(0xff773E42))),
               padding: EdgeInsets.all(10.0),
               margin: EdgeInsets.all(10.0),
               child: Column(
@@ -1011,7 +1050,7 @@ Future<String> insertVisitaiOS() async {
                         data_list[index]["PUB_TITULO_ING"],
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: Colors.black,
+                          color: Color(0xff773E42),
                           fontSize: 20.0,
                         ),
                       ),
@@ -1187,7 +1226,7 @@ Future<String> insertVisitaiOS() async {
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     new Text('REVIEW USING FACEBOOK ',
-                        style: TextStyle(fontSize: 20, color: Colors.white)),
+                        style: TextStyle(fontSize: 18, color: Colors.white)),
                     new Icon(
                       FontAwesomeIcons.facebookSquare,
                       color: Colors.white,

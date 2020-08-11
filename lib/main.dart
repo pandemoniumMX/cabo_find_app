@@ -38,9 +38,9 @@ class Myapp1 extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.grey,
-          primaryColor: Colors.black,
+          primaryColor: Color(0xff60032D),
           //primaryColor: Colors.black,
-          accentColor: Colors.black26,
+          accentColor: Color(0xff773E42),
         ),
         home: new Container(child: new Start()));
   }
@@ -59,7 +59,7 @@ class _MyHomePageState extends State<Start> {
 
   List data;
   @override //Registro descarga en Android
-  /*Future<String> checkModelAndroid() async {
+  Future<String> checkModelAndroid() async {
     String currentLocale;
     try {
       currentLocale = await Devicelocale.currentLocale;
@@ -73,9 +73,9 @@ class _MyHomePageState extends State<Start> {
         Uri.encodeFull(
             "http://cabofind.com.mx/app_php/APIs/esp/insertInfo.php?MOD=${androidInfo.model}&BOOT=${androidInfo.display},${androidInfo.bootloader},${androidInfo.fingerprint}&VERSION=${androidInfo.product}&IDIOMA=${currentLocale}"),
         headers: {"Accept": "application/json"});
-  }*/
+  }
 
-
+  /*
   //Registro descarga en iOS
   @override
     Future<String> checkModelIos() async {
@@ -99,7 +99,7 @@ class _MyHomePageState extends State<Start> {
     );
 
   }
-
+*/
 
   @override
   void initState() {
@@ -114,7 +114,7 @@ class _MyHomePageState extends State<Start> {
       _mensajesStreamController?.close();
     }
 
-    this.checkModelIos();
+    this.checkModelAndroid();
   }
 
   addStringToSF() async {
@@ -303,7 +303,7 @@ routes: <String, WidgetBuilder>{
               child: Padding(
                 padding: const EdgeInsets.only(top: 150.0),
                 child: FadeInImage(
-                  image: AssetImage('assets/splash.png'),
+                  image: AssetImage('assets/cabofind.png'),
                   fit: BoxFit.cover,
                   width: 150,
                   height: 150,

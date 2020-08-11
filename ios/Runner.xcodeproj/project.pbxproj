@@ -407,7 +407,7 @@
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.4.6;
+				CURRENT_PROJECT_VERSION = 1.4.7;
 				DEVELOPMENT_TEAM = 6US36L8DNZ;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -421,7 +421,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
 				);
-				MARKETING_VERSION = 47;
+				MARKETING_VERSION = 48;
 				PRODUCT_BUNDLE_IDENTIFIER = com.israel.cabofind;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -540,7 +540,7 @@
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Francisco Israel Martinez Ayala (6US36L8DNZ)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1.4.6;
+				CURRENT_PROJECT_VERSION = 1.4.7;
 				DEVELOPMENT_TEAM = 6US36L8DNZ;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -554,7 +554,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
 				);
-				MARKETING_VERSION = 47;
+				MARKETING_VERSION = 48;
 				PRODUCT_BUNDLE_IDENTIFIER = com.israel.cabofind;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "Israel Mtz";
@@ -572,7 +572,7 @@
 				CODE_SIGN_ENTITLEMENTS = Runner/RunnerRelease.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1.4.6;
+				CURRENT_PROJECT_VERSION = 1.4.7;
 				DEVELOPMENT_TEAM = 6US36L8DNZ;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -586,7 +586,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
 				);
-				MARKETING_VERSION = 47;
+				MARKETING_VERSION = 48;
 				PRODUCT_BUNDLE_IDENTIFIER = com.israel.cabofind;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "Israel Mtz";

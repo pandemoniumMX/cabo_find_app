@@ -1,4 +1,13 @@
+import 'dart:async';
+import 'dart:convert';
+import 'package:cabofind/paginas/publicacion_detalle.dart';
+import 'package:cabofind/paginas/publicacion_detalle_estatica.dart';
 
+import 'package:http/http.dart' as http;
+import 'package:cabofind/utilidades/classes.dart';
+import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 /*
 

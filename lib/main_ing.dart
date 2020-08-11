@@ -60,8 +60,9 @@ class MyApp_ing extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.grey,
-          primaryColor: Colors.black,
-          accentColor: Colors.black26,
+          primaryColor: Color(0xff60032D),
+          //primaryColor: Colors.black,
+          accentColor: Color(0xff773E42),
         ),
         home: new Container(child: new MyHomePages_ing()));
   }
@@ -325,7 +326,7 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
         itemCount: data == null ? 0 : data.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          childAspectRatio: 0.48,
+          childAspectRatio: 0.46,
         ),
         itemBuilder: (BuildContext context, int index) => new Container(
           height: 400,
@@ -342,9 +343,13 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
                       width: MediaQuery.of(context).size.width / 2,
                       imageUrl: data[index]["est_foto"],
                       progressIndicatorBuilder:
-                          (context, url, downloadProgress) =>
-                              CircularProgressIndicator(
-                                  value: downloadProgress.progress),
+                          (context, url, downloadProgress) => Container(
+                        margin: EdgeInsets.only(top: 180),
+                        child: Center(
+                          child: CircularProgressIndicator(
+                              value: downloadProgress.progress),
+                        ),
+                      ),
                       errorWidget: (context, url, error) => Icon(Icons.error),
                     ),
                   ],
@@ -451,7 +456,7 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
                         child: Container(
                           margin: const EdgeInsets.only(bottom: 8, top: 8),
                           padding: const EdgeInsets.only(
-                              left: 18.0, right: 18.0, top: 8.0, bottom: 8.0),
+                              left: 15.0, right: 15.0, top: 8.0, bottom: 8.0),
                           color: Color(int.parse(data[index]["est_color"])),
                           child: new Text(data[index]["est_nombre_ing"],
                               style: new TextStyle(
@@ -479,9 +484,9 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
         theme: FFNavigationBarTheme(
           barBackgroundColor: Colors.white,
           selectedItemBorderColor: Colors.white,
-          selectedItemBackgroundColor: Colors.black,
+          selectedItemBackgroundColor: Color(0xff773E42),
           selectedItemIconColor: Colors.white,
-          selectedItemLabelColor: Colors.black,
+          selectedItemLabelColor: Color(0xff773E42),
         ),
         items: [
           FFNavigationBarItem(

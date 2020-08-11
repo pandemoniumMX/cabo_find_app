@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:cabofind/paginas/domicilio.dart';
 import 'package:cabofind/paginas/list_manejador_rec_obtenidas.dart';
 import 'package:cabofind/paginas/menu_detalle.dart';
-import 'package:cabofind/paginas/pedidos_historial.dart';
 import 'package:cabofind/utilidades/classes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_youtube/flutter_youtube.dart';
@@ -155,7 +154,7 @@ class _UsuarioState extends State<Carritox> {
     double long = coordinates.longitude;
 
     http.Response response = await http.get(
-        "https://maps.googleapis.com/maps/api/distancematrix/json?units=kilometer&origins=$coor,$long&destinations=$latn,$longn&key=AIzaSyA152PLBZLFqFlUMKQhMce3Z18OMGhPY6w");
+        "https://maps.googleapis.com/maps/api/distancematrix/json?units=kilometer&origins=22.920840, -109.930567&destinations=$latn,$longn&key=AIzaSyA152PLBZLFqFlUMKQhMce3Z18OMGhPY6w");
     Map<String, dynamic> map = json.decode(response.body);
     List<dynamic> data = map["rows"];
     print(data[0]['elements'][0]['distance']['text']);
@@ -263,11 +262,10 @@ class _UsuarioState extends State<Carritox> {
                 Flexible(
                   child: Text(
                     'Estás ordenando en ' + data[0]["NEG_NOMBRE"],
-                    style: TextStyle(fontSize: 18),
+                    style: TextStyle(fontSize: 15),
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-
               ])),
           FutureBuilder(
               future: _check(),
@@ -749,7 +747,7 @@ class _UsuarioState extends State<Carritox> {
                                                     'Ingresa un cupon válido'),
                                           )),
                                       Container(
-                                          margin: EdgeInsets.only(right: 7),
+                                          margin: EdgeInsets.only(right: 10),
                                           padding: EdgeInsets.all(1),
                                           child: FlatButton(
                                               shape: RoundedRectangleBorder(
@@ -898,16 +896,17 @@ class _UsuarioState extends State<Carritox> {
                                                       _confirmarOrden(valpago);
 
                                                       Navigator.of(context)
-                                                          .pushAndRemoveUntil(
-                                                              MaterialPageRoute(
-                                                                  builder:
-                                                                      (context) =>
-                                                                          Domicilio(
-
-                                                                          )),
-                                                              (Route<dynamic>
-                                                                      route) =>
-                                                                  false);
+                                                          .pushReplacement(
+                                                        MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                Domicilio(
+                                                                    numeropagina:
+                                                                        Categoria(
+                                                                            2),
+                                                                    numtab:
+                                                                        Categoria(
+                                                                            0))),
+                                                      );
                                                     },
                                                   ),
                                                 ],

@@ -32,8 +32,8 @@ class _Restaurantes extends State<Salud> {
       ),
       bottomNavigationBar: new BottomNavigationBar(
         currentIndex: _page,
-        backgroundColor: Colors.black,
-        fixedColor: Colors.black,
+        backgroundColor: Color(0xff773E42),
+        fixedColor: Color(0xff773E42),
         unselectedItemColor: Colors.black54,
         showUnselectedLabels: false,
         //unselectedIconTheme: Colors.grey,

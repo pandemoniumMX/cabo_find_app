@@ -240,7 +240,7 @@ Future<String> insertVisitaiOS() async {
     Fluttertoast.showToast(
         msg: "Reseña enviada exitosamente",
         toastLength: Toast.LENGTH_SHORT,
-        backgroundColor: Colors.black,
+        backgroundColor: Color(0xff773E42),
         textColor: Colors.white,
         timeInSecForIos: 1);
   }
@@ -249,7 +249,7 @@ Future<String> insertVisitaiOS() async {
     Fluttertoast.showToast(
         msg: "Comentario reportado",
         toastLength: Toast.LENGTH_SHORT,
-        backgroundColor: Colors.black,
+        backgroundColor: Color(0xff773E42),
         textColor: Colors.white,
         timeInSecForIos: 1);
   }
@@ -402,7 +402,6 @@ Future<String> insertVisitaiOS() async {
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 28.0,
-                        //color: Colors.black,
                       ),
                     ),
                   ],
@@ -414,7 +413,7 @@ Future<String> insertVisitaiOS() async {
                       Text(
                         dataneg[0]["CAT_NOMBRE"],
                         style: TextStyle(
-                          color: Colors.black,
+                          color: Color(0xff773E42),
                         ),
                       ),
                       Text(
@@ -426,7 +425,7 @@ Future<String> insertVisitaiOS() async {
                       Text(
                         dataneg[0]["SUB_NOMBRE"],
                         style: TextStyle(
-                          color: Colors.black,
+                          color: Color(0xff773E42),
                         ),
                       ),
                     ],
@@ -451,7 +450,7 @@ Future<String> insertVisitaiOS() async {
                 //padding: const EdgeInsets.only(bottom: 10,left: 20,right: 20);
                 return new Card(
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.0)),
+                      borderRadius: BorderRadius.circular(5.0)),
                   child: Text(
                     dataneg[index]["NEG_DESCRIPCION"],
                     maxLines: 20,
@@ -644,7 +643,7 @@ Future<String> insertVisitaiOS() async {
                         FloatingActionButton(
                           child: Icon(FontAwesomeIcons.feather),
                           onPressed: () => _alertCar(context),
-                          backgroundColor: Colors.black,
+                          backgroundColor: Color(0xff773E42),
                           heroTag: "bt1",
                           elevation: 0.0,
                         ),
@@ -659,7 +658,7 @@ Future<String> insertVisitaiOS() async {
                         FloatingActionButton(
                           child: Icon(FontAwesomeIcons.conciergeBell),
                           onPressed: () => _alertSer(context),
-                          backgroundColor: Colors.black,
+                          backgroundColor: Color(0xff773E42),
                           heroTag: "bt2",
                           elevation: 0.0,
                         ),
@@ -674,7 +673,7 @@ Future<String> insertVisitaiOS() async {
                         FloatingActionButton(
                           child: Icon(FontAwesomeIcons.clock),
                           onPressed: () => _alertHorario(context),
-                          backgroundColor: Colors.black,
+                          backgroundColor: Color(0xff773E42),
                           heroTag: "bt3",
                           elevation: 0.0,
                         ),
@@ -689,7 +688,7 @@ Future<String> insertVisitaiOS() async {
                         FloatingActionButton(
                           child: Icon(FontAwesomeIcons.mapMarkerAlt),
                           onPressed: _mapa,
-                          backgroundColor: Colors.black,
+                          backgroundColor: Color(0xff773E42),
                           heroTag: "bt4",
                           elevation: 0.0,
                         ),
@@ -773,7 +772,7 @@ Future<String> insertVisitaiOS() async {
                           },
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(40.0)),
-                          color: Colors.black,
+                          color: Color(0xff773E42),
                           child: new Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             mainAxisSize: MainAxisSize.min,
@@ -818,7 +817,7 @@ Future<String> insertVisitaiOS() async {
                           )
                         ],
                       )),
-                if (food == 'TRUE')
+                if (food == 'TRUEX')
                   RaisedButton(
                       onPressed: () {
                         String id_negocio = dataneg[0]["ID_NEGOCIO"];
@@ -982,7 +981,7 @@ Future<String> insertVisitaiOS() async {
                         ? FloatingActionButton(
                             child: Icon(FontAwesomeIcons.instagram),
                             onPressed: instagram,
-                            backgroundColor: Colors.black,
+                            backgroundColor: Color(0xff773E42),
                             heroTag: "bt1",
                             elevation: 0.0,
                           )
@@ -1001,7 +1000,7 @@ Future<String> insertVisitaiOS() async {
                         ? FloatingActionButton(
                             child: Icon(FontAwesomeIcons.facebook),
                             onPressed: facebook,
-                            backgroundColor: Colors.black,
+                            backgroundColor: Color(0xff773E42),
                             heroTag: "bt3",
                             elevation: 0.0,
                           )
@@ -1020,7 +1019,7 @@ Future<String> insertVisitaiOS() async {
                         ? FloatingActionButton(
                             child: Icon(FontAwesomeIcons.globeAmericas),
                             onPressed: web,
-                            backgroundColor: Colors.black,
+                            backgroundColor: Color(0xff773E42),
                             heroTag: "bt4",
                             elevation: 0.0,
                           )
@@ -1039,7 +1038,7 @@ Future<String> insertVisitaiOS() async {
                         ? FloatingActionButton(
                             child: Icon(FontAwesomeIcons.phone),
                             onPressed: telefono,
-                            backgroundColor: Colors.black,
+                            backgroundColor: Color(0xff773E42),
                             heroTag: "bt5",
                             elevation: 0.0,
                           )
@@ -1058,7 +1057,7 @@ Future<String> insertVisitaiOS() async {
                         ? FloatingActionButton(
                             child: Icon(FontAwesomeIcons.envelope),
                             onPressed: correo,
-                            backgroundColor: Colors.black,
+                            backgroundColor: Color(0xff773E42),
                             heroTag: "bt6",
                             elevation: 0.0,
                           )
@@ -1089,7 +1088,7 @@ Future<String> insertVisitaiOS() async {
             child: new Container(
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10.0),
-                  border: Border.all(color: Colors.black)),
+                  border: Border.all(color: Color(0xff773E42))),
               padding: EdgeInsets.all(10.0),
               margin: EdgeInsets.all(10.0),
               child: Column(
@@ -1099,7 +1098,7 @@ Future<String> insertVisitaiOS() async {
                         data_list[index]["PUB_TITULO"],
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: Colors.black,
+                          color: Color(0xff773E42),
                           fontSize: 20.0,
                         ),
                       ),
@@ -1268,7 +1267,7 @@ Future<String> insertVisitaiOS() async {
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     new Text('COMENTARIO CON FACEBOOK ',
-                        style: TextStyle(fontSize: 18, color: Colors.white),overflow: TextOverflow.ellipsis,),
+                        style: TextStyle(fontSize: 18, color: Colors.white)),
                     new Icon(
                       FontAwesomeIcons.facebookSquare,
                       color: Colors.white,

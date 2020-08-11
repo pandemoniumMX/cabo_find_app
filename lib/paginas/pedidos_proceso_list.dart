@@ -62,10 +62,11 @@ class _Pedidos_nuevosState extends State<Lista_enproceso> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () {
-        Navigator.push(
+        Navigator.pushReplacement(
             context,
             new MaterialPageRoute(
-                builder: (BuildContext context) => new Domicilio()));
+                builder: (BuildContext context) => new Domicilio(
+                    numeropagina: Categoria(2), numtab: Categoria(1))));
       },
       child: Scaffold(
         appBar: AppBar(
@@ -75,7 +76,8 @@ class _Pedidos_nuevosState extends State<Lista_enproceso> {
             onPressed: () => Navigator.pushReplacement(
                 context,
                 new MaterialPageRoute(
-                    builder: (BuildContext context) => new Domicilio())),
+                    builder: (BuildContext context) => new Domicilio(
+                        numeropagina: Categoria(2), numtab: Categoria(1)))),
           ),
           backgroundColor: Color(0xff60032D),
         ),

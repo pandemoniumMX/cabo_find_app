@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:cabofind/paginas/pedidos_historial.dart';
 import 'package:cabofind/utilidades/classes.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ff_navigation_bar/ff_navigation_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
@@ -12,6 +13,10 @@ import 'list_manejador_menus.dart';
 import 'menu.dart';
 
 class Domicilio extends StatefulWidget {
+  final Categoria numeropagina;
+  final Categoria numtab;
+
+  const Domicilio({Key key, this.numeropagina, this.numtab}) : super(key: key);
   @override
   _DomicilioState createState() => _DomicilioState();
 }
@@ -20,8 +25,8 @@ class _DomicilioState extends State<Domicilio> {
   DateTime now = DateTime.now();
   DateFormat dateFormat;
   List data;
-  int _page = 0;
-  int selectedIndex = 0;
+  int _page;
+  int selectedIndex;
   PageController _c;
 
   Future<String> getData() async {
@@ -38,6 +43,9 @@ class _DomicilioState extends State<Domicilio> {
   }
 
   void initState() {
+    _page = widget.numeropagina.cat;
+    selectedIndex = widget.numeropagina.cat;
+    print(_page);
     super.initState();
     this.getData();
     _c = new PageController(
@@ -50,7 +58,7 @@ class _DomicilioState extends State<Domicilio> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () {
-        Navigator.push(
+        Navigator.pushReplacement(
             context,
             new MaterialPageRoute(
                 builder: (BuildContext context) => new Myapp()));
@@ -140,7 +148,7 @@ class _DomicilioState extends State<Domicilio> {
                   return hora1.isBefore(hora2) && horacerrar.isAfter(hora2)
                       ? new InkWell(
                           onTap: () {
-                            Navigator.push(
+                            Navigator.pushReplacement(
                                 context,
                                 new MaterialPageRoute(
                                     builder: (BuildContext context) =>
@@ -155,16 +163,17 @@ class _DomicilioState extends State<Domicilio> {
                                 margin: EdgeInsets.all(5.0),
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(10.0),
-                                  child: FadeInImage(
-                                    image:
-                                        NetworkImage(data[index]['GAL_FOTO']),
+                                  child: CachedNetworkImage(
                                     fit: BoxFit.fill,
                                     width: MediaQuery.of(context).size.width,
                                     height: 150,
-                                    // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
-                                    placeholder: AssetImage(
-                                        'android/assets/images/loading.gif'),
-                                    fadeInDuration: Duration(milliseconds: 200),
+                                    imageUrl: data[index]["GAL_FOTO"],
+                                    progressIndicatorBuilder: (context, url,
+                                            downloadProgress) =>
+                                        CircularProgressIndicator(
+                                            value: downloadProgress.progress),
+                                    errorWidget: (context, url, error) =>
+                                        Icon(Icons.error),
                                   ),
                                 ),
                               ),
@@ -255,7 +264,9 @@ class _DomicilioState extends State<Domicilio> {
                   style: TextStyle(fontSize: 25),
                 ),
               ),
-              new Pedidos_historial()
+              new Pedidos_historial(
+                pagina: Categoria(widget.numtab.cat),
+              )
               //new Mis_recompensas(),
               //new Mis_promos(),
               //new Mis_favoritos(),
