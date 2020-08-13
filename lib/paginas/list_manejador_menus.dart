@@ -94,7 +94,7 @@ class _Menu_majeadorState extends State<Menu_manejador>
     this._logcheck();
 
     _controller = AnimationController(
-        duration: const Duration(milliseconds: 300), vsync: this, value: 0.1);
+        duration: const Duration(milliseconds: 300), value: 0.1);
     _animation = CurvedAnimation(
         parent: _controller,
         // reverseCurve: Curves.bounceInOut,

@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:cabofind/main_esp.dart';
 import 'package:cabofind/paginas/misfavoritos.dart';
 import 'package:cabofind/paginas/mispromos.dart';
@@ -10,6 +11,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import '../main.dart';
 
@@ -164,7 +166,7 @@ class _UsuarioState extends State<Usuario> {
                                 Text(
                                   "Perfil",
                                   style: TextStyle(
-                                      fontSize: 40,
+                                      fontSize: 20,
                                       color: Color(0xff773E42),
                                       fontWeight: FontWeight.bold),
                                 ),
@@ -176,12 +178,12 @@ class _UsuarioState extends State<Usuario> {
                                 Text(
                                   "Nombre:",
                                   style: TextStyle(
-                                      fontSize: 25, color: Color(0xff773E42)),
+                                      fontSize: 15, color: Color(0xff773E42)),
                                 ),
                                 Text(
                                   snapshot.data["USU_NOMBRE"],
                                   style: TextStyle(
-                                    fontSize: 25,
+                                    fontSize: 15,
                                     color: Color(0xff773E42),
                                   ),
                                 )
@@ -194,13 +196,13 @@ class _UsuarioState extends State<Usuario> {
                                 Text(
                                   "Correo:",
                                   style: TextStyle(
-                                      fontSize: 25, color: Color(0xff773E42)),
+                                      fontSize: 15, color: Color(0xff773E42)),
                                 ),
                                 Flexible(
                                                                   child: Text(
                                     snapshot.data["USU_CORREO"],
                                     style: TextStyle(
-                                        fontSize: 25, color: Color(0xff773E42)),overflow: TextOverflow.ellipsis,
+                                        fontSize: 15, color: Color(0xff773E42)),overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
                               ]),
@@ -211,7 +213,7 @@ class _UsuarioState extends State<Usuario> {
                                 Text(
                                   "Mis favoritos",
                                   style: TextStyle(
-                                      fontSize: 40,
+                                      fontSize: 20,
                                       color: Color(0xff773E42),
                                       fontWeight: FontWeight.bold),
                                 ),
@@ -234,7 +236,7 @@ class _UsuarioState extends State<Usuario> {
                                   new Text(
                                     'Ver mis negocios guardados',
                                     style: TextStyle(
-                                        fontSize: 20, color: Colors.white),
+                                        fontSize: 15, color: Colors.white),
                                   ),
                                   new Icon(
                                     FontAwesomeIcons.solidHeart,
@@ -249,7 +251,7 @@ class _UsuarioState extends State<Usuario> {
                                 Text(
                                   "Mis promos ",
                                   style: TextStyle(
-                                      fontSize: 40,
+                                      fontSize: 20,
                                       color: Color(0xff773E42),
                                       fontWeight: FontWeight.bold),
                                 ),
@@ -272,7 +274,7 @@ class _UsuarioState extends State<Usuario> {
                                 children: <Widget>[
                                   new Text('Ver mis promos guardadas ',
                                       style: TextStyle(
-                                          fontSize: 20, color: Colors.white)),
+                                          fontSize: 15, color: Colors.white)),
                                   new Icon(
                                     FontAwesomeIcons.fire,
                                     color: Colors.white,
@@ -285,7 +287,7 @@ class _UsuarioState extends State<Usuario> {
                             Text(
                               "Configuración",
                               style: TextStyle(
-                                  fontSize: 40,
+                                  fontSize: 20,
                                   color: Color(0xff773E42),
                                   fontWeight: FontWeight.bold),
                             ),
@@ -297,7 +299,7 @@ class _UsuarioState extends State<Usuario> {
                                 Text(
                                   "Notificaciones:",
                                   style: TextStyle(
-                                      fontSize: 25, color: Color(0xff773E42)),
+                                      fontSize: 15, color: Color(0xff773E42)),
                                 ),
                                 Switch(
                                     value: isSwitched,
@@ -325,7 +327,7 @@ class _UsuarioState extends State<Usuario> {
                                   children: <Widget>[
                                     new Text('Cerrar sesión',
                                         style: TextStyle(
-                                            fontSize: 20, color: Colors.white)),
+                                            fontSize: 15, color: Colors.white)),
                                     new Icon(
                                       FontAwesomeIcons.signOutAlt,
                                       color: Colors.white,
@@ -385,7 +387,7 @@ class _Compras2 extends State<Login2> {
 
     var response = await http.get(
         Uri.encodeFull(
-            'http://cabofind.com.mx/app_php/APIs/esp/insert_usuarios.php?NOMBRE=${nombresfb},${apellidosfb}&CORREO=${correofb}&FOTO=${imagenfb}&NOT=true&IDIOMA=ESP&IDF=${id}&TOKEN=${tokenfirebase}'),
+            'http://cabofind.com.mx/app_php/APIs/esp/insert_usuarios.php?NOMBRE=${nombresfb} ${apellidosfb}&CORREO=${correofb}&FOTO=${imagenfb}&NOT=true&IDIOMA=ESP&IDF=${id}&TOKEN=${tokenfirebase}'),
         headers: {"Accept": "application/json"});
 
     Navigator.pushReplacement(context,
@@ -456,53 +458,55 @@ class _Compras2 extends State<Login2> {
     }
   }
 
-  /*
+ /* 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final GoogleSignIn googleSignIn = GoogleSignIn();
 
 String name;
 String email;
-String imageUrl;
+String imageUrl;*/
 
-Future<String> signInWithGoogle() async {
-  final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
-  final GoogleSignInAuthentication googleSignInAuthentication =
-      await googleSignInAccount.authentication;
+Future<String> signInWithApple() async {
 
-  final AuthCredential credential = GoogleAuthProvider.getCredential(
-    accessToken: googleSignInAuthentication.accessToken,
-    idToken: googleSignInAuthentication.idToken,
-  );
-//final FirebaseUser user = (await _auth.signInWithCredential(credential)).user;
+  final SharedPreferences login = await SharedPreferences.getInstance();
+  String tokenfirebase;
+  tokenfirebase = login.getString("stringToken");
 
-  final AuthResult authResult = await _auth.signInWithCredential(credential);
-  final FirebaseUser user = authResult.user;
-//final FirebaseUser user = await _auth.signInWithCredential(credential).user;
-  // Checking if email and name is null
-  assert(user.email != null);
-  assert(user.displayName != null);
-  assert(user.photoUrl != null);
+                  final appleIdCredential = await SignInWithApple.getAppleIDCredential(
+                    scopes: [
+                      AppleIDAuthorizationScopes.email,
+                      AppleIDAuthorizationScopes.fullName,
+                      
+                    
+                    ],
+                  );
+                  final oAuthProvider = OAuthProvider(providerId: 'apple.com');
+                  final credential = oAuthProvider.getCredential(
+                    idToken: appleIdCredential.identityToken,
+                    accessToken: appleIdCredential.authorizationCode,
+                    
+                  );
+                  String nombre = appleIdCredential.givenName;
+                  String apellido = appleIdCredential.familyName;
+                  String id = appleIdCredential.userIdentifier;
+                  String email = appleIdCredential.email;
+                  login.setString('stringLogin', "True");
+                  login.setString('stringMail', email);
+                  login.setString('stringID', id);
 
-  name = user.displayName;
-  email = user.email;
-  imageUrl = user.photoUrl;
+                  var response = await http.get(
+                  Uri.encodeFull(
+                      'http://cabofind.com.mx/app_php/APIs/esp/insert_usuarios.php?NOMBRE=${nombre} ${apellido}&CORREO=${email}&NOT=true&IDIOMA=ESP&IDF=${id}&TOKEN=${tokenfirebase}'),
+                  headers: {"Accept": "application/json"});
 
-  // Only taking the first part of the name, i.e., First Name
-  if (name.contains(" ")) {
-    name = name.substring(0, name.indexOf(" "));
-  }
+                  await FirebaseAuth.instance.signInWithCredential(credential);
+                  
 
-  assert(!user.isAnonymous);
-  assert(await user.getIdToken() != null);
-
-  final FirebaseUser currentUser = await _auth.currentUser();
-  assert(user.uid == currentUser.uid);
-
-  //return 'signInWithGoogle succeeded: $user';
-  addLoginG(user,name,email, imageUrl);
-
-  
-}  */
+        Navigator.pushReplacement(context,
+        new MaterialPageRoute(builder: (BuildContext context) => new Myapp()));
+                  
+                }
+                
   void onLoginStatusChange(bool isLoggedIn) {
     setState(() {
       this.isLoggedIn = isLoggedIn;
@@ -585,20 +589,22 @@ Future<String> signInWithGoogle() async {
                         )
                       ],
                     )),
-                /*
+                
             RaisedButton(
-                  onPressed: (){signInWithGoogle();},  
+                  onPressed: (){
+                    signInWithApple();
+                    },  
                   shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
-                  color: Colors.white,  
+                  color: Colors.black,  
                   child: new Row (
                                           mainAxisAlignment: MainAxisAlignment.center,
                                           mainAxisSize: MainAxisSize.min,
                                           children: <Widget>[
-                                            new Text('Sesión con Google   ', style: TextStyle(fontSize: 20, color: Colors.red)), 
-                                            new Icon(FontAwesomeIcons.google, color: Colors.red,)
+                                            new Text('Sesión con Apple ID  ', style: TextStyle(fontSize: 20, color: Colors.white)), 
+                                            new Icon(FontAwesomeIcons.apple, color: Colors.white,)
                                           ],
                                         )
-                ), 
+                ), /*
                 RaisedButton(
                     onPressed: () {
                       addlogin();

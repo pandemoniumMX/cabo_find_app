@@ -313,6 +313,7 @@ class _MyHomePageState extends State<MyHomePages> {
         });
 
         _firebaseMessaging.getToken().then( (token) {
+          prefs.setString('stringToken', token);
 
 
       print('===== FCM Token =====');

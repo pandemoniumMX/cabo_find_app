@@ -135,6 +135,7 @@ class _DomicilioState extends State<Domicilio> {
                   String id_n = data[index]["ID_NEGOCIO"];
                   String hora = data[index]["HOR_APERTURA"];
                   String horaclose = data[index]["HOR_CIERRE"];
+                  String estatus = data[index]["HOR_ESTATUS"];
                   String formattedTime = DateFormat('h:mm a').format(now);
                   DateTime hora1 = dateFormat.parse(hora);
                   DateTime horacerrar = dateFormat.parse(horaclose);
@@ -145,7 +146,69 @@ class _DomicilioState extends State<Domicilio> {
                   String apertura = DateFormat('h:mm a').format(hora1);
                   print(hora1);
                   print(formattedTime);
-                  return hora1.isBefore(hora2) && horacerrar.isAfter(hora2)
+                  return  estatus == 'B' ? InkWell(
+                          onTap: () {},
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.all(5.0),
+                                    margin: EdgeInsets.all(5.0),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      child: FadeInImage(
+                                        image: NetworkImage(
+                                            data[index]['GAL_FOTO']),
+                                        fit: BoxFit.fill,
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        height: 150,
+                                        // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
+                                        placeholder: AssetImage(
+                                            'android/assets/images/loading.gif'),
+                                        fadeInDuration:
+                                            Duration(milliseconds: 200),
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    //  margin: EdgeInsets.all(50),
+                                    height: 50,
+                                    width: 300,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      border: Border.all(
+                                        color: Colors.black26,
+                                      ),
+                                      color: Colors.black26,
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        'Abierto mañana '+apertura.toString(),
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 20),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 10.0),
+                                child: new Text(data[index]['NEG_NOMBRE'],
+                                    style: new TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 18.0,
+                                      fontWeight: FontWeight.w900,
+                                      //  backgroundColor: Colors.black45
+                                    )),
+                              ),
+                              Divider()
+                            ],
+                          ),
+                        ) : hora1.isBefore(hora2) && horacerrar.isAfter(hora2)
                       ? new InkWell(
                           onTap: () {
                             Navigator.pushReplacement(

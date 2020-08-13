@@ -28,7 +28,7 @@ class _DicePageState extends State<DicePage> with TickerProviderStateMixin {
   void initState() {
     super.initState();
     _controller =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 300));
+        AnimationController(duration: Duration(milliseconds: 300));
     _control = Tween(begin: 0.0, end: pi).animate(_controller);
   }
 

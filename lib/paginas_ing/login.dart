@@ -12,6 +12,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../main.dart';
@@ -169,7 +170,7 @@ class _UsuarioState extends State<Usuario> {
                             Text(
                               "Profile",
                               style: TextStyle(
-                                  fontSize: 40,
+                                  fontSize: 20,
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold),
                             ),
@@ -181,12 +182,12 @@ class _UsuarioState extends State<Usuario> {
                                 Text(
                                   "Name:",
                                   style: TextStyle(
-                                      fontSize: 25, color: Colors.white),
+                                      fontSize: 15, color: Colors.white),
                                 ),
                                 Text(
                                   snapshot.data["USU_NOMBRE"],
                                   style: TextStyle(
-                                    fontSize: 25,
+                                    fontSize: 15,
                                     color: Colors.white,
                                   ),
                                 )
@@ -199,14 +200,14 @@ class _UsuarioState extends State<Usuario> {
                                 Text(
                                   "Mail:",
                                   style: TextStyle(
-                                      fontSize: 25, color: Colors.white),
+                                      fontSize: 15, color: Colors.white),
                                 ),
                                 Flexible(
                                   child: Text(
                                     snapshot.data["USU_CORREO"],
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
-                                      fontSize: 25,
+                                      fontSize: 15,
                                       color: Colors.white,
                                     ),
                                   ),
@@ -219,7 +220,7 @@ class _UsuarioState extends State<Usuario> {
                             Text(
                               "Settings",
                               style: TextStyle(
-                                  fontSize: 40,
+                                  fontSize: 20,
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold),
                             ),
@@ -231,7 +232,7 @@ class _UsuarioState extends State<Usuario> {
                                 Text(
                                   "Notifications:",
                                   style: TextStyle(
-                                      fontSize: 25, color: Colors.white),
+                                      fontSize: 15, color: Colors.white),
                                 ),
                                 Switch(
                                   value: isSwitched,
@@ -260,7 +261,7 @@ class _UsuarioState extends State<Usuario> {
                                   children: <Widget>[
                                     new Text('Log Out',
                                         style: TextStyle(
-                                            fontSize: 20, color: Colors.white)),
+                                            fontSize: 15, color: Colors.white)),
                                     new Icon(
                                       FontAwesomeIcons.signOutAlt,
                                       color: Colors.white,
@@ -291,6 +292,48 @@ class _Compras2 extends State<Login2> {
     //sesionLog(context);
     super.initState();
   }
+
+
+  Future<String> signInWithApple() async {
+
+  final SharedPreferences login = await SharedPreferences.getInstance();
+  String tokenfirebase;
+  tokenfirebase = login.getString("stringToken");
+
+                  final appleIdCredential = await SignInWithApple.getAppleIDCredential(
+                    scopes: [
+                      AppleIDAuthorizationScopes.email,
+                      AppleIDAuthorizationScopes.fullName,
+                      
+                    
+                    ],
+                  );
+                  final oAuthProvider = OAuthProvider(providerId: 'apple.com');
+                  final credential = oAuthProvider.getCredential(
+                    idToken: appleIdCredential.identityToken,
+                    accessToken: appleIdCredential.authorizationCode,
+                    
+                  );
+                  String nombre = appleIdCredential.givenName;
+                  String apellido = appleIdCredential.familyName;
+                  String id = appleIdCredential.userIdentifier;
+                  String email = appleIdCredential.email;
+                  login.setString('stringLogin', "True");
+                  login.setString('stringMail', email);
+                  login.setString('stringID', id);
+
+                  var response = await http.get(
+                  Uri.encodeFull(
+                      'http://cabofind.com.mx/app_php/APIs/esp/insert_usuarios.php?NOMBRE=${nombre} ${apellido}&CORREO=${email}&NOT=true&IDIOMA=ING&IDF=${id}&TOKEN=${tokenfirebase}'),
+                  headers: {"Accept": "application/json"});
+
+                  await FirebaseAuth.instance.signInWithCredential(credential);
+                  
+
+        Navigator.pushReplacement(context,
+        new MaterialPageRoute(builder: (BuildContext context) => new MyApp_ing()));
+                  
+                }
 
   addLoginFB(FacebookLoginResult result) async {
     final SharedPreferences login = await SharedPreferences.getInstance();
@@ -517,21 +560,21 @@ class _Compras2 extends State<Login2> {
                         )
                       ],
                     )),
-                /*
+                
             RaisedButton(
-                  onPressed: (){signInWithGoogle();},  
+                  onPressed: (){signInWithApple();},  
                   shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
-                  color: Colors.white,  
+                  color: Colors.black,  
                   child: new Row (
                                           mainAxisAlignment: MainAxisAlignment.center,
                                           mainAxisSize: MainAxisSize.min,
                                           children: <Widget>[
-                                            new Text('Sesión con Google   ', style: TextStyle(fontSize: 20, color: Colors.red)), 
-                                            new Icon(FontAwesomeIcons.google, color: Colors.red,)
+                                            new Text('Login with Apple ID   ', style: TextStyle(fontSize: 20, color: Colors.white)), 
+                                            new Icon(FontAwesomeIcons.apple, color: Colors.white,)
                                           ],
                                         )
                 ), 
-
+/*
                 RaisedButton(
                   onPressed: (){addlogin();},  
                   shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
