@@ -134,6 +134,7 @@ class _DomicilioState extends State<Domicilio> {
                 itemBuilder: (BuildContext context, int index) {
                   String id_n = data[index]["ID_NEGOCIO"];
                   String hora = data[index]["HOR_APERTURA"];
+                  String estatus = data[index]["HOR_ESTATUS"];
                   String horaclose = data[index]["HOR_CIERRE"];
                   String formattedTime = DateFormat('h:mm a').format(now);
                   DateTime hora1 = dateFormat.parse(hora);
@@ -145,53 +146,8 @@ class _DomicilioState extends State<Domicilio> {
                   String apertura = DateFormat('h:mm a').format(hora1);
                   print(hora1);
                   print(formattedTime);
-                  return hora1.isBefore(hora2) && horacerrar.isAfter(hora2)
+                  return estatus == 'B'
                       ? new InkWell(
-                          onTap: () {
-                            Navigator.pushReplacement(
-                                context,
-                                new MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        new Menu_manejador(
-                                            manejador: new Users(id_n))));
-                          },
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Container(
-                                padding: EdgeInsets.all(5.0),
-                                margin: EdgeInsets.all(5.0),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  child: CachedNetworkImage(
-                                    fit: BoxFit.fill,
-                                    width: MediaQuery.of(context).size.width,
-                                    height: 150,
-                                    imageUrl: data[index]["GAL_FOTO"],
-                                    progressIndicatorBuilder: (context, url,
-                                            downloadProgress) =>
-                                        CircularProgressIndicator(
-                                            value: downloadProgress.progress),
-                                    errorWidget: (context, url, error) =>
-                                        Icon(Icons.error),
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 10.0),
-                                child: new Text(data[index]['NEG_NOMBRE'],
-                                    style: new TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 18.0,
-                                      fontWeight: FontWeight.w900,
-                                      //  backgroundColor: Colors.black45
-                                    )),
-                              ),
-                              Divider()
-                            ],
-                          ),
-                        )
-                      : new InkWell(
                           onTap: () {},
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -232,8 +188,7 @@ class _DomicilioState extends State<Domicilio> {
                                     ),
                                     child: Center(
                                       child: Text(
-                                        'Hora de apertura: ' +
-                                            apertura.toString(),
+                                        'Cerrado',
                                         style: TextStyle(
                                             color: Colors.white, fontSize: 20),
                                       ),
@@ -254,7 +209,123 @@ class _DomicilioState extends State<Domicilio> {
                               Divider()
                             ],
                           ),
-                        );
+                        )
+                      : hora1.isBefore(hora2) && horacerrar.isAfter(hora2)
+                          ? new InkWell(
+                              onTap: () {
+                                Navigator.pushReplacement(
+                                    context,
+                                    new MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            new Menu_manejador(
+                                                manejador: new Users(id_n))));
+                              },
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Container(
+                                    padding: EdgeInsets.all(5.0),
+                                    margin: EdgeInsets.all(5.0),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      child: CachedNetworkImage(
+                                        fit: BoxFit.fill,
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        height: 150,
+                                        imageUrl: data[index]["GAL_FOTO"],
+                                        progressIndicatorBuilder: (context, url,
+                                                downloadProgress) =>
+                                            CircularProgressIndicator(
+                                                value:
+                                                    downloadProgress.progress),
+                                        errorWidget: (context, url, error) =>
+                                            Icon(Icons.error),
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 10.0),
+                                    child: new Text(data[index]['NEG_NOMBRE'],
+                                        style: new TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 18.0,
+                                          fontWeight: FontWeight.w900,
+                                          //  backgroundColor: Colors.black45
+                                        )),
+                                  ),
+                                  Divider()
+                                ],
+                              ),
+                            )
+                          : new InkWell(
+                              onTap: () {},
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Stack(
+                                    alignment: Alignment.center,
+                                    children: [
+                                      Container(
+                                        padding: EdgeInsets.all(5.0),
+                                        margin: EdgeInsets.all(5.0),
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                          child: FadeInImage(
+                                            image: NetworkImage(
+                                                data[index]['GAL_FOTO']),
+                                            fit: BoxFit.fill,
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            height: 150,
+                                            // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
+                                            placeholder: AssetImage(
+                                                'android/assets/images/loading.gif'),
+                                            fadeInDuration:
+                                                Duration(milliseconds: 200),
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        //  margin: EdgeInsets.all(50),
+                                        height: 50,
+                                        width: 300,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                          border: Border.all(
+                                            color: Colors.black26,
+                                          ),
+                                          color: Colors.black26,
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            'Hora de apertura: ' +
+                                                apertura.toString(),
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 20),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 10.0),
+                                    child: new Text(data[index]['NEG_NOMBRE'],
+                                        style: new TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 18.0,
+                                          fontWeight: FontWeight.w900,
+                                          //  backgroundColor: Colors.black45
+                                        )),
+                                  ),
+                                  Divider()
+                                ],
+                              ),
+                            );
                   //  : SizedBox();
                 },
               ),

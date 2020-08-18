@@ -817,7 +817,7 @@ Future<String> insertVisitaiOS() async {
                           )
                         ],
                       )),
-                if (food == 'TRUE')
+                if (food == 'TRUEX')
                   RaisedButton(
                       onPressed: () {
                         String id_negocio = dataneg[0]["ID_NEGOCIO"];

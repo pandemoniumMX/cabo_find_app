@@ -164,7 +164,7 @@ class _UsuarioState extends State<Usuario> {
                                 Text(
                                   "Perfil",
                                   style: TextStyle(
-                                      fontSize: 40,
+                                      fontSize: 20,
                                       color: Color(0xff773E42),
                                       fontWeight: FontWeight.bold),
                                 ),
@@ -176,12 +176,12 @@ class _UsuarioState extends State<Usuario> {
                                 Text(
                                   "Nombre:",
                                   style: TextStyle(
-                                      fontSize: 25, color: Color(0xff773E42)),
+                                      fontSize: 15, color: Color(0xff773E42)),
                                 ),
                                 Text(
                                   snapshot.data["USU_NOMBRE"],
                                   style: TextStyle(
-                                    fontSize: 25,
+                                    fontSize: 15,
                                     color: Color(0xff773E42),
                                   ),
                                 )
@@ -194,12 +194,15 @@ class _UsuarioState extends State<Usuario> {
                                 Text(
                                   "Correo:",
                                   style: TextStyle(
-                                      fontSize: 25, color: Color(0xff773E42)),
+                                      fontSize: 15, color: Color(0xff773E42)),
                                 ),
-                                Text(
-                                  snapshot.data["USU_CORREO"],
-                                  style: TextStyle(
-                                      fontSize: 25, color: Color(0xff773E42)),
+                                Flexible(
+                                  child: Text(
+                                    snapshot.data["USU_CORREO"],
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                        fontSize: 15, color: Color(0xff773E42)),
+                                  ),
                                 ),
                               ]),
                           SizedBox(height: 15.0),
@@ -209,7 +212,7 @@ class _UsuarioState extends State<Usuario> {
                                 Text(
                                   "Mis favoritos",
                                   style: TextStyle(
-                                      fontSize: 40,
+                                      fontSize: 20,
                                       color: Color(0xff773E42),
                                       fontWeight: FontWeight.bold),
                                 ),
@@ -232,7 +235,7 @@ class _UsuarioState extends State<Usuario> {
                                   new Text(
                                     'Ver mis negocios guardados',
                                     style: TextStyle(
-                                        fontSize: 20, color: Colors.white),
+                                        fontSize: 15, color: Colors.white),
                                   ),
                                   new Icon(
                                     FontAwesomeIcons.solidHeart,
@@ -247,7 +250,7 @@ class _UsuarioState extends State<Usuario> {
                                 Text(
                                   "Mis promos ",
                                   style: TextStyle(
-                                      fontSize: 40,
+                                      fontSize: 20,
                                       color: Color(0xff773E42),
                                       fontWeight: FontWeight.bold),
                                 ),
@@ -270,7 +273,7 @@ class _UsuarioState extends State<Usuario> {
                                 children: <Widget>[
                                   new Text('Ver mis promos guardadas ',
                                       style: TextStyle(
-                                          fontSize: 20, color: Colors.white)),
+                                          fontSize: 15, color: Colors.white)),
                                   new Icon(
                                     FontAwesomeIcons.fire,
                                     color: Colors.white,
@@ -283,7 +286,7 @@ class _UsuarioState extends State<Usuario> {
                             Text(
                               "Configuración",
                               style: TextStyle(
-                                  fontSize: 40,
+                                  fontSize: 20,
                                   color: Color(0xff773E42),
                                   fontWeight: FontWeight.bold),
                             ),
@@ -295,7 +298,7 @@ class _UsuarioState extends State<Usuario> {
                                 Text(
                                   "Notificaciones:",
                                   style: TextStyle(
-                                      fontSize: 25, color: Color(0xff773E42)),
+                                      fontSize: 15, color: Color(0xff773E42)),
                                 ),
                                 Switch(
                                     value: isSwitched,
@@ -323,7 +326,7 @@ class _UsuarioState extends State<Usuario> {
                                   children: <Widget>[
                                     new Text('Cerrar sesión',
                                         style: TextStyle(
-                                            fontSize: 20, color: Colors.white)),
+                                            fontSize: 15, color: Colors.white)),
                                     new Icon(
                                       FontAwesomeIcons.signOutAlt,
                                       color: Colors.white,

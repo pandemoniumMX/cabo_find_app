@@ -98,7 +98,7 @@ class _UsuarioState extends State<Usuario> {
                                 Text(
                                   "Perfil",
                                   style: TextStyle(
-                                      fontSize: 40,
+                                      fontSize: 20,
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold),
                                 ),
@@ -111,12 +111,12 @@ class _UsuarioState extends State<Usuario> {
                                     Text(
                                       "Nombre:",
                                       style: TextStyle(
-                                          fontSize: 25, color: Colors.white),
+                                          fontSize: 15, color: Colors.white),
                                     ),
                                     Text(
                                       snapshot.data["USU_NOMBRE"],
                                       style: TextStyle(
-                                        fontSize: 25,
+                                        fontSize: 15,
                                         color: Colors.white,
                                       ),
                                     )
@@ -130,12 +130,12 @@ class _UsuarioState extends State<Usuario> {
                                     Text(
                                       "Correo:",
                                       style: TextStyle(
-                                          fontSize: 25, color: Colors.white),
+                                          fontSize: 15, color: Colors.white),
                                     ),
                                     Text(
                                       snapshot.data["USU_CORREO"],
                                       style: TextStyle(
-                                          fontSize: 25, color: Colors.white),
+                                          fontSize: 15, color: Colors.white),
                                     ),
                                   ]),
                               SizedBox(height: 15.0),
@@ -145,7 +145,7 @@ class _UsuarioState extends State<Usuario> {
                                 Text(
                                   "Configuración",
                                   style: TextStyle(
-                                      fontSize: 40,
+                                      fontSize: 20,
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold),
                                 ),
@@ -158,7 +158,7 @@ class _UsuarioState extends State<Usuario> {
                                     Text(
                                       "Notificaciones:",
                                       style: TextStyle(
-                                          fontSize: 25, color: Colors.white),
+                                          fontSize: 15, color: Colors.white),
                                     ),
                                     Switch(
                                       value: isSwitched,
@@ -189,7 +189,7 @@ class _UsuarioState extends State<Usuario> {
                                       children: <Widget>[
                                         new Text('Cerrar sesión',
                                             style: TextStyle(
-                                                fontSize: 20,
+                                                fontSize: 15,
                                                 color: Colors.white)),
                                         new Icon(
                                           FontAwesomeIcons.signOutAlt,

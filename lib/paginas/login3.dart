@@ -193,75 +193,78 @@ Future<String> signInWithGoogle() async {
         Navigator.push(
             context,
             new MaterialPageRoute(
-                builder: (BuildContext context) =>
-                    new Domicilio(numeropagina: Categoria(0))));
+                builder: (BuildContext context) => new Domicilio(
+                    numeropagina: Categoria(0), numtab: Categoria(0))));
       },
       child: new Scaffold(
+          appBar: AppBar(
+            title: Text('Regresar'),
+          ),
           body: Container(
-        decoration: BoxDecoration(
-            gradient: LinearGradient(
-                begin: Alignment.topRight,
-                end: Alignment.bottomLeft,
-                colors: [
-              Colors.black,
-              Colors.white,
-            ])),
-        child: Center(
-          child: ListView(
-            shrinkWrap: false,
-            physics: BouncingScrollPhysics(),
-            children: <Widget>[
-              Column(
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.topRight,
+                    end: Alignment.bottomLeft,
+                    colors: [
+                  Colors.black,
+                  Colors.white,
+                ])),
+            child: Center(
+              child: ListView(
+                shrinkWrap: false,
+                physics: BouncingScrollPhysics(),
                 children: <Widget>[
-                  SizedBox(
-                    height: 100.0,
-                  ),
-                  ClipRRect(
-                      borderRadius: BorderRadius.circular(8.0),
-                      child: Image.asset(
-                        "assets/cabofind.png",
-                        fit: BoxFit.fill,
-                        width: 150.0,
-                        height: 150.0,
-                      )),
-                  SizedBox(
-                    height: 50.0,
-                  ),
-                  Text(
-                    "Crea tu cuenta",
-                    style: TextStyle(
-                        fontSize: 25,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    "Para poder ordenar",
-                    style: TextStyle(
-                        fontSize: 25,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  RaisedButton(
-                      onPressed: () {
-                        signInWithFacebook();
-                      },
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(40.0)),
-                      color: Color(0xff4267b2),
-                      child: new Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          new Text('Sesión con Facebook',
-                              style:
-                                  TextStyle(fontSize: 20, color: Colors.white)),
-                          new Icon(
-                            FontAwesomeIcons.facebookSquare,
+                  Column(
+                    children: <Widget>[
+                      SizedBox(
+                        height: 100.0,
+                      ),
+                      ClipRRect(
+                          borderRadius: BorderRadius.circular(8.0),
+                          child: Image.asset(
+                            "assets/cabofind.png",
+                            fit: BoxFit.fill,
+                            width: 150.0,
+                            height: 150.0,
+                          )),
+                      SizedBox(
+                        height: 50.0,
+                      ),
+                      Text(
+                        "Crea tu cuenta",
+                        style: TextStyle(
+                            fontSize: 25,
                             color: Colors.white,
-                          )
-                        ],
-                      )),
-                  /*
+                            fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        "Para poder ordenar",
+                        style: TextStyle(
+                            fontSize: 25,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      RaisedButton(
+                          onPressed: () {
+                            signInWithFacebook();
+                          },
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(40.0)),
+                          color: Color(0xff4267b2),
+                          child: new Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              new Text('Sesión con Facebook',
+                                  style: TextStyle(
+                                      fontSize: 20, color: Colors.white)),
+                              new Icon(
+                                FontAwesomeIcons.facebookSquare,
+                                color: Colors.white,
+                              )
+                            ],
+                          )),
+                      /*
               RaisedButton(
                     onPressed: (){signInWithGoogle();},  
                     shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
@@ -294,32 +297,32 @@ Future<String> signInWithGoogle() async {
                           )
                         ],
                       )),*/
-                  RaisedButton(
-                      onPressed: () {
-                        _launchURL();
-                      },
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(40.0)),
-                      color: Colors.white,
-                      child: new Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          new Text('Políticas de privacidad   ',
-                              style:
-                                  TextStyle(fontSize: 20, color: Colors.black)),
-                          new Icon(
-                            FontAwesomeIcons.userSecret,
-                            color: Colors.black,
-                          )
-                        ],
-                      )),
+                      RaisedButton(
+                          onPressed: () {
+                            _launchURL();
+                          },
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(40.0)),
+                          color: Colors.white,
+                          child: new Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              new Text('Políticas de privacidad   ',
+                                  style: TextStyle(
+                                      fontSize: 20, color: Colors.black)),
+                              new Icon(
+                                FontAwesomeIcons.userSecret,
+                                color: Colors.black,
+                              )
+                            ],
+                          )),
+                    ],
+                  )
                 ],
-              )
-            ],
-          ),
-        ),
-      )),
+              ),
+            ),
+          )),
     );
   }
 }

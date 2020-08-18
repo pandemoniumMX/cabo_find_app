@@ -169,7 +169,7 @@ class _UsuarioState extends State<Usuario> {
                             Text(
                               "Profile",
                               style: TextStyle(
-                                  fontSize: 40,
+                                  fontSize: 20,
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold),
                             ),
@@ -181,12 +181,12 @@ class _UsuarioState extends State<Usuario> {
                                 Text(
                                   "Name:",
                                   style: TextStyle(
-                                      fontSize: 25, color: Colors.white),
+                                      fontSize: 15, color: Colors.white),
                                 ),
                                 Text(
                                   snapshot.data["USU_NOMBRE"],
                                   style: TextStyle(
-                                    fontSize: 25,
+                                    fontSize: 15,
                                     color: Colors.white,
                                   ),
                                 )
@@ -199,14 +199,14 @@ class _UsuarioState extends State<Usuario> {
                                 Text(
                                   "Mail:",
                                   style: TextStyle(
-                                      fontSize: 25, color: Colors.white),
+                                      fontSize: 15, color: Colors.white),
                                 ),
                                 Flexible(
                                   child: Text(
                                     snapshot.data["USU_CORREO"],
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
-                                      fontSize: 25,
+                                      fontSize: 15,
                                       color: Colors.white,
                                     ),
                                   ),
@@ -219,7 +219,7 @@ class _UsuarioState extends State<Usuario> {
                             Text(
                               "Settings",
                               style: TextStyle(
-                                  fontSize: 40,
+                                  fontSize: 20,
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold),
                             ),
@@ -231,7 +231,7 @@ class _UsuarioState extends State<Usuario> {
                                 Text(
                                   "Notifications:",
                                   style: TextStyle(
-                                      fontSize: 25, color: Colors.white),
+                                      fontSize: 15, color: Colors.white),
                                 ),
                                 Switch(
                                   value: isSwitched,
@@ -260,7 +260,7 @@ class _UsuarioState extends State<Usuario> {
                                   children: <Widget>[
                                     new Text('Log Out',
                                         style: TextStyle(
-                                            fontSize: 20, color: Colors.white)),
+                                            fontSize: 15, color: Colors.white)),
                                     new Icon(
                                       FontAwesomeIcons.signOutAlt,
                                       color: Colors.white,

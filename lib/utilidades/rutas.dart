@@ -31,6 +31,8 @@ class _MyHomePageState extends State<Rutas> {
     target: LatLng(22.900890, -109.942955),
     zoom: 13.0,
   );
+  String ruta;
+
   List data;
   String _mapStyle;
 
@@ -52,6 +54,7 @@ class _MyHomePageState extends State<Rutas> {
         //destination: LatLng(23.136895, -109.710269),
         destination: LatLng(23.159204, -109.711573),
         mode: RouteMode.driving);
+
     print(routeCoords);
   }
 

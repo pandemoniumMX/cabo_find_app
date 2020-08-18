@@ -691,16 +691,16 @@ routes: <String, WidgetBuilder>{
     }
 
     Widget cuerpo = GridView.builder(
-      shrinkWrap: true,
+      // shrinkWrap: true,
       itemCount: data == null ? 0 : data.length,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         childAspectRatio: 0.485,
       ),
       itemBuilder: (BuildContext context, int index) => Container(
-        height: 400,
-        padding: EdgeInsets.all(1),
-        margin: EdgeInsets.all(1),
+        // height: 400,
+        padding: EdgeInsets.all(0),
+        margin: EdgeInsets.all(2),
         child: Stack(
           children: [
             InkWell(

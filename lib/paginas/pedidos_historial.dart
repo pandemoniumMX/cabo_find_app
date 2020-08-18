@@ -28,7 +28,7 @@ class _Pedidos_historialState extends State<Pedidos_historial> {
 
   Future<Map> _deleteCarrito(String idcc) async {
     http.Response response = await http.get(
-        "http://cabofind.com.mx/app_php/APIs/esp/cancelacion_carrito.php?ID=${idcc}");
+        "http://cabofind.com.mx/app_php/APIs/esp/cancelacion_carrito.php?ID=$idcc&CAN=3");
     //print(widget.negocio.correo);
     return json.decode(response.body);
     //widget.negocio.correo
@@ -72,9 +72,7 @@ class _Pedidos_historialState extends State<Pedidos_historial> {
 
     http.Response response = await http.get(
         "http://cabofind.com.mx/app_php/APIs/esp/load_historial_enviado.php?IDF=$_mail2");
-    //print(widget.negocio.correo);
     return json.decode(response.body);
-    //widget.negocio.correo
   }
 
   Future<Map> _loadProximo() async {
