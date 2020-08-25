@@ -335,23 +335,30 @@ class _Pedidos_historialState extends State<Pedidos_historial> {
                                                             'En preparación')),
                                                   ],
                                                 )
-                                              : SizedBox(),
-                                      Row(
-                                        children: <Widget>[
-                                          Container(
-                                            margin: EdgeInsets.only(left: 10),
-                                            child: Icon(
-                                              FontAwesomeIcons.clock,
-                                              color: Color(0xff773E42),
-                                            ),
-                                          ),
-                                          Container(
-                                              margin: EdgeInsets.all(10),
-                                              child: Text(proximo[index]
-                                                      ["CAR_TIEMPO"] +
-                                                  ' Minutos aprox.'))
-                                        ],
-                                      ),
+                                              : proximo[index]["CAR_ESTATUS"] ==
+                                                      'E'
+                                                  ? Row(
+                                                      children: <Widget>[
+                                                        Container(
+                                                          margin:
+                                                              EdgeInsets.only(
+                                                                  left: 10),
+                                                          child: Icon(
+                                                            FontAwesomeIcons
+                                                                .checkCircle,
+                                                            color: Color(
+                                                                0xff773E42),
+                                                          ),
+                                                        ),
+                                                        Container(
+                                                            margin:
+                                                                EdgeInsets.all(
+                                                                    10),
+                                                            child: Text(
+                                                                'Recoger')),
+                                                      ],
+                                                    )
+                                                  : SizedBox(),
                                       Container(
                                           margin: EdgeInsets.all(5),
                                           padding: EdgeInsets.all(5),
@@ -371,7 +378,8 @@ class _Pedidos_historialState extends State<Pedidos_historial> {
                                             'No. de pedido: ' +
                                                 proximo[index]["ID_CARRITO"],
                                             style: TextStyle(
-                                                color: Colors.black54),
+                                                color: Colors.black54,
+                                                fontWeight: FontWeight.bold),
                                           )),
                                       Divider(),
                                       Row(
@@ -527,7 +535,8 @@ class _Pedidos_historialState extends State<Pedidos_historial> {
                                             'No. de pedido: ' +
                                                 enviado[index]["ID_CARRITO"],
                                             style: TextStyle(
-                                                color: Colors.black54),
+                                                color: Colors.black54,
+                                                fontWeight: FontWeight.bold),
                                           )),
                                       Divider(),
                                       Row(
@@ -678,7 +687,9 @@ class _Pedidos_historialState extends State<Pedidos_historial> {
                                                       historial[index]
                                                           ["ID_CARRITO"],
                                                   style: TextStyle(
-                                                      color: Colors.black54),
+                                                      color: Colors.black54,
+                                                      fontWeight:
+                                                          FontWeight.bold),
                                                 )),
                                             Row(
                                               children: <Widget>[
@@ -833,8 +844,9 @@ class _Pedidos_historialState extends State<Pedidos_historial> {
                                                           historial[index]
                                                               ["ID_CARRITO"],
                                                       style: TextStyle(
-                                                          color:
-                                                              Colors.black54),
+                                                          color: Colors.black54,
+                                                          fontWeight:
+                                                              FontWeight.bold),
                                                     )),
                                                 Divider(),
                                                 Row(

@@ -44,6 +44,7 @@ import 'package:http/http.dart' as http;
 import 'package:device_info/device_info.dart';
 import 'package:devicelocale/devicelocale.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:package_info/package_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'paginas/promociones.dart';
 
@@ -100,6 +101,7 @@ class _MyHomePageState extends State<MyHomePages> {
   String multi;
   String result;
   List portada;
+  String apkversion;
 
   Icon actionIcon = new Icon(Icons.search);
 
@@ -112,6 +114,11 @@ class _MyHomePageState extends State<MyHomePages> {
 
   //final List<Todo> todos;
   Future<String> getData() async {
+    final PackageInfo info = await PackageInfo.fromPlatform();
+    setState(() {
+      apkversion = info.version;
+    });
+
     var response = await http.get(
         Uri.encodeFull(
             "http://cabofind.com.mx/app_php/consultas_negocios/esp/estructura_esp.php"),
@@ -294,6 +301,7 @@ class _MyHomePageState extends State<MyHomePages> {
 
     _firebaseMessaging.getToken().then((token) {
       print('===== FCM Token =====');
+      print(token);
       prefs.setString('stringToken', token);
     });
 
@@ -306,6 +314,7 @@ class _MyHomePageState extends State<MyHomePages> {
         String id = (message['data']['id']) as String;
         String idc = (message['data']['idc']) as String;
         String idcn = (message['data']['idn']) as String;
+        String tipo = (message['data']['tipo']) as String;
         var idcnumber = int.parse(idc);
 
         id_n != null
@@ -361,7 +370,7 @@ class _MyHomePageState extends State<MyHomePages> {
                     ],
                   );
                 })
-            : idcnumber != null
+            : tipo == 'domicilio'
                 ? showDialog(
                     barrierDismissible: false,
                     context: context,
@@ -395,7 +404,7 @@ class _MyHomePageState extends State<MyHomePages> {
                             ),
                             onPressed: () {
                               Navigator.of(context).pop();
-                              Navigator.push(
+                              Navigator.pushReplacement(
                                   context,
                                   new MaterialPageRoute(
                                       builder: (BuildContext context) =>
@@ -407,7 +416,102 @@ class _MyHomePageState extends State<MyHomePages> {
                         ],
                       );
                     })
-                : SizedBox();
+                : tipo == 'recoger'
+                    ? showDialog(
+                        barrierDismissible: false,
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: Text(
+                              'Nuevo pedido!',
+                              style: TextStyle(
+                                fontSize: 25.0,
+                              ),
+                            ),
+                            content: Container(
+                                width: 300,
+                                height: 50.0,
+                                child: Text(
+                                    'Pedido número #$idcnumber listo para recoger')),
+                            actions: <Widget>[
+                              new FlatButton(
+                                child: new Text('Cerrar'),
+                                onPressed: () {
+                                  // _stopFile();
+
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                              new FlatButton(
+                                color: Color(0xff773E42),
+                                child: new Text(
+                                  'Ver pedido',
+                                  style: TextStyle(
+                                      fontSize: 14.0, color: Colors.white),
+                                ),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                  Navigator.pushReplacement(
+                                      context,
+                                      new MaterialPageRoute(
+                                          builder: (BuildContext context) =>
+                                              new Domicilio(
+                                                  numeropagina: Categoria(2),
+                                                  numtab: Categoria(0))));
+                                },
+                              )
+                            ],
+                          );
+                        })
+                    : tipo == 'cancelado'
+                        ? showDialog(
+                            barrierDismissible: false,
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: Text(
+                                  'Nuevo pedido!',
+                                  style: TextStyle(
+                                    fontSize: 25.0,
+                                  ),
+                                ),
+                                content: Container(
+                                    width: 300,
+                                    height: 50.0,
+                                    child: Text(
+                                        'Pedido número #$idcnumber fue cancelado')),
+                                actions: <Widget>[
+                                  new FlatButton(
+                                    child: new Text('Cerrar'),
+                                    onPressed: () {
+                                      // _stopFile();
+
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                  new FlatButton(
+                                    color: Color(0xff773E42),
+                                    child: new Text(
+                                      'Ver pedido',
+                                      style: TextStyle(
+                                          fontSize: 14.0, color: Colors.white),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                      Navigator.pushReplacement(
+                                          context,
+                                          new MaterialPageRoute(
+                                              builder: (BuildContext context) =>
+                                                  new Domicilio(
+                                                      numeropagina:
+                                                          Categoria(2),
+                                                      numtab: Categoria(2))));
+                                    },
+                                  )
+                                ],
+                              );
+                            })
+                        : SizedBox();
 
 /*
        showDialog(
@@ -430,6 +534,7 @@ class _MyHomePageState extends State<MyHomePages> {
         String id = (message['data']['id']) as String;
         String idc = (message['data']['idc']) as String;
         String idcn = (message['data']['idn']) as String;
+        String tipo = (message['data']['tipo']) as String;
         var idcnumber = int.parse(idc);
         id_n != null
             ? Navigator.push(
@@ -438,14 +543,28 @@ class _MyHomePageState extends State<MyHomePages> {
                     builder: (context) => new Publicacion_detalle_fin(
                           publicacion: new Publicacion(id_n, id),
                         )))
-            : idcnumber != null
+            : tipo == 'domicilio'
                 ? Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (BuildContext context) => new Lista_enproceso(
-                              carrito: new Costos(idc, idcn),
-                            )))
-                : SizedBox();
+                        builder: (BuildContext context) => new Domicilio(
+                            numeropagina: Categoria(2), numtab: Categoria(1))))
+                : tipo == 'recoger'
+                    ? Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (BuildContext context) => new Domicilio(
+                                numeropagina: Categoria(2),
+                                numtab: Categoria(0))))
+                    : tipo == 'cancelado'
+                        ? Navigator.push(
+                            context,
+                            new MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    new Domicilio(
+                                        numeropagina: Categoria(2),
+                                        numtab: Categoria(2))))
+                        : SizedBox();
       },
       onResume: (Map<String, dynamic> message) async {
         print('======= On resume ========');
@@ -455,7 +574,7 @@ class _MyHomePageState extends State<MyHomePages> {
         String id = (message['data']['id']) as String;
         String idc = (message['data']['idc']) as String;
         String idcn = (message['data']['idn']) as String;
-
+        String tipo = (message['data']['tipo']) as String;
         var idcnumber = int.parse(idc);
         id_n != null
             ? Navigator.push(
@@ -464,15 +583,39 @@ class _MyHomePageState extends State<MyHomePages> {
                     builder: (context) => new Publicacion_detalle_fin(
                           publicacion: new Publicacion(id_n, id),
                         )))
-            : idcnumber != null
+            : tipo == 'domicilio'
                 ? Navigator.push(
                     context,
                     new MaterialPageRoute(
                         builder: (BuildContext context) => new Domicilio(
                             numeropagina: Categoria(2), numtab: Categoria(1))))
-                : SizedBox();
+                : tipo == 'recoger'
+                    ? Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (BuildContext context) => new Domicilio(
+                                numeropagina: Categoria(2),
+                                numtab: Categoria(0))))
+                    : tipo == 'cancelado'
+                        ? Navigator.push(
+                            context,
+                            new MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    new Domicilio(
+                                        numeropagina: Categoria(2),
+                                        numtab: Categoria(2))))
+                        : SizedBox();
       },
     );
+  }
+
+  void versionError() {
+    Fluttertoast.showToast(
+        msg: "Actualiza a la ultima versión :)",
+        toastLength: Toast.LENGTH_SHORT,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        timeInSecForIos: 2);
   }
 
   Widget build(BuildContext context) {
@@ -507,76 +650,6 @@ routes: <String, WidgetBuilder>{
         };
 */
 
-    alertCar(context) async {
-      return showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          // return object of type AlertDialog
-          return AlertDialog(
-            //. Disponible únicamente en Cabo San Lucas
-            title: new Text("¡Ahí voy Cabo! ¿Como funciona?"),
-            content: Container(
-              height: MediaQuery.of(context).size.height,
-              child: new Column(
-                children: <Widget>[
-                  Text(
-                      "Cabofind te ayudará a generar tu pedido, posteriormente, se envía un whatsapp desde tu celular al mensajero," +
-                          "este se pondrá en contacto con usted para validar el pedido.",
-                      maxLines: 15,
-                      style: TextStyle(
-                        fontSize: 15.0,
-                      )),
-                  Text(
-                      "El mensajero llegará con tu producto y con su ticket de compra.",
-                      maxLines: 15,
-                      style: TextStyle(
-                        fontSize: 15.0,
-                      )),
-                  Text("Disponible únicamente en Cabo San Lucas.",
-                      maxLines: 15,
-                      style: TextStyle(
-                        fontSize: 15.0,
-                      )),
-                  Text("Los precios pueden variar dependiendo la hora.",
-                      maxLines: 15,
-                      style: TextStyle(
-                        fontSize: 15.0,
-                      )),
-                  Text("El servicio es totalmente ajeno a Cabofind. ",
-                      maxLines: 15,
-                      style: TextStyle(
-                        fontSize: 15.0,
-                      )),
-                ],
-              ),
-            ),
-
-            actions: <Widget>[
-              new FlatButton(
-                child: new Text('Cerrar'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-              new FlatButton(
-                color: Colors.black,
-                child: new Text(
-                  'Acepto los terminos',
-                  style: TextStyle(fontSize: 14.0, color: Colors.white),
-                ),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (BuildContext context) => new Domicilio()));
-                },
-              )
-            ],
-          );
-        },
-      );
-    }
 /*
 
    _makeStripePayment() async {
@@ -664,34 +737,8 @@ routes: <String, WidgetBuilder>{
       }
     }*/
 
-    Widget _buildDropDownButton(String currencyCategory) {
-      return DropdownButton(
-        value: currencyCategory,
-        items: currencies
-            .map((String value) => DropdownMenuItem(
-                  value: value,
-                  child: Row(
-                    children: <Widget>[
-                      Text(value),
-                    ],
-                  ),
-                ))
-            .toList(),
-        onChanged: (String value) {
-          _doConversion();
-          if (currencyCategory == fromCurrency) {
-            _onFromChanged(value);
-            _doConversion();
-          } else {
-            _onToChanged(value);
-            _doConversion();
-          }
-        },
-      );
-    }
-
     Widget cuerpo = GridView.builder(
-      // shrinkWrap: true,
+      padding: EdgeInsets.only(top: 2),
       itemCount: data == null ? 0 : data.length,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
@@ -819,12 +866,14 @@ routes: <String, WidgetBuilder>{
                       new MaterialPageRoute(
                           builder: (BuildContext context) => new Hoteles()));
                 } else if (ruta == "Cabofood") {
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (BuildContext context) => new Domicilio(
-                              numeropagina: Categoria(0),
-                              numtab: Categoria(0))));
+                  apkversion == portada[0]["APK_VERSION"]
+                      ? Navigator.push(
+                          context,
+                          new MaterialPageRoute(
+                              builder: (BuildContext context) => new Domicilio(
+                                  numeropagina: Categoria(0),
+                                  numtab: Categoria(0))))
+                      : versionError();
                 }
               },
             ),
@@ -909,7 +958,6 @@ routes: <String, WidgetBuilder>{
               expandedHeight: 250.0,
               floating: true,
               pinned: true,
-              automaticallyImplyLeading: true,
               flexibleSpace: FlexibleSpaceBar(
                 titlePadding: EdgeInsets.all(10.0),
                 background: GestureDetector(

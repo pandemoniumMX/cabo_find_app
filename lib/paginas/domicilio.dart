@@ -146,7 +146,7 @@ class _DomicilioState extends State<Domicilio> {
                   String apertura = DateFormat('h:mm a').format(hora1);
                   print(hora1);
                   print(formattedTime);
-                  return estatus == 'B'
+                  return estatus == 'B' //testing ==B
                       ? new InkWell(
                           onTap: () {},
                           child: Column(
@@ -210,7 +210,9 @@ class _DomicilioState extends State<Domicilio> {
                             ],
                           ),
                         )
-                      : hora1.isBefore(hora2) && horacerrar.isAfter(hora2)
+                      : hora1.isBefore(hora2) &&
+                              horacerrar.isAfter(hora2) //correcto
+                          //: hora1 != null //testing
                           ? new InkWell(
                               onTap: () {
                                 Navigator.pushReplacement(

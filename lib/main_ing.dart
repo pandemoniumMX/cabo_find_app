@@ -319,164 +319,160 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
       );
     }
 
-    Widget cuerpo = Container(
-      // height: MediaQuery.of(context).size.height,
-      child: new GridView.builder(
-        shrinkWrap: true,
-        itemCount: data == null ? 0 : data.length,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          childAspectRatio: 0.48,
-        ),
-        itemBuilder: (BuildContext context, int index) => new Container(
-          height: 400,
-          padding: EdgeInsets.all(0.5),
-          margin: EdgeInsets.all(0.5),
-          child: Stack(
-            children: [
-              InkWell(
-                child: Column(
-                  children: <Widget>[
-                    CachedNetworkImage(
-                      fit: BoxFit.fitHeight,
-                      height: 400,
-                      width: MediaQuery.of(context).size.width / 2,
-                      imageUrl: data[index]["est_foto"],
-                      progressIndicatorBuilder:
-                          (context, url, downloadProgress) => Container(
-                        margin: EdgeInsets.only(top: 180),
-                        child: Center(
-                          child: CircularProgressIndicator(
-                              value: downloadProgress.progress),
-                        ),
+    Widget cuerpo = new GridView.builder(
+      padding: EdgeInsets.only(top: 2),
+      shrinkWrap: true,
+      itemCount: data == null ? 0 : data.length,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        childAspectRatio: 0.48,
+      ),
+      itemBuilder: (BuildContext context, int index) => new Container(
+        height: 400,
+        padding: EdgeInsets.all(0.5),
+        margin: EdgeInsets.all(0.5),
+        child: Stack(
+          children: [
+            InkWell(
+              child: Column(
+                children: <Widget>[
+                  CachedNetworkImage(
+                    fit: BoxFit.fitHeight,
+                    height: 400,
+                    width: MediaQuery.of(context).size.width / 2,
+                    imageUrl: data[index]["est_foto"],
+                    progressIndicatorBuilder:
+                        (context, url, downloadProgress) => Container(
+                      margin: EdgeInsets.only(top: 180),
+                      child: Center(
+                        child: CircularProgressIndicator(
+                            value: downloadProgress.progress),
                       ),
-                      errorWidget: (context, url, error) => Icon(Icons.error),
                     ),
-                  ],
-                ),
-                onTap: () {
-                  String ruta = data[index]["est_navegacion"];
-                  print(ruta);
-
-                  if (ruta == "Restaurantes") {
-                    Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                new Restaurantes_ing()));
-                  } else if (ruta == "Descubre") {
-                    Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                new Descubre_ing()));
-                  } else if (ruta == "Compras") {
-                    Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                new Compras_ing()));
-                  } else if (ruta == "Educacion") {
-                    Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                new Educacion_ing()));
-                  } else if (ruta == "Eventos") {
-                    Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                new Eventos_ing_grid()));
-                  } else if (ruta == "Acercade") {
-                    Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                new Acercade_ing()));
-                  } else if (ruta == "Promociones") {
-                    Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                new Promociones_list_ing()));
-                  } else if (ruta == "Salud") {
-                    Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                new Salud_ing()));
-                  } else if (ruta == "Servicios") {
-                    Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                new Servicios_ing()));
-                  } else if (ruta == "Vida_nocturna") {
-                    Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                new Vida_nocturna_ing()));
-                  } else if (ruta == "Publicaciones") {
-                    Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                new Publicaciones_grid_ing()));
-                  } else if (ruta == "Anuncios") {
-                    Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                new Anuncios_ing()));
-                  } else if (ruta == "Mapa") {
-                    Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                            builder: (BuildContext context) => new Maps_ing()));
-                  } else if (ruta == "Rutas") {
-                    Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                new Rutas_ing()));
-                  }
-                },
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Point(
-                        triangleHeight: 10.0,
-                        edge: Edge.LEFT,
-                        child: Container(
-                          margin: const EdgeInsets.only(bottom: 8, top: 8),
-                          padding: const EdgeInsets.only(
-                              left: 18.0, right: 18.0, top: 8.0, bottom: 8.0),
-                          color: Color(int.parse(data[index]["est_color"])),
-                          child: new Text(data[index]["est_nombre_ing"],
-                              style: new TextStyle(
-                                color: Colors.white,
-                                fontSize: 20.0,
-                                fontWeight: FontWeight.w900,
-                                //  backgroundColor: Colors.black45
-                              )),
-                        ),
-                      ),
-                    ],
+                    errorWidget: (context, url, error) => Icon(Icons.error),
                   ),
                 ],
               ),
-            ],
-          ),
+              onTap: () {
+                String ruta = data[index]["est_navegacion"];
+                print(ruta);
+
+                if (ruta == "Restaurantes") {
+                  Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              new Restaurantes_ing()));
+                } else if (ruta == "Descubre") {
+                  Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              new Descubre_ing()));
+                } else if (ruta == "Compras") {
+                  Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              new Compras_ing()));
+                } else if (ruta == "Educacion") {
+                  Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              new Educacion_ing()));
+                } else if (ruta == "Eventos") {
+                  Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              new Eventos_ing_grid()));
+                } else if (ruta == "Acercade") {
+                  Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              new Acercade_ing()));
+                } else if (ruta == "Promociones") {
+                  Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              new Promociones_list_ing()));
+                } else if (ruta == "Salud") {
+                  Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (BuildContext context) => new Salud_ing()));
+                } else if (ruta == "Servicios") {
+                  Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              new Servicios_ing()));
+                } else if (ruta == "Vida_nocturna") {
+                  Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              new Vida_nocturna_ing()));
+                } else if (ruta == "Publicaciones") {
+                  Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              new Publicaciones_grid_ing()));
+                } else if (ruta == "Anuncios") {
+                  Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              new Anuncios_ing()));
+                } else if (ruta == "Mapa") {
+                  Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (BuildContext context) => new Maps_ing()));
+                } else if (ruta == "Rutas") {
+                  Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (BuildContext context) => new Rutas_ing()));
+                }
+              },
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Point(
+                      triangleHeight: 10.0,
+                      edge: Edge.LEFT,
+                      child: Container(
+                        margin: const EdgeInsets.only(bottom: 8, top: 8),
+                        padding: const EdgeInsets.only(
+                            left: 18.0, right: 18.0, top: 8.0, bottom: 8.0),
+                        color: Color(int.parse(data[index]["est_color"])),
+                        child: new Text(data[index]["est_nombre_ing"],
+                            style: new TextStyle(
+                              color: Colors.white,
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.w900,
+                              //  backgroundColor: Colors.black45
+                            )),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ],
         ),
-        /* staggeredTileBuilder: (int index) =>
-            new StaggeredTile.count(2, index.isEven ? 2 : 2),*/
       ),
+      /* staggeredTileBuilder: (int index) =>
+          new StaggeredTile.count(2, index.isEven ? 2 : 2),*/
     );
 
     return Scaffold(
