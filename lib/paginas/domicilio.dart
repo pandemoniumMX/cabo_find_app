@@ -210,9 +210,8 @@ class _DomicilioState extends State<Domicilio> {
                             ],
                           ),
                         )
-                      : hora1.isBefore(hora2) &&
-                              horacerrar.isAfter(hora2) //correcto
-                          //: hora1 != null //testing
+                      // : hora1.isBefore(hora2) &&             horacerrar.isAfter(hora2) //correcto
+                      : hora1 != null //testing
                           ? new InkWell(
                               onTap: () {
                                 Navigator.pushReplacement(

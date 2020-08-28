@@ -23,6 +23,7 @@ class Mi_direccion extends StatefulWidget {
 }
 
 class _Mi_direccionState extends State<Mi_direccion> {
+  var location = Location();
   final _formKey = GlobalKey<FormState>();
   var _miciudad2 = '';
   double latn;
@@ -49,6 +50,10 @@ class _Mi_direccionState extends State<Mi_direccion> {
   GoogleMapController _mapController;
 
   _getCurrentLocation() async {
+    if (!await location.serviceEnabled()) {
+      location.requestService();
+    }
+
     try {
       final geo.Geolocator geolocator = geo.Geolocator()
         ..forceAndroidLocationManager = true;

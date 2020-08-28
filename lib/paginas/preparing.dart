@@ -10,6 +10,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart' as geo;
 import 'package:intl/intl.dart';
+import 'package:location/location.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -91,7 +92,7 @@ class _UsuarioState extends State<Carritox> {
   double total = 0;
   String ciudad;
   String idx;
-
+  var location = Location();
   DateFormat dateFormat;
   double tiempoprep;
   double tiemporuta;
@@ -144,6 +145,10 @@ class _UsuarioState extends State<Carritox> {
   }
 
   _getCurrentLocation(double latn, double longn, double tiempo) async {
+    if (!await location.serviceEnabled()) {
+      location.requestService();
+    }
+
     geo.Position position = await geo.Geolocator().getCurrentPosition(
         desiredAccuracy: geo.LocationAccuracy.bestForNavigation);
     debugPrint('location: ${position.latitude}');
