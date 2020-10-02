@@ -281,7 +281,6 @@ class _MyHomePageState extends State<MyHomePages> {
     String _token = "";
     _token = prefs.getString("stringValue");
 
-    // if (prefs.getString(_idioma) ?? 'stringValue' == "espanol")
     if (_token != "ingles") {
       //your home page is loaded
     } else {
@@ -925,10 +924,11 @@ routes: <String, WidgetBuilder>{
             iconData: FontAwesomeIcons.home,
             label: 'Inicio',
           ),
-          /*  FFNavigationBarItem(
-            iconData: FontAwesomeIcons.shoppingCart,
-            label: 'Carrito',
+          FFNavigationBarItem(
+            iconData: FontAwesomeIcons.gift,
+            label: 'Rewards',
           ),
+          /*
           
           FFNavigationBarItem(
             iconData: FontAwesomeIcons.fire,
@@ -1120,7 +1120,7 @@ routes: <String, WidgetBuilder>{
           },
           children: <Widget>[
             cuerpo,
-            //new Mis_recompensas(),
+            new Mis_recompensas(),
             //new Mis_promos(),
             //new Mis_favoritos(),
             new Login()

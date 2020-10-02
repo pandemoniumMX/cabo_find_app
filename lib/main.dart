@@ -134,7 +134,6 @@ class _MyHomePageState extends State<Start> {
     String _token = "";
     _token = prefs.getString("stringValue");
 
-    // if (prefs.getString(_idioma) ?? 'stringValue' == "espanol")
     if (_token != "ingles") {
       print("alreay login.");
       Navigator.of(context).pop();

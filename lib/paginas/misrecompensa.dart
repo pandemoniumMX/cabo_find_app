@@ -34,7 +34,6 @@ class _Compras extends State<Mis_recompensas> {
     bool checkValue = login.containsKey('value');
     return checkValue = login.containsKey('stringLogin');
 
-    // if (prefs.getString(_idioma) ?? 'stringValue' == "espanol")
     if (_status == "True") {
       print("Sesión ya iniciada");
     } else {
@@ -174,7 +173,7 @@ class _UsuarioState extends State<Usuario> {
               ),
               content: Container(
                 width: double.maxFinite,
-                height: 150.0,
+                height: 170.0,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -183,17 +182,30 @@ class _UsuarioState extends State<Usuario> {
                       style: TextStyle(fontSize: 12),
                     ),
                     Text(
-                      '2: Ordena a tu gusto.',
+                      '2: Compra producto/platillo/servicio',
                       style: TextStyle(fontSize: 12),
                     ),
                     Text(
-                      '3: Cuando pagues, pide a un trabajador que escaneé tu código QR.',
+                      '3: Cuando pagues, pide que escaneé tu código QR.',
                       style: TextStyle(fontSize: 12),
                     ),
                     Text(
-                      '4: Felicidades, obtuviste 100 puntos! :)',
+                      '4: Obtendrás 100 puntos por tu visita (100 por negocio diario)',
                       style: TextStyle(fontSize: 12),
                     ),
+                    Text(
+                      '5: Suma puntos y canjea por recompensas!',
+                      style: TextStyle(fontSize: 12),
+                    ),
+                    Text(
+                      '6: Canjea tu rescompensa mostrando el QR al comercio participante',
+                      style: TextStyle(fontSize: 12),
+                    ),
+                    Text(
+                      'Términos: Deberás tener algúna identificación oficial para el reclamo. Después de reclamar tu recompensa, tendrás 7 días para usarla.',
+                      style: TextStyle(fontSize: 12),
+                    ),
+
                     // Container(child: Text(data[index]["CAR_NOMBRE_ING"],style: TextStyle(),),padding: EdgeInsets.only(bottom:15.0),) ,
                   ],
                 ),
@@ -498,66 +510,45 @@ class Login2 extends StatefulWidget {
 class _State extends State<Login2> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-          gradient: LinearGradient(
-              begin: Alignment.topRight,
-              end: Alignment.bottomLeft,
-              colors: [
-            Colors.black,
-            Colors.white,
-          ])),
-      child: Container(
-        child: ListView(
-          shrinkWrap: false,
-          //addAutomaticKeepAlives: true,
-          physics: BouncingScrollPhysics(),
-          children: <Widget>[
-            Center(
-              child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8.0),
-                  child: Image.asset(
-                    "assets/cabofind.png",
-                    fit: BoxFit.fill,
-                    width: 150.0,
-                    height: 150.0,
-                  )),
-            ),
-            //SizedBox(height: 100.0,),
-            //SizedBox(height: 25.0,),
-            Center(
-                child: Text(
-              "Crea tu cuenta",
-              style: TextStyle(
-                  fontSize: 25,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold),
-            )),
-            Center(
-                child: Text(
-              "Para obtener recompensas!",
-              style: TextStyle(
-                  fontSize: 25,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold),
-            )),
-            Center(
-                child: SizedBox(
-              height: 25.0,
-            )),
-            Center(
-                child: Flexible(
-                    child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8.0),
-                        child: Image.asset(
-                          "assets/fire2.png",
-                          fit: BoxFit.fill,
-                          width: 80.0,
-                          height: 80.0,
-                        )))),
-          ],
+    return ListView(
+      shrinkWrap: true,
+      //addAutomaticKeepAlives: true,
+      physics: NeverScrollableScrollPhysics(),
+      children: <Widget>[
+        SizedBox(
+          height: 100.0,
         ),
-      ),
+        Center(
+          child: ClipRRect(
+              borderRadius: BorderRadius.circular(8.0),
+              child: Image.asset(
+                "assets/cabofind.png",
+                fit: BoxFit.fill,
+                width: 150.0,
+                height: 150.0,
+              )),
+        ),
+        SizedBox(
+          height: 50.0,
+        ),
+        //SizedBox(height: 25.0,),
+        Center(
+            child: Text(
+          "Crea tu cuenta",
+          style: TextStyle(
+              fontSize: 25, color: Colors.black, fontWeight: FontWeight.bold),
+        )),
+        Center(
+            child: Text(
+          "Para obtener recompensas!",
+          style: TextStyle(
+              fontSize: 25, color: Colors.black, fontWeight: FontWeight.bold),
+        )),
+        Center(
+            child: SizedBox(
+          height: 25.0,
+        )),
+      ],
     );
   }
 }

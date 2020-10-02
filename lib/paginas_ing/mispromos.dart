@@ -41,7 +41,6 @@ class _Compras extends State<Mis_promos_ing> {
     print(_status);
     print(_mail);
 
-    // if (prefs.getString(_idioma) ?? 'stringValue' == "espanol")
     if (_status == "True") {
       print("Sesión ya iniciada");
     } else {
@@ -114,7 +113,7 @@ class _UsuarioState extends State<Usuario> {
     print(_mail);
     //String id = data[0]["ID_NEGOCIO"];
     print(id_n);
-    // if (prefs.getString(_idioma) ?? 'stringValue' == "espanol")
+
     if (_status == "True") {
       showFavorites();
 

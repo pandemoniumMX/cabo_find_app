@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:cabofind/paginas/preparing.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:stripe_native/stripe_native.dart';
 import 'package:cabofind/utilidades/clasesilver.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -60,7 +59,7 @@ class Detalles extends State<Menu_detalle> {
 
   List customers = [];
 
-  Future<String> get receiptPayment async {
+  /*Future<String> get receiptPayment async {
     /* custom receipt w/ useReceiptNativePay */
     const receipt = <String, double>{"Nice Hat": 5.00, "Used Hat": 1.50};
     var aReceipt = Receipt(receipt, "Hat Store");
@@ -71,7 +70,7 @@ class Detalles extends State<Menu_detalle> {
     // subtotal, tax, tip, merchant name
     var order = Order(5.50, 1.0, 2.0, "Some Store");
     return await StripeNative.useNativePay(order);
-  }
+  }*/
 
   Future<String> getInfo() async {
     var response = await http.get(
@@ -148,9 +147,9 @@ class Detalles extends State<Menu_detalle> {
 
     this.getInfo();
 
-    StripeNative.setPublishableKey(
+    /*StripeNative.setPublishableKey(
         "pk_test_qRcqwUowOCDhl2bEuXPPCKDw00LMVoJpLi");
-    StripeNative.setMerchantIdentifier("4525-9725-4152");
+    StripeNative.setMerchantIdentifier("4525-9725-4152");*/
     setState(() {
       // This call to setState tells the Flutter framework that something has
       // changed in this State, which causes it to rerun the build method below
@@ -1039,6 +1038,7 @@ class Detalles extends State<Menu_detalle> {
                               } else {
                                 return InkWell(
                                   onTap: () {
+                                    //recargar estado
                                     setState(() {
                                       Navigator.push(
                                         context,

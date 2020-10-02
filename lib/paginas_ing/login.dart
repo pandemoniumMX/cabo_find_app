@@ -42,7 +42,6 @@ class _Compras extends State<Login_ing> {
     print(_status);
     print(_mail);
 
-    // if (prefs.getString(_idioma) ?? 'stringValue' == "espanol")
     if (_status == "True") {
       print("Sesión ya iniciada");
     } else {

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+/*import 'package:flutter/material.dart';
 import 'package:stripe_native/stripe_native.dart';
 
 class NativePayExample extends StatefulWidget {
@@ -53,3 +53,4 @@ class _NativePayExampleState extends State<NativePayExample> {
   Widget build(BuildContext context) =>
       MaterialApp(home: Scaffold(body: Center(child: nativeButton)));
 }
+*/

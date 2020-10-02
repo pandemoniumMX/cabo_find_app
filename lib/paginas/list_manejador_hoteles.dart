@@ -80,7 +80,7 @@ class _ListaAcuaticas extends State<Lista_Manejador_hoteles> {
     print(_mail);
     //String id = data[0]["ID_NEGOCIO"];
     print(id_n);
-    // if (prefs.getString(_idioma) ?? 'stringValue' == "espanol")
+
     if (_status == "True") {
       showFavorites();
 

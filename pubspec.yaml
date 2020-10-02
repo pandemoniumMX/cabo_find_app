@@ -71,7 +71,9 @@ dependencies:
   expandable: ^4.1.4
   share: ^0.6.4+3
   barcode_scan: ^3.0.1  
-  stripe_native: ^1.2.3
+  #stripe_native: ^1.2.3
+  #stripe_sdk: ^3.0.1+1
+  stripe_payment: ^1.0.7
   package_info: ^0.4.1
  
   #flutter_conekta: ^1.0.7+1

@@ -426,7 +426,7 @@ packages:
       name: http
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.12.0+2"
+    version: "0.12.2"
   http_parser:
     dependency: transitive
     description:
@@ -761,13 +761,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.5"
-  stripe_native:
+  stripe_payment:
     dependency: "direct main"
     description:
-      name: stripe_native
+      name: stripe_payment
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.3"
+    version: "1.0.7"
   supercharged:
     dependency: transitive
     description:
@@ -875,4 +875,4 @@ packages:
     version: "2.2.0"
 sdks:
   dart: ">=2.9.0-14.0.dev <3.0.0"
-  flutter: ">=1.13.0 <2.0.0"
+  flutter: ">=1.12.13+hotfix.6 <2.0.0"

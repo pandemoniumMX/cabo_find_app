@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:cabofind/paginas/cupones_detalle.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Recompensa_detalle extends StatefulWidget {
   final Publicacion2 publicacion;
@@ -19,9 +20,13 @@ class _Recompensa_detalleState extends State<Recompensa_detalle> {
   List cupon;
 
   Future<String> getData() async {
+    final SharedPreferences login = await SharedPreferences.getInstance();
+    String _mail2 = "";
+    _mail2 = login.getString("stringID");
+
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/list_recompensas_usuario_api.php?ID_N=${widget.publicacion.id_n}&ID_R=${widget.publicacion.id_r}&CORREO=${widget.publicacion.mail}"),
+            "http://cabofind.com.mx/app_php/APIs/esp/list_recompensas_usuario_api.php?ID_N=${widget.publicacion.id_n}&ID_R=${widget.publicacion.id_r}&IDF=${_mail2}"),
         headers: {"Accept": "application/json"});
 
     this.setState(() {
@@ -33,6 +38,10 @@ class _Recompensa_detalleState extends State<Recompensa_detalle> {
 
   Future<Map> updatePuntos(
       String idr, String idu, String total, String idn) async {
+    final SharedPreferences login = await SharedPreferences.getInstance();
+    String _mail2 = "";
+    _mail2 = login.getString("stringID");
+
     var response = await http.get(
         Uri.encodeFull(
             "http://cabofind.com.mx/app_php/APIs/esp/update_puntos_c.php?ID_R=${idr}&ID_U=${idu}&TOTAL=${total}&ID_N=${idn}"),
@@ -41,6 +50,9 @@ class _Recompensa_detalleState extends State<Recompensa_detalle> {
 
   Future<Map> insertData(
       String idr, String idu, String total, String idn) async {
+    final SharedPreferences login = await SharedPreferences.getInstance();
+    String _mail2 = "";
+    _mail2 = login.getString("stringID");
     var response = await http.get(
         Uri.encodeFull(
             "http://cabofind.com.mx/app_php/APIs/esp/insert_cupon_cf.php?ID_R=${idr}&ID_U=${idu}&TOTAL=${total}&ID_N=${idn}"),
@@ -75,7 +87,7 @@ class _Recompensa_detalleState extends State<Recompensa_detalle> {
           return AlertDialog(
             title: new Text("Alerta"),
             content: new Text(
-              "¿Seguro que desea continuar? Tendrás 7 días para la recompensa :)",
+              "¿Seguro que desea continuar? Tendrás 7 días para reclamar tu recompensa :)",
               textAlign: TextAlign.center,
             ),
             actions: <Widget>[
@@ -177,7 +189,7 @@ class _Recompensa_detalleState extends State<Recompensa_detalle> {
             return Column(
               children: [
                 FadeInImage(
-                  image: NetworkImage(data[index]["GAL_FOTO"]),
+                  image: NetworkImage(data[index]["REC_FOTO"]),
                   fit: BoxFit.fill,
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height * .35,

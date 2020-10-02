@@ -37,7 +37,6 @@ class _Compras extends State<Mis_promos_manejador> {
     print(_status);
     print(_mail);
 
-    // if (prefs.getString(_idioma) ?? 'stringValue' == "espanol")
     if (_status == "True") {
       print("Sesión ya iniciada");
     } else {
@@ -92,6 +91,7 @@ class _UsuarioState extends State<Usuario> {
   void initState() {
     super.initState();
     this._loadUser();
+    print('puta');
   }
 
   Future<Map> _loadUser() async {
@@ -115,6 +115,15 @@ class _UsuarioState extends State<Usuario> {
     });
   }
 
+  void showError() {
+    Fluttertoast.showToast(
+        msg: "No tienes puntos :(",
+        toastLength: Toast.LENGTH_SHORT,
+        backgroundColor: Color(0xff773E42),
+        textColor: Colors.white,
+        timeInSecForIos: 1);
+  }
+
   @override
   Widget build(BuildContext context) {
     Widget estructura = ListView.builder(
@@ -134,7 +143,7 @@ class _UsuarioState extends State<Usuario> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       FadeInImage(
-                        image: NetworkImage(data[index]["GAL_FOTO"]),
+                        image: NetworkImage(data[index]["REC_FOTO"]),
                         fit: BoxFit.fill,
                         width: MediaQuery.of(context).size.width * .20,
                         height: MediaQuery.of(context).size.height * .10,
@@ -181,14 +190,17 @@ class _UsuarioState extends State<Usuario> {
           onTap: () {
             String id_re = data[index]["ID_RECOMPENSA"];
             String id_n = data[index]["negocios_ID_NEGOCIO"];
+            String puntos = data[index]["PUN_TOTAL"];
             String _mail = widget.usuarios.correo;
 
-            Navigator.push(
-                context,
-                new MaterialPageRoute(
-                    builder: (context) => new Recompensa_detalle(
-                          publicacion: new Publicacion2(id_re, id_n, _mail),
-                        )));
+            puntos == null
+                ? showError()
+                : Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (context) => new Recompensa_detalle(
+                              publicacion: new Publicacion2(id_re, id_n, _mail),
+                            )));
           },
         );
       },
@@ -214,13 +226,21 @@ class _UsuarioState extends State<Usuario> {
                       color: Colors.white,
                       fontWeight: FontWeight.bold),
                 ),
-                Text(
-                  data[0]["PUN_TOTAL"],
-                  style: TextStyle(
-                      fontSize: 30,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold),
-                )
+                data[0]["PUN_TOTAL"] == null
+                    ? Text(
+                        '0 ',
+                        style: TextStyle(
+                            fontSize: 30,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold),
+                      )
+                    : Text(
+                        data[0]["PUN_TOTAL"],
+                        style: TextStyle(
+                            fontSize: 30,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold),
+                      )
               ])),
           estructura,
         ],
@@ -262,7 +282,7 @@ class _State extends State<Login2> {
     print(_status);
     print(_mail);
     //String id = data[0]["ID_NEGOCIO"];
-    // if (prefs.getString(_idioma) ?? 'stringValue' == "espanol")
+
     if (_status == "True") {
     } else {
       //CircularProgressIndicator(value: 5.0,);
@@ -297,7 +317,7 @@ class _State extends State<Login2> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       FadeInImage(
-                        image: NetworkImage(data[index]["GAL_FOTO"]),
+                        image: NetworkImage(data[index]["REC_FOTO"]),
                         fit: BoxFit.fill,
                         width: MediaQuery.of(context).size.width * .20,
                         height: MediaQuery.of(context).size.height * .10,
