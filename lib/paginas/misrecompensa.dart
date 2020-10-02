@@ -396,15 +396,16 @@ class _UsuarioState extends State<Usuario> {
                         onTap: () {
                           String _usucorreo = widget.usuarios.correo;
                           String _idnegocio = data[index]["ID_NEGOCIO"];
-
-                          Navigator.push(
-                              context,
-                              new MaterialPageRoute(
-                                  builder: (context) =>
-                                      new Mis_promos_manejador(
-                                        publicacion: new Publicacion(
-                                            _usucorreo, _idnegocio),
-                                      )));
+                          setState(() {
+                            Navigator.push(
+                                context,
+                                new MaterialPageRoute(
+                                    builder: (context) =>
+                                        new Mis_promos_manejador(
+                                          publicacion: new Publicacion(
+                                              _usucorreo, _idnegocio),
+                                        ))).then((value) => setState(() {}));
+                          });
                         },
                       );
                     });
@@ -459,10 +460,14 @@ class _UsuarioState extends State<Usuario> {
                   )),
               RaisedButton(
                   onPressed: () {
-                    Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                            builder: (BuildContext context) => new DicePage()));
+                    setState(() {
+                      Navigator.push(
+                              context,
+                              new MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      new DicePage()))
+                          .then((value) => setState(() {}));
+                    });
                   },
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(40.0)),

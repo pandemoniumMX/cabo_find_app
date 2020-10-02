@@ -306,17 +306,7 @@ class _DicePageState extends State<DicePage> with TickerProviderStateMixin {
                                                     default:
                                                       if (snapshot.hasError) {
                                                         return RaisedButton(
-                                                            onPressed: () {
-                                                              setState(() {
-                                                                Share.share(
-                                                                        'Descarga Cabofind, obten puntos y canjealos por increibles recompensas https://bit.ly/33ywdUS')
-                                                                    .then((value) =>
-                                                                        setState(
-                                                                            () {
-                                                                          _insertShare();
-                                                                        }));
-                                                              });
-                                                            },
+                                                            onPressed: null,
                                                             shape: RoundedRectangleBorder(
                                                                 borderRadius:
                                                                     BorderRadius
@@ -333,7 +323,7 @@ class _DicePageState extends State<DicePage> with TickerProviderStateMixin {
                                                               children: <
                                                                   Widget>[
                                                                 new Text(
-                                                                    'Número de compartidas: 0',
+                                                                    'Has un tiro para poder compartir',
                                                                     style: TextStyle(
                                                                         fontSize:
                                                                             20,
@@ -351,50 +341,87 @@ class _DicePageState extends State<DicePage> with TickerProviderStateMixin {
                                                               snapshot.data[
                                                                   "TOTALC"]) <=
                                                           9) {
-                                                        return RaisedButton(
-                                                            onPressed: () {
-                                                              setState(() {
-                                                                Share.share(
-                                                                        'Descarga Cabofind, obten puntos y canjealos por increibles recompensas https://bit.ly/33ywdUS')
-                                                                    .then((value) =>
-                                                                        setState(
-                                                                            () {
-                                                                          _insertShare();
-                                                                        }));
-                                                              });
-                                                            },
-                                                            shape: RoundedRectangleBorder(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
+                                                        return int.parse(snapshot
+                                                                        .data[
+                                                                    "TOTALD"]) ==
+                                                                null
+                                                            ? RaisedButton(
+                                                                onPressed: null,
+                                                                shape: RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
                                                                             40.0)),
-                                                            color: Colors.white,
-                                                            child: new Row(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .center,
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .min,
-                                                              children: <
-                                                                  Widget>[
-                                                                new Text(
-                                                                    'Número de compartidas: ' +
-                                                                        snapshot.data[
-                                                                            "TOTALC"],
-                                                                    style: TextStyle(
-                                                                        fontSize:
-                                                                            20,
-                                                                        color: Colors
-                                                                            .black)),
-                                                                new Icon(
-                                                                  FontAwesomeIcons
-                                                                      .share,
-                                                                  color: Colors
-                                                                      .black,
-                                                                )
-                                                              ],
-                                                            ));
+                                                                color: Colors
+                                                                    .white,
+                                                                child: new Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .center,
+                                                                  mainAxisSize:
+                                                                      MainAxisSize
+                                                                          .min,
+                                                                  children: <
+                                                                      Widget>[
+                                                                    new Text(
+                                                                        'Número de compartidas: ' +
+                                                                            snapshot.data[
+                                                                                "TOTALC"],
+                                                                        style: TextStyle(
+                                                                            fontSize:
+                                                                                20,
+                                                                            color:
+                                                                                Colors.black)),
+                                                                    new Icon(
+                                                                      FontAwesomeIcons
+                                                                          .share,
+                                                                      color: Colors
+                                                                          .black,
+                                                                    )
+                                                                  ],
+                                                                ))
+                                                            : RaisedButton(
+                                                                onPressed: () {
+                                                                  setState(() {
+                                                                    Share.share(
+                                                                            'Descarga Cabofind, obten puntos y canjealos por increibles recompensas https://bit.ly/33ywdUS')
+                                                                        .then((value) =>
+                                                                            setState(() {
+                                                                              _insertShare();
+                                                                            }));
+                                                                  });
+                                                                },
+                                                                shape: RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            40.0)),
+                                                                color: Colors
+                                                                    .white,
+                                                                child: new Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .center,
+                                                                  mainAxisSize:
+                                                                      MainAxisSize
+                                                                          .min,
+                                                                  children: <
+                                                                      Widget>[
+                                                                    new Text(
+                                                                        'Número de compartidas: ' +
+                                                                            snapshot.data[
+                                                                                "TOTALC"],
+                                                                        style: TextStyle(
+                                                                            fontSize:
+                                                                                20,
+                                                                            color:
+                                                                                Colors.black)),
+                                                                    new Icon(
+                                                                      FontAwesomeIcons
+                                                                          .share,
+                                                                      color: Colors
+                                                                          .black,
+                                                                    )
+                                                                  ],
+                                                                ));
                                                       } else if (int.parse(
                                                               snapshot.data[
                                                                   "TOTALD"]) <=
@@ -468,7 +495,7 @@ class _DicePageState extends State<DicePage> with TickerProviderStateMixin {
                                                               children: <
                                                                   Widget>[
                                                                 new Text(
-                                                                    'Ya has completado tu límite de este mes :) 1',
+                                                                    'Ya has completado tu límite de este mes :)',
                                                                     style: TextStyle(
                                                                         fontSize:
                                                                             16,

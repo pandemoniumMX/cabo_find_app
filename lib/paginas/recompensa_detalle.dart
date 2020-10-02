@@ -110,7 +110,7 @@ class _Recompensa_detalleState extends State<Recompensa_detalle> {
                   print(total);
 
                   insertData(id_re, id_u, total, id_n);
-                  updatePuntos(id_re, id_u, total, id_n);
+                  //updatePuntos(id_re, id_u, total, id_n);
                   Navigator.of(context).pop();
                 },
               ),

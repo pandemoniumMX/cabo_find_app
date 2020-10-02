@@ -63,7 +63,7 @@ class _Recompensa_detalleState extends State<Cupones_detalles_ob> {
             return Column(
               children: [
                 FadeInImage(
-                  image: NetworkImage(data[index]["GAL_FOTO"]),
+                  image: NetworkImage(data[index]["REC_FOTO"]),
                   fit: BoxFit.fill,
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height * .35,
@@ -110,7 +110,7 @@ class _Recompensa_detalleState extends State<Cupones_detalles_ob> {
                             style: TextStyle(
                                 fontSize: 50,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.black),
+                                color: Color(0xff60032D)),
                             softWrap: true,
                             maxLines: 5,
                             textAlign: TextAlign.center,
