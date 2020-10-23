@@ -66,8 +66,8 @@ class _UsuarioState extends State<Usuario_ing> {
       child: FutureBuilder(
           future: _loadUser(),
           builder: (context, snapshot) {
-            String boolAsString = snapshot.data["USU_NOTIFICACIONES"];
-            bool isSwitched = boolAsString == 'true';
+            //String boolAsString = snapshot.data["USU_NOTIFICACIONES"];
+            //bool isSwitched = boolAsString == 'true';
             // bool isSwitched = snapshot.data["USU_NOTIFICACIONES"];
             switch (snapshot.connectionState) {
               case ConnectionState.none:
@@ -75,18 +75,15 @@ class _UsuarioState extends State<Usuario_ing> {
                 return Center(child: CircularProgressIndicator());
               default:
                 if (snapshot.hasError) {
-                  return Center(
-                      child: Text(
-                    "Error :(",
-                    style: TextStyle(color: Colors.black, fontSize: 25.0),
-                    textAlign: TextAlign.center,
-                  ));
+                  setState(() {
+                    _cerrarsesion();
+                  });
                 } else {
                   return ListView(
-                    shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
                     children: <Widget>[
-                      Center(
+                      Container(
+                        padding: const EdgeInsets.all(10),
                         child: Column(children: <Widget>[
                           Row(children: <Widget>[
                             Text(
@@ -217,7 +214,7 @@ class _UsuarioState extends State<Usuario_ing> {
                             ),
                           ]),
 
-                          Row(
+                          /*Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
                                 Text(
@@ -236,7 +233,7 @@ class _UsuarioState extends State<Usuario_ing> {
                                   activeTrackColor: Colors.black,
                                   activeColor: (Color(0xff773E42)),
                                 ),
-                              ]),
+                              ]),*/
 
                           Center(
                             child: RaisedButton(

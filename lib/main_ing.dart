@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:cabofind/main.dart';
 import 'package:cabofind/paginas_ing/acercade.dart';
 import 'package:cabofind/paginas_ing/compras.dart';
 import 'package:cabofind/paginas_ing/descubre.dart';
@@ -180,11 +181,13 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
   }
 
   void setupNotification() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
     _firebaseMessaging.requestNotificationPermissions();
 
     _firebaseMessaging.getToken().then((token) {
       print('===== FCM Token =====');
       print(token);
+      prefs.setString('stringToken', token);
     });
 
     _firebaseMessaging.configure(
@@ -321,16 +324,15 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
 
     Widget cuerpo = new GridView.builder(
       padding: EdgeInsets.only(top: 2),
-      shrinkWrap: true,
       itemCount: data == null ? 0 : data.length,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        childAspectRatio: 0.48,
+        childAspectRatio: 0.485,
       ),
-      itemBuilder: (BuildContext context, int index) => new Container(
-        height: 400,
-        padding: EdgeInsets.all(0.5),
-        margin: EdgeInsets.all(0.5),
+      itemBuilder: (BuildContext context, int index) => Container(
+        // height: 400,
+        padding: EdgeInsets.all(0),
+        margin: EdgeInsets.all(2),
         child: Stack(
           children: [
             InkWell(
@@ -521,16 +523,21 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
                 titlePadding: EdgeInsets.all(10.0),
                 background: GestureDetector(
                   onTap: () {},
-                  child: FadeInImage(
-                    image: NetworkImage(portada[0]["POR_FOTO_ING"]),
+                  child: CachedNetworkImage(
                     fit: BoxFit.cover,
                     width: MediaQuery.of(context).size.width,
-                    //height: MediaQuery.of(context).size.height * 0.38,
                     height: MediaQuery.of(context).size.height,
-                    // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
-                    placeholder:
-                        AssetImage('android/assets/images/loading.gif'),
-                    fadeInDuration: Duration(milliseconds: 200),
+                    imageUrl: portada[0]["POR_FOTO_ING"],
+                    progressIndicatorBuilder:
+                        (context, url, downloadProgress) => Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height,
+                      child: Center(
+                        child: CircularProgressIndicator(
+                            value: downloadProgress.progress),
+                      ),
+                    ),
+                    errorWidget: (context, url, error) => Icon(Icons.error),
                   ),
                 ),
                 centerTitle: false,
@@ -623,11 +630,11 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
                 new InkResponse(
                     onTap: () {
                       addStringToSF();
-                      Navigator.of(context).pop();
+                      //Navigator.of(context).pop();
                       Navigator.pushReplacement(
                           context,
                           new MaterialPageRoute(
-                              builder: (BuildContext context) => new Myapp()));
+                              builder: (BuildContext context) => new Myapp1()));
                     },
                     child: new Center(
                       //padding: const EdgeInsets.all(13.0),

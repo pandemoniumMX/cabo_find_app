@@ -74,8 +74,8 @@ class _UsuarioState extends State<Usuario> {
           child: FutureBuilder(
               future: _loadUser(),
               builder: (context, snapshot) {
-                String boolAsString = snapshot.data["USU_NOTIFICACIONES"];
-                bool isSwitched = boolAsString == 'true';
+                //String boolAsString = snapshot.data["USU_NOTIFICACIONES"];
+                //bool isSwitched = boolAsString == 'true';
                 // bool isSwitched = snapshot.data["USU_NOTIFICACIONES"];
                 switch (snapshot.connectionState) {
                   case ConnectionState.none:
@@ -83,6 +83,9 @@ class _UsuarioState extends State<Usuario> {
                     return Center(child: CircularProgressIndicator());
                   default:
                     if (snapshot.hasError) {
+                      setState(() {
+                        _cerrarsesion();
+                      });
                       return Center(
                           child: Text(
                         "Error :(",
@@ -160,7 +163,7 @@ class _UsuarioState extends State<Usuario> {
                                       style: TextStyle(
                                           fontSize: 15, color: Colors.white),
                                     ),
-                                    Switch(
+                                    /*Switch(
                                       value: isSwitched,
                                       onChanged: (value) {
                                         setState(() {
@@ -170,7 +173,7 @@ class _UsuarioState extends State<Usuario> {
                                       },
                                       activeTrackColor: Colors.lightGreenAccent,
                                       activeColor: Color(0xff773E42),
-                                    ),
+                                    ),*/
                                   ]),
 
                               Center(

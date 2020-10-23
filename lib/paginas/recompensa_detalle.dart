@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:cabofind/paginas/cupones_detalle.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'empresa_detalle.dart';
+
 class Recompensa_detalle extends StatefulWidget {
   final Publicacion2 publicacion;
 
@@ -132,48 +134,77 @@ class _Recompensa_detalleState extends State<Recompensa_detalle> {
             print(_meta);
 //print(_meta);
 
-            return new Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            return Column(
               children: [
-                _total >= _meta
-                    ? RaisedButton(
-                        onPressed: () {
-                          _confirmacion();
-                        },
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(40.0)),
-                        color: Colors.orange,
-                        child: new Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            new Text(' Obtener recompensa',
-                                style: TextStyle(
-                                    fontSize: 20, color: Colors.white)),
-                            new Icon(
-                              FontAwesomeIcons.gift,
-                              color: Colors.white,
-                            ),
-                          ],
-                        ))
-                    : RaisedButton(
-                        onPressed: null,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(40.0)),
-                        color: Color(0xff4267b2),
-                        child: new Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            new Text(' Necesitas más puntos ',
-                                style: TextStyle(
-                                    fontSize: 20, color: Colors.white)),
-                            new Icon(
-                              FontAwesomeIcons.frown,
-                              color: Colors.white,
-                            ),
-                          ],
-                        )),
+                new Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    _total >= _meta
+                        ? RaisedButton(
+                            onPressed: () {
+                              _confirmacion();
+                            },
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(40.0)),
+                            color: Colors.orange,
+                            child: new Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                new Text(' Obtener recompensa',
+                                    style: TextStyle(
+                                        fontSize: 20, color: Colors.white)),
+                                new Icon(
+                                  FontAwesomeIcons.gift,
+                                  color: Colors.white,
+                                ),
+                              ],
+                            ))
+                        : RaisedButton(
+                            onPressed: null,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(40.0)),
+                            color: Color(0xff4267b2),
+                            child: new Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                new Text(' Necesitas más puntos ',
+                                    style: TextStyle(
+                                        fontSize: 20, color: Colors.white)),
+                                new Icon(
+                                  FontAwesomeIcons.frown,
+                                  color: Colors.white,
+                                ),
+                              ],
+                            )),
+                  ],
+                ),
+                RaisedButton(
+                    onPressed: () {
+                      String id_sql = data[0]["negocios_ID_NEGOCIO"];
+                      Navigator.push(
+                          context,
+                          new MaterialPageRoute(
+                              builder: (context) => new Empresa_det_fin(
+                                  empresa: new Empresa(id_sql))));
+                    },
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(40.0)),
+                    color: Color(0xff773E42),
+                    child: new Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        new Text(' Ver negocio ',
+                            style:
+                                TextStyle(fontSize: 20, color: Colors.white)),
+                        new Icon(
+                          FontAwesomeIcons.eye,
+                          color: Colors.white,
+                        ),
+                      ],
+                    ))
               ],
             );
           }),

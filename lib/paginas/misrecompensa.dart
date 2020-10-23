@@ -173,7 +173,7 @@ class _UsuarioState extends State<Usuario> {
               ),
               content: Container(
                 width: double.maxFinite,
-                height: 170.0,
+                height: 200.0,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -202,7 +202,7 @@ class _UsuarioState extends State<Usuario> {
                       style: TextStyle(fontSize: 12),
                     ),
                     Text(
-                      'Términos: Deberás tener algúna identificación oficial para el reclamo. Después de reclamar tu recompensa, tendrás 7 días para usarla.',
+                      'Términos: Deberás tener algúna identificación oficial para el reclamo. Después de reclamar tu recompensa, tendrás 7 días para usarla. No podrás reclamar 2 veces la misma recompensa el mismo día.',
                       style: TextStyle(fontSize: 12),
                     ),
 
@@ -246,7 +246,7 @@ class _UsuarioState extends State<Usuario> {
             onPressed: () {
               FlutterYoutube.playYoutubeVideoByUrl(
                   apiKey: "AIzaSyAmNDqJm2s5Fpualsl_VF6LhG733knN0BY",
-                  videoUrl: 'https://www.youtube.com/watch?v=Wpwdd3Ibvpw',
+                  videoUrl: 'https://www.youtube.com/watch?v=hsLSjImkf-c',
                   autoPlay: false, //default falase
                   fullScreen: false //default false
                   );
@@ -549,10 +549,34 @@ class _State extends State<Login2> {
           style: TextStyle(
               fontSize: 25, color: Colors.black, fontWeight: FontWeight.bold),
         )),
+        SizedBox(
+          height: 20,
+        ),
         Center(
-            child: SizedBox(
-          height: 25.0,
-        )),
+            child: RaisedButton(
+                onPressed: () {
+                  FlutterYoutube.playYoutubeVideoByUrl(
+                      apiKey: "AIzaSyAmNDqJm2s5Fpualsl_VF6LhG733knN0BY",
+                      videoUrl: 'https://www.youtube.com/watch?v=hsLSjImkf-c',
+                      autoPlay: false, //default falase
+                      fullScreen: false //default false
+                      );
+                },
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(40.0)),
+                color: Colors.red,
+                child: new Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    new Icon(
+                      FontAwesomeIcons.youtube,
+                      color: Colors.white,
+                    ),
+                    new Text('  Ver video',
+                        style: TextStyle(fontSize: 25, color: Colors.white)),
+                  ],
+                ))),
       ],
     );
   }

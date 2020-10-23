@@ -8,6 +8,8 @@ import 'package:intl/intl.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'empresa_detalle.dart';
+
 class Cupones_detalles_ob extends StatefulWidget {
   final Publicacion publicacion;
 
@@ -144,6 +146,32 @@ class _Recompensa_detalleState extends State<Cupones_detalles_ob> {
                                   textAlign: TextAlign.center,
                                 )
                               ]),
+                          RaisedButton(
+                              onPressed: () {
+                                String id_sql = data[0]["negocios_ID_NEGOCIO"];
+                                Navigator.push(
+                                    context,
+                                    new MaterialPageRoute(
+                                        builder: (context) =>
+                                            new Empresa_det_fin(
+                                                empresa: new Empresa(id_sql))));
+                              },
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(40.0)),
+                              color: Color(0xff773E42),
+                              child: new Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  new Text(' Ver negocio ',
+                                      style: TextStyle(
+                                          fontSize: 20, color: Colors.white)),
+                                  new Icon(
+                                    FontAwesomeIcons.eye,
+                                    color: Colors.white,
+                                  ),
+                                ],
+                              ))
                         ],
                       ),
                     ),

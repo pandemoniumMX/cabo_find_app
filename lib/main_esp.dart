@@ -38,6 +38,7 @@ import 'package:cabofind/paginas/servicios.dart';
 import 'package:cabofind/paginas/compras.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:flutter_youtube/flutter_youtube.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
@@ -200,7 +201,6 @@ class _MyHomePageState extends State<MyHomePages> {
 */
   //final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
   int _page = 0;
-  int selectedIndex = 0;
   PageController _c;
   @override
   void initState() {
@@ -608,13 +608,13 @@ class _MyHomePageState extends State<MyHomePages> {
     );
   }
 
-  void versionError() {
+  versionError() {
     Fluttertoast.showToast(
-        msg: "Actualiza a la ultima versión :)",
+        msg: portada[0]["POR_MSJ"],
         toastLength: Toast.LENGTH_SHORT,
         backgroundColor: Colors.red,
         textColor: Colors.white,
-        timeInSecForIos: 2);
+        timeInSecForIos: 1);
   }
 
   Widget build(BuildContext context) {
@@ -865,14 +865,14 @@ routes: <String, WidgetBuilder>{
                       new MaterialPageRoute(
                           builder: (BuildContext context) => new Hoteles()));
                 } else if (ruta == "Cabofood") {
-                  apkversion == portada[0]["APK_VERSION"]
+                  /* apkversion == portada[0]["APK_VERSION"]
                       ? Navigator.push(
                           context,
                           new MaterialPageRoute(
                               builder: (BuildContext context) => new Domicilio(
                                   numeropagina: Categoria(0),
                                   numtab: Categoria(0))))
-                      : versionError();
+                      : versionError();*/
                 }
               },
             ),
@@ -911,7 +911,40 @@ routes: <String, WidgetBuilder>{
     );
 
     return Scaffold(
+      /* bottomNavigationBar: new BottomNavigationBar(
+        currentIndex: _page,
+        backgroundColor: Colors.white,
+        fixedColor: Color(0xff773E42),
+        unselectedItemColor: Colors.black54,
+        showUnselectedLabels: false,
+        //unselectedIconTheme: Colors.grey,
+
+        onTap: (index) {
+          this._c.animateToPage(index,
+              duration: const Duration(milliseconds: 100),
+              curve: Curves.bounceIn);
+        },
+        items: <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+              icon: Icon(
+                FontAwesomeIcons.home,
+              ),
+              title: Text("Inicio")),
+          BottomNavigationBarItem(
+              icon: Icon(
+                FontAwesomeIcons.gift,
+              ),
+              title: Text("Rewards")),
+          BottomNavigationBarItem(
+              icon: Icon(
+                FontAwesomeIcons.userAlt,
+              ),
+              title: Text("Perfil")),
+        ],
+      ),*/
+
       bottomNavigationBar: FFNavigationBar(
+        selectedIndex: _page,
         theme: FFNavigationBarTheme(
           barBackgroundColor: Colors.white,
           selectedItemBorderColor: Colors.white,
@@ -928,23 +961,11 @@ routes: <String, WidgetBuilder>{
             iconData: FontAwesomeIcons.gift,
             label: 'Rewards',
           ),
-          /*
-          
-          FFNavigationBarItem(
-            iconData: FontAwesomeIcons.fire,
-            label: 'Promos',
-          ),
-          
-          FFNavigationBarItem(
-            iconData: FontAwesomeIcons.solidHeart,
-            label: 'Favoritos',
-          ),*/
           FFNavigationBarItem(
             iconData: FontAwesomeIcons.userAlt,
             label: 'Cuenta',
           ),
         ],
-        selectedIndex: selectedIndex,
         onSelectTab: (index) {
           this._c.animateToPage(index,
               duration: const Duration(milliseconds: 10),
@@ -1072,11 +1093,11 @@ routes: <String, WidgetBuilder>{
                     onTap: () {
                       addStringToSF();
                       //Navigator.of(context).pop();
-                      Navigator.push(
+                      Navigator.pushReplacement(
                           context,
                           new MaterialPageRoute(
                               builder: (BuildContext context) =>
-                                  new MyHomePages_ing()));
+                                  new MyApp_ing()));
                     },
                     child: new Center(
                       //padding: const EdgeInsets.all(13.0),
@@ -1111,18 +1132,85 @@ routes: <String, WidgetBuilder>{
           ];
         },
         body: new PageView(
+          physics: const NeverScrollableScrollPhysics(),
           controller: _c,
           onPageChanged: (newPage) {
             setState(() {
               this._page = newPage;
-              selectedIndex = newPage;
+              // selectedIndex = newPage;
             });
           },
           children: <Widget>[
             cuerpo,
-            new Mis_recompensas(),
-            //new Mis_promos(),
-            //new Mis_favoritos(),
+            apkversion == portada[0]["APK_VERSION"]
+                ? Mis_recompensas()
+                : ListView(
+                    shrinkWrap: true,
+                    //addAutomaticKeepAlives: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    children: <Widget>[
+                      SizedBox(
+                        height: 100.0,
+                      ),
+                      Center(
+                        child: ClipRRect(
+                            borderRadius: BorderRadius.circular(8.0),
+                            child: Image.asset(
+                              "assets/cabofind.png",
+                              fit: BoxFit.fill,
+                              width: 150.0,
+                              height: 150.0,
+                            )),
+                      ),
+                      SizedBox(
+                        height: 50.0,
+                      ),
+                      //SizedBox(height: 25.0,),
+                      Center(
+                          child: Text(
+                        portada[0]["POR_MSJ"],
+                        style: TextStyle(
+                            fontSize: 25,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold),
+                      )),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Center(
+                          child: RaisedButton(
+                              onPressed: () {
+                                FlutterYoutube.playYoutubeVideoByUrl(
+                                    apiKey:
+                                        "AIzaSyAmNDqJm2s5Fpualsl_VF6LhG733knN0BY",
+                                    videoUrl:
+                                        'https://www.youtube.com/watch?v=hsLSjImkf-c',
+                                    autoPlay: false, //default falase
+                                    fullScreen: false //default false
+                                    );
+                              },
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(40.0)),
+                              color: Colors.red,
+                              child: new Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  new Icon(
+                                    FontAwesomeIcons.youtube,
+                                    color: Colors.white,
+                                  ),
+                                  new Text('  Ver video',
+                                      style: TextStyle(
+                                          fontSize: 25, color: Colors.white)),
+                                ],
+                              ))),
+                      Center(
+                          child: SizedBox(
+                        height: 25.0,
+                      )),
+                    ],
+                  ),
             new Login()
           ],
         ),

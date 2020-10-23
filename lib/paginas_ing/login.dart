@@ -8,6 +8,7 @@ import 'package:cabofind/utilidades/classes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -102,10 +103,8 @@ class _UsuarioState extends State<Usuario> {
 //login.setString('stringLogin', "False");
     login.clear();
 //login.setString('stringLogin', "True");
-    Navigator.pushReplacement(
-        context,
-        new MaterialPageRoute(
-            builder: (BuildContext context) => new MyApp_ing()));
+    Navigator.pushReplacement(context,
+        new MaterialPageRoute(builder: (BuildContext context) => new Myapp()));
   }
 
   @override
@@ -161,18 +160,22 @@ class _UsuarioState extends State<Usuario> {
                   ));
                 } else {
                   return ListView(
+                    physics: NeverScrollableScrollPhysics(),
                     children: <Widget>[
-                      Center(
+                      Container(
+                        padding: const EdgeInsets.all(10),
                         child: Column(children: <Widget>[
-                          Row(children: <Widget>[
-                            Text(
-                              "Profile",
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ]),
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text(
+                                  "Profile",
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ]),
 
                           Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -291,6 +294,15 @@ class _Compras2 extends State<Login2> {
     super.initState();
   }
 
+  baneadoLogin() {
+    Fluttertoast.showToast(
+      msg: "Can't login now",
+      toastLength: Toast.LENGTH_SHORT,
+      backgroundColor: Colors.red,
+      textColor: Colors.white,
+    );
+  }
+
   addLoginFB(FacebookLoginResult result) async {
     final SharedPreferences login = await SharedPreferences.getInstance();
     final token = result.accessToken.token;
@@ -305,23 +317,33 @@ class _Compras2 extends State<Login2> {
     );
 //final pictures= profile[ 'picture']["data"]["url"];
     final id = profile['id'];
+    final name = profile['name'];
     final correofb = profile['email'];
     final nombresfb = profile['first_name'];
     final apellidosfb = profile['last_name'];
     final imagenfb = profile['picture']["data"]["url"];
-
-    login.setString('stringLogin', "True");
-    login.setString('stringMail', correofb);
-
-    var response = await http.get(
+    String tokenfirebase;
+    tokenfirebase = login.getString("stringToken");
+    final response = await http.get(
         Uri.encodeFull(
-            'http://cabofind.com.mx/app_php/APIs/esp/insert_usuarios.php?NOMBRE=${nombresfb},${apellidosfb}&CORREO=${correofb}&FOTO=${imagenfb}&NOT=true&IDIOMA=ESP'),
+            'http://cabofind.com.mx/app_php/APIs/esp/insert_usuarios.php?NOMBRE=${nombresfb} ${apellidosfb}&CORREO=${correofb}&FOTO=${imagenfb}&NOT=true&IDIOMA=ING&IDF=${id}&TOKEN=${tokenfirebase}'),
         headers: {"Accept": "application/json"});
+    final perfil = json.decode(response.body);
 
-    Navigator.pushReplacement(
-        context,
-        new MaterialPageRoute(
-            builder: (BuildContext context) => new MyApp_ing()));
+    final val = perfil['USU_ESTATUS'];
+
+    if (val == 'A') {
+      login.setString('stringLogin', "True");
+      login.setString('stringMail', correofb);
+      login.setString('stringID', id);
+
+      Navigator.pushReplacement(
+          context,
+          new MaterialPageRoute(
+              builder: (BuildContext context) => new MyApp_ing()));
+    } else {
+      baneadoLogin();
+    }
   }
 
   addLoginG(FirebaseUser user, name, email, imageUrl) async {

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:math';
 import 'package:http/http.dart' as http;
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -13,6 +14,7 @@ class DicePage extends StatefulWidget {
 }
 
 class _DicePageState extends State<DicePage> with TickerProviderStateMixin {
+  bool _isVisibleAsi = true;
   int leftDiceNumber = 0;
   int start = 0;
   Animation _control;
@@ -146,6 +148,78 @@ class _DicePageState extends State<DicePage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    _sucess(BuildContext context, nombre, ciudad) async {
+      return showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text(
+                'Felicidades',
+                style: TextStyle(
+                  fontSize: 25.0,
+                ),
+              ),
+              content: Container(
+                  width: double.maxFinite,
+                  height: 100.0,
+                  child: Container(
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: 25,
+                        ),
+                        Text(
+                          'Obtuviste puntos para:',
+                          style: TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xff60032D)),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: Text(
+                            nombre,
+                            style: TextStyle(
+                                fontSize: 20,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            new Icon(
+                              FontAwesomeIcons.locationArrow,
+                              color: Colors.black87,
+                              size: 12,
+                            ),
+                            Text(
+                              '  ',
+                              style:
+                                  TextStyle(fontSize: 12, color: Colors.black),
+                            ),
+                            Text(
+                              ciudad,
+                              style: TextStyle(
+                                  fontSize: 12, color: Colors.black87),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  )),
+              actions: <Widget>[
+                new FlatButton(
+                  child: new Text('Cerrar'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                )
+              ],
+            );
+          });
+    }
+
     return Scaffold(
       appBar: AppBar(title: Text('Regresar')),
       body: Container(
@@ -153,7 +227,11 @@ class _DicePageState extends State<DicePage> with TickerProviderStateMixin {
         child: Column(
           children: [
             Text(
-              'Obten puntos para: ',
+              'Has un tiro y obten puntos',
+              style: TextStyle(fontSize: 20, color: Colors.black),
+            ),
+            Text(
+              'para un negocio participante',
               style: TextStyle(fontSize: 20, color: Colors.black),
             ),
             SizedBox(height: 10),
@@ -215,42 +293,6 @@ class _DicePageState extends State<DicePage> with TickerProviderStateMixin {
                                       if (snapshot.hasError) {
                                         return Column(
                                           children: [
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(5.0),
-                                              child: Text(
-                                                nombre,
-                                                style: TextStyle(
-                                                    fontSize: 25,
-                                                    color: Colors.black,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                            ),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                new Icon(
-                                                  FontAwesomeIcons
-                                                      .locationArrow,
-                                                  color: Colors.black87,
-                                                  size: 12,
-                                                ),
-                                                Text(
-                                                  '  ',
-                                                  style: TextStyle(
-                                                      fontSize: 12,
-                                                      color: Colors.black),
-                                                ),
-                                                Text(
-                                                  ciudad,
-                                                  style: TextStyle(
-                                                      fontSize: 12,
-                                                      color: Colors.black87),
-                                                ),
-                                              ],
-                                            ),
                                             RaisedButton(
                                                 onPressed: () {
                                                   _controller.isCompleted
@@ -259,6 +301,16 @@ class _DicePageState extends State<DicePage> with TickerProviderStateMixin {
                                                   throwDices();
                                                   _insertDado(
                                                       '$leftDiceNumber', _idnx);
+                                                  //  _sucess(context, nombre, ciudad);
+                                                  Fluttertoast.showToast(
+                                                      msg:
+                                                          "Felicidades, obtuviste puntos para $nombre - $ciudad",
+                                                      toastLength:
+                                                          Toast.LENGTH_LONG,
+                                                      backgroundColor:
+                                                          Color(0xff60032D),
+                                                      textColor: Colors.white,
+                                                      timeInSecForIos: 5);
                                                 },
                                                 shape: RoundedRectangleBorder(
                                                     borderRadius:
@@ -442,6 +494,20 @@ class _DicePageState extends State<DicePage> with TickerProviderStateMixin {
                                                                 _insertDado(
                                                                     '$leftDiceNumber',
                                                                     _idnx);
+                                                                Fluttertoast.showToast(
+                                                                    msg:
+                                                                        "Felicidades, obtuviste puntos para $nombre - $ciudad",
+                                                                    toastLength:
+                                                                        Toast
+                                                                            .LENGTH_LONG,
+                                                                    backgroundColor:
+                                                                        Color(
+                                                                            0xff60032D),
+                                                                    textColor:
+                                                                        Colors
+                                                                            .white,
+                                                                    timeInSecForIos:
+                                                                        5);
                                                               },
                                                               shape: RoundedRectangleBorder(
                                                                   borderRadius:
@@ -511,20 +577,13 @@ class _DicePageState extends State<DicePage> with TickerProviderStateMixin {
                                                             ));
                                                       }
                                                   }
-                                                })
+                                                }),
                                           ],
                                         );
                                       } else if (snapshot.data["ID_DADOS"] !=
                                           null) {
                                         return Column(
                                           children: [
-                                            Text(
-                                              nombre,
-                                              style: TextStyle(
-                                                  fontSize: 25,
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
                                             RaisedButton(
                                                 onPressed: null,
                                                 shape: RoundedRectangleBorder(
@@ -680,6 +739,20 @@ class _DicePageState extends State<DicePage> with TickerProviderStateMixin {
                                                                 _insertDado(
                                                                     '$leftDiceNumber',
                                                                     _idnx);
+                                                                Fluttertoast.showToast(
+                                                                    msg:
+                                                                        "Felicidades, obtuviste puntos para $nombre - $ciudad",
+                                                                    toastLength:
+                                                                        Toast
+                                                                            .LENGTH_LONG,
+                                                                    backgroundColor:
+                                                                        Color(
+                                                                            0xff60032D),
+                                                                    textColor:
+                                                                        Colors
+                                                                            .white,
+                                                                    timeInSecForIos:
+                                                                        5);
                                                               },
                                                               shape: RoundedRectangleBorder(
                                                                   borderRadius:
@@ -748,7 +821,78 @@ class _DicePageState extends State<DicePage> with TickerProviderStateMixin {
                                                             ));
                                                       }
                                                   }
-                                                })
+                                                }),
+                                            /* Offstage(
+                                              offstage: _isVisibleAsi,
+                                              child: Container(
+                                                child: Column(
+                                                  children: [
+                                                    SizedBox(
+                                                      height: 25,
+                                                    ),
+                                                    Text(
+                                                      'FELICIDADES!',
+                                                      style: TextStyle(
+                                                          fontSize: 22,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: Color(
+                                                              0xff60032D)),
+                                                    ),
+                                                    Text(
+                                                      'Obtuviste puntos para:',
+                                                      style: TextStyle(
+                                                          fontSize: 22,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: Color(
+                                                              0xff60032D)),
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              5.0),
+                                                      child: Text(
+                                                        nombre,
+                                                        style: TextStyle(
+                                                            fontSize: 25,
+                                                            color: Colors.black,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                      ),
+                                                    ),
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        new Icon(
+                                                          FontAwesomeIcons
+                                                              .locationArrow,
+                                                          color: Colors.black87,
+                                                          size: 12,
+                                                        ),
+                                                        Text(
+                                                          '  ',
+                                                          style: TextStyle(
+                                                              fontSize: 12,
+                                                              color:
+                                                                  Colors.black),
+                                                        ),
+                                                        Text(
+                                                          ciudad,
+                                                          style: TextStyle(
+                                                              fontSize: 12,
+                                                              color: Colors
+                                                                  .black87),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            )*/
                                           ],
                                         );
                                       }
