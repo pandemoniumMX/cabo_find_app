@@ -39,9 +39,9 @@ android {
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.israel.cabofind"
-        minSdkVersion 29
+        minSdkVersion 22 //requiere 29 para playstore
         targetSdkVersion 29
-        versionCode 81 //Ir aumentando la version
+        versionCode 82 //Ir aumentando la version
         versionName "1.7.2" //Ir aumentando la version
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }

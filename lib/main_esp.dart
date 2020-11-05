@@ -122,7 +122,7 @@ class _MyHomePageState extends State<MyHomePages> {
 
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/consultas_negocios/esp/estructura_esp.php"),
+            "http://cabofind.com.mx/app_php/consultas_negocios/esp/estructura_prueba.php"),
         headers: {"Accept": "application/json"});
 
     this.setState(() {
@@ -865,14 +865,14 @@ routes: <String, WidgetBuilder>{
                       new MaterialPageRoute(
                           builder: (BuildContext context) => new Hoteles()));
                 } else if (ruta == "Cabofood") {
-                  /* apkversion == portada[0]["APK_VERSION"]
+                apkversion == portada[0]["APK_VERSION"]
                       ? Navigator.push(
                           context,
                           new MaterialPageRoute(
                               builder: (BuildContext context) => new Domicilio(
                                   numeropagina: Categoria(0),
                                   numtab: Categoria(0))))
-                      : versionError();*/
+                      : versionError();
                 }
               },
             ),

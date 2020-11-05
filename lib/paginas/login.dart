@@ -690,7 +690,7 @@ Future<String> signInWithGoogle() async {
   }
 
   _launchURL() async {
-    const url = 'http://cabofind.com.mx/admin/politicas.html';
+    const url = 'http://controly.com.mx/politicas.html';
     if (await canLaunch(url)) {
       await launch(url);
     } else {
