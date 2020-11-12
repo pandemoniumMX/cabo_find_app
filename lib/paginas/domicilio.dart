@@ -10,6 +10,7 @@ import 'package:intl/intl.dart';
 
 import '../main_esp.dart';
 import 'list_manejador_menus.dart';
+import 'list_manejador_restaurantes.dart';
 import 'menu.dart';
 
 class Domicilio extends StatefulWidget {
@@ -26,6 +27,7 @@ class _DomicilioState extends State<Domicilio> {
   DateFormat dateFormat;
   List data;
   List restaurantes;
+  List nuevos;
   int _page;
   int selectedIndex;
   PageController _c;
@@ -38,6 +40,19 @@ class _DomicilioState extends State<Domicilio> {
 
     this.setState(() {
       data = json.decode(response.body);
+    });
+
+    return "Success!";
+  }
+
+  Future<String> getNew() async {
+    var response = await http.get(
+        Uri.encodeFull(
+            "http://cabofind.com.mx/app_php/APIs/esp/list_domicilio_rest_new.php"),
+        headers: {"Accept": "application/json"});
+
+    this.setState(() {
+      nuevos = json.decode(response.body);
     });
 
     return "Success!";
@@ -59,10 +74,10 @@ class _DomicilioState extends State<Domicilio> {
   void initState() {
     _page = widget.numeropagina.cat;
     selectedIndex = widget.numeropagina.cat;
-    print(_page);
     super.initState();
     this.getData();
     this.getRest();
+    this.getNew();
 
     _c = new PageController(
       initialPage: _page,
@@ -155,20 +170,20 @@ class _DomicilioState extends State<Domicilio> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          //mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             Icon(
                               FontAwesomeIcons.eye,
                               color: Color(0xff773E42),
                             ),
                             Text(
-                              ' Explora lo que tenemos para tí.',
+                              '  Explora lo que tenemos para tí.',
                               style: TextStyle(
                                   color: Color(0xff773E42),
                                   fontSize: 18,
                                   fontWeight: FontWeight.w600),
                             ),
-                            InkWell(
+                            /*InkWell(
                               child: Text(
                                 'Ver más',
                                 style: TextStyle(
@@ -177,7 +192,7 @@ class _DomicilioState extends State<Domicilio> {
                                     fontWeight: FontWeight.w600),
                               ),
                               onTap: () {},
-                            )
+                            )*/
                           ],
                         ),
                         SizedBox(
@@ -194,9 +209,19 @@ class _DomicilioState extends State<Domicilio> {
                       scrollDirection: Axis.horizontal,
                       itemCount: restaurantes == null ? 0 : restaurantes.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return new InkWell(
-                          onTap: () {},
-                          child: Column(
+                        String id_c = restaurantes[index]["ID_CAT_REST"];
+                        return InkWell(
+                          onTap: () {
+                            print(id_c);
+
+                            Navigator.push(
+                                context,
+                                new MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        new List_restaurantes_cat(
+                                            manejador: new Users(id_c))));
+                          },
+                          child: new Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
                               Stack(
@@ -247,20 +272,20 @@ class _DomicilioState extends State<Domicilio> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          // mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             Icon(
                               FontAwesomeIcons.mapMarkerAlt,
                               color: Color(0xff773E42),
                             ),
                             Text(
-                              'Restaurantes cerca de ti',
+                              ' Restaurantes cerca de tí',
                               style: TextStyle(
                                   color: Color(0xff773E42),
                                   fontSize: 18,
                                   fontWeight: FontWeight.w600),
                             ),
-                            InkWell(
+                            /*InkWell(
                               child: Text(
                                 'Ver más',
                                 style: TextStyle(
@@ -269,13 +294,13 @@ class _DomicilioState extends State<Domicilio> {
                                     fontWeight: FontWeight.w600),
                               ),
                               onTap: () {},
-                            )
+                            )*/
                           ],
                         ),
                         SizedBox(
                           height: 5,
                         ),
-                        Text('Descubre las diferentes categorías.')
+                        Text('Que se te antoja hoy?')
                       ],
                     ),
                   ),
@@ -299,9 +324,8 @@ class _DomicilioState extends State<Domicilio> {
 
                         //DateTime apertura2 = new DateFormat("kk:mm:ss").parse(hora);
                         String apertura = DateFormat('h:mm a').format(hora1);
-                        print(hora1);
-                        print(formattedTime);
-                        return estatus == 'B' //testing ==B
+
+                        return estatus != 'A' //testing ==B
                             ? new InkWell(
                                 onTap: () {},
                                 child: Column(
@@ -316,17 +340,21 @@ class _DomicilioState extends State<Domicilio> {
                                           child: ClipRRect(
                                             borderRadius:
                                                 BorderRadius.circular(10.0),
-                                            child: FadeInImage(
-                                              image: NetworkImage(
-                                                  data[index]['GAL_FOTO']),
+                                            child: CachedNetworkImage(
                                               fit: BoxFit.fill,
                                               width: 250,
                                               height: 150,
-                                              // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
-                                              placeholder: AssetImage(
-                                                  'android/assets/images/loading.gif'),
-                                              fadeInDuration:
-                                                  Duration(milliseconds: 200),
+                                              imageUrl: data[index]["GAL_FOTO"],
+                                              progressIndicatorBuilder:
+                                                  (context, url,
+                                                          downloadProgress) =>
+                                                      CircularProgressIndicator(
+                                                          value:
+                                                              downloadProgress
+                                                                  .progress),
+                                              errorWidget:
+                                                  (context, url, error) =>
+                                                      Icon(Icons.error),
                                             ),
                                           ),
                                         ),
@@ -465,17 +493,22 @@ class _DomicilioState extends State<Domicilio> {
                                               child: ClipRRect(
                                                 borderRadius:
                                                     BorderRadius.circular(10.0),
-                                                child: FadeInImage(
-                                                  image: NetworkImage(
-                                                      data[index]['GAL_FOTO']),
+                                                child: CachedNetworkImage(
                                                   fit: BoxFit.fill,
                                                   width: 250,
                                                   height: 150,
-                                                  // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
-                                                  placeholder: AssetImage(
-                                                      'android/assets/images/loading.gif'),
-                                                  fadeInDuration: Duration(
-                                                      milliseconds: 200),
+                                                  imageUrl: data[index]
+                                                      ["GAL_FOTO"],
+                                                  progressIndicatorBuilder: (context,
+                                                          url,
+                                                          downloadProgress) =>
+                                                      CircularProgressIndicator(
+                                                          value:
+                                                              downloadProgress
+                                                                  .progress),
+                                                  errorWidget:
+                                                      (context, url, error) =>
+                                                          Icon(Icons.error),
                                                 ),
                                               ),
                                             ),
@@ -529,20 +562,20 @@ class _DomicilioState extends State<Domicilio> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          //mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             Icon(
                               FontAwesomeIcons.fire,
                               color: Color(0xff773E42),
                             ),
                             Text(
-                              'Restaurantes nuevos.',
+                              ' Restaurantes nuevos.',
                               style: TextStyle(
                                   color: Color(0xff773E42),
                                   fontSize: 18,
                                   fontWeight: FontWeight.w600),
                             ),
-                            InkWell(
+                            /*InkWell(
                               child: Text(
                                 'Ver más',
                                 style: TextStyle(
@@ -551,7 +584,7 @@ class _DomicilioState extends State<Domicilio> {
                                     fontWeight: FontWeight.w600),
                               ),
                               onTap: () {},
-                            )
+                            )*/
                           ],
                         ),
                         SizedBox(
@@ -567,23 +600,26 @@ class _DomicilioState extends State<Domicilio> {
                       scrollDirection: Axis.horizontal,
                       shrinkWrap: true,
                       physics: BouncingScrollPhysics(),
-                      itemCount: data == null ? 0 : data.length,
+                      itemCount: nuevos == null ? 0 : nuevos.length,
                       itemBuilder: (BuildContext context, int index) {
-                        String id_n = data[index]["ID_NEGOCIO"];
-                        String hora = data[index]["HOR_APERTURA"];
-                        String estatus = data[index]["HOR_ESTATUS"];
-                        String horaclose = data[index]["HOR_CIERRE"];
+                        String id_n = nuevos[index]["ID_NEGOCIO"];
+                        String hora = nuevos[index]["HOR_APERTURA"];
+                        String estatus = nuevos[index]["HOR_ESTATUS"];
+                        String horaclose = nuevos[index]["HOR_CIERRE"];
                         String formattedTime = DateFormat('h:mm a').format(now);
                         DateTime hora1 = dateFormat.parse(hora);
                         DateTime horacerrar = dateFormat.parse(horaclose);
                         DateTime hora2 =
                             new DateFormat("h:mm a").parse(formattedTime);
 
-                        //DateTime apertura2 = new DateFormat("kk:mm:ss").parse(hora);
                         String apertura = DateFormat('h:mm a').format(hora1);
+                        print('aperturaaaaaaaaaaaaaaaaaa');
                         print(hora1);
-                        print(formattedTime);
-                        return estatus == 'B' //testing ==B
+                        print('cerrarrrrrrrrrrrrrrr');
+
+                        print(horacerrar);
+                        //  print(formattedTime);
+                        return estatus != 'A' //testing ==B
                             ? new InkWell(
                                 onTap: () {},
                                 child: Column(
@@ -600,7 +636,7 @@ class _DomicilioState extends State<Domicilio> {
                                                 BorderRadius.circular(10.0),
                                             child: FadeInImage(
                                               image: NetworkImage(
-                                                  data[index]['GAL_FOTO']),
+                                                  nuevos[index]['GAL_FOTO']),
                                               fit: BoxFit.fill,
                                               width: 300,
                                               height: 150,
@@ -640,7 +676,7 @@ class _DomicilioState extends State<Domicilio> {
                                           const EdgeInsets.only(left: 10.0),
                                       child: Row(
                                         children: [
-                                          new Text(data[index]['NEG_NOMBRE'],
+                                          new Text(nuevos[index]['NEG_NOMBRE'],
                                               style: new TextStyle(
                                                 color: Colors.black,
                                                 fontSize: 12.0,
@@ -648,7 +684,8 @@ class _DomicilioState extends State<Domicilio> {
                                                 //  backgroundColor: Colors.black45
                                               )),
                                           new Text(
-                                              ' - ' + data[index]['CAT_NOMBRE'],
+                                              ' - ' +
+                                                  nuevos[index]['CAT_NOMBRE'],
                                               style: new TextStyle(
                                                 color: Colors.black,
                                                 fontSize: 12.0,
@@ -662,8 +699,9 @@ class _DomicilioState extends State<Domicilio> {
                                   ],
                                 ),
                               )
-                            // : hora1.isBefore(hora2) &&             horacerrar.isAfter(hora2) //correcto
-                            : hora1 != null //testing
+                            : hora1.isBefore(hora2) &&
+                                    horacerrar.isAfter(hora2) //correcto
+                                // : hora1 != null //testing
                                 ? new InkWell(
                                     onTap: () {
                                       Navigator.pushReplacement(
@@ -688,7 +726,8 @@ class _DomicilioState extends State<Domicilio> {
                                               fit: BoxFit.fill,
                                               width: 300,
                                               height: 150,
-                                              imageUrl: data[index]["GAL_FOTO"],
+                                              imageUrl: nuevos[index]
+                                                  ["GAL_FOTO"],
                                               progressIndicatorBuilder:
                                                   (context, url,
                                                           downloadProgress) =>
@@ -708,7 +747,7 @@ class _DomicilioState extends State<Domicilio> {
                                           child: Row(
                                             children: [
                                               new Text(
-                                                  data[index]['NEG_NOMBRE'],
+                                                  nuevos[index]['NEG_NOMBRE'],
                                                   style: new TextStyle(
                                                     color: Colors.black,
                                                     fontSize: 12.0,
@@ -717,7 +756,8 @@ class _DomicilioState extends State<Domicilio> {
                                                   )),
                                               new Text(
                                                   ' - ' +
-                                                      data[index]['CAT_NOMBRE'],
+                                                      nuevos[index]
+                                                          ['CAT_NOMBRE'],
                                                   style: new TextStyle(
                                                     color: Colors.black,
                                                     fontSize: 12.0,
@@ -746,17 +786,22 @@ class _DomicilioState extends State<Domicilio> {
                                               child: ClipRRect(
                                                 borderRadius:
                                                     BorderRadius.circular(10.0),
-                                                child: FadeInImage(
-                                                  image: NetworkImage(
-                                                      data[index]['GAL_FOTO']),
+                                                child: CachedNetworkImage(
                                                   fit: BoxFit.fill,
-                                                  width: 250,
+                                                  width: 300,
                                                   height: 150,
-                                                  // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
-                                                  placeholder: AssetImage(
-                                                      'android/assets/images/loading.gif'),
-                                                  fadeInDuration: Duration(
-                                                      milliseconds: 200),
+                                                  imageUrl: nuevos[index]
+                                                      ["GAL_FOTO"],
+                                                  progressIndicatorBuilder: (context,
+                                                          url,
+                                                          downloadProgress) =>
+                                                      CircularProgressIndicator(
+                                                          value:
+                                                              downloadProgress
+                                                                  .progress),
+                                                  errorWidget:
+                                                      (context, url, error) =>
+                                                          Icon(Icons.error),
                                                 ),
                                               ),
                                             ),
@@ -788,7 +833,7 @@ class _DomicilioState extends State<Domicilio> {
                                           padding:
                                               const EdgeInsets.only(left: 10.0),
                                           child: new Text(
-                                              data[index]['NEG_NOMBRE'],
+                                              nuevos[index]['NEG_NOMBRE'],
                                               style: new TextStyle(
                                                 color: Colors.black,
                                                 fontSize: 12.0,

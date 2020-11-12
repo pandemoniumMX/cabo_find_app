@@ -1,6 +1,7 @@
 nox_adb.exe connect 127.0.0.1:62001
 
 adb kill-server
+./adb kill-server
 ./nox_adb.exe connect 127.0.0.1:62001
 
 D:\Program Files\Nox\bin

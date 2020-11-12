@@ -46,7 +46,6 @@ class _Menu_majeadorState extends State<Menu_manejador>
 
   bool _isVisibleAsi = true;
 
-  final bool expanded = false;
   Future<String> _logcheck() async {
     final SharedPreferences login = await SharedPreferences.getInstance();
     setState(() {

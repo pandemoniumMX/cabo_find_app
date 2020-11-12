@@ -30,7 +30,6 @@ class Preparing extends StatefulWidget {
 }
 
 class _Compras extends State<Preparing> {
-  int _value = 1;
   //bool isLoggedIn = false;
   //final GlobalKey<State> _keyLoader = new GlobalKey<State>();
   void initState() {
@@ -42,7 +41,6 @@ class _Compras extends State<Preparing> {
     final SharedPreferences login = await SharedPreferences.getInstance();
     String _mail2 = "";
     _mail2 = login.getString("stringID");
-    print(widget.negocio.correo);
     http.Response response = await http.get(
         "http://cabofind.com.mx/app_php/APIs/esp/check_pedidos.php?IDF=$_mail2&IDN=${widget.negocio.correo}");
 
@@ -151,10 +149,7 @@ class _UsuarioState extends State<Carritox> {
 
     geo.Position position = await geo.Geolocator().getCurrentPosition(
         desiredAccuracy: geo.LocationAccuracy.bestForNavigation);
-    debugPrint('location: ${position.latitude}');
     final coordinates = new Coordinates(position.latitude, position.longitude);
-
-    print(coordinates.longitude);
 
     double coor = coordinates.latitude;
     double long = coordinates.longitude;
@@ -163,11 +158,8 @@ class _UsuarioState extends State<Carritox> {
         "https://maps.googleapis.com/maps/api/distancematrix/json?units=kilometer&origins=$coor,$long&destinations=$latn,$longn&key=AIzaSyA152PLBZLFqFlUMKQhMce3Z18OMGhPY6w");
     Map<String, dynamic> map = json.decode(response.body);
     List<dynamic> data = map["rows"];
-    print(data[0]['elements'][0]['distance']['text']);
     int distancia = data[0]['elements'][0]['distance']['value'];
     double subdistancia = distancia / 1000;
-
-    print('distancia numerica' + distanciafinal.toString());
 
     var addresses =
         await Geocoder.local.findAddressesFromCoordinates(coordinates);
@@ -185,14 +177,11 @@ class _UsuarioState extends State<Carritox> {
       setState(() {
         if (distancia <= 2999) {
           envio3 = 30.0;
-          print('costo 3 de envio' + envio3.toString());
         } else if (distancia >= 3000 && distancia <= 4999) {
           envio3 = 50.0;
-          print('costo 3 de envio' + envio3.toString());
         } else if (distancia >= 5000) {
           double distanciaplus = distancia / 110;
           envio3 = distanciaplus.roundToDouble();
-          print('costo 3 de envio' + envio3.toString());
         }
 
         distanciafinal = subdistancia;
@@ -256,19 +245,23 @@ class _UsuarioState extends State<Carritox> {
         children: <Widget>[
           Container(
               margin: EdgeInsets.only(left: 10),
-              padding: EdgeInsets.all(10),
+              padding: EdgeInsets.all(5),
               child: Text(
                 'Mi orden',
                 style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
               )),
           Container(
-              margin: EdgeInsets.all(10),
-              padding: EdgeInsets.all(10),
+              margin: EdgeInsets.all(5),
+              padding: EdgeInsets.all(5),
               child: Row(children: <Widget>[
                 Flexible(
                   child: Text(
                     'Estás ordenando en ' + data[0]["NEG_NOMBRE"],
-                    style: TextStyle(fontSize: 15),
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xff773E42),
+                    ),
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
@@ -585,26 +578,38 @@ class _UsuarioState extends State<Carritox> {
                   margin: EdgeInsets.only(left: 10),
                   padding: EdgeInsets.all(10),
                   child: Text(
-                    'Tipo de orden',
+                    'Tipo de envío',
                     style: TextStyle(
                       fontSize: 18,
                     ),
                   )),
-              DropdownButton(
-                  isExpanded: false,
-                  value: _value,
-                  items: [
-                    DropdownMenuItem(child: Text("Domicilio"), value: 1),
-                    DropdownMenuItem(child: Text("Recoger"), value: 2),
-                  ],
-                  onChanged: (valuex) {
-                    setState(() {
-                      _value = valuex;
-                    });
-                  }),
+              data[0]["NEG_TIPO"] == "A"
+                  ? DropdownButton(
+                      isExpanded: false,
+                      value: _value,
+                      items: [
+                        DropdownMenuItem(child: Text("Recoger"), value: 1),
+                      ],
+                      onChanged: (valuex) {
+                        setState(() {
+                          _value = valuex;
+                        });
+                      })
+                  : DropdownButton(
+                      isExpanded: false,
+                      value: _value,
+                      items: [
+                        DropdownMenuItem(child: Text("Recoger"), value: 1),
+                        DropdownMenuItem(child: Text("Domicilio"), value: 2),
+                      ],
+                      onChanged: (valuex) {
+                        setState(() {
+                          _value = valuex;
+                        });
+                      })
             ],
           ),
-          _value == 1
+          _value == 2
               ? //domicilio
               FutureBuilder(
                   future: _checkDireccion(),
@@ -757,10 +762,7 @@ class _UsuarioState extends State<Carritox> {
                                               ))
                                         ],
                                       ),
-                                      Divider(
-                                        thickness: 2,
-                                      ),
-                                      Container(
+                                      /*Container(
                                           margin: EdgeInsets.only(left: 10),
                                           padding: EdgeInsets.all(10),
                                           child: Text(
@@ -807,7 +809,7 @@ class _UsuarioState extends State<Carritox> {
                                                   onPressed: () {},
                                                   child: Text('Check')))
                                         ],
-                                      ),
+                                      ),*/
                                       Container(
                                           margin: EdgeInsets.only(left: 10),
                                           padding: EdgeInsets.all(10),
@@ -827,7 +829,7 @@ class _UsuarioState extends State<Carritox> {
                                                       .width /
                                                   1.4,
                                               child: Text(
-                                                'Efectivo',
+                                                ' Sólo efectivo',
                                                 style: TextStyle(
                                                     color: Colors.black54,
                                                     fontSize: 18),
@@ -1233,7 +1235,7 @@ class _UsuarioState extends State<Carritox> {
                               padding: EdgeInsets.all(10),
                               width: MediaQuery.of(context).size.width / 1.4,
                               child: Text(
-                                'Efectivo',
+                                'Sólo efectivo',
                                 style: TextStyle(
                                     color: Colors.black54, fontSize: 18),
                               ))
