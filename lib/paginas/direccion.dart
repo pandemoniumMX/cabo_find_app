@@ -11,7 +11,6 @@ import 'package:location/location.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Mi_direccion extends StatefulWidget {
@@ -85,19 +84,21 @@ class _Mi_direccionState extends State<Mi_direccion> {
       // print(addresses.getRange(1, 3).first.addressLine);vo
       //print(addresses.single.adminArea);
       var cp2 = addresses.first.postalCode; //= cp
-      var calle2 = addresses.getRange(1, 2).first.addressLine; //= calle.
+      var calle2 = addresses.getRange(0, 1).first.addressLine; //= calle.
       var ciudad2 = addresses.first.locality; //= ciudad
       var col2 = addresses.first.subLocality; //= colonia
 
-      setState(() {
-        distanciafinal = subdistancia;
+setState(() {
+  distanciafinal = subdistancia;
         cp = new TextEditingController(text: cp2);
         calle = new TextEditingController(text: calle2);
         colonia = new TextEditingController(text: col2);
         ciudad = new TextEditingController(text: ciudad2);
-        _miciudad2 = ciudad2;
-        print(_miciudad2);
-      });
+});
+      
+        
+        
+     
     } on PlatformException {
       geo.Position position = null;
     }
@@ -153,7 +154,6 @@ class _Mi_direccionState extends State<Mi_direccion> {
     super.initState();
     _getCurrentLocation();
     _currentLocation();
-
     rootBundle.loadString('assets/map_style1.txt').then((string) {
       _mapStyle = string;
     });

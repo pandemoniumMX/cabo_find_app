@@ -122,6 +122,7 @@ class _UsuarioState extends State<Carritox> {
     http.Response response = await http.get(
         "http://cabofind.com.mx/app_php/APIs/esp/check_direccion_api.php?IDF=$_mail2");
     return json.decode(response.body);
+
   }
 
   Future<String> _eliminarItem(String id) async {
@@ -561,17 +562,22 @@ class _UsuarioState extends State<Carritox> {
                   )),
             ],
           ),
-          Divider(
-            thickness: 1,
-          ),
-          Container(
-              margin: EdgeInsets.only(left: 10),
-              padding: EdgeInsets.all(10),
-              child: Text(
-                'Acerca de la orden',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              )),
-          Row(
+          
+          //domicilio
+              FutureBuilder(
+                  future: _checkDireccion(),
+                  builder: (context, snapshot) {
+                    switch (snapshot.connectionState) {
+                      case ConnectionState.none:
+                      case ConnectionState.waiting:
+                        return Center(child: CircularProgressIndicator());
+                      default:
+                        if (snapshot.hasError) { 
+                          total =  double.parse(data[0]["Total"]);//sino encuentra guardada la direccion
+                          return distanciafinal <= 9.0  //validacion de distancia con el restaurante
+                          ? Column(children: [ 
+
+                            Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Container(
@@ -609,19 +615,13 @@ class _UsuarioState extends State<Carritox> {
                       })
             ],
           ),
-          _value == 2
-              ? //domicilio
-              FutureBuilder(
-                  future: _checkDireccion(),
-                  builder: (context, snapshot) {
-                    switch (snapshot.connectionState) {
-                      case ConnectionState.none:
-                      case ConnectionState.waiting:
-                        return Center(child: CircularProgressIndicator());
-                      default:
-                        if (snapshot.hasError) {
-                          return InkWell(
-                            onTap: () {
+
+                          Column(crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+
+                            
+
+                           _value == 2 ? InkWell(onTap: (){
                               Navigator.push(
                                   context,
                                   new MaterialPageRoute(
@@ -630,16 +630,17 @@ class _UsuarioState extends State<Carritox> {
                                                 widget.negocio.correo,
                                                 latd,
                                                 longd), distancia: Distancia(distanciafinal),
-                                          )));
-                            },
-                            child: Row(
+                                          )));},
+                                                          child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
+
+                                
                                 Container(
                                     margin: EdgeInsets.only(left: 10),
                                     padding: EdgeInsets.all(10),
                                     width: 100,
-                                    height: 100,
+                                    height: 50,
                                     child: Text(
                                       'Dirección',
                                       style: TextStyle(
@@ -652,218 +653,71 @@ class _UsuarioState extends State<Carritox> {
                                 ),
                                 Icon(FontAwesomeIcons.chevronRight),
                               ],
-                            ),
-                          );
-                        } else {
-                          total = envio3 +
-                              double.parse(data[0]["Total"]); //suma totalx
-                          return distanciafinal <= 8.0
-                              ? Form(
-                                  key: _formKey,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      InkWell(
-                                        onTap: () {
-                                          Navigator.push(
-                                              context,
-                                              new MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      new Mi_direccion(
-                                                        ubicacion: Latlong(
-                                                widget.negocio.correo,
-                                                latd,
-                                                longd), distancia: Distancia(distanciafinal),
-                                                      )));
-                                        },
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: <Widget>[
-                                            Container(
-                                                margin:
-                                                    EdgeInsets.only(left: 10),
-                                                padding: EdgeInsets.all(10),
-                                                child: Text(
-                                                  'Dirección',
-                                                  style: TextStyle(
-                                                    fontSize: 18,
-                                                  ),
-                                                )),
-                                            Flexible(
-                                              child: Text(
-                                                snapshot.data['DIC_CALLE'],
-                                                style: TextStyle(
-                                                    color: Color(0xff773E42),
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                                overflow: TextOverflow.ellipsis,
+                          ),
+                            ): SizedBox(),
+
+                            _value == 1 ? 
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,  children: [
+
+                                      Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Container(
+                                            margin: EdgeInsets.only(left: 10),
+                                            padding: EdgeInsets.all(10),
+                                            child: Text(
+                                              'Tiempo de preparación ',
+                                              style: TextStyle(
+                                                fontSize: 18,
                                               ),
-                                            ),
-                                            Container(
-                                                margin:
-                                                    EdgeInsets.only(right: 10),
-                                                child: Icon(
-                                                  FontAwesomeIcons.check,
-                                                  color: Color(0xff773E42),
-                                                  size: 18,
-                                                )),
-                                          ],
-                                        ),
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          Container(
-                                              margin: EdgeInsets.only(left: 10),
-                                              padding: EdgeInsets.all(10),
-                                              child: Text(
-                                                'Costo de envío',
-                                                style: TextStyle(
-                                                  fontSize: 18,
-                                                ),
-                                              )),
-                                          Container(
-                                              margin: EdgeInsets.only(left: 10),
-                                              padding: EdgeInsets.all(10),
-                                              child: Text(
-                                                '\$' + envio3.toString(),
-                                                style: TextStyle(
-                                                    fontSize: 18,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ))
-                                        ],
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          Container(
-                                              margin: EdgeInsets.only(left: 10),
-                                              padding: EdgeInsets.all(10),
-                                              child: Text(
-                                                'Tiempo de entrega ',
-                                                style: TextStyle(
-                                                  fontSize: 18,
-                                                ),
-                                              )),
-                                          Container(
-                                              margin: EdgeInsets.only(left: 10),
-                                              padding: EdgeInsets.all(10),
-                                              child: Text(
-                                                tiempptxt.toString() +
-                                                    ' Minutos',
-                                                style: TextStyle(
-                                                    fontSize: 16,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ))
-                                        ],
-                                      ),
-                                      /*Container(
-                                          margin: EdgeInsets.only(left: 10),
-                                          padding: EdgeInsets.all(10),
-                                          child: Text(
-                                            '¿Cupón de descuento?',
-                                            style: TextStyle(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.bold),
-                                          )),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          Container(
-                                              margin: EdgeInsets.only(left: 10),
-                                              padding: EdgeInsets.all(10),
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  1.4,
-                                              child: TextField(
-                                                readOnly: true,
-                                                controller: cupon,
-                                                enabled: true,
-                                                decoration: InputDecoration(
-                                                    focusColor:
-                                                        Color(0xffD3D7D6),
-                                                    hoverColor:
-                                                        Color(0xffD3D7D6),
-                                                    hintText:
-                                                        'Ingresa un cupon válido'),
-                                              )),
-                                          Container(
-                                              margin:
-                                                  EdgeInsets.only(right: 10),
-                                              padding: EdgeInsets.all(1),
-                                              child: FlatButton(
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              5.0),
-                                                      side: BorderSide(
-                                                          color: Color(
-                                                              0xffD3D7D6))),
-                                                  onPressed: () {},
-                                                  child: Text('Check')))
-                                        ],
-                                      ),*/
-                                      Container(
-                                          margin: EdgeInsets.only(left: 10),
-                                          padding: EdgeInsets.all(10),
-                                          child: Text(
-                                            'Forma de pago',
-                                            style: TextStyle(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.bold),
-                                          )),
-                                      Row(
-                                        children: <Widget>[
-                                          Container(
-                                              margin: EdgeInsets.only(left: 10),
-                                              padding: EdgeInsets.all(10),
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  1.4,
-                                              child: Text(
-                                                ' Sólo efectivo',
-                                                style: TextStyle(
-                                                    color: Colors.black54,
-                                                    fontSize: 18),
-                                              ) /*DropdownButtonFormField<String>(
-                                          items: [
-                                            DropdownMenuItem<String>(
-                                              child: Text('Efectivo'),
-                                              value: 'Efectivo',
-                                            ),
-                                            /*  DropdownMenuItem<String>(
-                                              child: Text('Tarjeta'),
-                                              value: null,
-                                            ),*/
-                                          ],
-                                          onChanged: (String value) {
-                                            setState(() {
-                                              valpago = value;
-                                            });
-                                          },
-                                          hint:
-                                              Text('Selecciona forma de pago'),
-                                          value: valpago,
-                                          validator: (value) => value == null
-                                              ? 'Campo requerido'
-                                              : null,
-                                        ),*/
-                                              )
-                                        ],
-                                      ),
-                                      Container(
+                                            )),
+                                        Container(
+                                            margin: EdgeInsets.only(left: 10),
+                                            padding: EdgeInsets.all(10),
+                                            child: Text(
+                                              tiempoprep.toString() +
+                                                  ' Minutos',
+                                              style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight:
+                                                      FontWeight.bold),
+                                            ))
+                                      ],
+                                    ),
+                                 
+                                    Container(
+                                        margin: EdgeInsets.only(left: 10),
+                                        padding: EdgeInsets.all(10),
+                                        child: Text(
+                                          'Forma de pago',
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold),
+                                        )),
+                                    Row(
+                                      children: <Widget>[
+                                        Container(
+                                            margin: EdgeInsets.only(left: 10),
+                                            padding: EdgeInsets.all(10),
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                1.4,
+                                            child: Text(
+                                              ' Sólo efectivo',
+                                              style: TextStyle(
+                                                  
+                                                  fontSize: 18),
+                                            ) 
+                                            )
+                                      ],
+                                    ),
+                                    Container(
                                         //color: Color(0xffD3D7D6),
                                         margin: EdgeInsets.only(
-                                            left: 50, right: 50),
+                                            left: 50, right: 50, top: 10,bottom: 10),
                                         decoration: BoxDecoration(
                                           color: Color(0xffD3D7D6),
                                           shape: BoxShape.rectangle,
@@ -901,14 +755,10 @@ class _UsuarioState extends State<Carritox> {
                                           ],
                                         ),
                                       ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      distanciafinal <= 8.0
-          ? Container(
-                                        height: 50,
-                                        width:
-                                            MediaQuery.of(context).size.width,
+                                    Container(
+                                      margin: EdgeInsets.only(top:5),
+                                        height: 55,
+                                        width:MediaQuery.of(context).size.width,
                                         child: RaisedButton(
                                           onPressed: () {
                                             if (_formKey.currentState
@@ -983,120 +833,115 @@ class _UsuarioState extends State<Carritox> {
                                             style: TextStyle(fontSize: 20),
                                           ),
                                         ),
-                                      ):Container(
-              height: 50,
-              child: RaisedButton(
-                onPressed: null,
-                color: Colors.grey,
-                textColor: Colors.white,
-                child: Text(
-                  'Distancia demasiado lejana :(',
-                  style: TextStyle(fontSize: 20),
-                ),
-              ),
-            ),
-                                    ],
-                                  ),
-                                )
-                              : Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Container(
-                              margin: EdgeInsets.only(left: 10),
-                              padding: EdgeInsets.all(10),
-                              child: Text(
-                                'Tiempo de preparación ',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                ),
-                              )),
-                          Container(
-                              margin: EdgeInsets.only(left: 10),
-                              padding: EdgeInsets.all(10),
-                              child: Text(
-                                tiempoprep.toString() + ' Minutos',
-                                style: TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.bold),
-                              ))
-                        ],
-                      ),Container(
-                          margin: EdgeInsets.only(left: 10),
-                          padding: EdgeInsets.all(10),
-                          child: Text(
-                            'Forma de pago',
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold),
-                          )),
-                      Row(
-                        children: <Widget>[
-                          Container(
-                              margin: EdgeInsets.only(left: 10),
-                              padding: EdgeInsets.all(10),
-                              width: MediaQuery.of(context).size.width / 1.4,
-                              child: Text(
-                                'Sólo efectivo',
-                                style: TextStyle(
-                                    color: Colors.black54, fontSize: 18),
-                              ))
-                        ],
-                      ),
-                                   
-                                   
-                                    
-                                    /*Container(
-                                        margin: EdgeInsets.only(left: 10),
-                                        padding: EdgeInsets.all(10),
-                                        child: Text(
-                                          '¿Cupón de descuento?',
-                                          style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold),
-                                        )),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: <Widget>[
-                                        Container(
-                                            margin: EdgeInsets.only(left: 10),
-                                            padding: EdgeInsets.all(10),
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                1.4,
-                                            child: TextField(
-                                              controller: cupon,
-                                              enabled: false,
-                                              readOnly: true,
-                                              decoration: InputDecoration(
-                                                  focusColor: Color(0xffD3D7D6),
-                                                  hoverColor: Color(0xffD3D7D6),
-                                                  hintText:
-                                                      'Ingresa un cupon válido'),
-                                            )),
-                                        Container(
-                                            margin: EdgeInsets.only(right: 10),
-                                            padding: EdgeInsets.all(1),
-                                            //color: Color(0xff773E42),
-                                            child: FlatButton(
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            5.0),
-                                                    side: BorderSide(
-                                                        color:
-                                                            Color(0xffD3D7D6))),
-                                                onPressed: () {},
-                                                child: Text('Check')))
-                                      ],
-                                    ),*/
-                                   
-                                    SizedBox(
-                                      height: 10,
-                                    ),
+                                      )
+                              
+                            ],) :  
+                            _value == 2 ?  Column(crossAxisAlignment: CrossAxisAlignment.start,//a domicilio sin datos guardados
+                            children: [
+
+                              
                                     Container(
+                                      //color: Color(0xffD3D7D6),
+                                      margin: EdgeInsets.only(
+                                          left: 50, right: 50),
+                                      decoration: BoxDecoration(
+                                        color: Color(0xffD3D7D6),
+                                        shape: BoxShape.rectangle,
+                                        borderRadius:
+                                            BorderRadius.circular(5.0),
+                                        //  border: Border.all(width: 1, color: Color(0xffD3D7D6))
+                                      ),
+                                    
+                                    ),
+                                  
+
+                            ],) :SizedBox()
+                          
+
+                          ],)]
+                        ) : 
+                          Column(crossAxisAlignment: CrossAxisAlignment.start, //en caso de tener direccion guardada
+                          children: [
+                            Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: <Widget>[
+                                          Container(
+                                              margin: EdgeInsets.only(left: 10),
+                                              padding: EdgeInsets.all(10),
+                                              child: Text(
+                                                'Costo de envío',
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                ),
+                                              )),
+                                          Container(
+                                              margin: EdgeInsets.only(left: 10),
+                                              padding: EdgeInsets.all(10),
+                                              child: Text(
+                                                '\$' '0',
+                                                style: TextStyle(
+                                                    fontSize: 18,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ))
+                                        ],
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: <Widget>[
+                                          Container(
+                                              margin: EdgeInsets.only(left: 10),
+                                              padding: EdgeInsets.all(10),
+                                              child: Text(
+                                                'Tiempo de entrega ',
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                ),
+                                              )),
+                                          Container(
+                                              margin: EdgeInsets.only(left: 10),
+                                              padding: EdgeInsets.all(10),
+                                              child: Text(
+                                                '0'+
+                                                    ' Minutos',
+                                                style: TextStyle(
+                                                    fontSize: 16,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ))
+                                        ],
+                                      ),
+                                   
+                                      Container(
+                                          margin: EdgeInsets.only(left: 10),
+                                          padding: EdgeInsets.all(10),
+                                          child: Text(
+                                            'Forma de pago',
+                                            style: TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.bold),
+                                          )),
+                                      Row(
+                                        children: <Widget>[
+                                          Container(
+                                              margin: EdgeInsets.only(left: 10),
+                                              padding: EdgeInsets.all(10),
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  1.4,
+                                              child: Text(
+                                                ' Sólo efectivo',
+                                                style: TextStyle(
+                                                    
+                                                    fontSize: 18),
+                                              ) 
+                                              )
+                                        ],
+                                      ),
+                                      Container(
                                       height: 50,
                                       width: MediaQuery.of(context).size.width,
                                       child: RaisedButton(
@@ -1108,299 +953,590 @@ class _UsuarioState extends State<Carritox> {
                                           style: TextStyle(fontSize: 20),
                                         ),
                                       ),
-                                    )
-                                  ],
-                                );
+                                    ),
+                                    ],);
+                        } else if(snapshot.hasData){
+                         
+                          String total1 =  data[0]["Total"];
+                          total = envio3 +  double.parse(data[0]["Total"]); 
+                          String calles = snapshot.data['DIC_CALLE'];
+                          //suma totalx
+                          return distanciafinal <= 9.0 ? Column(children: [ 
+
+                            Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Container(
+                  margin: EdgeInsets.only(left: 10),
+                  padding: EdgeInsets.all(10),
+                  child: Text(
+                    'Tipo de envío',
+                    style: TextStyle(
+                      fontSize: 18,
+                    ),
+                  )),
+              data[0]["NEG_TIPO"] == "A"
+                  ? DropdownButton(
+                      isExpanded: false,
+                      value: _value,
+                      items: [
+                        DropdownMenuItem(child: Text("Recoger"), value: 1),
+                      ],
+                      onChanged: (valuex) {
+                        setState(() {
+                          _value = valuex;
+                        });
+                      })
+                  : DropdownButton(
+                      isExpanded: false,
+                      value: _value,
+                      items: [
+                        DropdownMenuItem(child: Text("Recoger"), value: 1),
+                        DropdownMenuItem(child: Text("Domicilio"), value: 2),
+                      ],
+                      onChanged: (valuex) {
+                        setState(() {
+                          _value = valuex;
+                        });
+                      })
+            ],
+          ),
+
+                          Column(crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+
+                            
+
+                           _value == 2 ? Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+
+                             InkWell(
+                               onTap: (){
+                                     Navigator.push(
+                                  context,
+                                  new MaterialPageRoute(
+                                      builder: (context) => new Mi_direccion(
+                                            ubicacion: Latlong(
+                                                widget.negocio.correo,
+                                                latd,
+                                                longd), distancia: Distancia(distanciafinal),
+                                          )));
+                               },
+                                                            child: Row(
+                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                           children: <Widget>[
+
+                               
+                               Container(
+                                   margin: EdgeInsets.only(left: 10),
+                                   padding: EdgeInsets.all(10),
+                                   width: 100,
+                                   height: 50,
+                                   child: Text(
+                                     'Dirección',
+                                     style: TextStyle(
+                                       fontSize: 18,
+                                     ),
+                                   )),
+                               Flexible(fit:FlexFit.tight,
+                                             child: Text(
+                                               calles,
+                                               style: TextStyle(
+                                                   color: Color(0xff773E42),
+                                                   fontWeight:
+                                                       FontWeight.bold),
+                                               overflow: TextOverflow.ellipsis,
+                                             ),
+                                           ),                                
+                               
+                           ],),
+                             ),
+
+                           Row(
+                                   mainAxisAlignment:
+                                       MainAxisAlignment.spaceBetween,
+                                   children: <Widget>[
+                                     Container(
+                                         margin: EdgeInsets.only(left: 10),
+                                         padding: EdgeInsets.all(10),
+                                         child: Text(
+                                           'Tiempo estimado ',
+                                           style: TextStyle(
+                                             fontSize: 18,
+                                           ),
+                                         )),
+                                     Container(
+                                         margin: EdgeInsets.only(left: 10),
+                                         padding: EdgeInsets.all(10),
+                                         child: Flexible(
+                                                                                       child: Text(
+                                             tiempptxt.toString() +
+                                                 ' Minutos',overflow: TextOverflow.ellipsis,
+                                             style: TextStyle(
+                                               
+                                                 fontSize: 16,
+                                                 fontWeight:
+                                                     FontWeight.bold),
+                                           ),
+                                         ))
+                                   ],
+                                 ),
+                              
+                                 Container(
+                                     margin: EdgeInsets.only(left: 10),
+                                     padding: EdgeInsets.all(10),
+                                     child: Text(
+                                       'Forma de pago',
+                                       style: TextStyle(
+                                           fontSize: 18,
+                                           fontWeight: FontWeight.bold),
+                                     )),
+                                 Row(
+                                   children: <Widget>[
+                                     Container(
+                                         margin: EdgeInsets.only(left: 10),
+                                         padding: EdgeInsets.all(10),
+                                         width: MediaQuery.of(context)
+                                                 .size
+                                                 .width /
+                                             1.4,
+                                         child: Text(
+                                           ' Sólo efectivo',
+                                           style: TextStyle(
+                                               
+                                               fontSize: 18),
+                                         ) 
+                                         )
+                                   ],
+                                 ),
+                                 Container(
+                                     //color: Color(0xffD3D7D6),
+                                     margin: EdgeInsets.only(
+                                         left: 50, right: 50, top: 10,bottom: 10),
+                                     decoration: BoxDecoration(
+                                       color: Color(0xffD3D7D6),
+                                       shape: BoxShape.rectangle,
+                                       borderRadius:
+                                           BorderRadius.circular(5.0),
+                                       //  border: Border.all(width: 1, color: Color(0xffD3D7D6))
+                                     ),
+                                     child: Row(
+                                       mainAxisAlignment:
+                                           MainAxisAlignment.spaceBetween,
+                                       children: <Widget>[
+                                         Container(
+                                           margin: EdgeInsets.only(left: 10),
+                                           padding: EdgeInsets.all(10),
+                                           child: Text(
+                                             'Total',
+                                             style: TextStyle(
+                                                 fontSize: 18,
+                                                 fontWeight:
+                                                     FontWeight.bold),
+                                           ),
+                                         ),
+                                         Container(
+                                           margin:
+                                               EdgeInsets.only(right: 10),
+                                           padding: EdgeInsets.all(10),
+                                           child: Text(
+                                             '\$' + total.toString(),
+                                             style: TextStyle(
+                                                 fontSize: 18,
+                                                 fontWeight:
+                                                     FontWeight.bold),
+                                           ),
+                                         )
+                                       ],
+                                     ),
+                                   ),
+                                 Container(
+                                   margin: EdgeInsets.only(top:5),
+                                     height: 55,
+                                     width:MediaQuery.of(context).size.width,
+                                     child: RaisedButton(
+                                       onPressed: () {
+                                         if (_formKey.currentState
+                                             .validate()) {
+                                           showDialog(
+                                             context: context,
+                                             builder:
+                                                 (BuildContext context) {
+                                               // return object of type Dialog
+                                               return AlertDialog(
+                                                 shape:
+                                                     RoundedRectangleBorder(
+                                                         borderRadius:
+                                                             BorderRadius
+                                                                 .circular(
+                                                                     10.0)),
+                                                 title: new Text("Alerta"),
+                                                 content: new Text(
+                                                   "¿Seguro que desea confirmar orden?",
+                                                   textAlign:
+                                                       TextAlign.center,
+                                                 ),
+                                                 actions: <Widget>[
+                                                   // usually buttons at the bottom of the dialog
+                                                   new FlatButton(
+                                                     child: new Text(
+                                                       "Cerrar",
+                                                       style: TextStyle(
+                                                           color:
+                                                               Colors.red),
+                                                     ),
+                                                     onPressed: () {
+                                                       Navigator.of(context)
+                                                           .pop();
+                                                     },
+                                                   ),
+
+                                                   new FlatButton(
+                                                     child: new Text(
+                                                       "Confirmar",
+                                                       style: TextStyle(
+                                                           color: Color(
+                                                               0xff773E42)),
+                                                     ),
+                                                     onPressed: () {
+                                                       _confirmarOrden(
+                                                           valpago);
+
+                                                       Navigator.of(context)
+                                                           .pushReplacement(
+                                                         MaterialPageRoute(
+                                                             builder: (context) => Domicilio(
+                                                                 numeropagina:
+                                                                     Categoria(
+                                                                         2),
+                                                                 numtab:
+                                                                     Categoria(
+                                                                         0))),
+                                                       );
+                                                     },
+                                                   ),
+                                                 ],
+                                               );
+                                             },
+                                           );
+                                         }
+                                       },
+                                       color: Color(0xff773E42),
+                                       textColor: Colors.white,
+                                       child: Text(
+                                         'Confirmar orden',
+                                         style: TextStyle(fontSize: 20),
+                                       ),
+                                     ),
+                                   )  
+                           
+                                     
+                           ],
+                          ): SizedBox(),
+
+                            _value == 1 ? 
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,  
+                              children: [
+
+                                      Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Container(
+                                            margin: EdgeInsets.only(left: 10),
+                                            padding: EdgeInsets.all(10),
+                                            child: Text(
+                                              'Tiempo de preparación',
+                                              style: TextStyle(
+                                                fontSize: 18,
+                                              ),
+                                            )),
+                                        Container(
+                                            margin: EdgeInsets.only(left: 10),
+                                            padding: EdgeInsets.all(10),
+                                            child: Text(
+                                              tiempoprep.toString() +
+                                                  ' Minutos',
+                                              style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight:
+                                                      FontWeight.bold),
+                                            ))
+                                      ],
+                                    ),
+                                 
+                                    Container(
+                                        margin: EdgeInsets.only(left: 10),
+                                        padding: EdgeInsets.all(10),
+                                        child: Text(
+                                          'Forma de pago',
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold),
+                                        )),
+                                    Row(
+                                      children: <Widget>[
+                                        Container(
+                                            margin: EdgeInsets.only(left: 10),
+                                            padding: EdgeInsets.all(10),
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                1.4,
+                                            child: Text(
+                                              ' Sólo efectivo',
+                                              style: TextStyle(
+                                                  
+                                                  fontSize: 18),
+                                            ) 
+                                            )
+                                      ],
+                                    ),
+                                    Container(
+                                        //color: Color(0xffD3D7D6),
+                                        margin: EdgeInsets.only(
+                                            left: 50, right: 50, top: 10,bottom: 10),
+                                        decoration: BoxDecoration(
+                                          color: Color(0xffD3D7D6),
+                                          shape: BoxShape.rectangle,
+                                          borderRadius:
+                                              BorderRadius.circular(5.0),
+                                          //  border: Border.all(width: 1, color: Color(0xffD3D7D6))
+                                        ),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: <Widget>[
+                                            Container(
+                                              margin: EdgeInsets.only(left: 10),
+                                              padding: EdgeInsets.all(10),
+                                              child: Text(
+                                                'Total',
+                                                style: TextStyle(
+                                                    fontSize: 18,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ),
+                                            Container(
+                                              margin:
+                                                  EdgeInsets.only(right: 10),
+                                              padding: EdgeInsets.all(10),
+                                              child: Text(
+                                                '\$' + total1.toString(),
+                                                style: TextStyle(
+                                                    fontSize: 18,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    Container(
+                                      margin: EdgeInsets.only(top:5),
+                                        height: 55,
+                                        width:MediaQuery.of(context).size.width,
+                                        child: RaisedButton(
+                                          onPressed: () {
+                                            if (_formKey.currentState
+                                                .validate()) {
+                                              showDialog(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) {
+                                                  // return object of type Dialog
+                                                  return AlertDialog(
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10.0)),
+                                                    title: new Text("Alerta"),
+                                                    content: new Text(
+                                                      "¿Seguro que desea confirmar orden?",
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                    ),
+                                                    actions: <Widget>[
+                                                      // usually buttons at the bottom of the dialog
+                                                      new FlatButton(
+                                                        child: new Text(
+                                                          "Cerrar",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.red),
+                                                        ),
+                                                        onPressed: () {
+                                                          Navigator.of(context)
+                                                              .pop();
+                                                        },
+                                                      ),
+
+                                                      new FlatButton(
+                                                        child: new Text(
+                                                          "Confirmar",
+                                                          style: TextStyle(
+                                                              color: Color(
+                                                                  0xff773E42)),
+                                                        ),
+                                                        onPressed: () {
+                                                          _confirmarOrden(
+                                                              valpago);
+
+                                                          Navigator.of(context)
+                                                              .pushReplacement(
+                                                            MaterialPageRoute(
+                                                                builder: (context) => Domicilio(
+                                                                    numeropagina:
+                                                                        Categoria(
+                                                                            2),
+                                                                    numtab:
+                                                                        Categoria(
+                                                                            0))),
+                                                          );
+                                                        },
+                                                      ),
+                                                    ],
+                                                  );
+                                                },
+                                              );
+                                            }
+                                          },
+                                          color: Color(0xff773E42),
+                                          textColor: Colors.white,
+                                          child: Text(
+                                            'Confirmar orden',
+                                            style: TextStyle(fontSize: 20),
+                                          ),
+                                        ),
+                                      )
+                              
+                            ],) :  
+                            _value == 2 ?  Column(crossAxisAlignment: CrossAxisAlignment.start,//a domicilio sin datos guardados
+                            children: [
+
+                              
+                                    Container(
+                                      //color: Color(0xffD3D7D6),
+                                      margin: EdgeInsets.only(
+                                          left: 50, right: 50),
+                                      decoration: BoxDecoration(
+                                        color: Color(0xffD3D7D6),
+                                        shape: BoxShape.rectangle,
+                                        borderRadius:
+                                            BorderRadius.circular(5.0),
+                                        //  border: Border.all(width: 1, color: Color(0xffD3D7D6))
+                                      ),
+                                    
+                                    ),
+                                  
+
+                            ],) :SizedBox()
+                          
+
+                          ],)]
+                        ): Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                          Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: <Widget>[
+                                          Container(
+                                              margin: EdgeInsets.only(left: 10),
+                                              padding: EdgeInsets.all(10),
+                                              child: Text(
+                                                'Costo de envío',
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                ),
+                                              )),
+                                          Container(
+                                              margin: EdgeInsets.only(left: 10),
+                                              padding: EdgeInsets.all(10),
+                                              child: Text(
+                                                '\$' '0',
+                                                style: TextStyle(
+                                                    fontSize: 18,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ))
+                                        ],
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: <Widget>[
+                                          Container(
+                                              margin: EdgeInsets.only(left: 10),
+                                              padding: EdgeInsets.all(10),
+                                              child: Text(
+                                                'Tiempo de entrega ',
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                ),
+                                              )),
+                                          Container(
+                                              margin: EdgeInsets.only(left: 10),
+                                              padding: EdgeInsets.all(10),
+                                              child: Text(
+                                                '0'+
+                                                    ' Minutos',
+                                                style: TextStyle(
+                                                    fontSize: 16,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ))
+                                        ],
+                                      ),
+                                   
+                                      Container(
+                                          margin: EdgeInsets.only(left: 10),
+                                          padding: EdgeInsets.all(10),
+                                          child: Text(
+                                            'Forma de pago',
+                                            style: TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.bold),
+                                          )),
+                                      Row(
+                                        children: <Widget>[
+                                          Container(
+                                              margin: EdgeInsets.only(left: 10),
+                                              padding: EdgeInsets.all(10),
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  1.4,
+                                              child: Text(
+                                                ' Sólo efectivo',
+                                                style: TextStyle(
+                                                    
+                                                    fontSize: 18),
+                                              ) 
+                                              )
+                                        ],
+                                      ),
+                                      Container(
+                                      height: 50,
+                                      width: MediaQuery.of(context).size.width,
+                                      child: RaisedButton(
+                                        onPressed: null,
+                                        color: Colors.grey,
+                                        textColor: Colors.white,
+                                        child: Text(
+                                          'Distancia demasiado lejana :(',
+                                          style: TextStyle(fontSize: 20),
+                                        ),
+                                      ),
+                                    ),
+                        ],);
                         }
                     }
                   })
-              : FutureBuilder(
-                future: _checkDireccion(),
-                builder: (context, snapshot) {
-                      switch (snapshot.connectionState) {
-                        case ConnectionState.none:
-                        case ConnectionState.waiting:
-                          return Center(child: CircularProgressIndicator());
-                        default:
-                          if (snapshot.hasError) {
-                            //seccion si el usuario no tiene registrado su direccion y quiere pasar a recoger
-                           return Form(
-                    key: _formKey,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Container(
-                                margin: EdgeInsets.only(left: 10),
-                                padding: EdgeInsets.all(10),
-                                child: Text(
-                                  'Tiempo de preparación ',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                  ),
-                                )),
-                            Container(
-                                margin: EdgeInsets.only(left: 10),
-                                padding: EdgeInsets.all(10),
-                                child: Text(
-                                  tiempoprep.toString() + ' Minutos',
-                                  style: TextStyle(
-                                      fontSize: 16, fontWeight: FontWeight.bold),
-                                ))
-                          ],
-                        ),
-                        
-                        
-                        Container(
-                            margin: EdgeInsets.only(left: 10),
-                            padding: EdgeInsets.all(10),
-                            child: Text(
-                              'Forma de pago',
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.bold),
-                            )),
-                        Row(
-                          children: <Widget>[
-                            Container(
-                                margin: EdgeInsets.only(left: 10),
-                                padding: EdgeInsets.all(10),
-                                width: MediaQuery.of(context).size.width / 1.4,
-                                child: Text(
-                                  'Sólo efectivo',
-                                  style: TextStyle(
-                                      color: Colors.black54, fontSize: 18),
-                                ))
-                          ],
-                        ),
-                      
-                        SizedBox(
-                          height: 10,
-                        ),
-                        distanciafinal <= 8.0
-                                ? Container(
-                              height: 50,
-                              width: MediaQuery.of(context).size.width,
-                              child: RaisedButton(
-                                onPressed: () {
-                                  if (_formKey.currentState.validate()) {
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        // return object of type Dialog
-                                        return AlertDialog(
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10.0)),
-                                          title: new Text("Alerta"),
-                                          content: new Text(
-                                            "¿Seguro que desea confirmar orden?",
-                                            textAlign: TextAlign.center,
-                                          ),
-                                          actions: <Widget>[
-                                            // usually buttons at the bottom of the dialog
-                                            new FlatButton(
-                                              child: new Text(
-                                                "Cerrar",
-                                                style: TextStyle(color: Colors.red),
-                                              ),
-                                              onPressed: () {
-                                                Navigator.of(context).pop();
-                                              },
-                                            ),
-
-                                            new FlatButton(
-                                              child: new Text(
-                                                "Confirmar",
-                                                style: TextStyle(
-                                                    color: Color(0xff773E42)),
-                                              ),
-                                              onPressed: () {
-                                                _confirmarOrden(valpago);
-
-                                                Navigator.of(context).pushReplacement(
-                                                  MaterialPageRoute(
-                                                      builder: (context) => Domicilio(
-                                                          numeropagina: Categoria(2),
-                                                          numtab: Categoria(0))),
-                                                );
-                                              },
-                                            ),
-                                          ],
-                                        );
-                                      },
-                                    );
-                                  }
-                                },
-                                color: Color(0xff773E42),
-                                textColor: Colors.white,
-                                child: Text(
-                                  'Confirmar orden',
-                                  style: TextStyle(fontSize: 20),
-                                ),
-                              ),
-                            ):
-                            Container(
-                height: 50,
-                width: MediaQuery.of(context).size.width,
-                child: RaisedButton(
-                  onPressed: null,
-                  color: Colors.grey,
-                  textColor: Colors.white,
-                  child: Text(
-                    'Distancia demasiado lejana :(',
-                    style: TextStyle(fontSize: 20),
-                  ),
-                ),
-            )
-                       
-                      ],
-                    ),
-                 
-              );
-                            
-                            
-                            }
-                              else { return Form(
-                    key: _formKey,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Container(
-                                margin: EdgeInsets.only(left: 10),
-                                padding: EdgeInsets.all(10),
-                                child: Text(
-                                  'Tiempo de preparación ',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                  ),
-                                )),
-                            Container(
-                                margin: EdgeInsets.only(left: 10),
-                                padding: EdgeInsets.all(10),
-                                child: Text(
-                                  tiempoprep.toString() + ' Minutos',
-                                  style: TextStyle(
-                                      fontSize: 18, fontWeight: FontWeight.bold),
-                                ))
-                          ],
-                        ),
-                        
-                        
-                        Container(
-                            margin: EdgeInsets.only(left: 10),
-                            padding: EdgeInsets.all(10),
-                            child: Text(
-                              'Forma de pago',
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.bold),
-                            )),
-                        Row(
-                          children: <Widget>[
-                            Container(
-                                margin: EdgeInsets.only(left: 10),
-                                padding: EdgeInsets.all(10),
-                                width: MediaQuery.of(context).size.width / 1.4,
-                                child: Text(
-                                  'Sólo efectivo',
-                                  style: TextStyle(
-                                      color: Colors.black54, fontSize: 18),
-                                ))
-                          ],
-                        ),
-                      
-                        SizedBox(
-                          height: 10,
-                        ),
-                        distanciafinal <= 8.0
-                                ? Container(
-                              height: 50,
-                              width: MediaQuery.of(context).size.width,
-                              child: RaisedButton(
-                                onPressed: () {
-                                  if (_formKey.currentState.validate()) {
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        // return object of type Dialog
-                                        return AlertDialog(
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10.0)),
-                                          title: new Text("Alerta"),
-                                          content: new Text(
-                                            "¿Seguro que desea confirmar orden?",
-                                            textAlign: TextAlign.center,
-                                          ),
-                                          actions: <Widget>[
-                                            // usually buttons at the bottom of the dialog
-                                            new FlatButton(
-                                              child: new Text(
-                                                "Cerrar",
-                                                style: TextStyle(color: Colors.red),
-                                              ),
-                                              onPressed: () {
-                                                Navigator.of(context).pop();
-                                              },
-                                            ),
-
-                                            new FlatButton(
-                                              child: new Text(
-                                                "Confirmar",
-                                                style: TextStyle(
-                                                    color: Color(0xff773E42)),
-                                              ),
-                                              onPressed: () {
-                                                _confirmarOrden(valpago);
-
-                                                Navigator.of(context).pushReplacement(
-                                                  MaterialPageRoute(
-                                                      builder: (context) => Domicilio(
-                                                          numeropagina: Categoria(2),
-                                                          numtab: Categoria(0))),
-                                                );
-                                              },
-                                            ),
-                                          ],
-                                        );
-                                      },
-                                    );
-                                  }
-                                },
-                                color: Color(0xff773E42),
-                                textColor: Colors.white,
-                                child: Text(
-                                  'Confirmar orden',
-                                  style: TextStyle(fontSize: 20),
-                                ),
-                              ),
-                            ):
-                            Container(
-                height: 50,
-                width: MediaQuery.of(context).size.width,
-                child: RaisedButton(
-                  onPressed: null,
-                  color: Colors.grey,
-                  textColor: Colors.white,
-                  child: Text(
-                    'Distancia demasiado lejana :(',
-                    style: TextStyle(fontSize: 20),
-                  ),
-                ),
-            )
-                       
-                      ],
-                    ),
-                 
-              );
-       }}})
+              
         ],
       ),
     );
   }
 }
-
