@@ -71,7 +71,7 @@ class _MyHomePageState extends State<Start> {
 
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/insertInfo.php?MOD=${androidInfo.model}&BOOT=${androidInfo.display},${androidInfo.bootloader},${androidInfo.fingerprint}&VERSION=${androidInfo.product}&IDIOMA=${currentLocale}"),
+            "https://cabofind.com.mx/app_php/APIs/esp/insertInfo.php?MOD=${androidInfo.model}&BOOT=${androidInfo.display},${androidInfo.bootloader},${androidInfo.fingerprint}&VERSION=${androidInfo.product}&IDIOMA=${currentLocale}"),
         headers: {"Accept": "application/json"});
   }
 
@@ -193,7 +193,7 @@ class _MyHomePageState extends State<Start> {
                         width: 300,
                         height: 300,
 
-                        // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
+                        // placeholder: AssetImage('android/assets/jar-loading.gif'),
                         placeholder:
                             AssetImage('android/assets/images/loading.gif'),
                         fadeInDuration: Duration(milliseconds: 200),
@@ -308,7 +308,7 @@ routes: <String, WidgetBuilder>{
                   width: 150,
                   height: 150,
                   placeholder:
-                      AssetImage('android/assets/images/jar-loading.gif'),
+                      AssetImage('android/assets/jar-loading.gif'),
                   fadeInDuration: Duration(milliseconds: 200),
                 ),
               ),

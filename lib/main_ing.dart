@@ -215,7 +215,7 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
                     width: 300,
                     height: 300,
 
-                    // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
+                    // placeholder: AssetImage('android/assets/jar-loading.gif'),
                     placeholder:
                         AssetImage('android/assets/images/loading.gif'),
                     fadeInDuration: Duration(milliseconds: 200),
@@ -322,6 +322,7 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
     Widget cuerpo = Container(
       // height: MediaQuery.of(context).size.height,
       child: new GridView.builder(
+        padding: EdgeInsets.only(top: 2),
         shrinkWrap: true,
         itemCount: data == null ? 0 : data.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -525,16 +526,21 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
                 titlePadding: EdgeInsets.all(10.0),
                 background: GestureDetector(
                   onTap: () {},
-                  child: FadeInImage(
-                    image: NetworkImage(portada[0]["POR_FOTO_ING"]),
+                  child: CachedNetworkImage(
                     fit: BoxFit.cover,
                     width: MediaQuery.of(context).size.width,
-                    //height: MediaQuery.of(context).size.height * 0.38,
                     height: MediaQuery.of(context).size.height,
-                    // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
-                    placeholder:
-                        AssetImage('android/assets/images/loading.gif'),
-                    fadeInDuration: Duration(milliseconds: 200),
+                    imageUrl: portada[0]["POR_FOTO_ING"],
+                    progressIndicatorBuilder:
+                        (context, url, downloadProgress) => Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height,
+                      child: Center(
+                        child: CircularProgressIndicator(
+                            value: downloadProgress.progress),
+                      ),
+                    ),
+                    errorWidget: (context, url, error) => Icon(Icons.error),
                   ),
                 ),
                 centerTitle: false,
@@ -627,7 +633,6 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
                 new InkResponse(
                     onTap: () {
                       addStringToSF();
-                      Navigator.of(context).pop();
                       Navigator.pushReplacement(
                           context,
                           new MaterialPageRoute(

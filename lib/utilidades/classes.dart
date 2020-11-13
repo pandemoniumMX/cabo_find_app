@@ -24,6 +24,12 @@ class Users {
   Users(this.correo);
 }
 
+class Distancia {
+  final double dis;
+
+  Distancia(this.dis);
+}
+
 class Categoria {
   final int cat;
 

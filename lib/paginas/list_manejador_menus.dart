@@ -46,7 +46,6 @@ class _Menu_majeadorState extends State<Menu_manejador>
 
   bool _isVisibleAsi = true;
 
-  final bool expanded = false;
   Future<String> _logcheck() async {
     final SharedPreferences login = await SharedPreferences.getInstance();
     setState(() {
@@ -94,7 +93,7 @@ class _Menu_majeadorState extends State<Menu_manejador>
     this._logcheck();
 
     _controller = AnimationController(
-        duration: const Duration(milliseconds: 300), value: 0.1);
+        duration: const Duration(milliseconds: 300), vsync: this, value: 0.1);
     _animation = CurvedAnimation(
         parent: _controller,
         // reverseCurve: Curves.bounceInOut,
@@ -189,7 +188,7 @@ class _Menu_majeadorState extends State<Menu_manejador>
                                 child: Text(
                                   data[index]["MENU_NOMBRE"],
                                   style: TextStyle(
-                                    fontWeight: FontWeight.bold,fontSize:12
+                                    fontWeight: FontWeight.bold,
                                   ),
                                   overflow: TextOverflow.ellipsis,
                                 ),
@@ -198,7 +197,6 @@ class _Menu_majeadorState extends State<Menu_manejador>
                                 child: Text(
                                   data[index]["MENU_SUBTITULO"],
                                   overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(fontSize:12),
                                 ),
                               ),
                               Row(
@@ -216,28 +214,28 @@ class _Menu_majeadorState extends State<Menu_manejador>
                                       )),
                                   calificacion == 5
                                       ? Text(
-                                          '⭐⭐⭐⭐⭐',
+                                          ' ⭐⭐⭐⭐⭐',
                                           style: TextStyle(
                                               fontSize: 14,
                                               color: Color(0xff773E42)),
                                         )
                                       : calificacion == 4
                                           ? Text(
-                                              '⭐⭐⭐⭐',
+                                              ' ⭐⭐⭐⭐',
                                               style: TextStyle(
                                                   fontSize: 14,
                                                   color: Color(0xff773E42)),
                                             )
                                           : calificacion == 3
                                               ? Text(
-                                                  '⭐⭐⭐',
+                                                  ' ⭐⭐⭐',
                                                   style: TextStyle(
                                                       fontSize: 14,
                                                       color: Color(0xff773E42)),
                                                 )
                                               : calificacion == 2
                                                   ? Text(
-                                                      '⭐⭐',
+                                                      ' ⭐⭐',
                                                       style: TextStyle(
                                                           fontSize: 14,
                                                           color: Color(
@@ -245,7 +243,7 @@ class _Menu_majeadorState extends State<Menu_manejador>
                                                     )
                                                   : calificacion == 1
                                                       ? Text(
-                                                          '⭐',
+                                                          ' ⭐',
                                                           style: TextStyle(
                                                               fontSize: 14,
                                                               color: Color(

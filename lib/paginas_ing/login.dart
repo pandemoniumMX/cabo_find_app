@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:cabofind/main_esp.dart';
 import 'package:cabofind/paginas/usuario.dart';
 import 'package:cabofind/paginas_ing/usuario.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:cabofind/utilidades/classes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -292,48 +293,63 @@ class _Compras2 extends State<Login2> {
     //sesionLog(context);
     super.initState();
   }
-
+  baneadoLogin() {
+    Fluttertoast.showToast(
+      msg: "No puedes iniciar sesión",
+      toastLength: Toast.LENGTH_SHORT,
+      backgroundColor: Colors.red,
+      textColor: Colors.white,
+    );
+  }
 
   Future<String> signInWithApple() async {
 
-  final SharedPreferences login = await SharedPreferences.getInstance();
-  String tokenfirebase;
-  tokenfirebase = login.getString("stringToken");
+    final SharedPreferences login = await SharedPreferences.getInstance();
+    String tokenfirebase;
+    tokenfirebase = login.getString("stringToken");
 
-                  final appleIdCredential = await SignInWithApple.getAppleIDCredential(
-                    scopes: [
-                      AppleIDAuthorizationScopes.email,
-                      AppleIDAuthorizationScopes.fullName,
-                      
-                    
-                    ],
-                  );
-                  final oAuthProvider = OAuthProvider(providerId: 'apple.com');
-                  final credential = oAuthProvider.getCredential(
-                    idToken: appleIdCredential.identityToken,
-                    accessToken: appleIdCredential.authorizationCode,
-                    
-                  );
-                  String nombre = appleIdCredential.givenName;
-                  String apellido = appleIdCredential.familyName;
-                  String id = appleIdCredential.userIdentifier;
-                  String email = appleIdCredential.email;
-                  login.setString('stringLogin', "True");
-                  login.setString('stringMail', email);
-                  login.setString('stringID', id);
+    final appleIdCredential = await SignInWithApple.getAppleIDCredential(
+      scopes: [
+        AppleIDAuthorizationScopes.email,
+        AppleIDAuthorizationScopes.fullName,
 
-                  var response = await http.get(
-                  Uri.encodeFull(
-                      'http://cabofind.com.mx/app_php/APIs/esp/insert_usuarios.php?NOMBRE=${nombre} ${apellido}&CORREO=${email}&NOT=true&IDIOMA=ING&IDF=${id}&TOKEN=${tokenfirebase}'),
-                  headers: {"Accept": "application/json"});
 
-                  await FirebaseAuth.instance.signInWithCredential(credential);
-                  
+      ],
+    );
+    final oAuthProvider = OAuthProvider(providerId: 'apple.com');
+    final credential = oAuthProvider.getCredential(
+      idToken: appleIdCredential.identityToken,
+      accessToken: appleIdCredential.authorizationCode,
 
-        Navigator.pushReplacement(context,
-        new MaterialPageRoute(builder: (BuildContext context) => new MyApp_ing()));
-                  
-                }
+    );
+    String nombre = appleIdCredential.givenName;
+    String apellido = appleIdCredential.familyName;
+    String id = appleIdCredential.userIdentifier;
+    String email = appleIdCredential.email;
+
+
+    final response = await http.get(
+        Uri.encodeFull(
+            'http://cabofind.com.mx/app_php/APIs/esp/insert_usuarios.php?NOMBRE=${nombre} ${apellido}&CORREO=${email}&NOT=true&IDIOMA=ESP&IDF=${id}&TOKEN=${tokenfirebase}'),
+        headers: {"Accept": "application/json"});
+    final perfil = json.decode(response.body);
+
+    final val = perfil['USU_ESTATUS'];
+
+    if (val == 'A') {
+      login.setString('stringLogin', "True");
+      login.setString('stringMail', email);
+      login.setString('stringID', id);
+
+      Navigator.pushReplacement(
+          context,
+          new MaterialPageRoute(
+              builder: (BuildContext context) => new Myapp()));
+    } else {
+      baneadoLogin();
+    }
+
+  }
 
   addLoginFB(FacebookLoginResult result) async {
     final SharedPreferences login = await SharedPreferences.getInstance();
@@ -349,23 +365,34 @@ class _Compras2 extends State<Login2> {
     );
 //final pictures= profile[ 'picture']["data"]["url"];
     final id = profile['id'];
+    final name = profile['name'];
     final correofb = profile['email'];
     final nombresfb = profile['first_name'];
     final apellidosfb = profile['last_name'];
     final imagenfb = profile['picture']["data"]["url"];
 
-    login.setString('stringLogin', "True");
-    login.setString('stringMail', correofb);
-
-    var response = await http.get(
+    String tokenfirebase;
+    tokenfirebase = login.getString("stringToken");
+    final response = await http.get(
         Uri.encodeFull(
-            'http://cabofind.com.mx/app_php/APIs/esp/insert_usuarios.php?NOMBRE=${nombresfb},${apellidosfb}&CORREO=${correofb}&FOTO=${imagenfb}&NOT=true&IDIOMA=ESP'),
+            'http://cabofind.com.mx/app_php/APIs/esp/insert_usuarios.php?NOMBRE=${nombresfb} ${apellidosfb}&CORREO=${correofb}&FOTO=${imagenfb}&NOT=true&IDIOMA=ESP&IDF=${id}&TOKEN=${tokenfirebase}'),
         headers: {"Accept": "application/json"});
+    final perfil = json.decode(response.body);
 
-    Navigator.pushReplacement(
-        context,
-        new MaterialPageRoute(
-            builder: (BuildContext context) => new MyApp_ing()));
+    final val = perfil['USU_ESTATUS'];
+
+    if (val == 'A') {
+      login.setString('stringLogin', "True");
+      login.setString('stringMail', correofb);
+      login.setString('stringID', id);
+
+      Navigator.pushReplacement(
+          context,
+          new MaterialPageRoute(
+              builder: (BuildContext context) => new Myapp()));
+    } else {
+      baneadoLogin();
+    }
   }
 
   addLoginG(FirebaseUser user, name, email, imageUrl) async {
@@ -485,7 +512,7 @@ class _Compras2 extends State<Login2> {
   }
 
   _launchURL() async {
-    const url = 'http://cabofind.com.mx/admin/politicas.html';
+    const url = 'http://controly.com.mx/politicas.html';
     if (await canLaunch(url)) {
       await launch(url);
     } else {

@@ -184,7 +184,7 @@ class _MyHomePageState extends State<Maps_salud_ing> {
                         fit: BoxFit.cover,  
                         width: 25,                          
                         height: 25,  
-                        // placeholder: AssetImage('android/assets/images/jar-loading.gif'),  
+                        // placeholder: AssetImage('android/assets/jar-loading.gif'),  
                         placeholder: AssetImage('android/assets/images/loading.gif'),  
                         fadeInDuration: Duration(milliseconds: 200),   
                         
@@ -200,7 +200,7 @@ class _MyHomePageState extends State<Maps_salud_ing> {
                         fit: BoxFit.cover,  
                         width: 25,                          
                         height: 25,  
-                        // placeholder: AssetImage('android/assets/images/jar-loading.gif'),  
+                        // placeholder: AssetImage('android/assets/jar-loading.gif'),  
                         placeholder: AssetImage('android/assets/images/loading.gif'),  
                         fadeInDuration: Duration(milliseconds: 200),   
                         
@@ -216,7 +216,7 @@ class _MyHomePageState extends State<Maps_salud_ing> {
                         fit: BoxFit.cover,  
                         width: 25,                          
                         height: 25, 
-                        // placeholder: AssetImage('android/assets/images/jar-loading.gif'),  
+                        // placeholder: AssetImage('android/assets/jar-loading.gif'),  
                         placeholder: AssetImage('android/assets/images/loading.gif'),  
                         fadeInDuration: Duration(milliseconds: 200),   
                         
@@ -232,7 +232,7 @@ class _MyHomePageState extends State<Maps_salud_ing> {
                         fit: BoxFit.cover,  
                         width: 25,                          
                         height: 25,
-                        // placeholder: AssetImage('android/assets/images/jar-loading.gif'),  
+                        // placeholder: AssetImage('android/assets/jar-loading.gif'),  
                         placeholder: AssetImage('android/assets/images/loading.gif'),  
                         fadeInDuration: Duration(milliseconds: 200),   
                         
@@ -248,7 +248,7 @@ class _MyHomePageState extends State<Maps_salud_ing> {
                         fit: BoxFit.cover,  
                         width: 25,                          
                         height: 25,  
-                        // placeholder: AssetImage('android/assets/images/jar-loading.gif'),  
+                        // placeholder: AssetImage('android/assets/jar-loading.gif'),  
                         placeholder: AssetImage('android/assets/images/loading.gif'),  
                         fadeInDuration: Duration(milliseconds: 200),   
                         
@@ -264,7 +264,7 @@ class _MyHomePageState extends State<Maps_salud_ing> {
                         fit: BoxFit.cover,  
                         width: 25,                          
                         height: 25, 
-                        // placeholder: AssetImage('android/assets/images/jar-loading.gif'),  
+                        // placeholder: AssetImage('android/assets/jar-loading.gif'),  
                         placeholder: AssetImage('android/assets/images/loading.gif'),  
                         fadeInDuration: Duration(milliseconds: 200),   
                         

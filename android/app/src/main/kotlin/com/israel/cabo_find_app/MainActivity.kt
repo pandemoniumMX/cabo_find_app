@@ -1,6 +1,13 @@
-package com.israel.cabo_find_app
+package com.israel.cabofind;
 
-import io.flutter.embedding.android.FlutterActivity
+import android.os.Bundle;
+import io.flutter.app.FlutterActivity;
+import io.flutter.plugins.GeneratedPluginRegistrant;
 
-class MainActivity: FlutterActivity() {
+public class MainActivity extends FlutterActivity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        GeneratedPluginRegistrant.registerWith(this);
+    }
 }

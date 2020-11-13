@@ -90,7 +90,7 @@ class Publicacionesfull extends State<Lista_manejador_promociones> {
                         //height: MediaQuery.of(context).size.height * 0.38,
                         height: MediaQuery.of(context).size.height,
 
-                        // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
+                        // placeholder: AssetImage('android/assets/jar-loading.gif'),
                         placeholder:
                             AssetImage('android/assets/images/loading.gif'),
                         fadeInDuration: Duration(milliseconds: 200),

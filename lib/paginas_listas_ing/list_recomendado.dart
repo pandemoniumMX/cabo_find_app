@@ -107,7 +107,7 @@ class Promocionesfull extends State<Recomendado_ing> {
                     width: MediaQuery.of(context).size.width,
                     height: 350,
 
-                    // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
+                    // placeholder: AssetImage('android/assets/jar-loading.gif'),
                     placeholder:
                         AssetImage('android/assets/images/loading.gif'),
                     fadeInDuration: Duration(milliseconds: 200),

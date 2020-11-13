@@ -30,12 +30,8 @@ class Anuncios_detalle extends StatefulWidget {
 
 class Detalles extends State<Anuncios_detalle> {
   TextEditingController controllerCode = TextEditingController();
-  String _displayValue = "";
-  String _displayValor = "";
 
   Map userProfile;
-
-  List _cities = ["", "👍", "👎"];
 
   List<DropdownMenuItem<String>> _dropDownMenuItems;
   String _currentCity;
@@ -121,7 +117,6 @@ Future<String> insertVisitaiOS() async {
   }
 
   void initState() {
-    _dropDownMenuItems = getDropDownMenuItems();
     _currentCity = _dropDownMenuItems[0].value;
     super.initState();
     this.getCarrusel();
@@ -129,14 +124,6 @@ Future<String> insertVisitaiOS() async {
     this.insertVisitaAndroid();
 
     // this.insertVisitaiOS;
-  }
-
-  List<DropdownMenuItem<String>> getDropDownMenuItems() {
-    List<DropdownMenuItem<String>> items = new List();
-    for (String city in _cities) {
-      items.add(new DropdownMenuItem(value: city, child: new Text(city)));
-    }
-    return items;
   }
 
   void onLoginStatusChange(bool isLoggedIn) {

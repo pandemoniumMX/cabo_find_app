@@ -278,7 +278,7 @@ class Detalles extends State<Empresa_det_fin_bus> {
                    width: MediaQuery.of(context).size.width,
                    height: 400,
 
-                   // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
+                   // placeholder: AssetImage('android/assets/jar-loading.gif'),
                    placeholder: AssetImage('android/assets/images/loading.gif'),
                    fadeInDuration: Duration(milliseconds: 200),
 
@@ -534,7 +534,7 @@ facebook() async {
                     width: MediaQuery.of(context).size.width,
                     height: 250,
 
-                    // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
+                    // placeholder: AssetImage('android/assets/jar-loading.gif'),
                     placeholder: AssetImage('android/assets/images/loading.gif'),
                     fadeInDuration: Duration(milliseconds: 200),
 

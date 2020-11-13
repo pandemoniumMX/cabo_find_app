@@ -95,7 +95,7 @@ class _Mis_promos_manejador_obtenidasState
                                 children: <Widget>[
                                   FadeInImage(
                                     image:
-                                        NetworkImage(data[index]["GAL_FOTO"]),
+                                        NetworkImage(data[index]["REC_FOTO"]),
                                     fit: BoxFit.fill,
                                     width:
                                         MediaQuery.of(context).size.width * .20,

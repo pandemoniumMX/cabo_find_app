@@ -12,7 +12,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
-
+import 'package:fluttertoast/fluttertoast.dart';
 import '../main.dart';
 
 class Login extends StatefulWidget {
@@ -105,6 +105,23 @@ class _UsuarioState extends State<Usuario> {
         new MaterialPageRoute(builder: (BuildContext context) => new Myapp1()));
   }
 
+  Future<String> ayudamail() async {
+    final SharedPreferences login = await SharedPreferences.getInstance();
+    String _status = "";
+    String _mail = "";
+    String _mail2 = "";
+    String _idusu = "";
+    _status = login.getString("stringLogin");
+    _mail2 = login.getString("stringID");
+
+    var response1 = await http.get(
+        Uri.encodeFull(
+            'http://cabofind.com.mx/app_php/sendmails/helpmail.php?IDF=${_mail2}&VALUE=${_value}&COM=${comment.text}'),
+        headers: {"Accept": "application/json"});
+
+    return "Success!";
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -131,8 +148,8 @@ class _UsuarioState extends State<Usuario> {
       child: FutureBuilder(
           future: _loadUser(),
           builder: (context, snapshot) {
-            String boolAsString = snapshot.data["USU_NOTIFICACIONES"];
-            bool isSwitched = boolAsString == 'true';
+            //String boolAsString = snapshot.data["USU_NOTIFICACIONES"];
+            //bool isSwitched = boolAsString == 'true';
             // bool isSwitched = snapshot.data["USU_NOTIFICACIONES"];
             switch (snapshot.connectionState) {
               case ConnectionState.none:
@@ -140,19 +157,16 @@ class _UsuarioState extends State<Usuario> {
                 return Center(child: CircularProgressIndicator());
               default:
                 if (snapshot.hasError) {
+                  setState(() {
+                    _cerrarsesion();
+                  });
+                } else if (1 == null) {
                   return Center(
                       child: Text(
-                    "Error :(",
-                    style: TextStyle(color: Colors.black, fontSize: 25.0),
-                    textAlign: TextAlign.center,
-                  ));
-                } else if (boolAsString == null) {
-                  return Center(
-                      child: Text(
-                    "Error :(",
-                    style: TextStyle(color: Colors.black, fontSize: 25.0),
-                    textAlign: TextAlign.center,
-                  ));
+                        "Error :(",
+                        style: TextStyle(color: Colors.black, fontSize: 25.0),
+                        textAlign: TextAlign.center,
+                      ));
                 } else {
                   return ListView(
                     physics: NeverScrollableScrollPhysics(),
@@ -293,48 +307,164 @@ class _UsuarioState extends State<Usuario> {
                             ),
                           ]),
 
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Text(
-                                  "Notificaciones:",
-                                  style: TextStyle(
-                                      fontSize: 15, color: Color(0xff773E42)),
-                                ),
-                                Switch(
-                                    value: isSwitched,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        isSwitched = value;
-                                        print(isSwitched);
-                                      });
-                                    },
-                                    activeTrackColor: Color(0xff773E42),
-                                    activeColor: Colors.black),
-                              ]),
 
-                          Center(
-                            child: RaisedButton(
-                                onPressed: () {
-                                  _cerrarsesion();
-                                },
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(40.0)),
-                                color: Colors.red,
-                                child: new Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: <Widget>[
-                                    new Text('Cerrar sesión',
-                                        style: TextStyle(
-                                            fontSize: 15, color: Colors.white)),
-                                    new Icon(
-                                      FontAwesomeIcons.signOutAlt,
-                                      color: Colors.white,
-                                    )
-                                  ],
-                                )),
-                          )
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              RaisedButton(
+                                  onPressed: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        // return object of type Dialog
+                                        return StatefulBuilder(builder:
+                                            (BuildContext context,
+                                            StateSetter setState) {
+                                          return AlertDialog(
+                                            title: new Text("Solicitar ayuda"),
+                                            content: Form(
+                                              key: _formKey,
+                                              child: Container(
+                                                height: 200,
+                                                child: Column(children: [
+                                                  DropdownButton(
+                                                      onTap: () {
+                                                        setState(() {});
+                                                      },
+                                                      isExpanded: true,
+                                                      value: _value,
+                                                      items: [
+                                                        DropdownMenuItem(
+                                                          child: Text(
+                                                              "Problema con mi cuenta"),
+                                                          value: 1,
+                                                        ),
+                                                        DropdownMenuItem(
+                                                          child: Text(
+                                                              "Problema con mis puntos"),
+                                                          value: 2,
+                                                        ),
+                                                        DropdownMenuItem(
+                                                            child: Text(
+                                                                "Reportar bugs/problemas de la app"),
+                                                            value: 3),
+                                                        DropdownMenuItem(
+                                                            child: Text(
+                                                                "Formar parte de CABOFIND"),
+                                                            value: 4),
+                                                      ],
+                                                      onChanged: (valuex) {
+                                                        setState(() {
+                                                          _value = valuex;
+                                                        });
+                                                      }),
+                                                  TextFormField(
+                                                    controller: comment,
+                                                    enabled: true,
+                                                    maxLines: 5,
+                                                    autofocus: false,
+                                                    style:
+                                                    TextStyle(fontSize: 15),
+                                                    decoration: InputDecoration(
+                                                        focusColor:
+                                                        Color(0xffD3D7D6),
+                                                        hoverColor:
+                                                        Color(0xffD3D7D6),
+                                                        hintText:
+                                                        'Escribir más detalles'),
+                                                    validator: (value) {
+                                                      if (value.isEmpty) {
+                                                        return 'Este campo no puede estar vacío';
+                                                      } else if (value.length <=
+                                                          9) {
+                                                        return 'Requiere 10 dígitos';
+                                                      }
+                                                      return null;
+                                                    },
+                                                  )
+                                                ]),
+                                              ),
+                                            ),
+                                            actions: <Widget>[
+                                              // usually buttons at the bottom of the dialog
+                                              Row(
+                                                mainAxisAlignment:
+                                                MainAxisAlignment
+                                                    .spaceAround,
+                                                children: <Widget>[
+                                                  new FlatButton(
+                                                    child: new Text("Cancelar"),
+                                                    onPressed: () {
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    },
+                                                  ),
+                                                  new FlatButton(
+                                                    child: new Text("Envíar",
+                                                        style: TextStyle(
+                                                            color: Color(
+                                                                0xff60032D))),
+                                                    onPressed: () {
+                                                      if (_formKey.currentState
+                                                          .validate()) {
+                                                        ayudamail();
+
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                        //comment.clear();
+                                                      }
+                                                    },
+                                                  ),
+                                                ],
+                                              )
+                                            ],
+                                          );
+                                        });
+                                      },
+                                    );
+                                  },
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                      BorderRadius.circular(40.0)),
+                                  color: Colors.blue[300],
+                                  child: new Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      new Text('Ayuda ',
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              color: Colors.white)),
+                                      new Icon(
+                                        FontAwesomeIcons.questionCircle,
+                                        color: Colors.white,
+                                      )
+                                    ],
+                                  )),
+                              RaisedButton(
+                                  onPressed: () {
+                                    _cerrarsesion();
+                                  },
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                      BorderRadius.circular(40.0)),
+                                  color: Colors.red,
+                                  child: new Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      new Text('Cerrar sesión',
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              color: Colors.white)),
+                                      new Icon(
+                                        FontAwesomeIcons.signOutAlt,
+                                        color: Colors.white,
+                                      )
+                                    ],
+                                  ))
+                            ],
+                          ),
                         ]),
                       ),
                     ],
@@ -342,14 +472,19 @@ class _UsuarioState extends State<Usuario> {
                 }
             }
           }),
-    ));
+        ));
   }
 }
+
 
 class Login2 extends StatefulWidget {
   @override
   _Compras2 createState() => new _Compras2();
 }
+
+final _formKey = GlobalKey<FormState>();
+int _value = 1;
+TextEditingController comment = TextEditingController();
 
 class _Compras2 extends State<Login2> {
   bool isLoggedIn = false;
@@ -357,6 +492,14 @@ class _Compras2 extends State<Login2> {
   void initState() {
     //sesionLog(context);
     super.initState();
+  }
+  baneadoLogin() {
+    Fluttertoast.showToast(
+      msg: "No puedes iniciar sesión",
+      toastLength: Toast.LENGTH_SHORT,
+      backgroundColor: Colors.red,
+      textColor: Colors.white,
+    );
   }
 
   addLoginFB(FacebookLoginResult result) async {
@@ -378,20 +521,29 @@ class _Compras2 extends State<Login2> {
     final nombresfb = profile['first_name'];
     final apellidosfb = profile['last_name'];
     final imagenfb = profile['picture']["data"]["url"];
+
     String tokenfirebase;
-
-    login.setString('stringLogin', "True");
-    login.setString('stringMail', correofb);
-    login.setString('stringID', id);
     tokenfirebase = login.getString("stringToken");
-
-    var response = await http.get(
+    final response = await http.get(
         Uri.encodeFull(
             'http://cabofind.com.mx/app_php/APIs/esp/insert_usuarios.php?NOMBRE=${nombresfb} ${apellidosfb}&CORREO=${correofb}&FOTO=${imagenfb}&NOT=true&IDIOMA=ESP&IDF=${id}&TOKEN=${tokenfirebase}'),
         headers: {"Accept": "application/json"});
+    final perfil = json.decode(response.body);
 
-    Navigator.pushReplacement(context,
-        new MaterialPageRoute(builder: (BuildContext context) => new Myapp()));
+    final val = perfil['USU_ESTATUS'];
+
+    if (val == 'A') {
+      login.setString('stringLogin', "True");
+      login.setString('stringMail', correofb);
+      login.setString('stringID', id);
+
+      Navigator.pushReplacement(
+          context,
+          new MaterialPageRoute(
+              builder: (BuildContext context) => new Myapp()));
+    } else {
+      baneadoLogin();
+    }
   }
 
   addLoginG(FirebaseUser user, name, email, imageUrl) async {
@@ -490,20 +642,28 @@ Future<String> signInWithApple() async {
                   String apellido = appleIdCredential.familyName;
                   String id = appleIdCredential.userIdentifier;
                   String email = appleIdCredential.email;
-                  login.setString('stringLogin', "True");
-                  login.setString('stringMail', email);
-                  login.setString('stringID', id);
 
-                  var response = await http.get(
-                  Uri.encodeFull(
-                      'http://cabofind.com.mx/app_php/APIs/esp/insert_usuarios.php?NOMBRE=${nombre} ${apellido}&CORREO=${email}&NOT=true&IDIOMA=ESP&IDF=${id}&TOKEN=${tokenfirebase}'),
-                  headers: {"Accept": "application/json"});
 
-                  await FirebaseAuth.instance.signInWithCredential(credential);
-                  
+  final response = await http.get(
+      Uri.encodeFull(
+          'http://cabofind.com.mx/app_php/APIs/esp/insert_usuarios.php?NOMBRE=${nombre} ${apellido}&CORREO=${email}&NOT=true&IDIOMA=ESP&IDF=${id}&TOKEN=${tokenfirebase}'),
+      headers: {"Accept": "application/json"});
+  final perfil = json.decode(response.body);
 
-        Navigator.pushReplacement(context,
-        new MaterialPageRoute(builder: (BuildContext context) => new Myapp()));
+  final val = perfil['USU_ESTATUS'];
+
+  if (val == 'A') {
+    login.setString('stringLogin', "True");
+    login.setString('stringMail', email);
+    login.setString('stringID', id);
+
+    Navigator.pushReplacement(
+        context,
+        new MaterialPageRoute(
+            builder: (BuildContext context) => new Myapp()));
+  } else {
+    baneadoLogin();
+  }
                   
                 }
                 
@@ -514,7 +674,7 @@ Future<String> signInWithApple() async {
   }
 
   _launchURL() async {
-    const url = 'http://cabofind.com.mx/admin/politicas.html';
+    const url = 'http://controly.com.mx/politicas.html';
     if (await canLaunch(url)) {
       await launch(url);
     } else {
@@ -580,13 +740,14 @@ Future<String> signInWithApple() async {
                       mainAxisAlignment: MainAxisAlignment.center,
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
-                        new Text('Sesión con Facebook',
-                            style:
-                                TextStyle(fontSize: 20, color: Colors.white)),
                         new Icon(
                           FontAwesomeIcons.facebookSquare,
                           color: Colors.white,
-                        )
+                        ),
+                        new Text(' Sesión con Facebook',
+                            style:
+                                TextStyle(fontSize: 20, color: Colors.white)),
+
                       ],
                     )),
                 
@@ -600,8 +761,9 @@ Future<String> signInWithApple() async {
                                           mainAxisAlignment: MainAxisAlignment.center,
                                           mainAxisSize: MainAxisSize.min,
                                           children: <Widget>[
-                                            new Text('Sesión con Apple ID  ', style: TextStyle(fontSize: 20, color: Colors.white)), 
-                                            new Icon(FontAwesomeIcons.apple, color: Colors.white,)
+                                            new Icon(FontAwesomeIcons.apple, color: Colors.white,),
+                                            new Text(' Sesión con Apple ID  ', style: TextStyle(fontSize: 20, color: Colors.white)),
+
                                           ],
                                         )
                 ), /*
@@ -635,13 +797,14 @@ Future<String> signInWithApple() async {
                       mainAxisAlignment: MainAxisAlignment.center,
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
-                        new Text('Políticas de privacidad   ',
-                            style:
-                                TextStyle(fontSize: 20, color: Colors.black)),
                         new Icon(
                           FontAwesomeIcons.userSecret,
                           color: Colors.black,
-                        )
+                        ),
+                        new Text(' Políticas de privacidad   ',
+                            style:
+                                TextStyle(fontSize: 20, color: Colors.black)),
+
                       ],
                     )),
               ],

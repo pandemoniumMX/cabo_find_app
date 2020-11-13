@@ -132,7 +132,7 @@ void dispose() {
                       width: MediaQuery.of(context).size.width,
                       height: 220,
 
-                      // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
+                      // placeholder: AssetImage('android/assets/jar-loading.gif'),
                       placeholder: AssetImage('android/assets/images/loading.gif'),
                       fadeInDuration: Duration(milliseconds: 200),
 
@@ -246,7 +246,7 @@ Widget listadobaja = ListView.builder(
                       width: MediaQuery.of(context).size.width,
                       height: 220,
 
-                      // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
+                      // placeholder: AssetImage('android/assets/jar-loading.gif'),
                       placeholder: AssetImage('android/assets/images/loading.gif'),
                       fadeInDuration: Duration(milliseconds: 200),
 

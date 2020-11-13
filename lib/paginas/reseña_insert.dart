@@ -84,7 +84,7 @@ body: Center(
                        width: 150,
                        height: 150,
 
-                       placeholder: AssetImage('android/assets/images/jar-loading.gif'),
+                       placeholder: AssetImage('android/assets/jar-loading.gif'),
                        fadeInDuration: Duration(milliseconds: 200), 
 
                      ),

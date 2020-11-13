@@ -16,13 +16,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class Mi_direccion extends StatefulWidget {
   final Latlong ubicacion;
+  final Distancia distancia;
 
-  Mi_direccion({Key key, this.ubicacion}) : super(key: key);
+  Mi_direccion({Key key, this.ubicacion, this.distancia, }) : super(key: key);
   @override
   _Mi_direccionState createState() => _Mi_direccionState();
 }
 
 class _Mi_direccionState extends State<Mi_direccion> {
+  var location = Location();
   final _formKey = GlobalKey<FormState>();
   var _miciudad2 = '';
   double latn;
@@ -49,6 +51,10 @@ class _Mi_direccionState extends State<Mi_direccion> {
   GoogleMapController _mapController;
 
   _getCurrentLocation() async {
+    if (!await location.serviceEnabled()) {
+      location.requestService();
+    }
+
     try {
       final geo.Geolocator geolocator = geo.Geolocator()
         ..forceAndroidLocationManager = true;
@@ -369,7 +375,7 @@ class _Mi_direccionState extends State<Mi_direccion> {
           Divider()
         ],
       ),
-      bottomNavigationBar: distanciafinal <= 8.0
+      bottomNavigationBar: 1==1//widget.distancia.dis <= 8.0
           ? Container(
               height: 50,
               child: RaisedButton(

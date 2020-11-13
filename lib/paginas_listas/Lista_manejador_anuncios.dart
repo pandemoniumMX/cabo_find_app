@@ -11,16 +11,19 @@ import 'package:flutter/material.dart';
 
 void main() {
   runApp(new MaterialApp(
-    home: new Lista_anun_electronica(),
+    home: new Lista_manejador_anuncios(),
   ));
 }
 
-class Lista_anun_electronica extends StatefulWidget {
+class Lista_manejador_anuncios extends StatefulWidget {
+  final Categoria manejador;
+
+  const Lista_manejador_anuncios({Key key, this.manejador}) : super(key: key);
   @override
   _ListaAcuaticas createState() => new _ListaAcuaticas();
 }
 
-class _ListaAcuaticas extends State<Lista_anun_electronica> {
+class _ListaAcuaticas extends State<Lista_manejador_anuncios> {
   List data;
   List databaja;
 
@@ -28,7 +31,7 @@ class _ListaAcuaticas extends State<Lista_anun_electronica> {
   Future<String> getData() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/consultas_negocios/esp/anuncios/list_anuncios_electronica.php"),
+            "http://cabofind.com.mx/app_php/consultas_negocios/esp/anuncios/lista_manejador_anuncios.php?CAT=${widget.manejador.cat}"),
         headers: {"Accept": "application/json"});
 
     this.setState(() {
@@ -41,7 +44,7 @@ class _ListaAcuaticas extends State<Lista_anun_electronica> {
   Future<String> getDatabaja() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/consultas_negocios/esp/anuncios/list_anuncios_electronica_baja.php"),
+            "http://cabofind.com.mx/app_php/consultas_negocios/esp/anuncios/lista_manejador_anuncios_baja.php?CAT=${widget.manejador.cat}"),
         headers: {"Accept": "application/json"});
 
     this.setState(() {
@@ -83,14 +86,12 @@ class _ListaAcuaticas extends State<Lista_anun_electronica> {
                 children: <Widget>[
                   Stack(children: <Widget>[
                     FadeInImage(
-                      image: NetworkImage(data[index]["GAL_FOTO"]),
+                      image: NetworkImage(data[index]["ANUN_FOTO"]),
                       fit: BoxFit.cover,
                       width: MediaQuery.of(context).size.width,
                       height: 220,
-
-                      // placeholder: AssetImage('android/assets/jar-loading.gif'),
                       placeholder:
-                          AssetImage('android/assets/images/loading.gif'),
+                      AssetImage('android/assets/images/loading.gif'),
                       fadeInDuration: Duration(milliseconds: 200),
                     ),
                     Positioned(
@@ -168,14 +169,14 @@ class _ListaAcuaticas extends State<Lista_anun_electronica> {
               child: Column(
                 children: <Widget>[
                   FadeInImage(
-                    image: NetworkImage(databaja[index]["GAL_FOTO"]),
+                    image: NetworkImage(databaja[index]["ANUN_FOTO"]),
                     fit: BoxFit.cover,
                     width: MediaQuery.of(context).size.width,
                     height: 220,
 
-                    // placeholder: AssetImage('android/assets/jar-loading.gif'),
+                    // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
                     placeholder:
-                        AssetImage('android/assets/images/loading.gif'),
+                    AssetImage('android/assets/images/loading.gif'),
                     fadeInDuration: Duration(milliseconds: 200),
                   ),
                   Row(children: <Widget>[

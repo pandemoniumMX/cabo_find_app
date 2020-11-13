@@ -34,7 +34,6 @@ class _Compras extends State<Mis_recompensas> {
     bool checkValue = login.containsKey('value');
     return checkValue = login.containsKey('stringLogin');
 
-    // if (prefs.getString(_idioma) ?? 'stringValue' == "espanol")
     if (_status == "True") {
       print("Sesión ya iniciada");
     } else {
@@ -48,16 +47,16 @@ class _Compras extends State<Mis_recompensas> {
   Widget build(BuildContext context) {
     return new Scaffold(
         body: FutureBuilder(
-      future: sesionLog(),
-      builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-        if (snapshot.hasData) {
-          return snapshot.data
-              ? Usuario(usuarios: new Users("testing@gmail.com"))
-              : Login2();
-        }
-        return Login2(); // noop, this builder is called again when the future completes
-      },
-    ));
+          future: sesionLog(),
+          builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+            if (snapshot.hasData) {
+              return snapshot.data
+                  ? Usuario(usuarios: new Users("testing@gmail.com"))
+                  : Login2();
+            }
+            return Login2(); // noop, this builder is called again when the future completes
+          },
+        ));
   }
 }
 
@@ -174,7 +173,7 @@ class _UsuarioState extends State<Usuario> {
               ),
               content: Container(
                 width: double.maxFinite,
-                height: 150.0,
+                height: 240.0,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -183,17 +182,30 @@ class _UsuarioState extends State<Usuario> {
                       style: TextStyle(fontSize: 12),
                     ),
                     Text(
-                      '2: Ordena a tu gusto.',
+                      '2: Compra producto/platillo/servicio',
                       style: TextStyle(fontSize: 12),
                     ),
                     Text(
-                      '3: Cuando pagues, pide a un trabajador que escaneé tu código QR.',
+                      '3: Cuando pagues, pide que escaneé tu código QR.',
                       style: TextStyle(fontSize: 12),
                     ),
                     Text(
-                      '4: Felicidades, obtuviste 100 puntos! :)',
+                      '4: Obtendrás 100 puntos por tu visita (100 por negocio diario)',
                       style: TextStyle(fontSize: 12),
                     ),
+                    Text(
+                      '5: Suma puntos y canjea por recompensas!',
+                      style: TextStyle(fontSize: 12),
+                    ),
+                    Text(
+                      '6: Canjea tu rescompensa mostrando el QR al comercio participante',
+                      style: TextStyle(fontSize: 12),
+                    ),
+                    Text(
+                      'Términos: Deberás tener algúna identificación oficial para el reclamo. Después de reclamar tu recompensa, tendrás 7 días para usarla. No podrás reclamar 2 veces la misma recompensa el mismo día.',
+                      style: TextStyle(fontSize: 12),
+                    ),
+
                     // Container(child: Text(data[index]["CAR_NOMBRE_ING"],style: TextStyle(),),padding: EdgeInsets.only(bottom:15.0),) ,
                   ],
                 ),
@@ -234,10 +246,10 @@ class _UsuarioState extends State<Usuario> {
             onPressed: () {
               FlutterYoutube.playYoutubeVideoByUrl(
                   apiKey: "AIzaSyAmNDqJm2s5Fpualsl_VF6LhG733knN0BY",
-                  videoUrl: 'https://www.youtube.com/watch?v=Wpwdd3Ibvpw',
+                  videoUrl: 'https://www.youtube.com/watch?v=hsLSjImkf-c',
                   autoPlay: false, //default falase
                   fullScreen: false //default false
-                  );
+              );
             },
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(40.0)),
@@ -270,10 +282,10 @@ class _UsuarioState extends State<Usuario> {
                   if (snapshot.hasError) {
                     return Center(
                         child: Text(
-                      "Error :(",
-                      style: TextStyle(color: Colors.black, fontSize: 25.0),
-                      textAlign: TextAlign.center,
-                    ));
+                          "Error :(",
+                          style: TextStyle(color: Colors.black, fontSize: 25.0),
+                          textAlign: TextAlign.center,
+                        ));
                   } else {
                     String _qrencryp = snapshot.data["ID_USUARIOS"];
                     //print();
@@ -311,9 +323,9 @@ class _UsuarioState extends State<Usuario> {
                   padding: const EdgeInsets.all(10),
                   child: Center(
                       child: Text(
-                    'Aún no tienes puntos',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  )),
+                        'Aún no tienes puntos',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      )),
                 );
               } else {
                 return ListView.builder(
@@ -329,21 +341,21 @@ class _UsuarioState extends State<Usuario> {
                               children: <Widget>[
                                 Row(
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     FadeInImage(
                                       image:
-                                          NetworkImage(data[index]["GAL_FOTO"]),
+                                      NetworkImage(data[index]["GAL_FOTO"]),
                                       fit: BoxFit.fill,
                                       width: MediaQuery.of(context).size.width *
                                           .20,
                                       height:
-                                          MediaQuery.of(context).size.height *
-                                              .10,
+                                      MediaQuery.of(context).size.height *
+                                          .10,
                                       placeholder: AssetImage(
                                           'android/assets/images/loading.gif'),
                                       fadeInDuration:
-                                          Duration(milliseconds: 200),
+                                      Duration(milliseconds: 200),
                                     ),
                                     Flexible(
                                       child: Text(data[index]["NEG_NOMBRE"],
@@ -384,15 +396,16 @@ class _UsuarioState extends State<Usuario> {
                         onTap: () {
                           String _usucorreo = widget.usuarios.correo;
                           String _idnegocio = data[index]["ID_NEGOCIO"];
-
-                          Navigator.push(
-                              context,
-                              new MaterialPageRoute(
-                                  builder: (context) =>
-                                      new Mis_promos_manejador(
-                                        publicacion: new Publicacion(
-                                            _usucorreo, _idnegocio),
-                                      )));
+                          setState(() {
+                            Navigator.push(
+                                context,
+                                new MaterialPageRoute(
+                                    builder: (context) =>
+                                    new Mis_promos_manejador(
+                                      publicacion: new Publicacion(
+                                          _usucorreo, _idnegocio),
+                                    ))).then((value) => setState(() {}));
+                          });
                         },
                       );
                     });
@@ -407,9 +420,9 @@ class _UsuarioState extends State<Usuario> {
           Container(
               decoration: BoxDecoration(
                   gradient: LinearGradient(colors: [
-                Colors.black,
-                Colors.white,
-              ])),
+                    Colors.black,
+                    Colors.white,
+                  ])),
               child: Text(
                 "Mis Recompensas",
                 style: TextStyle(
@@ -428,7 +441,7 @@ class _UsuarioState extends State<Usuario> {
                         context,
                         new MaterialPageRoute(
                             builder: (context) =>
-                                new Mis_promos_manejador_obtenidas()));
+                            new Mis_promos_manejador_obtenidas()));
                   },
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(40.0)),
@@ -447,10 +460,14 @@ class _UsuarioState extends State<Usuario> {
                   )),
               RaisedButton(
                   onPressed: () {
-                    Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                            builder: (BuildContext context) => new DicePage()));
+                    setState(() {
+                      Navigator.push(
+                          context,
+                          new MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                              new DicePage()))
+                          .then((value) => setState(() {}));
+                    });
                   },
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(40.0)),
@@ -473,9 +490,9 @@ class _UsuarioState extends State<Usuario> {
           Container(
               decoration: BoxDecoration(
                   gradient: LinearGradient(colors: [
-                Colors.black,
-                Colors.white,
-              ])),
+                    Colors.black,
+                    Colors.white,
+                  ])),
               child: Text(
                 "Mis puntos",
                 style: TextStyle(
@@ -498,66 +515,69 @@ class Login2 extends StatefulWidget {
 class _State extends State<Login2> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-          gradient: LinearGradient(
-              begin: Alignment.topRight,
-              end: Alignment.bottomLeft,
-              colors: [
-            Colors.black,
-            Colors.white,
-          ])),
-      child: Container(
-        child: ListView(
-          shrinkWrap: false,
-          //addAutomaticKeepAlives: true,
-          physics: BouncingScrollPhysics(),
-          children: <Widget>[
-            Center(
-              child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8.0),
-                  child: Image.asset(
-                    "assets/cabofind.png",
-                    fit: BoxFit.fill,
-                    width: 150.0,
-                    height: 150.0,
-                  )),
-            ),
-            //SizedBox(height: 100.0,),
-            //SizedBox(height: 25.0,),
-            Center(
-                child: Text(
+    return ListView(
+      shrinkWrap: true,
+      //addAutomaticKeepAlives: true,
+      physics: NeverScrollableScrollPhysics(),
+      children: <Widget>[
+        SizedBox(
+          height: 100.0,
+        ),
+        Center(
+          child: ClipRRect(
+              borderRadius: BorderRadius.circular(8.0),
+              child: Image.asset(
+                "assets/cabofind.png",
+                fit: BoxFit.fill,
+                width: 150.0,
+                height: 150.0,
+              )),
+        ),
+        SizedBox(
+          height: 50.0,
+        ),
+        //SizedBox(height: 25.0,),
+        Center(
+            child: Text(
               "Crea tu cuenta",
               style: TextStyle(
-                  fontSize: 25,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold),
+                  fontSize: 25, color: Colors.black, fontWeight: FontWeight.bold),
             )),
-            Center(
-                child: Text(
+        Center(
+            child: Text(
               "Para obtener recompensas!",
               style: TextStyle(
-                  fontSize: 25,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold),
+                  fontSize: 25, color: Colors.black, fontWeight: FontWeight.bold),
             )),
-            Center(
-                child: SizedBox(
-              height: 25.0,
-            )),
-            Center(
-                child: Flexible(
-                    child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8.0),
-                        child: Image.asset(
-                          "assets/fire2.png",
-                          fit: BoxFit.fill,
-                          width: 80.0,
-                          height: 80.0,
-                        )))),
-          ],
+        SizedBox(
+          height: 20,
         ),
-      ),
+        Center(
+            child: RaisedButton(
+                onPressed: () {
+                  FlutterYoutube.playYoutubeVideoByUrl(
+                      apiKey: "AIzaSyAmNDqJm2s5Fpualsl_VF6LhG733knN0BY",
+                      videoUrl: 'https://www.youtube.com/watch?v=hsLSjImkf-c',
+                      autoPlay: false, //default falase
+                      fullScreen: false //default false
+                  );
+                },
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(40.0)),
+                color: Colors.red,
+                child: new Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    new Icon(
+                      FontAwesomeIcons.youtube,
+                      color: Colors.white,
+                    ),
+                    new Text('  Ver video',
+                        style: TextStyle(fontSize: 25, color: Colors.white)),
+                  ],
+                ))),
+      ],
     );
   }
 }

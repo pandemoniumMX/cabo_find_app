@@ -10,14 +10,13 @@
     <!--<uses-permission android:name="android.permission.INTERNET"/> -->
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" />
 
     <application
         android:name="io.flutter.app.FlutterApplication"
         android:label="Cabofind"
-        android:icon="@mipmap/splash">
-        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyA152PLBZLFqFlUMKQhMce3Z18OMGhPY6w"/>
-
+        android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
@@ -42,6 +41,6 @@
             </intent-filter>
         </activity>
 
-        
+
     </application>
 </manifest>

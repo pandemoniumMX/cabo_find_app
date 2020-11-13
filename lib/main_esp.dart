@@ -38,12 +38,16 @@ import 'package:cabofind/paginas/servicios.dart';
 import 'package:cabofind/paginas/compras.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:flutter_youtube/flutter_youtube.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:device_info/device_info.dart';
 import 'package:devicelocale/devicelocale.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/intl.dart';
+import 'package:intl/intl_standalone.dart';
+import 'package:package_info/package_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'paginas/promociones.dart';
 
@@ -70,7 +74,7 @@ class Myapp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
-        // navigatorKey: navigatorKey,
+      // navigatorKey: navigatorKey,
 /*
       routes: {
         'publicacionx' : (BuildContext context) => Publicacion_detalle_fin_push(),
@@ -100,6 +104,7 @@ class _MyHomePageState extends State<MyHomePages> {
   String multi;
   String result;
   List portada;
+  String apkversion;
 
   Icon actionIcon = new Icon(Icons.search);
 
@@ -112,9 +117,16 @@ class _MyHomePageState extends State<MyHomePages> {
 
   //final List<Todo> todos;
   Future<String> getData() async {
+    final PackageInfo info = await PackageInfo.fromPlatform();
+    setState(() {
+      apkversion = info.buildNumber;
+      print(apkversion);
+
+    });
+
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/consultas_negocios/esp/estructura_esp.php"),
+            "http://cabofind.com.mx/app_php/consultas_negocios/esp/estructura_prueba.php"),
         headers: {"Accept": "application/json"});
 
     this.setState(() {
@@ -132,14 +144,15 @@ class _MyHomePageState extends State<MyHomePages> {
 
     this.setState(() {
       portada = json.decode(response.body);
+      print(portada);
     });
 
     return "Success!";
   }
 
-  //Registro descarga en Android
+  @override //Registro descarga en Android
 
-  /*Future<String> checkModelAndroid() async {
+  Future<String> checkModelAndroid() async {
     String currentLocale;
     try {
       currentLocale = await Devicelocale.currentLocale;
@@ -152,9 +165,9 @@ class _MyHomePageState extends State<MyHomePages> {
         Uri.encodeFull(
             "http://cabofind.com.mx/app_php/APIs/esp/insertInfo.php?MOD=${androidInfo.model}&BOOT=${androidInfo.display},${androidInfo.bootloader},${androidInfo.fingerprint}&VERSION=${androidInfo.product}&IDIOMA=${currentLocale}"),
         headers: {"Accept": "application/json"});
-  }*/
+  }
 
-  
+  /*
   //Registro descarga en iOS
   @override
     Future<String> checkModelIos() async {
@@ -167,18 +180,16 @@ class _MyHomePageState extends State<MyHomePages> {
     }
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
-    print('Running on ${iosInfo.utsname.nodename}');
+    //print('Running on ${iosInfo.identifierForVendor}');
     var response = await http.get(
         Uri.encodeFull(
             "http://cabofind.com.mx/app_php/APIs/esp/insertInfoiOS.php?MOD=${iosInfo.model}&BOOT=${iosInfo.utsname.nodename}&VERSION=${iosInfo.systemName}&IDIOMA=${currentLocale}"),
-
         headers: {
           "Accept": "application/json"
         }
     );
-
   }
-
+*/
 
 /*
     _getLocation() async
@@ -193,7 +204,6 @@ class _MyHomePageState extends State<MyHomePages> {
 */
   //final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
   int _page = 0;
-  int selectedIndex = 0;
   PageController _c;
   @override
   void initState() {
@@ -218,8 +228,8 @@ class _MyHomePageState extends State<MyHomePages> {
       _mensajesStreamController?.close();
     }
 
-    this.checkModelIos();
-    //this.checkModelAndroid();
+    //this.checkModelIos();
+    this.checkModelAndroid();
 
     ///this._getLocation();
     initializeDateFormatting();
@@ -244,7 +254,7 @@ class _MyHomePageState extends State<MyHomePages> {
     var responseBody = json.decode(response.body);
     setState(() {
       multi = (double.parse(fromTextController.text) *
-              (responseBody["rates"][toCurrency]))
+          (responseBody["rates"][toCurrency]))
           .toString();
       result = multi;
     });
@@ -274,11 +284,9 @@ class _MyHomePageState extends State<MyHomePages> {
     String _token = "";
     _token = prefs.getString("stringValue");
 
-    // if (prefs.getString(_idioma) ?? 'stringValue' == "espanol")
     if (_token != "ingles") {
       //your home page is loaded
     } else {
-      Navigator.of(context).pop();
       Navigator.pushReplacement(
           context,
           new MaterialPageRoute(
@@ -286,226 +294,331 @@ class _MyHomePageState extends State<MyHomePages> {
     }
   }
 
-  Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) {
-  if (message.containsKey('data')) {
-    // Handle data message
-    final dynamic data = message['data'];
-    print(data);
-  }
-
-  if (message.containsKey('notification')) {
-    // Handle notification message
-    final dynamic notification = message['notification'];
-  }
-
-  // Or do other work.
-}
-
   void setupNotification() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     //prefs.remove("stringValue");
 
-    _firebaseMessaging.requestNotificationPermissions(
-      const IosNotificationSettings(sound: true, badge: true, alert: true));
-      _firebaseMessaging.onIosSettingsRegistered
-      .listen((IosNotificationSettings settings){
-        print("settings registred main: $settings");
-        });
+    _firebaseMessaging.requestNotificationPermissions();
 
-        _firebaseMessaging.getToken().then( (token) {
-          prefs.setString('stringToken', token);
-
-
+    _firebaseMessaging.getToken().then((token) {
       print('===== FCM Token =====');
-      print( token );
-
+      print(token);
+      prefs.setString('stringToken', token);
     });
 
     _firebaseMessaging.configure(
-      
       onMessage: (Map<String, dynamic> message) async {
         print('======= On Message ========');
         print(" $message");
 
-        String id_n = (message['id_n']) as String;
-        String id = (message['id']) as String;
-        String idc = (message['idc']) as String;
-        String idcn = (message['idn']) as String;
+        String id_n = (message['data']['id_n']) as String;
+        String id = (message['data']['id']) as String;
+        String idc = (message['data']['idc']) as String;
+        String idcn = (message['data']['idn']) as String;
+        String tipo = (message['data']['tipo']) as String;
         var idcnumber = int.parse(idc);
-       
 
         id_n != null
             ? showDialog(
-                context: context,
-                builder: (context) {
-                  return StatefulBuilder(builder:
-                                        (BuildContext context,
-                                            StateSetter setState) {
-                  return AlertDialog(
-                    title: Text(
-                      'Nueva publicación!',
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: Text(
+                  'Nueva publicación!',
+                  style: TextStyle(
+                    fontSize: 25.0,
+                  ),
+                ),
+                content: Container(
+                  width: 300,
+                  height: 300.0,
+                  child: FadeInImage(
+                    image: NetworkImage(
+                        "http://cabofind.com.mx/assets/img/alerta.png"),
+                    fit: BoxFit.fill,
+                    width: 300,
+                    height: 300,
+
+                    // placeholder: AssetImage('android/assets/jar-loading.gif'),
+                    placeholder:
+                    AssetImage('android/assets/images/loading.gif'),
+                    fadeInDuration: Duration(milliseconds: 200),
+                  ),
+                ),
+                actions: <Widget>[
+                  new FlatButton(
+                    child: new Text('Cerrar'),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                  new FlatButton(
+                    color: Colors.black,
+                    child: new Text(
+                      'Descubrir',
+                      style: TextStyle(fontSize: 14.0, color: Colors.white),
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          new MaterialPageRoute(
+                              builder: (context) =>
+                              new Publicacion_detalle_fin(
+                                publicacion: new Publicacion(id_n, id),
+                              )));
+                    },
+                  )
+                ],
+              );
+            })
+            : tipo == 'domicilio'
+            ? showDialog(
+            barrierDismissible: false,
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: Text(
+                  'Nuevo pedido!',
+                  style: TextStyle(
+                    fontSize: 25.0,
+                  ),
+                ),
+                content: Container(
+                    width: 300,
+                    height: 50.0,
+                    child: Text('Pedido número #$idcnumber enviado')),
+                actions: <Widget>[
+                  new FlatButton(
+                    child: new Text('Cerrar'),
+                    onPressed: () {
+                      // _stopFile();
+
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                  new FlatButton(
+                    color: Color(0xff773E42),
+                    child: new Text(
+                      'Ver pedido',
                       style: TextStyle(
-                        fontSize: 25.0,
-                      ),
+                          fontSize: 14.0, color: Colors.white),
                     ),
-                    content: Container(
-                      width: 300,
-                      height: 300.0,
-                      child: FadeInImage(
-                        image: NetworkImage(
-                            "http://cabofind.com.mx/assets/img/alerta.png"),
-                        fit: BoxFit.fill,
-                        width: 300,
-                        height: 300,
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                          context,
+                          new MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                              new Domicilio(
+                                  numeropagina: Categoria(2),
+                                  numtab: Categoria(1))));
+                    },
+                  )
+                ],
+              );
+            })
+            : tipo == 'recoger'
+            ? showDialog(
+            barrierDismissible: false,
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: Text(
+                  'Nuevo pedido!',
+                  style: TextStyle(
+                    fontSize: 25.0,
+                  ),
+                ),
+                content: Container(
+                    width: 300,
+                    height: 50.0,
+                    child: Text(
+                        'Pedido número #$idcnumber listo para recoger')),
+                actions: <Widget>[
+                  new FlatButton(
+                    child: new Text('Cerrar'),
+                    onPressed: () {
+                      // _stopFile();
 
-                        // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
-                        placeholder:
-                            AssetImage('android/assets/images/loading.gif'),
-                        fadeInDuration: Duration(milliseconds: 200),
-                      ),
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                  new FlatButton(
+                    color: Color(0xff773E42),
+                    child: new Text(
+                      'Ver pedido',
+                      style: TextStyle(
+                          fontSize: 14.0, color: Colors.white),
                     ),
-                    actions: <Widget>[
-                      new FlatButton(
-                        child: new Text('Cerrar'),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                      new FlatButton(
-                        color: Colors.black,
-                        child: new Text(
-                          'Descubrir',
-                          style: TextStyle(fontSize: 14.0, color: Colors.white),
-                        ),
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              new MaterialPageRoute(
-                                  builder: (context) =>
-                                      new Publicacion_detalle_fin(
-                                        publicacion: new Publicacion(id_n, id),
-                                      )));
-                        },
-                      )
-                    ],
-                  );
-                                    });
-                                  },)
-            : idcnumber == null
-                ? showDialog(
-                    barrierDismissible: false,
-                    context: context,
-                    builder: (context) {
-                      return AlertDialog(
-                        title: Text(
-                          'Nuevo pedido!',
-                          style: TextStyle(
-                            fontSize: 25.0,
-                          ),
-                        ),
-                        content: Container(
-                            width: 300,
-                            height: 50.0,
-                            child: Text('Pedido número #$idcnumber enviado')),
-                        actions: <Widget>[
-                          new FlatButton(
-                            child: new Text('Cerrar'),
-                            onPressed: () {
-                              // _stopFile();
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                          context,
+                          new MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                              new Domicilio(
+                                  numeropagina: Categoria(2),
+                                  numtab: Categoria(0))));
+                    },
+                  )
+                ],
+              );
+            })
+            : tipo == 'cancelado'
+            ? showDialog(
+            barrierDismissible: false,
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: Text(
+                  'Nuevo pedido!',
+                  style: TextStyle(
+                    fontSize: 25.0,
+                  ),
+                ),
+                content: Container(
+                    width: 300,
+                    height: 50.0,
+                    child: Text(
+                        'Pedido número #$idcnumber fue cancelado')),
+                actions: <Widget>[
+                  new FlatButton(
+                    child: new Text('Cerrar'),
+                    onPressed: () {
+                      // _stopFile();
 
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                          new FlatButton(
-                            color: Color(0xff773E42),
-                            child: new Text(
-                              'Ver pedido',
-                              style: TextStyle(
-                                  fontSize: 14.0, color: Colors.white),
-                            ),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                              Navigator.push(
-                                  context,
-                                  new MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                          new Domicilio(
-                                              numeropagina: Categoria(2),
-                                              numtab: Categoria(1))));
-                            },
-                          )
-                        ],
-                      );
-                    })
-                : SizedBox();
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                  new FlatButton(
+                    color: Color(0xff773E42),
+                    child: new Text(
+                      'Ver pedido',
+                      style: TextStyle(
+                          fontSize: 14.0, color: Colors.white),
+                    ),
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                          context,
+                          new MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                              new Domicilio(
+                                  numeropagina:
+                                  Categoria(2),
+                                  numtab: Categoria(2))));
+                    },
+                  )
+                ],
+              );
+            })
+            : SizedBox();
 
-
+/*
+       showDialog(
+         context: context,
+         builder: (context) => AlertDialog(
+           content: ListTile(
+             title: Text(message['data']['id_n']),
+             subtitle: Text(message['data']['id']),
+           ),
+         )
+       );
+*/
       },
-      onBackgroundMessage: myBackgroundMessageHandler,
       onLaunch: (Map<String, dynamic> message) async {
         print('======= On launch ========');
         print(" $message");
 
-        String id_n = (message['id_n']) as String;
-        String id = (message['id']) as String;
-        String idc = (message['idc']) as String;
-        String idcn = (message['idn']) as String;
+        String id_n = (message['data']['id_n']) as String;
+        String id = (message['data']['id']) as String;
+        String idc = (message['data']['idc']) as String;
+        String idcn = (message['data']['idn']) as String;
+        String tipo = (message['data']['tipo']) as String;
         var idcnumber = int.parse(idc);
-        print(idcn);
         id_n != null
             ? Navigator.push(
-                context,
-                new MaterialPageRoute(
-                    builder: (context) => new Publicacion_detalle_fin(
-                          publicacion: new Publicacion(id_n, id),
-                        )))
-            : idcnumber != null
-                ? Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (BuildContext context) => new Lista_enproceso(
-                              carrito: new Costos(idc, idcn),
-                            )))
-                : SizedBox();
+            context,
+            new MaterialPageRoute(
+                builder: (context) => new Publicacion_detalle_fin(
+                  publicacion: new Publicacion(id_n, id),
+                )))
+            : tipo == 'domicilio'
+            ? Navigator.push(
+            context,
+            new MaterialPageRoute(
+                builder: (BuildContext context) => new Domicilio(
+                    numeropagina: Categoria(2), numtab: Categoria(1))))
+            : tipo == 'recoger'
+            ? Navigator.push(
+            context,
+            new MaterialPageRoute(
+                builder: (BuildContext context) => new Domicilio(
+                    numeropagina: Categoria(2),
+                    numtab: Categoria(0))))
+            : tipo == 'cancelado'
+            ? Navigator.push(
+            context,
+            new MaterialPageRoute(
+                builder: (BuildContext context) =>
+                new Domicilio(
+                    numeropagina: Categoria(2),
+                    numtab: Categoria(2))))
+            : SizedBox();
       },
-      
       onResume: (Map<String, dynamic> message) async {
         print('======= On resume ========');
         print(" $message");
 
-        String id_n = (message['id_n']) as String;
-        String id = (message['id']) as String;
-        String idc = (message['idc']) as String;
-        String idcn = (message['idn']) as String;
-        print(idc);
-        print(idcn);
-
+        String id_n = (message['data']['id_n']) as String;
+        String id = (message['data']['id']) as String;
+        String idc = (message['data']['idc']) as String;
+        String idcn = (message['data']['idn']) as String;
+        String tipo = (message['data']['tipo']) as String;
         var idcnumber = int.parse(idc);
-        print(idcnumber);
-        /*id_n != null
+        id_n != null
             ? Navigator.push(
-                context,
-                new MaterialPageRoute(
-                    builder: (context) => new Publicacion_detalle_fin(
-                          publicacion: new Publicacion(id_n, id),
-                        )))
-            : */idcnumber != null
-                ? Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (BuildContext context) => new Domicilio(
-                            numeropagina: Categoria(2), numtab: Categoria(1))))
-                : SizedBox();
+            context,
+            new MaterialPageRoute(
+                builder: (context) => new Publicacion_detalle_fin(
+                  publicacion: new Publicacion(id_n, id),
+                )))
+            : tipo == 'domicilio'
+            ? Navigator.push(
+            context,
+            new MaterialPageRoute(
+                builder: (BuildContext context) => new Domicilio(
+                    numeropagina: Categoria(2), numtab: Categoria(1))))
+            : tipo == 'recoger'
+            ? Navigator.push(
+            context,
+            new MaterialPageRoute(
+                builder: (BuildContext context) => new Domicilio(
+                    numeropagina: Categoria(2),
+                    numtab: Categoria(0))))
+            : tipo == 'cancelado'
+            ? Navigator.push(
+            context,
+            new MaterialPageRoute(
+                builder: (BuildContext context) =>
+                new Domicilio(
+                    numeropagina: Categoria(2),
+                    numtab: Categoria(2))))
+            : SizedBox();
       },
-      
     );
+  }
+
+  versionError() {
+    Fluttertoast.showToast(
+        msg: portada[0]["POR_MSJ"],
+        toastLength: Toast.LENGTH_SHORT,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        timeInSecForIos: 1);
   }
 
   Widget build(BuildContext context) {
     /*
     return new MaterialApp(
       navigatorKey: navigatorKey,
-
       routes: {
         'publicacionx' : (BuildContext context) => Publicacion_detalle_fin_push(),
       },
@@ -519,9 +632,6 @@ class _MyHomePageState extends State<MyHomePages> {
         home: new Container(
             child:           new MyHomePages()
         )
-
-
-
     );
     */
     // new Publicaciones();
@@ -529,85 +639,13 @@ class _MyHomePageState extends State<MyHomePages> {
     /*
 routes: <String, WidgetBuilder>{
           "/inicio" : (BuildContext context) => data[index]["est_navegacion"],
-         
+
         };
 */
 
-    alertCar(context) async {
-      return showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          // return object of type AlertDialog
-          return AlertDialog(
-            //. Disponible únicamente en Cabo San Lucas
-            title: new Text("¡Ahí voy Cabo! ¿Como funciona?"),
-            content: Container(
-              height: MediaQuery.of(context).size.height,
-              child: new Column(
-                children: <Widget>[
-                  Text(
-                      "Cabofind te ayudará a generar tu pedido, posteriormente, se envía un whatsapp desde tu celular al mensajero," +
-                          "este se pondrá en contacto con usted para validar el pedido.",
-                      maxLines: 15,
-                      style: TextStyle(
-                        fontSize: 15.0,
-                      )),
-                  Text(
-                      "El mensajero llegará con tu producto y con su ticket de compra.",
-                      maxLines: 15,
-                      style: TextStyle(
-                        fontSize: 15.0,
-                      )),
-                  Text("Disponible únicamente en Cabo San Lucas.",
-                      maxLines: 15,
-                      style: TextStyle(
-                        fontSize: 15.0,
-                      )),
-                  Text("Los precios pueden variar dependiendo la hora.",
-                      maxLines: 15,
-                      style: TextStyle(
-                        fontSize: 15.0,
-                      )),
-                  Text("El servicio es totalmente ajeno a Cabofind. ",
-                      maxLines: 15,
-                      style: TextStyle(
-                        fontSize: 15.0,
-                      )),
-                ],
-              ),
-            ),
-
-            actions: <Widget>[
-              new FlatButton(
-                child: new Text('Cerrar'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-              new FlatButton(
-                color: Colors.black,
-                child: new Text(
-                  'Acepto los terminos',
-                  style: TextStyle(fontSize: 14.0, color: Colors.white),
-                ),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (BuildContext context) => new Domicilio()));
-                },
-              )
-            ],
-          );
-        },
-      );
-    }
 /*
-
    _makeStripePayment() async {
       var environment = 'rest'; // or 'production'
-
       if (!(await FlutterGooglePay.isAvailable(environment))) {
         Fluttertoast.showToast(
           msg: "Google pay no disponible",
@@ -622,7 +660,6 @@ routes: <String, WidgetBuilder>{
             currencyCode: "mex",
             amount: "10.0",
             gateway: 'stripe');
-
         FlutterGooglePay.makePayment(pm).then((Result result) {
           if (result.status == ResultStatus.SUCCESS) {
           Fluttertoast.showToast(
@@ -631,7 +668,7 @@ routes: <String, WidgetBuilder>{
           backgroundColor: Colors.black,
           textColor: Colors.white,
           timeInSecForIos: 1);
-    
+
           }
         }).catchError((dynamic error) {
           Fluttertoast.showToast(
@@ -643,10 +680,8 @@ routes: <String, WidgetBuilder>{
         });
       }
     }
-
     _makeCustomPayment() async {
       var environment = 'rest'; // or 'production'
-
       if (!(await FlutterGooglePay.isAvailable(environment))) {
         Fluttertoast.showToast(
           msg:"Google pay no disponible",
@@ -667,7 +702,6 @@ routes: <String, WidgetBuilder>{
           ..addShippingAddressRequired(true)
           ..addShippingSupportedCountries(["US", "GB"])
           ..addMerchantInfo("Example");
-
         FlutterGooglePay.makeCustomPayment(pb.build()).then((Result result) {
           if (result.status == ResultStatus.SUCCESS) {
             Fluttertoast.showToast(
@@ -690,43 +724,17 @@ routes: <String, WidgetBuilder>{
       }
     }*/
 
-    Widget _buildDropDownButton(String currencyCategory) {
-      return DropdownButton(
-        value: currencyCategory,
-        items: currencies
-            .map((String value) => DropdownMenuItem(
-                  value: value,
-                  child: Row(
-                    children: <Widget>[
-                      Text(value),
-                    ],
-                  ),
-                ))
-            .toList(),
-        onChanged: (String value) {
-          _doConversion();
-          if (currencyCategory == fromCurrency) {
-            _onFromChanged(value);
-            _doConversion();
-          } else {
-            _onToChanged(value);
-            _doConversion();
-          }
-        },
-      );
-    }
-
     Widget cuerpo = GridView.builder(
-      shrinkWrap: true,
+      padding: EdgeInsets.only(top: 2),
       itemCount: data == null ? 0 : data.length,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        childAspectRatio: 0.46,
+        childAspectRatio: 0.460,
       ),
       itemBuilder: (BuildContext context, int index) => Container(
-        height: 400,
-        padding: EdgeInsets.all(1),
-        margin: EdgeInsets.all(1),
+        // height: 400,
+        padding: EdgeInsets.all(0),
+        margin: EdgeInsets.all(2),
         child: Stack(
           children: [
             InkWell(
@@ -758,7 +766,7 @@ routes: <String, WidgetBuilder>{
                       context,
                       new MaterialPageRoute(
                           builder: (BuildContext context) =>
-                              new Restaurantes()));
+                          new Restaurantes()));
                 } else if (ruta == "Descubre") {
                   Navigator.push(
                       context,
@@ -779,7 +787,7 @@ routes: <String, WidgetBuilder>{
                       context,
                       new MaterialPageRoute(
                           builder: (BuildContext context) =>
-                              new Eventos_grid()));
+                          new Eventos_grid()));
                 } else if (ruta == "Acercade") {
                   Navigator.push(
                       context,
@@ -790,7 +798,7 @@ routes: <String, WidgetBuilder>{
                       context,
                       new MaterialPageRoute(
                           builder: (BuildContext context) =>
-                              new Promociones_list()));
+                          new Promociones_list()));
                 } else if (ruta == "Salud") {
                   Navigator.push(
                       context,
@@ -806,13 +814,13 @@ routes: <String, WidgetBuilder>{
                       context,
                       new MaterialPageRoute(
                           builder: (BuildContext context) =>
-                              new Vida_nocturna()));
+                          new Vida_nocturna()));
                 } else if (ruta == "Publicaciones") {
                   Navigator.push(
                       context,
                       new MaterialPageRoute(
                           builder: (BuildContext context) =>
-                              new Publicaciones_grid()));
+                          new Publicaciones_grid()));
                 } else if (ruta == "Anuncios") {
                   Navigator.push(
                       context,
@@ -833,7 +841,7 @@ routes: <String, WidgetBuilder>{
                       context,
                       new MaterialPageRoute(
                           builder: (BuildContext context) =>
-                              new Menu_comidas()));
+                          new Menu_comidas()));
                 } else if (ruta == "rickys") {
                   Navigator.push(
                       context,
@@ -845,12 +853,14 @@ routes: <String, WidgetBuilder>{
                       new MaterialPageRoute(
                           builder: (BuildContext context) => new Hoteles()));
                 } else if (ruta == "Cabofood") {
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (BuildContext context) => new Domicilio(
-                              numeropagina: Categoria(0),
-                              numtab: Categoria(0))));
+                  apkversion == portada[0]["IOS_VERSION"]
+                      ? Navigator.push(
+                          context,
+                          new MaterialPageRoute(
+                              builder: (BuildContext context) => new Domicilio(
+                                  numeropagina: Categoria(0),
+                                  numtab: Categoria(0))))
+                      : versionError();
                 }
               },
             ),
@@ -866,7 +876,7 @@ routes: <String, WidgetBuilder>{
                       child: Container(
                         margin: const EdgeInsets.only(bottom: 8, top: 8),
                         padding: const EdgeInsets.only(
-                            left: 15.0, right: 15.0, top: 8.0, bottom: 8.0),
+                            left: 10.0, right: 10.0, top: 8.0, bottom: 8.0),
                         color: Color(int.parse(data[index]["est_color"])),
                         child: new Text(data[index]["est_nombre"],
                             style: new TextStyle(
@@ -889,7 +899,39 @@ routes: <String, WidgetBuilder>{
     );
 
     return Scaffold(
+      /* bottomNavigationBar: new BottomNavigationBar(
+        currentIndex: _page,
+        backgroundColor: Colors.white,
+        fixedColor: Color(0xff773E42),
+        unselectedItemColor: Colors.black54,
+        showUnselectedLabels: false,
+        //unselectedIconTheme: Colors.grey,
+        onTap: (index) {
+          this._c.animateToPage(index,
+              duration: const Duration(milliseconds: 100),
+              curve: Curves.bounceIn);
+        },
+        items: <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+              icon: Icon(
+                FontAwesomeIcons.home,
+              ),
+              title: Text("Inicio")),
+          BottomNavigationBarItem(
+              icon: Icon(
+                FontAwesomeIcons.gift,
+              ),
+              title: Text("Rewards")),
+          BottomNavigationBarItem(
+              icon: Icon(
+                FontAwesomeIcons.userAlt,
+              ),
+              title: Text("Perfil")),
+        ],
+      ),*/
+
       bottomNavigationBar: FFNavigationBar(
+        selectedIndex: _page,
         theme: FFNavigationBarTheme(
           barBackgroundColor: Colors.white,
           selectedItemBorderColor: Colors.white,
@@ -902,26 +944,15 @@ routes: <String, WidgetBuilder>{
             iconData: FontAwesomeIcons.home,
             label: 'Inicio',
           ),
-          /*  FFNavigationBarItem(
-            iconData: FontAwesomeIcons.shoppingCart,
-            label: 'Carrito',
-          ),
-          
           FFNavigationBarItem(
-            iconData: FontAwesomeIcons.fire,
-            label: 'Promos',
+            iconData: FontAwesomeIcons.gift,
+            label: 'Rewards',
           ),
-          
-          FFNavigationBarItem(
-            iconData: FontAwesomeIcons.solidHeart,
-            label: 'Favoritos',
-          ),*/
           FFNavigationBarItem(
             iconData: FontAwesomeIcons.userAlt,
             label: 'Cuenta',
           ),
         ],
-        selectedIndex: selectedIndex,
         onSelectTab: (index) {
           this._c.animateToPage(index,
               duration: const Duration(milliseconds: 10),
@@ -935,7 +966,6 @@ routes: <String, WidgetBuilder>{
               expandedHeight: 250.0,
               floating: true,
               pinned: true,
-              automaticallyImplyLeading: true,
               flexibleSpace: FlexibleSpaceBar(
                 titlePadding: EdgeInsets.all(10.0),
                 background: GestureDetector(
@@ -973,12 +1003,12 @@ routes: <String, WidgetBuilder>{
                           context,
                           new MaterialPageRoute(
                               builder: (BuildContext context) =>
-                                  new Notificaciones()));
+                              new Notificaciones()));
                     },
                     child: Stack(
                       children: <Widget>[
                         /*Positioned(
-                      
+
                                 right: 2.0,
                                 bottom: 30,
                                 child: new Text('22',
@@ -1034,7 +1064,7 @@ routes: <String, WidgetBuilder>{
                           context,
                           new MaterialPageRoute(
                               builder: (BuildContext context) =>
-                                  new Calculadora()));
+                              new Calculadora()));
                     },
                     child: new Center(
                       child: new Row(children: <Widget>[
@@ -1050,11 +1080,11 @@ routes: <String, WidgetBuilder>{
                     onTap: () {
                       addStringToSF();
                       //Navigator.of(context).pop();
-                      Navigator.push(
+                      Navigator.pushReplacement(
                           context,
                           new MaterialPageRoute(
                               builder: (BuildContext context) =>
-                                  new MyHomePages_ing()));
+                              new MyApp_ing()));
                     },
                     child: new Center(
                       //padding: const EdgeInsets.all(13.0),
@@ -1080,8 +1110,8 @@ routes: <String, WidgetBuilder>{
                     //Use`Navigator` widget to push the second screen to out stack of screens
                     Navigator.of(context).push(MaterialPageRoute<Null>(
                         builder: (BuildContext context) {
-                      return new Buscador();
-                    }));
+                          return new Buscador();
+                        }));
                   },
                 ),
               ],
@@ -1089,18 +1119,85 @@ routes: <String, WidgetBuilder>{
           ];
         },
         body: new PageView(
+          physics: const NeverScrollableScrollPhysics(),
           controller: _c,
           onPageChanged: (newPage) {
             setState(() {
               this._page = newPage;
-              selectedIndex = newPage;
+              // selectedIndex = newPage;
             });
           },
           children: <Widget>[
             cuerpo,
-            //new Mis_recompensas(),
-            //new Mis_promos(),
-            //new Mis_favoritos(),
+            apkversion == portada[0]["IOS_VERSION"]
+                ? Mis_recompensas()
+                : ListView(
+              shrinkWrap: true,
+              //addAutomaticKeepAlives: true,
+              physics: NeverScrollableScrollPhysics(),
+              children: <Widget>[
+                SizedBox(
+                  height: 100.0,
+                ),
+                Center(
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8.0),
+                      child: Image.asset(
+                        "assets/cabofind.png",
+                        fit: BoxFit.fill,
+                        width: 150.0,
+                        height: 150.0,
+                      )),
+                ),
+                SizedBox(
+                  height: 50.0,
+                ),
+                //SizedBox(height: 25.0,),
+                Center(
+                    child: Text(
+                      portada[0]["POR_MSJ"],
+                      style: TextStyle(
+                          fontSize: 25,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold),
+                    )),
+                SizedBox(
+                  height: 20,
+                ),
+                Center(
+                    child: RaisedButton(
+                        onPressed: () {
+                          FlutterYoutube.playYoutubeVideoByUrl(
+                              apiKey:
+                              "AIzaSyAmNDqJm2s5Fpualsl_VF6LhG733knN0BY",
+                              videoUrl:
+                              'https://www.youtube.com/watch?v=hsLSjImkf-c',
+                              autoPlay: false, //default falase
+                              fullScreen: false //default false
+                          );
+                        },
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(40.0)),
+                        color: Colors.red,
+                        child: new Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            new Icon(
+                              FontAwesomeIcons.youtube,
+                              color: Colors.white,
+                            ),
+                            new Text('  Ver video',
+                                style: TextStyle(
+                                    fontSize: 25, color: Colors.white)),
+                          ],
+                        ))),
+                Center(
+                    child: SizedBox(
+                      height: 25.0,
+                    )),
+              ],
+            ),
             new Login()
           ],
         ),
