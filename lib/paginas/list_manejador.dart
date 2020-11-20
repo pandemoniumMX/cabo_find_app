@@ -138,6 +138,13 @@ class _ListaAcuaticas extends State<Lista_Manejador_esp> {
   }
 
   Widget build(BuildContext context) {
+    Widget error = Center(
+      heightFactor: 20.00,
+      child: Text(
+        'Proximamente :)',
+        style: TextStyle(fontSize: 25),
+      ),
+    );
     Widget listado = ListView.builder(
       shrinkWrap: true,
       physics: BouncingScrollPhysics(),
@@ -256,7 +263,7 @@ class _ListaAcuaticas extends State<Lista_Manejador_esp> {
                       padding: EdgeInsets.only(left: 25.0)),
                   Padding(
                       child: new Text(
-                        data[index]["NEG_LUGAR"],
+                        data[index]["CIU_NOMBRE"],
                         overflow: TextOverflow.ellipsis,
                       ),
                       padding: EdgeInsets.only(left: 25.0)),
@@ -374,7 +381,7 @@ class _ListaAcuaticas extends State<Lista_Manejador_esp> {
                       padding: EdgeInsets.only(left: 25.0)),
                   Padding(
                       child: new Text(
-                        databaja[index]["NEG_LUGAR"],
+                        databaja[index]["CIU_NOMBRE"],
                         overflow: TextOverflow.ellipsis,
                       ),
                       padding: EdgeInsets.only(left: 25.0)),
@@ -403,7 +410,10 @@ class _ListaAcuaticas extends State<Lista_Manejador_esp> {
         child: new ListView(
           children: [
             Column(
-              children: <Widget>[listado, listadobaja],
+              children: <Widget>[
+                data.isEmpty && databaja.isEmpty ? error : listado,
+                listadobaja
+              ],
             ),
           ],
         ),

@@ -133,7 +133,7 @@ Future<String> getInfo() async {
               response.body);
         });
     print(
-        data_list[0]["NEG_LUGAR"]);
+        data_list[0]["CIU_NOMBRE"]);
 
     return "Success!";
   }
@@ -671,7 +671,7 @@ Future<String> insertVisitaiOS() async {
                             " | "),
                         Flexible(
                           child: new Text(
-                            data_list[index]["NEG_LUGAR"],
+                            data_list[index]["CIU_NOMBRE"],
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,),
                         ),

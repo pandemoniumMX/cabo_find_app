@@ -149,10 +149,13 @@ class _MyHomePageState extends State<Start> {
 
   Future isLogged(context) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    String _token = "";
-    _token = prefs.getString("stringValue");
 
-    if (_value != 2) {
+    prefs.getString('stringLenguage');
+    prefs.getString('stringCity');
+    // String _city = prefs.getString('stringCity');
+    String _lenguage = prefs.getString('stringLenguage');
+
+    if (_lenguage != "2") {
       Navigator.of(context).pop();
       Route route = MaterialPageRoute(builder: (context) => Myapp());
       Navigator.push(context, route);
@@ -322,7 +325,8 @@ class _MyHomePageState extends State<Start> {
                         validator: (value) =>
                             value == null ? 'Campo requerido' : null,
                         value: _ciudades,
-                        hint: Text('Seleccionar'),
+                        hint:
+                            _value == 1 ? Text('Seleccionar') : Text('Select'),
 
                         // isExpanded: true,
                       )),

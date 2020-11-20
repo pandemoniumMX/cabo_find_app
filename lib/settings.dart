@@ -277,7 +277,8 @@ class _MyHomePageState extends State<Start> {
                         validator: (value) =>
                             value == null ? 'Campo requerido' : null,
                         value: _ciudades,
-                        hint: Text('Seleccionar'),
+                        hint:
+                            _value == 1 ? Text('Seleccionar') : Text('Select'),
 
                         // isExpanded: true,
                       )),

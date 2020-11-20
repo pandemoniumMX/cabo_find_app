@@ -120,7 +120,7 @@ class _ListaOriental extends State<ListaTransporte_ing> {
                     Text(" | "),
                     Flexible(
                       child: new Text(
-                        data[index]["NEG_LUGAR"],
+                        data[index]["CIU_NOMBRE"],
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
                       ),
@@ -184,7 +184,7 @@ class _ListaOriental extends State<ListaTransporte_ing> {
                     Text(" | "),
                     Flexible(
                       child: new Text(
-                        databaja[index]["NEG_LUGAR"],
+                        databaja[index]["CIU_NOMBRE"],
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
                       ),

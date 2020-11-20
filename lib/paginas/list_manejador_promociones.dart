@@ -31,7 +31,6 @@ class Publicacionesfull extends State<Manejador_promociones> {
   List<int> _listaNumeros = new List();
 
   List data;
-  List databaja;
   List data_n;
   List data_c;
 
@@ -199,7 +198,7 @@ class Publicacionesfull extends State<Manejador_promociones> {
                       Text(" | "),
                       Flexible(
                         child: new Text(
-                          data[index]["NEG_LUGAR"],
+                          data[index]["CIU_NOMBRE"],
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
                         ),

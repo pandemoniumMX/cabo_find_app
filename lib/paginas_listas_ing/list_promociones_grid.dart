@@ -104,7 +104,7 @@ class Publicacionesfull extends State<Promociones_ingx> {
                       Text(" | "),
                       Flexible(
                         child: new Text(
-                          data[index]["NEG_LUGAR"],
+                          data[index]["CIU_NOMBRE"],
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
                         ),

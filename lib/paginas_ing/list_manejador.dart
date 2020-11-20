@@ -32,7 +32,6 @@ class _ListaAcuaticas extends State<Lista_Manejador_ing> {
   //final List<Todo> todos;
   Future<String> getData() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-
     prefs.getString('stringLenguage');
     prefs.getString('stringCity');
     String _city = prefs.getString('stringCity');
@@ -251,7 +250,7 @@ class _ListaAcuaticas extends State<Lista_Manejador_ing> {
                       padding: EdgeInsets.only(left: 25.0)),
                   Padding(
                       child: new Text(
-                        data[index]["NEG_LUGAR"],
+                        data[index]["CIU_NOMBRE"],
                         overflow: TextOverflow.ellipsis,
                       ),
                       padding: EdgeInsets.only(left: 25.0)),
@@ -372,7 +371,7 @@ class _ListaAcuaticas extends State<Lista_Manejador_ing> {
                       padding: EdgeInsets.only(left: 25.0)),
                   Padding(
                       child: new Text(
-                        databaja[index]["NEG_LUGAR"],
+                        databaja[index]["CIU_NOMBRE"],
                         overflow: TextOverflow.ellipsis,
                       ),
                       padding: EdgeInsets.only(left: 25.0)),

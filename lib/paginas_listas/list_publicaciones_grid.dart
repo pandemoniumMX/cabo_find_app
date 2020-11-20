@@ -103,7 +103,7 @@ class Publicacionesfull extends State<Publicacionesx> {
                       Text(" | "),
                       Flexible(
                         child: new Text(
-                          data[index]["NEG_LUGAR"],
+                          data[index]["CIU_NOMBRE"],
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
                         ),

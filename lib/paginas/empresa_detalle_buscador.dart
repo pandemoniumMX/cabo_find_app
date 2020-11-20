@@ -151,7 +151,7 @@ class Detalles extends State<Empresa_det_fin_bus> {
               response.body);
         });
     print(
-        data_list[0]["NEG_LUGAR"]);
+        data_list[0]["CIU_NOMBRE"]);
 
     return "Success!";
   }
@@ -562,7 +562,7 @@ facebook() async {
                             " | "),
                         Padding(
                             child: new Text(
-                                data_list[index]["NEG_LUGAR"]),
+                                data_list[index]["CIU_NOMBRE"]),
                             padding: EdgeInsets.all(
                                 1.0)),
 
@@ -581,7 +581,7 @@ facebook() async {
             String id_n = data_list[index]["ID_NEGOCIO"];
             String id = data_list[index]["ID_PUBLICACION"];
             String nom = data_list[index]["NEG_NOMBRE"];
-            String lug = data_list[index]["NEG_LUGAR"];
+            String lug = data_list[index]["CIU_NOMBRE"];
             String cat = data_list[index]["CAT_NOMBRE"];
             String sub = data_list[index]["SUB_NOMBRE"];
             String gal = data_list[index]["GAL_FOTO"];
