@@ -640,7 +640,7 @@ class _DomicilioState extends State<Domicilio> {
                                               fit: BoxFit.fill,
                                               width: 300,
                                               height: 150,
-                                              // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
+                                              // placeholder: AssetImage('android/assets/images/loading.gif'),
                                               placeholder: AssetImage(
                                                   'android/assets/images/loading.gif'),
                                               fadeInDuration:

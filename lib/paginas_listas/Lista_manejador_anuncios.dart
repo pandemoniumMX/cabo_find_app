@@ -174,7 +174,7 @@ class _ListaAcuaticas extends State<Lista_manejador_anuncios> {
                     width: MediaQuery.of(context).size.width,
                     height: 220,
 
-                    // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
+                    // placeholder: AssetImage('android/assets/images/loading.gif'),
                     placeholder:
                         AssetImage('android/assets/images/loading.gif'),
                     fadeInDuration: Duration(milliseconds: 200),

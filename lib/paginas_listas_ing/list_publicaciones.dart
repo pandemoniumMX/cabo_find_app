@@ -84,7 +84,7 @@ class Publicacionesfull extends State<Publicaciones> {
                     width: MediaQuery.of(context).size.width,
                     height: 250,
 
-                    // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
+                    // placeholder: AssetImage('android/assets/images/loading.gif'),
                     placeholder:
                         AssetImage('android/assets/images/loading.gif'),
                     fadeInDuration: Duration(milliseconds: 200),

@@ -531,7 +531,7 @@ final url =  dataneg[index]["NEG_MAP_IOS"];
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height / .5,
 
-            // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
+            // placeholder: AssetImage('android/assets/images/loading.gif'),
             placeholder: AssetImage('android/assets/images/loading.gif'),
             fadeInDuration: Duration(milliseconds: 200),
           ),
@@ -779,7 +779,7 @@ final url =  dataneg[index]["NEG_MAP_IOS"];
               width: MediaQuery.of(context).size.width,
               height: 230,
 
-              // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
+              // placeholder: AssetImage('android/assets/images/loading.gif'),
               placeholder: AssetImage('android/assets/images/loading.gif'),
               fadeInDuration: Duration(milliseconds: 200),
             );
@@ -1146,7 +1146,7 @@ final url =  dataneg[index]["NEG_MAP_IOS"];
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height / 2,
 
-                    // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
+                    // placeholder: AssetImage('android/assets/images/loading.gif'),
                     placeholder:
                         AssetImage('android/assets/images/loading.gif'),
                     fadeInDuration: Duration(milliseconds: 200),
@@ -1251,7 +1251,7 @@ final url =  dataneg[index]["NEG_MAP_IOS"];
                                     width: MediaQuery.of(context).size.width,
                                     height: MediaQuery.of(context).size.height,
 
-                                    // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
+                                    // placeholder: AssetImage('android/assets/images/loading.gif'),
                                     placeholder: AssetImage(
                                         'android/assets/images/loading.gif'),
                                     fadeInDuration: Duration(milliseconds: 200),

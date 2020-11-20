@@ -20,6 +20,7 @@ import 'package:cabofind/paginas/ricky.dart';
 import 'package:cabofind/paginas/salud.dart';
 import 'package:cabofind/paginas/scan.dart';
 import 'package:cabofind/paginas_listas/list_eventos_grid.dart';
+import 'package:cabofind/settings.dart';
 import 'package:cabofind/utilidades/buscador.dart';
 import 'package:cabofind/utilidades/calculadora.dart';
 import 'package:cabofind/utilidades/classes.dart';
@@ -270,12 +271,6 @@ class _MyHomePageState extends State<MyHomePages> {
     });
   }
 
-  addStringToSF() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    //prefs.remove("stringValue");
-    prefs.setString('stringValue', "ingles");
-  }
-
   Future isLogged(context) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     String _token = "";
@@ -337,7 +332,7 @@ class _MyHomePageState extends State<MyHomePages> {
                         width: 300,
                         height: 300,
 
-                        // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
+                        // placeholder: AssetImage('android/assets/images/loading.gif'),
                         placeholder:
                             AssetImage('android/assets/images/loading.gif'),
                         fadeInDuration: Duration(milliseconds: 200),
@@ -865,7 +860,7 @@ routes: <String, WidgetBuilder>{
                       new MaterialPageRoute(
                           builder: (BuildContext context) => new Hoteles()));
                 } else if (ruta == "Cabofood") {
-                apkversion == portada[0]["APK_VERSION"]
+                  apkversion == portada[0]["APK_VERSION"]
                       ? Navigator.push(
                           context,
                           new MaterialPageRoute(
@@ -1091,13 +1086,12 @@ routes: <String, WidgetBuilder>{
                     )),
                 new InkResponse(
                     onTap: () {
-                      addStringToSF();
                       //Navigator.of(context).pop();
                       Navigator.pushReplacement(
                           context,
                           new MaterialPageRoute(
                               builder: (BuildContext context) =>
-                                  new MyApp_ing()));
+                                  new Settings()));
                     },
                     child: new Center(
                       //padding: const EdgeInsets.all(13.0),

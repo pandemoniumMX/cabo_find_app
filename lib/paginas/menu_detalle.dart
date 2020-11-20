@@ -59,19 +59,6 @@ class Detalles extends State<Menu_detalle> {
 
   List customers = [];
 
-  /*Future<String> get receiptPayment async {
-    /* custom receipt w/ useReceiptNativePay */
-    const receipt = <String, double>{"Nice Hat": 5.00, "Used Hat": 1.50};
-    var aReceipt = Receipt(receipt, "Hat Store");
-    return await StripeNative.useReceiptNativePay(aReceipt);
-  }
-
-  Future<String> get orderPayment async {
-    // subtotal, tax, tip, merchant name
-    var order = Order(5.50, 1.0, 2.0, "Some Store");
-    return await StripeNative.useNativePay(order);
-  }*/
-
   Future<String> getInfo() async {
     var response = await http.get(
         Uri.encodeFull(
@@ -236,108 +223,6 @@ class Detalles extends State<Menu_detalle> {
         },
       ),
     );
-
-    /*Widget extras = dataneg[0]["MENU_EXTRA_TIPO"] != null
-        ? Column(children: <Widget>[
-            Container(
-              height: 50,
-              decoration: BoxDecoration(
-                color: Color(0xffD3D7D6),
-              ),
-              child: Row(children: <Widget>[
-                Text(
-                  ' ' + dataneg[0]["MENU_EXTRA_TIPO"],
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.normal),
-                )
-              ]),
-            ),
-            new ListView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: extra == null ? 0 : extra.length,
-                itemBuilder: (BuildContext context, int index) {
-                  var suma_ex = int.parse(extra[index]["EXT_PRECIO"]);
-                  _suma_ex = suma_ex;
-                  var item = extra[index]["EXT_NOMBRE"];
-
-                  return Column(children: [
-                    Container(
-                      margin: EdgeInsets.all(1),
-                      child: Row(
-                        //mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: <Widget>[
-                          Text(
-                            extra[index]["EXT_NOMBRE"],
-                            softWrap: true,
-                            overflow: TextOverflow.visible,
-                            style: TextStyle(color: Colors.black, fontSize: 18),
-                          ),
-                          Text(
-                            ' \$' + extra[index]["EXT_PRECIO"],
-                            softWrap: true,
-                            overflow: TextOverflow.visible,
-                            style: TextStyle(color: Colors.black, fontSize: 18),
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: CheckboxListTile(
-                              activeColor: Color(0xff773E42),
-                              value: userStatus[index],
-                              onChanged: (bool val) {
-                                if (val == true) {
-                                  setState(() {
-                                    userStatus[index] = !userStatus[index];
-
-                                    String name = extra[index]["EXT_NOMBRE"];
-                                    String costo = extra[index]["EXT_PRECIO"];
-
-                                    if (_counter >= 1) {
-                                      _costo = _costo + _suma_ex;
-
-                                      customers.add(Dibs(name, costo));
-
-                                      print(customers);
-                                    } else if (_counter == 0) {
-                                      userStatus[index] = false;
-                                      showResena();
-                                    }
-                                  });
-                                } else {
-                                  setState(() {
-                                    String name = extra[index]["EXT_NOMBRE"];
-                                    String costox = extra[index]["EXT_PRECIO"];
-                                    _costo = _costo - _suma_ex;
-                                    userStatus[index] = !userStatus[index];
-                                    customers.remove(Dibs(name, costox));
-
-                                    print(customers);
-                                    if (_counter >= 1) {
-                                    } else if (_counter == 0) {
-                                      userStatus[index] = false;
-                                    }
-                                  });
-                                }
-                              },
-                              subtitle: 2 == userStatus[index]
-                                  ? Text(
-                                      'Requiere.',
-                                      style: TextStyle(color: Colors.red),
-                                    )
-                                  : Text(
-                                      '',
-                                      style: TextStyle(color: Colors.red),
-                                    ),
-
-                              //controlAffinity: ListTileControlAffinity.leading,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ]);
-                }),
-          ])
-        : SizedBox();*/
 
     void _confirmacion() {
       // flutter defined function

@@ -88,7 +88,7 @@ class Publicacionesfull extends State<Publicaciones_restaurantes_ing> {
                         //height: MediaQuery.of(context).size.height * 0.38,
                         height: MediaQuery.of(context).size.height,
 
-                        // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
+                        // placeholder: AssetImage('android/assets/images/loading.gif'),
                         placeholder:
                             AssetImage('android/assets/images/loading.gif'),
                         fadeInDuration: Duration(milliseconds: 200),

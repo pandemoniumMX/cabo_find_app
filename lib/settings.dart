@@ -23,9 +23,9 @@ void fcmSubscribe() {
   _firebaseMessaging.subscribeToTopic('Todos');
 }
 
-void main() => runApp(new Myapp1());
+void main() => runApp(new Settings());
 
-class Myapp1 extends StatelessWidget {
+class Settings extends StatelessWidget {
   // This widget is the root of your application.
   // final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
 
@@ -55,8 +55,8 @@ class Start extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<Start> {
-  Icon actionIcon = new Icon(Icons.search);
   final _formKey = GlobalKey<FormState>();
+  Icon actionIcon = new Icon(Icons.search);
 
   Widget appBarTitle = new Text("Cabofind");
   int id = 0;
@@ -96,32 +96,6 @@ class _MyHomePageState extends State<Start> {
     }
     return "Success!";
   }
-
-  /*
-  //Registro descarga en iOS
-  @override
-    Future<String> checkModelIos() async {
-    String currentLocale;
-    try {
-      currentLocale = await Devicelocale.currentLocale;
-      print(currentLocale);
-    } on PlatformException {
-      print("Error obtaining current locale");
-    }
-    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-    IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
-    //print('Running on ${iosInfo.identifierForVendor}');
-    var response = await http.get(
-        Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/insertInfoiOS.php?MOD=${iosInfo.model}&BOOT=${iosInfo.utsname.nodename}&VERSION=${iosInfo.systemName}&IDIOMA=${currentLocale}"),
-
-        headers: {
-          "Accept": "application/json"
-        }
-    );
-
-  }
-*/
 
   @override
   void initState() {

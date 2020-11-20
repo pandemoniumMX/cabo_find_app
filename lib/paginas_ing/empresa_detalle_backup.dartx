@@ -363,7 +363,7 @@ Future<String> insertVisitaiOS() async {
                    width: MediaQuery.of(context).size.width,
                    height: 400,
 
-                   // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
+                   // placeholder: AssetImage('android/assets/images/loading.gif'),
                    placeholder: AssetImage('android/assets/images/loading.gif'),
                    fadeInDuration: Duration(milliseconds: 200),
 
@@ -643,7 +643,7 @@ Future<String> insertVisitaiOS() async {
                     width: MediaQuery.of(context).size.width,
                     height: 250,
 
-                    // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
+                    // placeholder: AssetImage('android/assets/images/loading.gif'),
                     placeholder: AssetImage('android/assets/images/loading.gif'),
                     fadeInDuration: Duration(milliseconds: 200),
 

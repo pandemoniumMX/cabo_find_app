@@ -1090,7 +1090,7 @@ class _MyHomePageState extends State<Rutas> {
                         width: 35,
                         //height: MediaQuery.of(context).size.height * 0.38,
                         height: 35,
-                        // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
+                        // placeholder: AssetImage('android/assets/images/loading.gif'),
                         placeholder:
                             AssetImage('android/assets/images/loading.gif'),
                         fadeInDuration: Duration(milliseconds: 200),
@@ -1109,7 +1109,7 @@ class _MyHomePageState extends State<Rutas> {
                         width: 35,
                         //height: MediaQuery.of(context).size.height * 0.38,
                         height: 35,
-                        // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
+                        // placeholder: AssetImage('android/assets/images/loading.gif'),
                         placeholder:
                             AssetImage('android/assets/images/loading.gif'),
                         fadeInDuration: Duration(milliseconds: 200),
@@ -1160,7 +1160,7 @@ class _MyHomePageState extends State<Rutas> {
                       width: 200,
                       height: 200,
 
-                      // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
+                      // placeholder: AssetImage('android/assets/images/loading.gif'),
                       placeholder:
                           AssetImage('android/assets/images/loading.gif'),
                       fadeInDuration: Duration(milliseconds: 200),

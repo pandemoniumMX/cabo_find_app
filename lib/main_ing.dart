@@ -17,6 +17,7 @@ import 'package:cabofind/paginas_ing/salud.dart';
 import 'package:cabofind/paginas_ing/servicios.dart';
 import 'package:cabofind/paginas_ing/vida_nocturna.dart';
 import 'package:cabofind/paginas_listas_ing/list_eventos_grid.dart';
+import 'package:cabofind/settings.dart';
 import 'package:cabofind/utilidades/classes.dart';
 import 'package:cabofind/utilidades_ing/buscador.dart';
 import 'package:cabofind/utilidades_ing/calculadora.dart';
@@ -30,19 +31,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:cabofind/paginas/acercade.dart';
-import 'package:cabofind/paginas/restaurantes.dart';
-import 'package:cabofind/paginas/servicios.dart';
-import 'package:cabofind/paginas/compras.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'main_esp.dart';
 import 'paginas_ing/anuncios.dart';
-//import 'package:firebase_messaging/firebase_messaging.dart';
-//import 'package:geocoder/geocoder.dart';
-//import 'package:geolocator/geolocator.dart';
 
 FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
@@ -120,7 +114,6 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
 
   @override
   void initState() {
-    //addStringToSF();
     this.getPortada();
     super.initState();
     _c = new PageController(
@@ -218,7 +211,7 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
                     width: 300,
                     height: 300,
 
-                    // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
+                    // placeholder: AssetImage('android/assets/images/loading.gif'),
                     placeholder:
                         AssetImage('android/assets/images/loading.gif'),
                     fadeInDuration: Duration(milliseconds: 200),
@@ -629,12 +622,12 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
                     )),
                 new InkResponse(
                     onTap: () {
-                      addStringToSF();
                       //Navigator.of(context).pop();
                       Navigator.pushReplacement(
                           context,
                           new MaterialPageRoute(
-                              builder: (BuildContext context) => new Myapp1()));
+                              builder: (BuildContext context) =>
+                                  new Settings()));
                     },
                     child: new Center(
                       //padding: const EdgeInsets.all(13.0),
