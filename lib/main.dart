@@ -126,7 +126,7 @@ class _MyHomePageState extends State<Start> {
   @override
   void initState() {
     //addStringToSF();
-    //isLogged(context);
+    isLogged(context);
     this.getCiudad();
 
     super.initState();
@@ -360,8 +360,13 @@ class _MyHomePageState extends State<Start> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      new Text('Guardar ',
-                          style: TextStyle(fontSize: 20, color: Colors.white)),
+                      _value == 1
+                          ? new Text('Guardar ',
+                              style:
+                                  TextStyle(fontSize: 20, color: Colors.white))
+                          : Text('Save ',
+                              style:
+                                  TextStyle(fontSize: 20, color: Colors.white)),
                       new Icon(
                         FontAwesomeIcons.save,
                         color: Colors.white,

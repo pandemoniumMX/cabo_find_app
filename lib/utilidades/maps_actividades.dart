@@ -8,6 +8,7 @@ import 'dart:convert';
 import 'dart:async';
 import 'package:location/location.dart' as LocationManager;
 import 'package:location/location.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'classes.dart';
@@ -56,10 +57,13 @@ class _MyHomePageState extends State<Maps_actividades> {
   }
 
   getData() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.getString('stringLenguage');
+    prefs.getString('stringCity');
+    String _city = prefs.getString('stringCity');
     try {
       final response = await http.get(
-          'http://cabofind.com.mx/app_php/consultas_negocios/esp/mapas/actividades.php');
-      //await http.get('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=22.900890,%20-109.942955&radius=500&key=AIzaSyA152PLBZLFqFlUMKQhMce3Z18OMGhPY6w');
+          'http://cabofind.com.mx/app_php/consultas_negocios/esp/mapas/actividades.php?CITY=$_city');
 
       final int statusCode = response.statusCode;
 
@@ -112,9 +116,13 @@ class _MyHomePageState extends State<Maps_actividades> {
   }
 
   Future<String> getCar() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.getString('stringLenguage');
+    prefs.getString('stringCity');
+    String _city = prefs.getString('stringCity');
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/consultas_negocios/esp/mapas/actividades.php"),
+            "http://cabofind.com.mx/app_php/consultas_negocios/esp/mapas/actividades.php?CITY=$_city"),
         headers: {"Accept": "application/json"});
 
     this.setState(() {

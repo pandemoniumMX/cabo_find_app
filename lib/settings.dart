@@ -116,28 +116,9 @@ class _MyHomePageState extends State<Start> {
 
   saveSettings(String idioma, String ciudad) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    //prefs.remove("stringValue");
+    prefs.clear();
     prefs.setString('stringLenguage', idioma);
     prefs.setString('stringCity', ciudad);
-  }
-
-  Future isLogged(context) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    String _token = "";
-    _token = prefs.getString("stringValue");
-
-    if (_value != 2) {
-      Navigator.of(context).pop();
-      Route route = MaterialPageRoute(builder: (context) => Myapp());
-      Navigator.push(context, route);
-    } else {
-      Navigator.of(context).pop();
-
-      Navigator.push(
-          context,
-          new MaterialPageRoute(
-              builder: (BuildContext context) => new MyHomePages_ing()));
-    }
   }
 
   Widget build(BuildContext context) {
@@ -308,7 +289,8 @@ class _MyHomePageState extends State<Start> {
               RaisedButton(
                   onPressed: () {
                     String idioma = _value.toString();
-                    String ciudad = ciudadselect.toString();
+                    String ciudad = _ciudades.toString();
+                    print(ciudad);
                     if (_formKey.currentState.validate()) {
                       saveSettings(idioma, ciudad);
                       if (_value != 2) {
@@ -334,8 +316,13 @@ class _MyHomePageState extends State<Start> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      new Text('Guardar ',
-                          style: TextStyle(fontSize: 20, color: Colors.white)),
+                      _value == 1
+                          ? new Text('Guardar ',
+                              style:
+                                  TextStyle(fontSize: 20, color: Colors.white))
+                          : Text('Save ',
+                              style:
+                                  TextStyle(fontSize: 20, color: Colors.white)),
                       new Icon(
                         FontAwesomeIcons.save,
                         color: Colors.white,
