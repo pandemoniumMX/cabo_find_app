@@ -109,6 +109,10 @@ class _DicePageState extends State<DicePage> with TickerProviderStateMixin {
   }
 
   Future<Map> _checkNeg() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.getString('stringLenguage');
+    prefs.getString('stringCity');
+    String _city = prefs.getString('stringCity');
     final SharedPreferences login = await SharedPreferences.getInstance();
     String _status = "";
     String _mail = "";
@@ -118,7 +122,7 @@ class _DicePageState extends State<DicePage> with TickerProviderStateMixin {
     _mail2 = login.getString("stringID");
 
     http.Response response = await http.get(
-        "http://cabofind.com.mx/app_php/APIs/esp/list_neg_puntos_check.php?IDF=$_mail2");
+        "http://cabofind.com.mx/app_php/APIs/esp/list_neg_puntos_check.php?IDF=$_mail2&CITY=$_city");
     return json.decode(response.body);
   }
 

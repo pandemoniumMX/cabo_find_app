@@ -116,9 +116,13 @@ class _MyHomePageState extends State<Maps_educacion> {
   }
 
   Future<String> getCar() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.getString('stringLenguage');
+    prefs.getString('stringCity');
+    String _city = prefs.getString('stringCity');
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/consultas_negocios/esp/mapas/educacion.php"),
+            "http://cabofind.com.mx/app_php/consultas_negocios/esp/mapas/educacion.php?CITY=$_city"),
         headers: {"Accept": "application/json"});
 
     this.setState(() {
