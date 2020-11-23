@@ -31,9 +31,13 @@ class _ListaAcuaticas extends State<Lista_Manejador_ing> {
 
   //final List<Todo> todos;
   Future<String> getData() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.getString('stringLenguage');
+    prefs.getString('stringCity');
+    String _city = prefs.getString('stringCity');
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/consultas_negocios/ing/list_manejador_baja.php?CAT=${widget.manejador.id_cat}&SUB=${widget.manejador.id_sub}"),
+            "http://cabofind.com.mx/app_php/consultas_negocios/ing/list_manejador.php?CAT=${widget.manejador.id_cat}&SUB=${widget.manejador.id_sub}&CITY=$_city"),
         headers: {"Accept": "application/json"});
 
     this.setState(() {
@@ -45,9 +49,14 @@ class _ListaAcuaticas extends State<Lista_Manejador_ing> {
   //"http://cabofind.com.mx/app_php/consultas_negocios/esp/list_manejador.php?CAT=${widget.manejador.id_cat}&SUB=${widget.manejador.id_sub}"),
 
   Future<String> getDatabaja() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    prefs.getString('stringLenguage');
+    prefs.getString('stringCity');
+    String _city = prefs.getString('stringCity');
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/consultas_negocios/ing/list_manejador.php?CAT=${widget.manejador.id_cat}&SUB=${widget.manejador.id_sub}"),
+            "http://cabofind.com.mx/app_php/consultas_negocios/ing/list_manejador_baja.php?CAT=${widget.manejador.id_cat}&SUB=${widget.manejador.id_sub}&CITY=$_city"),
         headers: {"Accept": "application/json"});
 
     this.setState(() {

@@ -5,6 +5,7 @@ import 'package:cabofind/paginas_ing/empresa_detalle.dart';
 import 'package:cabofind/utilidades/classes.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() => runApp(Appx());
 
@@ -57,8 +58,12 @@ class _Buscador_ing extends State<Buscador_ing> {
   List<Note> _notesForDisplay = List<Note>();
 
   Future<List<Note>> fetchNotes() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.getString('stringLenguage');
+    prefs.getString('stringCity');
+    String _city = prefs.getString('stringCity');
     var url =
-        'http://cabofind.com.mx/app_php/consultas_negocios/esp/list_negocios_bus_ing.php';
+        'http://cabofind.com.mx/app_php/consultas_negocios/esp/list_negocios_bus_ing.php?CITY=$_city';
     var response = await http.get(url);
 
     var notes = List<Note>();
@@ -73,22 +78,6 @@ class _Buscador_ing extends State<Buscador_ing> {
   }
 
   List data;
-  List data_neg;
-
-  //final List<Todo> todos;
-
-  Future<String> getDataName() async {
-    var response = await http.get(
-        Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/list_negocios_api.php?ID=${widget.publicacion.id_n}"),
-        headers: {"Accept": "application/json"});
-
-    this.setState(() {
-      data_neg = json.decode(response.body);
-    });
-    print(data_neg[0]["NEG_NOMBRE"]);
-    return "Success!";
-  }
 
   @override
   void initState() {
@@ -99,8 +88,6 @@ class _Buscador_ing extends State<Buscador_ing> {
       });
     });
     super.initState();
-
-    this.getDataName();
   }
 
   @override

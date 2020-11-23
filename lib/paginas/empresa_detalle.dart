@@ -15,6 +15,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:cabofind/utilidades/classes.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:carousel_pro/carousel_pro.dart';
@@ -35,10 +37,10 @@ class Empresa_det_fin extends StatefulWidget {
 class Detalles extends State<Empresa_det_fin> {
   TextEditingController controllerCode = TextEditingController();
   String _displayValue = "";
+  DateFormat dateFormat;
+  DateTime now = DateTime.now();
 
   Map userProfile;
-
-  List _cities = ["👍", "👎"];
 
   List<DropdownMenuItem<String>> _dropDownMenuItems;
   String _currentCity;
@@ -53,6 +55,27 @@ class Detalles extends State<Empresa_det_fin> {
   List logos;
   List descripcion;
   List data_resena;
+  List horariox;
+
+  String hora;
+  String estatus;
+  String horaclose;
+  String formattedTime;
+  DateTime hora1;
+  DateTime horacerrar;
+  DateTime hora2;
+  Future<String> getHorario() async {
+    var response = await http.get(
+        Uri.encodeFull(
+            "http://cabofind.com.mx/app_php/APIs/esp/get_horario.php?ID=${widget.empresa.id_nm}"),
+        headers: {"Accept": "application/json"});
+
+    this.setState(() {
+      horariox = json.decode(response.body);
+    });
+
+    return "Success!";
+  }
 
   Future<String> getResena() async {
     var response = await http.get(
@@ -68,14 +91,29 @@ class Detalles extends State<Empresa_det_fin> {
   }
 
   Future<String> getInfo() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.getString('stringLenguage');
+    prefs.getString('stringCity');
+    String _city = prefs.getString('stringCity');
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/list_negocios_api.php?ID=${widget.empresa.id_nm}"),
+            "http://cabofind.com.mx/app_php/APIs/esp/list_negocios_api.php?ID=${widget.empresa.id_nm}&CITY=$_city"),
         headers: {"Accept": "application/json"});
 
     this.setState(() {
       dataneg = json.decode(response.body);
+      if (dataneg[0]["NEG_DOMICILIO"] == "TRUE") {
+        //getHorario();
+        hora = horariox[0]["HOR_APERTURA"];
+        estatus = horariox[0]["HOR_ESTATUS"];
+        horaclose = horariox[0]["HOR_CIERRE"];
+        formattedTime = DateFormat('h:mm a').format(now);
+        hora1 = dateFormat.parse(hora);
+        horacerrar = dateFormat.parse(horaclose);
+        hora2 = new DateFormat("h:mm a").parse(formattedTime);
+      }
     });
+    print('Holaaaaaaaaaaaaaaaaaaaaaaaaa');
 
     return "Success!";
   }
@@ -207,8 +245,7 @@ Future<String> insertVisitaiOS() async {
   }
 
   void initState() {
-    _dropDownMenuItems = getDropDownMenuItems();
-    _currentCity = _dropDownMenuItems[0].value;
+    dateFormat = new DateFormat.Hm();
     super.initState();
     this.getCar();
     this.get_list();
@@ -218,16 +255,9 @@ Future<String> insertVisitaiOS() async {
     this.getInfo();
     this.insertVisitaAndroid();
     this.getResena();
+    this.getHorario();
 
     // this.insertVisitaiOS;
-  }
-
-  List<DropdownMenuItem<String>> getDropDownMenuItems() {
-    List<DropdownMenuItem<String>> items = new List();
-    for (String city in _cities) {
-      items.add(new DropdownMenuItem(value: city, child: new Text(city)));
-    }
-    return items;
   }
 
   void onLoginStatusChange(bool isLoggedIn) {
@@ -378,7 +408,7 @@ Future<String> insertVisitaiOS() async {
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height / 1.5,
 
-          // placeholder: AssetImage('android/assets/jar-loading.gif'),
+          // placeholder: AssetImage('android/assets/images/loading.gif'),
           placeholder: AssetImage('android/assets/images/loading.gif'),
           fadeInDuration: Duration(milliseconds: 200),
         ),
@@ -477,7 +507,7 @@ Future<String> insertVisitaiOS() async {
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height / 2.5,
 
-                  // placeholder: AssetImage('android/assets/jar-loading.gif'),
+                  // placeholder: AssetImage('android/assets/images/loading.gif'),
                   placeholder: AssetImage('android/assets/images/loading.gif'),
                   fadeInDuration: Duration(milliseconds: 200),
                 );
@@ -727,33 +757,83 @@ Future<String> insertVisitaiOS() async {
             String resv = dataneg[0]["NEG_RESERVA"];
             String recom = dataneg[0]["NEG_RECOMPENSAS"];
             String food = dataneg[0]["NEG_DOMICILIO"];
-            print(recom);
+
+            /*String hora = dataneg[0]["HOR_APERTURA"];
+            String horaclose = dataneg[0]["HOR_CIERRE"];
+            hora == null ? hora = '0' : hora = dataneg[0]["HOR_APERTURA"];
+            horaclose == null
+                ? horaclose = '0'
+                : horaclose = dataneg[0]["HOR_CIERRE"];
+            String formattedTime = DateFormat('h:mm a').format(now);
+            DateTime hora1 = dateFormat.parse(hora);
+            DateTime horacerrar = dateFormat.parse(horaclose);
+            DateTime hora2 = new DateFormat("h:mm a").parse(formattedTime);
+            print(recom);*/
             return Column(
               children: [
-                new Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    if (latc != null)
+                    new Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        if (latc != null)
+                          RaisedButton(
+                              onPressed: () {
+                                _uber();
+                              },
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(40.0)),
+                              color: Colors.black,
+                              child: new Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  new Text('Solicitar Uber ',
+                                      style: TextStyle(
+                                          fontSize: 18, color: Colors.white)),
+                                  new Icon(
+                                    FontAwesomeIcons.uber,
+                                    color: Colors.white,
+                                  )
+                                ],
+                              )),
+                      ],
+                    ),
+                    if (recom == 'TRUE')
                       RaisedButton(
                           onPressed: () {
-                            _uber();
+                            String id_negocio = dataneg[0]["ID_NEGOCIO"];
+                            Navigator.push(
+                                context,
+                                new MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        new Mis_promos_manejador(
+                                          publicacion:
+                                              new Publicacion('', id_negocio),
+                                        )));
                           },
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(40.0)),
-                          color: Colors.black,
+                          color: Colors.orange,
                           child: new Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
-                              new Text('Solicitar Uber',
+                              new Text('Recompensas ',
                                   style: TextStyle(
-                                      fontSize: 20, color: Colors.white)),
+                                      fontSize: 18, color: Colors.white)),
                               new Icon(
-                                FontAwesomeIcons.uber,
+                                FontAwesomeIcons.gift,
                                 color: Colors.white,
                               )
                             ],
                           )),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
                     if (resv == 'TRUE')
                       RaisedButton(
                           onPressed: () {
@@ -779,71 +859,45 @@ Future<String> insertVisitaiOS() async {
                             children: <Widget>[
                               new Text('Reservar ',
                                   style: TextStyle(
-                                      fontSize: 20, color: Colors.white)),
+                                      fontSize: 18, color: Colors.white)),
                               new Icon(
                                 FontAwesomeIcons.calendarAlt,
                                 color: Colors.white,
                               )
                             ],
                           )),
+                    if (food == "TRUE" &&
+                        estatus == "A" &&
+                        hora1.isBefore(hora2) &&
+                        horacerrar.isAfter(hora2))
+                      RaisedButton(
+                          onPressed: () {
+                            String id_negocio = dataneg[0]["ID_NEGOCIO"];
+                            Navigator.pushReplacement(
+                                context,
+                                new MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        new Menu_manejador(
+                                            manejador: new Users(id_negocio))));
+                          },
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(40.0)),
+                          color: Color(0xff773E42),
+                          child: new Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              new Text('Ordenar ',
+                                  style: TextStyle(
+                                      fontSize: 18, color: Colors.white)),
+                              new Icon(
+                                FontAwesomeIcons.utensilSpoon,
+                                color: Colors.white,
+                              )
+                            ],
+                          )),
                   ],
-                ),
-                if (recom == 'TRUE')
-                  RaisedButton(
-                      onPressed: () {
-                        String id_negocio = dataneg[0]["ID_NEGOCIO"];
-                        Navigator.push(
-                            context,
-                            new MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                    new Mis_promos_manejador(
-                                      publicacion:
-                                          new Publicacion('', id_negocio),
-                                    )));
-                      },
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(40.0)),
-                      color: Colors.orange,
-                      child: new Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          new Text('Recompensas ',
-                              style:
-                                  TextStyle(fontSize: 20, color: Colors.white)),
-                          new Icon(
-                            FontAwesomeIcons.gift,
-                            color: Colors.white,
-                          )
-                        ],
-                      )),
-                if (food == 'TRUEX')
-                  RaisedButton(
-                      onPressed: () {
-                        String id_negocio = dataneg[0]["ID_NEGOCIO"];
-                        Navigator.pushReplacement(
-                            context,
-                            new MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                    new Menu_manejador(
-                                        manejador: new Users(id_negocio))));
-                      },
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(40.0)),
-                      color: Color(0xff60032D),
-                      child: new Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          new Text('Cabofood ',
-                              style:
-                                  TextStyle(fontSize: 20, color: Colors.white)),
-                          new Icon(
-                            FontAwesomeIcons.utensilSpoon,
-                            color: Colors.white,
-                          )
-                        ],
-                      )),
+                )
               ],
             );
           }),
@@ -1109,7 +1163,7 @@ Future<String> insertVisitaiOS() async {
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height / 2,
 
-                    // placeholder: AssetImage('android/assets/jar-loading.gif'),
+                    // placeholder: AssetImage('android/assets/images/loading.gif'),
                     placeholder:
                         AssetImage('android/assets/images/loading.gif'),
                     fadeInDuration: Duration(milliseconds: 200),

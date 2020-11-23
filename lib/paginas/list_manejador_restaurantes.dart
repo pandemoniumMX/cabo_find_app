@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'list_manejador_menus.dart';
 
 class List_restaurantes_cat extends StatefulWidget {
@@ -22,9 +23,13 @@ class _List_restaurantes_catState extends State<List_restaurantes_cat> {
   List data;
 
   Future<String> getData() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.getString('stringLenguage');
+    prefs.getString('stringCity');
+    String _city = prefs.getString('stringCity');
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/list_domicilio_rest_cat.php?ID=${widget.manejador.correo}"),
+            "http://cabofind.com.mx/app_php/APIs/esp/list_domicilio_rest_cat.php?ID=${widget.manejador.correo}&CITY=$_city"),
         headers: {"Accept": "application/json"});
 
     this.setState(() {
@@ -41,7 +46,6 @@ class _List_restaurantes_catState extends State<List_restaurantes_cat> {
 
   @override
   Widget build(BuildContext context) {
-    // data != null ? listado : error
     Widget listado = StaggeredGridView.countBuilder(
       crossAxisCount: 4,
       itemCount: data == null ? 0 : data.length,
@@ -78,7 +82,7 @@ class _List_restaurantes_catState extends State<List_restaurantes_cat> {
                               fit: BoxFit.cover,
                               width: MediaQuery.of(context).size.width,
                               height: 150,
-                              // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
+                              // placeholder: AssetImage('android/assets/images/loading.gif'),
                               placeholder: AssetImage(
                                   'android/assets/images/loading.gif'),
                               fadeInDuration: Duration(milliseconds: 200),
@@ -181,7 +185,7 @@ class _List_restaurantes_catState extends State<List_restaurantes_cat> {
                                   fit: BoxFit.cover,
                                   width: MediaQuery.of(context).size.width,
                                   height: 150,
-                                  // placeholder: AssetImage('android/assets/images/jar-loading.gif'),
+                                  // placeholder: AssetImage('android/assets/images/loading.gif'),
                                   placeholder: AssetImage(
                                       'android/assets/images/loading.gif'),
                                   fadeInDuration: Duration(milliseconds: 200),
