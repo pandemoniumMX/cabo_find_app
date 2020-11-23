@@ -20,6 +20,7 @@ import 'package:cabofind/paginas/ricky.dart';
 import 'package:cabofind/paginas/salud.dart';
 import 'package:cabofind/paginas/scan.dart';
 import 'package:cabofind/paginas_listas/list_eventos_grid.dart';
+import 'package:cabofind/settings.dart';
 import 'package:cabofind/utilidades/buscador.dart';
 import 'package:cabofind/utilidades/calculadora.dart';
 import 'package:cabofind/utilidades/classes.dart';
@@ -126,7 +127,7 @@ class _MyHomePageState extends State<MyHomePages> {
 
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/consultas_negocios/esp/estructura_prueba.php"),
+            "http://cabofind.com.mx/app_php/consultas_negocios/esp/estructura_esp_ios.php"),
         headers: {"Accept": "application/json"});
 
     this.setState(() {
@@ -1078,13 +1079,11 @@ routes: <String, WidgetBuilder>{
                     )),
                 new InkResponse(
                     onTap: () {
-                      addStringToSF();
-                      //Navigator.of(context).pop();
                       Navigator.pushReplacement(
                           context,
                           new MaterialPageRoute(
                               builder: (BuildContext context) =>
-                              new MyApp_ing()));
+                                  new Settings()));
                     },
                     child: new Center(
                       //padding: const EdgeInsets.all(13.0),

@@ -680,7 +680,7 @@ class _UsuarioState extends State<Carritox> {
                                               tiempoprep.toString() +
                                                   ' Minutos',
                                               style: TextStyle(
-                                                  fontSize: 16,
+                                                  fontSize: 15,
                                                   fontWeight:
                                                       FontWeight.bold),
                                             ))
@@ -895,7 +895,7 @@ class _UsuarioState extends State<Carritox> {
                                               margin: EdgeInsets.only(left: 10),
                                               padding: EdgeInsets.all(10),
                                               child: Text(
-                                                'Tiempo de entrega ',
+                                                'Tiempo estimado ',
                                                 style: TextStyle(
                                                   fontSize: 18,
                                                 ),
@@ -907,7 +907,7 @@ class _UsuarioState extends State<Carritox> {
                                                 '0'+
                                                     ' Minutos',
                                                 style: TextStyle(
-                                                    fontSize: 16,
+                                                    fontSize: 15,
                                                     fontWeight:
                                                         FontWeight.bold),
                                               ))
@@ -1073,7 +1073,7 @@ class _UsuarioState extends State<Carritox> {
                                                  ' Minutos',overflow: TextOverflow.ellipsis,
                                              style: TextStyle(
                                                
-                                                 fontSize: 16,
+                                                 fontSize: 15,
                                                  fontWeight:
                                                      FontWeight.bold),
                                            ),
@@ -1258,7 +1258,7 @@ class _UsuarioState extends State<Carritox> {
                                               tiempoprep.toString() +
                                                   ' Minutos',
                                               style: TextStyle(
-                                                  fontSize: 16,
+                                                  fontSize: 15,
                                                   fontWeight:
                                                       FontWeight.bold),
                                             ))
@@ -1471,7 +1471,7 @@ class _UsuarioState extends State<Carritox> {
                                               margin: EdgeInsets.only(left: 10),
                                               padding: EdgeInsets.all(10),
                                               child: Text(
-                                                'Tiempo de entrega ',
+                                                'Tiempo estimado ',
                                                 style: TextStyle(
                                                   fontSize: 18,
                                                 ),
@@ -1483,7 +1483,7 @@ class _UsuarioState extends State<Carritox> {
                                                 '0'+
                                                     ' Minutos',
                                                 style: TextStyle(
-                                                    fontSize: 16,
+                                                    fontSize: 15,
                                                     fontWeight:
                                                         FontWeight.bold),
                                               ))

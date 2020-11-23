@@ -16,6 +16,7 @@ import 'package:cabofind/paginas_ing/salud.dart';
 import 'package:cabofind/paginas_ing/servicios.dart';
 import 'package:cabofind/paginas_ing/vida_nocturna.dart';
 import 'package:cabofind/paginas_listas_ing/list_eventos_grid.dart';
+import 'package:cabofind/settings.dart';
 import 'package:cabofind/utilidades/classes.dart';
 import 'package:cabofind/utilidades_ing/buscador.dart';
 import 'package:cabofind/utilidades_ing/calculadora.dart';
@@ -632,11 +633,11 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
                     )),
                 new InkResponse(
                     onTap: () {
-                      addStringToSF();
                       Navigator.pushReplacement(
                           context,
                           new MaterialPageRoute(
-                              builder: (BuildContext context) => new Myapp()));
+                              builder: (BuildContext context) =>
+                                  new Settings()));
                     },
                     child: new Center(
                       //padding: const EdgeInsets.all(13.0),

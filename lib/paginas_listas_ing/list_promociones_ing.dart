@@ -98,7 +98,7 @@ class _Promociones_ing extends State<Promociones_ing> {
                     Text(" | "),
                     Flexible(
                       child: new Text(
-                        data[index]["NEG_LUGAR"],
+                        data[index]["CIU_NOMBRE"],
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
                       ),

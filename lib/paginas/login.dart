@@ -762,7 +762,7 @@ Future<String> signInWithApple() async {
                                           mainAxisSize: MainAxisSize.min,
                                           children: <Widget>[
                                             new Icon(FontAwesomeIcons.apple, color: Colors.white,),
-                                            new Text(' Sesión con Apple ID  ', style: TextStyle(fontSize: 20, color: Colors.white)),
+                                            new Text(' Iniciar sesion con Apple  ', style: TextStyle(fontSize: 20, color: Colors.white)),
 
                                           ],
                                         )

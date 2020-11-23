@@ -43,7 +43,7 @@ class Note {
     id_n = json['NEG_ETIQUETAS'];
     title = json['NEG_NOMBRE'];
     foto = json['GAL_FOTO'];
-    sub = json['NEG_LUGAR'];
+    sub = json['CIU_NOMBRE'];
     cat = json['SUB_NOMBRE'];
     id = json['ID_NEGOCIO'];
     id_etiquetas = json['NEG_ETIQUETAS_ING'];

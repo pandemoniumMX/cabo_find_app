@@ -2,8 +2,10 @@ import 'package:cabofind/paginas/domicilio.dart';
 import 'package:cabofind/utilidades/classes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import '../main.dart';
 import 'package:http/http.dart' as http;
 import 'package:cabofind/main_esp.dart';
@@ -58,6 +60,15 @@ class _Compras2 extends State<Login_esp> {
 
     Navigator.pushReplacement(context,
         new MaterialPageRoute(builder: (BuildContext context) => new Myapp()));
+  }
+
+  baneadoLogin() {
+    Fluttertoast.showToast(
+      msg: "No puedes iniciar sesión",
+      toastLength: Toast.LENGTH_SHORT,
+      backgroundColor: Colors.red,
+      textColor: Colors.white,
+    );
   }
 
   /*addLoginG(FirebaseUser user, name, email, imageUrl) async {
@@ -123,6 +134,55 @@ class _Compras2 extends State<Login_esp> {
         addLoginFB(result);
     }
   }
+
+  Future<String> signInWithApple() async {
+
+  final SharedPreferences login = await SharedPreferences.getInstance();
+  String tokenfirebase;
+  tokenfirebase = login.getString("stringToken");
+
+                  final appleIdCredential = await SignInWithApple.getAppleIDCredential(
+                    scopes: [
+                      AppleIDAuthorizationScopes.email,
+                      AppleIDAuthorizationScopes.fullName,
+                      
+                    
+                    ],
+                  );
+                  final oAuthProvider = OAuthProvider(providerId: 'apple.com');
+                  final credential = oAuthProvider.getCredential(
+                    idToken: appleIdCredential.identityToken,
+                    accessToken: appleIdCredential.authorizationCode,
+                    
+                  );
+                  String nombre = appleIdCredential.givenName;
+                  String apellido = appleIdCredential.familyName;
+                  String id = appleIdCredential.userIdentifier;
+                  String email = appleIdCredential.email;
+
+
+  final response = await http.get(
+      Uri.encodeFull(
+          'http://cabofind.com.mx/app_php/APIs/esp/insert_usuarios.php?NOMBRE=${nombre} ${apellido}&CORREO=${email}&NOT=true&IDIOMA=ESP&IDF=${id}&TOKEN=${tokenfirebase}'),
+      headers: {"Accept": "application/json"});
+  final perfil = json.decode(response.body);
+
+  final val = perfil['USU_ESTATUS'];
+
+  if (val == 'A') {
+    login.setString('stringLogin', "True");
+    login.setString('stringMail', email);
+    login.setString('stringID', id);
+
+    Navigator.pushReplacement(
+        context,
+        new MaterialPageRoute(
+            builder: (BuildContext context) => new Myapp()));
+  } else {
+    baneadoLogin();
+  }
+                  
+                }
 
   /*
 final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -262,6 +322,23 @@ Future<String> signInWithGoogle() async {
                           )
                         ],
                       )),
+                      
+                      RaisedButton(
+                  onPressed: (){
+                    signInWithApple();
+                    },  
+                  shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
+                  color: Colors.black,  
+                  child: new Row (
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: <Widget>[
+                                            new Icon(FontAwesomeIcons.apple, color: Colors.white,),
+                                            new Text(' Iniciar sesion con Apple  ', style: TextStyle(fontSize: 20, color: Colors.white)),
+
+                                          ],
+                                        )
+                ),
                   /*
               RaisedButton(
                     onPressed: (){signInWithGoogle();},  

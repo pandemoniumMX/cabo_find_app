@@ -99,7 +99,7 @@ class _Recompensa_detalleState extends State<Cupones_detalles> {
                                     fontSize: 12, color: Colors.black),
                               ),
                               Text(
-                                data[index]["NEG_LUGAR"],
+                                data[index]["CIU_NOMBRE"],
                                 style: TextStyle(
                                     fontSize: 12, color: Colors.black87),
                               ),

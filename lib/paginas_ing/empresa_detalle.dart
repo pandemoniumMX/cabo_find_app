@@ -1077,7 +1077,7 @@ Future<String> insertVisitaiOS() async {
                     Text(" | "),
                     Flexible(
                       child: new Text(
-                        data_list[index]["NEG_LUGAR"],
+                        data_list[index]["CIU_NOMBRE"],
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
                       ),

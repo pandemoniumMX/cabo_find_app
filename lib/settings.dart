@@ -23,9 +23,9 @@ void fcmSubscribe() {
   _firebaseMessaging.subscribeToTopic('Todos');
 }
 
-void main() => runApp(new Myapp1());
+void main() => runApp(new Settings());
 
-class Myapp1 extends StatelessWidget {
+class Settings extends StatelessWidget {
   // This widget is the root of your application.
   // final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
 
@@ -55,8 +55,8 @@ class Start extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<Start> {
-  Icon actionIcon = new Icon(Icons.search);
   final _formKey = GlobalKey<FormState>();
+  Icon actionIcon = new Icon(Icons.search);
 
   Widget appBarTitle = new Text("Cabofind");
   int id = 0;
@@ -66,7 +66,7 @@ class _MyHomePageState extends State<Start> {
   int ciudadselect = 1;
   String _ciudades;
   @override //Registro descarga en Android
-  /*Future<String> checkModelAndroid() async {
+  Future<String> checkModelAndroid() async {
     String currentLocale;
     try {
       currentLocale = await Devicelocale.currentLocale;
@@ -80,7 +80,7 @@ class _MyHomePageState extends State<Start> {
         Uri.encodeFull(
             "http://cabofind.com.mx/app_php/APIs/esp/insertInfo.php?MOD=${androidInfo.model}&BOOT=${androidInfo.display},${androidInfo.bootloader},${androidInfo.fingerprint}&VERSION=${androidInfo.product}&IDIOMA=${currentLocale}"),
         headers: {"Accept": "application/json"});
-  }*/
+  }
 
   Future<String> getCiudad() async {
     var response = await http.get(
@@ -97,35 +97,10 @@ class _MyHomePageState extends State<Start> {
     return "Success!";
   }
 
-  
-  //Registro descarga en iOS
-  @override
-    Future<String> checkModelIos() async {
-    String currentLocale;
-    try {
-      currentLocale = await Devicelocale.currentLocale;
-      print(currentLocale);
-    } on PlatformException {
-      print("Error obtaining current locale");
-    }
-    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-    IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
-    //print('Running on ${iosInfo.identifierForVendor}');
-    var response = await http.get(
-        Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/APIs/esp/insertInfoiOS.php?MOD=${iosInfo.model}&BOOT=${iosInfo.utsname.nodename}&VERSION=${iosInfo.systemName}&IDIOMA=${currentLocale}"),
-
-        headers: {
-          "Accept": "application/json"
-        }
-    );
-
-  }
-
   @override
   void initState() {
     //addStringToSF();
-    isLogged(context);
+    //isLogged(context);
     this.getCiudad();
 
     super.initState();
@@ -136,36 +111,14 @@ class _MyHomePageState extends State<Start> {
       _mensajesStreamController?.close();
     }
 
-this.checkModelIos();
+    this.checkModelAndroid();
   }
 
   saveSettings(String idioma, String ciudad) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    //prefs.remove("stringValue");
+    prefs.clear();
     prefs.setString('stringLenguage', idioma);
     prefs.setString('stringCity', ciudad);
-  }
-
-  Future isLogged(context) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    prefs.getString('stringLenguage');
-    prefs.getString('stringCity');
-    // String _city = prefs.getString('stringCity');
-    String _lenguage = prefs.getString('stringLenguage');
-
-    if (_lenguage != "2") {
-      Navigator.of(context).pop();
-      Route route = MaterialPageRoute(builder: (context) => Myapp());
-      Navigator.push(context, route);
-    } else {
-      Navigator.of(context).pop();
-
-      Navigator.push(
-          context,
-          new MaterialPageRoute(
-              builder: (BuildContext context) => new MyHomePages_ing()));
-    }
   }
 
   Widget build(BuildContext context) {
@@ -337,7 +290,8 @@ this.checkModelIos();
               RaisedButton(
                   onPressed: () {
                     String idioma = _value.toString();
-                    String ciudad = ciudadselect.toString();
+                    String ciudad = _ciudades.toString();
+                    print(ciudad);
                     if (_formKey.currentState.validate()) {
                       saveSettings(idioma, ciudad);
                       if (_value != 2) {

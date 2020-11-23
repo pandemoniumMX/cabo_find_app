@@ -278,7 +278,7 @@ class _DicePageState extends State<DicePage> with TickerProviderStateMixin {
                       } else if (snapshot.data['ID_NEGOCIO'] != null) {
                         String nombre = snapshot.data['NEG_NOMBRE'];
                         String _idnx = snapshot.data['ID_NEGOCIO'];
-                        String ciudad = snapshot.data['NEG_LUGAR'];
+                        String ciudad = snapshot.data['CIU_NOMBRE'];
                         return //Text(snapshot.data['NEG_NOMBRE'],style: TextStyle(fontSize: 25,color: Colors.black,fontWeight: FontWeight.bold),);
                             FutureBuilder(
                                 future: _checkDado(_idnx),
