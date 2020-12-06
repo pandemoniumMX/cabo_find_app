@@ -253,7 +253,7 @@ Future<String> insertPublicacioniOS() async {
                 Stack(children: <Widget>[
                   Image.network(data_pub[index]["GAL_FOTO"],
                       width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height / 1.5,
+                      height: MediaQuery.of(context).size.height / 2,
                       fit: BoxFit.fill),
                 ]),
                 SizedBox(

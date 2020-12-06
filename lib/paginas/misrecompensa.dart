@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:cabofind/paginas/list_manejador_rec_obtenidas.dart';
 import 'package:cabofind/utilidades/classes.dart';
+import 'package:cabofind/utilidades/ruleta.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_youtube/flutter_youtube.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -445,7 +446,7 @@ class _UsuarioState extends State<Usuario> {
                   },
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(40.0)),
-                  color: Colors.orange,
+                  color: Colors.red,
                   child: new Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     mainAxisSize: MainAxisSize.min,
@@ -486,6 +487,33 @@ class _UsuarioState extends State<Usuario> {
                   )),
             ],
           ),
+          /* Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              RaisedButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (BuildContext context) => new Ruleta()));
+                  },
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(40.0)),
+                  color: Colors.orange,
+                  child: new Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      new Icon(
+                        FontAwesomeIcons.spinner,
+                        color: Colors.white,
+                      ),
+                      new Text(' Ruleta de la suerte',
+                          style: TextStyle(fontSize: 20, color: Colors.white)),
+                    ],
+                  )),
+            ],
+          ),*/
           Divider(),
           Container(
               decoration: BoxDecoration(

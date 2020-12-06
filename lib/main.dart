@@ -152,16 +152,18 @@ class _MyHomePageState extends State<Start> {
 
     prefs.getString('stringLenguage');
     prefs.getString('stringCity');
-    // String _city = prefs.getString('stringCity');
     String _lenguage = prefs.getString('stringLenguage');
+    String _city = prefs.getString('stringCity');
 
-    if (_lenguage != "2") {
+    if (_lenguage != "2" && _city != null) {
       Navigator.of(context).pop();
-      Route route = MaterialPageRoute(builder: (context) => Myapp());
-      Navigator.push(context, route);
-    } else {
+      // Route route = MaterialPageRoute(builder: (context) => Myapp());x
+      Navigator.push(
+          context,
+          new MaterialPageRoute(
+              builder: (BuildContext context) => new MyHomePages()));
+    } else if (_lenguage != "1" && _city != null) {
       Navigator.of(context).pop();
-
       Navigator.push(
           context,
           new MaterialPageRoute(
@@ -343,9 +345,11 @@ class _MyHomePageState extends State<Start> {
                       saveSettings(idioma, ciudad);
                       if (_value != 2) {
                         Navigator.of(context).pop();
-                        Route route =
-                            MaterialPageRoute(builder: (context) => Myapp());
-                        Navigator.push(context, route);
+                        Navigator.push(
+                            context,
+                            new MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    new MyHomePages()));
                       } else {
                         Navigator.of(context).pop();
 

@@ -5,12 +5,10 @@ import 'package:cabofind/paginas/usuario.dart';
 import 'package:cabofind/paginas_ing/usuario.dart';
 
 import 'package:cabofind/utilidades/classes.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
@@ -103,8 +101,10 @@ class _UsuarioState extends State<Usuario> {
 //login.setString('stringLogin', "False");
     login.clear();
 //login.setString('stringLogin', "True");
-    Navigator.pushReplacement(context,
-        new MaterialPageRoute(builder: (BuildContext context) => new Myapp()));
+    Navigator.pushReplacement(
+        context,
+        new MaterialPageRoute(
+            builder: (BuildContext context) => new MyHomePages_ing()));
   }
 
   @override
@@ -336,17 +336,16 @@ class _Compras2 extends State<Login2> {
       login.setString('stringLogin', "True");
       login.setString('stringMail', correofb);
       login.setString('stringID', id);
-
       Navigator.pushReplacement(
           context,
           new MaterialPageRoute(
-              builder: (BuildContext context) => new MyApp_ing()));
+              builder: (BuildContext context) => new MyHomePages_ing()));
     } else {
       baneadoLogin();
     }
   }
 
-  addLoginG(FirebaseUser user, name, email, imageUrl) async {
+  /* addLoginG(FirebaseUser user, name, email, imageUrl) async {
     final SharedPreferences login = await SharedPreferences.getInstance();
 
     final correofb = user.email;
@@ -370,7 +369,7 @@ class _Compras2 extends State<Login2> {
         new MaterialPageRoute(
             builder: (BuildContext context) =>
                 new Usuario_ing(usuarios: new Users(correofb))));
-  }
+  }*/
 
   addlogin() async {
     final SharedPreferences login = await SharedPreferences.getInstance();
@@ -383,7 +382,7 @@ class _Compras2 extends State<Login2> {
     Navigator.pushReplacement(
         context,
         new MaterialPageRoute(
-            builder: (BuildContext context) => new MyApp_ing()));
+            builder: (BuildContext context) => new MyHomePages_ing()));
   }
 
   borrarsesion() async {
@@ -411,7 +410,7 @@ class _Compras2 extends State<Login2> {
     }
   }
 
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  /* final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = GoogleSignIn();
 
   String name;
@@ -454,7 +453,7 @@ class _Compras2 extends State<Login2> {
 
     //return 'signInWithGoogle succeeded: $user';
     addLoginG(user, name, email, imageUrl);
-  }
+  }*/
 
   void onLoginStatusChange(bool isLoggedIn) {
     setState(() {
@@ -512,7 +511,7 @@ class _Compras2 extends State<Login2> {
                       fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  "To get more benefits",
+                  "To get more services",
                   style: TextStyle(
                       fontSize: 25,
                       color: Colors.white,

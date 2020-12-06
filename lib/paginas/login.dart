@@ -3,7 +3,6 @@ import 'package:cabofind/main_esp.dart';
 import 'package:cabofind/paginas/misfavoritos.dart';
 import 'package:cabofind/paginas/mispromos.dart';
 import 'package:cabofind/utilidades/classes.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -13,6 +12,7 @@ import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
 
 import '../main.dart';
+import 'mis_reservaciones.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -67,7 +67,8 @@ class _Compras extends State<Login> {
 class Usuario extends StatefulWidget {
   final Users usuarios;
 
-  Usuario({Key key, @required this.usuarios}) : super(key: key);
+  Usuario({Key key, @required this.usuarios, Publicacion publicacion})
+      : super(key: key);
   @override
   _UsuarioState createState() => _UsuarioState();
 }
@@ -306,11 +307,47 @@ class _UsuarioState extends State<Usuario> {
                                   )
                                 ],
                               )),
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text(
+                                  "Mis Reservaciones ",
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      color: Color(0xff773E42),
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ]),
+
+                          RaisedButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    new MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            Mis_reservaciones()));
+                              },
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(40.0)),
+                              color: Colors.black,
+                              child: new Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  new Text('Ver mis reservaciones ',
+                                      style: TextStyle(
+                                          fontSize: 15, color: Colors.white)),
+                                  new Icon(
+                                    FontAwesomeIcons.calendarAlt,
+                                    color: Colors.white,
+                                  )
+                                ],
+                              )),
 
                           ///config
                           Row(children: <Widget>[
                             Text(
-                              "Configuración",
+                              "Más opciones",
                               style: TextStyle(
                                   fontSize: 20,
                                   color: Color(0xff773E42),
@@ -318,7 +355,7 @@ class _UsuarioState extends State<Usuario> {
                             ),
                           ]),
 
-                          Row(
+                          /*Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
                                 Text(
@@ -326,7 +363,7 @@ class _UsuarioState extends State<Usuario> {
                                   style: TextStyle(
                                       fontSize: 15, color: Color(0xff773E42)),
                                 ),
-                                /* Switch(
+                                 Switch(
                                     value: isSwitched,
                                     onChanged: (value) {
                                       setState(() {
@@ -335,8 +372,8 @@ class _UsuarioState extends State<Usuario> {
                                       });
                                     },
                                     activeTrackColor: Color(0xff773E42),
-                                    activeColor: Colors.black),*/
-                              ]),
+                                    activeColor: Colors.black),
+                              ]),*/
 
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -566,36 +603,10 @@ class _Compras2 extends State<Login2> {
       Navigator.pushReplacement(
           context,
           new MaterialPageRoute(
-              builder: (BuildContext context) => new Myapp()));
+              builder: (BuildContext context) => new MyHomePages()));
     } else {
       baneadoLogin();
     }
-  }
-
-  addLoginG(FirebaseUser user, name, email, imageUrl) async {
-    final SharedPreferences login = await SharedPreferences.getInstance();
-
-    final correofb = user.email;
-    final nombre = user.displayName;
-    final foto = user.photoUrl;
-
-    final names = name;
-    final correo = email;
-    final picture = imageUrl;
-
-    login.setString('stringLogin', "True");
-    login.setString('stringMail', correofb);
-
-    var response = await http.get(
-        Uri.encodeFull(
-            'http://cabofind.com.mx/app_php/APIs/esp/insert_usuarios.php?NOMBRE=${names}&CORREO=${correo}&FOTO=${picture}&NOT=true&IDIOMA=ESP'),
-        headers: {"Accept": "application/json"});
-
-    Navigator.pushReplacement(
-        context,
-        new MaterialPageRoute(
-            builder: (BuildContext context) =>
-                new Usuario(usuarios: new Users(correofb))));
   }
 
   addlogin() async {
@@ -607,8 +618,10 @@ class _Compras2 extends State<Login2> {
     login.setString('stringMail', "testing@gmail.com");
     login.setString('stringID', '54321');
 
-    Navigator.pushReplacement(context,
-        new MaterialPageRoute(builder: (BuildContext context) => new Myapp()));
+    Navigator.pushReplacement(
+        context,
+        new MaterialPageRoute(
+            builder: (BuildContext context) => new MyHomePages()));
   }
 
   borrarsesion() async {

@@ -106,7 +106,7 @@ class Publicacionesfull extends State<Manejador_promociones> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text('Promociones'),
+        title: new Text('Ofertas'),
       ),
       body: Container(
         // height: MediaQuery.of(context).size.height,

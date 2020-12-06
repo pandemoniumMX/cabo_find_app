@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:cabofind/paginas/publicacion_detalle.dart';
 import 'package:cabofind/paginas/publicacion_detalle_estatica.dart';
 import 'package:cabofind/utilidades/clasesilver.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:device_info/device_info.dart';
 import 'package:devicelocale/devicelocale.dart';
@@ -786,76 +787,6 @@ final url =  dataneg[index]["NEG_MAP_IOS"];
           })
     ]);
 
-    Widget buttonSection() {
-      return new ListView.builder(
-          shrinkWrap: true,
-          physics: BouncingScrollPhysics(),
-          itemCount: dataneg == null ? 0 : dataneg.length,
-          itemBuilder: (BuildContext context, int index) {
-            mapa() async {
-              final url = dataneg[index]["NEG_MAP_IOS"];
-
-              if (await canLaunch(url)) {
-                await launch(url);
-              } else {
-                throw 'Could not launch $url';
-              }
-            }
-
-            return new Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Column(
-                  children: <Widget>[
-                    FloatingActionButton(
-                      child: Icon(FontAwesomeIcons.feather),
-                      onPressed: () => _alertCar(context),
-                      backgroundColor: Colors.black,
-                      heroTag: "bt1",
-                      elevation: 0.0,
-                    ),
-                    Flexible(
-                        child: Text(
-                      'Servicios propiedad',
-                      style: TextStyle(color: Colors.black),
-                    )),
-                  ],
-                ),
-                Column(
-                  children: <Widget>[
-                    FloatingActionButton(
-                      child: Icon(FontAwesomeIcons.conciergeBell),
-                      onPressed: () => _alertSer(context),
-                      backgroundColor: Colors.black,
-                      heroTag: "bt2",
-                      elevation: 0.0,
-                    ),
-                    Text(
-                      'Caracteristicas ',
-                      style: TextStyle(color: Colors.black),
-                    ),
-                  ],
-                ),
-                Column(
-                  children: <Widget>[
-                    FloatingActionButton(
-                      child: Icon(FontAwesomeIcons.mapMarkerAlt),
-                      onPressed: mapa,
-                      backgroundColor: Colors.black,
-                      heroTag: "bt4",
-                      elevation: 0.0,
-                    ),
-                    Text(
-                      'Abrir mapa',
-                      style: TextStyle(color: Colors.black),
-                    ),
-                  ],
-                ),
-              ],
-            );
-          });
-    }
-
     Widget ubersection = Column(children: <Widget>[
       new ListView.builder(
           shrinkWrap: true,
@@ -1232,7 +1163,7 @@ final url =  dataneg[index]["NEG_MAP_IOS"];
                               // String _matricula = snapshot.data["INT_MATRICULA"];
                               return CarouselSlider.builder(
                                 autoPlay: true,
-                                height: 250.0,
+                                height: 260.0,
                                 //aspectRatio: 16/9,
                                 viewportFraction: 1.0,
                                 autoPlayInterval: Duration(seconds: 3),
@@ -1244,17 +1175,24 @@ final url =  dataneg[index]["NEG_MAP_IOS"];
                                 itemBuilder:
                                     (BuildContext context, int index) =>
                                         Container(
-                                  child: FadeInImage(
-                                    image: NetworkImage(
-                                        data_carrusel[index]["GAL_FOTO"]),
+                                  child: CachedNetworkImage(
                                     fit: BoxFit.cover,
                                     width: MediaQuery.of(context).size.width,
-                                    height: MediaQuery.of(context).size.height,
-
-                                    // placeholder: AssetImage('android/assets/images/loading.gif'),
-                                    placeholder: AssetImage(
-                                        'android/assets/images/loading.gif'),
-                                    fadeInDuration: Duration(milliseconds: 200),
+                                    height: 255,
+                                    imageUrl: data_carrusel[index]["GAL_FOTO"],
+                                    progressIndicatorBuilder:
+                                        (context, url, downloadProgress) =>
+                                            Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      height:
+                                          MediaQuery.of(context).size.height,
+                                      child: Center(
+                                        child: CircularProgressIndicator(
+                                            value: downloadProgress.progress),
+                                      ),
+                                    ),
+                                    errorWidget: (context, url, error) =>
+                                        Icon(Icons.error),
                                   ),
                                 ),
                               );
@@ -1343,7 +1281,7 @@ final url =  dataneg[index]["NEG_MAP_IOS"];
               ),
             ],
           )),
-          resenasection,
+          // resenasection,
           SizedBox(
             height: 15.0,
           ),

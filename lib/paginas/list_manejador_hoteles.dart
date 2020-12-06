@@ -5,6 +5,7 @@ import 'package:cabofind/main.dart';
 import 'package:cabofind/paginas/login.dart';
 import 'package:cabofind/paginas/usuario.dart';
 import 'package:cabofind/utilidades/filtrohoteles.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:device_info/device_info.dart';
 import 'package:devicelocale/devicelocale.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -252,16 +253,23 @@ class _ListaAcuaticas extends State<Lista_Manejador_hoteles> {
               // mainAxisSize: MainAxisSize.max,
 
               children: <Widget>[
-                FadeInImage(
-                  image: NetworkImage(databaja[index]["GAL_FOTO"]),
+                CachedNetworkImage(
                   fit: BoxFit.fitWidth,
                   width: MediaQuery.of(context).size.width,
                   height: 220,
-
-                  // placeholder: AssetImage('android/assets/images/loading.gif'),
-                  placeholder: AssetImage('android/assets/images/loading.gif'),
-                  fadeInDuration: Duration(milliseconds: 200),
+                  imageUrl: databaja[index]["GAL_FOTO"],
+                  progressIndicatorBuilder: (context, url, downloadProgress) =>
+                      Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height,
+                    child: Center(
+                      child: CircularProgressIndicator(
+                          value: downloadProgress.progress),
+                    ),
+                  ),
+                  errorWidget: (context, url, error) => Icon(Icons.error),
                 ),
+
                 /*
 
                   Stack(

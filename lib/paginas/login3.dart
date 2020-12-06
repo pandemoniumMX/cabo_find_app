@@ -7,7 +7,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../main.dart';
 import 'package:http/http.dart' as http;
 import 'package:cabofind/main_esp.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:convert';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -55,9 +54,11 @@ class _Compras2 extends State<Login_esp> {
         Uri.encodeFull(
             'http://cabofind.com.mx/app_php/APIs/esp/insert_usuarios.php?NOMBRE=${nombresfb},${apellidosfb}&CORREO=${correofb}&FOTO=${imagenfb}&NOT=true&IDIOMA=ESP&IDF=${id}&TOKEN=${tokenfirebase}'),
         headers: {"Accept": "application/json"});
-
-    Navigator.pushReplacement(context,
-        new MaterialPageRoute(builder: (BuildContext context) => new Myapp()));
+    Navigator.pop(context);
+    Navigator.pushReplacement(
+        context,
+        new MaterialPageRoute(
+            builder: (BuildContext context) => new MyHomePages()));
   }
 
   /*addLoginG(FirebaseUser user, name, email, imageUrl) async {
@@ -95,8 +96,10 @@ class _Compras2 extends State<Login_esp> {
     login.setString('stringMail', "testing@gmail.com");
     login.setString('stringID', '54321');
 
-    Navigator.pushReplacement(context,
-        new MaterialPageRoute(builder: (BuildContext context) => new Myapp()));
+    Navigator.pushReplacement(
+        context,
+        new MaterialPageRoute(
+            builder: (BuildContext context) => new MyHomePages()));
   }
 
   borrarsesion() async {
@@ -238,7 +241,7 @@ Future<String> signInWithGoogle() async {
                             fontWeight: FontWeight.bold),
                       ),
                       Text(
-                        "Para poder ordenar",
+                        "Para obtener los servicios",
                         style: TextStyle(
                             fontSize: 25,
                             color: Colors.white,

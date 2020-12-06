@@ -31,6 +31,7 @@ class _DomicilioState extends State<Domicilio> {
   List nuevos;
   int _page;
   int selectedIndex;
+  DateFormat dateFecha;
   PageController _c;
 
   Future<String> getData() async {
@@ -120,8 +121,8 @@ class _DomicilioState extends State<Domicilio> {
           String horaclose = data[index]["HOR_CIERRE"];
           String formattedTime = DateFormat('h:mm a').format(now);
           DateTime hora1 = dateFormat.parse(hora);
-          DateTime horacerrar = dateFormat.parse(horaclose);
           DateTime hora2 = new DateFormat("h:mm a").parse(formattedTime);
+          DateTime horacerrar = dateFormat.parse(horaclose);
 
           String apertura = DateFormat('h:mm a').format(hora1);
 
@@ -342,12 +343,7 @@ class _DomicilioState extends State<Domicilio> {
           DateTime hora2 = new DateFormat("h:mm a").parse(formattedTime);
 
           String apertura = DateFormat('h:mm a').format(hora1);
-          print('aperturaaaaaaaaaaaaaaaaaa');
-          print(hora1);
-          print('cerrarrrrrrrrrrrrrrr');
 
-          print(horacerrar);
-          //  print(formattedTime);
           return estatus != 'A' //testing ==B
               ? new InkWell(
                   onTap: () {},
@@ -550,7 +546,7 @@ class _DomicilioState extends State<Domicilio> {
         Navigator.pushReplacement(
             context,
             new MaterialPageRoute(
-                builder: (BuildContext context) => new Myapp()));
+                builder: (BuildContext context) => new MyHomePages()));
       },
       child: Scaffold(
           bottomNavigationBar: FFNavigationBar(
@@ -592,7 +588,8 @@ class _DomicilioState extends State<Domicilio> {
                   Navigator.pushReplacement(
                       context,
                       new MaterialPageRoute(
-                          builder: (BuildContext context) => new Myapp()));
+                          builder: (BuildContext context) =>
+                              new MyHomePages()));
                 }),
             title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

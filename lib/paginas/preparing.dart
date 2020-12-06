@@ -280,7 +280,7 @@ class _UsuarioState extends State<Carritox> {
                               builder: (context) => Carrito_check()),
                           (Route<dynamic> route) => false);
                     } else {
-                      return ListView.builder(
+                      return data != null ? ListView.builder(
                           shrinkWrap: true,
                           physics: BouncingScrollPhysics(),
                           itemCount: data == null ? 0 : data.length,
@@ -344,9 +344,10 @@ class _UsuarioState extends State<Carritox> {
                                                       onPressed: () {
                                                         setState(() {
                                                           _eliminarItem(idx);
+                                                          _cargarPedido();
+                                                        _cargarPedido();
                                                         });
-                                                        _cargarPedido();
-                                                        _cargarPedido();
+                                                        
                                                         Future.delayed(
                                                             const Duration(
                                                                 milliseconds:
@@ -538,7 +539,7 @@ class _UsuarioState extends State<Carritox> {
                                 ),
                               ),
                             );
-                          });
+                          }): Text('NDA');
                     }
                 }
               }),
@@ -629,7 +630,7 @@ class _UsuarioState extends State<Carritox> {
                                             ubicacion: Latlong(
                                                 widget.negocio.correo,
                                                 latd,
-                                                longd),
+                                                longd), distancia: Distancia(distanciafinal),
                                           )));
                             },
                             child: Row(

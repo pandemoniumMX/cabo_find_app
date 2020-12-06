@@ -1,14 +1,6 @@
 import 'package:cabofind/paginas/domicilio.dart';
 import 'package:cabofind/utilidades/classes.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_facebook_login/flutter_facebook_login.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import '../main.dart';
-import 'package:http/http.dart' as http;
-import 'package:cabofind/main_esp.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'dart:convert';
 import 'package:url_launcher/url_launcher.dart';
 
 class Carrito_check extends StatefulWidget {

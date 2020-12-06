@@ -10,7 +10,7 @@ import 'package:cabofind/paginas/hoteles.dart';
 import 'package:cabofind/paginas/login.dart';
 import 'package:cabofind/paginas/maps.dart';
 import 'package:cabofind/paginas/menu.dart';
-import 'package:cabofind/paginas/misfavoritos.dart';
+import 'package:cabofind/paginas/mis_reservaciones.dart';
 import 'package:cabofind/paginas/mispromos.dart';
 import 'package:cabofind/paginas/misrecompensa.dart';
 import 'package:cabofind/paginas/pedidos_proceso_list.dart';
@@ -18,7 +18,6 @@ import 'package:cabofind/paginas/publicacion_detalle.dart';
 import 'package:cabofind/paginas/publicaciones.dart';
 import 'package:cabofind/paginas/ricky.dart';
 import 'package:cabofind/paginas/salud.dart';
-import 'package:cabofind/paginas/scan.dart';
 import 'package:cabofind/paginas_listas/list_eventos_grid.dart';
 import 'package:cabofind/settings.dart';
 import 'package:cabofind/utilidades/buscador.dart';
@@ -26,7 +25,6 @@ import 'package:cabofind/utilidades/calculadora.dart';
 import 'package:cabofind/utilidades/classes.dart';
 import 'package:cabofind/utilidades/notificaciones.dart';
 import 'package:cabofind/utilidades/rutas.dart';
-import 'package:cabofind/weather/weather/weather_builder.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:clippy_flutter/clippy_flutter.dart';
 import 'package:ff_navigation_bar/ff_navigation_bar.dart';
@@ -38,7 +36,6 @@ import 'package:cabofind/paginas/vida_nocturna.dart';
 import 'package:cabofind/paginas/servicios.dart';
 import 'package:cabofind/paginas/compras.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_youtube/flutter_youtube.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -54,41 +51,12 @@ FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
 void fcmSubscribe() async {
   final SharedPreferences login = await SharedPreferences.getInstance();
-  String _status = "";
-  String _mail = "";
-  _status = login.getString("stringLogin");
-  _mail = login.getString("stringMail");
-  if (_status != "True") {}
 
   _firebaseMessaging.unsubscribeFromTopic('All');
   _firebaseMessaging.subscribeToTopic('Todos');
 }
 
-//void main() => runApp(new Myapp());
 
-class Myapp extends StatelessWidget {
-  // This widget is the root of your application.
-  // final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
-
-  @override
-  Widget build(BuildContext context) {
-    return new MaterialApp(
-        // navigatorKey: navigatorKey,
-/*
-      routes: {
-        'publicacionx' : (BuildContext context) => Publicacion_detalle_fin_push(),
-      },
-*/
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          primarySwatch: Colors.grey,
-          primaryColor: Color(0xff60032D),
-          //primaryColor: Colors.black,
-          accentColor: Color(0xff773E42),
-        ),
-        home: new Container(child: new MyHomePages()));
-  }
-}
 
 class MyHomePages extends StatefulWidget {
   @override
@@ -96,25 +64,31 @@ class MyHomePages extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePages> {
-  final fromTextController = TextEditingController();
-  List<String> currencies;
-  String fromCurrency = "USD";
-  String toCurrency = "MXN";
-  String multi;
-  String result;
-  List portada;
-  String apkversion;
 
   Icon actionIcon = new Icon(Icons.search);
 
   Widget appBarTitle = new Text("Cabofind");
-  int id = 0;
+
+  @override
 
   List data;
+  List portada;
 
-  //var mp = MP("CLIENT_ID", "CLIENT_SECRET");
+  String apkversion='';
 
-  //final List<Todo> todos;
+  Future<String> getPortada() async {
+    var response = await http.get(
+        Uri.encodeFull(
+            "http://cabofind.com.mx/app_php/consultas_negocios/esp/list_portada.php"),
+        headers: {"Accept": "application/json"});
+
+    this.setState(() {
+      portada = json.decode(response.body);
+    });
+
+    return "Success!";
+  }
+
   Future<String> getData() async {
     final PackageInfo info = await PackageInfo.fromPlatform();
     setState(() {
@@ -133,18 +107,6 @@ class _MyHomePageState extends State<MyHomePages> {
     return "Success!";
   }
 
-  Future<String> getPortada() async {
-    var response = await http.get(
-        Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/consultas_negocios/esp/list_portada.php"),
-        headers: {"Accept": "application/json"});
-
-    this.setState(() {
-      portada = json.decode(response.body);
-    });
-
-    return "Success!";
-  }
 
   @override //Registro descarga en Android
 
@@ -201,96 +163,27 @@ class _MyHomePageState extends State<MyHomePages> {
       }
 */
   //final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
-  int _page = 0;
-  PageController _c;
+  
   @override
   void initState() {
+    this.getPortada();
+    super.initState();
     _c = new PageController(
       initialPage: _page,
     );
-
-    isLogged(context);
-
-    _loadCurrencies();
-    super.initState();
-
     fcmSubscribe();
-
     setupNotification();
     this.getData();
-    this.getPortada();
-
-    final _mensajesStreamController = StreamController<String>.broadcast();
-
-    dispose() {
-      _mensajesStreamController?.close();
-    }
-
     //this.checkModelIos();
     this.checkModelAndroid();
-
     ///this._getLocation();
     initializeDateFormatting();
   }
+  
 
-  Future<String> _loadCurrencies() async {
-    String uri = "http://api.openrates.io/latest";
-    var response = await http
-        .get(Uri.encodeFull(uri), headers: {"Accept": "application/json"});
-    var responseBody = json.decode(response.body);
-    Map curMap = responseBody['rates'];
-    currencies = curMap.keys.toList();
-    setState(() {});
-    return "Success";
-  }
-
-  Future<String> _doConversion() async {
-    String uri =
-        "http://api.openrates.io/latest?base=$fromCurrency&symbols=$toCurrency";
-    var response = await http
-        .get(Uri.encodeFull(uri), headers: {"Accept": "application/json"});
-    var responseBody = json.decode(response.body);
-    setState(() {
-      multi = (double.parse(fromTextController.text) *
-              (responseBody["rates"][toCurrency]))
-          .toString();
-      result = multi;
-    });
-    return "Success";
-  }
-
-  _onFromChanged(String value) {
-    setState(() {
-      fromCurrency = value;
-    });
-  }
-
-  _onToChanged(String value) {
-    setState(() {
-      toCurrency = value;
-    });
-  }
-
-  Future isLogged(context) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    String _token = "";
-    _token = prefs.getString("stringValue");
-
-    if (_token != "ingles") {
-      //your home page is loaded
-    } else {
-      Navigator.of(context).pop();
-      Navigator.pushReplacement(
-          context,
-          new MaterialPageRoute(
-              builder: (BuildContext context) => new MyHomePages_ing()));
-    }
-  }
 
   void setupNotification() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    //prefs.remove("stringValue");
-
     _firebaseMessaging.requestNotificationPermissions();
 
     _firebaseMessaging.getToken().then((token) {
@@ -303,114 +196,115 @@ class _MyHomePageState extends State<MyHomePages> {
       onMessage: (Map<String, dynamic> message) async {
         print('======= On Message ========');
         print(" $message");
-
         String id_n = (message['data']['id_n']) as String;
         String id = (message['data']['id']) as String;
         String idc = (message['data']['idc']) as String;
-        String idcn = (message['data']['idn']) as String;
         String tipo = (message['data']['tipo']) as String;
+        String idr = (message['data']['idr']) as String;
+
         var idcnumber = int.parse(idc);
 
-        id_n != null
+        
+
+        idr != null
             ? showDialog(
+                barrierDismissible: false,
                 context: context,
                 builder: (context) {
                   return AlertDialog(
                     title: Text(
-                      'Nueva publicación!',
+                      'Reservaciones',
                       style: TextStyle(
                         fontSize: 25.0,
                       ),
                     ),
                     content: Container(
-                      width: 300,
-                      height: 300.0,
-                      child: FadeInImage(
-                        image: NetworkImage(
-                            "http://cabofind.com.mx/assets/img/alerta.png"),
-                        fit: BoxFit.fill,
                         width: 300,
-                        height: 300,
-
-                        // placeholder: AssetImage('android/assets/images/loading.gif'),
-                        placeholder:
-                            AssetImage('android/assets/images/loading.gif'),
-                        fadeInDuration: Duration(milliseconds: 200),
-                      ),
-                    ),
+                        height: 50.0,
+                        child: Text('Estado de la reservación #$idr')),
                     actions: <Widget>[
                       new FlatButton(
                         child: new Text('Cerrar'),
                         onPressed: () {
+                          // _stopFile();
+
                           Navigator.of(context).pop();
                         },
                       ),
                       new FlatButton(
-                        color: Colors.black,
+                        color: Color(0xff773E42),
                         child: new Text(
-                          'Descubrir',
+                          'Ver estado',
                           style: TextStyle(fontSize: 14.0, color: Colors.white),
                         ),
                         onPressed: () {
+                          Navigator.of(context).pop();
                           Navigator.push(
                               context,
                               new MaterialPageRoute(
-                                  builder: (context) =>
-                                      new Publicacion_detalle_fin(
-                                        publicacion: new Publicacion(id_n, id),
-                                      )));
+                                  builder: (BuildContext context) =>
+                                      new Mis_reservaciones()));
                         },
                       )
                     ],
                   );
                 })
-            : tipo == 'domicilio'
+            : id_n != null
                 ? showDialog(
-                    barrierDismissible: false,
                     context: context,
                     builder: (context) {
                       return AlertDialog(
                         title: Text(
-                          'Nuevo pedido!',
+                          'Nueva publicación!',
                           style: TextStyle(
                             fontSize: 25.0,
                           ),
                         ),
                         content: Container(
+                          width: 300,
+                          height: 300.0,
+                          child: FadeInImage(
+                            image: NetworkImage(
+                                "http://cabofind.com.mx/assets/img/alerta.png"),
+                            fit: BoxFit.fill,
                             width: 300,
-                            height: 50.0,
-                            child: Text('Pedido número #$idcnumber enviado')),
+                            height: 300,
+
+                            // placeholder: AssetImage('android/assets/images/loading.gif'),
+                            placeholder:
+                                AssetImage('android/assets/images/loading.gif'),
+                            fadeInDuration: Duration(milliseconds: 200),
+                          ),
+                        ),
                         actions: <Widget>[
                           new FlatButton(
                             child: new Text('Cerrar'),
                             onPressed: () {
-                              // _stopFile();
-
                               Navigator.of(context).pop();
                             },
                           ),
                           new FlatButton(
-                            color: Color(0xff773E42),
+                            color: Colors.black,
                             child: new Text(
-                              'Ver pedido',
+                              'Descubrir',
                               style: TextStyle(
                                   fontSize: 14.0, color: Colors.white),
                             ),
                             onPressed: () {
-                              Navigator.of(context).pop();
-                              Navigator.pushReplacement(
+                              Navigator.push(
                                   context,
                                   new MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                          new Domicilio(
-                                              numeropagina: Categoria(2),
-                                              numtab: Categoria(1))));
+                                      builder: (context) =>
+                                          new Publicacion_detalle_fin(
+                                            publicacion:
+                                                new Publicacion(id_n, id),
+                                          )));
                             },
                           )
                         ],
                       );
                     })
-                : tipo == 'recoger'
+                : tipo == 'domicilio'
                     ? showDialog(
                         barrierDismissible: false,
                         context: context,
@@ -425,8 +319,8 @@ class _MyHomePageState extends State<MyHomePages> {
                             content: Container(
                                 width: 300,
                                 height: 50.0,
-                                child: Text(
-                                    'Pedido número #$idcnumber listo para recoger')),
+                                child:
+                                    Text('Pedido número #$idcnumber enviado')),
                             actions: <Widget>[
                               new FlatButton(
                                 child: new Text('Cerrar'),
@@ -451,13 +345,13 @@ class _MyHomePageState extends State<MyHomePages> {
                                           builder: (BuildContext context) =>
                                               new Domicilio(
                                                   numeropagina: Categoria(2),
-                                                  numtab: Categoria(0))));
+                                                  numtab: Categoria(1))));
                                 },
                               )
                             ],
                           );
                         })
-                    : tipo == 'cancelado'
+                    : tipo == 'recoger'
                         ? showDialog(
                             barrierDismissible: false,
                             context: context,
@@ -473,7 +367,7 @@ class _MyHomePageState extends State<MyHomePages> {
                                     width: 300,
                                     height: 50.0,
                                     child: Text(
-                                        'Pedido número #$idcnumber fue cancelado')),
+                                        'Pedido número #$idcnumber listo para recoger')),
                                 actions: <Widget>[
                                   new FlatButton(
                                     child: new Text('Cerrar'),
@@ -499,26 +393,64 @@ class _MyHomePageState extends State<MyHomePages> {
                                                   new Domicilio(
                                                       numeropagina:
                                                           Categoria(2),
-                                                      numtab: Categoria(2))));
+                                                      numtab: Categoria(0))));
                                     },
                                   )
                                 ],
                               );
                             })
-                        : SizedBox();
+                        : tipo == 'cancelado'
+                            ? showDialog(
+                                barrierDismissible: false,
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: Text(
+                                      'Nuevo pedido!',
+                                      style: TextStyle(
+                                        fontSize: 25.0,
+                                      ),
+                                    ),
+                                    content: Container(
+                                        width: 300,
+                                        height: 50.0,
+                                        child: Text(
+                                            'Pedido número #$idcnumber fue cancelado')),
+                                    actions: <Widget>[
+                                      new FlatButton(
+                                        child: new Text('Cerrar'),
+                                        onPressed: () {
+                                          // _stopFile();
 
-/*
-       showDialog(
-         context: context,
-         builder: (context) => AlertDialog(
-           content: ListTile(
-             title: Text(message['data']['id_n']),
-             subtitle: Text(message['data']['id']),
-
-           ),
-         )
-       );
-*/
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                      new FlatButton(
+                                        color: Color(0xff773E42),
+                                        child: new Text(
+                                          'Ver pedido',
+                                          style: TextStyle(
+                                              fontSize: 14.0,
+                                              color: Colors.white),
+                                        ),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                          Navigator.pushReplacement(
+                                              context,
+                                              new MaterialPageRoute(
+                                                  builder:
+                                                      (BuildContext context) =>
+                                                          new Domicilio(
+                                                              numeropagina:
+                                                                  Categoria(2),
+                                                              numtab: Categoria(
+                                                                  2))));
+                                        },
+                                      )
+                                    ],
+                                  );
+                                })
+                            : SizedBox();
       },
       onLaunch: (Map<String, dynamic> message) async {
         print('======= On launch ========');
@@ -526,39 +458,45 @@ class _MyHomePageState extends State<MyHomePages> {
 
         String id_n = (message['data']['id_n']) as String;
         String id = (message['data']['id']) as String;
-        String idc = (message['data']['idc']) as String;
-        String idcn = (message['data']['idn']) as String;
         String tipo = (message['data']['tipo']) as String;
-        var idcnumber = int.parse(idc);
-        id_n != null
+        String idr = (message['data']['idr']) as String;
+
+        idr != null
             ? Navigator.push(
                 context,
                 new MaterialPageRoute(
-                    builder: (context) => new Publicacion_detalle_fin(
-                          publicacion: new Publicacion(id_n, id),
-                        )))
-            : tipo == 'domicilio'
+                    builder: (context) => new Mis_reservaciones()))
+            : id_n != null
                 ? Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (BuildContext context) => new Domicilio(
-                            numeropagina: Categoria(2), numtab: Categoria(1))))
-                : tipo == 'recoger'
+                        builder: (context) => new Publicacion_detalle_fin(
+                              publicacion: new Publicacion(id_n, id),
+                            )))
+                : tipo == 'domicilio'
                     ? Navigator.push(
                         context,
                         new MaterialPageRoute(
                             builder: (BuildContext context) => new Domicilio(
                                 numeropagina: Categoria(2),
-                                numtab: Categoria(0))))
-                    : tipo == 'cancelado'
+                                numtab: Categoria(1))))
+                    : tipo == 'recoger'
                         ? Navigator.push(
                             context,
                             new MaterialPageRoute(
                                 builder: (BuildContext context) =>
                                     new Domicilio(
                                         numeropagina: Categoria(2),
-                                        numtab: Categoria(2))))
-                        : SizedBox();
+                                        numtab: Categoria(0))))
+                        : tipo == 'cancelado'
+                            ? Navigator.push(
+                                context,
+                                new MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        new Domicilio(
+                                            numeropagina: Categoria(2),
+                                            numtab: Categoria(2))))
+                            : SizedBox();
       },
       onResume: (Map<String, dynamic> message) async {
         print('======= On resume ========');
@@ -567,38 +505,45 @@ class _MyHomePageState extends State<MyHomePages> {
         String id_n = (message['data']['id_n']) as String;
         String id = (message['data']['id']) as String;
         String idc = (message['data']['idc']) as String;
-        String idcn = (message['data']['idn']) as String;
         String tipo = (message['data']['tipo']) as String;
-        var idcnumber = int.parse(idc);
-        id_n != null
+        String idr = (message['data']['idr']) as String;
+
+        idr != null
             ? Navigator.push(
                 context,
                 new MaterialPageRoute(
-                    builder: (context) => new Publicacion_detalle_fin(
-                          publicacion: new Publicacion(id_n, id),
-                        )))
-            : tipo == 'domicilio'
+                    builder: (context) => new Mis_reservaciones()))
+            : id_n != null
                 ? Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (BuildContext context) => new Domicilio(
-                            numeropagina: Categoria(2), numtab: Categoria(1))))
-                : tipo == 'recoger'
+                        builder: (context) => new Publicacion_detalle_fin(
+                              publicacion: new Publicacion(id_n, id),
+                            )))
+                : tipo == 'domicilio'
                     ? Navigator.push(
                         context,
                         new MaterialPageRoute(
                             builder: (BuildContext context) => new Domicilio(
                                 numeropagina: Categoria(2),
-                                numtab: Categoria(0))))
-                    : tipo == 'cancelado'
+                                numtab: Categoria(1))))
+                    : tipo == 'recoger'
                         ? Navigator.push(
                             context,
                             new MaterialPageRoute(
                                 builder: (BuildContext context) =>
                                     new Domicilio(
                                         numeropagina: Categoria(2),
-                                        numtab: Categoria(2))))
-                        : SizedBox();
+                                        numtab: Categoria(0))))
+                        : tipo == 'cancelado'
+                            ? Navigator.push(
+                                context,
+                                new MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        new Domicilio(
+                                            numeropagina: Categoria(2),
+                                            numtab: Categoria(2))))
+                            : SizedBox();
       },
     );
   }
@@ -611,7 +556,9 @@ class _MyHomePageState extends State<MyHomePages> {
         textColor: Colors.white,
         timeInSecForIos: 1);
   }
-
+  int _page = 0;
+  int selectedIndex = 0;
+  PageController _c;
   Widget build(BuildContext context) {
     /*
     return new MaterialApp(
@@ -736,33 +683,29 @@ routes: <String, WidgetBuilder>{
       itemCount: data == null ? 0 : data.length,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        childAspectRatio: 0.485,
+        childAspectRatio: MediaQuery.of(context).size.height / 1500,
       ),
       itemBuilder: (BuildContext context, int index) => Container(
-        // height: 400,
+        height: 400,
         padding: EdgeInsets.all(0),
         margin: EdgeInsets.all(2),
         child: Stack(
           children: [
             InkWell(
-              child: Column(
-                children: <Widget>[
-                  CachedNetworkImage(
-                    fit: BoxFit.fitHeight,
-                    height: 400,
-                    width: MediaQuery.of(context).size.width / 2,
-                    imageUrl: data[index]["est_foto"],
-                    progressIndicatorBuilder:
-                        (context, url, downloadProgress) => Container(
-                      margin: EdgeInsets.only(top: 180),
-                      child: Center(
-                        child: CircularProgressIndicator(
-                            value: downloadProgress.progress),
-                      ),
-                    ),
-                    errorWidget: (context, url, error) => Icon(Icons.error),
+              child: CachedNetworkImage(
+                fit: BoxFit.fitHeight,
+                height: MediaQuery.of(context).size.height / 2,
+                width: MediaQuery.of(context).size.width / 2,
+                imageUrl: data[index]["est_foto"],
+                progressIndicatorBuilder: (context, url, downloadProgress) =>
+                    Container(
+                  margin: EdgeInsets.only(top: 50),
+                  child: Center(
+                    child: CircularProgressIndicator(
+                        value: downloadProgress.progress),
                   ),
-                ],
+                ),
+                errorWidget: (context, url, error) => Icon(Icons.error),
               ),
               onTap: () {
                 String ruta = data[index]["est_navegacion"];
@@ -1048,24 +991,7 @@ routes: <String, WidgetBuilder>{
                         ),
                       ],
                     )),
-                new InkResponse(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          new MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  new WeatherBuilder().build()));
-                    },
-                    child: new Center(
-                      child: new Row(children: <Widget>[
-                        new Icon(FontAwesomeIcons.cloudSun),
-                        Text(
-                          "   ",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 25.0),
-                        ),
-                      ]),
-                    )),
+               
                 new InkResponse(
                     onTap: () {
                       Navigator.push(

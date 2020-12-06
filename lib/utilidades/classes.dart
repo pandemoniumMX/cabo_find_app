@@ -17,7 +17,11 @@ class Dibs {
     return '{ ${this.extra}, ${this.costo} }';
   }
 }
+class Distancia {
+  final double dis;
 
+  Distancia(this.dis);
+}
 class Users {
   final String correo;
 

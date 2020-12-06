@@ -1,12 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:cabofind/main_ing.dart';
-import 'package:cabofind/paginas/publicacion_detalle.dart';
-import 'package:cabofind/utilidades/classes.dart';
-import 'package:cabofind/utilidades/maps_restaurantes.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -23,38 +19,12 @@ void fcmSubscribe() {
   _firebaseMessaging.subscribeToTopic('Todos');
 }
 
-void main() => runApp(new Settings());
-
-class Settings extends StatelessWidget {
-  // This widget is the root of your application.
-  // final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
-
-  @override
-  Widget build(BuildContext context) {
-    return new MaterialApp(
-        // navigatorKey: navigatorKey,
-/*
-      routes: {
-        'publicacionx' : (BuildContext context) => Publicacion_detalle_fin_push(),
-      },
-*/
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          primarySwatch: Colors.grey,
-          primaryColor: Color(0xff60032D),
-          //primaryColor: Colors.black,
-          accentColor: Color(0xff773E42),
-        ),
-        home: new Container(child: new Start()));
-  }
-}
-
-class Start extends StatefulWidget {
+class Settings extends StatefulWidget {
   @override
   _MyHomePageState createState() => new _MyHomePageState();
 }
 
-class _MyHomePageState extends State<Start> {
+class _MyHomePageState extends State<Settings> {
   final _formKey = GlobalKey<FormState>();
   Icon actionIcon = new Icon(Icons.search);
 
@@ -116,7 +86,11 @@ class _MyHomePageState extends State<Start> {
 
   saveSettings(String idioma, String ciudad) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.clear();
+
+    /*login.setString('stringLogin', "True");
+      login.setString('stringMail', correofb);
+      login.setString('stringID', id);*/
+
     prefs.setString('stringLenguage', idioma);
     prefs.setString('stringCity', ciudad);
   }
@@ -296,9 +270,11 @@ class _MyHomePageState extends State<Start> {
                       saveSettings(idioma, ciudad);
                       if (_value != 2) {
                         Navigator.of(context).pop();
-                        Route route =
-                            MaterialPageRoute(builder: (context) => Myapp());
-                        Navigator.push(context, route);
+                        Navigator.push(
+                            context,
+                            new MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    new MyHomePages()));
                       } else {
                         Navigator.of(context).pop();
 

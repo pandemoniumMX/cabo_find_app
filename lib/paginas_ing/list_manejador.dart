@@ -133,6 +133,13 @@ class _ListaAcuaticas extends State<Lista_Manejador_ing> {
   }
 
   Widget build(BuildContext context) {
+    Widget error = Center(
+      heightFactor: 20.00,
+      child: Text(
+        'Coming soon :)',
+        style: TextStyle(fontSize: 25),
+      ),
+    );
     Widget listado = ListView.builder(
       shrinkWrap: true,
       physics: BouncingScrollPhysics(),
@@ -400,7 +407,10 @@ class _ListaAcuaticas extends State<Lista_Manejador_ing> {
         child: new ListView(
           children: [
             Column(
-              children: <Widget>[listado, listadobaja],
+              children: <Widget>[
+                data.isEmpty && databaja.isEmpty ? error : listado,
+                listadobaja
+              ],
             ),
           ],
         ),

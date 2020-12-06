@@ -1170,42 +1170,48 @@ Future<String> insertVisitaiOS() async {
               social(),
             ],
           )),
-          Container(
-            child: Column(
-              children: <Widget>[
-                SizedBox(
-                  height: 20.0,
-                ),
-                Center(
-                    child: Text(
-                  'Posts',
-                  style: TextStyle(fontSize: 20.0, color: Colors.black),
-                )),
-              ],
-            ),
-            height: 50.0,
-          ),
-          Column(
-            children: <Widget>[publicaciones],
-            // height:1000.0,
-          ),
-          Container(
-              child: Column(
-            children: <Widget>[
-              SizedBox(
-                height: 15.0,
-              ),
-              Center(
-                  child: Text(
-                'Reviews',
-                style: TextStyle(fontSize: 20.0, color: Colors.black),
-              )),
-              SizedBox(
-                height: 15.0,
-              ),
-            ],
-          )),
-          resenasection,
+          data_list == null
+              ? Container(
+                  child: Column(
+                    children: <Widget>[
+                      SizedBox(
+                        height: 20.0,
+                      ),
+                      Center(
+                          child: Text(
+                        'Posts',
+                        style: TextStyle(fontSize: 20.0, color: Colors.black),
+                      )),
+                    ],
+                  ),
+                  height: 50.0,
+                )
+              : SizedBox(),
+          data_list == null
+              ? Column(
+                  children: <Widget>[publicaciones],
+                  // height:1000.0,
+                )
+              : SizedBox(),
+          data_resena == null
+              ? Container(
+                  child: Column(
+                  children: <Widget>[
+                    SizedBox(
+                      height: 15.0,
+                    ),
+                    Center(
+                        child: Text(
+                      'Reviews',
+                      style: TextStyle(fontSize: 20.0, color: Colors.black),
+                    )),
+                    SizedBox(
+                      height: 15.0,
+                    ),
+                  ],
+                ))
+              : SizedBox(),
+          data_resena == null ? resenasection : SizedBox(),
           SizedBox(
             height: 15.0,
           ),

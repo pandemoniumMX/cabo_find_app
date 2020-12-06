@@ -41,6 +41,7 @@ class Detalles extends State<Empresa_det_fin> {
   DateTime now = DateTime.now();
 
   Map userProfile;
+  List _cities = ["👍", "👎"];
 
   List<DropdownMenuItem<String>> _dropDownMenuItems;
   String _currentCity;
@@ -245,6 +246,8 @@ Future<String> insertVisitaiOS() async {
   }
 
   void initState() {
+    _dropDownMenuItems = getDropDownMenuItems();
+
     dateFormat = new DateFormat.Hm();
     super.initState();
     this.getCar();
@@ -258,6 +261,14 @@ Future<String> insertVisitaiOS() async {
     this.getHorario();
 
     // this.insertVisitaiOS;
+  }
+
+  List<DropdownMenuItem<String>> getDropDownMenuItems() {
+    List<DropdownMenuItem<String>> items = new List();
+    for (String city in _cities) {
+      items.add(new DropdownMenuItem(value: city, child: new Text(city)));
+    }
+    return items;
   }
 
   void onLoginStatusChange(bool isLoggedIn) {
@@ -1268,45 +1279,36 @@ Future<String> insertVisitaiOS() async {
               social(),
             ],
           )),
-          Container(
-            child: Column(
-              children: <Widget>[
-                SizedBox(
-                  height: 20.0,
+          data_list == null
+              ? Container(
+                  child: Center(
+                      child: Text(
+                    'Publicaciones',
+                    style: TextStyle(fontSize: 20.0, color: Colors.black),
+                  )),
+                  height: 50.0,
+                )
+              : SizedBox(),
+          data_list == null
+              ? Column(
+                  children: <Widget>[publicaciones],
+                  // height:1000.0,
+                )
+              : SizedBox(),
+          data_resena == null
+              ? Container(
+                  child: Center(
+                      child: Text(
+                    'Comentarios',
+                    style: TextStyle(fontSize: 20.0, color: Colors.black),
+                  )),
+                )
+              : SizedBox(),
+          data_resena == null
+              ? resenasection
+              : SizedBox(
+                  height: 15.0,
                 ),
-                Center(
-                    child: Text(
-                  'Publicaciones',
-                  style: TextStyle(fontSize: 20.0, color: Colors.black),
-                )),
-              ],
-            ),
-            height: 50.0,
-          ),
-          Column(
-            children: <Widget>[publicaciones],
-            // height:1000.0,
-          ),
-          Container(
-              child: Column(
-            children: <Widget>[
-              SizedBox(
-                height: 15.0,
-              ),
-              Center(
-                  child: Text(
-                'Comentarios',
-                style: TextStyle(fontSize: 20.0, color: Colors.black),
-              )),
-              SizedBox(
-                height: 15.0,
-              ),
-            ],
-          )),
-          resenasection,
-          SizedBox(
-            height: 15.0,
-          ),
           Container(
             padding: const EdgeInsets.only(bottom: 10, left: 20, right: 20),
             child: RaisedButton(

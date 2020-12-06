@@ -7,6 +7,7 @@ import 'package:cabofind/paginas_ing/descubre.dart';
 import 'package:cabofind/paginas_ing/educacion.dart';
 import 'package:cabofind/paginas_ing/login.dart';
 import 'package:cabofind/paginas_ing/maps.dart';
+import 'package:cabofind/paginas_ing/mis_reservaciones.dart';
 import 'package:cabofind/paginas_ing/misfavoritos.dart';
 import 'package:cabofind/paginas_ing/mispromos.dart';
 import 'package:cabofind/paginas_ing/promociones.dart';
@@ -35,7 +36,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'main_esp.dart';
 import 'paginas_ing/anuncios.dart';
 
 FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
@@ -45,42 +45,18 @@ void fcmSubscribe() {
   _firebaseMessaging.subscribeToTopic('All');
 }
 
-void main() => runApp(new MyApp_ing());
-
-class MyApp_ing extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return new MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          primarySwatch: Colors.grey,
-          primaryColor: Color(0xff60032D),
-          //primaryColor: Colors.black,
-          accentColor: Color(0xff773E42),
-        ),
-        home: new Container(child: new MyHomePages_ing()));
-  }
-}
-
 class MyHomePages_ing extends StatefulWidget {
   @override
   _MyHomePages_ing createState() => new _MyHomePages_ing();
 }
 
 class _MyHomePages_ing extends State<MyHomePages_ing> {
-  final fromTextController = TextEditingController();
-  List<String> currencies;
-  String fromCurrency = "USD";
-  String toCurrency = "MXN";
-  String result;
-  Icon idioma_ing = new Icon(Icons.flag);
+
   Icon actionIcon = new Icon(Icons.search);
 
   Widget appBarTitle = new Text("Cabofind");
 
   @override
-  final String _idioma = "espanol";
 
   List data;
   List portada;
@@ -122,56 +98,12 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
     fcmSubscribe();
     setupNotification();
     this.getData();
-    _loadCurrencies();
 
-    FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
-    final _mensajesStreamController = StreamController<String>.broadcast();
   }
 
-  Future<String> _loadCurrencies() async {
-    String uri = "http://api.openrates.io/latest";
-    var response = await http
-        .get(Uri.encodeFull(uri), headers: {"Accept": "application/json"});
-    var responseBody = json.decode(response.body);
-    Map curMap = responseBody['rates'];
-    currencies = curMap.keys.toList();
-    setState(() {});
-    return "Success";
-  }
+ 
 
-  Future<String> _doConversion() async {
-    String uri =
-        "http://api.openrates.io/latest?base=$fromCurrency&symbols=$toCurrency";
-    var response = await http
-        .get(Uri.encodeFull(uri), headers: {"Accept": "application/json"});
-    var responseBody = json.decode(response.body);
-    setState(() {
-      result = (double.parse(fromTextController.text) *
-              (responseBody["rates"][toCurrency]))
-          .toString();
-    });
-    print(result);
-    return "Success";
-  }
-
-  _onFromChanged(String value) {
-    setState(() {
-      fromCurrency = value;
-    });
-  }
-
-  _onToChanged(String value) {
-    setState(() {
-      toCurrency = value;
-    });
-  }
-
-  addStringToSF() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    //prefs.remove("stringValue");
-    prefs.setString('stringValue', _idioma);
-  }
 
   void setupNotification() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -190,59 +122,107 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
 
         String id_n = (message['data']['id_n']) as String;
         String id = (message['data']['id']) as String;
+        String idr = (message['data']['idr']) as String;
 
-        showDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                title: Text(
-                  'New post!',
-                  style: TextStyle(
-                    fontSize: 25.0,
-                  ),
-                ),
-                content: Container(
-                  width: 300,
-                  height: 300.0,
-                  child: FadeInImage(
-                    image: NetworkImage(
-                        "http://cabofind.com.mx/assets/img/alerta.png"),
-                    fit: BoxFit.fill,
-                    width: 300,
-                    height: 300,
-
-                    // placeholder: AssetImage('android/assets/images/loading.gif'),
-                    placeholder:
-                        AssetImage('android/assets/images/loading.gif'),
-                    fadeInDuration: Duration(milliseconds: 200),
-                  ),
-                ),
-                actions: <Widget>[
-                  new FlatButton(
-                    child: new Text('Close'),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                  new FlatButton(
-                    color: Colors.black,
-                    child: new Text(
-                      'Discover',
-                      style: TextStyle(fontSize: 14.0, color: Colors.white),
+        idr != null
+            ? showDialog(
+                barrierDismissible: false,
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: Text(
+                      'Reservation',
+                      style: TextStyle(
+                        fontSize: 25.0,
+                      ),
                     ),
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          new MaterialPageRoute(
-                              builder: (context) =>
-                                  new Publicacion_detalle_fin_ing(
-                                    publicacion: new Publicacion(id_n, id),
-                                  )));
-                    },
-                  )
-                ],
-              );
-            });
+                    content: Container(
+                        width: 300,
+                        height: 50.0,
+                        child: Text('Reservation status #$idr')),
+                    actions: <Widget>[
+                      new FlatButton(
+                        child: new Text('Close'),
+                        onPressed: () {
+                          // _stopFile();
+
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                      new FlatButton(
+                        color: Color(0xff773E42),
+                        child: new Text(
+                          'See status',
+                          style: TextStyle(fontSize: 14.0, color: Colors.white),
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                          Navigator.push(
+                              context,
+                              new MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      new Mis_reservaciones_ing()));
+                        },
+                      )
+                    ],
+                  );
+                })
+            : id_n != null
+                ? showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: Text(
+                          'New post!',
+                          style: TextStyle(
+                            fontSize: 25.0,
+                          ),
+                        ),
+                        content: Container(
+                          width: 300,
+                          height: 300.0,
+                          child: FadeInImage(
+                            image: NetworkImage(
+                                "http://cabofind.com.mx/assets/img/alerta.png"),
+                            fit: BoxFit.fill,
+                            width: 300,
+                            height: 300,
+
+                            // placeholder: AssetImage('android/assets/images/loading.gif'),
+                            placeholder:
+                                AssetImage('android/assets/images/loading.gif'),
+                            fadeInDuration: Duration(milliseconds: 200),
+                          ),
+                        ),
+                        actions: <Widget>[
+                          new FlatButton(
+                            child: new Text('Close'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                          new FlatButton(
+                            color: Colors.black,
+                            child: new Text(
+                              'Discover',
+                              style: TextStyle(
+                                  fontSize: 14.0, color: Colors.white),
+                            ),
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  new MaterialPageRoute(
+                                      builder: (context) =>
+                                          new Publicacion_detalle_fin_ing(
+                                            publicacion:
+                                                new Publicacion(id_n, id),
+                                          )));
+                            },
+                          )
+                        ],
+                      );
+                    })
+                : SizedBox();
 
 /*
        showDialog(
@@ -263,13 +243,20 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
 
         String id_n = (message['data']['id_n']) as String;
         String id = (message['data']['id']) as String;
-
-        Navigator.push(
-            context,
-            new MaterialPageRoute(
-                builder: (context) => new Publicacion_detalle_fin_ing(
-                      publicacion: new Publicacion(id_n, id),
-                    )));
+        String idr = (message['data']['idr']) as String;
+        idr != null
+            ? Navigator.push(
+                context,
+                new MaterialPageRoute(
+                    builder: (context) => new Mis_reservaciones_ing()))
+            : id_n != null
+                ? Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (context) => new Publicacion_detalle_fin_ing(
+                              publicacion: new Publicacion(id_n, id),
+                            )))
+                : SizedBox();
       },
       onResume: (Map<String, dynamic> message) async {
         print('======= On resume ========');
@@ -277,13 +264,20 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
 
         String id_n = (message['data']['id_n']) as String;
         String id = (message['data']['id']) as String;
-
-        Navigator.push(
-            context,
-            new MaterialPageRoute(
-                builder: (context) => new Publicacion_detalle_fin_ing(
-                      publicacion: new Publicacion(id_n, id),
-                    )));
+        String idr = (message['data']['idr']) as String;
+        idr != null
+            ? Navigator.push(
+                context,
+                new MaterialPageRoute(
+                    builder: (context) => new Mis_reservaciones_ing()))
+            : id_n != null
+                ? Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (context) => new Publicacion_detalle_fin_ing(
+                              publicacion: new Publicacion(id_n, id),
+                            )))
+                : SizedBox();
       },
     );
   }
@@ -292,61 +286,36 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
   int selectedIndex = 0;
   PageController _c;
   Widget build(BuildContext context) {
-    Widget _buildDropDownButton(String currencyCategory) {
-      return DropdownButton(
-        value: currencyCategory,
-        items: currencies
-            .map((String value) => DropdownMenuItem(
-                  value: value,
-                  child: Row(
-                    children: <Widget>[
-                      Text(value),
-                    ],
-                  ),
-                ))
-            .toList(),
-        onChanged: (String value) {
-          if (currencyCategory == fromCurrency) {
-            _onFromChanged(value);
-          } else {
-            _onToChanged(value);
-          }
-        },
-      );
-    }
+   
 
     Widget cuerpo = new GridView.builder(
       padding: EdgeInsets.only(top: 2),
       itemCount: data == null ? 0 : data.length,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        childAspectRatio: 0.485,
+        childAspectRatio: MediaQuery.of(context).size.height / 1500,
       ),
       itemBuilder: (BuildContext context, int index) => Container(
-        // height: 400,
+        height: 400,
         padding: EdgeInsets.all(0),
         margin: EdgeInsets.all(2),
         child: Stack(
           children: [
             InkWell(
-              child: Column(
-                children: <Widget>[
-                  CachedNetworkImage(
-                    fit: BoxFit.fitHeight,
-                    height: 400,
-                    width: MediaQuery.of(context).size.width / 2,
-                    imageUrl: data[index]["est_foto"],
-                    progressIndicatorBuilder:
-                        (context, url, downloadProgress) => Container(
-                      margin: EdgeInsets.only(top: 180),
-                      child: Center(
-                        child: CircularProgressIndicator(
-                            value: downloadProgress.progress),
-                      ),
-                    ),
-                    errorWidget: (context, url, error) => Icon(Icons.error),
+              child: CachedNetworkImage(
+                fit: BoxFit.fitHeight,
+                height: MediaQuery.of(context).size.height / 2,
+                width: MediaQuery.of(context).size.width / 2,
+                imageUrl: data[index]["est_foto"],
+                progressIndicatorBuilder: (context, url, downloadProgress) =>
+                    Container(
+                  margin: EdgeInsets.only(top: 50),
+                  child: Center(
+                    child: CircularProgressIndicator(
+                        value: downloadProgress.progress),
                   ),
-                ],
+                ),
+                errorWidget: (context, url, error) => Icon(Icons.error),
               ),
               onTap: () {
                 String ruta = data[index]["est_navegacion"];
@@ -446,7 +415,7 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
                       triangleHeight: 10.0,
                       edge: Edge.LEFT,
                       child: Container(
-                        margin: const EdgeInsets.only(bottom: 8, top: 8),
+                        margin: const EdgeInsets.only(bottom: 5),
                         padding: const EdgeInsets.only(
                             left: 18.0, right: 18.0, top: 8.0, bottom: 8.0),
                         color: Color(int.parse(data[index]["est_color"])),
@@ -517,7 +486,7 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
                 background: GestureDetector(
                   onTap: () {},
                   child: CachedNetworkImage(
-                    fit: BoxFit.cover,
+                    fit: BoxFit.fitWidth,
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height,
                     imageUrl: portada[0]["POR_FOTO_ING"],

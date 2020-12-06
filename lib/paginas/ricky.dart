@@ -7,33 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:http/http.dart' as http;
 
-FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
-//void main() => runApp(new Myapp());
-
-class Myapp extends StatelessWidget {
-  // This widget is the root of your application.
-  // final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
-
-  @override
-  Widget build(BuildContext context) {
-    return new MaterialApp(
-        // navigatorKey: navigatorKey,
-/*
-      routes: {
-        'publicacionx' : (BuildContext context) => Publicacion_detalle_fin_push(),
-      },
-*/
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          primarySwatch: Colors.grey,
-          primaryColor: Colors.black,
-          //primaryColor: Colors.black,
-          accentColor: Colors.black26,
-        ),
-        home: new Container(child: new Rickys()));
-  }
-}
 
 class Rickys extends StatefulWidget {
   @override

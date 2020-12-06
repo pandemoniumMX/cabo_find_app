@@ -1,18 +1,7 @@
 import 'dart:convert';
-
-import 'package:cabofind/main_esp.dart';
-import 'package:cabofind/paginas/publicacion_detalle.dart';
-import 'package:cabofind/paginas/usuario.dart';
-import 'package:flutter/services.dart';
 import 'package:cabofind/utilidades/classes.dart';
-import 'package:device_info/device_info.dart';
-import 'package:devicelocale/devicelocale.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
