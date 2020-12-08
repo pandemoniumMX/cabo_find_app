@@ -574,12 +574,10 @@ class _Compras2 extends State<Login2> {
       login.setString('stringMail', correofb);
       login.setString('stringID', id);
 
-      Future.delayed(Duration.zero, () {
-  Navigator.pushReplacement(
-          context,
-          new MaterialPageRoute(
-              builder: (BuildContext context) => new Myapp1()));
-});
+      Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => Myapp1()),
+            );
 
       
     } else {
