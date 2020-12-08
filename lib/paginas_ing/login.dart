@@ -2,15 +2,15 @@ import 'dart:convert';
 
 import 'package:cabofind/main_esp.dart';
 import 'package:cabofind/paginas/usuario.dart';
+import 'package:cabofind/paginas_ing/reservacion.dart';
 import 'package:cabofind/paginas_ing/usuario.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:cabofind/utilidades/classes.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
@@ -108,7 +108,7 @@ class _UsuarioState extends State<Usuario> {
     Navigator.pushReplacement(
         context,
         new MaterialPageRoute(
-            builder: (BuildContext context) => new MyApp_ing()));
+            builder: (BuildContext context) => new Myapp1()));
   }
 
   @override
@@ -344,7 +344,7 @@ class _Compras2 extends State<Login2> {
       Navigator.pushReplacement(
           context,
           new MaterialPageRoute(
-              builder: (BuildContext context) => new Myapp()));
+              builder: (BuildContext context) => new MyHomePages()));
     } else {
       baneadoLogin();
     }
@@ -389,37 +389,12 @@ class _Compras2 extends State<Login2> {
       Navigator.pushReplacement(
           context,
           new MaterialPageRoute(
-              builder: (BuildContext context) => new Myapp()));
+              builder: (BuildContext context) => new MyHomePages()));
     } else {
       baneadoLogin();
     }
   }
 
-  addLoginG(FirebaseUser user, name, email, imageUrl) async {
-    final SharedPreferences login = await SharedPreferences.getInstance();
-
-    final correofb = user.email;
-    final nombre = user.displayName;
-    final foto = user.photoUrl;
-
-    final names = name;
-    final correo = email;
-    final picture = imageUrl;
-
-    login.setString('stringLogin', "True");
-    login.setString('stringMail', correofb);
-
-    var response = await http.get(
-        Uri.encodeFull(
-            'http://cabofind.com.mx/app_php/APIs/esp/insert_usuarios.php?NOMBRE=${names}&CORREO=${correo}&FOTO=${picture}&NOT=true&IDIOMA=ING'),
-        headers: {"Accept": "application/json"});
-
-    Navigator.pushReplacement(
-        context,
-        new MaterialPageRoute(
-            builder: (BuildContext context) =>
-                new Usuario_ing(usuarios: new Users(correofb))));
-  }
 
   addlogin() async {
     final SharedPreferences login = await SharedPreferences.getInstance();
@@ -432,7 +407,7 @@ class _Compras2 extends State<Login2> {
     Navigator.pushReplacement(
         context,
         new MaterialPageRoute(
-            builder: (BuildContext context) => new MyApp_ing()));
+            builder: (BuildContext context) => new MyHomePages_ing()));
   }
 
   borrarsesion() async {
@@ -460,50 +435,8 @@ class _Compras2 extends State<Login2> {
     }
   }
 
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final GoogleSignIn googleSignIn = GoogleSignIn();
-
-  String name;
-  String email;
-  String imageUrl;
-
-  Future<String> signInWithGoogle() async {
-    final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
-    final GoogleSignInAuthentication googleSignInAuthentication =
-        await googleSignInAccount.authentication;
-
-    final AuthCredential credential = GoogleAuthProvider.getCredential(
-      accessToken: googleSignInAuthentication.accessToken,
-      idToken: googleSignInAuthentication.idToken,
-    );
-//final FirebaseUser user = (await _auth.signInWithCredential(credential)).user;
-
-    final AuthResult authResult = await _auth.signInWithCredential(credential);
-    final FirebaseUser user = authResult.user;
-//final FirebaseUser user = await _auth.signInWithCredential(credential).user;
-    // Checking if email and name is null
-    assert(user.email != null);
-    assert(user.displayName != null);
-    assert(user.photoUrl != null);
-
-    name = user.displayName;
-    email = user.email;
-    imageUrl = user.photoUrl;
-
-    // Only taking the first part of the name, i.e., First Name
-    if (name.contains(" ")) {
-      name = name.substring(0, name.indexOf(" "));
-    }
-
-    assert(!user.isAnonymous);
-    assert(await user.getIdToken() != null);
-
-    final FirebaseUser currentUser = await _auth.currentUser();
-    assert(user.uid == currentUser.uid);
-
-    //return 'signInWithGoogle succeeded: $user';
-    addLoginG(user, name, email, imageUrl);
-  }
+  
+  
 
   void onLoginStatusChange(bool isLoggedIn) {
     setState(() {

@@ -51,23 +51,6 @@ void fcmSubscribe() {
   _firebaseMessaging.subscribeToTopic('All');
 }
 
-void main() => runApp(new MyApp_ing());
-
-class MyApp_ing extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return new MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          primarySwatch: Colors.grey,
-          primaryColor: Color(0xff60032D),
-          //primaryColor: Colors.black,
-          accentColor: Color(0xff773E42),
-        ),
-        home: new Container(child: new MyHomePages_ing()));
-  }
-}
 
 class MyHomePages_ing extends StatefulWidget {
   @override
@@ -519,7 +502,7 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
             SliverAppBar(
-              expandedHeight: 250.0,
+              expandedHeight: 240.0,
               floating: true,
               pinned: true,
               automaticallyImplyLeading: true,

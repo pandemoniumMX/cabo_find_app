@@ -1,5 +1,7 @@
 import 'package:cabofind/paginas/domicilio.dart';
+import 'package:cabofind/paginas/ricky_detalle_general.dart';
 import 'package:cabofind/utilidades/classes.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -9,7 +11,6 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import '../main.dart';
 import 'package:http/http.dart' as http;
 import 'package:cabofind/main_esp.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:convert';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -57,9 +58,9 @@ class _Compras2 extends State<Login_esp> {
         Uri.encodeFull(
             'http://cabofind.com.mx/app_php/APIs/esp/insert_usuarios.php?NOMBRE=${nombresfb},${apellidosfb}&CORREO=${correofb}&FOTO=${imagenfb}&NOT=true&IDIOMA=ESP&IDF=${id}&TOKEN=${tokenfirebase}'),
         headers: {"Accept": "application/json"});
-
-    Navigator.pushReplacement(context,
-        new MaterialPageRoute(builder: (BuildContext context) => new Myapp()));
+Navigator.of(context).pop();
+    Navigator.push(context,
+        new MaterialPageRoute(builder: (BuildContext context) => new Myapp1()));
   }
 
   baneadoLogin() {
@@ -107,7 +108,7 @@ class _Compras2 extends State<Login_esp> {
     login.setString('stringID', '54321');
 
     Navigator.pushReplacement(context,
-        new MaterialPageRoute(builder: (BuildContext context) => new Myapp()));
+        new MaterialPageRoute(builder: (BuildContext context) => new MyHomePages()));
   }
 
   borrarsesion() async {
@@ -177,7 +178,7 @@ class _Compras2 extends State<Login_esp> {
     Navigator.pushReplacement(
         context,
         new MaterialPageRoute(
-            builder: (BuildContext context) => new Myapp()));
+            builder: (BuildContext context) => new MyHomePages()));
   } else {
     baneadoLogin();
   }
@@ -259,14 +260,7 @@ Future<String> signInWithGoogle() async {
       child: new Scaffold(
         appBar: AppBar(title: Text('Regresar'),),
           body: Container(
-        decoration: BoxDecoration(
-            gradient: LinearGradient(
-                begin: Alignment.topRight,
-                end: Alignment.bottomLeft,
-                colors: [
-              Colors.black,
-              Colors.white,
-            ])),
+        
         child: Center(
           child: ListView(
             shrinkWrap: false,

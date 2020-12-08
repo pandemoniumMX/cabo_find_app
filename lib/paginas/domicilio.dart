@@ -550,7 +550,7 @@ class _DomicilioState extends State<Domicilio> {
         Navigator.pushReplacement(
             context,
             new MaterialPageRoute(
-                builder: (BuildContext context) => new Myapp()));
+                builder: (BuildContext context) => new MyHomePages()));
       },
       child: Scaffold(
           bottomNavigationBar: FFNavigationBar(
@@ -592,7 +592,7 @@ class _DomicilioState extends State<Domicilio> {
                   Navigator.pushReplacement(
                       context,
                       new MaterialPageRoute(
-                          builder: (BuildContext context) => new Myapp()));
+                          builder: (BuildContext context) => new MyHomePages()));
                 }),
             title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -14,6 +14,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../main.dart';
+import 'mis_reservaciones.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -295,11 +296,47 @@ class _UsuarioState extends State<Usuario> {
                                   )
                                 ],
                               )),
+Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text(
+                                  "Mis Reservaciones ",
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      color: Color(0xff773E42),
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ]),
+
+                          RaisedButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    new MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            Mis_reservaciones()));
+                              },
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(40.0)),
+                              color: Colors.black,
+                              child: new Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  new Text('Ver mis reservaciones ',
+                                      style: TextStyle(
+                                          fontSize: 15, color: Colors.white)),
+                                  new Icon(
+                                    FontAwesomeIcons.calendarAlt,
+                                    color: Colors.white,
+                                  )
+                                ],
+                              )),
 
                           ///config
                           Row(children: <Widget>[
                             Text(
-                              "Configuración",
+                              "Más opciones",
                               style: TextStyle(
                                   fontSize: 20,
                                   color: Color(0xff773E42),
@@ -537,40 +574,19 @@ class _Compras2 extends State<Login2> {
       login.setString('stringMail', correofb);
       login.setString('stringID', id);
 
-      Navigator.pushReplacement(
+      Future.delayed(Duration.zero, () {
+  Navigator.pushReplacement(
           context,
           new MaterialPageRoute(
-              builder: (BuildContext context) => new Myapp()));
+              builder: (BuildContext context) => new Myapp1()));
+});
+
+      
     } else {
       baneadoLogin();
     }
   }
 
-  addLoginG(FirebaseUser user, name, email, imageUrl) async {
-    final SharedPreferences login = await SharedPreferences.getInstance();
-
-    final correofb = user.email;
-    final nombre = user.displayName;
-    final foto = user.photoUrl;
-
-    final names = name;
-    final correo = email;
-    final picture = imageUrl;
-
-    login.setString('stringLogin', "True");
-    login.setString('stringMail', correofb);
-
-    var response = await http.get(
-        Uri.encodeFull(
-            'http://cabofind.com.mx/app_php/APIs/esp/insert_usuarios.php?NOMBRE=${names}&CORREO=${correo}&FOTO=${picture}&NOT=true&IDIOMA=ESP'),
-        headers: {"Accept": "application/json"});
-
-    Navigator.pushReplacement(
-        context,
-        new MaterialPageRoute(
-            builder: (BuildContext context) =>
-                new Usuario(usuarios: new Users(correofb))));
-  }
 
   addlogin() async {
     final SharedPreferences login = await SharedPreferences.getInstance();
@@ -582,7 +598,7 @@ class _Compras2 extends State<Login2> {
     login.setString('stringID', '54321');
 
     Navigator.pushReplacement(context,
-        new MaterialPageRoute(builder: (BuildContext context) => new Myapp()));
+        new MaterialPageRoute(builder: (BuildContext context) => new MyHomePages()));
   }
 
   borrarsesion() async {
@@ -660,7 +676,7 @@ Future<String> signInWithApple() async {
     Navigator.pushReplacement(
         context,
         new MaterialPageRoute(
-            builder: (BuildContext context) => new Myapp()));
+            builder: (BuildContext context) => new MyHomePages()));
   } else {
     baneadoLogin();
   }

@@ -41,7 +41,6 @@ class _DicePageState extends State<DicePage> with TickerProviderStateMixin {
   }
 
   Future<String> _insertDado(String dado, String idn) async {
-    print('numero de dado' + dado);
     var cara = int.parse(dado);
     final SharedPreferences login = await SharedPreferences.getInstance();
     String _mail2 = "";
@@ -283,625 +282,217 @@ class _DicePageState extends State<DicePage> with TickerProviderStateMixin {
                         String nombre = snapshot.data['NEG_NOMBRE'];
                         String _idnx = snapshot.data['ID_NEGOCIO'];
                         String ciudad = snapshot.data['CIU_NOMBRE'];
-                        return //Text(snapshot.data['NEG_NOMBRE'],style: TextStyle(fontSize: 25,color: Colors.black,fontWeight: FontWeight.bold),);
-                            FutureBuilder(
-                                future: _checkDado(_idnx),
-                                builder: (context, snapshot) {
-                                  // String total_dados = snapshot.data['Total'];
-                                  switch (snapshot.connectionState) {
-                                    case ConnectionState.none:
-                                    case ConnectionState.waiting:
-                                      return Center(
-                                          child: CircularProgressIndicator());
-                                    default:
-                                      if (snapshot.hasError) {
-                                        return Column(
-                                          children: [
-                                            RaisedButton(
-                                                onPressed: () {
-                                                  _controller.isCompleted
-                                                      ? _controller.reverse()
-                                                      : _controller.forward();
-                                                  throwDices();
-                                                  _insertDado(
-                                                      '$leftDiceNumber', _idnx);
-                                                  //  _sucess(context, nombre, ciudad);
-                                                  Fluttertoast.showToast(
-                                                      msg:
-                                                          "Felicidades, obtuviste puntos para $nombre - $ciudad",
-                                                      toastLength:
-                                                          Toast.LENGTH_LONG,
-                                                      backgroundColor:
-                                                          Color(0xff60032D),
-                                                      textColor: Colors.white,
-                                                      timeInSecForIos: 5);
-                                                },
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            40.0)),
-                                                color: Colors.white,
-                                                child: new Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
-                                                  children: <Widget>[
-                                                    new Text(
-                                                        'Tirar dado de la suerte :) ',
-                                                        style: TextStyle(
-                                                            fontSize: 20,
-                                                            color:
-                                                                Colors.black)),
-                                                    new Icon(
-                                                      FontAwesomeIcons.dice,
-                                                      color: Colors.black,
-                                                    )
-                                                  ],
-                                                )),
-                                            Center(
-                                                child: Text(
-                                              'Sólo un tiro mensual',
-                                              style: TextStyle(
-                                                fontSize: 12,
-                                                color: Colors.black,
-                                              ),
-                                              textAlign: TextAlign.justify,
-                                            )),
-                                            FutureBuilder(
-                                                future: _checkCompartidas(),
-                                                builder: (context, snapshot) {
-                                                  switch (snapshot
-                                                      .connectionState) {
-                                                    case ConnectionState.none:
-                                                    case ConnectionState
-                                                        .waiting:
-                                                      return Center(
-                                                          child:
-                                                              CircularProgressIndicator());
-                                                    default:
-                                                      if (snapshot.hasError) {
-                                                        return RaisedButton(
-                                                            onPressed: null,
-                                                            shape: RoundedRectangleBorder(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            40.0)),
-                                                            color: Colors.white,
-                                                            child: new Row(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .center,
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .min,
-                                                              children: <
-                                                                  Widget>[
-                                                                new Text(
-                                                                    'Has un tiro para poder compartir',
-                                                                    style: TextStyle(
-                                                                        fontSize:
-                                                                            20,
-                                                                        color: Colors
-                                                                            .black)),
-                                                                new Icon(
-                                                                  FontAwesomeIcons
-                                                                      .share,
-                                                                  color: Colors
-                                                                      .black,
-                                                                )
-                                                              ],
-                                                            ));
-                                                      } else if (int.parse(
-                                                              snapshot.data[
-                                                                  "TOTALC"]) <=
-                                                          9) {
-                                                        return int.parse(snapshot
-                                                                        .data[
-                                                                    "TOTALD"]) ==
-                                                                null
-                                                            ? RaisedButton(
-                                                                onPressed: null,
-                                                                shape: RoundedRectangleBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            40.0)),
-                                                                color: Colors
-                                                                    .white,
-                                                                child: new Row(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .center,
-                                                                  mainAxisSize:
-                                                                      MainAxisSize
-                                                                          .min,
-                                                                  children: <
-                                                                      Widget>[
-                                                                    new Text(
-                                                                        'Número de compartidas: ' +
-                                                                            snapshot.data[
-                                                                                "TOTALC"],
-                                                                        style: TextStyle(
-                                                                            fontSize:
-                                                                                20,
-                                                                            color:
-                                                                                Colors.black)),
-                                                                    new Icon(
-                                                                      FontAwesomeIcons
-                                                                          .share,
-                                                                      color: Colors
-                                                                          .black,
-                                                                    )
-                                                                  ],
-                                                                ))
-                                                            : RaisedButton(
-                                                                onPressed: () {
-                                                                  setState(() {
-                                                                    Share.share(
-                                                                            'Descarga Cabofind, obten puntos y canjealos por increibles recompensas https://bit.ly/33ywdUS')
-                                                                        .then((value) =>
-                                                                            setState(() {
-                                                                              _insertShare();
-                                                                            }));
-                                                                  });
-                                                                },
-                                                                shape: RoundedRectangleBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            40.0)),
-                                                                color: Colors
-                                                                    .white,
-                                                                child: new Row(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .center,
-                                                                  mainAxisSize:
-                                                                      MainAxisSize
-                                                                          .min,
-                                                                  children: <
-                                                                      Widget>[
-                                                                    new Text(
-                                                                        'Número de compartidas: ' +
-                                                                            snapshot.data[
-                                                                                "TOTALC"],
-                                                                        style: TextStyle(
-                                                                            fontSize:
-                                                                                20,
-                                                                            color:
-                                                                                Colors.black)),
-                                                                    new Icon(
-                                                                      FontAwesomeIcons
-                                                                          .share,
-                                                                      color: Colors
-                                                                          .black,
-                                                                    )
-                                                                  ],
-                                                                ));
-                                                      } else if (int.parse(
-                                                              snapshot.data[
-                                                                  "TOTALD"]) <=
-                                                          1) {
-                                                        if (int.parse(snapshot
-                                                                    .data[
-                                                                "TOTALC"]) ==
-                                                            10) {
-                                                          return RaisedButton(
-                                                              onPressed: () {
-                                                                _controller
-                                                                        .isCompleted
-                                                                    ? _controller
-                                                                        .reverse()
-                                                                    : _controller
-                                                                        .forward();
-                                                                throwDices();
-                                                                _insertDado(
-                                                                    '$leftDiceNumber',
-                                                                    _idnx);
-                                                                Fluttertoast.showToast(
-                                                                    msg:
-                                                                        "Felicidades, obtuviste puntos para $nombre - $ciudad",
-                                                                    toastLength:
-                                                                        Toast
-                                                                            .LENGTH_LONG,
-                                                                    backgroundColor:
-                                                                        Color(
-                                                                            0xff60032D),
-                                                                    textColor:
-                                                                        Colors
-                                                                            .white,
-                                                                    timeInSecForIos:
-                                                                        5);
-                                                              },
-                                                              shape: RoundedRectangleBorder(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              40.0)),
-                                                              color:
-                                                                  Colors.white,
-                                                              child: new Row(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .center,
-                                                                mainAxisSize:
-                                                                    MainAxisSize
-                                                                        .min,
-                                                                children: <
-                                                                    Widget>[
-                                                                  new Text(
-                                                                      'Tirar segundo dado de la suerte :) ',
-                                                                      style: TextStyle(
-                                                                          fontSize:
-                                                                              20,
-                                                                          color:
-                                                                              Colors.black)),
-                                                                  new Icon(
-                                                                    FontAwesomeIcons
-                                                                        .dice,
-                                                                    color: Colors
-                                                                        .black,
-                                                                  )
-                                                                ],
-                                                              ));
-                                                        }
-                                                      } else //if (int.parse(snapshot.data["TOTALC"]) >=10)
-                                                      {
-                                                        return RaisedButton(
-                                                            onPressed: null,
-                                                            shape: RoundedRectangleBorder(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            40.0)),
-                                                            color: Colors.white,
-                                                            child: new Row(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .center,
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .min,
-                                                              children: <
-                                                                  Widget>[
-                                                                new Text(
-                                                                    'Ya has completado tu límite de este mes :)',
-                                                                    style: TextStyle(
-                                                                        fontSize:
-                                                                            16,
-                                                                        color: Colors
-                                                                            .black)),
-                                                                new Icon(
-                                                                  FontAwesomeIcons
-                                                                      .share,
-                                                                  color: Colors
-                                                                      .black,
-                                                                )
-                                                              ],
-                                                            ));
-                                                      }
-                                                  }
-                                                }),
-                                          ],
-                                        );
-                                      } else if (snapshot.data["ID_DADOS"] !=
-                                          null) {
-                                        return Column(
-                                          children: [
-                                            RaisedButton(
-                                                onPressed: null,
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            40.0)),
-                                                color: Colors.white,
-                                                child: new Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
-                                                  children: <Widget>[
-                                                    new Text(
-                                                        'Ya has hecho tu tiro mensual  ',
-                                                        style: TextStyle(
-                                                            fontSize: 20,
-                                                            color:
-                                                                Colors.black)),
-                                                    new Icon(
-                                                      FontAwesomeIcons.dice,
-                                                      color: Colors.black,
-                                                    )
-                                                  ],
-                                                )),
-                                            Text(
-                                              'Obten un tiro compartiendo con  10 amigos',
-                                              style: TextStyle(
-                                                  fontSize: 15,
+
+                        return FutureBuilder(
+                            future: _checkDado(_idnx),
+                            builder: (context, snapshot) {
+                              switch (snapshot.connectionState) {
+                                case ConnectionState.none:
+                                case ConnectionState.waiting:
+                                  return Center(
+                                      child: CircularProgressIndicator());
+                                default:
+                                  if (snapshot.hasError) {
+                                    return Column(
+                                      children: [
+                                        RaisedButton(
+                                            onPressed: () {
+                                              _controller.isCompleted
+                                                  ? _controller.reverse()
+                                                  : _controller.forward();
+                                              _checkNeg();
+                                              throwDices();
+                                              _insertDado(
+                                                  '$leftDiceNumber', _idnx);
+                                              Fluttertoast.showToast(
+                                                  msg:
+                                                      "Felicidades, obtuviste puntos para $nombre - $ciudad",
+                                                  toastLength:
+                                                      Toast.LENGTH_LONG,
+                                                  backgroundColor:
+                                                      Color(0xff60032D),
+                                                  textColor: Colors.white,
+                                                  timeInSecForIos: 5);
+                                            },
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        40.0)),
+                                            color: Colors.white,
+                                            child: new Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: <Widget>[
+                                                new Text(
+                                                    'Tirar dado de la suerte :) ',
+                                                    style: TextStyle(
+                                                        fontSize: 20,
+                                                        color: Colors.black)),
+                                                new Icon(
+                                                  FontAwesomeIcons.dice,
                                                   color: Colors.black,
-                                                  fontWeight: FontWeight.w400),
-                                            ),
-                                            FutureBuilder(
-                                                future: _checkCompartidas(),
-                                                builder: (context, snapshot) {
-                                                  switch (snapshot
-                                                      .connectionState) {
-                                                    case ConnectionState.none:
-                                                    case ConnectionState
-                                                        .waiting:
-                                                      return Center(
-                                                          child:
-                                                              CircularProgressIndicator());
-                                                    default:
-                                                      if (snapshot.hasError) {
-                                                        return RaisedButton(
-                                                            onPressed: () {
-                                                              setState(() {
-                                                                Share.share(
-                                                                        'Descarga Cabofind, obten puntos y canjealos por increibles recompensas https://bit.ly/33ywdUS')
-                                                                    .then((value) =>
-                                                                        setState(
-                                                                            () {
-                                                                          _insertShare();
-                                                                        }));
-                                                              });
-                                                            },
-                                                            shape: RoundedRectangleBorder(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            40.0)),
-                                                            color: Colors.white,
-                                                            child: new Row(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .center,
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .min,
-                                                              children: <
-                                                                  Widget>[
-                                                                new Text(
-                                                                    'Número de compartidas: 0',
-                                                                    style: TextStyle(
-                                                                        fontSize:
-                                                                            20,
-                                                                        color: Colors
-                                                                            .black)),
-                                                                new Icon(
-                                                                  FontAwesomeIcons
-                                                                      .share,
-                                                                  color: Colors
-                                                                      .black,
-                                                                )
-                                                              ],
-                                                            ));
-                                                      } else if (int.parse(
-                                                              snapshot.data[
-                                                                  "TOTALC"]) <=
-                                                          9) {
-                                                        return RaisedButton(
-                                                            onPressed: () {
-                                                              setState(() {
-                                                                Share.share(
-                                                                        'Descarga Cabofind, obten puntos y canjealos por increibles recompensas https://bit.ly/33ywdUS')
-                                                                    .then((value) =>
-                                                                        setState(
-                                                                            () {
-                                                                          _insertShare();
-                                                                        }));
-                                                              });
-                                                            },
-                                                            shape: RoundedRectangleBorder(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            40.0)),
-                                                            color: Colors.white,
-                                                            child: new Row(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .center,
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .min,
-                                                              children: <
-                                                                  Widget>[
-                                                                new Text(
-                                                                    'Número de compartidas: ' +
-                                                                        snapshot.data[
-                                                                            "TOTALC"],
-                                                                    style: TextStyle(
-                                                                        fontSize:
-                                                                            20,
-                                                                        color: Colors
-                                                                            .black)),
-                                                                new Icon(
-                                                                  FontAwesomeIcons
-                                                                      .share,
-                                                                  color: Colors
-                                                                      .black,
-                                                                )
-                                                              ],
-                                                            ));
-                                                      } else if (int.parse(
-                                                              snapshot.data[
-                                                                  "TOTALD"]) <=
-                                                          1) {
-                                                        if (int.parse(snapshot
-                                                                    .data[
-                                                                "TOTALC"]) ==
-                                                            10) {
-                                                          return RaisedButton(
-                                                              onPressed: () {
-                                                                _controller
-                                                                        .isCompleted
-                                                                    ? _controller
-                                                                        .reverse()
-                                                                    : _controller
-                                                                        .forward();
-                                                                throwDices();
-                                                                _insertDado(
-                                                                    '$leftDiceNumber',
-                                                                    _idnx);
-                                                                Fluttertoast.showToast(
-                                                                    msg:
-                                                                        "Felicidades, obtuviste puntos para $nombre - $ciudad",
-                                                                    toastLength:
-                                                                        Toast
-                                                                            .LENGTH_LONG,
-                                                                    backgroundColor:
-                                                                        Color(
-                                                                            0xff60032D),
-                                                                    textColor:
-                                                                        Colors
-                                                                            .white,
-                                                                    timeInSecForIos:
-                                                                        5);
-                                                              },
-                                                              shape: RoundedRectangleBorder(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              40.0)),
-                                                              color:
-                                                                  Colors.white,
-                                                              child: new Row(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .center,
-                                                                mainAxisSize:
-                                                                    MainAxisSize
-                                                                        .min,
-                                                                children: <
-                                                                    Widget>[
-                                                                  new Text(
-                                                                      'Tirar segundo dado de la suerte :) ',
-                                                                      style: TextStyle(
-                                                                          fontSize:
-                                                                              20,
-                                                                          color:
-                                                                              Colors.black)),
-                                                                  new Icon(
-                                                                    FontAwesomeIcons
-                                                                        .dice,
-                                                                    color: Colors
-                                                                        .black,
-                                                                  )
-                                                                ],
-                                                              ));
-                                                        }
-                                                      } else {
-                                                        return RaisedButton(
-                                                            onPressed: null,
-                                                            shape: RoundedRectangleBorder(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            40.0)),
-                                                            color: Colors.white,
-                                                            child: new Row(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .center,
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .min,
-                                                              children: <
-                                                                  Widget>[
-                                                                new Text(
-                                                                    'Ya has completado tu límite de este mes :) ',
-                                                                    style: TextStyle(
-                                                                        fontSize:
-                                                                            16,
-                                                                        color: Colors
-                                                                            .black)),
-                                                                new Icon(
-                                                                  FontAwesomeIcons
-                                                                      .share,
-                                                                  color: Colors
-                                                                      .black,
-                                                                )
-                                                              ],
-                                                            ));
-                                                      }
-                                                  }
-                                                }),
-                                            /* Offstage(
-                                              offstage: _isVisibleAsi,
-                                              child: Container(
-                                                child: Column(
-                                                  children: [
-                                                    SizedBox(
-                                                      height: 25,
-                                                    ),
-                                                    Text(
-                                                      'FELICIDADES!',
-                                                      style: TextStyle(
-                                                          fontSize: 22,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: Color(
-                                                              0xff60032D)),
-                                                    ),
-                                                    Text(
-                                                      'Obtuviste puntos para:',
-                                                      style: TextStyle(
-                                                          fontSize: 22,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: Color(
-                                                              0xff60032D)),
-                                                    ),
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              5.0),
-                                                      child: Text(
-                                                        nombre,
-                                                        style: TextStyle(
-                                                            fontSize: 25,
-                                                            color: Colors.black,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                      ),
-                                                    ),
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        new Icon(
-                                                          FontAwesomeIcons
-                                                              .locationArrow,
-                                                          color: Colors.black87,
-                                                          size: 12,
-                                                        ),
-                                                        Text(
-                                                          '  ',
+                                                )
+                                              ],
+                                            )),
+                                        Center(
+                                            child: Text(
+                                          'Límite de 300 puntos',
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            color: Colors.black,
+                                          ),
+                                          textAlign: TextAlign.justify,
+                                        )),
+                                      ],
+                                    );
+                                  } else if (snapshot.hasData) {
+                                    int dadototal =
+                                        int.parse(snapshot.data['Total']);
+
+                                    return dadototal < 400
+                                        ? Column(
+                                            children: [
+                                              RaisedButton(
+                                                  onPressed: () {
+                                                    _controller.isCompleted
+                                                        ? _controller.reverse()
+                                                        : _controller.forward();
+                                                    _checkNeg();
+                                                    throwDices();
+                                                    _insertDado(
+                                                        '$leftDiceNumber',
+                                                        _idnx);
+                                                    //  _sucess(context, nombre, ciudad);
+                                                    Fluttertoast.showToast(
+                                                        msg:
+                                                            "Felicidades, obtuviste puntos para $nombre - $ciudad",
+                                                        toastLength:
+                                                            Toast.LENGTH_LONG,
+                                                        backgroundColor:
+                                                            Color(0xff60032D),
+                                                        textColor: Colors.white,
+                                                        timeInSecForIos: 5);
+                                                  },
+                                                  shape: RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              40.0)),
+                                                  color: Colors.white,
+                                                  child: new Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: <Widget>[
+                                                      new Text(
+                                                          'Tirar dado de la suerte :) ',
                                                           style: TextStyle(
-                                                              fontSize: 12,
-                                                              color:
-                                                                  Colors.black),
-                                                        ),
-                                                        Text(
-                                                          ciudad,
-                                                          style: TextStyle(
-                                                              fontSize: 12,
+                                                              fontSize: 20,
                                                               color: Colors
-                                                                  .black87),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ],
+                                                                  .black)),
+                                                      new Icon(
+                                                        FontAwesomeIcons.dice,
+                                                        color: Colors.black,
+                                                      )
+                                                    ],
+                                                  )),
+                                              Center(
+                                                  child: Text(
+                                                'Límite de 300 puntos',
+                                                style: TextStyle(
+                                                  fontSize: 12,
+                                                  color: Colors.black,
                                                 ),
-                                              ),
-                                            )*/
-                                          ],
-                                        );
-                                      }
+                                                textAlign: TextAlign.justify,
+                                              )),
+                                            ],
+                                          )
+                                        : Column(
+                                            children: [
+                                              RaisedButton(
+                                                  onPressed: null,
+                                                  shape: RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              40.0)),
+                                                  color: Colors.white,
+                                                  child: new Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: <Widget>[
+                                                      new Text(
+                                                          'Ya alcanzaste tu límite de puntos',
+                                                          style: TextStyle(
+                                                              fontSize: 20,
+                                                              color: Colors
+                                                                  .black)),
+                                                      new Icon(
+                                                        FontAwesomeIcons.dice,
+                                                        color: Colors.black,
+                                                      )
+                                                    ],
+                                                  )),
+                                              Center(
+                                                  child: Text(
+                                                'Límite de 300 puntos',
+                                                style: TextStyle(
+                                                  fontSize: 12,
+                                                  color: Colors.black,
+                                                ),
+                                                textAlign: TextAlign.justify,
+                                              )),
+                                              dadototal < 500
+                                                  ? RaisedButton(
+                                                      onPressed: () {
+                                                        setState(() {
+                                                          Share.share(
+                                                                  'Descarga la app Cabofind, obten puntos y canjealos por increibles recompensas descargar: https://bit.ly/33ywdUS')
+                                                              .then((value) =>
+                                                                  setState(() {
+                                                                    _insertShare();
+                                                                  }));
+                                                        });
+
+                                                        _insertDado('1', _idnx);
+                                                      },
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          40.0)),
+                                                      color: Colors.white,
+                                                      child: new Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        mainAxisSize:
+                                                            MainAxisSize.min,
+                                                        children: <Widget>[
+                                                          new Text(
+                                                              'Comparte y obten 15 puntos ',
+                                                              style: TextStyle(
+                                                                  fontSize: 20,
+                                                                  color: Colors
+                                                                      .black)),
+                                                          new Icon(
+                                                            FontAwesomeIcons
+                                                                .shareAlt,
+                                                            color: Colors.black,
+                                                          )
+                                                        ],
+                                                      ))
+                                                  : SizedBox()
+                                            ],
+                                          );
                                   }
-                                });
+                              }
+                            });
                       } else {
                         Text(
                           'Vuelve a intentarlo más tarde',
@@ -913,7 +504,6 @@ class _DicePageState extends State<DicePage> with TickerProviderStateMixin {
                       }
                   }
                 }),
-            // Text('Comparte 5 veces para obtener un tiro gratis!',                style: TextStyle(color: Colors.black, fontSize: 12))
           ],
         ),
       ),

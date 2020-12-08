@@ -116,7 +116,6 @@ class _MyHomePageState extends State<Start> {
 
   saveSettings(String idioma, String ciudad) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.clear();
     prefs.setString('stringLenguage', idioma);
     prefs.setString('stringCity', ciudad);
   }
@@ -297,7 +296,7 @@ class _MyHomePageState extends State<Start> {
                       if (_value != 2) {
                         Navigator.of(context).pop();
                         Route route =
-                            MaterialPageRoute(builder: (context) => Myapp());
+                            MaterialPageRoute(builder: (context) => MyHomePages());
                         Navigator.push(context, route);
                       } else {
                         Navigator.of(context).pop();

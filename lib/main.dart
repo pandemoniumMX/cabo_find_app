@@ -151,16 +151,18 @@ this.checkModelIos();
 
     prefs.getString('stringLenguage');
     prefs.getString('stringCity');
-    // String _city = prefs.getString('stringCity');
+    String _city = prefs.getString('stringCity');
     String _lenguage = prefs.getString('stringLenguage');
 
-    if (_lenguage != "2") {
+    if (_lenguage != "2" && _city != null) {
       Navigator.of(context).pop();
-      Route route = MaterialPageRoute(builder: (context) => Myapp());
-      Navigator.push(context, route);
-    } else {
+      // Route route = MaterialPageRoute(builder: (context) => Myapp());x
+      Navigator.push(
+          context,
+          new MaterialPageRoute(
+              builder: (BuildContext context) => new MyHomePages()));
+    } else if (_lenguage != "1" && _city != null) {
       Navigator.of(context).pop();
-
       Navigator.push(
           context,
           new MaterialPageRoute(
@@ -343,7 +345,7 @@ this.checkModelIos();
                       if (_value != 2) {
                         Navigator.of(context).pop();
                         Route route =
-                            MaterialPageRoute(builder: (context) => Myapp());
+                            MaterialPageRoute(builder: (context) => MyHomePages());
                         Navigator.push(context, route);
                       } else {
                         Navigator.of(context).pop();

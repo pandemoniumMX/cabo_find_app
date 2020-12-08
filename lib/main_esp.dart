@@ -66,31 +66,6 @@ void fcmSubscribe() async {
   _firebaseMessaging.subscribeToTopic('Todos');
 }
 
-//void main() => runApp(new Myapp());
-
-class Myapp extends StatelessWidget {
-  // This widget is the root of your application.
-  // final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
-
-  @override
-  Widget build(BuildContext context) {
-    return new MaterialApp(
-      // navigatorKey: navigatorKey,
-/*
-      routes: {
-        'publicacionx' : (BuildContext context) => Publicacion_detalle_fin_push(),
-      },
-*/
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          primarySwatch: Colors.grey,
-          primaryColor: Color(0xff60032D),
-          //primaryColor: Colors.black,
-          accentColor: Color(0xff773E42),
-        ),
-        home: new Container(child: new MyHomePages()));
-  }
-}
 
 class MyHomePages extends StatefulWidget {
   @override
@@ -964,7 +939,7 @@ routes: <String, WidgetBuilder>{
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
             SliverAppBar(
-              expandedHeight: 250.0,
+              expandedHeight: 240.0,
               floating: true,
               pinned: true,
               flexibleSpace: FlexibleSpaceBar(
@@ -972,7 +947,7 @@ routes: <String, WidgetBuilder>{
                 background: GestureDetector(
                   onTap: () {},
                   child: CachedNetworkImage(
-                    fit: BoxFit.cover,
+                    fit: BoxFit.fitWidth,
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height,
                     imageUrl: portada[0]["POR_FOTO"],
@@ -1041,24 +1016,7 @@ routes: <String, WidgetBuilder>{
                         ),
                       ],
                     )),
-                new InkResponse(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          new MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  new WeatherBuilder().build()));
-                    },
-                    child: new Center(
-                      child: new Row(children: <Widget>[
-                        new Icon(FontAwesomeIcons.cloudSun),
-                        Text(
-                          "   ",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 25.0),
-                        ),
-                      ]),
-                    )),
+             
                 new InkResponse(
                     onTap: () {
                       Navigator.push(
