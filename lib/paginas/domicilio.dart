@@ -10,6 +10,7 @@ import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../main_esp.dart';
+import 'carrito.dart';
 import 'list_manejador_menus.dart';
 import 'list_manejador_restaurantes.dart';
 import 'menu.dart';
@@ -570,6 +571,11 @@ class _DomicilioState extends State<Domicilio> {
               ),
               FFNavigationBarItem(
                 selectedBackgroundColor: Color(0xff773E42),
+                iconData: FontAwesomeIcons.shoppingCart,
+                label: 'Carrito',
+              ),
+              FFNavigationBarItem(
+                selectedBackgroundColor: Color(0xff773E42),
                 iconData: FontAwesomeIcons.fileAlt,
                 label: 'Pedidos',
               ),
@@ -792,20 +798,16 @@ class _DomicilioState extends State<Domicilio> {
                   ),
                 ],
               ),
-
               Center(
                 child: Text(
                   'Proximamente :)',
                   style: TextStyle(fontSize: 25),
                 ),
               ),
+              new Carrito(),
               new Pedidos_historial(
                 pagina: Categoria(widget.numtab.cat),
               )
-              //new Mis_recompensas(),
-              //new Mis_promos(),
-              //new Mis_favoritos(),
-              //new Login()
             ],
           )),
     );

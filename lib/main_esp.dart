@@ -11,9 +11,8 @@ import 'package:cabofind/paginas/login.dart';
 import 'package:cabofind/paginas/maps.dart';
 import 'package:cabofind/paginas/menu.dart';
 import 'package:cabofind/paginas/mis_reservaciones.dart';
-import 'package:cabofind/paginas/mispromos.dart';
 import 'package:cabofind/paginas/misrecompensa.dart';
-import 'package:cabofind/paginas/pedidos_proceso_list.dart';
+import 'package:geolocator/geolocator.dart' as geo;
 import 'package:cabofind/paginas/publicacion_detalle.dart';
 import 'package:cabofind/paginas/publicaciones.dart';
 import 'package:cabofind/paginas/ricky.dart';
@@ -46,6 +45,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:package_info/package_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'paginas/promociones.dart';
+import 'package:location/location.dart';
 
 FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
@@ -68,11 +68,12 @@ class _MyHomePageState extends State<MyHomePages> {
   Icon actionIcon = new Icon(Icons.search);
 
   Widget appBarTitle = new Text("Cabofind");
-
+  var location = Location();
   @override
 
   List data;
   List portada;
+
 
   String apkversion='';
 
@@ -164,6 +165,15 @@ class _MyHomePageState extends State<MyHomePages> {
 */
   //final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
   
+  _getCurrentLocation() async {
+    if (!await location.serviceEnabled()) {
+      location.requestService();
+    }
+    geo.Position position = await geo.Geolocator().getCurrentPosition(
+    desiredAccuracy: geo.LocationAccuracy.bestForNavigation); 
+  }
+
+
   @override
   void initState() {
     this.getPortada();
@@ -178,6 +188,7 @@ class _MyHomePageState extends State<MyHomePages> {
     this.checkModelAndroid();
     ///this._getLocation();
     initializeDateFormatting();
+    _getCurrentLocation();
   }
   
 

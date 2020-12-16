@@ -82,7 +82,7 @@ class _Compras2 extends State<Login_esp> {
 
     Navigator.pushReplacement(
         context,
-        new MaterialPageRoute(
+        new MaterialPageRoute(decorade
             builder: (BuildContext context) =>
                 new Usuario(usuarios: new Users(correofb))));
   }*/
@@ -204,14 +204,6 @@ Future<String> signInWithGoogle() async {
             title: Text('Regresar'),
           ),
           body: Container(
-            decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    begin: Alignment.topRight,
-                    end: Alignment.bottomLeft,
-                    colors: [
-                  Colors.black,
-                  Colors.white,
-                ])),
             child: Center(
               child: ListView(
                 shrinkWrap: false,

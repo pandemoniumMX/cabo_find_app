@@ -8,8 +8,9 @@ import 'package:cabofind/paginas_ing/educacion.dart';
 import 'package:cabofind/paginas_ing/login.dart';
 import 'package:cabofind/paginas_ing/maps.dart';
 import 'package:cabofind/paginas_ing/mis_reservaciones.dart';
-import 'package:cabofind/paginas_ing/misfavoritos.dart';
-import 'package:cabofind/paginas_ing/mispromos.dart';
+import 'package:geocoder/geocoder.dart';
+import 'package:geolocator/geolocator.dart' as geo;
+import 'package:location/location.dart';
 import 'package:cabofind/paginas_ing/promociones.dart';
 import 'package:cabofind/paginas_ing/publicacion_detalle.dart';
 import 'package:cabofind/paginas_ing/publicaciones.dart';
@@ -29,13 +30,11 @@ import 'package:clippy_flutter/clippy_flutter.dart';
 import 'package:ff_navigation_bar/ff_navigation_bar.dart';
 import 'package:http/http.dart' as http;
 import 'package:cached_network_image/cached_network_image.dart';
-
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:location/location.dart';
 import 'paginas_ing/anuncios.dart';
 
 FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
@@ -56,11 +55,13 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
 
   Widget appBarTitle = new Text("Cabofind");
 
+  var location = Location();
+
+
   @override
 
   List data;
   List portada;
-
   Future<String> getPortada() async {
     var response = await http.get(
         Uri.encodeFull(
@@ -88,6 +89,16 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
     return "Success!";
   }
 
+  _getCurrentLocation() async {
+    if (!await location.serviceEnabled()) {
+      location.requestService();
+    }
+    geo.Position position = await geo.Geolocator().getCurrentPosition(
+    desiredAccuracy: geo.LocationAccuracy.bestForNavigation);
+   
+    
+  }
+
   @override
   void initState() {
     this.getPortada();
@@ -98,6 +109,7 @@ class _MyHomePages_ing extends State<MyHomePages_ing> {
     fcmSubscribe();
     setupNotification();
     this.getData();
+    _getCurrentLocation();
 
 
   }

@@ -85,7 +85,7 @@ class _UsuarioState extends State<Carritox> {
   List data;
   List ext;
   String id_extra;
-  int _value = 1;
+  int _value = 0;
   double envio3 = 0.0;
   double total = 0;
   String ciudad;
@@ -226,6 +226,7 @@ class _UsuarioState extends State<Carritox> {
     this._cargarPedido();
     this._cargarExtra();
     dateFormat = new DateFormat.jms('es');
+    _value=1;
   }
 
   @override
@@ -280,83 +281,95 @@ class _UsuarioState extends State<Carritox> {
                               builder: (context) => Carrito_check()),
                           (Route<dynamic> route) => false);
                     } else {
-                      return data != null ? ListView.builder(
-                          shrinkWrap: true,
-                          physics: BouncingScrollPhysics(),
-                          itemCount: data == null ? 0 : data.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            String idx = data[index]["ID_PEDIDOS"];
-                            String idn = data[index]["ID_NEGOCIO"];
-                            var latx = double.parse(data[0]["NEG_MAP_LAT"]);
-                            var longx = double.parse(data[0]["NEG_MAP_LONG"]);
-                            latd = latx.toString();
-                            longd = longx.toString();
-                            tiempoprep =
-                                double.parse(data[0]["MENU_TIEMPO_PREP"]);
+                      return data != null
+                          ? ListView.builder(
+                              shrinkWrap: true,
+                              physics: BouncingScrollPhysics(),
+                              itemCount: data == null ? 0 : data.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                String idx = data[index]["ID_PEDIDOS"];
+                                String idn = data[index]["ID_NEGOCIO"];
+                                var latx = double.parse(data[0]["NEG_MAP_LAT"]);
+                                var longx =
+                                    double.parse(data[0]["NEG_MAP_LONG"]);
+                                latd = latx.toString();
+                                longd = longx.toString();
+                                tiempoprep =
+                                    double.parse(data[0]["MENU_TIEMPO_PREP"]);
 
-                            _getCurrentLocation(latx, longx, tiempoprep);
+                                _getCurrentLocation(latx, longx, tiempoprep);
 
-                            return new Card(
-                              elevation: 1.0,
-                              child: new Container(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
+                                return new Card(
+                                  elevation: 1.0,
+                                  child: new Container(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: <Widget>[
-                                        InkWell(
-                                          onTap: () {
-                                            showDialog(
-                                              context: context,
-                                              builder: (BuildContext context) {
-                                                // return object of type Dialog
-                                                return AlertDialog(
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10.0)),
-                                                  title: new Text("Alerta"),
-                                                  content: new Text(
-                                                    "¿Seguro que desea eliminar?",
-                                                    textAlign: TextAlign.center,
-                                                  ),
-                                                  actions: <Widget>[
-                                                    // usually buttons at the bottom of the dialog
-                                                    new FlatButton(
-                                                      child: new Text(
-                                                        "Cerrar",
-                                                        style: TextStyle(
-                                                            color: Colors.red),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: <Widget>[
+                                            InkWell(
+                                              onTap: () {
+                                                showDialog(
+                                                  context: context,
+                                                  builder:
+                                                      (BuildContext context) {
+                                                    // return object of type Dialog
+                                                    return AlertDialog(
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10.0)),
+                                                      title: new Text("Alerta"),
+                                                      content: new Text(
+                                                        "¿Seguro que desea eliminar?",
+                                                        textAlign:
+                                                            TextAlign.center,
                                                       ),
-                                                      onPressed: () {
-                                                        Navigator.of(context)
-                                                            .pop();
-                                                      },
-                                                    ),
-                                                    new FlatButton(
-                                                      child: new Text(
-                                                        "Confirmar",
-                                                        style: TextStyle(
-                                                            color: Color(
-                                                                0xff773E42)),
-                                                      ),
-                                                      onPressed: () {
-                                                        setState(() {
-                                                          _eliminarItem(idx);
-                                                          _cargarPedido();
-                                                        _cargarPedido();
-                                                        });
-                                                        
-                                                        Future.delayed(
-                                                            const Duration(
-                                                                milliseconds:
-                                                                    500),
-                                                            () {});
-                                                        Navigator.of(context)
-                                                            .pop();
+                                                      actions: <Widget>[
+                                                        // usually buttons at the bottom of the dialog
+                                                        new FlatButton(
+                                                          child: new Text(
+                                                            "Cerrar",
+                                                            style: TextStyle(
+                                                                color:
+                                                                    Colors.red),
+                                                          ),
+                                                          onPressed: () {
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
+                                                          },
+                                                        ),
+                                                        new FlatButton(
+                                                          child: new Text(
+                                                            "Confirmar",
+                                                            style: TextStyle(
+                                                                color: Color(
+                                                                    0xff773E42)),
+                                                          ),
+                                                          onPressed: () {
+                                                            setState(() {
+                                                              _eliminarItem(
+                                                                  idx);
+                                                              _cargarPedido();
+                                                              _cargarPedido();
+                                                            });
 
-                                                        /*_eliminarItem(idx);
+                                                            Future.delayed(
+                                                                const Duration(
+                                                                    milliseconds:
+                                                                        500),
+                                                                () {});
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
+
+                                                            /*_eliminarItem(idx);
                                                         setState(() {});
 
                                                         Navigator.of(context)
@@ -388,130 +401,65 @@ class _UsuarioState extends State<Carritox> {
                                                                           manejador: new Users(widget
                                                                               .negocio
                                                                               .correo))));*/
-                                                      },
-                                                    ),
-                                                  ],
+                                                          },
+                                                        ),
+                                                      ],
+                                                    );
+                                                  },
                                                 );
                                               },
-                                            );
-                                          },
-                                          child: Container(
-                                            margin: EdgeInsets.all(10),
-                                            child: Icon(
-                                              FontAwesomeIcons.trashAlt,
-                                              color: Colors.red,
-                                              size: 18,
+                                              child: Container(
+                                                margin: EdgeInsets.all(10),
+                                                child: Icon(
+                                                  FontAwesomeIcons.trashAlt,
+                                                  color: Colors.red,
+                                                  size: 18,
+                                                ),
+                                              ),
                                             ),
-                                          ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
-                                      children: <Widget>[
-                                        Column(children: <Widget>[
-                                          Text(
-                                              data[index]["PED_CANTIDAD"] + 'X',
-                                              overflow: TextOverflow.ellipsis,
-                                              softWrap: true,
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 18.0,
-                                                color: Color(0xff773E42),
-                                              )),
-                                        ]),
-                                        Text(data[index]["MENU_NOMBRE"],
-                                            overflow: TextOverflow.ellipsis,
-                                            softWrap: true,
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.w400,
-                                              fontSize: 18.0,
-                                              color: Colors.black,
-                                            )),
-                                        new Text(
-                                          '\$ ' + data[index]["PED_TOTAL"],
-                                          style: TextStyle(fontSize: 20),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                          children: <Widget>[
+                                            Column(children: <Widget>[
+                                              Text(
+                                                  data[index]["PED_CANTIDAD"] +
+                                                      'X',
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  softWrap: true,
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 18.0,
+                                                    color: Color(0xff773E42),
+                                                  )),
+                                            ]),
+                                            Text(data[index]["MENU_NOMBRE"],
+                                                overflow: TextOverflow.ellipsis,
+                                                softWrap: true,
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.w400,
+                                                  fontSize: 18.0,
+                                                  color: Colors.black,
+                                                )),
+                                            new Text(
+                                              '\$ ' + data[index]["PED_TOTAL"],
+                                              style: TextStyle(fontSize: 20),
+                                            ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
-                                    Container(
-                                      margin: EdgeInsets.only(left: 0),
-                                      padding: EdgeInsets.all(5),
-                                      child: data[index]["MENU_EXTRA_TIPO"] !=
-                                              null
-                                          ? Text(
-                                              data[index]["MENU_EXTRA_TIPO"] +
-                                                  ':',
-                                              overflow: TextOverflow.ellipsis,
-                                              softWrap: true,
-                                              style: TextStyle(
-                                                // fontWeight: FontWeight.bold,
-                                                fontSize: 15.0,
-                                                color: Colors.black,
-                                              ))
-                                          : SizedBox(),
-                                    ),
-                                    idx == idx
-                                        ? ListView.builder(
-                                            shrinkWrap: true,
-                                            physics: BouncingScrollPhysics(),
-                                            itemCount:
-                                                ext == null ? 0 : ext.length,
-                                            itemBuilder:
-                                                (BuildContext contexts, int a) {
-                                              String idp =
-                                                  ext[a]["pedidos_ID_PEDIDOS"];
-                                              String idx2 =
-                                                  data[index]["ID_PEDIDOS"];
-
-                                              if (idp == idx2) {
-                                                return Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: <Widget>[
-                                                    Container(
-                                                      margin: EdgeInsets.only(
-                                                          left: 30),
-                                                      padding:
-                                                          EdgeInsets.all(5),
-                                                      child: Text(
-                                                        ext[a]["EXT_NOMBRE"],
-                                                        style: TextStyle(
-                                                            fontSize: 15,
-                                                            color:
-                                                                Colors.black54),
-                                                      ),
-                                                    ),
-                                                    Container(
-                                                      margin: EdgeInsets.only(
-                                                          right: 15),
-                                                      padding:
-                                                          EdgeInsets.all(5),
-                                                      child: Text(
-                                                        '\$' +
-                                                            ext[a]
-                                                                ["EXT_PRECIO"],
-                                                        style: TextStyle(
-                                                            fontSize: 16,
-                                                            color:
-                                                                Colors.black54),
-                                                      ),
-                                                    )
-                                                  ],
-                                                );
-                                              } else {
-                                                return SizedBox();
-                                              }
-                                            })
-                                        : Text(''),
-                                    Container(
-                                      margin: EdgeInsets.only(left: 0),
-                                      padding: EdgeInsets.all(5),
-                                      child: data[index]["PED_NOTA"] != null
-                                          ? Container(
-                                              child: Text('Nota(s): ',
+                                        Container(
+                                          margin: EdgeInsets.only(left: 0),
+                                          padding: EdgeInsets.all(5),
+                                          child: data[index]
+                                                      ["MENU_EXTRA_TIPO"] !=
+                                                  null
+                                              ? Text(
+                                                  data[index]
+                                                          ["MENU_EXTRA_TIPO"] +
+                                                      ':',
                                                   overflow:
                                                       TextOverflow.ellipsis,
                                                   softWrap: true,
@@ -519,27 +467,104 @@ class _UsuarioState extends State<Carritox> {
                                                     // fontWeight: FontWeight.bold,
                                                     fontSize: 15.0,
                                                     color: Colors.black,
-                                                  )),
-                                            )
-                                          : SizedBox(),
+                                                  ))
+                                              : SizedBox(),
+                                        ),
+                                        idx == idx
+                                            ? ListView.builder(
+                                                shrinkWrap: true,
+                                                physics:
+                                                    BouncingScrollPhysics(),
+                                                itemCount: ext == null
+                                                    ? 0
+                                                    : ext.length,
+                                                itemBuilder:
+                                                    (BuildContext contexts,
+                                                        int a) {
+                                                  String idp = ext[a]
+                                                      ["pedidos_ID_PEDIDOS"];
+                                                  String idx2 =
+                                                      data[index]["ID_PEDIDOS"];
+
+                                                  if (idp == idx2) {
+                                                    return Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: <Widget>[
+                                                        Container(
+                                                          margin:
+                                                              EdgeInsets.only(
+                                                                  left: 30),
+                                                          padding:
+                                                              EdgeInsets.all(5),
+                                                          child: Text(
+                                                            ext[a]
+                                                                ["EXT_NOMBRE"],
+                                                            style: TextStyle(
+                                                                fontSize: 15,
+                                                                color: Colors
+                                                                    .black54),
+                                                          ),
+                                                        ),
+                                                        Container(
+                                                          margin:
+                                                              EdgeInsets.only(
+                                                                  right: 15),
+                                                          padding:
+                                                              EdgeInsets.all(5),
+                                                          child: Text(
+                                                            '\$' +
+                                                                ext[a][
+                                                                    "EXT_PRECIO"],
+                                                            style: TextStyle(
+                                                                fontSize: 16,
+                                                                color: Colors
+                                                                    .black54),
+                                                          ),
+                                                        )
+                                                      ],
+                                                    );
+                                                  } else {
+                                                    return SizedBox();
+                                                  }
+                                                })
+                                            : Text(''),
+                                        Container(
+                                          margin: EdgeInsets.only(left: 0),
+                                          padding: EdgeInsets.all(5),
+                                          child: data[index]["PED_NOTA"] != null
+                                              ? Container(
+                                                  child: Text('Nota(s): ',
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      softWrap: true,
+                                                      style: TextStyle(
+                                                        // fontWeight: FontWeight.bold,
+                                                        fontSize: 15.0,
+                                                        color: Colors.black,
+                                                      )),
+                                                )
+                                              : SizedBox(),
+                                        ),
+                                        Container(
+                                          margin: EdgeInsets.only(left: 25),
+                                          padding: EdgeInsets.all(10),
+                                          child: data[index]["PED_NOTA"] != null
+                                              ? Text(
+                                                  data[index]["PED_NOTA"],
+                                                  style: TextStyle(
+                                                      fontSize: 15,
+                                                      color: Colors.black54),
+                                                )
+                                              : SizedBox(),
+                                        )
+                                      ],
                                     ),
-                                    Container(
-                                      margin: EdgeInsets.only(left: 25),
-                                      padding: EdgeInsets.all(10),
-                                      child: data[index]["PED_NOTA"] != null
-                                          ? Text(
-                                              data[index]["PED_NOTA"],
-                                              style: TextStyle(
-                                                  fontSize: 15,
-                                                  color: Colors.black54),
-                                            )
-                                          : SizedBox(),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            );
-                          }): Text('NDA');
+                                  ),
+                                );
+                              })
+                          : Text('NDA');
                     }
                 }
               }),
@@ -610,6 +635,7 @@ class _UsuarioState extends State<Carritox> {
                       })
             ],
           ),
+        
           _value == 2
               ? //domicilio
               FutureBuilder(
@@ -630,7 +656,9 @@ class _UsuarioState extends State<Carritox> {
                                             ubicacion: Latlong(
                                                 widget.negocio.correo,
                                                 latd,
-                                                longd), distancia: Distancia(distanciafinal),
+                                                longd),
+                                            distancia:
+                                                Distancia(distanciafinal),
                                           )));
                             },
                             child: Row(
@@ -1050,7 +1078,7 @@ class _UsuarioState extends State<Carritox> {
                                     Divider(
                                       thickness: 2,
                                     ),
-                                    Container(
+                                    /* Container(
                                         margin: EdgeInsets.only(left: 10),
                                         padding: EdgeInsets.all(10),
                                         child: Text(
@@ -1095,7 +1123,7 @@ class _UsuarioState extends State<Carritox> {
                                                 onPressed: () {},
                                                 child: Text('Check')))
                                       ],
-                                    ),
+                                    ), */
                                     Container(
                                       //color: Color(0xffD3D7D6),
                                       margin:
@@ -1155,194 +1183,242 @@ class _UsuarioState extends State<Carritox> {
                         }
                     }
                   })
-              : Form(
-                  key: _formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Container(
-                              margin: EdgeInsets.only(left: 10),
-                              padding: EdgeInsets.all(10),
-                              child: Text(
-                                'Tiempo de preparación ',
-                                style: TextStyle(
-                                  fontSize: 18,
+              : FutureBuilder(
+                  future: _checkDireccion(),
+                  builder: (context, snapshot) {
+                    switch (snapshot.connectionState) {
+                      case ConnectionState.none:
+                      case ConnectionState.waiting:
+                        return Center(child: CircularProgressIndicator());
+                      default:
+                        return Form(
+                          key: _formKey,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Container(
+                                      margin: EdgeInsets.only(left: 10),
+                                      padding: EdgeInsets.all(10),
+                                      child: Text(
+                                        'Tiempo de preparación ',
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                        ),
+                                      )),
+                                  Container(
+                                      margin: EdgeInsets.only(left: 10),
+                                      padding: EdgeInsets.all(10),
+                                      child: Text(
+                                        tiempoprep.toString() + ' Minutos',
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold),
+                                      ))
+                                ],
+                              ),
+                              Divider(
+                                thickness: 2,
+                              ),
+                              /* Container(
+                                  margin: EdgeInsets.only(left: 10),
+                                  padding: EdgeInsets.all(10),
+                                  child: Text(
+                                    '¿Cupón de descuento?',
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold),
+                                  )),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Container(
+                                      margin: EdgeInsets.only(left: 10),
+                                      padding: EdgeInsets.all(10),
+                                      width: MediaQuery.of(context).size.width /
+                                          1.4,
+                                      child: TextField(
+                                        readOnly: true,
+                                        controller: cupon,
+                                        enabled: true,
+                                        decoration: InputDecoration(
+                                            focusColor: Color(0xffD3D7D6),
+                                            hoverColor: Color(0xffD3D7D6),
+                                            hintText:
+                                                'Ingresa un cupon válido'),
+                                      )),
+                                  Container(
+                                      margin: EdgeInsets.only(right: 10),
+                                      padding: EdgeInsets.all(1),
+                                      child: FlatButton(
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(5.0),
+                                              side: BorderSide(
+                                                  color: Color(0xffD3D7D6))),
+                                          onPressed: () {},
+                                          child: Text('Check')))
+                                ],
+                              ),*/
+                              Container(
+                                  margin: EdgeInsets.only(left: 10),
+                                  padding: EdgeInsets.all(10),
+                                  child: Text(
+                                    'Forma de pago',
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold),
+                                  )),
+                              Row(
+                                children: <Widget>[
+                                  Container(
+                                      margin: EdgeInsets.only(left: 10),
+                                      padding: EdgeInsets.all(10),
+                                      width: MediaQuery.of(context).size.width /
+                                          1.4,
+                                      child: Text(
+                                        'Sólo efectivo',
+                                        style: TextStyle(
+                                            color: Colors.black54,
+                                            fontSize: 18),
+                                      ))
+                                ],
+                              ),
+                              Container(
+                                //color: Color(0xffD3D7D6),
+                                margin: EdgeInsets.only(left: 50, right: 50),
+                                decoration: BoxDecoration(
+                                  color: Color(0xffD3D7D6),
+                                  shape: BoxShape.rectangle,
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  //  border: Border.all(width: 1, color: Color(0xffD3D7D6))
                                 ),
-                              )),
-                          Container(
-                              margin: EdgeInsets.only(left: 10),
-                              padding: EdgeInsets.all(10),
-                              child: Text(
-                                tiempoprep.toString() + ' Minutos',
-                                style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold),
-                              ))
-                        ],
-                      ),
-                      Divider(
-                        thickness: 2,
-                      ),
-                      Container(
-                          margin: EdgeInsets.only(left: 10),
-                          padding: EdgeInsets.all(10),
-                          child: Text(
-                            '¿Cupón de descuento?',
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold),
-                          )),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Container(
-                              margin: EdgeInsets.only(left: 10),
-                              padding: EdgeInsets.all(10),
-                              width: MediaQuery.of(context).size.width / 1.4,
-                              child: TextField(
-                                readOnly: true,
-                                controller: cupon,
-                                enabled: true,
-                                decoration: InputDecoration(
-                                    focusColor: Color(0xffD3D7D6),
-                                    hoverColor: Color(0xffD3D7D6),
-                                    hintText: 'Ingresa un cupon válido'),
-                              )),
-                          Container(
-                              margin: EdgeInsets.only(right: 10),
-                              padding: EdgeInsets.all(1),
-                              child: FlatButton(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(5.0),
-                                      side:
-                                          BorderSide(color: Color(0xffD3D7D6))),
-                                  onPressed: () {},
-                                  child: Text('Check')))
-                        ],
-                      ),
-                      Container(
-                          margin: EdgeInsets.only(left: 10),
-                          padding: EdgeInsets.all(10),
-                          child: Text(
-                            'Forma de pago',
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold),
-                          )),
-                      Row(
-                        children: <Widget>[
-                          Container(
-                              margin: EdgeInsets.only(left: 10),
-                              padding: EdgeInsets.all(10),
-                              width: MediaQuery.of(context).size.width / 1.4,
-                              child: Text(
-                                'Sólo efectivo',
-                                style: TextStyle(
-                                    color: Colors.black54, fontSize: 18),
-                              ))
-                        ],
-                      ),
-                      Container(
-                        //color: Color(0xffD3D7D6),
-                        margin: EdgeInsets.only(left: 50, right: 50),
-                        decoration: BoxDecoration(
-                          color: Color(0xffD3D7D6),
-                          shape: BoxShape.rectangle,
-                          borderRadius: BorderRadius.circular(5.0),
-                          //  border: Border.all(width: 1, color: Color(0xffD3D7D6))
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Container(
-                              margin: EdgeInsets.only(left: 10),
-                              padding: EdgeInsets.all(10),
-                              child: Text(
-                                'Total',
-                                style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(right: 10),
-                              padding: EdgeInsets.all(10),
-                              child: Text(
-                                '\$' + data[0]["Total"],
-                                style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Container(
-                        height: 50,
-                        width: MediaQuery.of(context).size.width,
-                        child: RaisedButton(
-                          onPressed: () {
-                            if (_formKey.currentState.validate()) {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  // return object of type Dialog
-                                  return AlertDialog(
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10.0)),
-                                    title: new Text("Alerta"),
-                                    content: new Text(
-                                      "¿Seguro que desea confirmar orden?",
-                                      textAlign: TextAlign.center,
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Container(
+                                      margin: EdgeInsets.only(left: 10),
+                                      padding: EdgeInsets.all(10),
+                                      child: Text(
+                                        'Total',
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold),
+                                      ),
                                     ),
-                                    actions: <Widget>[
-                                      // usually buttons at the bottom of the dialog
-                                      new FlatButton(
-                                        child: new Text(
-                                          "Cerrar",
-                                          style: TextStyle(color: Colors.red),
-                                        ),
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
+                                    Container(
+                                      margin: EdgeInsets.only(right: 10),
+                                      padding: EdgeInsets.all(10),
+                                      child: Text(
+                                        '\$' + data[0]["Total"],
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold),
                                       ),
-
-                                      new FlatButton(
-                                        child: new Text(
-                                          "Confirmar",
-                                          style: TextStyle(
-                                              color: Color(0xff773E42)),
-                                        ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              distanciafinal <= 8.0
+                                  ? Container(
+                                      height: 50,
+                                      width: MediaQuery.of(context).size.width,
+                                      child: RaisedButton(
                                         onPressed: () {
-                                          _confirmarOrden(valpago);
+                                          if (_formKey.currentState
+                                              .validate()) {
+                                            showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                // return object of type Dialog
+                                                return AlertDialog(
+                                                  shape: RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10.0)),
+                                                  title: new Text("Alerta"),
+                                                  content: new Text(
+                                                    "¿Seguro que desea confirmar orden?",
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                  actions: <Widget>[
+                                                    // usually buttons at the bottom of the dialog
+                                                    new FlatButton(
+                                                      child: new Text(
+                                                        "Cerrar",
+                                                        style: TextStyle(
+                                                            color: Colors.red),
+                                                      ),
+                                                      onPressed: () {
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                      },
+                                                    ),
 
-                                          Navigator.of(context).pushReplacement(
-                                            MaterialPageRoute(
-                                                builder: (context) => Domicilio(
-                                                    numeropagina: Categoria(2),
-                                                    numtab: Categoria(0))),
-                                          );
+                                                    new FlatButton(
+                                                      child: new Text(
+                                                        "Confirmar",
+                                                        style: TextStyle(
+                                                            color: Color(
+                                                                0xff773E42)),
+                                                      ),
+                                                      onPressed: () {
+                                                        _confirmarOrden(
+                                                            valpago);
+
+                                                        Navigator.of(context)
+                                                            .pushReplacement(
+                                                          MaterialPageRoute(
+                                                              builder: (context) => Domicilio(
+                                                                  numeropagina:
+                                                                      Categoria(
+                                                                          2),
+                                                                  numtab:
+                                                                      Categoria(
+                                                                          0))),
+                                                        );
+                                                      },
+                                                    ),
+                                                  ],
+                                                );
+                                              },
+                                            );
+                                          }
                                         },
+                                        color: Color(0xff773E42),
+                                        textColor: Colors.white,
+                                        child: Text(
+                                          'Confirmar orden',
+                                          style: TextStyle(fontSize: 20),
+                                        ),
                                       ),
-                                    ],
-                                  );
-                                },
-                              );
-                            }
-                          },
-                          color: Color(0xff773E42),
-                          textColor: Colors.white,
-                          child: Text(
-                            'Confirmar orden',
-                            style: TextStyle(fontSize: 20),
+                                    )
+                                  : Container(
+                                      height: 50,
+                                      width: MediaQuery.of(context).size.width,
+                                      child: RaisedButton(
+                                        onPressed: null,
+                                        color: Color(0xff773E42),
+                                        textColor: Colors.white,
+                                        child: Text(
+                                          'Distancia demasiado lejana :(',
+                                          style: TextStyle(fontSize: 20),
+                                        ),
+                                      ),
+                                    ),
+                            ],
                           ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                        );
+                    }
+                  })
         ],
       ),
     );
