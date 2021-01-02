@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:cabofind/paginas/empresa_detalle.dart';
 import 'package:cabofind/paginas_ing/empresa_detalle.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:device_info/device_info.dart';
 import 'package:devicelocale/devicelocale.dart';
@@ -60,7 +61,6 @@ class _Publicacion_detalle_fin_ing extends State<Publicacion_detalle_fin_ing> {
     this.setState(() {
       data = json.decode(response.body);
     });
-    print(data[0]["NEG_DESCRIPCION"]);
 
     return "Success!";
   }
@@ -74,7 +74,6 @@ class _Publicacion_detalle_fin_ing extends State<Publicacion_detalle_fin_ing> {
     this.setState(() {
       dataneg = json.decode(response.body);
     });
-    print(dataneg[0]["NEG_NOMBRE"]);
 
     return "Success!";
   }
@@ -116,8 +115,6 @@ class _Publicacion_detalle_fin_ing extends State<Publicacion_detalle_fin_ing> {
 
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-    print('Running on ${androidInfo.id}');
-    print('Running on ${androidInfo.fingerprint}');
 
     var response = await http.get(
         Uri.encodeFull(
@@ -129,10 +126,7 @@ class _Publicacion_detalle_fin_ing extends State<Publicacion_detalle_fin_ing> {
     String currentLocale;
     try {
       currentLocale = await Devicelocale.currentLocale;
-      print(currentLocale);
-    } on PlatformException {
-      print("Error obtaining current locale");
-    }
+    } on PlatformException {}
 
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
@@ -252,25 +246,25 @@ Future<String> insertPublicacioniOS() async {
             child: Column(
               children: <Widget>[
                 Stack(children: <Widget>[
-                  Image.network(data_pub[index]["GAL_FOTO_ING"],
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(15.0),
+                    child: CachedNetworkImage(
                       width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height / 1.5,
-                      fit: BoxFit
-                          .fill), /*
-                        Positioned(
-                                right: 0.0,
-                                top: 0.0,
-                                child: new FloatingActionButton(
-                                  child: new Image.asset(
-                                    "assets/recomend.png",
-                                fit: BoxFit.cover,
-                                width: 50.0,
-                                height: 50.0,
-                              ),
-                                  backgroundColor: Colors.black,
-                                  onPressed: (){showShortToast();insertRecomendacion();},
-                                ),
-                              ),    */
+                      height: MediaQuery.of(context).size.height / 2,
+                      fit: BoxFit.fill,
+                      imageUrl: data_pub[index]["GAL_FOTO_ING"],
+                      progressIndicatorBuilder:
+                          (context, url, downloadProgress) => Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height,
+                        child: Center(
+                          child: CircularProgressIndicator(
+                              value: downloadProgress.progress),
+                        ),
+                      ),
+                      errorWidget: (context, url, error) => Icon(Icons.error),
+                    ),
+                  ),
                 ]),
                 SizedBox(
                   height: 5.0,
@@ -288,17 +282,8 @@ Future<String> insertPublicacioniOS() async {
                                   fontWeight: FontWeight.bold, fontSize: 23.0),
                             ),
                           ),
-                          Center(
-                            child: Text(
-                              data_pub[index]["CAT_NOMBRE_ING"],
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15.0,
-                                  color: Color(0xff2E85DC)),
-                            ),
-                          ),
                           SizedBox(
-                            height: 5.0,
+                            height: 10.0,
                           ),
                           Column(
                             children: <Widget>[

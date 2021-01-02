@@ -554,7 +554,7 @@ class Detalles extends State<Rick_preparing> {
                         borderRadius: new BorderRadius.circular(25.0),
                         borderSide: new BorderSide(),
                       ),
-                      //fillColor: Color(0xff773E42)
+                      //fillColor: Color(0xff192227)
                     ),
                     keyboardType: TextInputType.text,
                     controller: nombre,
@@ -577,7 +577,7 @@ class Detalles extends State<Rick_preparing> {
                         borderRadius: new BorderRadius.circular(25.0),
                         borderSide: new BorderSide(),
                       ),
-                      //fillColor: Color(0xff773E42)
+                      //fillColor: Color(0xff192227)
                     ),
                     keyboardType: TextInputType.phone,
                     inputFormatters: <TextInputFormatter>[
@@ -595,7 +595,7 @@ class Detalles extends State<Rick_preparing> {
                         borderRadius: new BorderRadius.circular(25.0),
                         borderSide: new BorderSide(),
                       ),
-                      //fillColor: Color(0xff773E42)
+                      //fillColor: Color(0xff192227)
                     ),
                     child: DropdownButton(
                       items: playas.map((item) {

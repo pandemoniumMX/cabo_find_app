@@ -158,7 +158,7 @@ class _Recompensa_detalleState extends State<Cupones_detalles_ob> {
                               },
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(40.0)),
-                              color: Color(0xff773E42),
+                              color: Color(0xff192227),
                               child: new Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 mainAxisSize: MainAxisSize.min,

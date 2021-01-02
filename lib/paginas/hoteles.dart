@@ -34,8 +34,8 @@ class _Restaurantes extends State<Hoteles> {
       /*
       bottomNavigationBar: new BottomNavigationBar(
         currentIndex: _page,
-        backgroundColor: Color(0xff773E42),
-        fixedColor: Color(0xff773E42),
+        backgroundColor: Color(0xff192227),
+        fixedColor: Color(0xff192227),
         unselectedItemColor: Colors.black54,
         showUnselectedLabels: false,
         //unselectedIconTheme: Colors.grey,

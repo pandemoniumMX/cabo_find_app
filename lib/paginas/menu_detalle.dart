@@ -781,7 +781,7 @@ class Detalles extends State<Menu_detalle> {
                                       _confirmacion();
                                     }
                                   },
-                                  color: Color(0xff773E42),
+                                  color: Color(0xff192227),
                                   textColor: Colors.white,
                                   child: Text(
                                     'Agregar $_counter al carrito • MXN \$ $total',
@@ -887,7 +887,7 @@ class Detalles extends State<Menu_detalle> {
                                             fontWeight: FontWeight.bold,
                                             fontSize: 10.0,
                                             color: Colors.white)),
-                                    backgroundColor: Color(0xff773E42),
+                                    backgroundColor: Color(0xff192227),
                                   ),
                                 );
                               } else if (snapshot.data["Total"] == '0') {
@@ -915,7 +915,7 @@ class Detalles extends State<Menu_detalle> {
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 10.0,
                                                 color: Colors.white)),
-                                        backgroundColor: Color(0xff773E42),
+                                        backgroundColor: Color(0xff192227),
                                       ),
                                     ),
                                   ],
@@ -959,7 +959,7 @@ class Detalles extends State<Menu_detalle> {
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 10.0,
                                                   color: Colors.white)),
-                                          backgroundColor: Color(0xff773E42),
+                                          backgroundColor: Color(0xff192227),
                                         ),
                                       ),
                                     ],

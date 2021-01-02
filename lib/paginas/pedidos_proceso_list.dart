@@ -110,7 +110,7 @@ class _Pedidos_nuevosState extends State<Lista_enproceso> {
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 18.0,
-                                      color: Color(0xff773E42),
+                                      color: Color(0xff192227),
                                     )),
                               ]),
                               Text(data[index]["MENU_NOMBRE"],

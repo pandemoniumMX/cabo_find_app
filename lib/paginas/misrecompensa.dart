@@ -6,12 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_youtube/flutter_youtube.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import '../main.dart';
 import 'dados.dart';
 import 'list_manejador_recompensas.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class Mis_recompensas extends StatefulWidget {
   @override
@@ -20,6 +22,7 @@ class Mis_recompensas extends StatefulWidget {
 
 class _Compras extends State<Mis_recompensas> {
   bool isLoggedIn = false;
+
   //final GlobalKey<State> _keyLoader = new GlobalKey<State>();
   void initState() {
     //sesionLog();
@@ -71,10 +74,12 @@ class Usuario extends StatefulWidget {
 
 class _UsuarioState extends State<Usuario> {
   List data;
+  DateFormat dateFormat;
 
   void initState() {
     super.initState();
     this._loadUser();
+    dateFormat = new DateFormat.MMMMd('es');
   }
 
   Future<Map> _loaduserQR() async {
@@ -330,6 +335,7 @@ class _UsuarioState extends State<Usuario> {
                 );
               } else {
                 return ListView.builder(
+                    padding: EdgeInsets.zero,
                     shrinkWrap: true,
                     physics: BouncingScrollPhysics(),
                     itemCount: data == null ? 0 : data.length,
@@ -344,29 +350,65 @@ class _UsuarioState extends State<Usuario> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
-                                    FadeInImage(
-                                      image:
-                                          NetworkImage(data[index]["GAL_FOTO"]),
-                                      fit: BoxFit.fill,
-                                      width: MediaQuery.of(context).size.width *
-                                          .20,
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              .10,
-                                      placeholder: AssetImage(
-                                          'android/assets/images/loading.gif'),
-                                      fadeInDuration:
-                                          Duration(milliseconds: 200),
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      child: CachedNetworkImage(
+                                        fit: BoxFit.fill,
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                .20,
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                .10,
+                                        imageUrl: data[index]["GAL_FOTO"],
+                                        progressIndicatorBuilder:
+                                            (context, url, downloadProgress) =>
+                                                Container(
+                                          margin: EdgeInsets.only(top: 1),
+                                          child: Center(
+                                            child: CircularProgressIndicator(
+                                                value:
+                                                    downloadProgress.progress),
+                                          ),
+                                        ),
+                                        errorWidget: (context, url, error) =>
+                                            Icon(Icons.error),
+                                      ),
                                     ),
-                                    Flexible(
-                                      child: Text(data[index]["NEG_NOMBRE"],
-                                          overflow: TextOverflow.ellipsis,
-                                          softWrap: true,
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 15.0,
-                                            color: Colors.black,
-                                          )),
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: [
+                                        Text(data[index]["NEG_NOMBRE"],
+                                            overflow: TextOverflow.ellipsis,
+                                            softWrap: true,
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 15.0,
+                                              color: Colors.black,
+                                            )),
+                                        Row(
+                                          children: [
+                                            Text('Expira el: ',
+                                                overflow: TextOverflow.ellipsis,
+                                                style: new TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 12.0,
+                                                  fontWeight: FontWeight.w400,
+                                                )),
+                                            Text(
+                                                dateFormat.format(
+                                                    DateTime.parse(data[index]
+                                                        ["PUN_CADUCIDAD"])),
+                                                overflow: TextOverflow.ellipsis,
+                                                style: new TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 12.0,
+                                                  fontWeight: FontWeight.w400,
+                                                )),
+                                          ],
+                                        ),
+                                      ],
                                     ),
                                     Row(
                                       children: [
@@ -416,6 +458,7 @@ class _UsuarioState extends State<Usuario> {
 
     return Scaffold(
       body: ListView(
+        padding: EdgeInsets.zero,
         physics: NeverScrollableScrollPhysics(),
         children: <Widget>[
           Container(
@@ -514,7 +557,6 @@ class _UsuarioState extends State<Usuario> {
                   )),
             ],
           ),*/
-          Divider(),
           Container(
               decoration: BoxDecoration(
                   gradient: LinearGradient(colors: [

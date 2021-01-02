@@ -226,7 +226,7 @@ class _UsuarioState extends State<Carritox> {
     this._cargarPedido();
     this._cargarExtra();
     dateFormat = new DateFormat.jms('es');
-    _value=1;
+    _value = 1;
   }
 
   @override
@@ -261,7 +261,7 @@ class _UsuarioState extends State<Carritox> {
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xff773E42),
+                      color: Color(0xff192227),
                     ),
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -350,7 +350,7 @@ class _UsuarioState extends State<Carritox> {
                                                             "Confirmar",
                                                             style: TextStyle(
                                                                 color: Color(
-                                                                    0xff773E42)),
+                                                                    0xff192227)),
                                                           ),
                                                           onPressed: () {
                                                             setState(() {
@@ -433,7 +433,7 @@ class _UsuarioState extends State<Carritox> {
                                                   style: TextStyle(
                                                     fontWeight: FontWeight.bold,
                                                     fontSize: 18.0,
-                                                    color: Color(0xff773E42),
+                                                    color: Color(0xff192227),
                                                   )),
                                             ]),
                                             Text(data[index]["MENU_NOMBRE"],
@@ -635,7 +635,6 @@ class _UsuarioState extends State<Carritox> {
                       })
             ],
           ),
-        
           _value == 2
               ? //domicilio
               FutureBuilder(
@@ -723,7 +722,7 @@ class _UsuarioState extends State<Carritox> {
                                               child: Text(
                                                 snapshot.data['DIC_CALLE'],
                                                 style: TextStyle(
-                                                    color: Color(0xff773E42),
+                                                    color: Color(0xff192227),
                                                     fontWeight:
                                                         FontWeight.bold),
                                                 overflow: TextOverflow.ellipsis,
@@ -734,7 +733,7 @@ class _UsuarioState extends State<Carritox> {
                                                     EdgeInsets.only(right: 10),
                                                 child: Icon(
                                                   FontAwesomeIcons.check,
-                                                  color: Color(0xff773E42),
+                                                  color: Color(0xff192227),
                                                   size: 18,
                                                 )),
                                           ],
@@ -979,7 +978,7 @@ class _UsuarioState extends State<Carritox> {
                                                           "Confirmar",
                                                           style: TextStyle(
                                                               color: Color(
-                                                                  0xff773E42)),
+                                                                  0xff192227)),
                                                         ),
                                                         onPressed: () {
                                                           _confirmarOrden(
@@ -1004,7 +1003,7 @@ class _UsuarioState extends State<Carritox> {
                                               );
                                             }
                                           },
-                                          color: Color(0xff773E42),
+                                          color: Color(0xff192227),
                                           textColor: Colors.white,
                                           child: Text(
                                             'Confirmar orden',
@@ -1111,7 +1110,7 @@ class _UsuarioState extends State<Carritox> {
                                         Container(
                                             margin: EdgeInsets.only(right: 10),
                                             padding: EdgeInsets.all(1),
-                                            //color: Color(0xff773E42),
+                                            //color: Color(0xff192227),
                                             child: FlatButton(
                                                 shape: RoundedRectangleBorder(
                                                     borderRadius:
@@ -1368,7 +1367,7 @@ class _UsuarioState extends State<Carritox> {
                                                         "Confirmar",
                                                         style: TextStyle(
                                                             color: Color(
-                                                                0xff773E42)),
+                                                                0xff192227)),
                                                       ),
                                                       onPressed: () {
                                                         _confirmarOrden(
@@ -1393,7 +1392,7 @@ class _UsuarioState extends State<Carritox> {
                                             );
                                           }
                                         },
-                                        color: Color(0xff773E42),
+                                        color: Color(0xff192227),
                                         textColor: Colors.white,
                                         child: Text(
                                           'Confirmar orden',
@@ -1406,7 +1405,7 @@ class _UsuarioState extends State<Carritox> {
                                       width: MediaQuery.of(context).size.width,
                                       child: RaisedButton(
                                         onPressed: null,
-                                        color: Color(0xff773E42),
+                                        color: Color(0xff192227),
                                         textColor: Colors.white,
                                         child: Text(
                                           'Distancia demasiado lejana :(',

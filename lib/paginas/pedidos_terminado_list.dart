@@ -142,7 +142,7 @@ class _Pedidos_nuevosState extends State<Lista_terminado> {
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 18.0,
-                                      color: Color(0xff773E42),
+                                      color: Color(0xff192227),
                                     )),
                               ]),
                               Text(data[index]["MENU_NOMBRE"],
@@ -315,7 +315,7 @@ class _Pedidos_nuevosState extends State<Lista_terminado> {
                                   },
                                 );
                               },
-                              color: Color(0xff773E42),
+                              color: Color(0xff192227),
                               textColor: Colors.white,
                               child: Text(
                                 'Calificar platillo',

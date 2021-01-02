@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:cabofind/paginas/carrusel.dart';
 import 'package:cabofind/main.dart';
 import 'package:cabofind/paginas/publicacion_detalle.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:cabofind/paginas/empresa_detalle.dart';
@@ -54,99 +55,103 @@ class Publicacionesfull extends State<Eventos_grid> {
         title: new Text('Eventos'),
       ),
       body: Container(
-        // height: MediaQuery.of(context).size.height,
-        child: new StaggeredGridView.countBuilder(
-          crossAxisCount: 4,
-          itemCount: data == null ? 0 : data.length,
-          itemBuilder: (BuildContext context, int index) => new Container(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10.0),
-                border: Border.all(color: Colors.black)),
-            padding: EdgeInsets.all(5.0),
-            margin: EdgeInsets.all(5.0),
-            child: Container(
-              child: InkWell(
-                child: Column(
-                  children: <Widget>[
-                    Padding(
-                      child: new Text(
-                        data[index]["PUB_TITULO"],
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                          fontSize: 20.0,
-                        ),
-                      ),
-                      padding: EdgeInsets.all(1.0),
-                    ),
-                    Expanded(
-                      child: Stack(
-                        children: <Widget>[
-                          FadeInImage(
-                            image: NetworkImage(data[index]["GAL_FOTO"]),
+          //height: 500,
+          child: ListView.builder(
+        itemCount: data == null ? 0 : data.length,
+        itemBuilder: (BuildContext context, int index) {
+          return data.isNotEmpty
+              ? Container(
+                  height: 150,
+                  padding: EdgeInsets.all(5),
+                  child: InkWell(
+                    child: Row(
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(10.0),
+                          child: CachedNetworkImage(
                             fit: BoxFit.cover,
-                            width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height,
-                            placeholder:
-                                AssetImage('android/assets/images/loading.gif'),
-                            fadeInDuration: Duration(milliseconds: 200),
+                            height: 150,
+                            width: 200,
+                            imageUrl: data[index]["GAL_FOTO"],
+                            progressIndicatorBuilder:
+                                (context, url, downloadProgress) => Container(
+                              margin: EdgeInsets.only(top: 1),
+                              child: Center(
+                                child: CircularProgressIndicator(
+                                    value: downloadProgress.progress),
+                              ),
+                            ),
+                            errorWidget: (context, url, error) =>
+                                Icon(Icons.error),
                           ),
-                          Align(
-                            alignment: Alignment.bottomCenter,
-                            child: new Text(
-                                dateFormat.format(DateTime.parse(
-                                    data[index]["PUB_FECHA_LIMITE"])),
-                                style: new TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 25.0,
-                                  fontWeight: FontWeight.w900,
-                                  backgroundColor:
-                                      const Color(0x000000).withOpacity(0.5),
-                                )),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Row(children: <Widget>[
-                      Padding(
-                          child: new Text(
-                            data[index]["NEG_NOMBRE"],
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          padding: EdgeInsets.all(1.0)),
-                      Text(" | "),
-                      Flexible(
-                        child: new Text(
-                          data[index]["CIU_NOMBRE"],
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
                         ),
-                      ),
-                    ]),
-                  ],
-                ),
-                onTap: () {
-                  String id_n = data[index]["ID_NEGOCIO"];
-                  String id = data[index]["ID_PUBLICACION"];
+                        Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Flexible(
+                                    child: Text(data[index]["NEG_NOMBRE"],
+                                        style: new TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 18.0,
+                                          fontWeight: FontWeight.w600,
+                                        )),
+                                  ),
+                                  Flexible(
+                                    child: Text(data[index]["PUB_TITULO"],
+                                        style: new TextStyle(
+                                          color: Colors.grey,
+                                          fontSize: 15.0,
+                                          fontWeight: FontWeight.w300,
+                                        )),
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text('Fecha: ',
+                                          style: new TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 15.0,
+                                            fontWeight: FontWeight.w600,
+                                          )),
+                                      Text(
+                                          dateFormat.format(DateTime.parse(
+                                              data[index]["PUB_FECHA_LIMITE"])),
+                                          overflow: TextOverflow.ellipsis,
+                                          style: new TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 15.0,
+                                            fontWeight: FontWeight.w600,
+                                          )),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
+                        )
+                      ],
+                    ),
+                    onTap: () {
+                      String id_n = data[index]["ID_NEGOCIO"];
+                      String id = data[index]["ID_PUBLICACION"];
 
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (context) => new Publicacion_detalle_fin(
-                                publicacion: new Publicacion(id_n, id),
-                              )));
-                },
-              ),
-            ),
-          ),
-          staggeredTileBuilder: (int index) =>
-              new StaggeredTile.count(2, index.isEven ? 3 : 3),
-          mainAxisSpacing: 4.0,
-          crossAxisSpacing: 4.0,
-        ),
-      ),
+                      Navigator.push(
+                          context,
+                          new MaterialPageRoute(
+                              builder: (context) => new Publicacion_detalle_fin(
+                                    publicacion: new Publicacion(id_n, id),
+                                  )));
+                    },
+                  ),
+                )
+              : Center(child: Text('Proximamente'));
+        },
+      )),
     );
   }
 }

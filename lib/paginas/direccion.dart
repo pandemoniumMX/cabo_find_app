@@ -17,7 +17,11 @@ class Mi_direccion extends StatefulWidget {
   final Latlong ubicacion;
   final Distancia distancia;
 
-  Mi_direccion({Key key, this.ubicacion, this.distancia, }) : super(key: key);
+  Mi_direccion({
+    Key key,
+    this.ubicacion,
+    this.distancia,
+  }) : super(key: key);
   @override
   _Mi_direccionState createState() => _Mi_direccionState();
 }
@@ -88,17 +92,13 @@ class _Mi_direccionState extends State<Mi_direccion> {
       var ciudad2 = addresses.first.locality; //= ciudad
       var col2 = addresses.first.subLocality; //= colonia
 
-setState(() {
-  distanciafinal = subdistancia;
+      setState(() {
+        distanciafinal = subdistancia;
         cp = new TextEditingController(text: cp2);
         calle = new TextEditingController(text: calle2);
         colonia = new TextEditingController(text: col2);
         ciudad = new TextEditingController(text: ciudad2);
-});
-      
-        
-        
-     
+      });
     } on PlatformException {
       geo.Position position = null;
     }
@@ -375,7 +375,7 @@ setState(() {
           Divider()
         ],
       ),
-      bottomNavigationBar: 1==1//widget.distancia.dis <= 8.0
+      bottomNavigationBar: 1 == 1 //widget.distancia.dis <= 8.0
           ? Container(
               height: 50,
               child: RaisedButton(
@@ -414,7 +414,7 @@ setState(() {
                             new FlatButton(
                               child: new Text(
                                 "Confirmar",
-                                style: TextStyle(color: Color(0xff773E42)),
+                                style: TextStyle(color: Color(0xff192227)),
                               ),
                               onPressed: () {
                                 _insertDireccion(
@@ -437,7 +437,7 @@ setState(() {
                     );
                   }
                 },
-                color: Color(0xff773E42),
+                color: Color(0xff192227),
                 textColor: Colors.white,
                 child: Text(
                   'Guardar dirección',

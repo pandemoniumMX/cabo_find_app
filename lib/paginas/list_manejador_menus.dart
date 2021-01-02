@@ -210,28 +210,28 @@ class _Menu_majeadorState extends State<Menu_manejador>
                                         style: TextStyle(
                                             fontSize: 17,
                                             fontWeight: FontWeight.bold,
-                                            color: Color(0xff773E42)),
+                                            color: Color(0xff192227)),
                                       )),
                                   calificacion == 5
                                       ? Text(
                                           ' ⭐⭐⭐⭐⭐',
                                           style: TextStyle(
                                               fontSize: 14,
-                                              color: Color(0xff773E42)),
+                                              color: Color(0xff192227)),
                                         )
                                       : calificacion == 4
                                           ? Text(
                                               ' ⭐⭐⭐⭐',
                                               style: TextStyle(
                                                   fontSize: 14,
-                                                  color: Color(0xff773E42)),
+                                                  color: Color(0xff192227)),
                                             )
                                           : calificacion == 3
                                               ? Text(
                                                   ' ⭐⭐⭐',
                                                   style: TextStyle(
                                                       fontSize: 14,
-                                                      color: Color(0xff773E42)),
+                                                      color: Color(0xff192227)),
                                                 )
                                               : calificacion == 2
                                                   ? Text(
@@ -239,7 +239,7 @@ class _Menu_majeadorState extends State<Menu_manejador>
                                                       style: TextStyle(
                                                           fontSize: 14,
                                                           color: Color(
-                                                              0xff773E42)),
+                                                              0xff192227)),
                                                     )
                                                   : calificacion == 1
                                                       ? Text(
@@ -247,7 +247,7 @@ class _Menu_majeadorState extends State<Menu_manejador>
                                                           style: TextStyle(
                                                               fontSize: 14,
                                                               color: Color(
-                                                                  0xff773E42)),
+                                                                  0xff192227)),
                                                         )
                                                       : SizedBox()
                                 ],
@@ -306,7 +306,7 @@ class _Menu_majeadorState extends State<Menu_manejador>
                                           fontWeight: FontWeight.bold,
                                           fontSize: 10.0,
                                           color: Colors.white)),
-                                  backgroundColor: Color(0xff773E42),
+                                  backgroundColor: Color(0xff192227),
                                 ),
                               );
                             } else if (snapshot.data["Total"] == '0') {
@@ -334,7 +334,7 @@ class _Menu_majeadorState extends State<Menu_manejador>
                                               fontWeight: FontWeight.bold,
                                               fontSize: 10.0,
                                               color: Colors.white)),
-                                      backgroundColor: Color(0xff773E42),
+                                      backgroundColor: Color(0xff192227),
                                     ),
                                   ),
                                 ],
@@ -375,7 +375,7 @@ class _Menu_majeadorState extends State<Menu_manejador>
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 10.0,
                                                 color: Colors.white)),
-                                        backgroundColor: Color(0xff773E42),
+                                        backgroundColor: Color(0xff192227),
                                       ),
                                     ),
                                   ],

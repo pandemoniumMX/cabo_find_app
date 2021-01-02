@@ -42,7 +42,7 @@ android {
         minSdkVersion 22 //requiere 29 para playstore
         targetSdkVersion 29
         versionCode 87 //Ir aumentando la version
-        versionName "1.7.8" //Ir aumentando la version
+        versionName "1.7.6" //Ir aumentando la version 1.7.8
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 

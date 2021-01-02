@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:cabofind/paginas/empresa_detalle.dart';
 import 'package:cabofind/paginas_listas/list_publicaciones.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:device_info/device_info.dart';
 import 'package:devicelocale/devicelocale.dart';
 import 'package:flutter/services.dart';
@@ -251,10 +252,25 @@ Future<String> insertPublicacioniOS() async {
             child: Column(
               children: <Widget>[
                 Stack(children: <Widget>[
-                  Image.network(data_pub[index]["GAL_FOTO"],
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(15.0),
+                    child: CachedNetworkImage(
                       width: MediaQuery.of(context).size.width,
                       height: MediaQuery.of(context).size.height / 2,
-                      fit: BoxFit.fill),
+                      fit: BoxFit.fill,
+                      imageUrl: data_pub[index]["GAL_FOTO"],
+                      progressIndicatorBuilder:
+                          (context, url, downloadProgress) => Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height,
+                        child: Center(
+                          child: CircularProgressIndicator(
+                              value: downloadProgress.progress),
+                        ),
+                      ),
+                      errorWidget: (context, url, error) => Icon(Icons.error),
+                    ),
+                  ),
                 ]),
                 SizedBox(
                   height: 5.0,
@@ -272,17 +288,8 @@ Future<String> insertPublicacioniOS() async {
                                   fontWeight: FontWeight.bold, fontSize: 23.0),
                             ),
                           ),
-                          Center(
-                            child: Text(
-                              data_pub[index]["CAT_NOMBRE"],
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15.0,
-                                  color: Color(0xff2E85DC)),
-                            ),
-                          ),
                           SizedBox(
-                            height: 5.0,
+                            height: 10.0,
                           ),
                           Column(
                             children: <Widget>[

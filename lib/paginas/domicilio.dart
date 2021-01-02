@@ -560,22 +560,22 @@ class _DomicilioState extends State<Domicilio> {
             ),
             items: [
               FFNavigationBarItem(
-                selectedBackgroundColor: Color(0xff773E42),
+                selectedBackgroundColor: Color(0xff192227),
                 iconData: FontAwesomeIcons.utensils,
                 label: 'Inicio',
               ),
               FFNavigationBarItem(
-                selectedBackgroundColor: Color(0xff773E42),
+                selectedBackgroundColor: Color(0xff192227),
                 iconData: FontAwesomeIcons.search,
                 label: 'Buscar',
               ),
               FFNavigationBarItem(
-                selectedBackgroundColor: Color(0xff773E42),
+                selectedBackgroundColor: Color(0xff192227),
                 iconData: FontAwesomeIcons.shoppingCart,
                 label: 'Carrito',
               ),
               FFNavigationBarItem(
-                selectedBackgroundColor: Color(0xff773E42),
+                selectedBackgroundColor: Color(0xff192227),
                 iconData: FontAwesomeIcons.fileAlt,
                 label: 'Pedidos',
               ),
@@ -635,12 +635,12 @@ class _DomicilioState extends State<Domicilio> {
                           children: [
                             Icon(
                               FontAwesomeIcons.eye,
-                              color: Color(0xff773E42),
+                              color: Color(0xff192227),
                             ),
                             Text(
                               '  Explora lo que tenemos para tí.',
                               style: TextStyle(
-                                  color: Color(0xff773E42),
+                                  color: Color(0xff192227),
                                   fontSize: 18,
                                   fontWeight: FontWeight.w600),
                             ),
@@ -737,12 +737,12 @@ class _DomicilioState extends State<Domicilio> {
                           children: [
                             Icon(
                               FontAwesomeIcons.mapMarkerAlt,
-                              color: Color(0xff773E42),
+                              color: Color(0xff192227),
                             ),
                             Text(
                               ' Restaurantes cerca de tí',
                               style: TextStyle(
-                                  color: Color(0xff773E42),
+                                  color: Color(0xff192227),
                                   fontSize: 18,
                                   fontWeight: FontWeight.w600),
                             ),
@@ -777,12 +777,12 @@ class _DomicilioState extends State<Domicilio> {
                           children: [
                             Icon(
                               FontAwesomeIcons.fire,
-                              color: Color(0xff773E42),
+                              color: Color(0xff192227),
                             ),
                             Text(
                               ' Restaurantes nuevos.',
                               style: TextStyle(
-                                  color: Color(0xff773E42),
+                                  color: Color(0xff192227),
                                   fontSize: 18,
                                   fontWeight: FontWeight.w600),
                             ),
