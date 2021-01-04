@@ -842,7 +842,7 @@ Future<String> insertVisitaiOS() async {
                             String nombre = dataneg[0]["NEG_NOMBRE"];
                             String id_negocio = dataneg[0]["ID_NEGOCIO"];
                             String correo = dataneg[0]["NEG_CORREO"];
-                            Navigator.push(
+                            Navigator.pushReplacement(
                                 context,
                                 new MaterialPageRoute(
                                     builder: (BuildContext context) =>

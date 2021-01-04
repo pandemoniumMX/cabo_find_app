@@ -46,21 +46,29 @@ class _Compras2 extends State<Login_esp> {
     final nombresfb = profile['first_name'];
     final apellidosfb = profile['last_name'];
     final imagenfb = profile['picture']["data"]["url"];
+
     String tokenfirebase;
-    print(name);
-
-    login.setString('stringLogin', "True");
-    login.setString('stringMail', correofb);
-    login.setString('stringID', id);
     tokenfirebase = login.getString("stringToken");
-
-    var response = await http.get(
+    final response = await http.get(
         Uri.encodeFull(
-            'http://cabofind.com.mx/app_php/APIs/esp/insert_usuarios.php?NOMBRE=${nombresfb},${apellidosfb}&CORREO=${correofb}&FOTO=${imagenfb}&NOT=true&IDIOMA=ESP&IDF=${id}&TOKEN=${tokenfirebase}'),
+            'http://cabofind.com.mx/app_php/APIs/esp/insert_usuarios.php?NOMBRE=${nombresfb} ${apellidosfb}&CORREO=${correofb}&FOTO=${imagenfb}&NOT=true&IDIOMA=ESP&IDF=${id}&TOKEN=${tokenfirebase}'),
         headers: {"Accept": "application/json"});
-Navigator.of(context).pop();
-    Navigator.push(context,
-        new MaterialPageRoute(builder: (BuildContext context) => new Myapp1()));
+    final perfil = json.decode(response.body);
+
+    final val = perfil['USU_ESTATUS'];
+
+    if (val == 'A') {
+      login.setString('stringLogin', "True");
+      login.setString('stringMail', correofb);
+      login.setString('stringID', id);
+
+      Navigator.pushReplacement(
+          context,
+          new MaterialPageRoute(
+              builder: (BuildContext context) => new MyHomePages()));
+    } else {
+      baneadoLogin();
+    }
   }
 
   baneadoLogin() {

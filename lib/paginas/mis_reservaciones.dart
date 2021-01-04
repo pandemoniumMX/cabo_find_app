@@ -367,11 +367,11 @@ class _Mis_reservacionesState extends State<Mis_reservaciones> {
                   ),
                 ],
               )
-            : 
-             Navigator.push(
-                context,
-                new MaterialPageRoute(
-                    builder: (BuildContext context) => new Login_esp()));
+            : Navigator.pushReplacement(
+                            context,
+                            new MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    new Login_esp()));
         ;
       },
     );
