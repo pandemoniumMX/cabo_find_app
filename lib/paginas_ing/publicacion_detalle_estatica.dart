@@ -11,6 +11,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:cabofind/utilidades/classes.dart';
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:intl/intl.dart';
 
 class Publicacion_detalle_fin_estatica_ing extends StatefulWidget {
   List data;
@@ -31,6 +33,7 @@ class _Publicacion_detalle_fin_estatica
   List datacar;
   List dataneg;
   List data_pub;
+  DateFormat dateFormat;
 
   var _idController = TextEditingController();
   var _seekToController = TextEditingController();
@@ -140,6 +143,8 @@ Future<String> insertRecomendacion() async {
     //this.getData();
     // this.getNeg();
     this.getPub();
+        dateFormat = new DateFormat.MMMMd('en');
+
   }
 
   // Declare a field that holds the Person data
@@ -200,25 +205,25 @@ Future<String> insertRecomendacion() async {
             child: Column(
               children: <Widget>[
                 Stack(children: <Widget>[
-                  Image.network(data_pub[index]["GAL_FOTO_ING"],
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(15.0),
+                    child: CachedNetworkImage(
                       width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height / 1.5,
-                      fit: BoxFit
-                          .fill), /*
-                        Positioned(
-                                right: 0.0,
-                                top: 0.0,
-                                child: new FloatingActionButton(
-                                  child: new Image.asset(
-                                    "assets/recomend.png",
-                                fit: BoxFit.cover,
-                                width: 50.0,
-                                height: 50.0,
-                              ),
-                                  backgroundColor: Colors.black,
-                                  onPressed: (){showShortToast();insertRecomendacion();},
-                                ),
-                              ),   */
+                      height: MediaQuery.of(context).size.height / 2,
+                      fit: BoxFit.fill,
+                      imageUrl: data_pub[index]["GAL_FOTO_ING"],
+                      progressIndicatorBuilder:
+                          (context, url, downloadProgress) => Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height,
+                        child: Center(
+                          child: CircularProgressIndicator(
+                              value: downloadProgress.progress),
+                        ),
+                      ),
+                      errorWidget: (context, url, error) => Icon(Icons.error),
+                    ),
+                  ),
                 ]),
                 SizedBox(
                   height: 5.0,
@@ -236,17 +241,8 @@ Future<String> insertRecomendacion() async {
                                   fontWeight: FontWeight.bold, fontSize: 23.0),
                             ),
                           ),
-                          Center(
-                            child: Text(
-                              data_pub[index]["CAT_NOMBRE_ING"],
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15.0,
-                                  color: Color(0xff2E85DC)),
-                            ),
-                          ),
                           SizedBox(
-                            height: 5.0,
+                            height: 10.0,
                           ),
                           Column(
                             children: <Widget>[
@@ -254,13 +250,63 @@ Future<String> insertRecomendacion() async {
                                 //padding: const EdgeInsets.only(left:20.0,bottom: 20.0,),
                                 child: Text(
                                   data_pub[index]["PUB_DETALLE_ING"],
+                                  textAlign: TextAlign.justify,
                                   style: TextStyle(
                                     fontSize: 20.0,
                                   ),
                                 ),
                               ),
+                              SizedBox(
+                                height: 10.0,
+                              ),
                               Column(
-                                children: <Widget>[videosection],
+                                children: <Widget>[
+                                  videosection,
+                               
+
+                                  /*
+                                          YoutubePlayer(  
+                                            context: context,  
+                                            videoId: YoutubePlayer.convertUrlToId( data_pub[index]["PUB_VIDEO"],),  
+                                            autoPlay: false,  
+                                            width: MediaQuery.of(context).size.width,  
+                                            showVideoProgressIndicator: true,  
+                                            videoProgressIndicatorColor: Colors.black,  
+                                            progressColors: ProgressColors(  
+                                              playedColor: Colors.black,  
+                                              handleColor: Colors.black,  
+                                            ),  
+                                            onPlayerInitialized: (controller) {  
+                                              _controller = controller;  
+                                              _controller.addListener(listener);  
+                                            },  
+                                          ),  
+                                          */
+
+                                  SizedBox(
+                                    height: 20.0,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text('Expires ',
+                                          style: new TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 15.0,
+                                            fontWeight: FontWeight.w300,
+                                          )),
+                                      Text(
+                                          dateFormat.format(DateTime.parse(
+                                              data_pub[index]
+                                                  ["PUB_FECHA_LIMITE"])),
+                                          style: new TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 15.0,
+                                            fontWeight: FontWeight.w300,
+                                          )),
+                                    ],
+                                  ),
+                                ],
                               ),
                             ],
                           ),

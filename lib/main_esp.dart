@@ -842,10 +842,18 @@ routes: <String, WidgetBuilder>{
                       new MaterialPageRoute(
                           builder: (BuildContext context) => new Maps()));
                 } else if (ruta == "dados") {
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (BuildContext context) => new DicePage()));
+                  _status != 'True'
+                      ? Navigator.push(
+                          context,
+                          new MaterialPageRoute(
+                              builder: (BuildContext context) => Login()))
+                      : apkversion == portada[0]["APK_VERSION"]
+                          ? Navigator.push(
+                              context,
+                              new MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      new DicePage()))
+                          : versionError();
                 } else if (ruta == "promociones") {
                   Navigator.push(
                       context,
@@ -1055,7 +1063,7 @@ routes: <String, WidgetBuilder>{
                 itemBuilder: (BuildContext context, int index) {
                   return rec.isNotEmpty
                       ? Container(
-                          padding: EdgeInsets.all(5),
+                          //padding: EdgeInsets.all(5),
                           height: 100,
                           child: InkWell(
                             child: Row(
@@ -1082,39 +1090,44 @@ routes: <String, WidgetBuilder>{
                                 ),
                                 Row(
                                   children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        Flexible(
-                                          child: Text(rec[index]["NEG_NOMBRE"],
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Flexible(
+                                            child: Text(
+                                                rec[index]["NEG_NOMBRE"],
+                                                style: new TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 18.0,
+                                                  fontWeight: FontWeight.w600,
+                                                )),
+                                          ),
+                                          Flexible(
+                                            fit: FlexFit.loose,
+                                            child: Text(
+                                                rec[index]["REC_TITULO"],
+                                                style: new TextStyle(
+                                                  color: Colors.grey,
+                                                  fontSize: 15.0,
+                                                  fontWeight: FontWeight.w300,
+                                                )),
+                                          ),
+                                          Text(
+                                              '🔴 ' +
+                                                  rec[index]["REC_META"] +
+                                                  ' PUNTOS',
                                               style: new TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 18.0,
+                                                color: Colors.red,
+                                                fontSize: 15.0,
                                                 fontWeight: FontWeight.w600,
                                               )),
-                                        ),
-                                        Flexible(
-                                          fit: FlexFit.loose,
-                                          child: Text(rec[index]["REC_TITULO"],
-                                              style: new TextStyle(
-                                                color: Colors.grey,
-                                                fontSize: 15.0,
-                                                fontWeight: FontWeight.w300,
-                                              )),
-                                        ),
-                                        Text(
-                                            '🔴 ' +
-                                                rec[index]["REC_META"] +
-                                                ' PUNTOS',
-                                            style: new TextStyle(
-                                              color: Colors.red,
-                                              fontSize: 15.0,
-                                              fontWeight: FontWeight.w600,
-                                            )),
-                                      ],
+                                        ],
+                                      ),
                                     )
                                   ],
                                 )
@@ -1144,7 +1157,7 @@ routes: <String, WidgetBuilder>{
                             },
                           ),
                         )
-                      : Text('Proximamente');
+                      : Center(child: Text('Proximamente'));
                 })),
         Padding(
           padding: const EdgeInsets.all(10.0),

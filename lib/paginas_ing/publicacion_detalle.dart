@@ -14,6 +14,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:cabofind/utilidades/classes.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Publicacion_detalle_fin_ing extends StatefulWidget {
@@ -34,6 +35,7 @@ class _Publicacion_detalle_fin_ing extends State<Publicacion_detalle_fin_ing> {
   List datacar;
   List dataneg;
   List data_pub;
+  DateFormat dateFormat;
 
   var _idController = TextEditingController();
   var _seekToController = TextEditingController();
@@ -188,6 +190,7 @@ Future<String> insertPublicacioniOS() async {
     this.getNeg();
     this.insertPublicacionAndroid();
     this.getPub();
+    dateFormat = new DateFormat.MMMMd('en');
   }
 
   @override
@@ -291,10 +294,14 @@ Future<String> insertPublicacioniOS() async {
                                 //padding: const EdgeInsets.only(left:20.0,bottom: 20.0,),
                                 child: Text(
                                   data_pub[index]["PUB_DETALLE_ING"],
+                                  textAlign: TextAlign.justify,
                                   style: TextStyle(
                                     fontSize: 20.0,
                                   ),
                                 ),
+                              ),
+                              SizedBox(
+                                height: 10.0,
                               ),
                               Column(
                                 children: <Widget>[
@@ -351,7 +358,27 @@ Future<String> insertPublicacioniOS() async {
                                           */
 
                                   SizedBox(
-                                    height: 5.0,
+                                    height: 20.0,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text('Expires ',
+                                          style: new TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 15.0,
+                                            fontWeight: FontWeight.w300,
+                                          )),
+                                      Text(
+                                          dateFormat.format(DateTime.parse(
+                                              data_pub[index]
+                                                  ["PUB_FECHA_LIMITE"])),
+                                          style: new TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 15.0,
+                                            fontWeight: FontWeight.w300,
+                                          )),
+                                    ],
                                   ),
                                 ],
                               ),

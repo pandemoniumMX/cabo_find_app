@@ -108,6 +108,7 @@ class _Buscador_ing extends State<Buscador_ing> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: TextField(
+        autofocus: true,
         decoration: InputDecoration(hintText: 'Search...'),
         onChanged: (text) {
           text = text.toLowerCase();

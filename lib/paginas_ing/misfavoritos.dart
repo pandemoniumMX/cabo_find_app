@@ -79,35 +79,21 @@ class _UsuarioState extends State<Usuario2> {
   }
 
   Future<String> deletefav(id_n) async {
-    String currentLocale;
-    try {
-      currentLocale = await Devicelocale.currentLocale;
-      print(currentLocale);
-    } on PlatformException {
-      print("Error obtaining current locale");
-    }
-
-    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-    AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-    print('Running on ${androidInfo.id}');
-    print('Running on ${androidInfo.fingerprint}');
-
     final SharedPreferences login = await SharedPreferences.getInstance();
     String _status = "";
     String _mail = "";
     _status = login.getString("stringLogin") ?? '';
     _mail = login.getString("stringMail") ?? '';
-    print(_status);
-    print(_mail);
-    //String id = data[0]["ID_NEGOCIO"];
-    print(id_n);
+    String _id = "";
+
+    _id = login.getString("stringID");
 
     if (_status == "True") {
       showFavorites();
 
       var response = await http.get(
           Uri.encodeFull(
-              "http://cabofind.com.mx/app_php/APIs/esp/delete_recomendacion_negocio.php?ID=${id_n}&CORREO=${_mail}"),
+              "http://cabofind.com.mx/app_php/APIs/esp/delete_recomendacion_negocio.php?ID=${id_n}&IDF=${_id}"),
           headers: {"Accept": "application/json"});
 
       //CircularProgressIndicator(value: 5.0,);
@@ -246,7 +232,14 @@ class _UsuarioState extends State<Usuario2> {
                     color: Colors.white,
                     fontWeight: FontWeight.bold),
               )),
-          estructura,
+          data.isNotEmpty
+              ? estructura
+              : Center(
+                  child: Text(
+                    'You dont have favorites yet',
+                    style: TextStyle(fontSize: 25),
+                  ),
+                )
         ],
       ),
     );

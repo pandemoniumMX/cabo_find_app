@@ -84,10 +84,6 @@ class _UsuarioState extends State<Usuario2> {
     String _id = "";
 
     _id = login.getString("stringID");
-    print(_status);
-    print(_mail);
-    //String id = data[0]["ID_NEGOCIO"];
-    print(id_n);
 
     if (_status == "True") {
       showFavorites();
@@ -235,7 +231,14 @@ class _UsuarioState extends State<Usuario2> {
                     color: Colors.white,
                     fontWeight: FontWeight.bold),
               )),
-          estructura,
+          data.isNotEmpty
+              ? estructura
+              : Center(
+                  child: Text(
+                    'Aún no tienes favoritos',
+                    style: TextStyle(fontSize: 25),
+                  ),
+                )
         ],
       ),
     );

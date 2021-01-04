@@ -298,7 +298,7 @@ class _UsuarioState extends State<Usuario_ing> {
                                 children: <Widget>[
                                   Icon(FontAwesomeIcons.heart),
                                   Text(
-                                    " My favourites",
+                                    " My favorites",
                                     style: TextStyle(
                                         fontSize: 25,
                                         color: Color(0xff192227),

@@ -75,11 +75,13 @@ class Usuario extends StatefulWidget {
 class _UsuarioState extends State<Usuario> {
   List data;
   DateFormat dateFormat;
+  Future codigoQR;
 
   void initState() {
     super.initState();
     this._loadUser();
     dateFormat = new DateFormat.MMMMd('es');
+    codigoQR = _loaduserQR();
   }
 
   Future<Map> _loaduserQR() async {
@@ -278,7 +280,7 @@ class _UsuarioState extends State<Usuario> {
     Widget miqr = Column(
       children: [
         FutureBuilder(
-            future: _loaduserQR(),
+            future: codigoQR,
             builder: (context, snapshot) {
               switch (snapshot.connectionState) {
                 case ConnectionState.none:

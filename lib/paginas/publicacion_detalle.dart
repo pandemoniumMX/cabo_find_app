@@ -13,6 +13,7 @@ import 'package:http/http.dart' as http;
 import 'package:cabofind/utilidades/classes.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl/intl.dart';
 
 class Publicacion_detalle_fin extends StatefulWidget {
   List data;
@@ -30,6 +31,7 @@ class _Publicacion_detalles extends State<Publicacion_detalle_fin> {
   List datacar;
   List dataneg;
   List data_pub;
+  DateFormat dateFormat;
 
   var _idController = TextEditingController();
   var _seekToController = TextEditingController();
@@ -191,6 +193,7 @@ Future<String> insertPublicacioniOS() async {
     this.getData();
     this.getNeg();
     this.getPub();
+    dateFormat = new DateFormat.MMMMd('es');
   }
 
   // Declare a field that holds the Person data
@@ -297,10 +300,14 @@ Future<String> insertPublicacioniOS() async {
                                 //padding: const EdgeInsets.only(left:20.0,bottom: 20.0,),
                                 child: Text(
                                   data_pub[index]["PUB_DETALLE"],
+                                  textAlign: TextAlign.justify,
                                   style: TextStyle(
                                     fontSize: 20.0,
                                   ),
                                 ),
+                              ),
+                              SizedBox(
+                                height: 10.0,
                               ),
                               Column(
                                 children: <Widget>[
@@ -357,7 +364,27 @@ Future<String> insertPublicacioniOS() async {
                                           */
 
                                   SizedBox(
-                                    height: 5.0,
+                                    height: 20.0,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text('Vigencia ',
+                                          style: new TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 15.0,
+                                            fontWeight: FontWeight.w300,
+                                          )),
+                                      Text(
+                                          dateFormat.format(DateTime.parse(
+                                              data_pub[index]
+                                                  ["PUB_FECHA_LIMITE"])),
+                                          style: new TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 15.0,
+                                            fontWeight: FontWeight.w300,
+                                          )),
+                                    ],
                                   ),
                                 ],
                               ),
