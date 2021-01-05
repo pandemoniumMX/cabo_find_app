@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:cabofind/paginas/empresa_detalle.dart';
 import 'package:cabofind/paginas_ing/empresa_detalle.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:device_info/device_info.dart';
 import 'package:devicelocale/devicelocale.dart';
@@ -13,6 +14,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:cabofind/utilidades/classes.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Publicacion_detalle_fin_ing extends StatefulWidget {
@@ -33,6 +35,7 @@ class _Publicacion_detalle_fin_ing extends State<Publicacion_detalle_fin_ing> {
   List datacar;
   List dataneg;
   List data_pub;
+   DateFormat dateFormat;
 
   var _idController = TextEditingController();
   var _seekToController = TextEditingController();
@@ -194,6 +197,8 @@ Future<String> insertPublicacioniOS() async {
     this.getNeg();
     this.insertPublicacionAndroid();
     this.getPub();
+        dateFormat = new DateFormat.MMMMd('en');
+
   }
 
   @override
@@ -252,25 +257,25 @@ Future<String> insertPublicacioniOS() async {
             child: Column(
               children: <Widget>[
                 Stack(children: <Widget>[
-                  Image.network(data_pub[index]["GAL_FOTO_ING"],
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(15.0),
+                    child: CachedNetworkImage(
                       width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height / 1.5,
-                      fit: BoxFit
-                          .fill), /*
-                        Positioned(
-                                right: 0.0,
-                                top: 0.0,
-                                child: new FloatingActionButton(
-                                  child: new Image.asset(
-                                    "assets/recomend.png",
-                                fit: BoxFit.cover,
-                                width: 50.0,
-                                height: 50.0,
-                              ),
-                                  backgroundColor: Colors.black,
-                                  onPressed: (){showShortToast();insertRecomendacion();},
-                                ),
-                              ),    */
+                      height: MediaQuery.of(context).size.height / 2,
+                      fit: BoxFit.fill,
+                      imageUrl: data_pub[index]["GAL_FOTO_ING"],
+                      progressIndicatorBuilder:
+                          (context, url, downloadProgress) => Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height,
+                        child: Center(
+                          child: CircularProgressIndicator(
+                              value: downloadProgress.progress),
+                        ),
+                      ),
+                      errorWidget: (context, url, error) => Icon(Icons.error),
+                    ),
+                  ),
                 ]),
                 SizedBox(
                   height: 5.0,
@@ -288,17 +293,8 @@ Future<String> insertPublicacioniOS() async {
                                   fontWeight: FontWeight.bold, fontSize: 23.0),
                             ),
                           ),
-                          Center(
-                            child: Text(
-                              data_pub[index]["CAT_NOMBRE_ING"],
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15.0,
-                                  color: Color(0xff2E85DC)),
-                            ),
-                          ),
                           SizedBox(
-                            height: 5.0,
+                            height: 10.0,
                           ),
                           Column(
                             children: <Widget>[
@@ -306,10 +302,14 @@ Future<String> insertPublicacioniOS() async {
                                 //padding: const EdgeInsets.only(left:20.0,bottom: 20.0,),
                                 child: Text(
                                   data_pub[index]["PUB_DETALLE_ING"],
+                                  textAlign: TextAlign.justify,
                                   style: TextStyle(
                                     fontSize: 20.0,
                                   ),
                                 ),
+                              ),
+                              SizedBox(
+                                height: 10.0,
                               ),
                               Column(
                                 children: <Widget>[
@@ -322,7 +322,7 @@ Future<String> insertPublicacioniOS() async {
                                             context,
                                             new MaterialPageRoute(
                                                 builder: (context) =>
-                                                    new Empresa_det_fin_ing(
+                                                    new Empresa_det_fin(
                                                         empresa: new Empresa(
                                                             id_sql)))); //Colors.black,
                                       },
@@ -366,7 +366,27 @@ Future<String> insertPublicacioniOS() async {
                                           */
 
                                   SizedBox(
-                                    height: 5.0,
+                                    height: 20.0,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text('Expires ',
+                                          style: new TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 15.0,
+                                            fontWeight: FontWeight.w300,
+                                          )),
+                                      Text(
+                                          dateFormat.format(DateTime.parse(
+                                              data_pub[index]
+                                                  ["PUB_FECHA_LIMITE"])),
+                                          style: new TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 15.0,
+                                            fontWeight: FontWeight.w300,
+                                          )),
+                                    ],
                                   ),
                                 ],
                               ),
@@ -397,13 +417,8 @@ Future<String> insertPublicacioniOS() async {
         appBar: new AppBar(
           title: new Text(
             'Back',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
+            style: TextStyle(fontSize: 20.0),
           ),
         ));
-  }
-
-  State<StatefulWidget> createState() {
-    // TODO: implement createState
-    return null;
   }
 }

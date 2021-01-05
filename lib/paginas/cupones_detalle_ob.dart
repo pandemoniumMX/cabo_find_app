@@ -112,7 +112,7 @@ class _Recompensa_detalleState extends State<Cupones_detalles_ob> {
                             style: TextStyle(
                                 fontSize: 50,
                                 fontWeight: FontWeight.bold,
-                                color: Color(0xff60032D)),
+                                color: Color(0xff192227)),
                             softWrap: true,
                             maxLines: 5,
                             textAlign: TextAlign.center,
@@ -158,7 +158,7 @@ class _Recompensa_detalleState extends State<Cupones_detalles_ob> {
                               },
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(40.0)),
-                              color: Color(0xff773E42),
+                              color: Color(0xff192227),
                               child: new Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 mainAxisSize: MainAxisSize.min,

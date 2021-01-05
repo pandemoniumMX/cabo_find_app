@@ -282,7 +282,7 @@ class _Menu_majeadorState extends State<Menu_manejador>
                             numeropagina: Categoria(0), numtab: Categoria(0))),
                     (Route<dynamic> route) => false)),
             title: Text('Regresar'),
-            backgroundColor: Color(0xff60032D),
+            backgroundColor: Color(0xff192227),
             actions: <Widget>[
               new Stack(
                 children: [
@@ -306,7 +306,7 @@ class _Menu_majeadorState extends State<Menu_manejador>
                                           fontWeight: FontWeight.bold,
                                           fontSize: 10.0,
                                           color: Colors.white)),
-                                  backgroundColor: Color(0xff773E42),
+                                  backgroundColor: Color(0xff192227),
                                 ),
                               );
                             } else if (snapshot.data["Total"] == '0') {
@@ -334,7 +334,7 @@ class _Menu_majeadorState extends State<Menu_manejador>
                                               fontWeight: FontWeight.bold,
                                               fontSize: 10.0,
                                               color: Colors.white)),
-                                      backgroundColor: Color(0xff773E42),
+                                      backgroundColor: Color(0xff192227),
                                     ),
                                   ),
                                 ],
@@ -375,7 +375,7 @@ class _Menu_majeadorState extends State<Menu_manejador>
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 10.0,
                                                 color: Colors.white)),
-                                        backgroundColor: Color(0xff773E42),
+                                        backgroundColor: Color(0xff192227),
                                       ),
                                     ),
                                   ],

@@ -108,6 +108,7 @@ class _Buscador_ing extends State<Buscador_ing> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: TextField(
+        autofocus: true,
         decoration: InputDecoration(hintText: 'Search...'),
         onChanged: (text) {
           text = text.toLowerCase();
@@ -132,11 +133,11 @@ class _Buscador_ing extends State<Buscador_ing> {
       )),
       title: Text(
         _notesForDisplay[index].title,
-        style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+        style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
       ),
       subtitle: Text(
         _notesForDisplay[index].sub,
-        style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+        style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
       ),
       trailing: Text(
         _notesForDisplay[index].cat,

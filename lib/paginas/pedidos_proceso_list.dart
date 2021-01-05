@@ -81,7 +81,7 @@ class _Pedidos_nuevosState extends State<Lista_enproceso> {
                     builder: (BuildContext context) => new Domicilio(
                         numeropagina: Categoria(2), numtab: Categoria(1)))),
           ),
-          backgroundColor: Color(0xff60032D),
+          backgroundColor: Color(0xff192227),
         ),
         body: ListView(
           children: <Widget>[
@@ -112,7 +112,7 @@ class _Pedidos_nuevosState extends State<Lista_enproceso> {
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 18.0,
-                                      color: Color(0xff773E42),
+                                      color: Color(0xff192227),
                                     )),
                               ]),
                               Text(data[index]["MENU_NOMBRE"],

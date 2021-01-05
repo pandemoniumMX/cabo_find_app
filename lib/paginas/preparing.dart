@@ -241,7 +241,7 @@ class _UsuarioState extends State<Carritox> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Regresar'),
-        backgroundColor: Color(0xff60032D),
+        backgroundColor: Color(0xff192227),
       ),
       body: ListView(
         children: <Widget>[
@@ -262,7 +262,7 @@ class _UsuarioState extends State<Carritox> {
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xff773E42),
+                      color: Color(0xff192227),
                     ),
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -418,7 +418,7 @@ class _UsuarioState extends State<Carritox> {
                                               style: TextStyle(
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 18.0,
-                                                color: Color(0xff773E42),
+                                                color: Color(0xff192227),
                                               )),
                                         ]),
                                         Text(data[index]["MENU_NOMBRE"],
@@ -826,7 +826,7 @@ class _UsuarioState extends State<Carritox> {
                                               );
                                             }
                                           },
-                                          color: Color(0xff773E42),
+                                          color: Color(0xff192227),
                                           textColor: Colors.white,
                                           child: Text(
                                             'Confirmar orden',
@@ -1041,7 +1041,7 @@ class _UsuarioState extends State<Carritox> {
                                              child: Text(
                                                calles,
                                                style: TextStyle(
-                                                   color: Color(0xff773E42),
+                                                   color: Color(0xff192227),
                                                    fontWeight:
                                                        FontWeight.bold),
                                                overflow: TextOverflow.ellipsis,
@@ -1220,7 +1220,7 @@ class _UsuarioState extends State<Carritox> {
                                            );
                                          }
                                        },
-                                       color: Color(0xff773E42),
+                                       color: Color(0xff192227),
                                        textColor: Colors.white,
                                        child: Text(
                                          'Confirmar orden',
@@ -1404,7 +1404,7 @@ class _UsuarioState extends State<Carritox> {
                                               );
                                             }
                                           },
-                                          color: Color(0xff773E42),
+                                          color: Color(0xff192227),
                                           textColor: Colors.white,
                                           child: Text(
                                             'Confirmar orden',

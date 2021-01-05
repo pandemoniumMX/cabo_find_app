@@ -119,7 +119,7 @@ class _UsuarioState extends State<Usuario> {
     Fluttertoast.showToast(
         msg: "No tienes puntos :(",
         toastLength: Toast.LENGTH_SHORT,
-        backgroundColor: Color(0xff773E42),
+        backgroundColor: Color(0xff192227),
         textColor: Colors.white,
         timeInSecForIos: 1);
   }

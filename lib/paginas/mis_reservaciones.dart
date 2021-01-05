@@ -142,7 +142,7 @@ class _Mis_reservacionesState extends State<Mis_reservaciones> {
       heightFactor: 20.00,
       child: Text(
         'No has hecho reservaciones',
-        style: TextStyle(fontSize: 25),
+        style: TextStyle(fontSize: 20),
       ),
     );
 
@@ -347,7 +347,7 @@ class _Mis_reservacionesState extends State<Mis_reservaciones> {
                               },
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(40.0)),
-                              color: Color(0xff60032D),
+                              color: Color(0xff192227),
                               child: new Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 mainAxisSize: MainAxisSize.min,

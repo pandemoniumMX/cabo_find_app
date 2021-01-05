@@ -238,7 +238,7 @@ class _UsuarioState extends State<Usuario> {
           Container(
               decoration: BoxDecoration(
                   gradient: LinearGradient(colors: [
-                Color(0xff773E42),
+                Color(0xff192227),
                 Colors.white,
               ])),
               child: Text(

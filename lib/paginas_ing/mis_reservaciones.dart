@@ -122,7 +122,7 @@ class _Mis_reservacionesState extends State<Mis_reservaciones_ing> {
       heightFactor: 20.00,
       child: Text(
         'You have not made reservations',
-        style: TextStyle(fontSize: 25),
+        style: TextStyle(fontSize: 20),
       ),
     );
 
@@ -319,7 +319,7 @@ class _Mis_reservacionesState extends State<Mis_reservaciones_ing> {
                         },
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(40.0)),
-                        color: Color(0xff60032D),
+                        color: Color(0xff192227),
                         child: new Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           mainAxisSize: MainAxisSize.min,
@@ -345,7 +345,7 @@ class _Mis_reservacionesState extends State<Mis_reservaciones_ing> {
       appBar: AppBar(
         title: Text('Back'),
       ),
-      body: data.isEmpty ? error : reservaciones,
+      body: data.isNotEmpty ? reservaciones : error,
     );
   }
 }

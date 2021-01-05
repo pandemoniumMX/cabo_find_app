@@ -88,7 +88,7 @@ class _Pedidos_nuevosState extends State<Lista_terminado> {
       Fluttertoast.showToast(
         msg: "Platillo calificado correctamente",
         toastLength: Toast.LENGTH_SHORT,
-        backgroundColor: Color(0xff60032D),
+        backgroundColor: Color(0xff192227),
         textColor: Colors.white,
       );
     }
@@ -112,7 +112,7 @@ class _Pedidos_nuevosState extends State<Lista_terminado> {
                     builder: (BuildContext context) => new Domicilio(
                         numeropagina: Categoria(2), numtab: Categoria(2)))),
           ),
-          backgroundColor: Color(0xff60032D),
+          backgroundColor: Color(0xff192227),
         ),
         body: ListView(
           children: <Widget>[
@@ -144,7 +144,7 @@ class _Pedidos_nuevosState extends State<Lista_terminado> {
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 18.0,
-                                      color: Color(0xff773E42),
+                                      color: Color(0xff192227),
                                     )),
                               ]),
                               Text(data[index]["MENU_NOMBRE"],
@@ -301,7 +301,7 @@ class _Pedidos_nuevosState extends State<Lista_terminado> {
                                                 child: new Text("Calificar",
                                                     style: TextStyle(
                                                         color:
-                                                            Color(0xff60032D))),
+                                                            Color(0xff192227))),
                                                 onPressed: () {
                                                   _confirmarCalificacion(
                                                       idm, idx, _value);
@@ -317,7 +317,7 @@ class _Pedidos_nuevosState extends State<Lista_terminado> {
                                   },
                                 );
                               },
-                              color: Color(0xff773E42),
+                              color: Color(0xff192227),
                               textColor: Colors.white,
                               child: Text(
                                 'Calificar platillo',

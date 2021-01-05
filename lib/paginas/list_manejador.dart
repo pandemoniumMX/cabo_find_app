@@ -77,9 +77,8 @@ class _ListaAcuaticas extends State<Lista_Manejador_esp> {
     }
 
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-    AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-    print('Running on ${androidInfo.id}');
-    print('Running on ${androidInfo.fingerprint}');
+    IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
+    
 
     final SharedPreferences login = await SharedPreferences.getInstance();
     String _status = "";
@@ -89,18 +88,13 @@ class _ListaAcuaticas extends State<Lista_Manejador_esp> {
     String _id = "";
 
     _id = login.getString("stringID");
-    print(_status);
-    print(_mail);
-    //String id = data[0]["ID_NEGOCIO"];
-    print(id_n);
-
+   
     if (_status == "True") {
       showFavorites();
 
       var response = await http.get(
           Uri.encodeFull(
-              "http://cabofind.com.mx/app_php/APIs/esp/insert_recomendacion_negocio.php?MOD=${androidInfo.model}&BOOT=${androidInfo.display},${androidInfo.bootloader},${androidInfo.fingerprint}&VERSION=${androidInfo.product}&IDIOMA=${currentLocale}&ID=${id_n}&SO=Android&IDF=${_id}"),
-          //"http://cabofind.com.mx/app_php/APIs/esp/insert_recomendacion_negocio.php?MOD=${iosInfo.model}&BOOT=${iosInfo.utsname.nodename},${iosInfo.identifierForVendor}&VERSION=${iosInfo.systemName}&IDIOMA=${currentLocale}"),
+          "http://cabofind.com.mx/app_php/APIs/esp/insert_recomendacion_negocio.php?MOD=${iosInfo.model}&BOOT=${iosInfo.utsname.nodename},${iosInfo.identifierForVendor}&VERSION=${iosInfo.systemName}&IDIOMA=${currentLocale}&ID=${id_n}&SO=IOS&IDF=${_id}"),
 
           headers: {"Accept": "application/json"});
 

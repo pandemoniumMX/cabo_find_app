@@ -243,7 +243,7 @@ class _UsuarioState extends State<Usuario> {
                                       print(isSwitched);
                                     });
                                   },
-                                  activeTrackColor: Color(0xff773E42),
+                                  activeTrackColor: Color(0xff192227),
                                   activeColor: Colors.black,
                                 ),
                               ]),
@@ -288,14 +288,58 @@ class Login2 extends StatefulWidget {
 
 class _Compras2 extends State<Login2> {
   bool isLoggedIn = false;
+     final _formKey = GlobalKey<FormState>();
+ TextEditingController comment = TextEditingController();
+  TextEditingController txt_celular = TextEditingController();
+  List ciudad;
+  String _ciudades;
+  int _value = 1;
+  int _idioma = 1;
+
+  saveIdioma(String idioma) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('stringLenguage', idioma);
+    Navigator.pushReplacement(context,
+        new MaterialPageRoute(builder: (BuildContext context) => new Myapp1()));
+  }
+
+  saveCity(String ciudad) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('stringCity', ciudad);
+    Navigator.pushReplacement(context,
+        new MaterialPageRoute(builder: (BuildContext context) => new Myapp1()));
+  }
+
+  Future<String> getCiudad() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    prefs.getString('stringLenguage');
+    prefs.getString('stringCity');
+    String _city = prefs.getString('stringCity');
+    String _idi = prefs.getString('stringLenguage');
+    var response = await http.get(
+        Uri.encodeFull(
+            "http://cabofind.com.mx//app_php/consultas_negocios/esp/ciudades.php"),
+        headers: {"Accept": "application/json"});
+    this.setState(() {
+      ciudad = json.decode(response.body);
+      _ciudades = _city;
+      _idioma = int.parse(_idi);
+    });
+    for (var u in ciudad) {
+      // userStatus.add(false);
+    }
+    return "Success!";
+  }
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
   void initState() {
     //sesionLog(context);
     super.initState();
+    this.getCiudad();
   }
   baneadoLogin() {
     Fluttertoast.showToast(
-      msg: "No puedes iniciar sesión",
+      msg: "Can't login",
       toastLength: Toast.LENGTH_SHORT,
       backgroundColor: Colors.red,
       textColor: Colors.white,
@@ -456,103 +500,109 @@ class _Compras2 extends State<Login2> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-        body: Container(
-      decoration: BoxDecoration(
-          gradient: LinearGradient(
-              begin: Alignment.topRight,
-              end: Alignment.bottomLeft,
-              colors: [
-            Colors.white,
-            Colors.white,
-          ])),
-      child: Center(
-        child: ListView(
-          shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
+        body: ListView(
+      padding: EdgeInsets.zero,
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      children: <Widget>[
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Column(
-              children: <Widget>[
-                SizedBox(
-                  height: 100.0,
-                ),
-                ClipRRect(
-                    borderRadius: BorderRadius.circular(8.0),
-                    child: Image.asset(
-                      "assets/cabofind.png",
-                      fit: BoxFit.fill,
-                      width: 150.0,
-                      height: 150.0,
-                    )),
-                SizedBox(
-                  height: 50.0,
-                ),
-                Text(
-                  "Creat your account",
-                  style: TextStyle(
-                      fontSize: 25,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  "To get more benefits",
-                  style: TextStyle(
-                      fontSize: 25,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold),
+            SizedBox(
+              height: 50.0,
+            ),
+            ClipRRect(
+                borderRadius: BorderRadius.circular(8.0),
+                child: Image.asset(
+                  "assets/cabofind.png",
+                  fit: BoxFit.fill,
+                  width: 150.0,
+                  height: 150.0,
+                )),
+            SizedBox(
+              height: 25.0,
+            ),
+            Text(
+              "Login",
+              style: TextStyle(
+                  fontSize: 30,
+                  color: Color(0xff192227),
+                  decoration: TextDecoration.underline,
+                  fontWeight: FontWeight.w300),
+            ),
+            SizedBox(
+              height: 25,
+            ),
+           /* InkWell(
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(
+                      FontAwesomeIcons.facebookSquare,
+                      color: Color(0xff139CF8),
+                    ),
+                    Text(
+                      " Sesión con Facebook",
+                      style: TextStyle(
+                          fontSize: 25,
+                          color: Color(0xff192227),
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ]),
+              onTap: () {
+                signInWithFacebook();
+              },
+            ),*/
+            RaisedButton(
+                  onPressed: (){
+                signInWithFacebook();
+                    },  
+                  shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
+                  color: Color(0xff139CF8),  
+                  child: new Row (
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: <Widget>[
+                                            new Icon(FontAwesomeIcons.facebookSquare, color: Colors.white,),
+                                            new Text(' Sign in with Facebook  ', style: TextStyle(fontSize: 20, color: Colors.white)),
+
+                                          ],
+                                        )
                 ),
                 RaisedButton(
-                    onPressed: () {
-                      signInWithFacebook();
-                    },
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(40.0)),
-                    color: Color(0xff4267b2),
-                    child: new Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        new Text('Login with Facebook',
-                            style:
-                                TextStyle(fontSize: 20, color: Colors.white)),
-                        new Icon(
-                          FontAwesomeIcons.facebookSquare,
-                          color: Colors.white,
-                        )
-                      ],
-                    )),
-                
-            RaisedButton(
-                  onPressed: (){signInWithApple();},  
+                  onPressed: (){
+                    signInWithApple();
+                    },  
                   shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
                   color: Colors.black,  
                   child: new Row (
                                           mainAxisAlignment: MainAxisAlignment.center,
                                           mainAxisSize: MainAxisSize.min,
                                           children: <Widget>[
-                                            new Text('Login with Apple ID   ', style: TextStyle(fontSize: 20, color: Colors.white)), 
-                                            new Icon(FontAwesomeIcons.apple, color: Colors.white,)
+                                            new Icon(FontAwesomeIcons.apple, color: Colors.white,),
+                                            new Text(' Sign in with Apple  ', style: TextStyle(fontSize: 20, color: Colors.white)),
+
                                           ],
                                         )
-                ), 
-/*
-                RaisedButton(
-                  onPressed: (){addlogin();},  
+                ),
+
+            /*
+            RaisedButton(
+                  onPressed: (){signInWithGoogle();},  
                   shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(40.0) ),
                   color: Colors.white,  
                   child: new Row (
                                           mainAxisAlignment: MainAxisAlignment.center,
                                           mainAxisSize: MainAxisSize.min,
-
                                           children: <Widget>[
                                             new Text('Sesión con Google   ', style: TextStyle(fontSize: 20, color: Colors.red)), 
                                             new Icon(FontAwesomeIcons.google, color: Colors.red,)
                                           ],
                                         )
-                ),
-*/
+                ), 
                 RaisedButton(
                     onPressed: () {
-                      _launchURL();
+                      addlogin();
                     },
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(40.0)),
@@ -561,20 +611,141 @@ class _Compras2 extends State<Login2> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
-                        new Text('Cabofind privacy policies   ',
-                            style:
-                                TextStyle(fontSize: 20, color: Colors.black)),
+                        new Text('Sesión local   ',
+                            style: TextStyle(fontSize: 20, color: Colors.red)),
                         new Icon(
-                          FontAwesomeIcons.userSecret,
-                          color: Colors.black,
+                          FontAwesomeIcons.google,
+                          color: Colors.red,
                         )
                       ],
-                    )),
-              ],
-            )
+                    )),*/
+            SizedBox(
+              height: 25,
+            ),
+            Text(
+              "Settings",
+              style: TextStyle(
+                  fontSize: 30,
+                  color: Color(0xff192227),
+                  decoration: TextDecoration.underline,
+                  fontWeight: FontWeight.w300),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            InkWell(
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(FontAwesomeIcons.mapMarkerAlt),
+                    DropdownButtonHideUnderline(
+                      child: DropdownButton(
+                        hint: Text('Seleccionar ciudad'),
+                        items: ciudad.map((item) {
+                          return new DropdownMenuItem(
+                            child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  new Text(
+                                    item['CIU_NOMBRE'],
+                                    style: TextStyle(
+                                        fontSize: 25,
+                                        color: Color(0xff192227),
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ]),
+                            value: item['idciudades'].toString(),
+                          );
+                        }).toList(),
+                        onTap: null,
+                        onChanged: (newVal) {
+                          setState(() {
+                            _ciudades = newVal;
+                            saveCity(newVal);
+                          });
+                        },
+
+                        value: _ciudades,
+
+                        // isExpanded: true,
+                      ),
+                    ),
+                  ]),
+              onTap: () {},
+            ),
+            InkWell(
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(FontAwesomeIcons.globeAmericas),
+                    DropdownButtonHideUnderline(
+                      child: DropdownButton(
+                        isExpanded: false,
+                        items: [
+                          DropdownMenuItem(
+                            child: Row(children: [
+                              Text(
+                                " Español",
+                                style: TextStyle(
+                                    fontSize: 25,
+                                    color: Color(0xff192227),
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ]),
+                            value: 1,
+                          ),
+                          DropdownMenuItem(
+                            child: Row(children: [
+                              Text(
+                                " English",
+                                style: TextStyle(
+                                    fontSize: 25,
+                                    color: Color(0xff192227),
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ]),
+                            value: 2,
+                          ),
+                        ],
+                        onChanged: (valuexs) {
+                          setState(() {
+                            _idioma = valuexs;
+                            saveIdioma(valuexs.toString());
+                          });
+                        },
+                        value: _idioma,
+                      ),
+                    ),
+                  ]),
+              onTap: () {},
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            InkWell(
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(FontAwesomeIcons.userSecret),
+                    Text(
+                      " Privacy policies",
+                      style: TextStyle(
+                          fontSize: 25,
+                          color: Color(0xff192227),
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ]),
+              onTap: () {
+                _launchURL();
+              },
+            ),
           ],
-        ),
-      ),
+        )
+      ],
     ));
   }
 }
+
+
+

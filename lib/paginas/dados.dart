@@ -176,7 +176,7 @@ class _DicePageState extends State<DicePage> with TickerProviderStateMixin {
                           style: TextStyle(
                               fontSize: 22,
                               fontWeight: FontWeight.bold,
-                              color: Color(0xff60032D)),
+                              color: Color(0xff192227)),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(5.0),
@@ -310,7 +310,7 @@ class _DicePageState extends State<DicePage> with TickerProviderStateMixin {
                                                   toastLength:
                                                       Toast.LENGTH_LONG,
                                                   backgroundColor:
-                                                      Color(0xff60032D),
+                                                      Color(0xff192227),
                                                   textColor: Colors.white,
                                                   timeInSecForIos: 5);
                                             },
@@ -337,7 +337,7 @@ class _DicePageState extends State<DicePage> with TickerProviderStateMixin {
                                             )),
                                         Center(
                                             child: Text(
-                                          'Límite de 300 puntos',
+                                          'Límite de 400 puntos',
                                           style: TextStyle(
                                             fontSize: 12,
                                             color: Colors.black,
@@ -370,7 +370,7 @@ class _DicePageState extends State<DicePage> with TickerProviderStateMixin {
                                                         toastLength:
                                                             Toast.LENGTH_LONG,
                                                         backgroundColor:
-                                                            Color(0xff60032D),
+                                                            Color(0xff192227),
                                                         textColor: Colors.white,
                                                         timeInSecForIos: 5);
                                                   },
@@ -400,7 +400,7 @@ class _DicePageState extends State<DicePage> with TickerProviderStateMixin {
                                                   )),
                                               Center(
                                                   child: Text(
-                                                'Límite de 300 puntos',
+                                                'Límite de 400 puntos',
                                                 style: TextStyle(
                                                   fontSize: 12,
                                                   color: Colors.black,
@@ -439,7 +439,7 @@ class _DicePageState extends State<DicePage> with TickerProviderStateMixin {
                                                   )),
                                               Center(
                                                   child: Text(
-                                                'Límite de 300 puntos',
+                                                'Límite de 400 puntos',
                                                 style: TextStyle(
                                                   fontSize: 12,
                                                   color: Colors.black,

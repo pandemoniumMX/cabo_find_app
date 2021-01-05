@@ -281,7 +281,7 @@ class Detalles extends State<Menu_detalle> {
                           Expanded(
                             flex: 1,
                             child: CheckboxListTile(
-                              activeColor: Color(0xff773E42),
+                              activeColor: Color(0xff192227),
                               value: userStatus[index],
                               onChanged: (bool val) {
                                 if (val == true) {
@@ -365,7 +365,7 @@ class Detalles extends State<Menu_detalle> {
                   new FlatButton(
                     child: new Text(
                       "Agregar al carrito",
-                      style: TextStyle(color: Color(0xff60032D)),
+                      style: TextStyle(color: Color(0xff192227)),
                     ),
                     onPressed: () {
                       String notax = controller.text;
@@ -391,7 +391,7 @@ class Detalles extends State<Menu_detalle> {
                   ),
                   new FlatButton(
                     child: new Text("Pagar",
-                        style: TextStyle(color: Color(0xff60032D))),
+                        style: TextStyle(color: Color(0xff192227))),
                     onPressed: () {
                       String notax = controller.text;
                       _insertPedidoSingle(_counter, total, notax, _extras1,
@@ -896,7 +896,7 @@ class Detalles extends State<Menu_detalle> {
                                       _confirmacion();
                                     }
                                   },
-                                  color: Color(0xff773E42),
+                                  color: Color(0xff192227),
                                   textColor: Colors.white,
                                   child: Text(
                                     'Agregar $_counter al carrito • MXN \$ $total',
@@ -932,7 +932,7 @@ class Detalles extends State<Menu_detalle> {
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
             SliverAppBar(
-              backgroundColor: Color(0xff60032D),
+              backgroundColor: Color(0xff192227),
 
               floating: false,
               pinned: true,
@@ -1002,7 +1002,7 @@ class Detalles extends State<Menu_detalle> {
                                             fontWeight: FontWeight.bold,
                                             fontSize: 10.0,
                                             color: Colors.white)),
-                                    backgroundColor: Color(0xff773E42),
+                                    backgroundColor: Color(0xff192227),
                                   ),
                                 );
                               } else if (snapshot.data["Total"] == '0') {
@@ -1030,7 +1030,7 @@ class Detalles extends State<Menu_detalle> {
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 10.0,
                                                 color: Colors.white)),
-                                        backgroundColor: Color(0xff773E42),
+                                        backgroundColor: Color(0xff192227),
                                       ),
                                     ),
                                   ],
@@ -1073,7 +1073,7 @@ class Detalles extends State<Menu_detalle> {
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 10.0,
                                                   color: Colors.white)),
-                                          backgroundColor: Color(0xff773E42),
+                                          backgroundColor: Color(0xff192227),
                                         ),
                                       ),
                                     ],

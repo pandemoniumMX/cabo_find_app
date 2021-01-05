@@ -235,7 +235,7 @@ class _UsuarioState extends State<Usuario2> {
           Container(
               decoration: BoxDecoration(
                   gradient: LinearGradient(colors: [
-                Color(0xff773E42),
+                Color(0xff192227),
                 Colors.white,
               ])),
               child: Text(
@@ -245,7 +245,13 @@ class _UsuarioState extends State<Usuario2> {
                     color: Colors.white,
                     fontWeight: FontWeight.bold),
               )),
-          estructura,
+         data.isNotEmpty ? estructura:Center(
+      heightFactor: 20.00,
+      child: Text(
+        'Aùn no tienes favoritos',
+        style: TextStyle(fontSize: 20,color: Colors.black),
+      ),
+    ),
         ],
       ),
     );
@@ -319,7 +325,9 @@ class _States extends State<Login3> {
           physics: BouncingScrollPhysics(),
           children: <Widget>[
             Column(
-              children: <Widget>[cuerpo],
+              children: <Widget>[
+                
+                  cuerpo],
             )
           ],
         ));

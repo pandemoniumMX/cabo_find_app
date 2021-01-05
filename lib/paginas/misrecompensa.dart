@@ -1,10 +1,12 @@
 import 'dart:convert';
 import 'package:cabofind/paginas/list_manejador_rec_obtenidas.dart';
 import 'package:cabofind/utilidades/classes.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_youtube/flutter_youtube.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -20,6 +22,7 @@ class Mis_recompensas extends StatefulWidget {
 class _Compras extends State<Mis_recompensas> {
   bool isLoggedIn = false;
   //final GlobalKey<State> _keyLoader = new GlobalKey<State>();
+
   void initState() {
     //sesionLog();
     super.initState();
@@ -70,10 +73,13 @@ class Usuario extends StatefulWidget {
 
 class _UsuarioState extends State<Usuario> {
   List data;
+    DateFormat dateFormat;
 
   void initState() {
     super.initState();
     this._loadUser();
+        dateFormat = new DateFormat.MMMMd('es');
+
   }
 
   Future<Map> _loaduserQR() async {
@@ -329,6 +335,7 @@ class _UsuarioState extends State<Usuario> {
                 );
               } else {
                 return ListView.builder(
+                   padding: EdgeInsets.zero,
                     shrinkWrap: true,
                     physics: BouncingScrollPhysics(),
                     itemCount: data == null ? 0 : data.length,
@@ -336,61 +343,95 @@ class _UsuarioState extends State<Usuario> {
                       return new ListTile(
                         title: new Card(
                           elevation: 5.0,
-                          child: new Container(
-                            child: Column(
-                              children: <Widget>[
-                                Row(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    FadeInImage(
-                                      image:
-                                      NetworkImage(data[index]["GAL_FOTO"]),
-                                      fit: BoxFit.fill,
-                                      width: MediaQuery.of(context).size.width *
-                                          .20,
-                                      height:
-                                      MediaQuery.of(context).size.height *
-                                          .10,
-                                      placeholder: AssetImage(
-                                          'android/assets/images/loading.gif'),
-                                      fadeInDuration:
-                                      Duration(milliseconds: 200),
+                          child: Column(
+                            children: <Widget>[
+                              Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  ClipRRect(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      child: CachedNetworkImage(
+                                        fit: BoxFit.fill,
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                .20,
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                .10,
+                                        imageUrl: data[index]["GAL_FOTO"],
+                                        progressIndicatorBuilder:
+                                            (context, url, downloadProgress) =>
+                                                Container(
+                                          margin: EdgeInsets.only(top: 1),
+                                          child: Center(
+                                            child: CircularProgressIndicator(
+                                                value:
+                                                    downloadProgress.progress),
+                                          ),
+                                        ),
+                                        errorWidget: (context, url, error) =>
+                                            Icon(Icons.error),
+                                      ),
                                     ),
-                                    Flexible(
-                                      child: Text(data[index]["NEG_NOMBRE"],
-                                          overflow: TextOverflow.ellipsis,
-                                          softWrap: true,
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 15.0,
-                                            color: Colors.black,
-                                          )),
-                                    ),
-                                    Row(
+                                  Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
                                       children: [
-                                        Column(
+                                        Text(data[index]["NEG_NOMBRE"],
+                                            overflow: TextOverflow.ellipsis,
+                                            softWrap: true,
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 15.0,
+                                              color: Colors.black,
+                                            )),
+                                        Row(
                                           children: [
-                                            new Text(
-                                              data[index]["PUN_TOTAL"],
-                                              style: TextStyle(fontSize: 20),
-                                            ),
-                                            new Text(
-                                              'Puntos  ',
-                                              style: TextStyle(fontSize: 10),
-                                            ),
-                                            new Text(
-                                              'obtenidos',
-                                              style: TextStyle(fontSize: 10),
-                                            )
+                                            Text('Expira el: ',
+                                                overflow: TextOverflow.ellipsis,
+                                                style: new TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 12.0,
+                                                  fontWeight: FontWeight.w400,
+                                                )),
+                                            Text(
+                                                dateFormat.format(
+                                                    DateTime.parse(data[index]
+                                                        ["PUN_CADUCIDAD"])),
+                                                overflow: TextOverflow.ellipsis,
+                                                style: new TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 12.0,
+                                                  fontWeight: FontWeight.w400,
+                                                )),
                                           ],
-                                        )
+                                        ),
                                       ],
                                     ),
-                                  ],
-                                ),
-                              ],
-                            ),
+                                  Row(
+                                    children: [
+                                      Column(
+                                        children: [
+                                          new Text(
+                                            data[index]["PUN_TOTAL"],
+                                            style: TextStyle(fontSize: 20),
+                                          ),
+                                          new Text(
+                                            'Puntos  ',
+                                            style: TextStyle(fontSize: 10),
+                                          ),
+                                          new Text(
+                                            'obtenidos',
+                                            style: TextStyle(fontSize: 10),
+                                          )
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
                         ),
                         onTap: () {
@@ -415,7 +456,9 @@ class _UsuarioState extends State<Usuario> {
 
     return Scaffold(
       body: ListView(
-        physics: NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        padding: EdgeInsets.zero,
+        //physics: NeverScrollableScrollPhysics(),
         children: <Widget>[
           Container(
               decoration: BoxDecoration(
@@ -518,7 +561,7 @@ class _State extends State<Login2> {
     return ListView(
       shrinkWrap: true,
       //addAutomaticKeepAlives: true,
-      physics: NeverScrollableScrollPhysics(),
+      //physics: NeverScrollableScrollPhysics(),
       children: <Widget>[
         SizedBox(
           height: 100.0,

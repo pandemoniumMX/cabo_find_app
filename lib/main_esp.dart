@@ -16,6 +16,7 @@ import 'package:cabofind/paginas/misrecompensa.dart';
 import 'package:cabofind/paginas/pedidos_proceso_list.dart';
 import 'package:cabofind/paginas/publicacion_detalle.dart';
 import 'package:cabofind/paginas/publicaciones.dart';
+import 'package:cabofind/paginas/recompensa_detalle.dart';
 import 'package:cabofind/paginas/ricky.dart';
 import 'package:cabofind/paginas/salud.dart';
 import 'package:cabofind/paginas/scan.dart';
@@ -28,6 +29,7 @@ import 'package:cabofind/utilidades/notificaciones.dart';
 import 'package:cabofind/utilidades/rutas.dart';
 import 'package:cabofind/weather/weather/weather_builder.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:clippy_flutter/clippy_flutter.dart';
 import 'package:ff_navigation_bar/ff_navigation_bar.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -48,9 +50,12 @@ import 'package:devicelocale/devicelocale.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/intl_standalone.dart';
+import 'package:location/location.dart';
 import 'package:package_info/package_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'main.dart';
 import 'paginas/promociones.dart';
+import 'package:geolocator/geolocator.dart' as geo;
 
 FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
@@ -73,21 +78,27 @@ class MyHomePages extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePages> {
-  final fromTextController = TextEditingController();
-  List<String> currencies;
-  String fromCurrency = "USD";
-  String toCurrency = "MXN";
-  String multi;
-  String result;
-  List portada;
-  String apkversion;
-
+  Future puntosLoad;
   Icon actionIcon = new Icon(Icons.search);
 
   Widget appBarTitle = new Text("Cabofind");
-  int id = 0;
+  var location = Location();
+  String _status = "";
 
   List data;
+  List portada;
+  List rec;
+  List promociones;
+  List eventos;
+  DateFormat dateFormat;
+  List ciudad;
+  String _ciudades;
+
+  String apkversion = '';
+  String _mail = '';
+
+  int id = 0;
+
 
   //var mp = MP("CLIENT_ID", "CLIENT_SECRET");
 
@@ -115,12 +126,11 @@ class _MyHomePageState extends State<MyHomePages> {
   Future<String> getPortada() async {
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/consultas_negocios/esp/list_portada.php"),
+            "http://cabofind.com.mx/app_php/consultas_negocios/esp/list_portada_ios.php"),
         headers: {"Accept": "application/json"});
 
     this.setState(() {
       portada = json.decode(response.body);
-      print(portada);
     });
 
     return "Success!";
@@ -179,6 +189,121 @@ class _MyHomePageState extends State<MyHomePages> {
       }
 */
   //final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
+
+  Future<String> getRec() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    prefs.getString('stringLenguage');
+    prefs.getString('stringCity');
+    String _city = prefs.getString('stringCity');
+
+    _mail = prefs.getString("stringID");
+
+    var response = await http.get(
+        Uri.encodeFull(
+            "http://cabofind.com.mx/app_php/APIs/esp/list_rec_main.php?CITY=$_city"),
+        headers: {"Accept": "application/json"});
+
+    this.setState(() {
+      rec = json.decode(response.body);
+    });
+
+    return "Success!";
+  }
+
+  Future<String> getPromociones() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    prefs.getString('stringLenguage');
+    prefs.getString('stringCity');
+    String _city = prefs.getString('stringCity');
+    _mail = prefs.getString("stringID");
+    print(_mail);
+
+    var response = await http.get(
+        Uri.encodeFull(
+            "http://cabofind.com.mx/app_php/APIs/esp/list_promociones.php?CITY=$_city"),
+        headers: {"Accept": "application/json"});
+
+    this.setState(() {
+      promociones = json.decode(response.body);
+    });
+
+    return "Success!";
+  }
+
+  Future<String> getEventos() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    prefs.getString('stringLenguage');
+    prefs.getString('stringCity');
+    String _city = prefs.getString('stringCity');
+    _mail = prefs.getString("stringID");
+    print(_mail);
+
+    var response = await http.get(
+        Uri.encodeFull(
+            "http://cabofind.com.mx/app_php/APIs/esp/list_eventos.php?CITY=$_city"),
+        headers: {"Accept": "application/json"});
+
+    this.setState(() {
+      eventos = json.decode(response.body);
+    });
+
+    return "Success!";
+  }
+
+  Future<String> getCiudad() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    prefs.getString('stringLenguage');
+    prefs.getString('stringCity');
+    String _city = prefs.getString('stringCity');
+    String _idi = prefs.getString('stringLenguage');
+    var response = await http.get(
+        Uri.encodeFull(
+            "http://cabofind.com.mx//app_php/consultas_negocios/esp/ciudades.php"),
+        headers: {"Accept": "application/json"});
+    this.setState(() {
+      ciudad = json.decode(response.body);
+      _ciudades = _city;
+    });
+    for (var u in ciudad) {
+      // userStatus.add(false);
+    }
+    return "Success!";
+  }
+Future<Map> _getPuntos() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.getString('stringLenguage');
+    prefs.getString('stringCity');
+    String _city = prefs.getString('stringCity');
+    final SharedPreferences login = await SharedPreferences.getInstance();
+    String _mail = "";
+    String _mail2 = "";
+    String _idusu = "";
+    _status = login.getString("stringLogin");
+    _mail2 = login.getString("stringID");
+
+    http.Response response = await http.get(
+        "http://cabofind.com.mx/app_php/APIs/esp/get_puntos.php?IDF=$_mail2&CITY=$_city");
+    return json.decode(response.body);
+  }
+
+  _getCurrentLocation() async {
+    if (!await location.serviceEnabled()) {
+      location.requestService();
+    }
+    geo.Position position = await geo.Geolocator().getCurrentPosition(
+        desiredAccuracy: geo.LocationAccuracy.bestForNavigation);
+  }
+
+  saveCity(String ciudad) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('stringCity', ciudad);
+    Navigator.pushReplacement(context,
+        new MaterialPageRoute(builder: (BuildContext context) => new Myapp1()));
+  }
   int _page = 0;
   PageController _c;
   @override
@@ -186,68 +311,35 @@ class _MyHomePageState extends State<MyHomePages> {
     _c = new PageController(
       initialPage: _page,
     );
+    puntosLoad = _getPuntos();
+this.getCiudad();
+this.getRec();
+    this.getPromociones();
+    this.getEventos();
+        _getCurrentLocation();
 
+    this.getPortada();
     isLogged(context);
+    initializeDateFormatting();
+    dateFormat = new DateFormat.MMMMd('es');
 
-    _loadCurrencies();
     super.initState();
 
     fcmSubscribe();
 
     setupNotification();
     this.getData();
-    this.getPortada();
-
-    final _mensajesStreamController = StreamController<String>.broadcast();
-
-    dispose() {
-      _mensajesStreamController?.close();
-    }
-
-    //this.checkModelIos();
+    final _mensajesStreamController = StreamController<String>.broadcast();  
     this.checkModelAndroid();
 
-    ///this._getLocation();
-    initializeDateFormatting();
   }
+void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
+  
 
-  Future<String> _loadCurrencies() async {
-    String uri = "http://api.openrates.io/latest";
-    var response = await http
-        .get(Uri.encodeFull(uri), headers: {"Accept": "application/json"});
-    var responseBody = json.decode(response.body);
-    Map curMap = responseBody['rates'];
-    currencies = curMap.keys.toList();
-    setState(() {});
-    return "Success";
-  }
-
-  Future<String> _doConversion() async {
-    String uri =
-        "http://api.openrates.io/latest?base=$fromCurrency&symbols=$toCurrency";
-    var response = await http
-        .get(Uri.encodeFull(uri), headers: {"Accept": "application/json"});
-    var responseBody = json.decode(response.body);
-    setState(() {
-      multi = (double.parse(fromTextController.text) *
-          (responseBody["rates"][toCurrency]))
-          .toString();
-      result = multi;
-    });
-    return "Success";
-  }
-
-  _onFromChanged(String value) {
-    setState(() {
-      fromCurrency = value;
-    });
-  }
-
-  _onToChanged(String value) {
-    setState(() {
-      toCurrency = value;
-    });
-  }
+  
 
   addStringToSF() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -373,7 +465,7 @@ class _MyHomePageState extends State<MyHomePages> {
                     },
                   ),
                   new FlatButton(
-                    color: Color(0xff773E42),
+                    color: Color(0xff192227),
                     child: new Text(
                       'Ver pedido',
                       style: TextStyle(
@@ -419,7 +511,7 @@ class _MyHomePageState extends State<MyHomePages> {
                     },
                   ),
                   new FlatButton(
-                    color: Color(0xff773E42),
+                    color: Color(0xff192227),
                     child: new Text(
                       'Ver pedido',
                       style: TextStyle(
@@ -465,7 +557,7 @@ class _MyHomePageState extends State<MyHomePages> {
                     },
                   ),
                   new FlatButton(
-                    color: Color(0xff773E42),
+                    color: Color(0xff192227),
                     child: new Text(
                       'Ver pedido',
                       style: TextStyle(
@@ -592,293 +684,566 @@ class _MyHomePageState extends State<MyHomePages> {
   }
 
   Widget build(BuildContext context) {
-    /*
-    return new MaterialApp(
-      navigatorKey: navigatorKey,
-      routes: {
-        'publicacionx' : (BuildContext context) => Publicacion_detalle_fin_push(),
-      },
-        debugShowCheckedModeBanner:false,
-        theme: ThemeData(
-          primarySwatch: Colors.grey,
-          //primaryColor: Colors.black
-          primaryColor: Colors.black,
-          accentColor: Colors.black26,
-        ),
-        home: new Container(
-            child:           new MyHomePages()
-        )
-    );
-    */
-    // new Publicaciones();
-
-    /*
-routes: <String, WidgetBuilder>{
-          "/inicio" : (BuildContext context) => data[index]["est_navegacion"],
-
-        };
-*/
-
-/*
-   _makeStripePayment() async {
-      var environment = 'rest'; // or 'production'
-      if (!(await FlutterGooglePay.isAvailable(environment))) {
-        Fluttertoast.showToast(
-          msg: "Google pay no disponible",
-          toastLength: Toast.LENGTH_SHORT,
-          backgroundColor: Colors.black,
-          textColor: Colors.white,
-          timeInSecForIos: 1);
-      } else {
-        PaymentItem pm = PaymentItem(
-            stripeToken: 'pk_test_qRcqwUowOCDhl2bEuXPPCKDw00LMVoJpLi',
-            stripeVersion: "2018-11-08",
-            currencyCode: "mex",
-            amount: "10.0",
-            gateway: 'stripe');
-        FlutterGooglePay.makePayment(pm).then((Result result) {
-          if (result.status == ResultStatus.SUCCESS) {
-          Fluttertoast.showToast(
-          msg: "SUCESS",
-          toastLength: Toast.LENGTH_SHORT,
-          backgroundColor: Colors.black,
-          textColor: Colors.white,
-          timeInSecForIos: 1);
-
-          }
-        }).catchError((dynamic error) {
-          Fluttertoast.showToast(
-          msg: error.toString(),
-          toastLength: Toast.LENGTH_SHORT,
-          backgroundColor: Colors.black,
-          textColor: Colors.white,
-          timeInSecForIos: 1);
-        });
-      }
-    }
-    _makeCustomPayment() async {
-      var environment = 'rest'; // or 'production'
-      if (!(await FlutterGooglePay.isAvailable(environment))) {
-        Fluttertoast.showToast(
-          msg:"Google pay no disponible",
-          toastLength: Toast.LENGTH_SHORT,
-          backgroundColor: Colors.black,
-          textColor: Colors.white,
-          timeInSecForIos: 1);
-      } else {
-        ///docs https://developers.google.com/pay/api/android/guides/tutorial
-        PaymentBuilder pb = PaymentBuilder()
-          ..addGateway("example")
-          ..addTransactionInfo("1.0", "USD")
-          ..addAllowedCardAuthMethods(["PAN_ONLY", "CRYPTOGRAM_3DS"])
-          ..addAllowedCardNetworks(
-              ["AMEX", "DISCOVER", "JCB", "MASTERCARD", "VISA"])
-          ..addBillingAddressRequired(true)
-          ..addPhoneNumberRequired(true)
-          ..addShippingAddressRequired(true)
-          ..addShippingSupportedCountries(["US", "GB"])
-          ..addMerchantInfo("Example");
-        FlutterGooglePay.makeCustomPayment(pb.build()).then((Result result) {
-          if (result.status == ResultStatus.SUCCESS) {
-            Fluttertoast.showToast(
-          msg:"Success",
-          toastLength: Toast.LENGTH_SHORT,
-          backgroundColor: Colors.black,
-          textColor: Colors.white,
-          timeInSecForIos: 1);
-          } else if (result.error != null) {
-            Fluttertoast.showToast(
-          msg:result.error,
-          toastLength: Toast.LENGTH_SHORT,
-          backgroundColor: Colors.black,
-          textColor: Colors.white,
-          timeInSecForIos: 1);
-          }
-        }).catchError((error) {
-          //TODO
-        });
-      }
-    }*/
-
-    Widget cuerpo = GridView.builder(
-      padding: EdgeInsets.only(top: 2),
-      itemCount: data == null ? 0 : data.length,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        childAspectRatio: 0.460,
-      ),
-      itemBuilder: (BuildContext context, int index) => Container(
-        // height: 400,
-        padding: EdgeInsets.all(0),
-        margin: EdgeInsets.all(2),
-        child: Stack(
-          children: [
-            InkWell(
-              child: Column(
-                children: <Widget>[
-                  CachedNetworkImage(
-                    fit: BoxFit.fitHeight,
-                    height: 400,
-                    width: MediaQuery.of(context).size.width / 2,
-                    imageUrl: data[index]["est_foto"],
-                    progressIndicatorBuilder:
-                        (context, url, downloadProgress) => Container(
-                      margin: EdgeInsets.only(top: 180),
-                      child: Center(
-                        child: CircularProgressIndicator(
-                            value: downloadProgress.progress),
-                      ),
-                    ),
-                    errorWidget: (context, url, error) => Icon(Icons.error),
-                  ),
-                ],
-              ),
+   
+    Widget cuerpo = ListView(
+      padding: EdgeInsets.zero, //hack para espacio en lista
+      children: [
+        Container(
+            child: CarouselSlider.builder(
+          autoPlay: true,
+          height: 250.0,
+          aspectRatio: 16 / 9,
+          viewportFraction: 0.98,
+          autoPlayInterval: Duration(seconds: 5),
+          autoPlayCurve: Curves.fastOutSlowIn,
+          itemCount: portada == null ? 0 : portada.length,
+          itemBuilder: (BuildContext context, int index) => Container(
+            child: GestureDetector(
               onTap: () {
-                String ruta = data[index]["est_navegacion"];
-                print(ruta);
+                String ruta = portada[index]["POR_RUTA"];
 
-                if (ruta == "Restaurantes") {
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                          new Restaurantes()));
-                } else if (ruta == "Descubre") {
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (BuildContext context) => new Descubre()));
-                } else if (ruta == "Compras") {
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (BuildContext context) => new Compras()));
-                } else if (ruta == "Educacion") {
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (BuildContext context) => new Educacion()));
-                } else if (ruta == "Eventos") {
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                          new Eventos_grid()));
-                } else if (ruta == "Acercade") {
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (BuildContext context) => new Acercade()));
-                } else if (ruta == "Promociones") {
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                          new Promociones_list()));
-                } else if (ruta == "Salud") {
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (BuildContext context) => new Salud()));
-                } else if (ruta == "Servicios") {
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (BuildContext context) => new Servicios()));
-                } else if (ruta == "Vida_nocturna") {
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                          new Vida_nocturna()));
-                } else if (ruta == "Publicaciones") {
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                          new Publicaciones_grid()));
-                } else if (ruta == "Anuncios") {
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (BuildContext context) => new Anuncios()));
-                } else if (ruta == "Mapa") {
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (BuildContext context) => new Maps()));
-                } else if (ruta == "Rutas") {
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (BuildContext context) => new Rutas()));
-                } else if (ruta == "domicilio") {
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                          new Menu_comidas()));
-                } else if (ruta == "rickys") {
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (BuildContext context) => new Rickys()));
-                } else if (ruta == "Hotel") {
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (BuildContext context) => new Hoteles()));
-                } else if (ruta == "Cabofood") {
+                if (ruta == "cabofood") {
                   apkversion == portada[0]["IOS_VERSION"]
-                      ? Navigator.push(
+                      ? Navigator.pushReplacement(
                           context,
                           new MaterialPageRoute(
                               builder: (BuildContext context) => new Domicilio(
                                   numeropagina: Categoria(0),
                                   numtab: Categoria(0))))
                       : versionError();
+                } else if (ruta == "mapa") {
+                  Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (BuildContext context) => new Maps()));
+                } else if (ruta == "dados") {
+                  _status != 'True'
+                      ? Navigator.push(
+                          context,
+                          new MaterialPageRoute(
+                              builder: (BuildContext context) => Login()))
+                      : apkversion == portada[0]["IOS_VERSION"]
+                          ? Navigator.push(
+                              context,
+                              new MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      new DicePage()))
+                          : versionError();
+                } else if (ruta == "promociones") {
+                  Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              new Promociones_list()));
+                } else if (ruta == "eventos") {
+                  Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              new Eventos_grid()));
                 }
               },
+              child: CachedNetworkImage(
+                fit: BoxFit.fitWidth,
+                width: MediaQuery.of(context).size.width,
+                height: 230,
+                imageUrl: portada[index]["POR_FOTO"],
+                progressIndicatorBuilder: (context, url, downloadProgress) =>
+                    Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 250,
+                  child: Center(
+                    child: CircularProgressIndicator(
+                        value: downloadProgress.progress),
+                  ),
+                ),
+                errorWidget: (context, url, error) => Icon(Icons.error),
+              ),
             ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+          ),
+        )),
+        Container(
+          height: 140,
+          child: ListView.builder(
+            shrinkWrap: true,
+            // physics: ScrollPhysics(),
+            scrollDirection: Axis.horizontal,
+            //padding: EdgeInsets.only(top: 2),
+            itemCount: data == null ? 0 : data.length,
+            itemBuilder: (BuildContext context, int index) => Container(
+              height: 100,
+              padding: EdgeInsets.all(10),
+              // margin: EdgeInsets.all(2),
+              child: InkWell(
+                child: Column(
                   children: [
-                    Point(
-                      triangleHeight: 10.0,
-                      edge: Edge.LEFT,
-                      child: Container(
-                        margin: const EdgeInsets.only(bottom: 8, top: 8),
-                        padding: const EdgeInsets.only(
-                            left: 10.0, right: 10.0, top: 8.0, bottom: 8.0),
-                        color: Color(int.parse(data[index]["est_color"])),
-                        child: new Text(data[index]["est_nombre"],
-                            style: new TextStyle(
-                              color: Colors.white,
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.w900,
-                              //  backgroundColor: Colors.black45
-                            )),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(5.0),
+                      child: CachedNetworkImage(
+                        fit: BoxFit.cover,
+                        height: 100,
+                        width: 100,
+                        imageUrl: data[index]["est_foto"],
+                        progressIndicatorBuilder:
+                            (context, url, downloadProgress) => Container(
+                          margin: EdgeInsets.only(top: 1),
+                          child: Center(
+                            child: CircularProgressIndicator(
+                                value: downloadProgress.progress),
+                          ),
+                        ),
+                        errorWidget: (context, url, error) => Icon(Icons.error),
                       ),
                     ),
+                    Text(data[index]["est_nombre"],
+                        style: new TextStyle(
+                          color: Colors.black,
+                          fontSize: 15.0,
+                          fontWeight: FontWeight.w300,
+                          //  backgroundColor: Colors.black45
+                        ))
                   ],
                 ),
-              ],
+                onTap: () {
+                  String ruta = data[index]["est_navegacion"];
+
+                  if (ruta == "Restaurantes") {
+                    Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                new Restaurantes()));
+                  } else if (ruta == "Descubre") {
+                    Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (BuildContext context) => new Descubre()));
+                  } else if (ruta == "Compras") {
+                    Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (BuildContext context) => new Compras()));
+                  } else if (ruta == "Educacion") {
+                    Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                new Educacion()));
+                  } else if (ruta == "Eventos") {
+                    Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                new Eventos_grid()));
+                  } else if (ruta == "Acercade") {
+                    Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (BuildContext context) => new Acercade()));
+                  } else if (ruta == "Promociones") {
+                    Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                new Promociones_list()));
+                  } else if (ruta == "Salud") {
+                    Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (BuildContext context) => new Salud()));
+                  } else if (ruta == "Servicios") {
+                    Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                new Servicios()));
+                  } else if (ruta == "Vida_nocturna") {
+                    Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                new Vida_nocturna()));
+                  } else if (ruta == "Publicaciones") {
+                    Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                new Publicaciones_grid()));
+                  } else if (ruta == "Anuncios") {
+                    Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (BuildContext context) => new Anuncios()));
+                  } else if (ruta == "Mapa") {
+                    Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (BuildContext context) => new Maps()));
+                  } else if (ruta == "Rutas") {
+                    Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (BuildContext context) => new Rutas()));
+                  } else if (ruta == "domicilio") {
+                    Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                new Menu_comidas()));
+                  } else if (ruta == "rickys") {
+                    Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (BuildContext context) => new Rickys()));
+                  } else if (ruta == "Hotel") {
+                    Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (BuildContext context) => new Hoteles()));
+                  } else if (ruta == "Cabofood") {
+                    apkversion == portada[0]["IOS_VERSION"]
+                        ? Navigator.pushReplacement(
+                            context,
+                            new MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    new Domicilio(
+                                        numeropagina: Categoria(0),
+                                        numtab: Categoria(0))))
+                        : versionError();
+                  }
+                },
+              ),
             ),
-          ],
+          ),
         ),
-      ),
-      /* staggeredTileBuilder: (int index) =>
-          new StaggeredTile.count(2, index.isEven ? 2 : 2),*/
+        Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Text('Canjéa tus puntos aquí.',
+              style: new TextStyle(
+                color: Colors.black,
+                fontSize: 25.0,
+                fontWeight: FontWeight.w600,
+              )),
+        ),
+        Container(
+            height: 130,
+            child: CarouselSlider.builder(
+                autoPlay: true,
+                height: 250.0,
+                aspectRatio: 16 / 9,
+                viewportFraction: 0.98,
+                autoPlayInterval: Duration(seconds: 15),
+                autoPlayCurve: Curves.fastOutSlowIn,
+                itemCount: rec == null ? 0 : rec.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return rec.isNotEmpty
+                      ? Container(
+                          //padding: EdgeInsets.all(5),
+                          height: 100,
+                          child: InkWell(
+                            child: Row(
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  child: CachedNetworkImage(
+                                    fit: BoxFit.cover,
+                                    height: 100,
+                                    width: 130,
+                                    imageUrl: rec[index]["REC_FOTO"],
+                                    progressIndicatorBuilder:
+                                        (context, url, downloadProgress) =>
+                                            Container(
+                                      margin: EdgeInsets.only(top: 1),
+                                      child: Center(
+                                        child: CircularProgressIndicator(
+                                            value: downloadProgress.progress),
+                                      ),
+                                    ),
+                                    errorWidget: (context, url, error) =>
+                                        Icon(Icons.error),
+                                  ),
+                                ),
+                                Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Flexible(
+                                            child: Text(
+                                                rec[index]["NEG_NOMBRE"],
+                                                style: new TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 18.0,
+                                                  fontWeight: FontWeight.w600,
+                                                )),
+                                          ),
+                                          Flexible(
+                                            fit: FlexFit.loose,
+                                            child: Text(
+                                                rec[index]["REC_TITULO"],
+                                                style: new TextStyle(
+                                                  color: Colors.grey,
+                                                  fontSize: 15.0,
+                                                  fontWeight: FontWeight.w300,
+                                                )),
+                                          ),
+                                          Text(
+                                              '🔴 ' +
+                                                  rec[index]["REC_META"] +
+                                                  ' PUNTOS',
+                                              style: new TextStyle(
+                                                color: Colors.red,
+                                                fontSize: 15.0,
+                                                fontWeight: FontWeight.w600,
+                                              )),
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                )
+                              ],
+                            ),
+                            onTap: () {
+                              String id_re = rec[index]["ID_RECOMPENSA"];
+                              String id_n = rec[index]["ID_NEGOCIO"];
+
+                              _status != 'True'
+                                  ? Navigator.push(
+                                      context,
+                                      new MaterialPageRoute(
+                                          builder: (BuildContext context) =>
+                                              Login()))
+                                  : apkversion == portada[0]["IOS_VERSION"]
+                                      ? Navigator.push(
+                                          context,
+                                          new MaterialPageRoute(
+                                              builder: (context) =>
+                                                  new Recompensa_detalle(
+                                                    publicacion:
+                                                        new Publicacion2(
+                                                            id_re, id_n, _mail),
+                                                  )))
+                                      : versionError();
+                            },
+                          ),
+                        )
+                      : Center(child: Text('Proximamente'));
+                })),
+        Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Text('Promociones actuales.',
+              style: new TextStyle(
+                color: Colors.black,
+                fontSize: 25.0,
+                fontWeight: FontWeight.w600,
+              )),
+        ),
+        Container(
+            height: 130,
+            child: CarouselSlider.builder(
+              autoPlay: true,
+              height: 250.0,
+              aspectRatio: 16 / 9,
+              viewportFraction: 0.98,
+              autoPlayInterval: Duration(seconds: 15),
+              autoPlayCurve: Curves.fastOutSlowIn,
+              itemCount: promociones == null ? 0 : promociones.length,
+              itemBuilder: (BuildContext context, int index) {
+                return promociones.isNotEmpty
+                    ? Container(
+                        height: 100,
+                        child: InkWell(
+                          child: Row(
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(5.0),
+                                child: CachedNetworkImage(
+                                  fit: BoxFit.cover,
+                                  height: 100,
+                                  width: 200,
+                                  imageUrl: promociones[index]["GAL_FOTO"],
+                                  progressIndicatorBuilder:
+                                      (context, url, downloadProgress) =>
+                                          Container(
+                                    margin: EdgeInsets.only(top: 1),
+                                    child: Center(
+                                      child: CircularProgressIndicator(
+                                          value: downloadProgress.progress),
+                                    ),
+                                  ),
+                                  errorWidget: (context, url, error) =>
+                                      Icon(Icons.error),
+                                ),
+                              ),
+                              Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        Flexible(
+                                          child: Text(
+                                              promociones[index]["NEG_NOMBRE"],overflow: TextOverflow.ellipsis,
+                                              style: new TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 15.0,
+                                                fontWeight: FontWeight.w600,
+                                              )),
+                                        ),
+                                        Flexible(
+                                          child: Text(
+                                              promociones[index]["PUB_TITULO"],
+                                              style: new TextStyle(
+                                                color: Colors.grey,
+                                                fontSize: 13.0,
+                                                fontWeight: FontWeight.w300,
+                                              )),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              )
+                            ],
+                          ),
+                          onTap: () {
+                            String id_n = promociones[index]["ID_NEGOCIO"];
+                            String id = promociones[index]["ID_PUBLICACION"];
+
+                            Navigator.push(
+                                context,
+                                new MaterialPageRoute(
+                                    builder: (context) =>
+                                        new Publicacion_detalle_fin(
+                                          publicacion:
+                                              new Publicacion(id_n, id),
+                                        )));
+                          },
+                        ),
+                      )
+                    : Center(child: Text('Proximamente'));
+              },
+            )),
+        Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Text('Eventos próximos.',
+              style: new TextStyle(
+                color: Colors.black,
+                fontSize: 25.0,
+                fontWeight: FontWeight.w600,
+              )),
+        ),
+        Container(
+          height: 160,
+          child: CarouselSlider.builder(
+            autoPlay: true,
+            height: 250.0,
+            aspectRatio: 16 / 9,
+            viewportFraction: 0.98,
+            autoPlayInterval: Duration(seconds: 15),
+            autoPlayCurve: Curves.fastOutSlowIn,
+            itemCount: eventos == null ? 0 : eventos.length,
+            itemBuilder: (BuildContext context, int index) {
+              return eventos.isNotEmpty
+                  ? Container(
+                      height: 150,
+                      padding: EdgeInsets.all(5.0),
+                      child: InkWell(
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(5.0),
+                              child: CachedNetworkImage(
+                                fit: BoxFit.cover,
+                                height: 150,
+                                width: 380,
+                                imageUrl: eventos[index]["GAL_FOTO"],
+                                progressIndicatorBuilder:
+                                    (context, url, downloadProgress) =>
+                                        Container(
+                                  margin: EdgeInsets.only(top: 1),
+                                  child: Center(
+                                    child: CircularProgressIndicator(
+                                        value: downloadProgress.progress),
+                                  ),
+                                ),
+                                errorWidget: (context, url, error) =>
+                                    Icon(Icons.error),
+                              ),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  decoration:
+                                      BoxDecoration(color: Colors.black26),
+                                  height: 80,
+                                  child: Column(
+                                    children: [
+                                      Text(eventos[index]["NEG_NOMBRE"],
+                                          style: new TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 22.0,
+                                            fontWeight: FontWeight.w600,
+                                          )),
+                                      Text(eventos[index]["PUB_TITULO"],
+                                          style: new TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 18.0,
+                                            fontWeight: FontWeight.w300,
+                                          )),
+                                      Text(
+                                          dateFormat.format(DateTime.parse(
+                                              eventos[index]
+                                                  ["PUB_FECHA_LIMITE"])),
+                                          style: new TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 18.0,
+                                            fontWeight: FontWeight.w300,
+                                          )),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            )
+                          ],
+                        ),
+                        onTap: () {
+                          String id_n = eventos[index]["ID_NEGOCIO"];
+                          String id = eventos[index]["ID_PUBLICACION"];
+
+                          Navigator.push(
+                              context,
+                              new MaterialPageRoute(
+                                  builder: (context) =>
+                                      new Publicacion_detalle_fin(
+                                        publicacion: new Publicacion(id_n, id),
+                                      )));
+                        },
+                      ),
+                    )
+                  : Center(child: Text('No hay eventos próximos'));
+            },
+          ),
+        )
+      ],
     );
 
     return Scaffold(
       /* bottomNavigationBar: new BottomNavigationBar(
         currentIndex: _page,
         backgroundColor: Colors.white,
-        fixedColor: Color(0xff773E42),
+        fixedColor: Color(0xff192227),
         unselectedItemColor: Colors.black54,
         showUnselectedLabels: false,
         //unselectedIconTheme: Colors.grey,
@@ -911,9 +1276,9 @@ routes: <String, WidgetBuilder>{
         theme: FFNavigationBarTheme(
           barBackgroundColor: Colors.white,
           selectedItemBorderColor: Colors.white,
-          selectedItemBackgroundColor: Color(0xff773E42),
+          selectedItemBackgroundColor: Color(0xff192227),
           selectedItemIconColor: Colors.white,
-          selectedItemLabelColor: Color(0xff773E42),
+          selectedItemLabelColor: Color(0xff192227),
         ),
         items: [
           FFNavigationBarItem(
@@ -935,140 +1300,184 @@ routes: <String, WidgetBuilder>{
               curve: Curves.easeInOut);
         },
       ),
-      body: NestedScrollView(
+  body: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
             SliverAppBar(
-              expandedHeight: 240.0,
+              expandedHeight: 50.0,
               floating: true,
               pinned: true,
               flexibleSpace: FlexibleSpaceBar(
-                titlePadding: EdgeInsets.all(10.0),
-                background: GestureDetector(
-                  onTap: () {},
-                  child: CachedNetworkImage(
-                    fit: BoxFit.fitWidth,
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height,
-                    imageUrl: portada[0]["POR_FOTO"],
-                    progressIndicatorBuilder:
-                        (context, url, downloadProgress) => Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height,
-                      child: Center(
-                        child: CircularProgressIndicator(
-                            value: downloadProgress.progress),
+                titlePadding: EdgeInsets.only(top: 20.0),
+                centerTitle: false,
+                title: Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          FutureBuilder(
+                              future:
+                                  puntosLoad, //hack future builder // Correct way
+                              builder: (context, snapshot) {
+                                switch (snapshot.connectionState) {
+                                  case ConnectionState.none:
+                                  case ConnectionState.waiting:
+                                    return Center(
+                                        child: CircularProgressIndicator());
+                                  default:
+                                    if (snapshot.hasError) {
+                                      return Row(
+                                        children: [
+                                          new Container(
+                                            width: 50.0,
+                                            height: 50.0,
+                                            decoration: new BoxDecoration(
+                                              color: const Color(0xff7c94b6),
+                                              image: new DecorationImage(
+                                                image: ExactAssetImage(
+                                                    'assets/noprofile.png'),
+                                                fit: BoxFit.fill,
+                                              ),
+                                              borderRadius: new BorderRadius
+                                                      .all(
+                                                  new Radius.circular(50.0)),
+                                              border: new Border.all(
+                                                color: Colors.white,
+                                                width: 1.0,
+                                              ),
+                                            ),
+                                          ),
+                                          Text(
+                                            ' 0 PUNTOS',
+                                            style: TextStyle(
+                                                fontSize: 15,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ],
+                                      );
+                                    } else if (snapshot.hasData &&
+                                        snapshot.data["Total"] != null &&
+                                        snapshot.data["USU_FOTO"] != null) {
+                                      return Row(
+                                        children: [
+                                          new Container(
+                                            width: 50.0,
+                                            height: 50.0,
+                                            decoration: new BoxDecoration(
+                                              color: const Color(0xff7c94b6),
+                                              image: new DecorationImage(
+                                                image: NetworkImage(
+                                                    snapshot.data["USU_FOTO"]),
+                                                fit: BoxFit.fill,
+                                              ),
+                                              borderRadius: new BorderRadius
+                                                      .all(
+                                                  new Radius.circular(50.0)),
+                                              border: new Border.all(
+                                                color: Colors.white,
+                                                width: 1.0,
+                                              ),
+                                            ),
+                                          ),
+                                          Text(
+                                            ' ' +
+                                                snapshot.data['Total'] +
+                                                ' PUNTOS',
+                                            style: TextStyle(
+                                                fontSize: 15,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ],
+                                      );
+                                    } else {
+                                      return Row(
+                                        children: [
+                                          new Container(
+                                            width: 50.0,
+                                            height: 50.0,
+                                            decoration: new BoxDecoration(
+                                              color: Colors.white,
+                                              image: new DecorationImage(
+                                                image: ExactAssetImage(
+                                                    'assets/noprofile.png'),
+                                                fit: BoxFit.fill,
+                                              ),
+                                              borderRadius: new BorderRadius
+                                                      .all(
+                                                  new Radius.circular(50.0)),
+                                              border: new Border.all(
+                                                color: Colors.white,
+                                                width: 1.0,
+                                              ),
+                                            ),
+                                          ),
+                                          Text(
+                                            ' 0 PUNTOS',
+                                            style: TextStyle(
+                                                fontSize: 15,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ],
+                                      );
+                                    }
+                                }
+                              })
+                        ],
                       ),
-                    ),
-                    errorWidget: (context, url, error) => Icon(Icons.error),
+                      DropdownButtonHideUnderline(
+                        child: DropdownButton(
+                          iconSize: 0.0,
+                          dropdownColor: Color(0xff192227),
+                          hint: Text('Seleccionar ciudad'),
+                          items: ciudad.map((item) {
+                            return new DropdownMenuItem(
+                              child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    new Text(
+                                      item['CIU_NOMBRE'],
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ]),
+                              value: item['idciudades'].toString(),
+                            );
+                          }).toList(),
+                          onTap: null,
+                          onChanged: (newVal) {
+                            setState(() {
+                              _ciudades = newVal;
+                              saveCity(newVal);
+                            });
+                          },
+
+                          value: _ciudades,
+
+                          // isExpanded: true,
+                        ),
+                      ),
+                      SizedBox()
+                    ],
                   ),
                 ),
-                centerTitle: false,
-                title: Text("Cabofind",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 28.0,
-                    )),
               ),
               actions: <Widget>[
-                new InkResponse(
-                    onTap: () {
-                      //_makeStripePayment();
-
-                      Navigator.push(
-                          context,
-                          new MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                              new Notificaciones()));
-                    },
-                    child: Stack(
-                      children: <Widget>[
-                        /*Positioned(
-
-                                right: 2.0,
-                                bottom: 30,
-                                child: new Text('22',
-                                style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15.0, color: Colors.redAccent)),
-                              ),*/
-                        Positioned(
-                          height: 20,
-                          width: 20,
-                          right: 3.0,
-                          bottom: 28,
-                          child: new FloatingActionButton(
-                            child: new Text('',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 10.0,
-                                    color: Colors.white)),
-                            backgroundColor: Colors.red,
-                          ),
-                        ),
-                        new Center(
-                          child: new Row(children: <Widget>[
-                            new Icon(FontAwesomeIcons.bell),
-                            Text(
-                              "  ",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 25.0),
-                            ),
-                          ]),
-                        ),
-                      ],
-                    )),
-             
-                new InkResponse(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          new MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                              new Calculadora()));
-                    },
-                    child: new Center(
-                      child: new Row(children: <Widget>[
-                        new Icon(FontAwesomeIcons.moneyBillAlt),
-                        Text(
-                          "   ",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 25.0),
-                        ),
-                      ]),
-                    )),
-                new InkResponse(
-                    onTap: () {
-                      Navigator.pushReplacement(
-                          context,
-                          new MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  new Settings()));
-                    },
-                    child: new Center(
-                      //padding: const EdgeInsets.all(13.0),
-
-                      child: new Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8.0),
-                          image: DecorationImage(
-                            image: ExactAssetImage('assets/mexflag.png'),
-                            fit: BoxFit.fill,
-                          ),
-                        ),
-                        child: new Text(
-                          "     ",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 25.0),
-                        ),
-                      ),
-                    )),
                 new IconButton(
                   icon: actionIcon,
                   onPressed: () {
                     //Use`Navigator` widget to push the second screen to out stack of screens
                     Navigator.of(context).push(MaterialPageRoute<Null>(
                         builder: (BuildContext context) {
-                          return new Buscador();
-                        }));
+                      return new Buscador();
+                    }));
                   },
                 ),
               ],
@@ -1089,81 +1498,76 @@ routes: <String, WidgetBuilder>{
             apkversion == portada[0]["IOS_VERSION"]
                 ? Mis_recompensas()
                 : ListView(
-              shrinkWrap: true,
-              //addAutomaticKeepAlives: true,
-              physics: NeverScrollableScrollPhysics(),
-              children: <Widget>[
-                SizedBox(
-                  height: 100.0,
-                ),
-                Center(
-                  child: ClipRRect(
-                      borderRadius: BorderRadius.circular(8.0),
-                      child: Image.asset(
-                        "assets/cabofind.png",
-                        fit: BoxFit.fill,
-                        width: 150.0,
-                        height: 150.0,
+                    shrinkWrap: true,
+                    //addAutomaticKeepAlives: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    children: <Widget>[
+                      SizedBox(
+                        height: 100.0,
+                      ),
+                      Center(
+                        child: ClipRRect(
+                            borderRadius: BorderRadius.circular(8.0),
+                            child: Image.asset(
+                              "assets/cabofind.png",
+                              fit: BoxFit.fill,
+                              width: 150.0,
+                              height: 150.0,
+                            )),
+                      ),
+                      SizedBox(
+                        height: 50.0,
+                      ),
+                      //SizedBox(height: 25.0,),
+                      Center(
+                          child: Text(
+                        portada[0]["POR_MSJ"],
+                        style: TextStyle(
+                            fontSize: 25,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold),
                       )),
-                ),
-                SizedBox(
-                  height: 50.0,
-                ),
-                //SizedBox(height: 25.0,),
-                Center(
-                    child: Text(
-                      portada[0]["POR_MSJ"],
-                      style: TextStyle(
-                          fontSize: 25,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold),
-                    )),
-                SizedBox(
-                  height: 20,
-                ),
-                Center(
-                    child: RaisedButton(
-                        onPressed: () {
-                          FlutterYoutube.playYoutubeVideoByUrl(
-                              apiKey:
-                              "AIzaSyAmNDqJm2s5Fpualsl_VF6LhG733knN0BY",
-                              videoUrl:
-                              'https://www.youtube.com/watch?v=hsLSjImkf-c',
-                              autoPlay: false, //default falase
-                              fullScreen: false //default false
-                          );
-                        },
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(40.0)),
-                        color: Colors.red,
-                        child: new Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            new Icon(
-                              FontAwesomeIcons.youtube,
-                              color: Colors.white,
-                            ),
-                            new Text('  Ver video',
-                                style: TextStyle(
-                                    fontSize: 25, color: Colors.white)),
-                          ],
-                        ))),
-                Center(
-                    child: SizedBox(
-                      height: 25.0,
-                    )),
-              ],
-            ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Center(
+                          child: RaisedButton(
+                              onPressed: () {
+                                FlutterYoutube.playYoutubeVideoByUrl(
+                                    apiKey:
+                                        "AIzaSyAmNDqJm2s5Fpualsl_VF6LhG733knN0BY",
+                                    videoUrl:
+                                        'https://www.youtube.com/watch?v=hsLSjImkf-c',
+                                    autoPlay: false, //default falase
+                                    fullScreen: false //default false
+                                    );
+                              },
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(40.0)),
+                              color: Colors.red,
+                              child: new Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  new Icon(
+                                    FontAwesomeIcons.youtube,
+                                    color: Colors.white,
+                                  ),
+                                  new Text('  Ver video',
+                                      style: TextStyle(
+                                          fontSize: 25, color: Colors.white)),
+                                ],
+                              ))),
+                      Center(
+                          child: SizedBox(
+                        height: 25.0,
+                      )),
+                    ],
+                  ),
             new Login()
           ],
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 }

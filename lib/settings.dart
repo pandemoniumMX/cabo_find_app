@@ -41,9 +41,9 @@ class Settings extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.grey,
-          primaryColor: Color(0xff60032D),
+          primaryColor: Color(0xff192227),
           //primaryColor: Colors.black,
-          accentColor: Color(0xff773E42),
+          accentColor: Color(0xff192227),
         ),
         home: new Container(child: new Start()));
   }
@@ -311,7 +311,7 @@ class _MyHomePageState extends State<Start> {
                   },
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(40.0)),
-                  color: Color(0xff60032D),
+                  color: Color(0xff192227),
                   child: new Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     mainAxisSize: MainAxisSize.min,

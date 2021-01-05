@@ -175,7 +175,7 @@ setState(() {
     return Scaffold(
       appBar: AppBar(
         title: Text('Regresar'),
-        backgroundColor: Color(0xff60032D),
+        backgroundColor: Color(0xff192227),
       ),
       body: ListView(
         children: <Widget>[
@@ -437,7 +437,7 @@ setState(() {
                     );
                   }
                 },
-                color: Color(0xff773E42),
+                color: Color(0xff192227),
                 textColor: Colors.white,
                 child: Text(
                   'Guardar dirección',

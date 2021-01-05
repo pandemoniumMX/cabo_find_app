@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:cabofind/paginas/publicacion_detalle.dart';
 import 'package:cabofind/paginas/publicacion_detalle_estatica.dart';
 import 'package:cabofind/paginas/reservacion.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:device_info/device_info.dart';
 import 'package:devicelocale/devicelocale.dart';
@@ -38,6 +39,8 @@ class Detalles extends State<Empresa_det_fin> {
   TextEditingController controllerCode = TextEditingController();
   String _displayValue = "";
   DateFormat dateFormat;
+    DateFormat dateFormat2;
+
   DateTime now = DateTime.now();
 
   Map userProfile;
@@ -256,6 +259,8 @@ Future<String> insertVisitaiOS() async {
     this.insertVisitaAndroid();
     this.getResena();
     this.getHorario();
+    dateFormat2 = new DateFormat.MMMMd('ES');
+
 
     // this.insertVisitaiOS;
   }
@@ -270,7 +275,7 @@ Future<String> insertVisitaiOS() async {
     Fluttertoast.showToast(
         msg: "Reseña enviada exitosamente",
         toastLength: Toast.LENGTH_SHORT,
-        backgroundColor: Color(0xff773E42),
+        backgroundColor: Color(0xff192227),
         textColor: Colors.white,
         timeInSecForIos: 1);
   }
@@ -279,7 +284,7 @@ Future<String> insertVisitaiOS() async {
     Fluttertoast.showToast(
         msg: "Comentario reportado",
         toastLength: Toast.LENGTH_SHORT,
-        backgroundColor: Color(0xff773E42),
+        backgroundColor: Color(0xff192227),
         textColor: Colors.white,
         timeInSecForIos: 1);
   }
@@ -443,7 +448,7 @@ Future<String> insertVisitaiOS() async {
                       Text(
                         dataneg[0]["CAT_NOMBRE"],
                         style: TextStyle(
-                          color: Color(0xff773E42),
+                          color: Color(0xff192227),
                         ),
                       ),
                       Text(
@@ -455,7 +460,7 @@ Future<String> insertVisitaiOS() async {
                       Text(
                         dataneg[0]["SUB_NOMBRE"],
                         style: TextStyle(
-                          color: Color(0xff773E42),
+                          color: Color(0xff192227),
                         ),
                       ),
                     ],
@@ -673,7 +678,7 @@ Future<String> insertVisitaiOS() async {
                         FloatingActionButton(
                           child: Icon(FontAwesomeIcons.feather),
                           onPressed: () => _alertCar(context),
-                          backgroundColor: Color(0xff773E42),
+                          backgroundColor: Color(0xff192227),
                           heroTag: "bt1",
                           elevation: 0.0,
                         ),
@@ -688,7 +693,7 @@ Future<String> insertVisitaiOS() async {
                         FloatingActionButton(
                           child: Icon(FontAwesomeIcons.conciergeBell),
                           onPressed: () => _alertSer(context),
-                          backgroundColor: Color(0xff773E42),
+                          backgroundColor: Color(0xff192227),
                           heroTag: "bt2",
                           elevation: 0.0,
                         ),
@@ -703,7 +708,7 @@ Future<String> insertVisitaiOS() async {
                         FloatingActionButton(
                           child: Icon(FontAwesomeIcons.clock),
                           onPressed: () => _alertHorario(context),
-                          backgroundColor: Color(0xff773E42),
+                          backgroundColor: Color(0xff192227),
                           heroTag: "bt3",
                           elevation: 0.0,
                         ),
@@ -718,7 +723,7 @@ Future<String> insertVisitaiOS() async {
                         FloatingActionButton(
                           child: Icon(FontAwesomeIcons.mapMarkerAlt),
                           onPressed: _mapa,
-                          backgroundColor: Color(0xff773E42),
+                          backgroundColor: Color(0xff192227),
                           heroTag: "bt4",
                           elevation: 0.0,
                         ),
@@ -852,7 +857,7 @@ Future<String> insertVisitaiOS() async {
                           },
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(40.0)),
-                          color: Color(0xff773E42),
+                          color: Color(0xff192227),
                           child: new Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             mainAxisSize: MainAxisSize.min,
@@ -882,7 +887,7 @@ Future<String> insertVisitaiOS() async {
                           },
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(40.0)),
-                          color: Color(0xff773E42),
+                          color: Color(0xff192227),
                           child: new Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             mainAxisSize: MainAxisSize.min,
@@ -1035,7 +1040,7 @@ Future<String> insertVisitaiOS() async {
                         ? FloatingActionButton(
                             child: Icon(FontAwesomeIcons.instagram),
                             onPressed: instagram,
-                            backgroundColor: Color(0xff773E42),
+                            backgroundColor: Color(0xff192227),
                             heroTag: "bt1",
                             elevation: 0.0,
                           )
@@ -1054,7 +1059,7 @@ Future<String> insertVisitaiOS() async {
                         ? FloatingActionButton(
                             child: Icon(FontAwesomeIcons.facebook),
                             onPressed: facebook,
-                            backgroundColor: Color(0xff773E42),
+                            backgroundColor: Color(0xff192227),
                             heroTag: "bt3",
                             elevation: 0.0,
                           )
@@ -1073,7 +1078,7 @@ Future<String> insertVisitaiOS() async {
                         ? FloatingActionButton(
                             child: Icon(FontAwesomeIcons.globeAmericas),
                             onPressed: web,
-                            backgroundColor: Color(0xff773E42),
+                            backgroundColor: Color(0xff192227),
                             heroTag: "bt4",
                             elevation: 0.0,
                           )
@@ -1092,7 +1097,7 @@ Future<String> insertVisitaiOS() async {
                         ? FloatingActionButton(
                             child: Icon(FontAwesomeIcons.phone),
                             onPressed: telefono,
-                            backgroundColor: Color(0xff773E42),
+                            backgroundColor: Color(0xff192227),
                             heroTag: "bt5",
                             elevation: 0.0,
                           )
@@ -1111,7 +1116,7 @@ Future<String> insertVisitaiOS() async {
                         ? FloatingActionButton(
                             child: Icon(FontAwesomeIcons.envelope),
                             onPressed: correo,
-                            backgroundColor: Color(0xff773E42),
+                            backgroundColor: Color(0xff192227),
                             heroTag: "bt6",
                             elevation: 0.0,
                           )
@@ -1131,77 +1136,93 @@ Future<String> insertVisitaiOS() async {
               }));
     }
 
-    Widget publicaciones = ListView.builder(
-      shrinkWrap: true,
-      physics: BouncingScrollPhysics(),
-      itemCount: data_list == null ? 0 : data_list.length,
-      itemBuilder: (BuildContext context, int index) {
-        return new ListTile(
-          title: new Card(
-            elevation: 5.0,
-            child: new Container(
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
-                  border: Border.all(color: Color(0xff773E42))),
-              padding: EdgeInsets.all(10.0),
-              margin: EdgeInsets.all(10.0),
-              child: Column(
-                children: <Widget>[
-                  Padding(
-                      child: Text(
-                        data_list[index]["PUB_TITULO"],
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xff773E42),
-                          fontSize: 20.0,
+   Widget publicaciones = Container(
+      height: 160,
+      child: CarouselSlider.builder(
+        autoPlay: true,
+        height: 250.0,
+        aspectRatio: 16 / 9,
+        viewportFraction: 0.98,
+        autoPlayInterval: Duration(seconds: 15),
+        autoPlayCurve: Curves.fastOutSlowIn,
+        itemCount: data_list == null ? 0 : data_list.length,
+        itemBuilder: (BuildContext context, int index) {
+          return Container(
+            height: 150,
+            child: InkWell(
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(5.0),
+                    child: CachedNetworkImage(
+                      fit: BoxFit.cover,
+                      height: 150,
+                      width: 380,
+                      imageUrl: data_list[index]["GAL_FOTO"],
+                      progressIndicatorBuilder:
+                          (context, url, downloadProgress) => Container(
+                        margin: EdgeInsets.only(top: 1),
+                        child: Center(
+                          child: CircularProgressIndicator(
+                              value: downloadProgress.progress),
                         ),
                       ),
-                      padding: EdgeInsets.all(1.0)),
-                  FadeInImage(
-                    image: NetworkImage(data_list[index]["GAL_FOTO"]),
-                    fit: BoxFit.fill,
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height / 2,
-
-                    // placeholder: AssetImage('android/assets/images/loading.gif'),
-                    placeholder:
-                        AssetImage('android/assets/images/loading.gif'),
-                    fadeInDuration: Duration(milliseconds: 200),
-                  ),
-                  Row(children: <Widget>[
-                    Padding(
-                        child: Text(data_list[index]["CAT_NOMBRE"]),
-                        padding: EdgeInsets.all(1.0)),
-                    Text(" | "),
-                    Padding(
-                        child: new Text(data_list[index]["NEG_NOMBRE"]),
-                        padding: EdgeInsets.all(1.0)),
-                    Text(" | "),
-                    Flexible(
-                      child: new Text(
-                        data_list[index]["CIU_NOMBRE"],
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                      ),
+                      errorWidget: (context, url, error) => Icon(Icons.error),
                     ),
-                  ]),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        padding: EdgeInsets.all(5),
+                        decoration: BoxDecoration(color: Colors.black45),
+                        height: 70,
+                        child: Column(
+                          children: [
+                            Text(data_list[index]["PUB_TITULO"],
+                                style: new TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 22.0,
+                                  fontWeight: FontWeight.w600,
+                                )),
+                            /*Text(data_list[index]["PUB_DETALLE"],
+                                style: new TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.w300,
+                                )),*/
+                            Text(
+                                dateFormat2.format(DateTime.parse(
+                                    data_list[index]["PUB_FECHA_LIMITE"])),
+                                style: new TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.w300,
+                                )),
+                          ],
+                        ),
+                      )
+                    ],
+                  )
                 ],
               ),
-            ),
-          ),
-          onTap: () {
-            String id_n = data_list[index]["ID_NEGOCIO"];
-            String id_p = data_list[index]["ID_PUBLICACION"];
+              onTap: () {
+                String id_n = data_list[index]["ID_NEGOCIO"];
+                String id = data_list[index]["ID_PUBLICACION"];
 
-            Navigator.push(
-                context,
-                new MaterialPageRoute(
-                    builder: (context) => new Publicacion_detalle_fin_estatica(
-                          publicacion: new Publicacion(id_n, id_p),
-                        )));
-          },
-        );
-      },
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (context) =>
+                            new Publicacion_detalle_fin_estatica(
+                              publicacion: new Publicacion(id_n, id),
+                            )));
+              },
+            ),
+          );
+        },
+      ),
     );
 
     String latc = dataneg[0]["NEG_MAP_LAT"];
@@ -1238,10 +1259,15 @@ Future<String> insertVisitaiOS() async {
                 height: 15.0,
               ),
               Center(
-                  child: Text(
-                'Galería de imagenes',
-                style: TextStyle(fontSize: 20.0, color: Colors.black),
-              )),
+                child: Text(
+                  "Galería de imagenes",
+                  style: TextStyle(
+                      fontSize: 20,
+                      color: Color(0xff192227),
+                      decoration: TextDecoration.underline,
+                      fontWeight: FontWeight.w300),
+                ),
+              ),
               SizedBox(
                 height: 15.0,
               ),
@@ -1258,55 +1284,57 @@ Future<String> insertVisitaiOS() async {
                 height: 15.0,
               ),
               Center(
-                  child: Text(
-                'Redes sociales y contacto',
-                style: TextStyle(fontSize: 20.0, color: Colors.black),
-              )),
+                child: Text(
+                  "Redes y contacto",
+                  style: TextStyle(
+                      fontSize: 20,
+                      color: Color(0xff192227),
+                      decoration: TextDecoration.underline,
+                      fontWeight: FontWeight.w300),
+                ),
+              ),
               SizedBox(
                 height: 15.0,
               ),
               social(),
             ],
           )),
-          Container(
-            child: Column(
-              children: <Widget>[
-                SizedBox(
-                  height: 20.0,
+          data_list.isNotEmpty
+              ? Container(
+                  child: Center(
+                      child: Text(
+                    "Destacados",
+                    style: TextStyle(
+                        fontSize: 20,
+                        color: Color(0xff192227),
+                        decoration: TextDecoration.underline,
+                        fontWeight: FontWeight.w300),
+                  )),
+                  height: 30.0,
+                )
+              : SizedBox(),
+          data_list.isNotEmpty
+              ? Column(
+                  children: <Widget>[publicaciones],
+                  // height:1000.0,
+                )
+              : SizedBox(),
+          data_resena.isNotEmpty
+              ? Container(
+                  child: Center(
+                      child: Text('Comentarios',
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: Color(0xff192227),
+                              decoration: TextDecoration.underline,
+                              fontWeight: FontWeight.w300))),
+                )
+              : SizedBox(),
+          data_resena.isNotEmpty
+              ? resenasection
+              : SizedBox(
+                  height: 15.0,
                 ),
-                Center(
-                    child: Text(
-                  'Publicaciones',
-                  style: TextStyle(fontSize: 20.0, color: Colors.black),
-                )),
-              ],
-            ),
-            height: 50.0,
-          ),
-          Column(
-            children: <Widget>[publicaciones],
-            // height:1000.0,
-          ),
-          Container(
-              child: Column(
-            children: <Widget>[
-              SizedBox(
-                height: 15.0,
-              ),
-              Center(
-                  child: Text(
-                'Comentarios',
-                style: TextStyle(fontSize: 20.0, color: Colors.black),
-              )),
-              SizedBox(
-                height: 15.0,
-              ),
-            ],
-          )),
-          resenasection,
-          SizedBox(
-            height: 15.0,
-          ),
           Container(
             padding: const EdgeInsets.only(bottom: 10, left: 20, right: 20),
             child: RaisedButton(
