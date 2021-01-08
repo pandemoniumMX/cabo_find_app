@@ -11,6 +11,7 @@ import 'package:cabofind/utilidades/classes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Eventos_grid extends StatefulWidget {
   @override
@@ -30,9 +31,14 @@ class Publicacionesfull extends State<Eventos_grid> {
 
   //final List<Todo> todos;
   Future<String> getData() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    prefs.getString('stringLenguage');
+    prefs.getString('stringCity');
+    String _city = prefs.getString('stringCity');
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/consultas_negocios/esp/list_eventos.php"),
+            "http://cabofind.com.mx/app_php/APIs/esp/list_eventos.php?CITY=$_city"),
         headers: {"Accept": "application/json"});
 
     this.setState(() {
@@ -50,6 +56,13 @@ class Publicacionesfull extends State<Eventos_grid> {
   }
 
   Widget build(BuildContext context) {
+    Widget error = Center(
+      child: Text(
+        'Proximamente',
+        style: TextStyle(fontSize: 25),
+      ),
+    );
+
     return new Scaffold(
       appBar: new AppBar(
         title: new Text('Eventos'),
@@ -62,7 +75,7 @@ class Publicacionesfull extends State<Eventos_grid> {
           return data.isNotEmpty
               ? Container(
                   height: 150,
-                  padding: EdgeInsets.all(5),
+                  padding: EdgeInsets.all(10),
                   child: InkWell(
                     child: Row(
                       children: [
@@ -71,7 +84,7 @@ class Publicacionesfull extends State<Eventos_grid> {
                           child: CachedNetworkImage(
                             fit: BoxFit.cover,
                             height: 150,
-                            width: 200,
+                            width: MediaQuery.of(context).size.width / 2.5,
                             imageUrl: data[index]["GAL_FOTO"],
                             progressIndicatorBuilder:
                                 (context, url, downloadProgress) => Container(
@@ -88,27 +101,35 @@ class Publicacionesfull extends State<Eventos_grid> {
                         Row(
                           children: [
                             Padding(
-                              padding: const EdgeInsets.all(8.0),
+                              padding: const EdgeInsets.all(5.0),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Flexible(
-                                    child: Text(data[index]["NEG_NOMBRE"],
-                                        style: new TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 18.0,
-                                          fontWeight: FontWeight.w600,
-                                        )),
+                                    child: Container(
+                                      child: Text(data[index]["NEG_NOMBRE"],
+                                          overflow: TextOverflow.ellipsis,
+                                          textAlign: TextAlign.justify,
+                                          style: new TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 15.0,
+                                            fontWeight: FontWeight.w600,
+                                          )),
+                                    ),
                                   ),
                                   Flexible(
-                                    child: Text(data[index]["PUB_TITULO"],
-                                        style: new TextStyle(
-                                          color: Colors.grey,
-                                          fontSize: 15.0,
-                                          fontWeight: FontWeight.w300,
-                                        )),
+                                    child: Container(
+                                      child: Text(data[index]["PUB_TITULO"],
+                                          overflow: TextOverflow.ellipsis,
+                                          textAlign: TextAlign.justify,
+                                          style: new TextStyle(
+                                            color: Colors.grey,
+                                            fontSize: 15.0,
+                                            fontWeight: FontWeight.w300,
+                                          )),
+                                    ),
                                   ),
                                   Row(
                                     children: [
@@ -149,7 +170,7 @@ class Publicacionesfull extends State<Eventos_grid> {
                     },
                   ),
                 )
-              : Center(child: Text('Proximamente'));
+              : error;
         },
       )),
     );

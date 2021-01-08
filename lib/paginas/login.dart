@@ -119,7 +119,6 @@ class _UsuarioState extends State<Usuario> {
 
     http.Response response = await http.get(
         "http://cabofind.com.mx/app_php/APIs/esp/list_usuarios_api.php?IDF=$_mail2");
-    //http.Response response = await http.get("http://cabofind.com.mx/app_php/APIs/esp/list_usuarios_api.php");
     return json.decode(response.body);
   }
 

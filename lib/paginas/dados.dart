@@ -337,7 +337,7 @@ class _DicePageState extends State<DicePage> with TickerProviderStateMixin {
                                             )),
                                         Center(
                                             child: Text(
-                                          'Límite de 300 puntos',
+                                          'Límite de 400 puntos',
                                           style: TextStyle(
                                             fontSize: 12,
                                             color: Colors.black,
@@ -400,7 +400,7 @@ class _DicePageState extends State<DicePage> with TickerProviderStateMixin {
                                                   )),
                                               Center(
                                                   child: Text(
-                                                'Límite de 300 puntos',
+                                                'Límite de 400 puntos',
                                                 style: TextStyle(
                                                   fontSize: 12,
                                                   color: Colors.black,
@@ -439,7 +439,7 @@ class _DicePageState extends State<DicePage> with TickerProviderStateMixin {
                                                   )),
                                               Center(
                                                   child: Text(
-                                                'Límite de 300 puntos',
+                                                'Límite de 400 puntos',
                                                 style: TextStyle(
                                                   fontSize: 12,
                                                   color: Colors.black,

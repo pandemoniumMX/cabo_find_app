@@ -181,7 +181,7 @@ class _UsuarioState extends State<Usuario> {
               ),
               content: Container(
                 width: double.maxFinite,
-                height: 200.0,
+                height: MediaQuery.of(context).size.height / 3,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -461,7 +461,7 @@ class _UsuarioState extends State<Usuario> {
     return Scaffold(
       body: ListView(
         padding: EdgeInsets.zero,
-        physics: NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
         children: <Widget>[
           Container(
               decoration: BoxDecoration(
@@ -532,33 +532,6 @@ class _UsuarioState extends State<Usuario> {
                   )),
             ],
           ),
-          /* Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              RaisedButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                            builder: (BuildContext context) => new Ruleta()));
-                  },
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(40.0)),
-                  color: Colors.orange,
-                  child: new Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      new Icon(
-                        FontAwesomeIcons.spinner,
-                        color: Colors.white,
-                      ),
-                      new Text(' Ruleta de la suerte',
-                          style: TextStyle(fontSize: 20, color: Colors.white)),
-                    ],
-                  )),
-            ],
-          ),*/
           Container(
               decoration: BoxDecoration(
                   gradient: LinearGradient(colors: [

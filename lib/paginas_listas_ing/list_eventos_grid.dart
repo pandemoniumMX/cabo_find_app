@@ -12,6 +12,7 @@ import 'package:cabofind/utilidades/classes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Eventos_ing_grid extends StatefulWidget {
   @override
@@ -31,9 +32,14 @@ class Publicacionesfull extends State<Eventos_ing_grid> {
 
   //final List<Todo> todos;
   Future<String> getData() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    prefs.getString('stringLenguage');
+    prefs.getString('stringCity');
+    String _city = prefs.getString('stringCity');
     var response = await http.get(
         Uri.encodeFull(
-            "http://cabofind.com.mx/app_php/consultas_negocios/ing/list_eventos.php"),
+            "http://cabofind.com.mx/app_php/APIs/esp/list_eventos_ing.php?CITY=$_city"),
         headers: {"Accept": "application/json"});
 
     this.setState(() {
@@ -51,6 +57,13 @@ class Publicacionesfull extends State<Eventos_ing_grid> {
   }
 
   Widget build(BuildContext context) {
+    Widget error = Center(
+      child: Text(
+        'Coming soon',
+        style: TextStyle(fontSize: 25),
+      ),
+    );
+
     return new Scaffold(
       appBar: new AppBar(
         title: new Text('Events'),
@@ -72,7 +85,7 @@ class Publicacionesfull extends State<Eventos_ing_grid> {
                           child: CachedNetworkImage(
                             fit: BoxFit.cover,
                             height: 150,
-                            width: 200,
+                            width: MediaQuery.of(context).size.width / 2.5,
                             imageUrl: data[index]["GAL_FOTO_ING"],
                             progressIndicatorBuilder:
                                 (context, url, downloadProgress) => Container(
@@ -99,7 +112,7 @@ class Publicacionesfull extends State<Eventos_ing_grid> {
                                     child: Text(data[index]["NEG_NOMBRE"],
                                         style: new TextStyle(
                                           color: Colors.black,
-                                          fontSize: 18.0,
+                                          fontSize: 15.0,
                                           fontWeight: FontWeight.w600,
                                         )),
                                   ),
@@ -151,7 +164,7 @@ class Publicacionesfull extends State<Eventos_ing_grid> {
                     },
                   ),
                 )
-              : Center(child: Text('Proximamente'));
+              : error;
         },
       )),
     );

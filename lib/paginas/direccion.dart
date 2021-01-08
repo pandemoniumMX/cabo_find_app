@@ -27,6 +27,7 @@ class Mi_direccion extends StatefulWidget {
 }
 
 class _Mi_direccionState extends State<Mi_direccion> {
+  Future loadcelular;
   var location = Location();
   final _formKey = GlobalKey<FormState>();
   var _miciudad2 = '';
@@ -52,6 +53,20 @@ class _Mi_direccionState extends State<Mi_direccion> {
   String _mapStyle;
   Completer<GoogleMapController> _controller = Completer();
   GoogleMapController _mapController;
+
+  Future<Map> _loadUser() async {
+    final SharedPreferences login = await SharedPreferences.getInstance();
+    String _status = "";
+    String _mail = "";
+    String _mail2 = "";
+    String _idusu = "";
+    _status = login.getString("stringLogin");
+    _mail2 = login.getString("stringID");
+
+    http.Response response = await http.get(
+        "http://cabofind.com.mx/app_php/APIs/esp/list_usuarios_api.php?IDF=$_mail2");
+    return json.decode(response.body);
+  }
 
   _getCurrentLocation() async {
     if (!await location.serviceEnabled()) {
@@ -157,6 +172,7 @@ class _Mi_direccionState extends State<Mi_direccion> {
     rootBundle.loadString('assets/map_style1.txt').then((string) {
       _mapStyle = string;
     });
+    loadcelular = _loadUser();
   }
 
   @override
@@ -321,31 +337,79 @@ class _Mi_direccionState extends State<Mi_direccion> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Container(
-                        margin: EdgeInsets.only(left: 10),
-                        padding: EdgeInsets.all(10),
-                        width: MediaQuery.of(context).size.width / 1.2,
-                        child: TextFormField(
-                          controller: tel,
-                          enabled: true,
-                          keyboardType: TextInputType.number,
-                          inputFormatters: <TextInputFormatter>[
-                            WhitelistingTextInputFormatter.digitsOnly
-                          ],
-                          style: TextStyle(fontSize: 15),
-                          decoration: InputDecoration(
-                              focusColor: Color(0xffD3D7D6),
-                              hoverColor: Color(0xffD3D7D6),
-                              hintText: 'Número telefónico'),
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return 'Este campo no puede estar vacío';
-                            } else if (value.length <= 9) {
-                              return 'Requiere 10 dígitos';
-                            }
-                            return null;
-                          },
-                        )),
+                    FutureBuilder(
+                        future: loadcelular,
+                        builder: (context, snapshot) {
+                          //String boolAsString = snapshot.data["USU_NOTIFICACIONES"];
+                          //bool isSwitched = boolAsString == 'true';
+                          // bool isSwitched = snapshot.data["USU_NOTIFICACIONES"];
+                          switch (snapshot.connectionState) {
+                            case ConnectionState.none:
+                            case ConnectionState.waiting:
+                              return Center(child: CircularProgressIndicator());
+                            default:
+                              if (snapshot.hasError) {
+                                return Container(
+                                    margin: EdgeInsets.only(left: 10),
+                                    padding: EdgeInsets.all(10),
+                                    width:
+                                        MediaQuery.of(context).size.width / 1.2,
+                                    child: TextFormField(
+                                      controller: tel,
+                                      enabled: true,
+                                      keyboardType: TextInputType.number,
+                                      inputFormatters: <TextInputFormatter>[
+                                        WhitelistingTextInputFormatter
+                                            .digitsOnly
+                                      ],
+                                      style: TextStyle(fontSize: 15),
+                                      decoration: InputDecoration(
+                                          focusColor: Color(0xffD3D7D6),
+                                          hoverColor: Color(0xffD3D7D6),
+                                          hintText: 'Número telefónico'),
+                                      validator: (value) {
+                                        if (value.isEmpty) {
+                                          return 'Este campo no puede estar vacío';
+                                        } else if (value.length <= 9) {
+                                          return 'Requiere 10 dígitos';
+                                        }
+                                        return null;
+                                      },
+                                    ));
+                              } else {
+                                var cel = snapshot.data['USU_CELULAR'];
+
+                                tel = new TextEditingController(text: cel);
+                                return Container(
+                                    margin: EdgeInsets.only(left: 10),
+                                    padding: EdgeInsets.all(10),
+                                    width:
+                                        MediaQuery.of(context).size.width / 1.2,
+                                    child: TextFormField(
+                                      controller: tel,
+                                      enabled: true,
+                                      keyboardType: TextInputType.number,
+                                      inputFormatters: <TextInputFormatter>[
+                                        WhitelistingTextInputFormatter
+                                            .digitsOnly
+                                      ],
+                                      style: TextStyle(fontSize: 15),
+                                      decoration: InputDecoration(
+                                          focusColor: Color(0xffD3D7D6),
+                                          hoverColor: Color(0xffD3D7D6),
+                                          hintText: 'Número telefónico'),
+                                      validator: (value) {
+                                        if (value.isEmpty) {
+                                          return 'Este campo no puede estar vacío';
+                                        } else if (value.length <= 9) {
+                                          return 'Requiere 10 dígitos';
+                                        }
+                                        return null;
+                                      },
+                                    ));
+                              }
+                          }
+                        }),
                     Icon(FontAwesomeIcons.mobileAlt)
                   ],
                 ),
